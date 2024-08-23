@@ -1,0 +1,109 @@
+// -----------------------------------------------------------------------------
+// This file contains all application-wide Sass variables.
+// -----------------------------------------------------------------------------
+
+// Colors
+$body-bg: white;
+$primary-color: #235de4;
+$white-color: white;
+$white-color-ff: #fff;
+
+$gray-color-7b: #7b7d85;
+$gray-color-69: #696f8c;
+$gray-color-6a: #6a6a6a;
+$gray-color-6d: #6d6e72;
+$gray-color-9d: #9da3bc;
+$gray-color-5f: #5f6064;
+$gray-color-5d: #5d5d5d;
+$gray-color-f4: #f4f4f6;
+$gray-color-f4f: #f4f4f8;
+$gray-color-f45: #f4f4f5;
+$gray-color-fa: #fafafa;
+$gray-color-fb: #FBF4E6;
+$gray-color-f1: #f1f1f1;
+$gray-color-f2: #f2f4f7;
+$gray-color-f0: #f0f1f2;
+$gray-color-f5: #f5f6f8;
+$gray-color-f6: #f6f6f6;
+$gray-color-f7: #F7F7F7;
+$gray-color-34: #344054;
+$gray-color-d0: #d0d5dd;
+$gray-color-5b: #5b5b5b;
+$gray-color-51: #514f5b;
+$gray-color-f8: #f8f8f9;
+$gray-color-e0: #e0e0e2;
+$gray-color-ea: #eaeaee;
+$gray-color-ea0: #EAECF0;
+$gray-color-e3: #e3e3e5;
+$gray-color-e3e: #e3e8eb;
+$gray-color-ec: #eceeff;
+$gray-color-ee: #eee;
+$gray-color-ed: #edeff5;
+$gray-color-eb: #ebecef;
+$gray-color-e8: #e8e8eb;
+$gray-color-e0: #e0e0e4;
+$gray-color-e7: #e7eaeb;
+$gray-color-e1: #e1e5e7;
+$gray-color-e14: #e1e3e4;
+$gray-color-ef: #efefef;
+$gray-color-edf: #edeef2;
+$gray-color-e6: #e6e6e7;
+$gray-color-bf: #bfbfc3;
+
+$black-color: #000;
+$black-color-0a:#0A1B33;
+$black-color-0b: #0b1234;
+$black-color-0b1: #0b123426;
+$black-color-0c: #0c121e;
+$black-color-0d: #0d1020;
+$black-color-06: #062753;
+$black-color-08: #080b19;
+$black-color-0c2: #0C2245;
+$black-color-35: #353636;
+$black-color-36: #364050;
+$black-color-5b: #5b5b5b;
+$black-color-34: #343434;
+$black-color-47: #471e08;
+$black-color-471: #475467;
+$black-color-4e: #4e4e4e;
+$black-color-4c: #4c1008;
+$black-color-04: #04050c;
+$black-color-52: #523908;
+$black-color-10: #101438;
+$black-color-1d: #1d2939;
+$black-color-15: #151523;
+$black-color-1538: #153138;
+$black-color-16: #16141d;
+$black-color-1a: #1a1d1f;
+$black-color-27: #272e35;
+
+$orange-color-ff: #ffcdb3;
+$orange-color-ffb: #ffbab6;
+$orange-color-f6: #f6f1ff;
+
+$sky-color-e5: #e5f9fe;
+
+$green-color-e5: #eef7ea;
+$green-color-54: #54ac2b;
+$green-color-b4: #b4f3d1;
+$green-color-b6: #b6f0b5;
+$green-color-11: #113206;
+
+$blue-color-b1: #b1c8ff;
+$blue-color-b1e: #b1e5fc;
+$blue-color-00: #0070c0;
+$blue-color-b8: #B8D6FF;
+$blue-color-2e: #2E1A53;
+
+$pink-color-d0: #d0c5ff;
+$pink-color-ff: #FFCAE7;
+
+$red-color-e8: #E82749;
+
+
+//Gradient
+$red-gradient-ff: linear-gradient(180deg, #ff5d79 0%, #e82749 100%);
+
+//Shadow
+$button-shadow: 0px 1px 2px 0px rgba(11, 18, 52, 0.15),
+  0px 0px 0px 1px rgba(11, 18, 52, 0.1);

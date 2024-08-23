@@ -1,0 +1,46 @@
+body {
+    overflow: hidden;
+}
+
+.main_container {
+    height: 100vh !important;
+    overflow: hidden;
+}
+
+
+/* .card, .card-header, .card-body, .card-footer {
+    border: 1px solid red;
+} */
+
+.pos_table_item_remove_btn {
+    height: 24px;
+    width: 24px;
+    border-radius: 50%;
+}
+
+.product_item {
+    width: 19.8%;
+    border: 1px solid #CED4DA;
+    cursor: pointer;
+    margin: 0.1%;
+    border-radius: 0px;
+    margin-bottom: 0.22%;
+}
+
+.product_item:hover {
+    border: 1px solid #1e5a96;
+    transition-duration: 0.3s;
+}
+
+
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type=number] {
+  -moz-appearance: textfield;
+}

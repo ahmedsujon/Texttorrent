@@ -1,0 +1,222 @@
+//Account Update
+.my_account_wrapper {
+  .user_change_image_area {
+    max-width: 110px;
+    max-height: 110px;
+    margin-top: 18px;
+    margin-bottom: 20px;
+    @include max-media-width(767) {
+      margin-top: 12px;
+      margin-bottom: 12px;
+    }
+    &:hover {
+      @include min-media-width(1200) {
+        .remove_img_btn {
+          top: 2px;
+          right: -16px;
+          opacity: 1;
+          visibility: visible;
+        }
+        label {
+          top: 0;
+          opacity: 1;
+          visibility: visible;
+        }
+      }
+    }
+    label {
+      color: $black-color-1a;
+      font-size: 12px;
+      font-style: normal;
+      font-weight: 400;
+      line-height: 18px;
+      padding: 2px 8px;
+      border-radius: 4px;
+      margin-top: 4px;
+      cursor: pointer;
+      background: $gray-color-ef;
+      @include hover-transition();
+      @include min-media-width(1200) {
+        position: relative;
+        top: -10px;
+        opacity: 0;
+        visibility: hidden;
+      }
+      &:hover {
+        opacity: 0.8;
+      }
+    }
+  }
+  .user_img_area {
+    position: relative;
+    width: 66px;
+    height: 66px;
+    border-radius: 50%;
+    -webkit-border-radius: 50%;
+    -moz-border-radius: 50%;
+    -ms-border-radius: 50%;
+    -o-border-radius: 50%;
+    margin-left: 12px;
+    cursor: pointer;
+    background-color: $green-color-b4;
+
+    @include max-media-width(991) {
+      width: 50px;
+      height: 50px;
+    }
+    .user_img {
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      -webkit-border-radius: 50%;
+      -moz-border-radius: 50%;
+      -ms-border-radius: 50%;
+      -o-border-radius: 50%;
+    }
+  }
+  .remove_img_btn {
+    position: absolute;
+    top: 2px;
+    right: -16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 4px;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    -webkit-border-radius: 50%;
+    -moz-border-radius: 50%;
+    -ms-border-radius: 50%;
+    -o-border-radius: 50%;
+    background-color: $gray-color-ef;
+    @include hover-transition();
+    @include min-media-width(1200) {
+      right: -20px;
+      opacity: 0;
+      visibility: hidden;
+    }
+    @include max-media-width(767) {
+      width: 24px;
+      height: 24px;
+    }
+    img {
+      max-width: 12px;
+    }
+    &:hover {
+      opacity: 0.8;
+    }
+  }
+  .event_form_area {
+    .input_row {
+      margin-bottom: 20px;
+      @include max-media-width(767) {
+        margin-bottom: 12px;
+      }
+    }
+    .two_grid {
+      gap: 0 20px;
+    }
+    .file_upload_area {
+      height: 165px;
+    }
+  }
+  .voice_mail_type {
+    margin-top: 12px;
+    @include max-media-width(767) {
+      margin-top: 8px;
+    }
+  }
+}
+
+//Delete Account Section
+.delete_account_wrapper {
+  h4 {
+    color: $black-color-15;
+    font-family: SFMediumFont;
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 30px;
+    @include max-media-width(767) {
+      font-size: 18px;
+    }
+  }
+  p {
+    color: $gray-color-7b;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 20px;
+    margin-top: 6px;
+  }
+  .delete_btn {
+    color: $white-color-ff;
+    font-family: $secondary-font;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 500;
+    letter-spacing: 0.16px;
+    padding: 8px 12px;
+    border-radius: 8px;
+    margin-top: 20px;
+    background: linear-gradient(180deg, #ff5d79 0%, #e82749 100%);
+    box-shadow: 0px 1px 0px 0px rgba(255, 255, 255, 0.25) inset,
+      0px 1px 2px 0px rgba(182, 8, 39, 0.4), 0px 0px 0px 1px #b60827;
+    @include max-media-width(767) {
+      font-size: 14px;
+    }
+    &:hover {
+      opacity: 0.8;
+    }
+  }
+}
+
+//Change Password Styles
+.change_password_wrapper {
+  h5 {
+    color: $gray-color-7b;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 20px;
+    margin-top: 8px;
+    @include max-media-width(767) {
+      margin-top: 4px;
+    }
+  }
+  .event_form_area {
+    margin-top: 18px;
+  }
+}
+
+//Sub Account Section
+.sub_account_wrapper {
+  &.account_border {
+    max-width: 876px;
+  }
+  .pagination_area {
+    padding-top: 10px;
+    border-top: 1px solid $gray-color-ea0;
+  }
+}
+.sub_account_modal {
+  .modal-dialog {
+    max-width: 831px;
+  }
+}
+
+//Log Account Section
+.logs_account_wrapper {
+  max-width: 100% !important;
+  .account_right_area {
+    @include max-media-width(767) {
+      grid-template-columns: 1fr;
+    }
+  }
+  .table_dropdown_area {
+    .dropdown-menu {
+      width: 311px;
+    }
+  }
+}

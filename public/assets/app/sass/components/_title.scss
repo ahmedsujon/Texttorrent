@@ -1,0 +1,73 @@
+//Title Style
+.login_title {
+  //styleName: Display sm/ Semibold;
+  font-family: SFSemiBoldFont;
+  font-size: 30px;
+  font-weight: 600;
+  line-height: 38px;
+  color: $black-color-0b;
+}
+.page_subtitle {
+  font-size: 18px;
+  font-weight: 400;
+  line-height: 28px;
+  color: $black-color-0b;
+  @include max-media-width(767) {
+    font-size: 16px;
+    line-height: 26px;
+  }
+}
+.page_inner_title {
+  color: $black-color-0b;
+  font-family: SFMediumFont;
+  font-size: 24px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 28px;
+  letter-spacing: -0.24px;
+  @include max-media-width(991) {
+    font-size: 20px;
+  }
+}
+.dashboard_title {
+  color: $black-color-04;
+  font-size: 32px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+  letter-spacing: 0.64px;
+  @include media-break-width(992, 1199) {
+    font-size: 28px;
+  }
+
+  @include max-media-width(991) {
+    font-size: 24px;
+  }
+}
+.credit_title {
+  color: $black-color;
+  font-family: SFMediumFont;
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: normal;
+  @include max-media-width(767) {
+    font-size: 18px;
+  }
+}
+.inbox_template_title {
+  color: $black-color-0b;
+  font-family: SFMediumFont;
+  font-size: 24px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 32px;
+  @include media-break-width(768, 991) {
+    font-size: 22px;
+    line-height: 30px;
+  }
+  @include max-media-width(767) {
+    font-size: 20px;
+    line-height: 28px;
+  }
+}

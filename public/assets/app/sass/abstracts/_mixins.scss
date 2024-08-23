@@ -1,0 +1,164 @@
+// -----------------------------------------------------------------------------
+// This file contains all application-wide Sass mixins.
+// -----------------------------------------------------------------------------
+
+@mixin media-break-width($media-width-min, $media-width-max) {
+  @media (min-width: #{$media-width-min}px) and (max-width: #{$media-width-max}px) {
+    transition: 0.5s; // animate when window resizing
+    @content;
+  }
+}
+@mixin max-media-width($media-width) {
+  @media all and (max-width: #{$media-width}px) {
+    transition: 0.5s; // animate when window resizing
+    @content;
+  }
+}
+@mixin min-media-width($media-width) {
+  @media all and (min-width: #{$media-width}px) {
+    transition: 0.5s;
+    // animate when window resizing      @content    :;
+    -webkit-transition: 0.5s;
+    -moz-transition: 0.5s;
+    -ms-transition: 0.5s;
+    -o-transition: 0.5s;
+    @content;
+  }
+}
+
+/* Hover Transistion */
+@mixin hover-transition {
+  transition: all 0.5s ease-in-out;
+  -webkit-transition: all 0.5s ease-in-out;
+  -moz-transition: all 0.5s ease-in-out;
+  -ms-transition: all 0.5s ease-in-out;
+  -o-transition: all 0.5s ease-in-out;
+}
+
+/* Custom scroll Bar */
+@mixin customScrollbar {
+  overflow-y: auto;
+  /* width */
+  &::-webkit-scrollbar {
+    width: 8px;
+  }
+
+  /* Track */
+  &::-webkit-scrollbar-track {
+    background: $green-color-b4;
+    border-radius: 5px;
+  }
+
+  /* Handle */
+  &::-webkit-scrollbar-thumb {
+    background: $primary-color;
+    border-radius: 5px;
+  }
+
+  /* Handle on hover */
+  &::-webkit-scrollbar-thumb:hover {
+    background: #f84f4f;
+    cursor: grab;
+  }
+}
+/* Custom scroll Bar Inner */
+@mixin customScrollbarInner {
+  overflow-y: auto;
+  /* width */
+  &::-webkit-scrollbar {
+    width: 5px;
+    height: 5px;
+  }
+
+  /* Track */
+  &::-webkit-scrollbar-track {
+    background: rgba(153, 153, 153, 0.2);
+    border-radius: 5px;
+  }
+
+  /* Handle */
+  &::-webkit-scrollbar-thumb {
+    background: #999999;
+    border-radius: 5px;
+  }
+
+  /* Handle on hover */
+  &::-webkit-scrollbar-thumb:hover {
+    background: #f84f4f;
+    cursor: grab;
+  }
+}
+/* Custom scroll Bar Inner */
+@mixin customScrollbarTable {
+  overflow: auto;
+  /* width */
+  &::-webkit-scrollbar {
+    width: 5px;
+    height: 8px;
+  }
+
+  /* Track */
+  &::-webkit-scrollbar-track {
+    background: rgba($gray-color-34, 0.6);
+    border-radius: 5px;
+  }
+
+  /* Handle */
+  &::-webkit-scrollbar-thumb {
+    background: $gray-color-edf;
+    border-radius: 5px;
+  }
+
+  /* Handle on hover */
+  &::-webkit-scrollbar-thumb:hover {
+    background: #f84f4f;
+    cursor: grab;
+  }
+}
+
+@mixin Background-Image {
+  background-position: center center;
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+
+@mixin Hover-Icons(
+  $width: 40px,
+  $color: rgba($gray-color-7b, 0.4),
+  $radius: 50%
+) {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: $width;
+  height: $width;
+  border-radius: $radius;
+  -webkit-border-radius: $radius;
+  -moz-border-radius: $radius;
+  -ms-border-radius: $radius;
+  -o-border-radius: $radius;
+  @include hover-transition();
+  &:hover {
+    background-color: $color;
+  }
+}
+
+@mixin Border-Bottom-After(
+  $width: 20px,
+  $left: 0px,
+  $color: $gray-color-ea,
+  $height: 1px
+) {
+  position: relative;
+  &::after {
+    content: "";
+    position: absolute;
+    left: $left;
+    bottom: 0;
+    width: calc(100% + $width);
+    height: $height;
+    background-color: $color;
+  }
+}
+
+// ========== Extends ===========

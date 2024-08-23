@@ -1,0 +1,352 @@
+// Dashboard Overview Section
+.dashboard_overview_wrapper {
+  .overview_grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    align-items: start;
+    gap: 20px;
+
+    @include media-break-width(768, 991) {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+    @include max-media-width(767) {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px;
+    }
+  }
+  .item_grid {
+    display: grid;
+    grid-template-columns: minmax(0, 25px) repeat(1, minmax(0, 1fr));
+    align-items: center;
+    gap: 16px;
+    padding: 20px 20px 20px 24px;
+    min-height: 108px;
+    border-radius: 12px;
+    background: $gray-color-ec;
+    @include max-media-width(991) {
+      padding: 16px;
+      min-height: auto;
+    }
+    &.responded_item {
+      background: $orange-color-f6;
+    }
+    &.undelivered_item {
+      background: $sky-color-e5;
+    }
+    &.stopped_item {
+      background: $gray-color-ee;
+    }
+    .icon {
+      align-self: start;
+      margin-top: 5px;
+    }
+    h3 {
+      color: $black-color-10;
+      font-size: 16px;
+      font-style: normal;
+      font-weight: 400;
+      line-height: normal;
+    }
+    h4 {
+      color: $black-color-10;
+      font-family: SFSemiBoldFont;
+      font-size: 24px;
+      font-style: normal;
+      font-weight: 600;
+      line-height: normal;
+      margin-top: 8px;
+      @include max-media-width(991) {
+        font-size: 20px;
+      }
+    }
+  }
+}
+
+// Analytics Chart Section
+.analytics_chart_section {
+  padding: 16px 24px 24px 24px;
+  border-radius: 12px;
+  border: 1px solid $gray-color-ea;
+  margin-top: 24px;
+  .title_area {
+    h2 {
+      color: $black-color;
+      font-size: 20px;
+      font-style: normal;
+      font-weight: 600;
+      line-height: normal;
+      @include max-media-width(767) {
+        font-size: 18px;
+      }
+    }
+  }
+  .month_area {
+    padding: 4px;
+    border-radius: 8px;
+    background: #f6f6f6;
+    button {
+      color: $gray-color-6d;
+      font-size: 16px;
+      font-style: normal;
+      font-weight: 400;
+      line-height: normal;
+      padding: 8px 12px;
+      border-radius: 6px;
+      @include hover-transition();
+      &:hover {
+        background-color: rgba($gray-color-e0, 0.8);
+      }
+      @include max-media-width(767) {
+        font-size: 14px;
+        padding: 8px 10px;
+      }
+    }
+  }
+  .active_month {
+    border-radius: 6px;
+    background-color: $white-color-ff;
+    box-shadow: 0px 1px 2px 0px rgba(7, 9, 18, 0.16);
+    &:hover {
+      background-color: $white-color-ff !important;
+    }
+  }
+  .date_range_area {
+    h4 {
+      color: $black-color-10;
+      font-family: SFMediumFont;
+      font-size: 16px;
+      font-style: normal;
+      font-weight: 500;
+      line-height: normal;
+    }
+  }
+  .date_range_input_area {
+    margin-right: 8px;
+  }
+  .chart_area {
+    position: relative;
+    width: 100%;
+    height: 450px;
+    margin-top: 24px;
+  }
+
+  .apexcharts-legend {
+    flex-wrap: wrap;
+    gap: 10px 24px;
+    @include media-break-width(992, 1199) {
+      gap: 10px 20px;
+    }
+
+    @include max-media-width(991) {
+      gap: 10px 16px;
+    }
+
+    .apexcharts-legend-marker {
+      border-radius: 4px;
+      -webkit-border-radius: 4px;
+      -moz-border-radius: 4px;
+      -ms-border-radius: 4px;
+      -o-border-radius: 4px;
+    }
+  }
+  .apexcharts-legend-series {
+    gap: 5px;
+  }
+  .apexcharts-legend-text {
+    color: $black-color-10 !important;
+    font-size: 14px !important;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+  }
+
+  // .apexcharts-tooltip-marker {
+  //   transform: translateY(-9px);
+  // }
+  .apexcharts-tooltip-text {
+    .apexcharts-tooltip-goals-group,
+    .apexcharts-tooltip-z-group {
+      display: none;
+    }
+  }
+
+  .apexcharts-legend.apexcharts-align-center {
+    justify-content: start !important;
+  }
+}
+
+// Credit And Activity Section
+.credit_activity_wrapper {
+  .credit_outer_grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 0.7fr);
+    gap: 20px;
+    @include max-media-width(767) {
+      grid-template-columns: minmax(0, 1fr);
+    }
+  }
+  .credit_area {
+    padding: 16px;
+    border-radius: 12px;
+    border: 1px solid $gray-color-ea;
+  }
+  .amount_area {
+    h4 {
+      color: $black-color-04;
+      font-size: 16px;
+      font-style: normal;
+      font-weight: 400;
+      line-height: normal;
+    }
+    .number {
+      color: $black-color-04;
+      font-family: SFMediumFont;
+      font-size: 26px;
+      font-style: normal;
+      font-weight: 500;
+      line-height: normal;
+      display: flex;
+      padding: 14px 16px;
+      border-radius: 8px;
+      border: 1px solid $gray-color-e8;
+      background: $gray-color-fa;
+      margin-top: 6px;
+      @include media-break-width(768, 991) {
+        font-size: 24px;
+      }
+      @include max-media-width(767) {
+        font-size: 20px;
+        padding: 10px 12px;
+      }
+    }
+  }
+  .added_amount {
+    color: $black-color;
+    text-align: center;
+    font-family: SFLightFont;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 300;
+    line-height: normal;
+    margin-top: 80px;
+    @include max-media-width(991) {
+      margin-top: 60px;
+    }
+  }
+  .bonus_outer_grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    align-items: start;
+    gap: 10px 7px;
+    max-width: 550px;
+    width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 18px;
+  }
+  .bonus_grid {
+    display: grid;
+    grid-template-columns: minmax(0, 28px) repeat(1, minmax(0, 1fr));
+    align-items: start;
+    gap: 16px;
+    padding: 10px 12px;
+    border-radius: 8px;
+    background: $gray-color-fa;
+    h4 {
+      color: $black-color;
+      font-family: SFLightFont;
+      font-size: 14px;
+      font-style: normal;
+      font-weight: 300;
+      line-height: normal;
+    }
+    h5 {
+      color: $black-color;
+      font-family: SFMediumFont;
+      font-size: 16px;
+      font-style: normal;
+      font-weight: 600;
+      line-height: normal;
+      margin-top: 4px;
+    }
+  }
+  .activity_area {
+    padding: 16px;
+    border-radius: 12px;
+    border: 1px solid $gray-color-ea;
+    @include min-media-width(992) {
+      padding: 20px;
+    }
+    .credit_title {
+      margin-bottom: 24px;
+    }
+  }
+  .activity_item_area {
+    padding-right: 8px;
+    max-height: 387px;
+    @include customScrollbarInner();
+  }
+  .acitivity_item {
+    position: relative;
+    display: grid;
+    grid-template-columns: minmax(0, 28px) repeat(1, minmax(0, 1fr));
+    align-items: start;
+    gap: 8px;
+    padding-bottom: 24px;
+    @include max-media-width(767) {
+      padding-bottom: 16px;
+    }
+    &:not(:last-child) {
+      &::before {
+        content: "";
+        position: absolute;
+        top: 1px;
+        left: 14px;
+        width: 1px;
+        height: 100%;
+        background-color: $gray-color-f0;
+      }
+    }
+    .icon {
+      position: relative;
+      z-index: 2;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      -webkit-border-radius: 50%;
+      -moz-border-radius: 50%;
+      -ms-border-radius: 50%;
+      -o-border-radius: 50%;
+      width: 100%;
+      height: 28px;
+      background: $gray-color-f0;
+    }
+    h4 {
+      color: $gray-color-5f;
+      font-size: 14px;
+      font-style: normal;
+      font-weight: 400;
+      line-height: normal;
+    }
+    h5 {
+      color: $black-color;
+      // font-family: SFMediumFont;
+      font-size: 16px;
+      font-style: normal;
+      font-weight: 500;
+      line-height: normal;
+      margin-top: 4px;
+    }
+  }
+}
+
+// Calender Section
+.dashboard_calender_wrapper {
+  padding: 16px;
+  border-radius: 12px;
+  border: 1px solid $gray-color-ea;
+  @include min-media-width(992) {
+    padding: 20px;
+  }
+}

@@ -1,0 +1,414 @@
+//Button Style
+.login_btn {
+  font-family: SFMediumFont;
+  font-size: 16px;
+  font-weight: 500;
+  text-align: center;
+  color: $white-color;
+  width: 100%;
+  padding: 8px 12px 8px 12px;
+  border-radius: 8px;
+  -webkit-border-radius: 8px;
+  -moz-border-radius: 8px;
+  -ms-border-radius: 8px;
+  -o-border-radius: 8px;
+  background-color: $primary-color;
+  margin-top: 16px;
+  @include max-media-width(767) {
+    font-size: 14px;
+  }
+}
+.sidebar_open_btn {
+  @include Hover-Icons(32px);
+  @include min-media-width(992) {
+    display: none;
+  }
+  img {
+    transform: rotate(180deg);
+    -webkit-transform: rotate(180deg);
+    -moz-transform: rotate(180deg);
+    -ms-transform: rotate(180deg);
+    -o-transform: rotate(180deg);
+  }
+}
+
+//Amount Button Style
+.amount_btn {
+  color: $white-color-ff;
+  font-family: SFMediumFont;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 500;
+  padding: 8px 17px;
+  border-radius: 8px;
+  background: $primary-color;
+  @include max-media-width(767) {
+    font-size: 14px;
+  }
+  &:hover {
+    opacity: 0.8;
+  }
+}
+
+//Plus New Button Style
+.plus_new_btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 4px;
+  padding: 8px 14px;
+  border-radius: 8px;
+  background: $white-color-ff;
+  box-shadow: 0px 1px 2px 0px rgba(11, 18, 52, 0.15),
+    0px 0px 0px 1px rgba(11, 18, 52, 0.1);
+  @include hover-transition();
+  @include max-media-width(767) {
+    padding: 8px 12px;
+  }
+  &:hover {
+    background-color: rgba($gray-color-ea, 0.8);
+  }
+  span {
+    color: $black-color-0b;
+    font-family: SFMediumFont;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 20px;
+  }
+}
+.border_btn {
+  color: $primary-color;
+  font-family: SFMediumFont;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 24px;
+  text-decoration-line: underline;
+  @include max-media-width(767) {
+    font-size: 14px;
+  }
+  &:hover {
+    opacity: 0.8;
+  }
+}
+.cancel_btn {
+  color: $black-color-0b;
+  font-family: SFMediumFont;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 500;
+  padding: 8px 12px;
+  border-radius: 8px;
+  @include hover-transition();
+  @include max-media-width(767) {
+    font-size: 14px;
+  }
+  &:hover {
+    background-color: $gray-color-e8;
+  }
+}
+.create_event_btn {
+  color: $white-color;
+  font-family: SFMediumFont;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 500;
+  padding: 8px 24px;
+  border-radius: 8px;
+  background-color: $primary-color;
+  @include hover-transition();
+  @include max-media-width(767) {
+    font-size: 14px;
+    padding: 8px 20px;
+  }
+  &:hover {
+    opacity: 0.8;
+  }
+  &:disabled {
+    color: $gray-color-9d;
+    cursor: default;
+    background-color: $gray-color-ed;
+  }
+  .save_icon{
+    max-width: 16px;
+  }
+}
+
+.delete_cancel_btn {
+  color: $black-color-0b;
+  font-family: $secondary-font;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 500;
+  letter-spacing: 0.16px;
+  padding: 8px 12px;
+  min-width: 110px;
+  border-radius: 8px;
+  background: $white-color-ff;
+  box-shadow: 0px 1px 2px 0px rgba(11, 18, 52, 0.15),
+    0px 0px 0px 1px rgba(11, 18, 52, 0.1);
+  @include hover-transition();
+
+  &:hover {
+    background-color: $gray-color-ea;
+  }
+}
+.delete_yes_btn {
+  color: $white-color;
+  font-family: $secondary-font;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 500;
+  letter-spacing: 0.16px;
+  padding: 8px 12px;
+  border-radius: 8px;
+  border: none;
+  min-width: 110px;
+  background: $red-gradient-ff;
+  box-shadow: 0px 1px 0px 0px rgba(255, 255, 255, 0.25) inset,
+    0px 1px 2px 0px rgba(182, 8, 39, 0.4), 0px 0px 0px 1px #b60827;
+
+  &:hover {
+    &:hover {
+      opacity: 0.8;
+    }
+  }
+}
+.back_btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  @include hover-transition();
+  img {
+    max-width: 8px;
+  }
+  span {
+    font-family: SFMediumFont;
+    font-size: 16px;
+    color: $black-color-0b;
+    font-weight: 500;
+  }
+  &:hover {
+    opacity: 0.8;
+  }
+}
+.create_template_btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 4px;
+  padding: 12px 16px;
+  border-radius: 8px;
+  background: $primary-color;
+  @include max-media-width(767) {
+    padding: 10px 12px;
+  }
+  &:hover {
+    opacity: 0.8;
+  }
+  img {
+    max-width: 20px;
+  }
+  span {
+    color: $white-color-ff;
+    font-family: SFMediumFont;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 500;
+    @include max-media-width(767) {
+      font-size: 14px;
+    }
+  }
+  &.sub_account_btn {
+    padding: 8px 12px;
+    @include max-media-width(767) {
+      padding: 8px 8px;
+    }
+    span {
+      font-size: 14px;
+      @include max-media-width(767) {
+        font-size: 12px;
+      }
+    }
+  }
+}
+.import_btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 4px;
+  padding: 8px 12px;
+  border-radius: 8px;
+  background: $white-color-ff;
+  box-shadow: 0px 1px 2px 0px rgba(11, 18, 52, 0.15),
+    0px 0px 0px 1px rgba(11, 18, 52, 0.1);
+  img {
+    max-width: 20px;
+  }
+  span {
+    color: $black-color-0b;
+    font-family: SFMediumFont;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 500;
+    @include max-media-width(767) {
+      font-size: 14px;
+    }
+  }
+  &:hover {
+    background-color: rgba($gray-color-ea, 0.8);
+  }
+}
+.table_edit_btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 4px 8px;
+  border-radius: 6px;
+  background: $gray-color-f5;
+  img {
+    max-width: 13px;
+  }
+  span {
+    color: $black-color-0b;
+    font-size: 12px;
+    font-style: normal;
+    font-weight: 400;
+  }
+  &:hover {
+    opacity: 0.7;
+  }
+}
+
+.table_dot_btn {
+  padding: 0;
+  @include Hover-Icons(28px);
+  img {
+    max-width: 16px;
+  }
+  &::after {
+    display: none;
+  }
+}
+.merge_btn {
+  padding: 6px 12px;
+  border-radius: 6px;
+  background: $white-color-ff !important;
+  box-shadow: 0px 1px 2px 0px rgba(11, 18, 52, 0.15),
+    0px 0px 0px 1px rgba(11, 18, 52, 0.1);
+  &:hover {
+    opacity: 0.8;
+  }
+  span {
+    color: $black-color-0b;
+    font-family: SFMediumFont;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 20px;
+    margin-right: 8px;
+  }
+}
+.icon_btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+  width: 36px;
+  height: 36px;
+  border: 1px solid $gray-color-e0 !important;
+  background: $white-color-ff;
+  box-shadow: 0px 1px 2px 0px rgba(11, 18, 52, 0.15),
+    0px 0px 0px 1px rgba(11, 18, 52, 0.1);
+  &:hover {
+    background-color: rgba($gray-color-ea, 0.8);
+  }
+}
+.bar_btn {
+  @include Hover-Icons(28px);
+  i {
+    font-size: 16px;
+  }
+}
+.table_delete_btn {
+  @include Hover-Icons(28px);
+  img {
+    max-width: 15px;
+  }
+}
+.ok_btn {
+  padding: 4px 12px;
+  border-radius: 8px;
+  background: $white-color-ff;
+  box-shadow: 0px 4px 2px -2px rgba(21, 21, 35, 0.15),
+    0px 0px 0px 1px rgba(21, 21, 35, 0.15);
+  &:hover {
+    background-color: rgba($gray-color-ea, 0.8);
+  }
+  span {
+    color: $black-color-15;
+    font-family: $secondary-font;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 500;
+    letter-spacing: -0.42px;
+  }
+}
+.learn_more_btn {
+  padding: 4px 12px;
+  color: $black-color-15;
+  font-family: $secondary-font;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 20px;
+  letter-spacing: -0.42px;
+  &:hover {
+    opacity: 0.8;
+  }
+}
+.schedule_btn {
+  color: $black-color-0b;
+  font-family: SFSemiBoldFont;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 500;
+  max-width: 147px;
+  width: 100%;
+  height: 40px;
+  border-radius: 8px;
+  background: $white-color-ff;
+  box-shadow: 0px 1px 2px 0px rgba(11, 18, 52, 0.15),
+    0px 0px 0px 1px rgba(11, 18, 52, 0.1);
+  @include max-media-width(767) {
+    font-size: 14px;
+  }
+  &:hover {
+    opacity: 0.8;
+  }
+}
+
+.msg_send_btn {
+  color: $white-color-ff;
+  font-family: SFSemiBoldFont;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 500;
+  max-width: 178px;
+  width: 100%;
+  height: 40px;
+  border-radius: 8px;
+  background-color: $primary-color;
+  @include max-media-width(767) {
+    font-size: 14px;
+  }
+  &:hover {
+    opacity: 0.8;
+  }
+}

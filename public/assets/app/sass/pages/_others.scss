@@ -1,0 +1,117 @@
+// Group Queue  Section
+.group_queue_wrapper {
+  .filter_btn_area {
+    .table_dropdown_area {
+      .dropdown-menu {
+        min-width: 290px;
+      }
+    }
+  }
+}
+.edit_queue_modal {
+  .modal-dialog {
+    max-width: 703px;
+  }
+}
+
+//Batch Queue
+.batch_queue_wrapper {
+  .batch_details_table_area {
+    padding: 16px;
+    margin-top: 16px;
+    border-radius: 8px;
+    border: 1px solid $gray-color-ea;
+    @include max-media-width(767) {
+      padding: 12px;
+    }
+  }
+  .batch_details_btn {
+    &:hover {
+      opacity: 0.8;
+    }
+    span {
+      color: $black-color-0b;
+      font-family: SFSemiBoldFont;
+      font-size: 16px;
+      font-style: normal;
+      font-weight: 600;
+      line-height: 24px;
+    }
+    img {
+      @include hover-transition();
+    }
+  }
+  .batch_active {
+    .arrow_icon {
+      transform: rotate(-180deg);
+      -webkit-transform: rotate(-180deg);
+      -moz-transform: rotate(-180deg);
+      -ms-transform: rotate(-180deg);
+      -o-transform: rotate(-180deg);
+    }
+  }
+  .details_table_area {
+    display: none;
+    margin-top: 12px;
+    margin-bottom: 24px;
+  }
+}
+
+//Notification Page Section
+.notification_page_wrapper {
+  .notification_list_wrapper {
+    position: relative;
+    top: 0;
+    left: 0;
+    width: auto;
+    box-shadow: none;
+    opacity: 1;
+    visibility: visible;
+  }
+  .notifciation_list {
+    max-height: none;
+    li {
+      padding: 4px;
+      background-color: transparent !important;
+      @include max-media-width(767) {
+        grid-template-columns: minmax(0, 40px) minmax(0, 1fr);
+        align-items: start;
+        gap: 12px;
+      }
+    }
+  }
+  .action_area {
+    gap: 10px;
+    @include max-media-width(767) {
+      grid-column: span 2;
+    }
+  }
+  .action_btn_list,
+  .dot {
+    @include max-media-width(991) {
+      opacity: 1;
+      visibility: visible;
+    }
+  }
+}
+
+//Claims Section
+.claims_section_wrapper {
+  .template_filter_area {
+    @include max-media-width(767) {
+      justify-content: end;
+    }
+    .filter_btn_area {
+      @include max-media-width(767) {
+        order: 1;
+      }
+    }
+    .search_input_form {
+      @include max-media-width(767) {
+        order: 2;
+        max-width: none;
+        width: 100%;
+      }
+    }
+  }
+}
