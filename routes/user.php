@@ -21,7 +21,9 @@ Route::get('/login', LoginComponent::class)->name('login')->middleware('guest');
 Route::get('/register', RegistrationComponent::class)->name('register')->middleware('guest');
 
 Route::get('user', DashboardComponent::class)->middleware('auth:user');
-Route::prefix('user/')->name('user.')->middleware('auth')->group(function(){
+
+Route::get('/', DashboardComponent::class)->name('app.home'); //->middleware('auth')
+Route::name('user.')->middleware('auth')->group(function(){
     Route::post('logout', [LogoutController::class, 'userLogout'])->name('logout');
 
     Route::get('dashboard', DashboardComponent::class)->name('dashboard');

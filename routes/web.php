@@ -1,6 +1,7 @@
 <?php
 
 use App\Livewire\App\HomeComponent;
+use App\Livewire\App\User\DashboardComponent;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -14,7 +15,6 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', HomeComponent::class)->name('app.home');
 
 //Call Route Files
 require __DIR__ . '/admin.php';
