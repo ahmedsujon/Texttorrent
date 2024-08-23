@@ -32,7 +32,9 @@
     <script src="{{ asset('assets/app/plugins/js/otpdesigner.min.js') }}"></script>
     <script src="{{ asset('assets/app/plugins/js/jquery-searchbox.js') }}"></script>
     <script src="https://kit.fontawesome.com/46f35fbc02.js" crossorigin="anonymous"></script>
-    <script src="assets/js/main.js"></script>
+    <script src="{{ asset('assets/app/js/main.js') }}"></script>
+
+    @stack('scripts')
 </body>
 
 </html>

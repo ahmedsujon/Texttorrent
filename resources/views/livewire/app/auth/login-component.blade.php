@@ -8,20 +8,26 @@
                     </a>
                     <a href="sign-up.html" class="create_account_btn">Create an account</a>
                 </div>
+
                 <div class="d-flex justify-content-center align-items-center flex-column h-100">
-                    <form class="login_form_area">
+                    @if (session()->has('error'))
+                        <div class="alert bg-danger text-center text-white">{{ session('error') }}</div>
+                    @endif
+                    <form class="login_form_area" wire:submit.prevent='userLogin'>
                         <h3 class="login_title">Log in</h3>
                         <h6 class="page_subtitle">
                             Enter your email to login your account.
                         </h6>
                         <div class="input_row">
                             <label for="">Email</label>
-                            <input type="email" name="" id="" class="input_filed"
-                                placeholder="Enter your email" />
+                            <input type="email" name="email" id="email" wire:model.blur='email' class="input_filed" placeholder="Enter your email" />
+                            @error('email')
+                                <p class="text-danger" style="font-size: 12.5px;">{{ $message }}</p>
+                            @enderror
                         </div>
                         <div class="input_row">
                             <label for="">Password</label>
-                            <input type="password" name="" id="password_input1"
+                            <input type="password" name="" id="password_input1" wire:model.blur='password'
                                 class="input_filed password_input_filed" placeholder="Enter your password" />
                             <div class="eye_icon_area" id="password_eye_icon_area1">
                                 <button type="button" class="eye_open_btn" id="eyeOpen1">
@@ -31,9 +37,21 @@
                                     <img src="{{ asset('assets/app/icons/eye-close.svg') }}" alt="eye close icon" />
                                 </button>
                             </div>
+
+                            @error('password')
+                                <p class="text-danger" style="font-size: 12.5px;">{{ $message }}</p>
+                            @enderror
                         </div>
                         <a href="#" class="forget_text">Forgot password?</a>
-                        <button type="submit" class="login_btn">Login</button>
+                        @if ($login_status == 1)
+                            <button type="button" class="login_btn"><i class="bx bx-check-circle" style="font-size: 17px;"></i></button>
+                        @else
+                            <button type="submit" class="login_btn" {!! disabledOn('userLogin') !!}>
+                                {!! loadingStateWithText('userLogin', 'Log In') !!}
+                            </button>
+                        @endif
+
+
                         <div class="or_divider">
                             <span>or</span>
                         </div>
