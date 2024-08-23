@@ -32,7 +32,7 @@ Route::get('/register', RegistrationComponent::class)->name('register')->middlew
 
 Route::get('user', DashboardComponent::class)->middleware('auth:user');
 
-Route::get('/', DashboardComponent::class)->name('app.home'); //->middleware('auth')
+Route::get('/', DashboardComponent::class)->name('app.home')->middleware('auth');
 Route::name('user.')->middleware('auth')->group(function(){
     Route::post('logout', [LogoutController::class, 'userLogout'])->name('logout');
 
@@ -51,5 +51,5 @@ Route::name('user.')->middleware('auth')->group(function(){
     Route::get('campaigns/batch-queue', BatchQueueComponent::class)->name('campaigns.batchQueue');
     Route::get('campaigns/inbox-template', InboxTemplateComponent::class)->name('campaigns.inboxTemplate');
 
-    Route::get('calendar', CalendarComponent::class)->name('campaigns.calendar');
+    Route::get('calendar', CalendarComponent::class)->name('calendar');
 });

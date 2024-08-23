@@ -3,7 +3,7 @@
     <div class="sidebar_wrapper" id="sidebarArea">
         <div>
             <div class="logo_grid">
-                <a href="index.html" class="logo">
+                <a href="{{ route('app.home') }}" class="logo">
                     <img src="{{ asset('assets/app/images/header/logo.svg') }}" alt="logo" class="desktop_logo" />
                     <img src="{{ asset('assets/app/images/header/short_logo.svg') }}" alt="logo" class="short_logo" />
                 </a>
@@ -30,7 +30,7 @@
                             <span>20</span>
                         </div>
                     </button>
-                    <a href="notification.html" class="menu_grid menu_badge_grid mobile_notificaton_btn">
+                    <a href="/" class="menu_grid menu_badge_grid mobile_notificaton_btn">
                         <div class="icon">
                             <svg width="18" height="20" viewBox="0 0 18 20" fill="none"
                                 xmlns="http://www.w3.org/2000/svg" currentColor="#4E4E4E">
@@ -269,7 +269,7 @@
             <div class="main_menu_area">
                 <h4>Main menu</h4>
                 <div class="inner_main_menu">
-                    <a href="index.html" class="menu_grid active_menu">
+                    <a href="{{ route('app.home') }}" class="menu_grid active_menu">
                         <div class="icon">
                             <svg width="20" height="20" viewBox="0 0 20 20" fill="none"
                                 xmlns="http://www.w3.org/2000/svg" currentColor="#235DE4">
@@ -292,7 +292,7 @@
                         </div>
                         <div class="label">Dashboard</div>
                     </a>
-                    <a href="claims.html" class="menu_grid">
+                    <a href="{{ route('user.claims') }}" class="menu_grid">
                         <div class="icon">
                             <svg width="20" height="20" viewBox="0 0 20 20" fill="none"
                                 xmlns="http://www.w3.org/2000/svg" currentColor="#696F8C">
@@ -316,7 +316,7 @@
                         </div>
                         <div class="label">Claims</div>
                     </a>
-                    <a href="inbox.html" class="menu_grid">
+                    <a href="{{ route('user.inbox') }}" class="menu_grid">
                         <div class="icon">
                             <svg width="20" height="20" viewBox="0 0 20 20" fill="none"
                                 xmlns="http://www.w3.org/2000/svg" currentColor="#696F8C">
@@ -363,10 +363,10 @@
                             <div id="collapseOne" class="accordion-collapse collapse"
                                 data-bs-parent="#accordionSidebar">
                                 <div class="accordion-body">
-                                    <a href="manage-contact.html" class="menu_grid single_menu_grid">
+                                    <a href="{{ route('user.contacts.manage') }}" class="menu_grid single_menu_grid">
                                         <div class="label">Manage contacts</div>
                                     </a>
-                                    <a href="validator-credtis.html" class="menu_grid single_menu_grid">
+                                    <a href="{{ route('user.contacts.validatorCredits') }}" class="menu_grid single_menu_grid">
                                         <div class="label">Validator credits</div>
                                     </a>
                                 </div>
@@ -404,27 +404,26 @@
                             <div id="collapseTwo" class="accordion-collapse collapse"
                                 data-bs-parent="#accordionSidebar">
                                 <div class="accordion-body">
-                                    <a href="send-bulk-message.html" class="menu_grid single_menu_grid">
+                                    <a href="{{ route('user.campaigns.sendBulkMessage') }}" class="menu_grid single_menu_grid">
                                         <div class="label">Send Bulk Message</div>
                                     </a>
 
-                                    <a href="group-queue.html" class="menu_grid single_menu_grid">
+                                    <a href="{{ route('user.campaigns.groupQueue') }}" class="menu_grid single_menu_grid">
                                         <div class="label">Group Queue</div>
-                                    </a>
-                                    <a href="contact-message-queue.html" class="menu_grid single_menu_grid">
+                                    </a>{{ route('user.campaigns.contactMessageQueue') }}contact-message-queue.html" class="menu_grid single_menu_grid">
                                         <div class="label">Contact Queue</div>
                                     </a>
-                                    <a href="batch-queue.html" class="menu_grid single_menu_grid">
+                                    <a href="{{ route('user.campaigns.batchQueue') }}" class="menu_grid single_menu_grid">
                                         <div class="label">Batch Queue</div>
                                     </a>
-                                    <a href="inbox-template.html" class="menu_grid single_menu_grid">
+                                    <a href="{{ route('user.campaigns.inboxTemplate') }}" class="menu_grid single_menu_grid">
                                         <div class="label">Inbox template</div>
                                     </a>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <a href="calender.html" class="menu_grid">
+                    <a href="{{ route('user.calendar') }}" class="menu_grid">
                         <div class="icon">
                             <svg width="18" height="19" viewBox="0 0 18 19" fill="none"
                                 xmlns="http://www.w3.org/2000/svg" currentColor="#4E4E4E">
@@ -442,10 +441,10 @@
             </div>
         </div>
         <a href="settings.html" class="user_profile_grid">
-            <img class="user_image" src="{{ asset('assets/app/images/sidebar/user_image.webp') }}" alt="user image" />
+            <img class="user_image" src="{{ asset(user()->avatar) }}" alt="user image" />
             <div>
-                <h3>Royal Parvej</h3>
-                <h4>Zack@texttorrent.com</h4>
+                <h3>{{ user()->name }}</h3>
+                <h4>{{ user()->email }}</h4>
             </div>
             <div class="user_icon">
                 <div>
