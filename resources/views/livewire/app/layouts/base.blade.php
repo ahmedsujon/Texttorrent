@@ -53,7 +53,7 @@
     <script src="{{ asset('assets/app/plugins/js/bootstrap.bundle.min.js') }}"></script>
     <script src="{{ asset('assets/app/plugins/js/swiper-bundle.min.js') }}"></script>
     <script src="{{ asset('assets/app/plugins/js/jquery.rcounter.js') }}"></script>
-    <script src="{{ asset('assets/app/plugins/js/jquery-modal-video.min.js') }}"></script>
+    {{-- <script src="{{ asset('assets/app/plugins/js/jquery-modal-video.min.js') }}"></script> --}}
     <script src="{{ asset('assets/app/plugins/js/jquery.nice-select.min.js') }}"></script>
     <script src="{{ asset('assets/app/plugins/js/jquery.magnific-popup.min.js') }}"></script>
     <script src="{{ asset('assets/app/plugins/js/select2.min.js') }}"></script>
