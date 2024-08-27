@@ -40,10 +40,10 @@ Route::name('user.')->middleware('auth')->group(function(){
 
     Route::get('claims', ClaimsComponent::class)->name('claims');
     Route::get('inbox', InboxComponent::class)->name('inbox');
+    
     Route::get('contacts/manage', ManageContactsComponent::class)->name('contacts.manage');
+    Route::get('contacts/validator-credits', ValidatorCreditsComponent::class)->name('contacts.validatorCredits');
 
-    Route::get('contacts/validator-credits', ValidatorCreditsComponent::class)->name('contacts.validatorCredits');
-    Route::get('contacts/validator-credits', ValidatorCreditsComponent::class)->name('contacts.validatorCredits');
 
     Route::get('campaigns/send-bulk-message', BulkMessageComponent::class)->name('campaigns.sendBulkMessage');
     Route::get('campaigns/group-queue', GroupQueueComponent::class)->name('campaigns.groupQueue');
