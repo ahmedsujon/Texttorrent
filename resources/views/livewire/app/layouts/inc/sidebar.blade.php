@@ -54,7 +54,8 @@
                                 <div class="dropdown">
                                     <button class="notification_chat_btn" type="button" data-bs-toggle="dropdown"
                                         aria-expanded="false">
-                                        <img src="{{ asset('assets/app/icons/filter-mail-circle.svg') }}" alt="filter " />
+                                        <img src="{{ asset('assets/app/icons/filter-mail-circle.svg') }}"
+                                            alt="filter " />
                                     </button>
                                     <ul class="dropdown-menu dropdown-menu-end">
                                         <li>
@@ -98,10 +99,12 @@
                                 <div class="action_area d-flex align-items-center justify-content-end flex-wrap">
                                     <div class="action_btn_list">
                                         <button type="button">
-                                            <img src="{{ asset('assets/app/icons/double-check.svg') }}" alt="double check" />
+                                            <img src="{{ asset('assets/app/icons/double-check.svg') }}"
+                                                alt="double check" />
                                         </button>
                                         <button type="button">
-                                            <img src="{{ asset('assets/app/icons/delivery-box-02.svg') }}" alt="archive icon" />
+                                            <img src="{{ asset('assets/app/icons/delivery-box-02.svg') }}"
+                                                alt="archive icon" />
                                         </button>
                                     </div>
                                     <div class="dot"></div>
@@ -121,10 +124,12 @@
                                 <div class="action_area d-flex align-items-center justify-content-end flex-wrap">
                                     <div class="action_btn_list">
                                         <button type="button">
-                                            <img src="{{ asset('assets/app/icons/double-check.svg') }}" alt="double check" />
+                                            <img src="{{ asset('assets/app/icons/double-check.svg') }}"
+                                                alt="double check" />
                                         </button>
                                         <button type="button">
-                                            <img src="{{ asset('assets/app/icons/delivery-box-02.svg') }}" alt="archive icon" />
+                                            <img src="{{ asset('assets/app/icons/delivery-box-02.svg') }}"
+                                                alt="archive icon" />
                                         </button>
                                     </div>
                                     <div class="dot"></div>
@@ -132,7 +137,8 @@
                             </li>
                             <li>
                                 <div class="icon">
-                                    <img src="{{ asset('assets/app/icons/notification-03.svg') }}" alt="notification" />
+                                    <img src="{{ asset('assets/app/icons/notification-03.svg') }}"
+                                        alt="notification" />
                                 </div>
                                 <div class="content">
                                     <h3>
@@ -144,10 +150,12 @@
                                 <div class="action_area d-flex align-items-center justify-content-end flex-wrap">
                                     <div class="action_btn_list">
                                         <button type="button">
-                                            <img src="{{ asset('assets/app/icons/double-check.svg') }}" alt="double check" />
+                                            <img src="{{ asset('assets/app/icons/double-check.svg') }}"
+                                                alt="double check" />
                                         </button>
                                         <button type="button">
-                                            <img src="{{ asset('assets/app/icons/delivery-box-02.svg') }}" alt="archive icon" />
+                                            <img src="{{ asset('assets/app/icons/delivery-box-02.svg') }}"
+                                                alt="archive icon" />
                                         </button>
                                     </div>
                                     <div class="dot"></div>
@@ -155,7 +163,8 @@
                             </li>
                             <li>
                                 <div class="icon">
-                                    <img src="{{ asset('assets/app/icons/notification-03.svg') }}" alt="notification" />
+                                    <img src="{{ asset('assets/app/icons/notification-03.svg') }}"
+                                        alt="notification" />
                                 </div>
                                 <div class="content">
                                     <h3>Contacts imported to Default</h3>
@@ -164,10 +173,12 @@
                                 <div class="action_area d-flex align-items-center justify-content-end flex-wrap">
                                     <div class="action_btn_list">
                                         <button type="button">
-                                            <img src="{{ asset('assets/app/icons/double-check.svg') }}" alt="double check" />
+                                            <img src="{{ asset('assets/app/icons/double-check.svg') }}"
+                                                alt="double check" />
                                         </button>
                                         <button type="button">
-                                            <img src="{{ asset('assets/app/icons/delivery-box-02.svg') }}" alt="archive icon" />
+                                            <img src="{{ asset('assets/app/icons/delivery-box-02.svg') }}"
+                                                alt="archive icon" />
                                         </button>
                                     </div>
                                     <div class="dot"></div>
@@ -175,7 +186,8 @@
                             </li>
                             <li>
                                 <div class="icon">
-                                    <img src="{{ asset('assets/app/icons/notification-03.svg') }}" alt="notification" />
+                                    <img src="{{ asset('assets/app/icons/notification-03.svg') }}"
+                                        alt="notification" />
                                 </div>
                                 <div class="content">
                                     <h3>
@@ -187,10 +199,12 @@
                                 <div class="action_area d-flex align-items-center justify-content-end flex-wrap">
                                     <div class="action_btn_list">
                                         <button type="button">
-                                            <img src="{{ asset('assets/app/icons/double-check.svg') }}" alt="double check" />
+                                            <img src="{{ asset('assets/app/icons/double-check.svg') }}"
+                                                alt="double check" />
                                         </button>
                                         <button type="button">
-                                            <img src="{{ asset('assets/app/icons/delivery-box-02.svg') }}" alt="archive icon" />
+                                            <img src="{{ asset('assets/app/icons/delivery-box-02.svg') }}"
+                                                alt="archive icon" />
                                         </button>
                                     </div>
                                     <div class="dot"></div>
@@ -198,7 +212,8 @@
                             </li>
                             <li>
                                 <div class="icon">
-                                    <img src="{{ asset('assets/app/icons/notification-03.svg') }}" alt="notification" />
+                                    <img src="{{ asset('assets/app/icons/notification-03.svg') }}"
+                                        alt="notification" />
                                 </div>
                                 <div class="content">
                                     <h3>
@@ -210,10 +225,12 @@
                                 <div class="action_area d-flex align-items-center justify-content-end flex-wrap">
                                     <div class="action_btn_list">
                                         <button type="button">
-                                            <img src="{{ asset('assets/app/icons/double-check.svg') }}" alt="double check" />
+                                            <img src="{{ asset('assets/app/icons/double-check.svg') }}"
+                                                alt="double check" />
                                         </button>
                                         <button type="button">
-                                            <img src="{{ asset('assets/app/icons/delivery-box-02.svg') }}" alt="archive icon" />
+                                            <img src="{{ asset('assets/app/icons/delivery-box-02.svg') }}"
+                                                alt="archive icon" />
                                         </button>
                                     </div>
                                     <div class="dot"></div>
@@ -221,7 +238,8 @@
                             </li>
                             <li>
                                 <div class="icon">
-                                    <img src="{{ asset('assets/app/icons/notification-03.svg') }}" alt="notification" />
+                                    <img src="{{ asset('assets/app/icons/notification-03.svg') }}"
+                                        alt="notification" />
                                 </div>
                                 <div class="content">
                                     <h3>
@@ -233,10 +251,12 @@
                                 <div class="action_area d-flex align-items-center justify-content-end flex-wrap">
                                     <div class="action_btn_list">
                                         <button type="button">
-                                            <img src="{{ asset('assets/app/icons/double-check.svg') }}" alt="double check" />
+                                            <img src="{{ asset('assets/app/icons/double-check.svg') }}"
+                                                alt="double check" />
                                         </button>
                                         <button type="button">
-                                            <img src="{{ asset('assets/app/icons/delivery-box-02.svg') }}" alt="archive icon" />
+                                            <img src="{{ asset('assets/app/icons/delivery-box-02.svg') }}"
+                                                alt="archive icon" />
                                         </button>
                                     </div>
                                     <div class="dot"></div>
@@ -244,7 +264,8 @@
                             </li>
                             <li>
                                 <div class="icon">
-                                    <img src="{{ asset('assets/app/icons/notification-03.svg') }}" alt="notification" />
+                                    <img src="{{ asset('assets/app/icons/notification-03.svg') }}"
+                                        alt="notification" />
                                 </div>
                                 <div class="content">
                                     <h3>Contacts imported to Default</h3>
@@ -253,10 +274,12 @@
                                 <div class="action_area d-flex align-items-center justify-content-end flex-wrap">
                                     <div class="action_btn_list">
                                         <button type="button">
-                                            <img src="{{ asset('assets/app/icons/double-check.svg') }}" alt="double check" />
+                                            <img src="{{ asset('assets/app/icons/double-check.svg') }}"
+                                                alt="double check" />
                                         </button>
                                         <button type="button">
-                                            <img src="{{ asset('assets/app/icons/delivery-box-02.svg') }}" alt="archive icon" />
+                                            <img src="{{ asset('assets/app/icons/delivery-box-02.svg') }}"
+                                                alt="archive icon" />
                                         </button>
                                     </div>
                                     <div class="dot"></div>
@@ -269,7 +292,8 @@
             <div class="main_menu_area">
                 <h4>Main menu</h4>
                 <div class="inner_main_menu">
-                    <a href="{{ route('app.home') }}" class="menu_grid active_menu">
+                    <a href="{{ route('app.home') }}"
+                        class="{{ request()->is('/') || request()->is('dashboard/*') ? 'menu_grid active_menu' : 'menu_grid' }}">
                         <div class="icon">
                             <svg width="20" height="20" viewBox="0 0 20 20" fill="none"
                                 xmlns="http://www.w3.org/2000/svg" currentColor="#235DE4">
@@ -292,7 +316,8 @@
                         </div>
                         <div class="label">Dashboard</div>
                     </a>
-                    <a href="{{ route('user.claims') }}" class="menu_grid">
+                    <a href="{{ route('user.claims') }}"
+                        class="{{ request()->is('claims') || request()->is('claims/*') ? 'menu_grid active_menu' : 'menu_grid' }}">
                         <div class="icon">
                             <svg width="20" height="20" viewBox="0 0 20 20" fill="none"
                                 xmlns="http://www.w3.org/2000/svg" currentColor="#696F8C">
@@ -316,7 +341,8 @@
                         </div>
                         <div class="label">Claims</div>
                     </a>
-                    <a href="{{ route('user.inbox') }}" class="menu_grid">
+                    <a href="{{ route('user.inbox') }}"
+                        class="{{ request()->is('inbox') || request()->is('inbox/*') ? 'menu_grid active_menu' : 'menu_grid' }}">
                         <div class="icon">
                             <svg width="20" height="20" viewBox="0 0 20 20" fill="none"
                                 xmlns="http://www.w3.org/2000/svg" currentColor="#696F8C">
@@ -339,9 +365,10 @@
                     <div class="accordion" id="accordionSidebar">
                         <div class="accordion-item">
                             <h2 class="accordion-header">
-                                <button class="accordion-button collapsed menu_grid" type="button"
-                                    data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true"
-                                    aria-controls="collapseOne">
+                                <button
+                                    class="accordion-button collapsed {{ request()->is('contacts') || request()->is('contacts/*') ? 'menu_grid active_menu' : 'menu_grid' }}"
+                                    type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne"
+                                    aria-expanded="true" aria-controls="collapseOne">
                                     <div class="icon">
                                         <svg width="19" height="20" viewBox="0 0 19 20" fill="none"
                                             xmlns="http://www.w3.org/2000/svg" currentColor="#696F8C">
@@ -363,10 +390,13 @@
                             <div id="collapseOne" class="accordion-collapse collapse"
                                 data-bs-parent="#accordionSidebar">
                                 <div class="accordion-body">
-                                    <a href="{{ route('user.contacts.manage') }}" class="menu_grid single_menu_grid">
+                                    <a href="{{ route('user.contacts.manage') }}"
+                                        class="{{ request()->is('contacts/manage') || request()->is('contacts/manage/*') ? 'menu_grid single_menu_grid active_menu' : 'menu_grid single_menu_grid' }}">
                                         <div class="label">Manage contacts</div>
                                     </a>
-                                    <a href="{{ route('user.contacts.validatorCredits') }}" class="menu_grid single_menu_grid">
+                                    <a href="{{ route('user.contacts.validatorCredits') }}"
+                                        class="{{ route('user.contacts.manage') }}"
+                                        class="{{ request()->is('contacts/validator-credits') || request()->is('contacts/validator-credits/*') ? 'menu_grid single_menu_grid active_menu' : 'menu_grid single_menu_grid' }}">
                                         <div class="label">Validator credits</div>
                                     </a>
                                 </div>
@@ -401,29 +431,39 @@
                                     <div class="label">Campaigns</div>
                                 </button>
                             </h2>
+
                             <div id="collapseTwo" class="accordion-collapse collapse"
                                 data-bs-parent="#accordionSidebar">
                                 <div class="accordion-body">
-                                    <a href="{{ route('user.campaigns.sendBulkMessage') }}" class="menu_grid single_menu_grid">
+                                    <a href="{{ route('user.campaigns.sendBulkMessage') }}"
+                                        class="menu_grid single_menu_grid">
                                         <div class="label">Send Bulk Message</div>
                                     </a>
 
-                                    <a href="{{ route('user.campaigns.groupQueue') }}" class="menu_grid single_menu_grid">
+                                    <a href="{{ route('user.campaigns.groupQueue') }}"
+                                        class="menu_grid single_menu_grid">
                                         <div class="label">Group Queue</div>
-                                    </a>{{ route('user.campaigns.contactMessageQueue') }}contact-message-queue.html" class="menu_grid single_menu_grid">
+                                    </a>
+                                    <a href="{{ route('user.campaigns.contactMessageQueue') }}"
+                                        class="menu_grid single_menu_grid">
                                         <div class="label">Contact Queue</div>
                                     </a>
-                                    <a href="{{ route('user.campaigns.batchQueue') }}" class="menu_grid single_menu_grid">
+
+                                    <a href="{{ route('user.campaigns.batchQueue') }}"
+                                        class="menu_grid single_menu_grid">
                                         <div class="label">Batch Queue</div>
                                     </a>
-                                    <a href="{{ route('user.campaigns.inboxTemplate') }}" class="menu_grid single_menu_grid">
+                                    <a href="{{ route('user.campaigns.inboxTemplate') }}"
+                                        class="menu_grid single_menu_grid">
                                         <div class="label">Inbox template</div>
                                     </a>
                                 </div>
                             </div>
+
                         </div>
                     </div>
-                    <a href="{{ route('user.calendar') }}" class="menu_grid">
+                    <a href="{{ route('user.calendar') }}"
+                        class="{{ request()->is('calendar') || request()->is('calendar/*') ? 'menu_grid active_menu' : 'menu_grid' }}">
                         <div class="icon">
                             <svg width="18" height="19" viewBox="0 0 18 19" fill="none"
                                 xmlns="http://www.w3.org/2000/svg" currentColor="#4E4E4E">
