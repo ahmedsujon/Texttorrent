@@ -15,6 +15,14 @@ use App\Livewire\App\ClaimsComponent;
 use App\Livewire\App\Contacts\ManageContactsComponent;
 use App\Livewire\App\Contacts\ValidatorCreditsComponent;
 use App\Livewire\App\InboxComponent;
+use App\Livewire\App\Settings\ApiComponent;
+use App\Livewire\App\Settings\ChangePasswordComponent;
+use App\Livewire\App\Settings\DLCRegistrationComponent;
+use App\Livewire\App\Settings\GetNumberComponent;
+use App\Livewire\App\Settings\LogsComponent;
+use App\Livewire\App\Settings\MyAccountComponent;
+use App\Livewire\App\Settings\NotificationComponent;
+use App\Livewire\App\Settings\SubAccountComponent;
 
 /*
 |--------------------------------------------------------------------------
@@ -33,17 +41,16 @@ Route::get('/register', RegistrationComponent::class)->name('register')->middlew
 Route::get('user', DashboardComponent::class)->middleware('auth:user');
 
 Route::get('/', DashboardComponent::class)->name('app.home')->middleware('auth');
-Route::name('user.')->middleware('auth')->group(function(){
+Route::name('user.')->middleware('auth')->group(function () {
     Route::post('logout', [LogoutController::class, 'userLogout'])->name('logout');
 
     Route::get('dashboard', DashboardComponent::class)->name('dashboard');
 
     Route::get('claims', ClaimsComponent::class)->name('claims');
     Route::get('inbox', InboxComponent::class)->name('inbox');
-    
+
     Route::get('contacts/manage', ManageContactsComponent::class)->name('contacts.manage');
     Route::get('contacts/validator-credits', ValidatorCreditsComponent::class)->name('contacts.validatorCredits');
-
 
     Route::get('campaigns/send-bulk-message', BulkMessageComponent::class)->name('campaigns.sendBulkMessage');
     Route::get('campaigns/group-queue', GroupQueueComponent::class)->name('campaigns.groupQueue');
@@ -52,4 +59,14 @@ Route::name('user.')->middleware('auth')->group(function(){
     Route::get('campaigns/inbox-template', InboxTemplateComponent::class)->name('campaigns.inboxTemplate');
 
     Route::get('calendar', CalendarComponent::class)->name('calendar');
+
+    // Settings Routes
+    Route::get('my-account', MyAccountComponent::class)->name('myAccount');
+    Route::get('change-password', ChangePasswordComponent::class)->name('changePassword');
+    Route::get('sub-account', SubAccountComponent::class)->name('subAccount');
+    Route::get('get-number', GetNumberComponent::class)->name('getNumber');
+    Route::get('logs', LogsComponent::class)->name('logs');
+    Route::get('apis', ApiComponent::class)->name('apis');
+    Route::get('dlc-registration', DLCRegistrationComponent::class)->name('dlcRegistration');
+    Route::get('trigger-notification', NotificationComponent::class)->name('triggerNotification');
 });

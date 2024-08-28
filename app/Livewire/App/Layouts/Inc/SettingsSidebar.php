@@ -4,7 +4,7 @@ namespace App\Livewire\App\Layouts\Inc;
 
 use Livewire\Component;
 
-class Sidebar extends Component
+class SettingsSidebar extends Component
 {
     public function render()
     {
