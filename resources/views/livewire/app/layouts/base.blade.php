@@ -44,8 +44,9 @@
     {{-- @livewire('app.layouts.inc.header') --}}
 
     {{ $slot }}
+    @livewire('app.layouts.inc.sidebar')
 
-    @if (request()->url() ==
+    {{-- @if (request()->url() ==
             url(
                 'my-account' ||
                     'change-password' ||
@@ -58,7 +59,7 @@
         @livewire('app.layouts.inc.settings-sidebar')
     @else
         @livewire('app.layouts.inc.sidebar')
-    @endif
+    @endif --}}
 
     <!-- JAVASCRIPT -->
     <script src="{{ asset('assets/app/plugins/js/jquery-3.6.0.min.js') }}"></script>
