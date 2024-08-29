@@ -19,9 +19,7 @@ class UserTableSeeder extends Seeder
             $getUser = User::where('email', $email)->first();
             if (!$getUser) {
                 $user = new User();
-                $user->first_name = 'Mr User ';
-                $user->last_name = '00' . $key;
-                $user->full_name = 'Mr User ' . $key;
+                $user->name = 'User ';
                 $user->username = 'mr_user_' . $key;
                 $user->email = $email;
                 $user->phone = '0170000000' . $key;
