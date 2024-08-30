@@ -3,10 +3,10 @@
         <div class="login_grid">
             <div class="login_left_area">
                 <div class="d-flex-between">
-                    <a href="#" class="logo">
+                    <a href="{{ route('login') }}" class="logo">
                         <img src="{{ asset('assets/app/images/header/logo.svg') }}" alt="logo" />
                     </a>
-                    <a href="sign-up.html" class="create_account_btn">Create an account</a>
+                    <a href="{{ route('register') }}" class="create_account_btn">Create an account</a>
                 </div>
 
                 <div class="d-flex justify-content-center align-items-center flex-column h-100">
