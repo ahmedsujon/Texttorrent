@@ -3,7 +3,7 @@
         <div class="login_grid">
             <div class="login_left_area">
                 <div class="d-flex-between">
-                    <a href="#" class="logo">
+                    <a href="{{ route('login') }}" class="logo">
                         <img src="{{ asset('assets/app/images/header/logo.svg') }}" alt="logo" />
                     </a>
                 </div>
