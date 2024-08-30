@@ -366,9 +366,10 @@
                         <div class="accordion-item">
                             <h2 class="accordion-header">
                                 <button
-                                    class="accordion-button collapsed {{ request()->is('contacts') || request()->is('contacts/*') ? 'menu_grid active_menu' : 'menu_grid' }}"
+                                    class="accordion-button {{ request()->is('contacts') || request()->is('contacts/*') ? 'menu_grid active_menu' : 'collapsed menu_grid' }}"
                                     type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne"
-                                    aria-expanded="true" aria-controls="collapseOne">
+                                    aria-expanded="{{ request()->is('contacts') || request()->is('contacts/*') ? 'true' : 'false' }}"
+                                    aria-controls="collapseOne">
                                     <div class="icon">
                                         <svg width="19" height="20" viewBox="0 0 19 20" fill="none"
                                             xmlns="http://www.w3.org/2000/svg" currentColor="#696F8C">
@@ -387,16 +388,16 @@
                                     <div class="label">Contacts</div>
                                 </button>
                             </h2>
-                            <div id="collapseOne" class="accordion-collapse collapse"
+                            <div id="collapseOne"
+                                class="accordion-collapse collapse {{ request()->is('contacts') || request()->is('contacts/*') ? 'show' : '' }}"
                                 data-bs-parent="#accordionSidebar">
                                 <div class="accordion-body">
                                     <a href="{{ route('user.contacts.manage') }}"
-                                        class="{{ request()->is('contacts/manage') || request()->is('contacts/manage/*') ? 'menu_grid single_menu_grid active_menu' : 'menu_grid single_menu_grid' }}">
+                                        class="menu_grid single_menu_grid {{ request()->is('contacts/manage') ? 'menu_grid active_menu' : 'menu_grid' }}">
                                         <div class="label">Manage contacts</div>
                                     </a>
                                     <a href="{{ route('user.contacts.validatorCredits') }}"
-                                        class="{{ route('user.contacts.manage') }}"
-                                        class="{{ request()->is('contacts/validator-credits') || request()->is('contacts/validator-credits/*') ? 'menu_grid single_menu_grid active_menu' : 'menu_grid single_menu_grid' }}">
+                                        class="menu_grid single_menu_grid {{ request()->is('contacts/validator-credits') ? 'menu_grid active_menu' : 'menu_grid' }}">
                                         <div class="label">Validator credits</div>
                                     </a>
                                 </div>
@@ -404,9 +405,10 @@
                         </div>
                         <div class="accordion-item">
                             <h2 class="accordion-header">
-                                <button class="accordion-button collapsed menu_grid" type="button"
-                                    data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="true"
-                                    aria-controls="collapseTwo">
+                                <button
+                                    class="accordion-button {{ request()->is('campaigns') || request()->is('campaigns/*') ? 'menu_grid active_menu' : 'collapsed menu_grid' }}"
+                                    type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo"
+                                    aria-expanded="true" aria-controls="collapseTwo">
                                     <div class="icon">
                                         <svg width="20" height="20" viewBox="0 0 20 20" fill="none"
                                             xmlns="http://www.w3.org/2000/svg" currentColor="#696F8C">
@@ -432,35 +434,34 @@
                                 </button>
                             </h2>
 
-                            <div id="collapseTwo" class="accordion-collapse collapse"
+                            <div id="collapseTwo"
+                                class="accordion-collapse collapse {{ request()->is('campaigns') || request()->is('campaigns/*') ? 'show' : '' }}"
                                 data-bs-parent="#accordionSidebar">
                                 <div class="accordion-body">
                                     <a href="{{ route('user.campaigns.sendBulkMessage') }}"
-                                        class="menu_grid single_menu_grid">
+                                        class="menu_grid single_menu_grid {{ request()->is('campaigns/send-bulk-message') ? 'active_menu' : '' }}">
                                         <div class="label">Send Bulk Message</div>
                                     </a>
-
                                     <a href="{{ route('user.campaigns.groupQueue') }}"
-                                        class="menu_grid single_menu_grid">
+                                        class="menu_grid single_menu_grid {{ request()->is('campaigns/group-queue') ? 'active_menu' : '' }}">
                                         <div class="label">Group Queue</div>
                                     </a>
                                     <a href="{{ route('user.campaigns.contactMessageQueue') }}"
-                                        class="menu_grid single_menu_grid">
+                                        class="menu_grid single_menu_grid {{ request()->is('campaigns/contact-message-queue') ? 'active_menu' : '' }}">
                                         <div class="label">Contact Queue</div>
                                     </a>
-
                                     <a href="{{ route('user.campaigns.batchQueue') }}"
-                                        class="menu_grid single_menu_grid">
+                                        class="menu_grid single_menu_grid {{ request()->is('campaigns/batch-queue') ? 'active_menu' : '' }}">
                                         <div class="label">Batch Queue</div>
                                     </a>
                                     <a href="{{ route('user.campaigns.inboxTemplate') }}"
-                                        class="menu_grid single_menu_grid">
+                                        class="menu_grid single_menu_grid {{ request()->is('campaigns/inbox-template') ? 'active_menu' : '' }}">
                                         <div class="label">Inbox template</div>
                                     </a>
                                 </div>
                             </div>
-
                         </div>
+
                     </div>
                     <a href="{{ route('user.calendar') }}"
                         class="{{ request()->is('calendar') || request()->is('calendar/*') ? 'menu_grid active_menu' : 'menu_grid' }}">
@@ -477,6 +478,32 @@
                         </div>
                         <div class="label">Calendar</div>
                     </a>
+
+                    <a href="{{ route('user.logout') }}"
+                        onclick="event.preventDefault(); document.getElementById('logout-form').submit();""
+                        class="{{ request()->is('calendar') || request()->is('calendar/*') ? 'menu_grid active_menu' : 'menu_grid' }}">
+                        <div class="icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                stroke-linecap="round" stroke-linejoin="round" class="feather feather-log-out">
+                                <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+                                <polyline points="16 17 21 12 16 7"></polyline>
+                                <line x1="21" y1="12" x2="9" y2="12"></line>
+                            </svg>
+                        </div>
+                        <div class="label">Logout</div>
+                    </a>
+                    <form id="logout-form" style="display: none;" method="POST"
+                        action="{{ route('user.logout') }}">
+                        @csrf
+                    </form>
+
+                    {{-- <a class="dropdown-item text-danger" href="{{ route('admin.logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();"><i class="bx bx-power-off font-size-16 align-middle me-1 text-danger"></i> <span key="t-logout">Logout</span></a>
+                        <form id="logout-form" style="display: none;" method="POST" action="{{ route('admin.logout') }}">
+                            @csrf
+                        </form> --}}
+
+
                 </div>
             </div>
         </div>

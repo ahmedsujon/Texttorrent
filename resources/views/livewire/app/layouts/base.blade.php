@@ -45,8 +45,20 @@
 
     {{ $slot }}
 
-    @livewire('app.layouts.inc.sidebar')
-    {{-- @livewire('app.layouts.inc.footer') --}}
+    @if (request()->url() ==
+            url(
+                'my-account' ||
+                    'change-password' ||
+                    'sub-account' ||
+                    'get-number' ||
+                    'logs' ||
+                    'apis' ||
+                    'dlc-registration' ||
+                    'trigger-notification'))
+        @livewire('app.layouts.inc.settings-sidebar')
+    @else
+        @livewire('app.layouts.inc.sidebar')
+    @endif
 
     <!-- JAVASCRIPT -->
     <script src="{{ asset('assets/app/plugins/js/jquery-3.6.0.min.js') }}"></script>

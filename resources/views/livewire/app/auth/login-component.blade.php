@@ -20,7 +20,8 @@
                         </h6>
                         <div class="input_row">
                             <label for="">Email</label>
-                            <input type="email" name="email" id="email" wire:model.blur='email' class="input_filed" placeholder="Enter your email" />
+                            <input type="email" name="email" id="email" wire:model.blur='email'
+                                class="input_filed" placeholder="Enter your email" />
                             @error('email')
                                 <p class="text-danger" style="font-size: 12.5px;">{{ $message }}</p>
                             @enderror
@@ -44,7 +45,8 @@
                         </div>
                         <a href="#" class="forget_text">Forgot password?</a>
                         @if ($login_status == 1)
-                            <button type="button" class="login_btn"><i class="bx bx-check-circle" style="font-size: 17px;"></i></button>
+                            <button type="button" class="login_btn"><i class="bx bx-check-circle"
+                                    style="font-size: 17px;"></i></button>
                         @else
                             <button type="submit" class="login_btn" {!! disabledOn('userLogin') !!}>
                                 {!! loadingStateWithText('userLogin', 'Log In') !!}
