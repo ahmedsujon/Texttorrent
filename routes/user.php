@@ -61,12 +61,12 @@ Route::name('user.')->middleware('auth')->group(function () {
     Route::get('calendar', CalendarComponent::class)->name('calendar');
 
     // Settings Routes
-    Route::get('my-account', MyAccountComponent::class)->name('myAccount');
-    Route::get('change-password', ChangePasswordComponent::class)->name('changePassword');
-    Route::get('sub-account', SubAccountComponent::class)->name('subAccount');
-    Route::get('get-number', GetNumberComponent::class)->name('getNumber');
-    Route::get('logs', LogsComponent::class)->name('logs');
-    Route::get('apis', ApiComponent::class)->name('apis');
-    Route::get('dlc-registration', DLCRegistrationComponent::class)->name('dlcRegistration');
-    Route::get('trigger-notification', NotificationComponent::class)->name('triggerNotification');
+    Route::get('settings/my-account', MyAccountComponent::class)->name('myAccount');
+    Route::get('settings/change-password', ChangePasswordComponent::class)->name('changePassword');
+    Route::get('settings/sub-account', SubAccountComponent::class)->name('subAccount');
+    Route::get('settings/get-number', GetNumberComponent::class)->name('getNumber');
+    Route::get('settings/logs', LogsComponent::class)->name('logs');
+    Route::get('settings/apis', ApiComponent::class)->name('apis');
+    Route::get('settings/dlc-registration', DLCRegistrationComponent::class)->name('dlcRegistration');
+    Route::get('settings/trigger-notification', NotificationComponent::class)->name('triggerNotification');
 });

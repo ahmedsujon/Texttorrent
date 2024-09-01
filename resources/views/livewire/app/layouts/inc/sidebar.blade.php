@@ -507,7 +507,7 @@
                 </div>
             </div>
         </div>
-        <a href="settings.html" class="user_profile_grid">
+        <a href="{{ route('user.myAccount') }}" class="user_profile_grid">
             <img class="user_image" src="{{ asset(user()->avatar) }}" alt="user image" />
             <div>
                 <h3>{{ user()->full_name }}</h3>

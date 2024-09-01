@@ -9,11 +9,7 @@
 
     <link rel="shortcut icon" href="{{ asset('assets/app/images/header/favicon.png') }}" type="image/x-icon" />
     <link rel="stylesheet" href="{{ asset('assets/app/plugins/css/bootstrap.min.css') }}" />
-    <link rel="stylesheet" href="{{ asset('assets/app/plugins/css/swiper-bundle.min.css') }}" />
-    <link rel="stylesheet" href="{{ asset('assets/app/plugins/css/modal-video.min.css') }}" />
-    <link rel="stylesheet" href="{{ asset('assets/app/plugins/css/magnific-popup.css') }}" />
     <link rel="stylesheet" href="{{ asset('assets/app/plugins/css/nice-select.css') }}" />
-    <link rel="stylesheet" href="{{ asset('assets/app/plugins/css/select2.min.css') }}" />
     <link rel="stylesheet" href="{{ asset('assets/app/plugins/css/daterangepicker.css') }}" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/noUiSlider/15.5.0/nouislider.min.css" />
     <link rel="stylesheet" href="{{ asset('assets/app/sass/style.css') }}" />
@@ -45,16 +41,7 @@
 
     {{ $slot }}
 
-    @if (request()->url() ==
-            url(
-                'my-account' ||
-                    'change-password' ||
-                    'sub-account' ||
-                    'get-number' ||
-                    'logs' ||
-                    'apis' ||
-                    'dlc-registration' ||
-                    'trigger-notification'))
+    @if (request()->is('settings/my-account', 'settings/change-password', 'settings/sub-account', 'settings/get-number', 'settings/logs', 'settings/apis', 'settings/dlc-registration', 'settings/trigger-notification'))
         @livewire('app.layouts.inc.settings-sidebar')
     @else
         @livewire('app.layouts.inc.sidebar')
@@ -63,12 +50,7 @@
     <!-- JAVASCRIPT -->
     <script src="{{ asset('assets/app/plugins/js/jquery-3.6.0.min.js') }}"></script>
     <script src="{{ asset('assets/app/plugins/js/bootstrap.bundle.min.js') }}"></script>
-    <script src="{{ asset('assets/app/plugins/js/swiper-bundle.min.js') }}"></script>
-    <script src="{{ asset('assets/app/plugins/js/jquery.rcounter.js') }}"></script>
-    {{-- <script src="{{ asset('assets/app/plugins/js/jquery-modal-video.min.js') }}"></script> --}}
     <script src="{{ asset('assets/app/plugins/js/jquery.nice-select.min.js') }}"></script>
-    <script src="{{ asset('assets/app/plugins/js/jquery.magnific-popup.min.js') }}"></script>
-    <script src="{{ asset('assets/app/plugins/js/select2.min.js') }}"></script>
     <script src="{{ asset('assets/app/plugins/js/otpdesigner.min.js') }}"></script>
     <script src="{{ asset('assets/app/plugins/js/moment.min.js') }}"></script>
     <script src="{{ asset('assets/app/plugins/js/daterangepicker.js') }}"></script>
