@@ -1,19 +1,19 @@
 @import url("https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap");
 @font-face {
   font-family: SFLightFont;
-  src: url(/assets/app/fonts/SF-Pro-Display-Light.woff);
+  src: url(/assets/fonts/SF-Pro-Display-Light.woff);
 }
 @font-face {
   font-family: SFRegularFont;
-  src: url(/assets/app/fonts/SF-Pro-Display-Regular.woff);
+  src: url(/assets/fonts/SF-Pro-Display-Regular.woff);
 }
 @font-face {
   font-family: SFMediumFont;
-  src: url(/assets/app/fonts/SF-Pro-Display-Medium.woff);
+  src: url(/assets/fonts/SF-Pro-Display-Medium.woff);
 }
 @font-face {
   font-family: SFSemiBoldFont;
-  src: url(/assets/app/fonts/SF-Pro-Display-Semibold.woff);
+  src: url(/assets/fonts/SF-Pro-Display-Semibold.woff);
 }
 /* Hover Transistion */
 /* Custom scroll Bar */
@@ -107,14 +107,14 @@
   position: absolute;
   top: 15px;
   right: 10px;
-  background-image: url("/assets/app/icons/arrow-down-02.svg");
+  background-image: url("/assets/icons/arrow-down-02.svg");
   background-size: 12px;
 }
 .sidebar_wrapper .accordion-button:not(.collapsed) {
   background-color: rgba(208, 213, 221, 0.4);
 }
 .sidebar_wrapper .accordion-button:not(.collapsed)::after {
-  background-image: url("/assets/app/icons/arrow-up.svg") !important;
+  background-image: url("/assets/icons/arrow-up.svg") !important;
   transform: rotate(0) !important;
   -webkit-transform: rotate(0) !important;
   -moz-transform: rotate(0) !important;
@@ -893,147 +893,6 @@ input[type=number] {
 
 .table_action_right {
   justify-content: end;
-}
-
-/* ============ ScrollToUP Section =========== */
-.scrolltop {
-  position: fixed;
-  right: 70px;
-  bottom: 150px;
-  z-index: 100000;
-  background-color: #111111;
-  width: 50px;
-  height: 50px;
-  line-height: 50px;
-  text-align: center;
-  cursor: pointer;
-  border-radius: 50%;
-  -webkit-border-radius: 50%;
-  -moz-border-radius: 50%;
-  -ms-border-radius: 50%;
-  -o-border-radius: 50%;
-  transition: all 0.5s ease-in-out;
-  -webkit-transition: all 0.5s ease-in-out;
-  -moz-transition: all 0.5s ease-in-out;
-  -ms-transition: all 0.5s ease-in-out;
-  -o-transition: all 0.5s ease-in-out;
-  opacity: 0;
-  visibility: hidden;
-}
-@media all and (max-width: 991px) {
-  .scrolltop {
-    transition: 0.5s;
-    right: 20px;
-  }
-}
-.scrolltop i {
-  font-size: 16px;
-  color: #fec021;
-}
-.scrolltop:hover {
-  background-color: rgba(17, 17, 17, 0.7);
-}
-
-.scroll_active {
-  bottom: 60px;
-  visibility: visible;
-  opacity: 1;
-}
-
-.img_zoom_animate {
-  overflow: hidden;
-  transition: all 0.5s ease-in-out;
-  -webkit-transition: all 0.5s ease-in-out;
-  -moz-transition: all 0.5s ease-in-out;
-  -ms-transition: all 0.5s ease-in-out;
-  -o-transition: all 0.5s ease-in-out;
-}
-.img_zoom_animate:hover {
-  transform: scale(1.1);
-  -webkit-transform: scale(1.1);
-  -moz-transform: scale(1.1);
-  -ms-transform: scale(1.1);
-  -o-transform: scale(1.1);
-}
-
-.bounes_animate {
-  transition: all 0.5s ease-in-out;
-  -webkit-transition: all 0.5s ease-in-out;
-  -moz-transition: all 0.5s ease-in-out;
-  -ms-transition: all 0.5s ease-in-out;
-  -o-transition: all 0.5s ease-in-out;
-}
-.bounes_animate:hover {
-  transform: translateY(-10px);
-  -webkit-transform: translateY(-10px);
-  -moz-transform: translateY(-10px);
-  -ms-transform: translateY(-10px);
-  -o-transform: translateY(-10px);
-}
-
-.mfp-close {
-  cursor: pointer !important;
-}
-
-.slider_next_btn,
-.slider_prev_btn {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 40px;
-  height: 40px;
-  cursor: pointer;
-  border-radius: 50%;
-  -webkit-border-radius: 50%;
-  -moz-border-radius: 50%;
-  -ms-border-radius: 50%;
-  -o-border-radius: 50%;
-  border: 1px solid #777777;
-  transition: all 0.5s ease-in-out;
-  -webkit-transition: all 0.5s ease-in-out;
-  -moz-transition: all 0.5s ease-in-out;
-  -ms-transition: all 0.5s ease-in-out;
-  -o-transition: all 0.5s ease-in-out;
-}
-.slider_next_btn:hover,
-.slider_prev_btn:hover {
-  border: 1px solid white;
-  background-color: #80b948;
-}
-.slider_next_btn:hover path,
-.slider_prev_btn:hover path {
-  fill: white;
-}
-.slider_next_btn.swiper-button-disabled,
-.slider_prev_btn.swiper-button-disabled {
-  opacity: 0.5;
-  -webkit-user-select: none;
-     -moz-user-select: none;
-          user-select: none;
-}
-
-.slider_next_btn {
-  order: 2;
-}
-
-.white_slider_next_btn,
-.white_slider_prev_btn {
-  border: 2px solid #ffffff;
-}
-
-.swiper-pagination .swiper-pagination-bullet {
-  width: 10px;
-  height: 10px;
-  background-color: transparent;
-  border: 1px solid white;
-  transition: all 0.5s ease-in-out;
-  -webkit-transition: all 0.5s ease-in-out;
-  -moz-transition: all 0.5s ease-in-out;
-  -ms-transition: all 0.5s ease-in-out;
-  -o-transition: all 0.5s ease-in-out;
-}
-.swiper-pagination .swiper-pagination-bullet-active {
-  background-color: white;
 }
 
 @media all and (max-width: 767px) {
