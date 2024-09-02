@@ -15,22 +15,24 @@
                 <div class="input_row">
                     <label for="">Provide Gateway</label>
                     <div class="nice_select_top_height">
-                        <select class="niceSelect niceSelect_area">
-                            <option data-display="Twilio">Twilio</option>
-                            <option value="1">Telnyx</option>
-                            <option value="1">Nexmo</option>
-                            <option value="1">Signalwire</option>
-                            <option value="1">Bandwidth</option>
-                        </select>
+                        <div wire:ignore>
+                            <select class="niceSelect niceSelect_area" id="gateway">
+                                <option value="Twilio" {{ $gateway == 'Twilio' ? 'selected' : '' }}>Twilio</option>
+                                <option value="Telnyx" {{ $gateway == 'Telnyx' ? 'selected' : '' }}>Telnyx</option>
+                                <option value="Nexmo" {{ $gateway == 'Nexmo' ? 'selected' : '' }}>Nexmo</option>
+                                <option value="Signalwire" {{ $gateway == 'Signalwire' ? 'selected' : '' }}>Signalwire</option>
+                                <option value="Bandwidth" {{ $gateway == 'Bandwidth' ? 'selected' : '' }}>Bandwidth</option>
+                            </select>
+                        </div>
                     </div>
                 </div>
                 <div class="input_row">
                     <label for="">Account SID</label>
-                    <input type="text" placeholder="Type Account SID" class="input_field" />
+                    <input type="text" placeholder="Type Account SID" wire:model.blur='account_sid' class="input_field" />
                 </div>
                 <div class="input_row">
                     <label for="">Account Auth Token</label>
-                    <input type="text" placeholder="Type Auth Token" class="input_field" />
+                    <input type="text" placeholder="Type Auth Token" wire:model.blur='auth_token' class="input_field" />
                 </div>
                 <div class="text-end mt-4">
                     <button type="button" class="create_event_btn">
@@ -42,3 +44,15 @@
         </section>
     </main>
 </div>
+
+@push('scripts')
+    <script>
+        $(document).ready(function() {
+            $('#gateway').on('change', function() {
+                var gateway = $(this).val();
+
+                @this.set('gateway', gateway);
+            });
+        });
+    </script>
+@endpush
