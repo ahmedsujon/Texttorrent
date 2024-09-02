@@ -93,14 +93,14 @@
                     <div class="voice_type_area d-flex align-items-center flex-wrap">
                         <div class="form-check">
                             <input class="form-check-input" type="radio" name="voiceMailType" id="voiceMailType1"
-                                wire:model.blur='voicemail_message_type' checked />
+                                wire:model.live='voicemail_message_type' value="text" />
                             <label class="form-check-label" for="voiceMailType1">
                                 Text to Voice
                             </label>
                         </div>
                         <div class="form-check">
-                            <input class="form-check-input" type="radio" name="voiceMailType" wire:model.blur=''
-                                id="voiceMailType2" />
+                            <input class="form-check-input" type="radio" name="voiceMailType" wire:model.live='voicemail_message_type'
+                                id="voiceMailType2" value="file" />
                             <label class="form-check-label" for="voiceMailType2">
                                 MP3/ M4A Audio
                             </label>
@@ -110,17 +110,17 @@
                         <p class="text-danger mb-1" style="font-size: 13px;">{{ $message }}</p>
                     @enderror
                 </div>
-                <div id="textVoiceContentArea">
+                <div id="textVoiceContentArea" class="{{ $voicemail_message_type == 'text' ? '' : 'd-hide' }}">
                     <div class="input_row">
                         <label for="">Greetings</label>
-                        <textarea name="" id="" rows="6" placeholder="Write here.." wire:model.blur='greetings'
+                        <textarea name="" id="" rows="6" placeholder="Write here.." wire:model.blur='greetings_text'
                             class="input_field"></textarea>
-                        @error('greetings')
+                        @error('greetings_text')
                             <p class="text-danger mb-1" style="font-size: 13px;">{{ $message }}</p>
                         @enderror
                     </div>
                 </div>
-                <div class="d-hide" id="mp3ContentArea">
+                <div class="{{ $voicemail_message_type == 'file' ? '' : 'd-hide' }}" id="mp3ContentArea">
                     <div class="file_upload_area mb-3">
                         <div class="import_icon">
                             <img src="{{ asset('assets/app/icons/import.svg') }}" alt="import icon" />
