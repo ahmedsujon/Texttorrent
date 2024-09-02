@@ -128,6 +128,9 @@
                         <h4><span>Click to upload</span> or drag and drop</h4>
                         <h5>MP3, MP4(max. 2mb)</h5>
                     </div>
+                    @if ($uploaded_greetings_file)
+                        AAA
+                    @endif
                 </div>
                 <div class="input_row searchable_select">
                     <label for="">Timezone</label>

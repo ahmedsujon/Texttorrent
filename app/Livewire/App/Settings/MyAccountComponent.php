@@ -23,16 +23,14 @@ class MyAccountComponent extends Component
         $this->company_name = $user->company_name;
         $this->voicemail_notify_email = $user->voicemail_notify_email;
         $this->voicemail_message_type = $user->voicemail_message_type;
-        if ($user->voicemail_message_type == 'text') {
-            $this->greetings_text = $user->greetings;
-        } else {
-            $this->uploaded_greetings_file = $user->greetings;
-        }
+        $this->greetings_text = $user->greetings_text;
+        $this->uploaded_greetings_file = $user->greetings_file;
         $this->timezone = $user->timezone;
     }
 
     public function updatedAvatar()
     {
+
         sleep(2);
         if ($this->avatar) {
             $img_to_delete = user()->avatar;
@@ -71,15 +69,14 @@ class MyAccountComponent extends Component
         $data->voicemail_notify_email = $this->voicemail_notify_email;
         $data->voicemail_message_type = $this->voicemail_message_type;
         if ($this->voicemail_message_type == 'file') {
-            deleteFile($data->greetings);
+            deleteFile($data->greetings_file);
             if ($this->greetings_file) {
                 $fileName = uniqid() . Carbon::now()->timestamp . '.' . $this->greetings_file->extension();
                 $this->greetings_file->storeAs('greetings_file', $fileName);
-                $data->greetings = $fileName;
+                $data->greetings_file = $fileName;
             }
-        } else {
-            $data->greetings = $this->greetings_text;
         }
+        $data->greetings_text = $this->greetings_text;
         $data->timezone = $this->timezone;
         $data->save();
 
