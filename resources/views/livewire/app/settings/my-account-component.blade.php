@@ -11,10 +11,10 @@
                     <img src="{{ asset('assets/app/icons/back-double-arrow.svg') }}" alt="double arrow" />
                 </button>
             </div>
-            <form action="" class="event_form_area">
+            <form wire:submit.prevent='saveData' class="event_form_area">
                 <div class="user_change_image_area position-relative">
                     <div class="user_img_area">
-                        <img src="{{ asset('assets/app/images/inbox/user_me.png') }}" alt="user image"
+                        <img src="{{ asset($avatar) }}" alt="user image"
                             class="user_img" />
                         <button type="button" class="remove_img_btn" id="removeBtn">
                             <img src="{{ asset('assets/app/icons/close-02.svg') }}" alt="" />
@@ -32,55 +32,79 @@
                 <div class="two_grid">
                     <div class="input_row">
                         <label for="">First Name</label>
-                        <input type="text" placeholder="Type First Name" class="input_field" />
+                        <input type="text" placeholder="Type First Name" wire:model.blur='first_name' class="input_field" />
+                        @error('first_name')
+                            <p class="text-danger mb-1" style="font-size: 13px;">{{ $message }}</p>
+                        @enderror
                     </div>
                     <div class="input_row">
                         <label for="">Last Name</label>
-                        <input type="text" placeholder="Type Last Name" class="input_field" />
+                        <input type="text" placeholder="Type Last Name" wire:model.blur='last_name' class="input_field" />
+                        @error('last_name')
+                            <p class="text-danger mb-1" style="font-size: 13px;">{{ $message }}</p>
+                        @enderror
                     </div>
                 </div>
                 <div class="two_grid">
                     <div class="input_row">
                         <label for="">Email</label>
-                        <input type="email" placeholder="Type Email" class="input_field" />
+                        <input type="email" placeholder="Type Email" wire:model.blur='email' class="input_field" />
+                        @error('email')
+                            <p class="text-danger mb-1" style="font-size: 13px;">{{ $message }}</p>
+                        @enderror
                     </div>
                     <div class="input_row">
                         <label for="">Phone Number</label>
-                        <input type="number" placeholder="Type Phone Number" class="input_field" />
+                        <input type="number" placeholder="Type Phone Number" wire:model.blur='phone' class="input_field" />
+                        @error('phone')
+                            <p class="text-danger mb-1" style="font-size: 13px;">{{ $message }}</p>
+                        @enderror
                     </div>
                 </div>
                 <div class="input_row">
                     <label for="">Company Name</label>
-                    <input type="text" placeholder="Type Company Name" class="input_field" />
+                    <input type="text" placeholder="Type Company Name" wire:model.blur='company_name' class="input_field" />
+                    @error('company_name')
+                        <p class="text-danger mb-1" style="font-size: 13px;">{{ $message }}</p>
+                    @enderror
                 </div>
                 <div class="two_grid">
                     <div class="input_row">
                         <label for="">Voicemail Notify Email</label>
-                        <input type="text" placeholder="Type Voicemail Notify Email" class="input_field" />
+                        <input type="text" placeholder="Type Voicemail Notify Email" wire:model.blur='voicemail_notify_email' class="input_field" />
+                        @error('voicemail_notify_email')
+                            <p class="text-danger mb-1" style="font-size: 13px;">{{ $message }}</p>
+                        @enderror
                     </div>
                 </div>
                 <div class="input_row voice_mail_type">
                     <label for="">Voicemail Welcome Msg Type</label>
                     <div class="voice_type_area d-flex align-items-center flex-wrap">
                         <div class="form-check">
-                            <input class="form-check-input" type="radio" name="voiceMailType" id="voiceMailType1"
+                            <input class="form-check-input" type="radio" name="voiceMailType" id="voiceMailType1" wire:model.blur='voicemail_message_type'
                                 checked />
                             <label class="form-check-label" for="voiceMailType1">
                                 Text to Voice
                             </label>
                         </div>
                         <div class="form-check">
-                            <input class="form-check-input" type="radio" name="voiceMailType" id="voiceMailType2" />
+                            <input class="form-check-input" type="radio" name="voiceMailType" wire:model.blur='' id="voiceMailType2" />
                             <label class="form-check-label" for="voiceMailType2">
                                 MP3/ M4A Audio
                             </label>
                         </div>
                     </div>
+                    @error('voicemail_message_type')
+                        <p class="text-danger mb-1" style="font-size: 13px;">{{ $message }}</p>
+                    @enderror
                 </div>
                 <div id="textVoiceContentArea">
                     <div class="input_row">
                         <label for="">Greetings</label>
-                        <textarea name="" id="" rows="6" placeholder="Write here.." class="input_field"></textarea>
+                        <textarea name="" id="" rows="6" placeholder="Write here.." wire:model.blur='greetings' class="input_field"></textarea>
+                        @error('greetings')
+                            <p class="text-danger mb-1" style="font-size: 13px;">{{ $message }}</p>
+                        @enderror
                     </div>
                 </div>
                 <div class="d-hide" id="mp3ContentArea">
@@ -94,16 +118,22 @@
                 </div>
                 <div class="input_row searchable_select">
                     <label for="">Timezone</label>
-                    <select name="lang" class="js-searchBox">
+                    <select name="lang" class="js-searchBox" wire:model.blur='timezone'>
                         <option value="">Choose Timezone</option>
-                        <option value="1">GTM</option>
-                        <option value="2">Java</option>
+                        <option value="GTM">GTM</option>
+                        <option value="UTC">UTC</option>
                     </select>
                     <img src="{{ asset('assets/app/icons/arrow-down.svg') }}" alt="down arrow" class="down_arrow" />
+
+                    @error('timezone')
+                        <p class="text-danger mb-1" style="font-size: 13px;">{{ $message }}</p>
+                    @enderror
                 </div>
                 <div class="setting_action_btn_area">
                     <button type="button" class="cancel_btn">Cancel</button>
-                    <button type="button" class="create_event_btn">Save Changes</button>
+                    <button type="submit" class="create_event_btn">
+                        {!! loadingStateWithText('saveData', 'Save Changes') !!}
+                    </button>
                 </div>
             </form>
         </section>
