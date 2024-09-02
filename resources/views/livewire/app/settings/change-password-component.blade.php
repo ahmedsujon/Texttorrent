@@ -12,11 +12,11 @@
                 </button>
             </div>
             <h5>Update your password</h5>
-            <form action="" class="event_form_area">
+            <form wire:submit.prevent='changePassword' class="event_form_area">
                 <div class="two_grid">
                     <div class="input_row">
                         <label for="">Current Password</label>
-                        <input type="password" placeholder="Type Current Password"
+                        <input type="password" placeholder="Type Current Password" wire:model.blur='current_password'
                             class="input_field password_input_filed" id="password_input1" />
                         <div class="eye_icon_area" id="password_eye_icon_area1">
                             <button type="button" class="eye_open_btn" id="eyeOpen1">
@@ -26,10 +26,17 @@
                                 <i class="fa-solid fa-eye-slash"></i>
                             </button>
                         </div>
+
+                        @error('current_password')
+                            <p class="text-danger mb-1" style="font-size: 13px;">{{ $message }}</p>
+                        @enderror
+                        @if (session()->has('error'))
+                            <p class="text-danger mb-1" style="font-size: 13px;">{{ session('error') }}</p>
+                        @endif
                     </div>
                     <div class="input_row">
                         <label for="">New Password</label>
-                        <input type="password" placeholder="Type New Password" class="input_field password_input_filed"
+                        <input type="password" placeholder="Type New Password" class="input_field password_input_filed" wire:model.blur='new_password'
                             id="password_input2" />
                         <div class="eye_icon_area" id="password_eye_icon_area2">
                             <button type="button" class="eye_open_btn" id="eyeOpen2">
@@ -39,13 +46,17 @@
                                 <i class="fa-solid fa-eye-slash"></i>
                             </button>
                         </div>
+
+                        @error('new_password')
+                            <p class="text-danger mb-1" style="font-size: 13px;">{{ $message }}</p>
+                        @enderror
                     </div>
                 </div>
 
                 <div class="setting_action_btn_area">
-                    <button type="button" class="cancel_btn">Cancel</button>
-                    <button type="button" class="create_event_btn">
-                        Change Password
+                    <a href="{{ route('app.home') }}" type="button" class="cancel_btn">Cancel</a>
+                    <button type="submit" class="create_event_btn">
+                        {!! loadingStateWithText('changePassword', 'Change Password') !!}
                     </button>
                 </div>
             </form>

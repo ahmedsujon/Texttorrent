@@ -146,7 +146,7 @@
                     @enderror
                 </div>
                 <div class="setting_action_btn_area">
-                    <button type="button" class="cancel_btn">Cancel</button>
+                    <a href="{{ route('app.home') }}" type="button" class="cancel_btn">Cancel</a>
                     <button type="submit" class="create_event_btn">
                         {!! loadingStateWithText('saveData', 'Save Changes') !!}
                     </button>

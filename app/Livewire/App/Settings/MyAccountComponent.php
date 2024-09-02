@@ -30,8 +30,6 @@ class MyAccountComponent extends Component
 
     public function updatedAvatar()
     {
-
-        sleep(2);
         if ($this->avatar) {
             $img_to_delete = user()->avatar;
 
@@ -42,6 +40,23 @@ class MyAccountComponent extends Component
             $this->mount();
             $this->dispatch('success', ['message' => 'Profile picture updated']);
         }
+    }
+
+    public function updated($fields)
+    {
+        $this->validateOnly($fields, [
+            'first_name' => 'required|string|max:20',
+            'last_name' => 'required|string|max:20',
+            'email' => 'required|email|unique:users,email,' . user()->id,
+            'phone' => 'required|string|unique:users,phone,' . user()->id,
+            'company_name' => 'required|string|max:100',
+            'voicemail_notify_email' => 'required|email',
+            'voicemail_message_type' => 'required|in:text,file',
+            'greetings_text' => 'required_if:voicemail_message_type,text|string',
+            'timezone' => 'required|string',
+        ], [
+            'greetings_text.required_if' => 'This field is required',
+        ]);
     }
 
     public function saveData()
@@ -82,6 +97,11 @@ class MyAccountComponent extends Component
 
         $this->mount();
         $this->dispatch('success', ['message' => 'Details updated successfully']);
+    }
+
+    public function deleteAccount()
+    {
+
     }
 
     public function render()
