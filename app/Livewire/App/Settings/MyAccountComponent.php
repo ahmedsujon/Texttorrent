@@ -4,15 +4,17 @@ namespace App\Livewire\App\Settings;
 
 use App\Models\User;
 use Livewire\Component;
+use Livewire\Features\SupportFileUploads\WithFileUploads;
 
 class MyAccountComponent extends Component
 {
-    public $avatar, $first_name, $last_name, $email, $phone, $company_name, $voicemail_notify_email, $voicemail_message_type, $greetings, $timezone;
+    use WithFileUploads;
+    public $uploaded_avatar, $avatar, $first_name, $last_name, $email, $phone, $company_name, $voicemail_notify_email, $voicemail_message_type, $greetings, $timezone;
 
     public function mount()
     {
         $user = User::find(user()->id);
-        $this->avatar = $user->avatar;
+        $this->uploaded_avatar = $user->avatar;
         $this->first_name = $user->first_name;
         $this->last_name = $user->last_name;
         $this->email = $user->email;
@@ -22,6 +24,17 @@ class MyAccountComponent extends Component
         $this->voicemail_message_type = $user->voicemail_message_type;
         $this->greetings = $user->greetings;
         $this->timezone = $user->timezone;
+    }
+
+    public function updatedAvatar()
+    {
+        if ($this->avatar) {
+            $file = uploadFile('image', 66, 'profile-images/', 'user', $this->avatar);
+
+            User::where('id', user()->id)->update(['avatar' => $file]);
+
+            $this->mount();
+        }
     }
 
     public function saveData()
@@ -51,6 +64,7 @@ class MyAccountComponent extends Component
         $data->timezone = $this->timezone;
         $data->save();
 
+        $this->mount();
         $this->dispatch('success', ['message' => 'Your account details have been updated successfully']);
     }
 
