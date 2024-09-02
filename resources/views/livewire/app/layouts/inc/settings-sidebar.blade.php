@@ -13,7 +13,7 @@
             <div class="main_top_area">
                 <div class="top_menu_area">
                     <h4>ACCOUNT</h4>
-                    <a href="{{ route('user.myAccount') }}" class="menu_grid active_menu">
+                    <a href="{{ route('user.myAccount') }}" class="{{ request()->is('settings/my-account') || request()->is('settings/my-account/*') ? 'menu_grid active_menu' : 'menu_grid' }}">
                         <div class="icon">
                             <svg width="20" height="20" viewBox="0 0 20 20" fill="none"
                                 xmlns="http://www.w3.org/2000/svg" currentColor="#696F8C">
@@ -27,7 +27,7 @@
                         </div>
                         <div class="label">My Account</div>
                     </a>
-                    <a href="{{ route('user.changePassword') }}" class="menu_grid">
+                    <a href="{{ route('user.changePassword') }}" class="{{ request()->is('settings/change-password') || request()->is('settings/change-password/*') ? 'menu_grid active_menu' : 'menu_grid' }}">
                         <div class="icon">
                             <svg width="20" height="20" viewBox="0 0 20 20" fill="none"
                                 xmlns="http://www.w3.org/2000/svg" currentColor="#696F8C">
@@ -48,7 +48,7 @@
                         </div>
                         <div class="label">Change Password</div>
                     </a>
-                    <a href="{{ route('user.subAccount') }}" class="menu_grid">
+                    <a href="{{ route('user.subAccount') }}" class="{{ request()->is('settings/sub-account') || request()->is('settings/sub-account/*') ? 'menu_grid active_menu' : 'menu_grid' }}">
                         <div class="icon">
                             <svg width="20" height="16" viewBox="0 0 20 16" fill="none"
                                 xmlns="http://www.w3.org/2000/svg" currentColor="#696F8C">
@@ -69,7 +69,7 @@
                 <div class="main_menu_area">
                     <h4>WORKSPACE</h4>
                     <div class="inner_main_menu">
-                        <a href="{{ route('user.getNumber') }}" class="menu_grid">
+                        <a href="{{ route('user.getNumber') }}" class="{{ request()->is('settings/get-number') || request()->is('settings/get-number/*') ? 'menu_grid active_menu' : 'menu_grid' }}">
                             <div class="icon">
                                 <svg width="20" height="20" viewBox="0 0 20 20" fill="none"
                                     xmlns="http://www.w3.org/2000/svg" currentColor="#696F8C">
@@ -87,7 +87,7 @@
                             </div>
                             <div class="label">Get Number</div>
                         </a>
-                        <a href="{{ route('user.logs') }}" class="menu_grid">
+                        <a href="{{ route('user.logs') }}" class="{{ request()->is('settings/logs') || request()->is('settings/logs/*') ? 'menu_grid active_menu' : 'menu_grid' }}">
                             <div class="icon">
                                 <svg width="20" height="20" viewBox="0 0 20 20" fill="none"
                                     xmlns="http://www.w3.org/2000/svg" currentColor="#696F8C">
@@ -101,7 +101,7 @@
                             </div>
                             <div class="label">Logs</div>
                         </a>
-                        <a href="{{ route('user.apis') }}" class="menu_grid">
+                        <a href="{{ route('user.apis') }}" class="{{ request()->is('settings/apis') || request()->is('settings/apis/*') ? 'menu_grid active_menu' : 'menu_grid' }}">
                             <div class="icon">
                                 <svg width="20" height="20" viewBox="0 0 20 20" fill="none"
                                     xmlns="http://www.w3.org/2000/svg" currentColor="#696F8C">
@@ -114,7 +114,7 @@
                             </div>
                             <div class="label">API</div>
                         </a>
-                        <a href="{{ route('user.dlcRegistration') }}" class="menu_grid">
+                        <a href="{{ route('user.dlcRegistration') }}" class="{{ request()->is('settings/dlc-registration') || request()->is('settings/dlc-registration/*') ? 'menu_grid active_menu' : 'menu_grid' }}">
                             <div class="icon">
                                 <svg width="20" height="20" viewBox="0 0 20 20" fill="none"
                                     xmlns="http://www.w3.org/2000/svg" currentColor="#696F8C">
@@ -125,7 +125,7 @@
                             </div>
                             <div class="label">10 DLC Registration</div>
                         </a>
-                        <a href="{{ route('user.triggerNotification') }}" class="menu_grid">
+                        <a href="{{ route('user.triggerNotification') }}" class="{{ request()->is('settings/trigger-notification') || request()->is('settings/trigger-notification/*') ? 'menu_grid active_menu' : 'menu_grid' }}">
                             <div class="icon">
                                 <svg width="18" height="20" viewBox="0 0 18 20" fill="none"
                                     xmlns="http://www.w3.org/2000/svg" currentColor="#696F8C">
