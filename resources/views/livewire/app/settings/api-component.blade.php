@@ -11,7 +11,7 @@
                     <h2>API</h2>
                 </div>
             </div>
-            <form action="" class="event_form_area">
+            <form wire:submit.prevent='updateData' class="event_form_area">
                 <div class="input_row">
                     <label for="">Provide Gateway</label>
                     <div class="nice_select_top_height">
@@ -24,20 +24,28 @@
                                 <option value="Bandwidth" {{ $gateway == 'Bandwidth' ? 'selected' : '' }}>Bandwidth</option>
                             </select>
                         </div>
+                        @error('gateway')
+                            <p class="text-danger mb-1" style="font-size: 13px;">{{ $message }}</p>
+                        @enderror
                     </div>
                 </div>
                 <div class="input_row">
                     <label for="">Account SID</label>
                     <input type="text" placeholder="Type Account SID" wire:model.blur='account_sid' class="input_field" />
+                    @error('account_sid')
+                        <p class="text-danger mb-1" style="font-size: 13px;">{{ $message }}</p>
+                    @enderror
                 </div>
                 <div class="input_row">
                     <label for="">Account Auth Token</label>
                     <input type="text" placeholder="Type Auth Token" wire:model.blur='auth_token' class="input_field" />
+                    @error('auth_token')
+                        <p class="text-danger mb-1" style="font-size: 13px;">{{ $message }}</p>
+                    @enderror
                 </div>
                 <div class="text-end mt-4">
-                    <button type="button" class="create_event_btn">
-                        <img src="{{ asset('assets/app/icons/save.svg') }}" alt="save icon" class="save_icon" />
-                        Save
+                    <button type="submit" class="create_event_btn">
+                        {!! loadingStateWithoutText('updateData', '<img src="'.asset("assets/app/icons/save.svg").'" alt="save icon" class="save_icon" />') !!} Save
                     </button>
                 </div>
             </form>
