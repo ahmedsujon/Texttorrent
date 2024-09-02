@@ -28,18 +28,21 @@ class MyAccountComponent extends Component
 
     public function updatedAvatar()
     {
+        sleep(2);
         if ($this->avatar) {
-            $file = uploadFile('image', 66, 'profile-images/', 'user', $this->avatar);
+            $img_to_delete = user()->avatar;
 
+            $file = uploadFile('image', 66, 'profile-images/', 'user', $this->avatar);
             User::where('id', user()->id)->update(['avatar' => $file]);
 
+            deleteFile($img_to_delete);
             $this->mount();
+            $this->dispatch('success', ['message' => 'Profile picture updated']);
         }
     }
 
     public function saveData()
     {
-        sleep(1);
         $this->validate([
             'first_name' => 'required|string|max:20',
             'last_name' => 'required|string|max:20',
@@ -65,7 +68,7 @@ class MyAccountComponent extends Component
         $data->save();
 
         $this->mount();
-        $this->dispatch('success', ['message' => 'Your account details have been updated successfully']);
+        $this->dispatch('success', ['message' => 'Details updated successfully']);
     }
 
     public function render()

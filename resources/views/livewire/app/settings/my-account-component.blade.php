@@ -15,6 +15,13 @@
                 <div class="user_change_image_area position-relative">
                     <div class="user_img_area">
                         <img src="{{ asset($uploaded_avatar) }}" alt="user image" class="user_img" />
+                        <div wire:loading wire:target='avatar' wire:key='avatar'>
+                            <div class="spinner-container">
+                                <button type="button" class="spinner-btn">
+                                    <i class="fa fa-spinner fa-spin"></i>
+                                </button>
+                            </div>
+                        </div>
                         <button type="button" class="remove_img_btn" id="removeBtn">
                             <img src="{{ asset('assets/app/icons/close-02.svg') }}" alt="" />
                         </button>
