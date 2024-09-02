@@ -51,7 +51,6 @@ class ApiComponent extends Component
 
         $this->mount();
         $this->dispatch('success', ['message' => 'API details updated successfully']);
-        $this->reset(['gateway', 'account_sid', 'auth_token']);
     }
     public function render()
     {
