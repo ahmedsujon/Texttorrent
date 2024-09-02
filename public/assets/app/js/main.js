@@ -17,14 +17,6 @@ $(document).ready(function () {
     });
   }
 
-  //Gallery
-  // $(".gallery_popup").magnificPopup({
-  //   type: "image",
-  //   gallery: {
-  //     enabled: true,
-  //   },
-  // });
-
   //Sidebar Functionality
   const closeSidebarBtnEl = $("#sidebarCloseBtn");
   const openSidebarBtnEl = $(".sidebar_open_btn");
@@ -64,28 +56,6 @@ $(document).ready(function () {
       $(openSidebarBtnEl).hide();
     }
   });
-
-  //Video Popup
-  $(".modal_video_btn").modalVideo({
-    youtube: {
-      controls: 1,
-      nocookie: true,
-    },
-  });
-  //Counter
-  $(".count-num").rCounter({
-    duration: 30,
-  });
-  // <span class="count-num">2575</span> if decimal 2,5.6
-  //Select 2
-  function selectTwo(selectID, placeholder) {
-    $(selectID).select2({
-      placeholder: placeholder,
-    });
-  }
-  if (document.querySelector("#citySelect")) {
-    selectTwo("#citySelect", "Select City");
-  }
 
   //Month filter
   $("#monthFilterLists button").click(function () {
@@ -129,9 +99,9 @@ $(document).ready(function () {
     cb(start, end);
   }
   // To disable the DateRangePicker:
-// $('#reportrange').data('daterangepicker').isShowing = false;
-// $('#reportrange').off('click.daterangepicker');
-// $('#reportrange').css('pointer-events', 'none');
+  // $('#reportrange').data('daterangepicker').isShowing = false;
+  // $('#reportrange').off('click.daterangepicker');
+  // $('#reportrange').css('pointer-events', 'none');
 
   //Searchable select
   const searchSelect = $(".js-searchBox");
@@ -139,32 +109,6 @@ $(document).ready(function () {
     $(".js-searchBox").searchBox();
   }
 });
-
-//Add Class
-function displayItem(addID, addClass, ovlerlayID) {
-  let addDiv = document.querySelector(`#${addID}`);
-  let ovlerlayDiv = document.querySelector(`#${ovlerlayID}`);
-  addDiv.classList.toggle(addClass);
-  ovlerlayDiv.style.cssText = "  display: block;";
-}
-//Remove Class
-function removeDisplayItem(removeID, removeClass, ovlerlayID) {
-  let addDiv = document.querySelector(`#${removeID}`);
-  let ovlerlayDiv = document.querySelector(`#${ovlerlayID}`);
-  addDiv.classList.toggle(removeClass);
-  ovlerlayDiv.style.cssText = "  display: none;";
-}
-
-//OutSide Scroll Hidden
-function scrollOutsideHidden() {
-  let htmlTag = document.querySelector("html");
-  htmlTag.style.cssText = "overflow:hidden;";
-}
-//OutSide Scroll Scroll
-function scrollOutsideScroll() {
-  let htmlTag = document.querySelector("html");
-  htmlTag.style.cssText = "overflow:auto;";
-}
 
 //Sticky Navbar
 //Sticky Navbar
@@ -179,58 +123,6 @@ if (headerWrapper) {
   });
 }
 
-// Mobile Menu
-let navbarIcon = document.querySelector("#menuToggleBtn");
-let navbarCloseIcon = document.querySelector(".close_icon");
-let navbarOverlay = document.querySelector(".mobile_menu_overlay");
-let mobileMenuArea = document.querySelector(".mobile_menu_area");
-if (navbarIcon) {
-  navbarIcon.addEventListener("click", () => {
-    mobileMenuArea.classList.add("navbar_active");
-    scrollOutsideHidden();
-  });
-}
-if (navbarIcon) {
-  navbarCloseIcon.addEventListener("click", () => {
-    hideNavbar();
-  });
-}
-
-if (navbarIcon) {
-  navbarOverlay.addEventListener("click", () => {
-    hideNavbar();
-  });
-}
-
-function hideNavbar() {
-  mobileMenuArea.classList.remove("navbar_active");
-  scrollOutsideScroll();
-}
-
-// Form Validation Methods Using Bootstrap 5
-(function () {
-  "use strict";
-
-  // Fetch all the forms we want to apply custom Bootstrap validation styles to
-  var forms = document.querySelectorAll(".needs-validation");
-
-  // Loop over them and prevent submission
-  Array.prototype.slice.call(forms).forEach(function (form) {
-    form.addEventListener(
-      "submit",
-      function (event) {
-        if (!form.checkValidity()) {
-          event.preventDefault();
-          event.stopPropagation();
-        }
-
-        form.classList.add("was-validated");
-      },
-      false
-    );
-  });
-})();
-
 //Tooltip
 const tooltipTriggerList = document.querySelectorAll(
   '[data-bs-toggle="tooltip"]'
@@ -238,31 +130,6 @@ const tooltipTriggerList = document.querySelectorAll(
 const tooltipList = [...tooltipTriggerList].map(
   (tooltipTriggerEl) => new bootstrap.Tooltip(tooltipTriggerEl)
 );
-
-//Slider Single
-function singleSlider(
-  sliderID,
-  sliderNextArrow,
-  sliderPrevArrow,
-  sliderSpeed = 5000
-) {
-  var swiperHero = new Swiper(`${sliderID} .swiper`, {
-    speed: 1100,
-
-    autoplay: {
-      delay: sliderSpeed,
-      pauseOnMouseEnter: true,
-    },
-    keyboard: {
-      enabled: true,
-      // onlyInViewport: true,
-    },
-    navigation: {
-      nextEl: sliderNextArrow,
-      prevEl: sliderPrevArrow,
-    },
-  });
-}
 
 // Int Number
 var inputTelephone = document.querySelector("#telephone");
@@ -359,20 +226,3 @@ function passwordVisibility(inputId, eyeIconArea, eyeOpen, eyeClose) {
     eyeOpenIcon.style.cssText = "display:inline";
   });
 }
-
-// ScrollToUp
-// let scroll = document.querySelector("#scrollTop");
-// function scrollUp() {
-//   window.scrollTo({
-//     top: 0,
-//     behavior: "smooth",
-//   });
-// }
-// if (scroll) {
-//   window.addEventListener("scroll", function () {
-//     scroll.classList.toggle("scroll_active", window.scrollY > 500);
-//   });
-//   scroll.addEventListener("click", () => {
-//     scrollUp();
-//   });
-// }
