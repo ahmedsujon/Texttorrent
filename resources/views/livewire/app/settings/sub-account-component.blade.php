@@ -18,8 +18,7 @@
                         </button>
                     </form>
 
-                    <button type="button" class="create_template_btn sub_account_btn" data-bs-toggle="modal"
-                        data-bs-target="#newSubAccountModal">
+                    <button type="button" class="create_template_btn sub_account_btn" data-bs-toggle="modal" data-bs-target="#newSubAccountModal">
                         <img src="{{ asset('assets/app/icons/plus-sign-white.svg') }}" alt="plus icon" />
                         <span>Add Sub Account</span>
                     </button>
@@ -63,389 +62,63 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td>
-                                    <div class="user_grid">
-                                        <div class="img"><span>B</span></div>
-                                        <h4>Bar 1 <span>32</span></h4>
-                                    </div>
-                                </td>
-                                <td>
-                                    <h4 class="group_name">Bar 1</h4>
-                                </td>
-                                <td>
-                                    <h4 class="group_name">Bar 1</h4>
-                                </td>
-                                <td>
-                                    <h5 class="send_time">rivera@example.com</h5>
-                                </td>
-                                <td>
-                                    <div class="table_dropdown_area d-flex align-items-center flex-wrap gap-1">
-                                        <button type="button" class="table_edit_btn" data-bs-toggle="modal"
-                                            data-bs-target="#editSubAccountModal">
-                                            <img src="{{ asset('assets/app/icons/edit-03.svg') }}" alt="edit icon" />
-                                            <span>Edit</span>
-                                        </button>
-                                        <div class="dropdown">
-                                            <button class="table_dot_btn dropdown-toggle" type="button"
-                                                data-bs-toggle="dropdown" aria-expanded="false">
-                                                <img src="{{ asset('assets/app/icons/dot-horizontal.svg') }}" alt="dot icon" />
+                            @if ($subAccounts->count() > 0)
+                                @foreach ($subAccounts as $sAccount)
+                                <tr>
+                                    <td>
+                                        <div class="user_grid">
+                                            <div class="img"><span>{{ Str::limit($sAccount->first_name,1,'') }}</span></div>
+                                            <h4>{{ $sAccount->username }}</h4>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <h4 class="group_name">{{ $sAccount->first_name }}</h4>
+                                    </td>
+                                    <td>
+                                        <h4 class="group_name">{{ $sAccount->last_name }}</h4>
+                                    </td>
+                                    <td>
+                                        <h5 class="send_time">{{ $sAccount->email }}</h5>
+                                    </td>
+                                    <td>
+                                        <div class="table_dropdown_area d-flex align-items-center flex-wrap gap-1">
+                                            <button type="button" class="table_edit_btn" wire:click.prevent='editData({{ $sAccount->id }})'>
+                                                <img src="{{ asset('assets/app/icons/edit-03.svg') }}" alt="edit icon" />
+                                                <span>Edit</span>
                                             </button>
-                                            <ul class="dropdown-menu">
-                                                <li>
-                                                    <h4>Select</h4>
-                                                </li>
-                                                <li>
-                                                    <button type="button" class="dropdown-item d-block">
-                                                        <span>Active User</span>
-                                                    </button>
-                                                </li>
-                                                <li>
-                                                    <button type="button" class="dropdown-item d-block">
-                                                        <span>Inactive User</span>
-                                                    </button>
-                                                </li>
-                                                <li>
-                                                    <button type="button" class="dropdown-item">
-                                                        <img src="{{ asset('assets/app/icons/delete-03.svg') }}" alt="delete icon" />
-                                                        <span>Delete User</span>
-                                                    </button>
-                                                </li>
-                                            </ul>
+                                            <div class="dropdown">
+                                                <button class="table_dot_btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                                    <img src="{{ asset('assets/app/icons/dot-horizontal.svg') }}" alt="dot icon" />
+                                                </button>
+                                                <ul class="dropdown-menu">
+                                                    <li><h4>Select</h4></li>
+                                                    <li>
+                                                        <button type="button" class="dropdown-item d-block">
+                                                            <span>Active User</span>
+                                                        </button>
+                                                    </li>
+                                                    <li>
+                                                        <button type="button" class="dropdown-item d-block">
+                                                            <span>Inactive User</span>
+                                                        </button>
+                                                    </li>
+                                                    <li>
+                                                        <button type="button" class="dropdown-item">
+                                                            <img src="{{ asset('assets/app/icons/delete-03.svg') }}" alt="delete icon" />
+                                                            <span>Delete User</span>
+                                                        </button>
+                                                    </li>
+                                                </ul>
+                                            </div>
                                         </div>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <div class="user_grid">
-                                        <div class="img" style="background-color: #efefef">
-                                            <span>C</span>
-                                        </div>
-                                        <h4>China one <span>32</span></h4>
-                                    </div>
-                                </td>
-                                <td>
-                                    <h4 class="group_name">Bar 1</h4>
-                                </td>
-                                <td>
-                                    <h4 class="group_name">Bar 1</h4>
-                                </td>
-                                <td>
-                                    <h5 class="send_time">rivera@example.com</h5>
-                                </td>
-                                <td>
-                                    <div class="table_dropdown_area d-flex align-items-center flex-wrap gap-1">
-                                        <button type="button" class="table_edit_btn" data-bs-toggle="modal"
-                                            data-bs-target="#editSubAccountModal">
-                                            <img src="{{ asset('assets/app/icons/edit-03.svg') }}" alt="edit icon" />
-                                            <span>Edit</span>
-                                        </button>
-                                        <div class="dropdown">
-                                            <button class="table_dot_btn dropdown-toggle" type="button"
-                                                data-bs-toggle="dropdown" aria-expanded="false">
-                                                <img src="{{ asset('assets/app/icons/dot-horizontal.svg') }}" alt="dot icon" />
-                                            </button>
-                                            <ul class="dropdown-menu">
-                                                <li>
-                                                    <h4>Select</h4>
-                                                </li>
-                                                <li>
-                                                    <button type="button" class="dropdown-item d-block">
-                                                        <span>Active User</span>
-                                                    </button>
-                                                </li>
-                                                <li>
-                                                    <button type="button" class="dropdown-item d-block">
-                                                        <span>Inactive User</span>
-                                                    </button>
-                                                </li>
-                                                <li>
-                                                    <button type="button" class="dropdown-item">
-                                                        <img src="{{ asset('assets/app/icons/delete-03.svg') }}" alt="delete icon" />
-                                                        <span>Delete User</span>
-                                                    </button>
-                                                </li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <div class="user_grid">
-                                        <div class="img" style="background-color: #ffcdb3">
-                                            <span>D</span>
-                                        </div>
-                                        <h4>Default <span>32</span></h4>
-                                    </div>
-                                </td>
-                                <td>
-                                    <h4 class="group_name">Bar 1</h4>
-                                </td>
-                                <td>
-                                    <h4 class="group_name">Bar 1</h4>
-                                </td>
-                                <td>
-                                    <h5 class="send_time">rivera@example.com</h5>
-                                </td>
-                                <td>
-                                    <div class="table_dropdown_area d-flex align-items-center flex-wrap gap-1">
-                                        <button type="button" class="table_edit_btn" data-bs-toggle="modal"
-                                            data-bs-target="#editSubAccountModal">
-                                            <img src="{{ asset('assets/app/icons/edit-03.svg') }}" alt="edit icon" />
-                                            <span>Edit</span>
-                                        </button>
-                                        <div class="dropdown">
-                                            <button class="table_dot_btn dropdown-toggle" type="button"
-                                                data-bs-toggle="dropdown" aria-expanded="false">
-                                                <img src="{{ asset('assets/app/icons/dot-horizontal.svg') }}" alt="dot icon" />
-                                            </button>
-                                            <ul class="dropdown-menu">
-                                                <li>
-                                                    <h4>Select</h4>
-                                                </li>
-                                                <li>
-                                                    <button type="button" class="dropdown-item d-block">
-                                                        <span>Active User</span>
-                                                    </button>
-                                                </li>
-                                                <li>
-                                                    <button type="button" class="dropdown-item d-block">
-                                                        <span>Inactive User</span>
-                                                    </button>
-                                                </li>
-                                                <li>
-                                                    <button type="button" class="dropdown-item">
-                                                        <img src="{{ asset('assets/app/icons/delete-03.svg') }}" alt="delete icon" />
-                                                        <span>Delete User</span>
-                                                    </button>
-                                                </li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <div class="user_grid">
-                                        <div class="img" style="background-color: #d0c5ff">
-                                            <span>J</span>
-                                        </div>
-                                        <h4>Jv Test <span>32</span></h4>
-                                    </div>
-                                </td>
-                                <td>
-                                    <h4 class="group_name">Bar 1</h4>
-                                </td>
-                                <td>
-                                    <h4 class="group_name">Bar 1</h4>
-                                </td>
-                                <td>
-                                    <h5 class="send_time">rivera@example.com</h5>
-                                </td>
-                                <td>
-                                    <div class="table_dropdown_area d-flex align-items-center flex-wrap gap-1">
-                                        <button type="button" class="table_edit_btn" data-bs-toggle="modal"
-                                            data-bs-target="#editSubAccountModal">
-                                            <img src="{{ asset('assets/app/icons/edit-03.svg') }}" alt="edit icon" />
-                                            <span>Edit</span>
-                                        </button>
-                                        <div class="dropdown">
-                                            <button class="table_dot_btn dropdown-toggle" type="button"
-                                                data-bs-toggle="dropdown" aria-expanded="false">
-                                                <img src="{{ asset('assets/app/icons/dot-horizontal.svg') }}" alt="dot icon" />
-                                            </button>
-                                            <ul class="dropdown-menu">
-                                                <li>
-                                                    <h4>Select</h4>
-                                                </li>
-                                                <li>
-                                                    <button type="button" class="dropdown-item d-block">
-                                                        <span>Active User</span>
-                                                    </button>
-                                                </li>
-                                                <li>
-                                                    <button type="button" class="dropdown-item d-block">
-                                                        <span>Inactive User</span>
-                                                    </button>
-                                                </li>
-                                                <li>
-                                                    <button type="button" class="dropdown-item">
-                                                        <img src="{{ asset('assets/app/icons/delete-03.svg') }}" alt="delete icon" />
-                                                        <span>Delete User</span>
-                                                    </button>
-                                                </li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <div class="user_grid">
-                                        <div class="img" style="background-color: #ffdfa0">
-                                            <span>T</span>
-                                        </div>
-                                        <h4>Test 1 <span>32</span></h4>
-                                    </div>
-                                </td>
-                                <td>
-                                    <h4 class="group_name">Bar 1</h4>
-                                </td>
-                                <td>
-                                    <h4 class="group_name">Bar 1</h4>
-                                </td>
-                                <td>
-                                    <h5 class="send_time">rivera@example.com</h5>
-                                </td>
-                                <td>
-                                    <div class="table_dropdown_area d-flex align-items-center flex-wrap gap-1">
-                                        <button type="button" class="table_edit_btn" data-bs-toggle="modal"
-                                            data-bs-target="#editSubAccountModal">
-                                            <img src="{{ asset('assets/app/icons/edit-03.svg') }}" alt="edit icon" />
-                                            <span>Edit</span>
-                                        </button>
-                                        <div class="dropdown">
-                                            <button class="table_dot_btn dropdown-toggle" type="button"
-                                                data-bs-toggle="dropdown" aria-expanded="false">
-                                                <img src="{{ asset('assets/app/icons/dot-horizontal.svg') }}" alt="dot icon" />
-                                            </button>
-                                            <ul class="dropdown-menu">
-                                                <li>
-                                                    <h4>Select</h4>
-                                                </li>
-                                                <li>
-                                                    <button type="button" class="dropdown-item d-block">
-                                                        <span>Active User</span>
-                                                    </button>
-                                                </li>
-                                                <li>
-                                                    <button type="button" class="dropdown-item d-block">
-                                                        <span>Inactive User</span>
-                                                    </button>
-                                                </li>
-                                                <li>
-                                                    <button type="button" class="dropdown-item">
-                                                        <img src="{{ asset('assets/app/icons/delete-03.svg') }}" alt="delete icon" />
-                                                        <span>Delete User</span>
-                                                    </button>
-                                                </li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <div class="user_grid">
-                                        <div class="img" style="background-color: #b6f0b5">
-                                            <span>T</span>
-                                        </div>
-                                        <h4>Text Ivan <span>32</span></h4>
-                                    </div>
-                                </td>
-                                <td>
-                                    <h4 class="group_name">Bar 1</h4>
-                                </td>
-                                <td>
-                                    <h4 class="group_name">Bar 1</h4>
-                                </td>
-                                <td>
-                                    <h5 class="send_time">rivera@example.com</h5>
-                                </td>
-                                <td>
-                                    <div class="table_dropdown_area d-flex align-items-center flex-wrap gap-1">
-                                        <button type="button" class="table_edit_btn" data-bs-toggle="modal"
-                                            data-bs-target="#editSubAccountModal">
-                                            <img src="{{ asset('assets/app/icons/edit-03.svg') }}" alt="edit icon" />
-                                            <span>Edit</span>
-                                        </button>
-                                        <div class="dropdown">
-                                            <button class="table_dot_btn dropdown-toggle" type="button"
-                                                data-bs-toggle="dropdown" aria-expanded="false">
-                                                <img src="{{ asset('assets/app/icons/dot-horizontal.svg') }}" alt="dot icon" />
-                                            </button>
-                                            <ul class="dropdown-menu">
-                                                <li>
-                                                    <h4>Select</h4>
-                                                </li>
-                                                <li>
-                                                    <button type="button" class="dropdown-item d-block">
-                                                        <span>Active User</span>
-                                                    </button>
-                                                </li>
-                                                <li>
-                                                    <button type="button" class="dropdown-item d-block">
-                                                        <span>Inactive User</span>
-                                                    </button>
-                                                </li>
-                                                <li>
-                                                    <button type="button" class="dropdown-item">
-                                                        <img src="{{ asset('assets/app/icons/delete-03.svg') }}" alt="delete icon" />
-                                                        <span>Delete User</span>
-                                                    </button>
-                                                </li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <div class="user_grid">
-                                        <div class="img" style="background-color: #ffcae7">
-                                            <span>U</span>
-                                        </div>
-                                        <h4>Unique <span>32</span></h4>
-                                    </div>
-                                </td>
-                                <td>
-                                    <h4 class="group_name">Bar 1</h4>
-                                </td>
-                                <td>
-                                    <h4 class="group_name">Bar 1</h4>
-                                </td>
-                                <td>
-                                    <h5 class="send_time">rivera@example.com</h5>
-                                </td>
-                                <td>
-                                    <div class="table_dropdown_area d-flex align-items-center flex-wrap gap-1">
-                                        <button type="button" class="table_edit_btn" data-bs-toggle="modal"
-                                            data-bs-target="#editSubAccountModal">
-                                            <img src="{{ asset('assets/app/icons/edit-03.svg') }}" alt="edit icon" />
-                                            <span>Edit</span>
-                                        </button>
-                                        <div class="dropdown">
-                                            <button class="table_dot_btn dropdown-toggle" type="button"
-                                                data-bs-toggle="dropdown" aria-expanded="false">
-                                                <img src="{{ asset('assets/app/icons/dot-horizontal.svg') }}" alt="dot icon" />
-                                            </button>
-                                            <ul class="dropdown-menu">
-                                                <li>
-                                                    <h4>Select</h4>
-                                                </li>
-                                                <li>
-                                                    <button type="button" class="dropdown-item d-block">
-                                                        <span>Active User</span>
-                                                    </button>
-                                                </li>
-                                                <li>
-                                                    <button type="button" class="dropdown-item d-block">
-                                                        <span>Inactive User</span>
-                                                    </button>
-                                                </li>
-                                                <li>
-                                                    <button type="button" class="dropdown-item">
-                                                        <img src="{{ asset('assets/app/icons/delete-03.svg') }}" alt="delete icon" />
-                                                        <span>Delete User</span>
-                                                    </button>
-                                                </li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                </td>
-                            </tr>
+                                    </td>
+                                </tr>
+                                @endforeach
+                            @else
+                                <tr>
+                                    <td colspan="5" class="pt-5 text-center"><small>No data found!</small></td>
+                                </tr>
+                            @endif
                         </tbody>
                     </table>
                 </div>
@@ -461,27 +134,13 @@
                     </select>
                 </div>
                 <ul class="number_list d-flex align-items-center justify-content-center flex-wrap">
-                    <li>
-                        <a href="#" class="pagination_active"> 1 </a>
-                    </li>
-                    <li>
-                        <a href="#"> 2 </a>
-                    </li>
-                    <li>
-                        <a href="#"> 3 </a>
-                    </li>
-                    <li>
-                        <div class="middle_dot">...</div>
-                    </li>
-                    <li>
-                        <a href="#"> 8 </a>
-                    </li>
-                    <li>
-                        <a href="#"> 9 </a>
-                    </li>
-                    <li>
-                        <a href="#"> 10 </a>
-                    </li>
+                    <li><a href="#" class="pagination_active">1</a></li>
+                    <li><a href="#">2</a></li>
+                    <li><a href="#">3</a></li>
+                    <li><div class="middle_dot">...</div></li>
+                    <li><a href="#">8</a></li>
+                    <li><a href="#">9</a></li>
+                    <li><a href="#">10</a></li>
                 </ul>
                 <div class="pagination_action_list d-flex align-items-center justify-content-end flex-wrap g-sm">
                     <a href="#">
@@ -490,55 +149,61 @@
                     </a>
                     <a href="#">
                         <span>Next</span>
-                        <img src="{{ asset('assets/app/icons//right-arrow-black.svg') }}" alt="right arrow" />
+                        <img src="{{ asset('assets/app/icons/right-arrow-black.svg') }}" alt="right arrow" />
                     </a>
                 </div>
             </div>
         </section>
 
         <!-- New Sub Account Modal  -->
-        <div class="modal fade common_modal sub_account_modal" id="newSubAccountModal" tabindex="-1"
-            aria-labelledby="newEventModal" aria-hidden="true">
+        <div wire:ignore.self class="modal fade common_modal sub_account_modal" id="newSubAccountModal" tabindex="-1" aria-labelledby="newEventModal" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h1 class="modal-title fs-5" id="newEventModal">
-                            Create Sub Account
-                        </h1>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal"
-                            aria-label="Close"></button>
+                        <h1 class="modal-title fs-5" id="newEventModal">Create Sub Account</h1>
+                        <button type="button" wire:click.prevent='resetForm' class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
-                        <form action="" class="event_form_area">
+                        <form class="event_form_area">
                             <div class="input_row">
                                 <h3>Account Info</h3>
                             </div>
-
                             <div class="two_grid">
                                 <div class="input_row">
                                     <label for="">User Name</label>
-                                    <input type="text" placeholder="Type User Name" class="input_field" />
+                                    <input type="text" placeholder="Type User Name" wire:model.blur='username' class="input_field" autocomplete="off" />
+                                    @error('username')
+                                        <p class="text-danger mb-0" style="font-size: 13px;">{{ $message }}</p>
+                                    @enderror
                                 </div>
                                 <div class="input_row">
                                     <label for="">Email</label>
-                                    <input type="email" placeholder="Type User Name" class="input_field" />
+                                    <input type="email" placeholder="Type User Name" wire:model.blur='email' class="input_field" autocomplete="off" />
+                                    @error('email')
+                                        <p class="text-danger mb-0" style="font-size: 13px;">{{ $message }}</p>
+                                    @enderror
                                 </div>
                             </div>
                             <div class="two_grid">
                                 <div class="input_row">
                                     <label for="">First Name</label>
-                                    <input type="text" placeholder="Type First Name" class="input_field" />
+                                    <input type="text" placeholder="Type First Name" wire:model.blur='first_name' class="input_field" />
+                                    @error('first_name')
+                                        <p class="text-danger mb-0" style="font-size: 13px;">{{ $message }}</p>
+                                    @enderror
                                 </div>
                                 <div class="input_row">
                                     <label for="">Last Name</label>
-                                    <input type="text" placeholder="Type Last Name" class="input_field" />
+                                    <input type="text" placeholder="Type Last Name" wire:model.blur='last_name' class="input_field" />
+                                    @error('last_name')
+                                        <p class="text-danger mb-0" style="font-size: 13px;">{{ $message }}</p>
+                                    @enderror
                                 </div>
                             </div>
                             <div class="two_grid">
                                 <div class="input_row">
                                     <label for="">Password</label>
-                                    <input type="password" placeholder="Type Password"
-                                        class="input_field password_input_filed" id="password_input1" />
+                                    <input type="password" placeholder="Type Password" wire:model.blur='password' class="input_field password_input_filed" id="password_input1" />
                                     <div class="eye_icon_area" id="password_eye_icon_area1">
                                         <button type="button" class="eye_open_btn" id="eyeOpen1">
                                             <i class="fa-regular fa-eye"></i>
@@ -547,11 +212,13 @@
                                             <i class="fa-solid fa-eye-slash"></i>
                                         </button>
                                     </div>
+                                    @error('password')
+                                        <p class="text-danger mb-0" style="font-size: 13px;">{{ $message }}</p>
+                                    @enderror
                                 </div>
                                 <div class="input_row">
                                     <label for="">Confirm Password</label>
-                                    <input type="password" placeholder="Type Confirm Password"
-                                        class="input_field password_input_filed" id="password_input2" />
+                                    <input type="password" placeholder="Type Confirm Password" wire:model.blur='confirm_password' class="input_field password_input_filed" id="password_input2" />
                                     <div class="eye_icon_area" id="password_eye_icon_area2">
                                         <button type="button" class="eye_open_btn" id="eyeOpen2">
                                             <i class="fa-regular fa-eye"></i>
@@ -560,192 +227,113 @@
                                             <i class="fa-solid fa-eye-slash"></i>
                                         </button>
                                     </div>
+                                    @error('confirm_password')
+                                        <p class="text-danger mb-0" style="font-size: 13px;">{{ $message }}</p>
+                                    @enderror
                                 </div>
                             </div>
                             <div class="permission_area">
                                 <h3>Permissions</h3>
                                 <div class="permission_grid">
                                     <div>
-                                        <div class="custom_switch_area">
-                                            <label class="switch">
-                                                <input type="checkbox" checked />
-                                                <span class="slider round"></span>
-                                            </label>
-                                            <h3 class="switch_title">Get Numbers</h3>
-                                        </div>
-                                        <div class="custom_switch_area">
-                                            <label class="switch">
-                                                <input type="checkbox" />
-                                                <span class="slider round"></span>
-                                            </label>
-                                            <h3 class="switch_title">Your Current Plan</h3>
-                                        </div>
-                                        <div class="custom_switch_area">
-                                            <label class="switch">
-                                                <input type="checkbox" />
-                                                <span class="slider round"></span>
-                                            </label>
-                                            <h3 class="switch_title">Secondary Number Assigned</h3>
-                                        </div>
-                                        <div class="custom_switch_area">
-                                            <label class="switch">
-                                                <input type="checkbox" />
-                                                <span class="slider round"></span>
-                                            </label>
-                                            <h3 class="switch_title">Past Receipts</h3>
-                                        </div>
+                                        @foreach ($lPermissions as $lPerm)
+                                            <div class="custom_switch_area">
+                                                <label class="switch">
+                                                    <input type="checkbox" wire:model.live='permissions' value="{{ $lPerm->id }}" />
+                                                    <span class="slider round"></span>
+                                                </label>
+                                                <h3 class="switch_title">{{ $lPerm->name }}</h3>
+                                            </div>
+                                        @endforeach
                                     </div>
+
+
                                     <div>
-                                        <div class="custom_switch_area">
-                                            <label class="switch">
-                                                <input type="checkbox" checked />
-                                                <span class="slider round"></span>
-                                            </label>
-                                            <h3 class="switch_title">Send SMS</h3>
-                                        </div>
-                                        <div class="custom_switch_area">
-                                            <label class="switch">
-                                                <input type="checkbox" checked />
-                                                <span class="slider round"></span>
-                                            </label>
-                                            <h3 class="switch_title">Contact List</h3>
-                                        </div>
-                                        <div class="custom_switch_area">
-                                            <label class="switch">
-                                                <input type="checkbox" checked />
-                                                <span class="slider round"></span>
-                                            </label>
-                                            <h3 class="switch_title">2-way SMS Chat</h3>
-                                        </div>
-                                        <div class="custom_switch_area">
-                                            <label class="switch">
-                                                <input type="checkbox" checked />
-                                                <span class="slider round"></span>
-                                            </label>
-                                            <h3 class="switch_title">Logs</h3>
-                                        </div>
-                                        <div class="custom_switch_area">
-                                            <label class="switch">
-                                                <input type="checkbox" />
-                                                <span class="slider round"></span>
-                                            </label>
-                                            <h3 class="switch_title">Number Pool</h3>
-                                        </div>
-                                        <div class="custom_switch_area">
-                                            <label class="switch">
-                                                <input type="checkbox" />
-                                                <span class="slider round"></span>
-                                            </label>
-                                            <h3 class="switch_title">SMS Credits</h3>
-                                        </div>
-                                        <div class="custom_switch_area">
-                                            <label class="switch">
-                                                <input type="checkbox" />
-                                                <span class="slider round"></span>
-                                            </label>
-                                            <h3 class="switch_title">Messages # of Messages</h3>
-                                        </div>
+                                        @foreach ($mPermissions as $mPerm)
+                                            <div class="custom_switch_area">
+                                                <label class="switch">
+                                                    <input type="checkbox" wire:model.live='permissions' value="{{ $mPerm->id }}" />
+                                                    <span class="slider round"></span>
+                                                </label>
+                                                <h3 class="switch_title">{{ $mPerm->name }}</h3>
+                                            </div>
+                                        @endforeach
                                     </div>
+
                                     <div>
-                                        <div class="custom_switch_area">
-                                            <label class="switch">
-                                                <input type="checkbox" checked />
-                                                <span class="slider round"></span>
-                                            </label>
-                                            <h3 class="switch_title">Groups</h3>
-                                        </div>
-                                        <div class="custom_switch_area">
-                                            <label class="switch">
-                                                <input type="checkbox" checked />
-                                                <span class="slider round"></span>
-                                            </label>
-                                            <h3 class="switch_title">Import Contacts</h3>
-                                        </div>
-                                        <div class="custom_switch_area">
-                                            <label class="switch">
-                                                <input type="checkbox" checked />
-                                                <span class="slider round"></span>
-                                            </label>
-                                            <h3 class="switch_title">Scheduler</h3>
-                                        </div>
-                                        <div class="custom_switch_area">
-                                            <label class="switch">
-                                                <input type="checkbox" />
-                                                <span class="slider round"></span>
-                                            </label>
-                                            <h3 class="switch_title">Reports</h3>
-                                        </div>
-                                        <div class="custom_switch_area">
-                                            <label class="switch">
-                                                <input type="checkbox" />
-                                                <span class="slider round"></span>
-                                            </label>
-                                            <h3 class="switch_title">Voice Credits</h3>
-                                        </div>
-                                        <div class="custom_switch_area">
-                                            <label class="switch">
-                                                <input type="checkbox" />
-                                                <span class="slider round"></span>
-                                            </label>
-                                            <h3 class="switch_title">Current Credit Package</h3>
-                                        </div>
+                                        @foreach ($rPermissions as $rPerm)
+                                            <div class="custom_switch_area">
+                                                <label class="switch">
+                                                    <input type="checkbox" wire:model.live='permissions' value="{{ $rPerm->id }}" />
+                                                    <span class="slider round"></span>
+                                                </label>
+                                                <h3 class="switch_title">{{ $rPerm->name }}</h3>
+                                            </div>
+                                        @endforeach
                                     </div>
                                 </div>
                             </div>
                         </form>
                     </div>
                     <div class="modal-footer event_modal_footer">
-                        <button type="button" class="cancel_btn" data-bs-dismiss="modal">
-                            Cancel
+                        <button type="button" wire:click.prevent='resetForm' class="cancel_btn" data-bs-dismiss="modal">Cancel</button>
+                        <button type="button" wire:click.prevent='storeData' class="create_event_btn">
+                            {!! loadingStateWithText('storeData', 'Save') !!}
                         </button>
-                        <button type="button" class="create_event_btn">Save</button>
                     </div>
                 </div>
             </div>
         </div>
+
         <!-- Edit Sub Account Modal  -->
-        <div class="modal fade common_modal sub_account_modal" id="editSubAccountModal" tabindex="-1"
-            aria-labelledby="editEventModal" aria-hidden="true">
+        <div wire:ignore.self class="modal fade common_modal sub_account_modal" id="editSubAccountModal" tabindex="-1" aria-labelledby="editEventModal" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h1 class="modal-title fs-5" id="editEventModal">
-                            Edit Sub Account
-                        </h1>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal"
-                            aria-label="Close"></button>
+                        <h1 class="modal-title fs-5" id="editEventModal">Edit Sub Account</h1>
+                        <button type="button" wire:click.prevent='resetForm' class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
-                        <form action="" class="event_form_area">
+                        <form class="event_form_area">
                             <div class="input_row">
                                 <h3>Account Info</h3>
                             </div>
-
                             <div class="two_grid">
                                 <div class="input_row">
                                     <label for="">User Name</label>
-                                    <input type="text" placeholder="Type User Name" class="input_field" />
+                                    <input type="text" placeholder="Type User Name" wire:model.blur='username' class="input_field" autocomplete="off" />
+                                    @error('username')
+                                        <p class="text-danger mb-0" style="font-size: 13px;">{{ $message }}</p>
+                                    @enderror
                                 </div>
                                 <div class="input_row">
                                     <label for="">Email</label>
-                                    <input type="email" placeholder="Type User Name" class="input_field" />
+                                    <input type="email" placeholder="Type User Name" wire:model.blur='email' class="input_field" autocomplete="off" />
+                                    @error('email')
+                                        <p class="text-danger mb-0" style="font-size: 13px;">{{ $message }}</p>
+                                    @enderror
                                 </div>
                             </div>
                             <div class="two_grid">
                                 <div class="input_row">
                                     <label for="">First Name</label>
-                                    <input type="text" placeholder="Type First Name" class="input_field" />
+                                    <input type="text" placeholder="Type First Name" wire:model.blur='first_name' class="input_field" />
+                                    @error('first_name')
+                                        <p class="text-danger mb-0" style="font-size: 13px;">{{ $message }}</p>
+                                    @enderror
                                 </div>
                                 <div class="input_row">
                                     <label for="">Last Name</label>
-                                    <input type="text" placeholder="Type Last Name" class="input_field" />
+                                    <input type="text" placeholder="Type Last Name" wire:model.blur='last_name' class="input_field" />
+                                    @error('last_name')
+                                        <p class="text-danger mb-0" style="font-size: 13px;">{{ $message }}</p>
+                                    @enderror
                                 </div>
                             </div>
                             <div class="two_grid">
                                 <div class="input_row">
                                     <label for="">Password</label>
-                                    <input type="password" placeholder="Type Password"
-                                        class="input_field password_input_filed" id="password_input1" />
+                                    <input type="password" placeholder="Type Password" wire:model.blur='password' class="input_field password_input_filed" id="password_input1" />
                                     <div class="eye_icon_area" id="password_eye_icon_area1">
                                         <button type="button" class="eye_open_btn" id="eyeOpen1">
                                             <i class="fa-regular fa-eye"></i>
@@ -754,11 +342,13 @@
                                             <i class="fa-solid fa-eye-slash"></i>
                                         </button>
                                     </div>
+                                    @error('password')
+                                        <p class="text-danger mb-0" style="font-size: 13px;">{{ $message }}</p>
+                                    @enderror
                                 </div>
                                 <div class="input_row">
                                     <label for="">Confirm Password</label>
-                                    <input type="password" placeholder="Type Confirm Password"
-                                        class="input_field password_input_filed" id="password_input2" />
+                                    <input type="password" placeholder="Type Confirm Password" wire:model.blur='confirm_password' class="input_field password_input_filed" id="password_input2" />
                                     <div class="eye_icon_area" id="password_eye_icon_area2">
                                         <button type="button" class="eye_open_btn" id="eyeOpen2">
                                             <i class="fa-regular fa-eye"></i>
@@ -767,148 +357,82 @@
                                             <i class="fa-solid fa-eye-slash"></i>
                                         </button>
                                     </div>
+                                    @error('confirm_password')
+                                        <p class="text-danger mb-0" style="font-size: 13px;">{{ $message }}</p>
+                                    @enderror
                                 </div>
                             </div>
                             <div class="permission_area">
                                 <h3>Permissions</h3>
                                 <div class="permission_grid">
                                     <div>
-                                        <div class="custom_switch_area">
-                                            <label class="switch">
-                                                <input type="checkbox" checked />
-                                                <span class="slider round"></span>
-                                            </label>
-                                            <h3 class="switch_title">Get Numbers</h3>
-                                        </div>
-                                        <div class="custom_switch_area">
-                                            <label class="switch">
-                                                <input type="checkbox" />
-                                                <span class="slider round"></span>
-                                            </label>
-                                            <h3 class="switch_title">Your Current Plan</h3>
-                                        </div>
-                                        <div class="custom_switch_area">
-                                            <label class="switch">
-                                                <input type="checkbox" />
-                                                <span class="slider round"></span>
-                                            </label>
-                                            <h3 class="switch_title">Secondary Number Assigned</h3>
-                                        </div>
-                                        <div class="custom_switch_area">
-                                            <label class="switch">
-                                                <input type="checkbox" />
-                                                <span class="slider round"></span>
-                                            </label>
-                                            <h3 class="switch_title">Past Receipts</h3>
-                                        </div>
+                                        @foreach ($lPermissions as $lPerm)
+                                            <div class="custom_switch_area">
+                                                <label class="switch">
+                                                    <input type="checkbox" wire:model.live='permissions' value="{{ $lPerm->id }}" />
+                                                    <span class="slider round"></span>
+                                                </label>
+                                                <h3 class="switch_title">{{ $lPerm->name }}</h3>
+                                            </div>
+                                        @endforeach
                                     </div>
+
+
                                     <div>
-                                        <div class="custom_switch_area">
-                                            <label class="switch">
-                                                <input type="checkbox" checked />
-                                                <span class="slider round"></span>
-                                            </label>
-                                            <h3 class="switch_title">Send SMS</h3>
-                                        </div>
-                                        <div class="custom_switch_area">
-                                            <label class="switch">
-                                                <input type="checkbox" checked />
-                                                <span class="slider round"></span>
-                                            </label>
-                                            <h3 class="switch_title">Contact List</h3>
-                                        </div>
-                                        <div class="custom_switch_area">
-                                            <label class="switch">
-                                                <input type="checkbox" checked />
-                                                <span class="slider round"></span>
-                                            </label>
-                                            <h3 class="switch_title">2-way SMS Chat</h3>
-                                        </div>
-                                        <div class="custom_switch_area">
-                                            <label class="switch">
-                                                <input type="checkbox" checked />
-                                                <span class="slider round"></span>
-                                            </label>
-                                            <h3 class="switch_title">Logs</h3>
-                                        </div>
-                                        <div class="custom_switch_area">
-                                            <label class="switch">
-                                                <input type="checkbox" />
-                                                <span class="slider round"></span>
-                                            </label>
-                                            <h3 class="switch_title">Number Pool</h3>
-                                        </div>
-                                        <div class="custom_switch_area">
-                                            <label class="switch">
-                                                <input type="checkbox" />
-                                                <span class="slider round"></span>
-                                            </label>
-                                            <h3 class="switch_title">SMS Credits</h3>
-                                        </div>
-                                        <div class="custom_switch_area">
-                                            <label class="switch">
-                                                <input type="checkbox" />
-                                                <span class="slider round"></span>
-                                            </label>
-                                            <h3 class="switch_title">Messages # of Messages</h3>
-                                        </div>
+                                        @foreach ($mPermissions as $mPerm)
+                                            <div class="custom_switch_area">
+                                                <label class="switch">
+                                                    <input type="checkbox" wire:model.live='permissions' value="{{ $mPerm->id }}" />
+                                                    <span class="slider round"></span>
+                                                </label>
+                                                <h3 class="switch_title">{{ $mPerm->name }}</h3>
+                                            </div>
+                                        @endforeach
                                     </div>
+
                                     <div>
-                                        <div class="custom_switch_area">
-                                            <label class="switch">
-                                                <input type="checkbox" checked />
-                                                <span class="slider round"></span>
-                                            </label>
-                                            <h3 class="switch_title">Groups</h3>
-                                        </div>
-                                        <div class="custom_switch_area">
-                                            <label class="switch">
-                                                <input type="checkbox" checked />
-                                                <span class="slider round"></span>
-                                            </label>
-                                            <h3 class="switch_title">Import Contacts</h3>
-                                        </div>
-                                        <div class="custom_switch_area">
-                                            <label class="switch">
-                                                <input type="checkbox" checked />
-                                                <span class="slider round"></span>
-                                            </label>
-                                            <h3 class="switch_title">Scheduler</h3>
-                                        </div>
-                                        <div class="custom_switch_area">
-                                            <label class="switch">
-                                                <input type="checkbox" />
-                                                <span class="slider round"></span>
-                                            </label>
-                                            <h3 class="switch_title">Reports</h3>
-                                        </div>
-                                        <div class="custom_switch_area">
-                                            <label class="switch">
-                                                <input type="checkbox" />
-                                                <span class="slider round"></span>
-                                            </label>
-                                            <h3 class="switch_title">Voice Credits</h3>
-                                        </div>
-                                        <div class="custom_switch_area">
-                                            <label class="switch">
-                                                <input type="checkbox" />
-                                                <span class="slider round"></span>
-                                            </label>
-                                            <h3 class="switch_title">Current Credit Package</h3>
-                                        </div>
+                                        @foreach ($rPermissions as $rPerm)
+                                            <div class="custom_switch_area">
+                                                <label class="switch">
+                                                    <input type="checkbox" wire:model.live='permissions' value="{{ $rPerm->id }}" />
+                                                    <span class="slider round"></span>
+                                                </label>
+                                                <h3 class="switch_title">{{ $rPerm->name }}</h3>
+                                            </div>
+                                        @endforeach
                                     </div>
                                 </div>
                             </div>
                         </form>
                     </div>
                     <div class="modal-footer event_modal_footer">
-                        <button type="button" class="cancel_btn" data-bs-dismiss="modal">
-                            Cancel
+                        <button type="button" wire:click.prevent='resetForm' class="cancel_btn" data-bs-dismiss="modal">Cancel</button>
+                        <button type="button" wire:click.prevent='updateData' class="create_event_btn">
+                            {!! loadingStateWithText('updateData', 'Save') !!}
                         </button>
-                        <button type="button" class="create_event_btn">Save</button>
                     </div>
                 </div>
             </div>
         </div>
     </main>
 </div>
+@push('scripts')
+    <script>
+        window.addEventListener('showEditModal', event => {
+            $('#editSubAccountModal').modal('show');
+        });
+        window.addEventListener('closeModal', event => {
+            $('#newSubAccountModal').modal('hide');
+            $('#editSubAccountModal').modal('hide');
+        });
+
+        window.addEventListener('admin_deleted', event => {
+            $('#deleteDataModal').modal('hide');
+            Swal.fire(
+                "Deleted!",
+                "The sub-user has been deleted.",
+                "success"
+            );
+        });
+    </script>
+@endpush

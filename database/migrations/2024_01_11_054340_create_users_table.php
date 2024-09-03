@@ -29,6 +29,9 @@ return new class extends Migration
             $table->string('timezone')->nullable();
             $table->rememberToken();
             $table->tinyInteger('status')->default(0);
+            $table->text('permissions')->nullable();
+            $table->enum('type', ['main', 'sub'])->nullable();
+            $table->unsignedBigInteger('parent_id')->nullable();
             $table->timestamps();
         });
     }
