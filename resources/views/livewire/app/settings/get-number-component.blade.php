@@ -398,7 +398,6 @@
             <div class="pagination_area pagination_top_border">
                 <div class="d-flex">
                     <select class="niceSelect">
-                        <option data-display="10 Numbers">10 Numbers</option>
                         <option value="1">10 Numbers</option>
                         <option value="2">30 Numbers</option>
                         <option value="3">50 Numbers</option>
