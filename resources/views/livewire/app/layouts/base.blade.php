@@ -99,6 +99,7 @@
     <script src="{{ asset('assets/app/plugins/js/moment.min.js') }}"></script>
     <script src="{{ asset('assets/app/plugins/js/daterangepicker.js') }}"></script>
     <script src="{{ asset('assets/app/plugins/js/index.global.min.js') }}"></script>
+    <script src="{{ asset('assets/app/plugins/js/jquery-searchbox.js') }}"></script>
     <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/noUiSlider/15.5.0/nouislider.min.js"></script>
 
