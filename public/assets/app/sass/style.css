@@ -1,19 +1,19 @@
 @import url("https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap");
 @font-face {
   font-family: SFLightFont;
-  src: url(/assets/fonts/SF-Pro-Display-Light.woff);
+  src: url(/assets/app/fonts/SF-Pro-Display-Light.woff);
 }
 @font-face {
   font-family: SFRegularFont;
-  src: url(/assets/fonts/SF-Pro-Display-Regular.woff);
+  src: url(/assets/app/fonts/SF-Pro-Display-Regular.woff);
 }
 @font-face {
   font-family: SFMediumFont;
-  src: url(/assets/fonts/SF-Pro-Display-Medium.woff);
+  src: url(/assets/app/fonts/SF-Pro-Display-Medium.woff);
 }
 @font-face {
   font-family: SFSemiBoldFont;
-  src: url(/assets/fonts/SF-Pro-Display-Semibold.woff);
+  src: url(/assets/app/fonts/SF-Pro-Display-Semibold.woff);
 }
 /* Hover Transistion */
 /* Custom scroll Bar */
