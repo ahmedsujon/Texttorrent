@@ -69,6 +69,7 @@ class DLCRegistrationComponent extends Component
         $data->street_address = $this->street_address;
         $data->state = $this->state;
         $data->postal_code = $this->postal_code;
+        dd($data);
         $data->save();
 
         $this->mount();

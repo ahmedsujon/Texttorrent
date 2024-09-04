@@ -61,33 +61,36 @@
                         <div class="register_group">
                             <h4>Company details</h4>
                             <div class="input_row">
-                                <label for="">Company Name</label>
-                                <input type="text" wire:model.blur='' placeholder="Type Company Name" class="input_field" />
-                                @error('timezone')
+                                <label for="company_name">Company Name</label>
+                                <input type="text" wire:model.blur='company_name' placeholder="Type Company Name"
+                                    class="input_field" />
+                                @error('company_name')
                                     <p class="text-danger mb-1" style="font-size: 13px;">{{ $message }}</p>
                                 @enderror
                             </div>
 
                             <div class="two_grid">
                                 <div class="input_row">
-                                    <label for="">Company phone number</label>
-                                    <input type="number" placeholder="Type Company Phone Number" class="input_field" />
-                                    @error('timezone')
+                                    <label for="company_phone">Company phone number</label>
+                                    <input type="number" wire:model.blur='company_phone'
+                                        placeholder="Type Company Phone Number" class="input_field" />
+                                    @error('company_phone')
                                         <p class="text-danger mb-1" style="font-size: 13px;">{{ $message }}</p>
                                     @enderror
                                 </div>
                                 <div class="input_row">
-                                    <label for="">Company Website</label>
-                                    <input type="url" placeholder="Type Company Website" class="input_field" />
-                                    @error('timezone')
+                                    <label for="company_website">Company Website</label>
+                                    <input type="company_website" wire:model.blur='company_website'
+                                        placeholder="Type Company Website" class="input_field" />
+                                    @error('company_website')
                                         <p class="text-danger mb-1" style="font-size: 13px;">{{ $message }}</p>
                                     @enderror
                                 </div>
                             </div>
                             <div class="two_grid">
                                 <div class="input_row searchable_select">
-                                    <label for="">Industry</label>
-                                    <select name="lang" class="js-searchBox">
+                                    <label for="industry">Industry</label>
+                                    <select name="lang" wire:model.blur='industry' class="js-searchBox">
                                         <option value="">Select Vertical</option>
                                         <option value="AGRICULTURE">Agriculture</option>
                                         <option value="COMMUNICATION">Communication</option>
@@ -109,13 +112,13 @@
                                     </select>
                                     <img src="{{ asset('assets/app/icons/arrow-down.svg') }}" alt="down arrow"
                                         class="down_arrow" />
-                                    @error('timezone')
+                                    @error('industry')
                                         <p class="text-danger mb-1" style="font-size: 13px;">{{ $message }}</p>
                                     @enderror
                                 </div>
                                 <div class="input_row searchable_select">
-                                    <label for="">Organization type</label>
-                                    <select name="lang" class="js-searchBox">
+                                    <label for="organization_type">Organization type</label>
+                                    <select name="lang" wire:model.blur='organization_type' class="js-searchBox">
                                         <option value="">Select Type</option>
                                         <option value="PUBLIC_PROFIT">
                                             Publicly Traded Company
@@ -127,15 +130,16 @@
                                     </select>
                                     <img src="{{ asset('assets/app/icons/arrow-down.svg') }}" alt="down arrow"
                                         class="down_arrow" />
-                                    @error('timezone')
+                                    @error('organization_type')
                                         <p class="text-danger mb-1" style="font-size: 13px;">{{ $message }}</p>
                                     @enderror
                                 </div>
                             </div>
                             <div class="two_grid">
                                 <div class="input_row searchable_select">
-                                    <label for="">Country of registration</label>
-                                    <select name="lang" class="js-searchBox">
+                                    <label for="country_of_registration">Country of registration</label>
+                                    <select name="lang" wire:model.blur='country_of_registration'
+                                        class="js-searchBox">
                                         <option value="Afghanistan">Afghanistan</option>
                                         <option value="Albania">Albania</option>
                                         <option value="Algeria">Algeria</option>
@@ -454,14 +458,15 @@
                                     </select>
                                     <img src="{{ asset('assets/app/icons/arrow-down.svg') }}" alt="down arrow"
                                         class="down_arrow" />
-                                    @error('timezone')
+                                    @error('country_of_registration')
                                         <p class="text-danger mb-1" style="font-size: 13px;">{{ $message }}</p>
                                     @enderror
                                 </div>
                                 <div class="input_row">
-                                    <label for="">Tax number/ID /EIN</label>
-                                    <input type="text" placeholder="Type Tax Info" class="input_field" />
-                                    @error('timezone')
+                                    <label for="tax_number">Tax number/ID /EIN</label>
+                                    <input type="text" wire:model='tax_number' placeholder="Type Tax Info"
+                                        class="input_field" />
+                                    @error('tax_number')
                                         <p class="text-danger mb-1" style="font-size: 13px;">{{ $message }}</p>
                                     @enderror
                                 </div>
@@ -469,13 +474,13 @@
                             <div class="input_row">
                                 <div class="checkbox_area d-flex align-items-center flex-wrap mb-0">
                                     <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" value=""
-                                            id="brandgAgree" />
+                                        <input class="form-check-input" wire:model.blur="share_legal_doc"
+                                            type="checkbox" value="0" id="brandgAgree" />
                                         <label class="form-check-label mb-0" for="brandgAgree">
                                             I agree to share the required legal documents for the
                                             Tax information when required by the Carriers.
                                         </label>
-                                        @error('timezone')
+                                        @error('share_legal_doc')
                                             <p class="text-danger mb-1" style="font-size: 13px;">{{ $message }}</p>
                                         @enderror
                                     </div>
@@ -486,32 +491,36 @@
                             <h4>Address</h4>
                             <div class="two_grid">
                                 <div class="input_row">
-                                    <label for="">City</label>
-                                    <input type="number" placeholder="Type City" class="input_field" />
-                                    @error('timezone')
+                                    <label for="city">City</label>
+                                    <input type="number" wire:model.blur='city' placeholder="Type City"
+                                        class="input_field" />
+                                    @error('city')
                                         <p class="text-danger mb-1" style="font-size: 13px;">{{ $message }}</p>
                                     @enderror
                                 </div>
                                 <div class="input_row">
-                                    <label for="">Street Address</label>
-                                    <input type="number" placeholder="Type Street Address" class="input_field" />
-                                    @error('timezone')
+                                    <label for="street_address">Street Address</label>
+                                    <input type="number" wire:model.blur='street_address'
+                                        placeholder="Type Street Address" class="input_field" />
+                                    @error('street_address')
                                         <p class="text-danger mb-1" style="font-size: 13px;">{{ $message }}</p>
                                     @enderror
                                 </div>
                             </div>
                             <div class="two_grid">
                                 <div class="input_row">
-                                    <label for="">State</label>
-                                    <input type="text" placeholder="Type State" class="input_field" />
-                                    @error('timezone')
+                                    <label for="state">State</label>
+                                    <input type="text" wire:model.blur='state' placeholder="Type State"
+                                        class="input_field" />
+                                    @error('state')
                                         <p class="text-danger mb-1" style="font-size: 13px;">{{ $message }}</p>
                                     @enderror
                                 </div>
                                 <div class="input_row">
-                                    <label for="">Postal code</label>
-                                    <input type="text" placeholder="Type Postal code" class="input_field" />
-                                    @error('timezone')
+                                    <label for="postal_code">Postal code</label>
+                                    <input type="text" wire:model.blur='postal_code'
+                                        placeholder="Type Postal code" class="input_field" />
+                                    @error('postal_code')
                                         <p class="text-danger mb-1" style="font-size: 13px;">{{ $message }}</p>
                                     @enderror
                                 </div>
@@ -728,7 +737,6 @@
                                 </div>
                             </div>
                         </div>
-
                         <div class="d-flex justify-content-end mt-2">
                             <button type="button" class="create_event_btn">Save</button>
                         </div>
