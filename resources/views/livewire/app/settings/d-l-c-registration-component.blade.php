@@ -764,7 +764,7 @@
                                             onchange="additionalRecipientsValue(this)"
                                             @if ($terms_aggre) checked @endif id="fromPhone" />
                                         <label class="form-check-label mb-0" for="fromPhone">
-                                            I consent to have [MY SITE NAME]'s SMS gateway partners
+                                            I consent to have Texttorrent's SMS gateway partners
                                             register and vet my brand on my organization’s behalf. I
                                             understand that there will be a one-time fee of $44 and
                                             recurring fees per campaign of $30 per quarter for

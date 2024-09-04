@@ -51,6 +51,17 @@ class DLCRegistrationComponent extends Component
     {
         $this->validate([
             'company_name' => 'required',
+            'company_phone' => 'required',
+            'company_website' => 'required',
+            'industry' => 'required',
+            'organization_type' => 'required',
+            'country_of_registration' => 'required',
+            'tax_number' => 'required',
+            'share_legal_doc' => 'required',
+            'city' => 'required',
+            'street_address' => 'required',
+            'state' => 'required',
+            'postal_code' => 'required',
         ]);
 
         $data = User::find(user()->id);
