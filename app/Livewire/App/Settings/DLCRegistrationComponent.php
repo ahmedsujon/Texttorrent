@@ -68,6 +68,32 @@ class DLCRegistrationComponent extends Component
         $data->postal_code = $this->postal_code;
         $data->save();
         $this->mount();
+        $this->dispatch('success', ['message' => 'Campaign Registration updated successfully']);
+    }
+
+    public function saveCampaignData()
+    {
+        $this->validate([
+            'campaign_name' => 'required',
+        ]);
+
+        $data = User::find(user()->id);
+        $data->campaign_name = $this->campaign_name;
+        $data->campaign_type = $this->campaign_type;
+        $data->campaign_description = $this->campaign_description;
+        $data->sample_message_one = $this->sample_message_one;
+        $data->sample_message_two = $this->sample_message_two;
+        $data->opt_in = $this->opt_in;
+        $data->opt_out = $this->opt_out;
+        $data->direct_lending = $this->direct_lending;
+        $data->embedded_link = $this->embedded_link;
+        $data->embedded_phone = $this->embedded_phone;
+        $data->affiliate_marketing = $this->affiliate_marketing;
+        $data->age_gated_content = $this->age_gated_content;
+        $data->additional_recipients = $this->additional_recipients;
+        $data->terms_aggre = $this->terms_aggre;
+        $data->save();
+        $this->mount();
         $this->dispatch('success', ['message' => 'Brand Registration updated successfully']);
     }
 

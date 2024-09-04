@@ -475,7 +475,7 @@
                                 <div class="checkbox_area d-flex align-items-center flex-wrap mb-0">
                                     <div class="form-check">
                                         <input class="form-check-input" wire:model.blur="share_legal_doc"
-                                            onchange="updateCheckboxValue(this)" type="checkbox" value="1"
+                                            onchange="updateCheckboxValue(this)" type="checkbox" value="0"
                                             id="brandgAgree" @if ($share_legal_doc) checked @endif />
                                         <label class="form-check-label mb-0" for="brandgAgree">
                                             I agree to share the required legal documents for the
@@ -529,57 +529,74 @@
                         </div>
                         <div class="d-flex justify-content-end mt-2">
                             <button type="submit" class="create_event_btn">
-                                {!! loadingStateWithText('saveBrandData', 'Save Changes') !!}
+                                {!! loadingStateWithText('saveBrandData', 'Save') !!}
                             </button>
                         </div>
                     </form>
                 </div>
                 <div class="tab-pane fade" id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab"
                     tabindex="0">
-                    <form action="" class="event_form_area">
+                    <form wire:submit.prevent='saveCampaignData' class="event_form_area">
                         <div class="register_group">
                             <h4>Company details</h4>
-
                             <div class="two_grid">
                                 <div class="input_row">
-                                    <label for="">Campaign name</label>
-                                    <input type="text" placeholder="Campaign name (add an alias for your campaign)"
+                                    <label for="campaign_name">Campaign name</label>
+                                    <input type="text" wire:model.blur='campaign_name'
+                                        placeholder="Campaign name (add an alias for your campaign)"
                                         class="input_field" />
+                                    @error('campaign_name')
+                                        <p class="text-danger mb-1" style="font-size: 13px;">{{ $message }}</p>
+                                    @enderror
                                 </div>
                                 <div class="input_row searchable_select">
-                                    <label for="">Campaign type</label>
-                                    <select name="lang" class="js-searchBox">
+                                    <label for="campaign_type">Campaign type</label>
+                                    <select name="lang" wire:model.blur='campaign_type' class="js-searchBox">
                                         <option value="">Select</option>
-                                        <option value="1">Python</option>
-                                        <option value="2">Java</option>
-                                        <option value="3">Ruby</option>
-                                        <option value="4">C/C++</option>
-                                        <option value="5">C#</option>
-                                        <option value="6">JavaScript</option>
-                                        <option value="7">PHP</option>
-                                        <option value="8">Swift</option>
-                                        <option value="9">Scala</option>
-                                        <option value="10">R</option>
-                                        <option value="11">Go</option>
-                                        <option value="12">VisualBasic.NET</option>
-                                        <option value="13">Kotlin</option>
+                                        <option value="Python">Python</option>
+                                        <option value="Java">Java</option>
+                                        <option value="Ruby">Ruby</option>
+                                        <option value="C/C++">C/C++</option>
+                                        <option value="C#">C#</option>
+                                        <option value="JavaScript">JavaScript</option>
+                                        <option value="PHP">PHP</option>
+                                        <option value="Swift">Swift</option>
+                                        <option value="Scala">Scala</option>
+                                        <option value="R">R</option>
+                                        <option value="Go">Go</option>
+                                        <option value="VisualBasic.NET">VisualBasic.NET</option>
+                                        <option value="Kotlin">Kotlin</option>
                                     </select>
                                     <img src="{{ asset('assets/app/icons/arrow-down.svg') }}" alt="down arrow"
                                         class="down_arrow" />
+                                    @error('campaign_type')
+                                        <p class="text-danger mb-1" style="font-size: 13px;">{{ $message }}</p>
+                                    @enderror
                                 </div>
                             </div>
                             <div class="input_row">
-                                <label for="">Campaign description</label>
-                                <textarea name="" id="" rows="4" class="input_field"
+                                <label for="campaign_description">Campaign description</label>
+                                <textarea rows="4" wire:model.blur='campaign_description' class="input_field"
                                     placeholder="Please tell us about your requirement in details"></textarea>
+                                @error('campaign_description')
+                                    <p class="text-danger mb-1" style="font-size: 13px;">{{ $message }}</p>
+                                @enderror
                             </div>
                             <div class="input_row">
-                                <label for="">Sample message 1</label>
-                                <textarea name="" id="" rows="4" class="input_field" placeholder="Type Sample message 1"></textarea>
+                                <label for="sample_message_one">Sample message 1</label>
+                                <textarea wire:model.blur='sample_message_one' rows="4" class="input_field"
+                                    placeholder="Type Sample message 1"></textarea>
+                                @error('sample_message_one')
+                                    <p class="text-danger mb-1" style="font-size: 13px;">{{ $message }}</p>
+                                @enderror
                             </div>
                             <div class="input_row">
-                                <label for="">Sample message 2</label>
-                                <textarea name="" id="" rows="4" class="input_field" placeholder="Type Sample message 2"></textarea>
+                                <label for="sample_message_two">Sample message 2</label>
+                                <textarea wire:model.blur='sample_message_two' rows="4" class="input_field"
+                                    placeholder="Type Sample message 2"></textarea>
+                                @error('sample_message_two')
+                                    <p class="text-danger mb-1" style="font-size: 13px;">{{ $message }}</p>
+                                @enderror
                             </div>
                         </div>
                         <div class="register_group">
@@ -588,15 +605,16 @@
                                 <h5>Subscriber Opt-in</h5>
                                 <div class="check_area">
                                     <div class="form-check">
-                                        <input class="form-check-input" type="radio" name="permissionCheckbox1"
-                                            id="permissionYesCheckbox11" checked />
+                                        <input class="form-check-input" wire:model.blur='opt_in' value="1"
+                                            type="radio" name="permissionCheckbox1" id="permissionYesCheckbox11"
+                                            checked />
                                         <label class="form-check-label" for="permissionYesCheckbox11">
                                             Yes
                                         </label>
                                     </div>
                                     <div class="form-check">
-                                        <input class="form-check-input" type="radio" name="permissionCheckbox1"
-                                            id="permissionYesCheckbox12" />
+                                        <input class="form-check-input" wire:model.blur='opt_in' value="0"
+                                            type="radio" name="permissionCheckbox1" id="permissionYesCheckbox12" />
                                         <label class="form-check-label" for="permissionYesCheckbox12">
                                             No
                                         </label>
@@ -607,15 +625,16 @@
                                 <h5>Subscriber Opt-out</h5>
                                 <div class="check_area">
                                     <div class="form-check">
-                                        <input class="form-check-input" type="radio" name="permissionCheckbox2"
-                                            id="permissionYesCheckbox21" checked />
+                                        <input class="form-check-input" wire:model.blur='opt_out' value="1"
+                                            type="radio" name="permissionCheckbox2" id="permissionYesCheckbox21"
+                                            checked />
                                         <label class="form-check-label" for="permissionYesCheckbox21">
                                             Yes
                                         </label>
                                     </div>
                                     <div class="form-check">
-                                        <input class="form-check-input" type="radio" name="permissionCheckbox2"
-                                            id="permissionYesCheckbox22" />
+                                        <input class="form-check-input" wire:model.blur='opt_out' value="0"
+                                            type="radio" name="permissionCheckbox2" id="permissionYesCheckbox22" />
                                         <label class="form-check-label" for="permissionYesCheckbox22">
                                             No
                                         </label>
@@ -626,14 +645,16 @@
                                 <h5>Direct Lending or Loan Arrangement</h5>
                                 <div class="check_area">
                                     <div class="form-check">
-                                        <input class="form-check-input" type="radio" name="permissionCheckbox3"
+                                        <input class="form-check-input" wire:model.blur='direct_lending'
+                                            value="1" type="radio" name="permissionCheckbox3"
                                             id="permissionYesCheckbox31" checked />
                                         <label class="form-check-label" for="permissionYesCheckbox31">
                                             Yes
                                         </label>
                                     </div>
                                     <div class="form-check">
-                                        <input class="form-check-input" type="radio" name="permissionCheckbox3"
+                                        <input class="form-check-input" wire:model.blur='direct_lending'
+                                            value="0" type="radio" name="permissionCheckbox3"
                                             id="permissionYesCheckbox32" />
                                         <label class="form-check-label" for="permissionYesCheckbox32">
                                             No
@@ -645,14 +666,16 @@
                                 <h5>Embedded Link</h5>
                                 <div class="check_area">
                                     <div class="form-check">
-                                        <input class="form-check-input" type="radio" name="permissionCheckbox4"
+                                        <input class="form-check-input" wire:model.blur='embedded_link'
+                                            value="1" type="radio" name="permissionCheckbox4"
                                             id="permissionYesCheckbox41" checked />
                                         <label class="form-check-label" for="permissionYesCheckbox41">
                                             Yes
                                         </label>
                                     </div>
                                     <div class="form-check">
-                                        <input class="form-check-input" type="radio" name="permissionCheckbox4"
+                                        <input class="form-check-input" wire:model.blur='embedded_link'
+                                            value="0" type="radio" name="permissionCheckbox4"
                                             id="permissionYesCheckbox52" />
                                         <label class="form-check-label" for="permissionYesCheckbox42">
                                             No
@@ -664,14 +687,16 @@
                                 <h5>Embedded Phone Number</h5>
                                 <div class="check_area">
                                     <div class="form-check">
-                                        <input class="form-check-input" type="radio" name="permissionCheckbox6"
+                                        <input class="form-check-input" wire:model.blur='embedded_phone'
+                                            value="1" type="radio" name="permissionCheckbox6"
                                             id="permissionYesCheckbox61" />
                                         <label class="form-check-label" for="permissionYesCheckbox61">
                                             Yes
                                         </label>
                                     </div>
                                     <div class="form-check">
-                                        <input class="form-check-input" type="radio" name="permissionCheckbox6"
+                                        <input class="form-check-input" wire:model.blur='embedded_phone'
+                                            value="0" type="radio" name="permissionCheckbox6"
                                             id="permissionYesCheckbox62" checked />
                                         <label class="form-check-label" for="permissionYesCheckbox62">
                                             No
@@ -683,14 +708,16 @@
                                 <h5>Affiliate Marketing</h5>
                                 <div class="check_area">
                                     <div class="form-check">
-                                        <input class="form-check-input" type="radio" name="permissionCheckbox7"
+                                        <input class="form-check-input" wire:model.blur='affiliate_marketing'
+                                            value="1" type="radio" name="permissionCheckbox7"
                                             id="permissionYesCheckbox71" />
                                         <label class="form-check-label" for="permissionYesCheckbox71">
                                             Yes
                                         </label>
                                     </div>
                                     <div class="form-check">
-                                        <input class="form-check-input" type="radio" name="permissionCheckbox7"
+                                        <input class="form-check-input" wire:model.blur='affiliate_marketing'
+                                            value="0" type="radio" name="permissionCheckbox7"
                                             id="permissionYesCheckbox72" checked />
                                         <label class="form-check-label" for="permissionYesCheckbox72">
                                             No
@@ -702,14 +729,16 @@
                                 <h5>Age-gated Content</h5>
                                 <div class="check_area">
                                     <div class="form-check">
-                                        <input class="form-check-input" type="radio" name="permissionCheckbox8"
+                                        <input class="form-check-input" wire:model.blur='age_gated_content'
+                                            value="1" type="radio" name="permissionCheckbox8"
                                             id="permissionYesCheckbox81" />
                                         <label class="form-check-label" for="permissionYesCheckbox81">
                                             Yes
                                         </label>
                                     </div>
                                     <div class="form-check">
-                                        <input class="form-check-input" type="radio" name="permissionCheckbox8"
+                                        <input class="form-check-input" wire:model.blur='age_gated_content'
+                                            value="0" type="radio" name="permissionCheckbox8"
                                             id="permissionYesCheckbox82" checked />
                                         <label class="form-check-label" for="permissionYesCheckbox82">
                                             No
@@ -718,17 +747,22 @@
                                 </div>
                             </div>
                             <div class="input_row">
-                                <label for="">Additional Recipients to Email on 10DLC Registration
+                                <label for="additional_recipients">Additional Recipients to Email on 10DLC Registration
                                     Updates</label>
-                                <input type="text"
+                                <input type="text" wire:model.blur='additional_recipients'
                                     placeholder="Comma-seperated list of email address name @campany.com,name@personal.com"
                                     class="input_field" />
+                                @error('additional_recipients')
+                                    <p class="text-danger mb-1" style="font-size: 13px;">{{ $message }}</p>
+                                @enderror
                             </div>
                             <div class="input_row">
                                 <div class="checkbox_area d-flex align-items-center flex-wrap mb-0">
                                     <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" value=""
-                                            id="fromPhone" />
+                                        <input class="form-check-input" wire:model.blur='terms_aggre' type="checkbox"
+                                            value="0" id="additionalRecipients"
+                                            onchange="additionalRecipientsValue(this)"
+                                            @if ($terms_aggre) checked @endif id="fromPhone" />
                                         <label class="form-check-label mb-0" for="fromPhone">
                                             I consent to have [MY SITE NAME]'s SMS gateway partners
                                             register and vet my brand on my organization’s behalf. I
@@ -736,12 +770,17 @@
                                             recurring fees per campaign of $30 per quarter for
                                             registration. This will be invoiced to you separately.
                                         </label>
+                                        @error('terms_aggre')
+                                            <p class="text-danger mb-1" style="font-size: 13px;">{{ $message }}</p>
+                                        @enderror
                                     </div>
                                 </div>
                             </div>
                         </div>
                         <div class="d-flex justify-content-end mt-2">
-                            <button type="button" class="create_event_btn">Save</button>
+                            <button type="submit" class="create_event_btn">
+                                {!! loadingStateWithText('saveCampaignData', 'Save') !!}
+                            </button>
                         </div>
                     </form>
                 </div>
@@ -752,6 +791,12 @@
 @push('scripts')
     <script>
         function updateCheckboxValue(checkbox) {
+            checkbox.value = checkbox.checked ? '1' : '0';
+            Livewire.emit('input', checkbox.name, checkbox.value);
+        }
+    </script>
+    <script>
+        function additionalRecipientsValue(checkbox) {
             checkbox.value = checkbox.checked ? '1' : '0';
             Livewire.emit('input', checkbox.name, checkbox.value);
         }
