@@ -475,7 +475,8 @@
                                 <div class="checkbox_area d-flex align-items-center flex-wrap mb-0">
                                     <div class="form-check">
                                         <input class="form-check-input" wire:model.blur="share_legal_doc"
-                                            type="checkbox" value="0" id="brandgAgree" />
+                                            onchange="updateCheckboxValue(this)" type="checkbox" value="1"
+                                            id="brandgAgree" @if ($share_legal_doc) checked @endif />
                                         <label class="form-check-label mb-0" for="brandgAgree">
                                             I agree to share the required legal documents for the
                                             Tax information when required by the Carriers.
@@ -492,7 +493,7 @@
                             <div class="two_grid">
                                 <div class="input_row">
                                     <label for="city">City</label>
-                                    <input type="number" wire:model.blur='city' placeholder="Type City"
+                                    <input type="text" wire:model.blur='city' placeholder="Type City"
                                         class="input_field" />
                                     @error('city')
                                         <p class="text-danger mb-1" style="font-size: 13px;">{{ $message }}</p>
@@ -500,7 +501,7 @@
                                 </div>
                                 <div class="input_row">
                                     <label for="street_address">Street Address</label>
-                                    <input type="number" wire:model.blur='street_address'
+                                    <input type="text" wire:model.blur='street_address'
                                         placeholder="Type Street Address" class="input_field" />
                                     @error('street_address')
                                         <p class="text-danger mb-1" style="font-size: 13px;">{{ $message }}</p>
@@ -527,7 +528,9 @@
                             </div>
                         </div>
                         <div class="d-flex justify-content-end mt-2">
-                            <button type="button" class="create_event_btn">{!! loadingStateWithText('saveBrandData', 'Save') !!}</button>
+                            <button type="submit" class="create_event_btn">
+                                {!! loadingStateWithText('saveBrandData', 'Save Changes') !!}
+                            </button>
                         </div>
                     </form>
                 </div>
@@ -746,3 +749,11 @@
         </section>
     </main>
 </div>
+@push('scripts')
+    <script>
+        function updateCheckboxValue(checkbox) {
+            checkbox.value = checkbox.checked ? '1' : '0';
+            Livewire.emit('input', checkbox.name, checkbox.value);
+        }
+    </script>
+@endpush

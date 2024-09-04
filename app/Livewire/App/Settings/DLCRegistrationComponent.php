@@ -49,12 +49,9 @@ class DLCRegistrationComponent extends Component
 
     public function saveBrandData()
     {
-        // $this->validate([
-        //     'first_name' => 'required|string|max:20',
-        //     'last_name' => 'required|string|max:20',
-        // ], [
-        //     'greetings_text.required_if' => 'This field is required',
-        // ]);
+        $this->validate([
+            'company_name' => 'required',
+        ]);
 
         $data = User::find(user()->id);
         $data->company_name = $this->company_name;
@@ -69,9 +66,7 @@ class DLCRegistrationComponent extends Component
         $data->street_address = $this->street_address;
         $data->state = $this->state;
         $data->postal_code = $this->postal_code;
-        dd($data);
         $data->save();
-
         $this->mount();
         $this->dispatch('success', ['message' => 'Brand Registration updated successfully']);
     }
