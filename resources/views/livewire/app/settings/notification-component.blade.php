@@ -65,7 +65,7 @@
                                     </div>
                                 </td>
                                 <td>
-                                    <h4 class="group_name">Webahook</h4>
+                                    <h4 class="group_name">Webhook</h4>
                                 </td>
                                 <td>
                                     <h4 class="group_name">Today, 9:43 AM</h4>
@@ -91,7 +91,7 @@
                                     </div>
                                 </td>
                                 <td>
-                                    <h4 class="group_name">Webahook</h4>
+                                    <h4 class="group_name">Webhook</h4>
                                 </td>
                                 <td>
                                     <h4 class="group_name">Today, 9:43 AM</h4>
@@ -117,7 +117,7 @@
                                     </div>
                                 </td>
                                 <td>
-                                    <h4 class="group_name">Webahook</h4>
+                                    <h4 class="group_name">Webhook</h4>
                                 </td>
                                 <td>
                                     <h4 class="group_name">Today, 9:43 AM</h4>
@@ -143,7 +143,7 @@
                                     </div>
                                 </td>
                                 <td>
-                                    <h4 class="group_name">Webahook</h4>
+                                    <h4 class="group_name">Webhook</h4>
                                 </td>
                                 <td>
                                     <h4 class="group_name">Today, 9:43 AM</h4>
@@ -169,7 +169,7 @@
                                     </div>
                                 </td>
                                 <td>
-                                    <h4 class="group_name">Webahook</h4>
+                                    <h4 class="group_name">Webhook</h4>
                                 </td>
                                 <td>
                                     <h4 class="group_name">Today, 9:43 AM</h4>
@@ -195,7 +195,7 @@
                                     </div>
                                 </td>
                                 <td>
-                                    <h4 class="group_name">Webahook</h4>
+                                    <h4 class="group_name">Webhook</h4>
                                 </td>
                                 <td>
                                     <h4 class="group_name">Today, 9:43 AM</h4>

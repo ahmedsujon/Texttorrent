@@ -32,6 +32,33 @@ return new class extends Migration
             $table->text('permissions')->nullable();
             $table->enum('type', ['main', 'sub'])->nullable();
             $table->unsignedBigInteger('parent_id')->nullable();
+            // DLC Registration Brand Registration
+            $table->string('company_phone')->nullable();
+            $table->string('company_website')->nullable();
+            $table->string('industry')->nullable();
+            $table->string('organization_type')->nullable();
+            $table->string('country_of_registration')->nullable();
+            $table->string('tax_number')->nullable();
+            $table->boolean('share_legal_doc')->default(0);
+            $table->string('city')->nullable();
+            $table->string('street_address')->nullable();
+            $table->string('state')->nullable();
+            $table->string('postal_code')->nullable();
+            // DLC Registration Campaign Registration
+            $table->string('campaign_name')->nullable();
+            $table->string('campaign_type')->nullable();
+            $table->longText('campaign_description')->nullable();
+            $table->longText('sample_message_one')->nullable();
+            $table->longText('sample_message_two')->nullable();
+            $table->boolean('opt_in')->default(0);
+            $table->boolean('opt_out')->default(0);
+            $table->boolean('direct_lending')->default(0);
+            $table->boolean('embedded_link')->default(0);
+            $table->boolean('embedded_phone')->default(0);
+            $table->boolean('affiliate_marketing')->default(0);
+            $table->string('age_gated_content')->nullable();
+            $table->string('additional_recipients')->nullable();
+            $table->boolean('terms_aggre')->default(0);
             $table->timestamps();
         });
     }

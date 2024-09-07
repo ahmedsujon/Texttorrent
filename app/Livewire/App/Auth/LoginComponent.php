@@ -11,6 +11,14 @@ class LoginComponent extends Component
 {
     public $email, $password, $remember_me = 0, $login_status;
 
+    public function updated($fields)
+    {
+        $this->validateOnly($fields, [
+            'email' => 'required|email',
+            'password' => 'required',
+        ]);
+    }
+
     public function userLogin()
     {
         $this->validate([
@@ -24,7 +32,7 @@ class LoginComponent extends Component
             if (Hash::check($this->password, $getUser->password)) {
                 $remember = $this->remember_me == 1 ? true : false;
 
-                if(Auth::guard('web')->attempt(['email' => $this->email, 'password' => $this->password], $remember)){
+                if (Auth::guard('web')->attempt(['email' => $this->email, 'password' => $this->password], $remember)) {
                     $this->login_status = 1;
                     $this->dispatch('login_success');
                 } else {
