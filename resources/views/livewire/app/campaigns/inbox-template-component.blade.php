@@ -41,26 +41,30 @@
                                         </div>
                                         <div class="column_area">
                                             <span>Name</span>
-                                            <img src="{{ asset('assets/app/icons/tp-down-table-arrow.svg') }}" alt="top down arrow" />
+                                            <img src="{{ asset('assets/app/icons/tp-down-table-arrow.svg') }}"
+                                                alt="top down arrow" />
                                         </div>
                                     </div>
                                 </th>
                                 <th scope="col">
                                     <div class="column_area">
                                         <span>Message</span>
-                                        <img src="{{ asset('assets/app/icons/tp-down-table-arrow.svg') }}" alt="top down arrow" />
+                                        <img src="{{ asset('assets/app/icons/tp-down-table-arrow.svg') }}"
+                                            alt="top down arrow" />
                                     </div>
                                 </th>
                                 <th scope="col">
                                     <div class="column_area">
                                         <span>Created</span>
-                                        <img src="{{ asset('assets/app/icons/tp-down-table-arrow.svg') }}" alt="top down arrow" />
+                                        <img src="{{ asset('assets/app/icons/tp-down-table-arrow.svg') }}"
+                                            alt="top down arrow" />
                                     </div>
                                 </th>
                                 <th scope="col">
                                     <div class="column_area">
                                         <span>Status</span>
-                                        <img src="{{ asset('assets/app/icons/tp-down-table-arrow.svg') }}" alt="top down arrow" />
+                                        <img src="{{ asset('assets/app/icons/tp-down-table-arrow.svg') }}"
+                                            alt="top down arrow" />
                                     </div>
                                 </th>
                                 <th scope="col">
@@ -101,7 +105,8 @@
                                         <div class="dropdown">
                                             <button class="table_dot_btn dropdown-toggle" type="button"
                                                 data-bs-toggle="dropdown" aria-expanded="false">
-                                                <img src="{{ asset('assets/app/icons/dot-horizontal.svg') }}" alt="dot icon" />
+                                                <img src="{{ asset('assets/app/icons/dot-horizontal.svg') }}"
+                                                    alt="dot icon" />
                                             </button>
                                             <ul class="dropdown-menu">
                                                 <li>
@@ -109,13 +114,15 @@
                                                 </li>
                                                 <li>
                                                     <button type="button" class="dropdown-item">
-                                                        <img src="{{ asset('assets/app/icons/copy-02.svg') }}" alt="copy icon" />
+                                                        <img src="{{ asset('assets/app/icons/copy-02.svg') }}"
+                                                            alt="copy icon" />
                                                         <span>Copy template</span>
                                                     </button>
                                                 </li>
                                                 <li>
                                                     <button type="button" class="dropdown-item">
-                                                        <img src="{{ asset('assets/app/icons/delete-01.svg') }}" alt="delete icon" />
+                                                        <img src="{{ asset('assets/app/icons/delete-01.svg') }}"
+                                                            alt="delete icon" />
                                                         <span>Delete template</span>
                                                     </button>
                                                 </li>
@@ -154,7 +161,8 @@
                                         <div class="dropdown">
                                             <button class="table_dot_btn dropdown-toggle" type="button"
                                                 data-bs-toggle="dropdown" aria-expanded="false">
-                                                <img src="{{ asset('assets/app/icons/dot-horizontal.svg') }}" alt="dot icon" />
+                                                <img src="{{ asset('assets/app/icons/dot-horizontal.svg') }}"
+                                                    alt="dot icon" />
                                             </button>
                                             <ul class="dropdown-menu">
                                                 <li>
@@ -162,13 +170,15 @@
                                                 </li>
                                                 <li>
                                                     <button type="button" class="dropdown-item">
-                                                        <img src="{{ asset('assets/app/icons/copy-02.svg') }}" alt="copy icon" />
+                                                        <img src="{{ asset('assets/app/icons/copy-02.svg') }}"
+                                                            alt="copy icon" />
                                                         <span>Copy template</span>
                                                     </button>
                                                 </li>
                                                 <li>
                                                     <button type="button" class="dropdown-item">
-                                                        <img src="{{ asset('assets/app/icons/delete-01.svg') }}" alt="delete icon" />
+                                                        <img src="{{ asset('assets/app/icons/delete-01.svg') }}"
+                                                            alt="delete icon" />
                                                         <span>Delete template</span>
                                                     </button>
                                                 </li>
@@ -207,7 +217,8 @@
                                         <div class="dropdown">
                                             <button class="table_dot_btn dropdown-toggle" type="button"
                                                 data-bs-toggle="dropdown" aria-expanded="false">
-                                                <img src="{{ asset('assets/app/icons/dot-horizontal.svg') }}" alt="dot icon" />
+                                                <img src="{{ asset('assets/app/icons/dot-horizontal.svg') }}"
+                                                    alt="dot icon" />
                                             </button>
                                             <ul class="dropdown-menu">
                                                 <li>
@@ -215,13 +226,15 @@
                                                 </li>
                                                 <li>
                                                     <button type="button" class="dropdown-item">
-                                                        <img src="{{ asset('assets/app/icons/copy-02.svg') }}" alt="copy icon" />
+                                                        <img src="{{ asset('assets/app/icons/copy-02.svg') }}"
+                                                            alt="copy icon" />
                                                         <span>Copy template</span>
                                                     </button>
                                                 </li>
                                                 <li>
                                                     <button type="button" class="dropdown-item">
-                                                        <img src="{{ asset('assets/app/icons/delete-01.svg') }}" alt="delete icon" />
+                                                        <img src="{{ asset('assets/app/icons/delete-01.svg') }}"
+                                                            alt="delete icon" />
                                                         <span>Delete template</span>
                                                     </button>
                                                 </li>
@@ -260,7 +273,8 @@
                                         <div class="dropdown">
                                             <button class="table_dot_btn dropdown-toggle" type="button"
                                                 data-bs-toggle="dropdown" aria-expanded="false">
-                                                <img src="{{ asset('assets/app/icons/dot-horizontal.svg') }}" alt="dot icon" />
+                                                <img src="{{ asset('assets/app/icons/dot-horizontal.svg') }}"
+                                                    alt="dot icon" />
                                             </button>
                                             <ul class="dropdown-menu">
                                                 <li>
@@ -268,13 +282,15 @@
                                                 </li>
                                                 <li>
                                                     <button type="button" class="dropdown-item">
-                                                        <img src="{{ asset('assets/app/icons/copy-02.svg') }}" alt="copy icon" />
+                                                        <img src="{{ asset('assets/app/icons/copy-02.svg') }}"
+                                                            alt="copy icon" />
                                                         <span>Copy template</span>
                                                     </button>
                                                 </li>
                                                 <li>
                                                     <button type="button" class="dropdown-item">
-                                                        <img src="{{ asset('assets/app/icons/delete-01.svg') }}" alt="delete icon" />
+                                                        <img src="{{ asset('assets/app/icons/delete-01.svg') }}"
+                                                            alt="delete icon" />
                                                         <span>Delete template</span>
                                                     </button>
                                                 </li>
@@ -313,7 +329,8 @@
                                         <div class="dropdown">
                                             <button class="table_dot_btn dropdown-toggle" type="button"
                                                 data-bs-toggle="dropdown" aria-expanded="false">
-                                                <img src="{{ asset('assets/app/icons/dot-horizontal.svg') }}" alt="dot icon" />
+                                                <img src="{{ asset('assets/app/icons/dot-horizontal.svg') }}"
+                                                    alt="dot icon" />
                                             </button>
                                             <ul class="dropdown-menu">
                                                 <li>
@@ -321,13 +338,15 @@
                                                 </li>
                                                 <li>
                                                     <button type="button" class="dropdown-item">
-                                                        <img src="{{ asset('assets/app/icons/copy-02.svg') }}" alt="copy icon" />
+                                                        <img src="{{ asset('assets/app/icons/copy-02.svg') }}"
+                                                            alt="copy icon" />
                                                         <span>Copy template</span>
                                                     </button>
                                                 </li>
                                                 <li>
                                                     <button type="button" class="dropdown-item">
-                                                        <img src="{{ asset('assets/app/icons/delete-01.svg') }}" alt="delete icon" />
+                                                        <img src="{{ asset('assets/app/icons/delete-01.svg') }}"
+                                                            alt="delete icon" />
                                                         <span>Delete template</span>
                                                     </button>
                                                 </li>
@@ -366,7 +385,8 @@
                                         <div class="dropdown">
                                             <button class="table_dot_btn dropdown-toggle" type="button"
                                                 data-bs-toggle="dropdown" aria-expanded="false">
-                                                <img src="{{ asset('assets/app/icons/dot-horizontal.svg') }}" alt="dot icon" />
+                                                <img src="{{ asset('assets/app/icons/dot-horizontal.svg') }}"
+                                                    alt="dot icon" />
                                             </button>
                                             <ul class="dropdown-menu">
                                                 <li>
@@ -374,13 +394,15 @@
                                                 </li>
                                                 <li>
                                                     <button type="button" class="dropdown-item">
-                                                        <img src="{{ asset('assets/app/icons/copy-02.svg') }}" alt="copy icon" />
+                                                        <img src="{{ asset('assets/app/icons/copy-02.svg') }}"
+                                                            alt="copy icon" />
                                                         <span>Copy template</span>
                                                     </button>
                                                 </li>
                                                 <li>
                                                     <button type="button" class="dropdown-item">
-                                                        <img src="{{ asset('assets/app/icons/delete-01.svg') }}" alt="delete icon" />
+                                                        <img src="{{ asset('assets/app/icons/delete-01.svg') }}"
+                                                            alt="delete icon" />
                                                         <span>Delete template</span>
                                                     </button>
                                                 </li>
@@ -452,18 +474,26 @@
                             aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
-                        <form action="" class="event_form_area">
+                        <form wire:submit.prevent='storeData' class="event_form_area">
                             <div class="two_grid">
                                 <div class="input_row">
-                                    <label for="">Template name</label>
-                                    <input type="text" placeholder="Name" class="input_field" />
+                                    <label for="template_name">Template name</label>
+                                    <input type="text" wire:model.blur='template_name' placeholder="Name"
+                                        class="input_field" />
+                                    @error('template_name')
+                                        <p class="text-danger" style="font-size: 11.5px;">{{ $message }}</p>
+                                    @enderror
                                 </div>
                                 <div class="input_row" id="statusRow">
-                                    <label for="">Status</label>
-                                    <select class="niceSelect niceSelect_status_area" id="statusSelect">
-                                        <option data-display="Active" value="1">Active</option>
+                                    <label for="status">Status</label>
+                                    <select class="niceSelect niceSelect_status_area" wire:model.blur='status'
+                                        id="statusSelect">
+                                        <option value="1">Active</option>
                                         <option value="0">Inactive</option>
                                     </select>
+                                    @error('status')
+                                        <p class="text-danger" style="font-size: 11.5px;">{{ $message }}</p>
+                                    @enderror
                                 </div>
                             </div>
                             <div class="input_row">
@@ -476,7 +506,8 @@
                                                     class="merge_btn dropdown-toggle hide_dropdown_arrow"
                                                     data-bs-toggle="dropdown" aria-expanded="false">
                                                     <span>Import merge field</span>
-                                                    <img src="{{ asset('assets/app/icons/arrow-down.svg') }}" alt="down arrow" />
+                                                    <img src="{{ asset('assets/app/icons/arrow-down.svg') }}"
+                                                        alt="down arrow" />
                                                 </button>
                                                 <ul class="dropdown-menu">
                                                     <li>
@@ -515,13 +546,15 @@
                                         placeholder="Write a template..." value=""></textarea>
                                 </div>
                             </div>
+                            <div class="modal-footer event_modal_footer">
+                                <button type="button" class="cancel_btn" data-bs-dismiss="modal">
+                                    Cancel
+                                </button>
+                                <button type="submit" class="create_event_btn">
+                                    {!! loadingStateWithText('storeData', 'Save') !!}
+                                </button>
+                            </div>
                         </form>
-                    </div>
-                    <div class="modal-footer event_modal_footer">
-                        <button type="button" class="cancel_btn" data-bs-dismiss="modal">
-                            Cancel
-                        </button>
-                        <button type="button" class="create_event_btn">Save</button>
                     </div>
                 </div>
             </div>
@@ -562,7 +595,8 @@
                                                     class="merge_btn dropdown-toggle hide_dropdown_arrow"
                                                     data-bs-toggle="dropdown" aria-expanded="false">
                                                     <span>Import merge field</span>
-                                                    <img src="{{ asset('assets/app/icons/arrow-down.svg') }}" alt="down arrow" />
+                                                    <img src="{{ asset('assets/app/icons/arrow-down.svg') }}"
+                                                        alt="down arrow" />
                                                 </button>
                                                 <ul class="dropdown-menu">
                                                     <li>
@@ -684,6 +718,15 @@
                 e.preventDefault();
                 $("#editorEditDropdownArea").fadeOut();
             });
+        });
+
+        window.addEventListener('user_deleted', event => {
+            $('#deleteDataModal').modal('hide');
+            Swal.fire(
+                "Deleted!",
+                "The user has been deleted.",
+                "success"
+            );
         });
     </script>
 @endpush
