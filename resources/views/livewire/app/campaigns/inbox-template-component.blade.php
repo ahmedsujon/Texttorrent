@@ -149,7 +149,7 @@
                                 @endforeach
                             @else
                                 <tr>
-                                    <td colspan="7" class="text-center pt-5 pb-5">No data available!</td>
+                                    <td colspan="5" class="text-center pt-5 pb-5">No data available!</td>
                                 </tr>
                             @endif
                         </tbody>
@@ -157,28 +157,15 @@
                 </div>
             </div>
             <div class="pagination_area">
-                <div class="d-flex">
-                    <select class="niceSelect" name="sortuserresults" wire:model.blur="sortingValue"
-                        wire:change='resetPage'>
-                        <option value="10">10</option>
-                        <option value="30">30</option>
-                        <option value="50">50</option>
-                        <option value="100">100</option>
+                <div class="d-flex" wire:ignore>
+                    <select class="niceSelect sortingValue">
+                        <option value="10">10 Accounts</option>
+                        <option value="30">30 Accounts</option>
+                        <option value="50">50 Accounts</option>
+                        <option value="100">100 Accounts</option>
                     </select>
                 </div>
-                <ul class="number_list d-flex align-items-center justify-content-center flex-wrap">
-                    {{ $templates->links('livewire.admin-pagination') }}
-                </ul>
-                <div class="pagination_action_list d-flex align-items-center justify-content-end flex-wrap g-sm">
-                    <a href="#">
-                        <img src="{{ asset('assets/app/icons/back-arrow-black.svg') }}" alt="back arrow" />
-                        <span>Previous</span>
-                    </a>
-                    <a href="#">
-                        <span>Next</span>
-                        <img src="{{ asset('assets/app/icons//right-arrow-black.svg') }}" alt="right arrow" />
-                    </a>
-                </div>
+                {{ $templates->links('livewire.app-pagination') }}
             </div>
         </section>
 
@@ -219,7 +206,7 @@
                             </div>
                             <div class="input_row">
                                 <label for="">Preview</label>
-                                <div class="textarea_header_top">
+                                <div class="textarea_header_top" wire:ignore>
                                     <div class="textarea_header">
                                         <div class="table_dropdown_area">
                                             <div class="dropdown">
@@ -232,30 +219,27 @@
                                                 </button>
                                                 <ul class="dropdown-menu">
                                                     <li>
-                                                        <h4>Select</h4>
-                                                    </li>
-                                                    <li>
-                                                        <button type="button" class="dropdown-item">
+                                                        <button type="button" class="dropdown-item" data-variable="[phone_number]">
                                                             <span>Phone Number</span>
                                                         </button>
                                                     </li>
                                                     <li>
-                                                        <button type="button" class="dropdown-item">
+                                                        <button type="button" class="dropdown-item" data-variable="[email_address]">
                                                             <span>Email Address</span>
                                                         </button>
                                                     </li>
                                                     <li>
-                                                        <button type="button" class="dropdown-item">
+                                                        <button type="button" class="dropdown-item" data-variable="[first_name]">
                                                             <span>First Name</span>
                                                         </button>
                                                     </li>
                                                     <li>
-                                                        <button type="button" class="dropdown-item">
+                                                        <button type="button" class="dropdown-item" data-variable="[last_name]">
                                                             <span>Last Name</span>
                                                         </button>
                                                     </li>
                                                     <li>
-                                                        <button type="button" class="dropdown-item">
+                                                        <button type="button" class="dropdown-item" data-variable="[company]">
                                                             <span>Company</span>
                                                         </button>
                                                     </li>
@@ -263,9 +247,11 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <textarea name="" id="" rows="6" class="input_field textarea_field"
-                                        placeholder="Write a template..." value=""></textarea>
+                                    <textarea name="" id="template_preview" rows="6" class="input_field textarea_field" placeholder="Write a template..." value=""></textarea>
                                 </div>
+                                @error('preview_message')
+                                    <p class="text-danger" style="font-size: 11.5px;">{{ $message }}</p>
+                                @enderror
                             </div>
                             <div class="modal-footer event_modal_footer">
                                 <button type="button" class="cancel_btn" data-bs-dismiss="modal">
@@ -371,6 +357,39 @@
 </div>
 @push('scripts')
     <script>
+        $(document).ready(function(){
+            $('.sortingValue').on('change', function(){
+                @this.set('sortingValue', this.value);
+            });
+
+            $('#template_preview').on('change', function(){
+                var template = $(this).val();
+
+                @this.set('preview_message', template);
+            });
+        });
+    </script>
+
+    <script>
+        // Get all buttons with the class 'dropdown-item'
+        const dropdownItems = document.querySelectorAll('.dropdown-item');
+
+        // Add a click event listener to each button
+        dropdownItems.forEach(item => {
+            item.addEventListener('click', function () {
+                // Get the data-variable attribute value (e.g., [phone_number])
+                let variable = this.getAttribute('data-variable');
+
+                // Append the selected variable to the textarea
+                let textarea = document.getElementById('template_preview');
+                textarea.value += variable + " ";
+
+                @this.set('preview_message', textarea.value);
+            });
+        });
+    </script>
+
+    <script>
         $(document).ready(function() {
             //Text Editor for new
             var MergeButton = function(context) {
@@ -439,6 +458,11 @@
                 e.preventDefault();
                 $("#editorEditDropdownArea").fadeOut();
             });
+        });
+
+        window.addEventListener('closeModal', event => {
+            $('#createTemplateModal').modal('hide');
+            $('#editTemplateModal').modal('hide');
         });
 
         window.addEventListener('user_deleted', event => {
