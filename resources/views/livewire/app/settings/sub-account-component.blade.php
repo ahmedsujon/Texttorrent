@@ -12,8 +12,8 @@
                 </div>
                 <div class="account_right_area d-flex align-items-center justify-content-end flex-wrap">
                     <form action="" class="search_input_form search_input_form_sm">
-                        <input type="search" placeholder="Search" class="input_field" />
-                        <button type="submit" class="search_icon">
+                        <input type="search" wire:model.live='searchTerm' placeholder="Search" class="input_field" />
+                        <button type="button" class="search_icon">
                             <img src="{{ asset('assets/app/icons/search-gray.svg') }}" alt="search icon" />
                         </button>
                     </form>
@@ -124,34 +124,15 @@
                 </div>
             </div>
             <div class="pagination_area">
-                <div class="d-flex">
-                    <select class="niceSelect">
-                        <option data-display="10 Accounts">10 Accounts</option>
-                        <option value="1">10 Accounts</option>
-                        <option value="2">30 Accounts</option>
-                        <option value="3">50 Accounts</option>
-                        <option value="4">100 Accounts</option>
+                <div class="d-flex" wire:ignore>
+                    <select class="niceSelect sortingValue">
+                        <option value="10">10 Accounts</option>
+                        <option value="30">30 Accounts</option>
+                        <option value="50">50 Accounts</option>
+                        <option value="100">100 Accounts</option>
                     </select>
                 </div>
-                <ul class="number_list d-flex align-items-center justify-content-center flex-wrap">
-                    <li><a href="#" class="pagination_active">1</a></li>
-                    <li><a href="#">2</a></li>
-                    <li><a href="#">3</a></li>
-                    <li><div class="middle_dot">...</div></li>
-                    <li><a href="#">8</a></li>
-                    <li><a href="#">9</a></li>
-                    <li><a href="#">10</a></li>
-                </ul>
-                <div class="pagination_action_list d-flex align-items-center justify-content-end flex-wrap g-sm">
-                    <a href="#">
-                        <img src="{{ asset('assets/app/icons/back-arrow-black.svg') }}" alt="back arrow" />
-                        <span>Previous</span>
-                    </a>
-                    <a href="#">
-                        <span>Next</span>
-                        <img src="{{ asset('assets/app/icons/right-arrow-black.svg') }}" alt="right arrow" />
-                    </a>
-                </div>
+                {{ $subAccounts->links('livewire.app-pagination') }}
             </div>
         </section>
 
@@ -417,6 +398,13 @@
     </main>
 </div>
 @push('scripts')
+    <script>
+        $(document).ready(function(){
+            $('.sortingValue').on('change', function(){
+                @this.set('sortingValue', this.value);
+            });
+        });
+    </script>
     <script>
         window.addEventListener('showEditModal', event => {
             $('#editSubAccountModal').modal('show');
