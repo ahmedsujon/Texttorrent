@@ -29,34 +29,37 @@
                     <table class="table table-hover">
                         <thead>
                             <tr>
-                                <th scope="col">
-                                    <div class="column_area">
-                                        <span>Username</span>
-                                        <img src="{{ asset('assets/app/icons/tp-down-table-arrow.svg') }}" alt="top down arrow" />
-                                    </div>
-                                </th>
-                                <th scope="col">
-                                    <div class="column_area">
-                                        <span>First Name</span>
-                                        <img src="{{ asset('assets/app/icons/tp-down-table-arrow.svg') }}" alt="top down arrow" />
-                                    </div>
-                                </th>
-                                <th scope="col">
-                                    <div class="column_area">
-                                        <span>Last Name</span>
-                                        <img src="{{ asset('assets/app/icons/tp-down-table-arrow.svg') }}" alt="top down arrow" />
-                                    </div>
-                                </th>
-                                <th scope="col">
-                                    <div class="column_area">
-                                        <span>Email</span>
-                                        <img src="{{ asset('assets/app/icons/tp-down-table-arrow.svg') }}" alt="top down arrow" />
-                                    </div>
-                                </th>
+                                @include(
+                                    'livewire.app.datatable.app-datatable-th-sorting',
+                                    [
+                                        'id' => 'username',
+                                        'thDisplayName' => 'Username',
+                                    ]
+                                )
+                                @include(
+                                    'livewire.app.datatable.app-datatable-th-sorting',
+                                    [
+                                        'id' => 'first_name',
+                                        'thDisplayName' => 'First Name',
+                                    ]
+                                )
+                                @include(
+                                    'livewire.app.datatable.app-datatable-th-sorting',
+                                    [
+                                        'id' => 'last_name',
+                                        'thDisplayName' => 'Last Name',
+                                    ]
+                                )
+                                @include(
+                                    'livewire.app.datatable.app-datatable-th-sorting',
+                                    [
+                                        'id' => 'email',
+                                        'thDisplayName' => 'Email',
+                                    ]
+                                )
                                 <th scope="col">
                                     <div class="column_area">
                                         <span>Action</span>
-                                        <img src="{{ asset('assets/app/icons/tp-down-table-arrow.svg') }}" alt="top down arrow" />
                                     </div>
                                 </th>
                             </tr>
