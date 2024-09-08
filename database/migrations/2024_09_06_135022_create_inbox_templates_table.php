@@ -13,9 +13,9 @@ return new class extends Migration
     {
         Schema::create('inbox_templates', function (Blueprint $table) {
             $table->id();
-            $table->string('name')->nullable();
-            $table->longText('template')->nullable();
-            $table->tinyInteger('status')->default(1);
+            $table->string('template_name')->nullable();
+            $table->string('status')->nullable();
+            $table->string('preview_message')->nullable();
             $table->timestamps();
         });
     }
