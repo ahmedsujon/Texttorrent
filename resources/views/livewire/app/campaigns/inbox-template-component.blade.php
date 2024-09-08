@@ -17,8 +17,9 @@
             </div>
             <div class="template_filter_area d-flex-between">
                 <form action="" class="search_input_form">
-                    <input type="search" placeholder="Search folder" class="input_field" />
-                    <button type="submit" class="search_icon">
+                    <input type="search" placeholder="Search folder" class="input_field" wire:model.blur="searchTerm"
+                        wire:keyup='resetPage' />
+                    <button type="button" class="search_icon">
                         <img src="{{ asset('assets/app/icons/search-gray.svg') }}" alt="search icon" />
                     </button>
                 </form>
@@ -33,7 +34,28 @@
                 <div class="table-responsive">
                     <table class="table table-hover">
                         <thead>
+
                             <tr>
+                                @include('livewire.app.datatable.template', [
+                                    'id' => 'template_name',
+                                    'thDisplayName' => 'Name',
+                                ])
+                                @include('livewire.app.datatable.template', [
+                                    'id' => 'preview_message',
+                                    'thDisplayName' => 'Message',
+                                ])
+                                @include('livewire.app.datatable.template', [
+                                    'id' => 'status',
+                                    'thDisplayName' => 'Status',
+                                ])
+                                @include('livewire.app.datatable.template', [
+                                    'id' => 'created_at',
+                                    'thDisplayName' => 'Created',
+                                ])
+                                <th class="align-middle text-center">Action</th>
+                            </tr>
+
+                            {{-- <tr>
                                 <th scope="col">
                                     <div class="checkbox_name_area">
                                         <div class="form-check table_checkbox_area">
@@ -72,353 +94,94 @@
                                         <span>Action</span>
                                     </div>
                                 </th>
-                            </tr>
+                            </tr> --}}
+
                         </thead>
                         <tbody>
-                            <tr>
-                                <td>
-                                    <div class="checkbox_name_cell_area">
-                                        <div class="form-check table_checkbox_area">
-                                            <input class="form-check-input" type="checkbox" value="" />
-                                        </div>
-                                        <p>Template 1</p>
-                                    </div>
-                                </td>
-                                <td>
-                                    <p>Hello John, how are you. We need this to more</p>
-                                </td>
-                                <td>
-                                    <p>Today, 9:43 AM</p>
-                                </td>
-                                <td>
-                                    <div class="d-flex">
-                                        <div class="status">Active</div>
-                                    </div>
-                                </td>
-                                <td>
-                                    <div class="table_dropdown_area d-flex align-items-center flex-wrap gap-1">
-                                        <button type="button" class="table_edit_btn" data-bs-toggle="modal"
-                                            data-bs-target="#editTemplateModal">
-                                            <img src="{{ asset('assets/app/icons/edit-03.svg') }}" alt="edit icon" />
-                                            <span>Edit</span>
-                                        </button>
-                                        <div class="dropdown">
-                                            <button class="table_dot_btn dropdown-toggle" type="button"
-                                                data-bs-toggle="dropdown" aria-expanded="false">
-                                                <img src="{{ asset('assets/app/icons/dot-horizontal.svg') }}"
-                                                    alt="dot icon" />
-                                            </button>
-                                            <ul class="dropdown-menu">
-                                                <li>
-                                                    <h4>Select</h4>
-                                                </li>
-                                                <li>
-                                                    <button type="button" class="dropdown-item">
-                                                        <img src="{{ asset('assets/app/icons/copy-02.svg') }}"
-                                                            alt="copy icon" />
-                                                        <span>Copy template</span>
+                            @if ($templates->count() > 0)
+                                @php
+                                    $sl =
+                                        $templates->perPage() * $templates->currentPage() - ($templates->perPage() - 1);
+                                @endphp
+                                @foreach ($templates as $template)
+                                    <tr>
+                                        <td>
+                                            <div class="checkbox_name_cell_area">
+                                                <div class="form-check table_checkbox_area">
+                                                    <input class="form-check-input" type="checkbox" value="" />
+                                                </div>
+                                                <p>{{ $template->template_name }}</p>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <p>{{ $template->preview_message }}</p>
+                                        </td>
+                                        <td>
+                                            <p>{{ \Carbon\Carbon::parse($template->created_at)->format('F j, g:i A') }}
+                                            </p>
+                                        </td>
+                                        <td>
+                                            @if ($template->status == 1)
+                                                <div class="d-flex">
+                                                    <div class="status">Active</div>
+                                                </div>
+                                            @else
+                                                <div class="d-flex">
+                                                    <div class="status inactive">Inactive</div>
+                                                </div>
+                                            @endif
+                                        </td>
+                                        <td>
+                                            <div class="table_dropdown_area d-flex align-items-center flex-wrap gap-1">
+                                                <button type="button" class="table_edit_btn" data-bs-toggle="modal"
+                                                    data-bs-target="#editTemplateModal">
+                                                    <img src="{{ asset('assets/app/icons/edit-03.svg') }}"
+                                                        alt="edit icon" />
+                                                    <span>Edit</span>
+                                                </button>
+                                                <div class="dropdown">
+                                                    <button class="table_dot_btn dropdown-toggle" type="button"
+                                                        data-bs-toggle="dropdown" aria-expanded="false">
+                                                        <img src="{{ asset('assets/app/icons/dot-horizontal.svg') }}"
+                                                            alt="dot icon" />
                                                     </button>
-                                                </li>
-                                                <li>
-                                                    <button type="button" class="dropdown-item">
-                                                        <img src="{{ asset('assets/app/icons/delete-01.svg') }}"
-                                                            alt="delete icon" />
-                                                        <span>Delete template</span>
-                                                    </button>
-                                                </li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <div class="checkbox_name_cell_area">
-                                        <div class="form-check table_checkbox_area">
-                                            <input class="form-check-input" type="checkbox" value="" />
-                                        </div>
-                                        <p>Template 1</p>
-                                    </div>
-                                </td>
-                                <td>
-                                    <p>Hello John, how are you. We need this to more</p>
-                                </td>
-                                <td>
-                                    <p>Yesterday, 10:63 PM</p>
-                                </td>
-                                <td>
-                                    <div class="d-flex">
-                                        <div class="status">Active</div>
-                                    </div>
-                                </td>
-                                <td>
-                                    <div class="table_dropdown_area d-flex align-items-center flex-wrap gap-1">
-                                        <button type="button" class="table_edit_btn" data-bs-toggle="modal"
-                                            data-bs-target="#editTemplateModal">
-                                            <img src="{{ asset('assets/app/icons/edit-03.svg') }}" alt="edit icon" />
-                                            <span>Edit</span>
-                                        </button>
-                                        <div class="dropdown">
-                                            <button class="table_dot_btn dropdown-toggle" type="button"
-                                                data-bs-toggle="dropdown" aria-expanded="false">
-                                                <img src="{{ asset('assets/app/icons/dot-horizontal.svg') }}"
-                                                    alt="dot icon" />
-                                            </button>
-                                            <ul class="dropdown-menu">
-                                                <li>
-                                                    <h4>Select</h4>
-                                                </li>
-                                                <li>
-                                                    <button type="button" class="dropdown-item">
-                                                        <img src="{{ asset('assets/app/icons/copy-02.svg') }}"
-                                                            alt="copy icon" />
-                                                        <span>Copy template</span>
-                                                    </button>
-                                                </li>
-                                                <li>
-                                                    <button type="button" class="dropdown-item">
-                                                        <img src="{{ asset('assets/app/icons/delete-01.svg') }}"
-                                                            alt="delete icon" />
-                                                        <span>Delete template</span>
-                                                    </button>
-                                                </li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <div class="checkbox_name_cell_area">
-                                        <div class="form-check table_checkbox_area">
-                                            <input class="form-check-input" type="checkbox" value="" />
-                                        </div>
-                                        <p>Template 1</p>
-                                    </div>
-                                </td>
-                                <td>
-                                    <p>Hello John, how are you. We need this to more</p>
-                                </td>
-                                <td>
-                                    <p>Monday, 8:32 AM</p>
-                                </td>
-                                <td>
-                                    <div class="d-flex">
-                                        <div class="status inactive">Inactive</div>
-                                    </div>
-                                </td>
-                                <td>
-                                    <div class="table_dropdown_area d-flex align-items-center flex-wrap gap-1">
-                                        <button type="button" class="table_edit_btn" data-bs-toggle="modal"
-                                            data-bs-target="#editTemplateModal">
-                                            <img src="{{ asset('assets/app/icons/edit-03.svg') }}" alt="edit icon" />
-                                            <span>Edit</span>
-                                        </button>
-                                        <div class="dropdown">
-                                            <button class="table_dot_btn dropdown-toggle" type="button"
-                                                data-bs-toggle="dropdown" aria-expanded="false">
-                                                <img src="{{ asset('assets/app/icons/dot-horizontal.svg') }}"
-                                                    alt="dot icon" />
-                                            </button>
-                                            <ul class="dropdown-menu">
-                                                <li>
-                                                    <h4>Select</h4>
-                                                </li>
-                                                <li>
-                                                    <button type="button" class="dropdown-item">
-                                                        <img src="{{ asset('assets/app/icons/copy-02.svg') }}"
-                                                            alt="copy icon" />
-                                                        <span>Copy template</span>
-                                                    </button>
-                                                </li>
-                                                <li>
-                                                    <button type="button" class="dropdown-item">
-                                                        <img src="{{ asset('assets/app/icons/delete-01.svg') }}"
-                                                            alt="delete icon" />
-                                                        <span>Delete template</span>
-                                                    </button>
-                                                </li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <div class="checkbox_name_cell_area">
-                                        <div class="form-check table_checkbox_area">
-                                            <input class="form-check-input" type="checkbox" value="" />
-                                        </div>
-                                        <p>Template 1</p>
-                                    </div>
-                                </td>
-                                <td>
-                                    <p>Hello John, how are you. We need this to more</p>
-                                </td>
-                                <td>
-                                    <p>July 7, 3:78 AM</p>
-                                </td>
-                                <td>
-                                    <div class="d-flex">
-                                        <div class="status">Active</div>
-                                    </div>
-                                </td>
-                                <td>
-                                    <div class="table_dropdown_area d-flex align-items-center flex-wrap gap-1">
-                                        <button type="button" class="table_edit_btn" data-bs-toggle="modal"
-                                            data-bs-target="#editTemplateModal">
-                                            <img src="{{ asset('assets/app/icons/edit-03.svg') }}" alt="edit icon" />
-                                            <span>Edit</span>
-                                        </button>
-                                        <div class="dropdown">
-                                            <button class="table_dot_btn dropdown-toggle" type="button"
-                                                data-bs-toggle="dropdown" aria-expanded="false">
-                                                <img src="{{ asset('assets/app/icons/dot-horizontal.svg') }}"
-                                                    alt="dot icon" />
-                                            </button>
-                                            <ul class="dropdown-menu">
-                                                <li>
-                                                    <h4>Select</h4>
-                                                </li>
-                                                <li>
-                                                    <button type="button" class="dropdown-item">
-                                                        <img src="{{ asset('assets/app/icons/copy-02.svg') }}"
-                                                            alt="copy icon" />
-                                                        <span>Copy template</span>
-                                                    </button>
-                                                </li>
-                                                <li>
-                                                    <button type="button" class="dropdown-item">
-                                                        <img src="{{ asset('assets/app/icons/delete-01.svg') }}"
-                                                            alt="delete icon" />
-                                                        <span>Delete template</span>
-                                                    </button>
-                                                </li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <div class="checkbox_name_cell_area">
-                                        <div class="form-check table_checkbox_area">
-                                            <input class="form-check-input" type="checkbox" value="" />
-                                        </div>
-                                        <p>Template 1</p>
-                                    </div>
-                                </td>
-                                <td>
-                                    <p>Hello John, how are you. We need this to more</p>
-                                </td>
-                                <td>
-                                    <p>Monday, 8:32 AM</p>
-                                </td>
-                                <td>
-                                    <div class="d-flex">
-                                        <div class="status inactive">Inactive</div>
-                                    </div>
-                                </td>
-                                <td>
-                                    <div class="table_dropdown_area d-flex align-items-center flex-wrap gap-1">
-                                        <button type="button" class="table_edit_btn" data-bs-toggle="modal"
-                                            data-bs-target="#editTemplateModal">
-                                            <img src="{{ asset('assets/app/icons/edit-03.svg') }}" alt="edit icon" />
-                                            <span>Edit</span>
-                                        </button>
-                                        <div class="dropdown">
-                                            <button class="table_dot_btn dropdown-toggle" type="button"
-                                                data-bs-toggle="dropdown" aria-expanded="false">
-                                                <img src="{{ asset('assets/app/icons/dot-horizontal.svg') }}"
-                                                    alt="dot icon" />
-                                            </button>
-                                            <ul class="dropdown-menu">
-                                                <li>
-                                                    <h4>Select</h4>
-                                                </li>
-                                                <li>
-                                                    <button type="button" class="dropdown-item">
-                                                        <img src="{{ asset('assets/app/icons/copy-02.svg') }}"
-                                                            alt="copy icon" />
-                                                        <span>Copy template</span>
-                                                    </button>
-                                                </li>
-                                                <li>
-                                                    <button type="button" class="dropdown-item">
-                                                        <img src="{{ asset('assets/app/icons/delete-01.svg') }}"
-                                                            alt="delete icon" />
-                                                        <span>Delete template</span>
-                                                    </button>
-                                                </li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <div class="checkbox_name_cell_area">
-                                        <div class="form-check table_checkbox_area">
-                                            <input class="form-check-input" type="checkbox" value="" />
-                                        </div>
-                                        <p>Template 1</p>
-                                    </div>
-                                </td>
-                                <td>
-                                    <p>Hello John, how are you. We need this to more</p>
-                                </td>
-                                <td>
-                                    <p>July 7, 3:78 AM</p>
-                                </td>
-                                <td>
-                                    <div class="d-flex">
-                                        <div class="status">Active</div>
-                                    </div>
-                                </td>
-                                <td>
-                                    <div class="table_dropdown_area d-flex align-items-center flex-wrap gap-1">
-                                        <button type="button" class="table_edit_btn" data-bs-toggle="modal"
-                                            data-bs-target="#editTemplateModal">
-                                            <img src="{{ asset('assets/app/icons/edit-03.svg') }}" alt="edit icon" />
-                                            <span>Edit</span>
-                                        </button>
-                                        <div class="dropdown">
-                                            <button class="table_dot_btn dropdown-toggle" type="button"
-                                                data-bs-toggle="dropdown" aria-expanded="false">
-                                                <img src="{{ asset('assets/app/icons/dot-horizontal.svg') }}"
-                                                    alt="dot icon" />
-                                            </button>
-                                            <ul class="dropdown-menu">
-                                                <li>
-                                                    <h4>Select</h4>
-                                                </li>
-                                                <li>
-                                                    <button type="button" class="dropdown-item">
-                                                        <img src="{{ asset('assets/app/icons/copy-02.svg') }}"
-                                                            alt="copy icon" />
-                                                        <span>Copy template</span>
-                                                    </button>
-                                                </li>
-                                                <li>
-                                                    <button type="button" class="dropdown-item">
-                                                        <img src="{{ asset('assets/app/icons/delete-01.svg') }}"
-                                                            alt="delete icon" />
-                                                        <span>Delete template</span>
-                                                    </button>
-                                                </li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                </td>
-                            </tr>
+                                                    <ul class="dropdown-menu">
+                                                        <li>
+                                                            <h4>Select</h4>
+                                                        </li>
+                                                        <li>
+                                                            <button type="button" class="dropdown-item">
+                                                                <img src="{{ asset('assets/app/icons/copy-02.svg') }}"
+                                                                    alt="copy icon" />
+                                                                <span>Copy template</span>
+                                                            </button>
+                                                        </li>
+                                                        <li>
+                                                            <button type="button" class="dropdown-item">
+                                                                <img src="{{ asset('assets/app/icons/delete-01.svg') }}"
+                                                                    alt="delete icon" />
+                                                                <span>Delete template</span>
+                                                            </button>
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                @endforeach
+                            @else
+                                <tr>
+                                    <td colspan="7" class="text-center pt-5 pb-5">No data available!</td>
+                                </tr>
+                            @endif
                         </tbody>
                     </table>
                 </div>
             </div>
             <div class="pagination_area">
                 <div class="d-flex">
-                    <select class="niceSelect">
-                        <option data-display="10">10</option>
+                    <select class="niceSelect" name="sortuserresults" wire:model.blur="sortingValue"
+                        wire:change='resetPage'>
                         <option value="1">10</option>
                         <option value="2">30</option>
                         <option value="3">50</option>
@@ -426,27 +189,7 @@
                     </select>
                 </div>
                 <ul class="number_list d-flex align-items-center justify-content-center flex-wrap">
-                    <li>
-                        <a href="#" class="pagination_active"> 1 </a>
-                    </li>
-                    <li>
-                        <a href="#"> 2 </a>
-                    </li>
-                    <li>
-                        <a href="#"> 3 </a>
-                    </li>
-                    <li>
-                        <div class="middle_dot">...</div>
-                    </li>
-                    <li>
-                        <a href="#"> 8 </a>
-                    </li>
-                    <li>
-                        <a href="#"> 9 </a>
-                    </li>
-                    <li>
-                        <a href="#"> 10 </a>
-                    </li>
+                    {{ $templates->links('livewire.admin-pagination') }}
                 </ul>
                 <div class="pagination_action_list d-flex align-items-center justify-content-end flex-wrap g-sm">
                     <a href="#">
@@ -462,16 +205,15 @@
         </section>
 
         <!-- New Template Modal  -->
-        <div class="modal fade common_modal" id="createTemplateModal" tabindex="-1" aria-labelledby="createModal"
-            aria-hidden="true">
+        <div wire:ignore.self class="modal fade common_modal" id="createTemplateModal" tabindex="-1"
+            aria-labelledby="createModal" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
                 <div class="modal-content">
                     <div class="modal-header">
                         <h1 class="modal-title fs-5" id="createModal">
                             Create SMS template
                         </h1>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal"
-                            aria-label="Close"></button>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
                         <form wire:submit.prevent='storeData' class="event_form_area">

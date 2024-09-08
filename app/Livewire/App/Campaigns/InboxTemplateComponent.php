@@ -9,12 +9,10 @@ use Livewire\WithPagination;
 class InboxTemplateComponent extends Component
 {
     use WithPagination;
-    public $searchTerm, $sortingValue = 10, $delete_id, $edit_id;
+    public $searchTerm, $sortingValue = 10, $delete_id, $edit_id, $sortBy = 'created_at', $sortDirection = 'DESC';
     public $template_name, $status, $preview_message;
 
-    public function mount()
-    {
-    }
+    public function mount() {}
 
     public function updated($fields)
     {
@@ -88,6 +86,20 @@ class InboxTemplateComponent extends Component
         $this->resetInputs();
     }
 
+    public function setSortBy($sortByField)
+    {
+        if ($this->sortBy === $sortByField) {
+            $this->sortDirection = ($this->sortDirection ==  "ASC") ? 'DESC' : "ASC";
+            return;
+        }
+        $this->sortBy = $sortByField;
+        $this->sortDirection = 'DESC';
+    }
+    public function updateSearch()
+    {
+        $this->resetPage();
+    }
+    
     //Delete Admin
     public function deleteConfirmation($id)
     {
@@ -106,6 +118,10 @@ class InboxTemplateComponent extends Component
     }
     public function render()
     {
-        return view('livewire.app.campaigns.inbox-template-component')->layout('livewire.app.layouts.base');
+        $templates = InboxTemplate::where('template_name', 'like', '%' . $this->searchTerm . '%')
+            ->orderBy($this->sortBy, $this->sortDirection)
+            ->paginate($this->sortingValue);
+        $this->dispatch('reload_scripts');
+        return view('livewire.app.campaigns.inbox-template-component', ['templates' => $templates])->layout('livewire.app.layouts.base');
     }
 }
