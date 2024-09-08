@@ -112,7 +112,10 @@ class SubAccountComponent extends Component
 
     public function render()
     {
-        $subAccounts = User::where('type', 'sub')->where('parent_id', user()->id)->paginate($this->sortingValue);
+        $subAccounts = User::where(function($q){
+            $q->where('first_name', 'like', '%'.$this->searchTerm.'%')
+                ->orWhere('last_name', 'like', '%'.$this->searchTerm.'%');
+        })->where('type', 'sub')->where('parent_id', user()->id)->paginate($this->sortingValue);
 
         return view('livewire.app.settings.sub-account-component', ['subAccounts' => $subAccounts])->layout('livewire.app.layouts.base');
     }
