@@ -47,8 +47,8 @@
 
                                 <div class="col-md-6 col-sm-12 mb-2 search_cont">
                                     <label class="font-weight-normal mr-2">Search:</label>
-                                    <input type="search" class="sinput" placeholder="Search..." wire:model.live="searchTerm"
-                                        wire:keyup='resetPage' />
+                                    <input type="search" class="sinput" placeholder="Search..."
+                                        wire:model.live="searchTerm" wire:keyup='resetPage' />
                                 </div>
                             </div>
 
@@ -56,28 +56,70 @@
                                 <table class="table align-middle table-nowrap table-bordered mb-0">
                                     <thead>
                                         <tr>
-                                            <th class="align-middle">#</th>
-                                            <th class="align-middle">Name</th>
-                                            <th class="align-middle">Email</th>
-                                            <th class="align-middle">Phone</th>
-                                            <th class="align-middle text-center">Role</th>
-                                            <th class="align-middle text-center" style="width: 15%;">Status</th>
+                                            @include(
+                                                'livewire.admin.datatable.admin-datatable-th-sorting',
+                                                [
+                                                    'id' => 'id',
+                                                    'thDisplayName' => 'ID',
+                                                ]
+                                            )
+                                            @include(
+                                                'livewire.admin.datatable.admin-datatable-th-sorting',
+                                                [
+                                                    'id' => 'name',
+                                                    'thDisplayName' => 'Name',
+                                                ]
+                                            )
+                                            @include(
+                                                'livewire.admin.datatable.admin-datatable-th-sorting',
+                                                [
+                                                    'id' => 'email',
+                                                    'thDisplayName' => 'Email',
+                                                ]
+                                            )
+                                            @include(
+                                                'livewire.admin.datatable.admin-datatable-th-sorting',
+                                                [
+                                                    'id' => 'phone',
+                                                    'thDisplayName' => 'Phone',
+                                                ]
+                                            )
+                                            @include(
+                                                'livewire.admin.datatable.admin-datatable-th-sorting',
+                                                [
+                                                    'id' => 'role',
+                                                    'thDisplayName' => 'Role',
+                                                ]
+                                            )
+                                            @include(
+                                                'livewire.admin.datatable.admin-datatable-th-sorting',
+                                                [
+                                                    'id' => 'status',
+                                                    'thDisplayName' => 'Status',
+                                                ]
+                                            )
                                             <th class="align-middle text-center">Action</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         @if ($admins->count() > 0)
                                             @php
-                                                $sl = $admins->perPage() * $admins->currentPage() - ($admins->perPage() - 1);
+                                                $sl =
+                                                    $admins->perPage() * $admins->currentPage() -
+                                                    ($admins->perPage() - 1);
                                             @endphp
                                             @foreach ($admins as $admin)
                                                 <tr>
                                                     <td class="align-middle">{{ $sl++ }}</td>
                                                     <td class="align-middle">
                                                         @if ($admin->avatar)
-                                                            <img src="{{ asset($admin->avatar) }}" class="img-fluid rounded-circle mr-3" style="height: 40px; width: 40px;" alt="">
+                                                            <img src="{{ asset($admin->avatar) }}"
+                                                                class="img-fluid rounded-circle mr-3"
+                                                                style="height: 40px; width: 40px;" alt="">
                                                         @else
-                                                            <img src="{{ asset('assets/images/placeholder.jpg') }}" class="img-fluid rounded-circle mr-3" style="height: 40px; width: 40px;" alt="">
+                                                            <img src="{{ asset('assets/images/placeholder.jpg') }}"
+                                                                class="img-fluid rounded-circle mr-3"
+                                                                style="height: 40px; width: 40px;" alt="">
                                                         @endif
                                                         {{ $admin->name }}
                                                     </td>

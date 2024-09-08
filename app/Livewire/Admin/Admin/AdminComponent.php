@@ -7,13 +7,14 @@ use Livewire\Component;
 use Livewire\WithPagination;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Storage;
 use Livewire\Features\SupportFileUploads\WithFileUploads;
 
 class AdminComponent extends Component
 {
     use WithPagination, WithFileUploads;
-    public $searchTerm, $sortingValue = 10, $delete_id, $edit_id, $roles;
+    public $sortingValue = 10, $searchTerm;
+    public $sortBy = 'created_at', $sortDirection = 'DESC';
+    public $delete_id, $edit_id, $roles;
     public $name, $email, $phone, $password, $role, $avatar, $uploadedAvatar;
 
     public function mount()
@@ -158,10 +159,26 @@ class AdminComponent extends Component
         $this->delete_id = '';
     }
 
+    public function setSortBy($sortByField)
+    {
+        if ($this->sortBy === $sortByField) {
+            $this->sortDirection = ($this->sortDirection ==  "ASC") ? 'DESC' : "ASC";
+            return;
+        }
+        $this->sortBy = $sortByField;
+        $this->sortDirection = 'DESC';
+    }
+
+    public function updateSearch()
+    {
+        $this->resetPage();
+    }
+
     public function render()
     {
-        $admins = Admin::where('type', 'admin')->orderBy('id', 'DESC')->paginate($this->sortingValue);
-
+        $admins = Admin::where('type', 'admin')->where('name', 'like', '%' . $this->searchTerm . '%')
+            ->orderBy($this->sortBy, $this->sortDirection)
+            ->paginate($this->sortingValue);
         $this->dispatch('reload_scripts');
         return view('livewire.admin.admin.admin-component', ['admins' => $admins])->layout('livewire.admin.layouts.base');
     }
