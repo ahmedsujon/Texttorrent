@@ -1,6 +1,6 @@
-<th class="align-middle" wire:click="setSortBy('{{ $username }}')">
+<th class="align-middle" wire:click="setSortBy('{{ $template_name }}')">
     {{ $thDisplayName }}
-    @if ($sortBy !== $username)
+    @if ($sortBy !== $template_name)
         <svg style="float:right" width="15" float="right" height="15" viewBox="0 0 24 24" fill="none"
             xmlns="http://www.w3.org/2000/svg">
             <path d="M6 16L12 22L18 16" stroke="#969696" stroke-width="2" stroke-linecap="round"

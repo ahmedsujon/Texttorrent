@@ -9,7 +9,9 @@ use Livewire\WithPagination;
 class InboxTemplateComponent extends Component
 {
     use WithPagination;
-    public $searchTerm, $sortingValue = 10, $delete_id, $edit_id, $sortBy = 'created_at', $sortDirection = 'DESC';
+    public $sortingValue = 10, $searchTerm;
+    public $sortBy = 'created_at', $sortDirection = 'DESC';
+    public $edit_id, $delete_id;
     public $template_name, $status, $preview_message;
 
     public function mount() {}
@@ -99,7 +101,7 @@ class InboxTemplateComponent extends Component
     {
         $this->resetPage();
     }
-    
+
     //Delete Admin
     public function deleteConfirmation($id)
     {

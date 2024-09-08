@@ -34,28 +34,7 @@
                 <div class="table-responsive">
                     <table class="table table-hover">
                         <thead>
-
                             <tr>
-                                @include('livewire.app.datatable.template', [
-                                    'id' => 'template_name',
-                                    'thDisplayName' => 'Name',
-                                ])
-                                @include('livewire.app.datatable.template', [
-                                    'id' => 'preview_message',
-                                    'thDisplayName' => 'Message',
-                                ])
-                                @include('livewire.app.datatable.template', [
-                                    'id' => 'status',
-                                    'thDisplayName' => 'Status',
-                                ])
-                                @include('livewire.app.datatable.template', [
-                                    'id' => 'created_at',
-                                    'thDisplayName' => 'Created',
-                                ])
-                                <th class="align-middle text-center">Action</th>
-                            </tr>
-
-                            {{-- <tr>
                                 <th scope="col">
                                     <div class="checkbox_name_area">
                                         <div class="form-check table_checkbox_area">
@@ -94,8 +73,7 @@
                                         <span>Action</span>
                                     </div>
                                 </th>
-                            </tr> --}}
-
+                            </tr>
                         </thead>
                         <tbody>
                             @if ($templates->count() > 0)
@@ -182,10 +160,10 @@
                 <div class="d-flex">
                     <select class="niceSelect" name="sortuserresults" wire:model.blur="sortingValue"
                         wire:change='resetPage'>
-                        <option value="1">10</option>
-                        <option value="2">30</option>
-                        <option value="3">50</option>
-                        <option value="4">100</option>
+                        <option value="10">10</option>
+                        <option value="30">30</option>
+                        <option value="50">50</option>
+                        <option value="100">100</option>
                     </select>
                 </div>
                 <ul class="number_list d-flex align-items-center justify-content-center flex-wrap">
@@ -213,7 +191,8 @@
                         <h1 class="modal-title fs-5" id="createModal">
                             Create SMS template
                         </h1>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                            aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
                         <form wire:submit.prevent='storeData' class="event_form_area">
