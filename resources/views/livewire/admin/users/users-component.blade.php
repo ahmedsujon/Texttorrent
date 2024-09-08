@@ -56,55 +56,34 @@
                                 <table class="table align-middle table-nowrap table-bordered mb-0">
                                     <thead>
                                         <tr>
-                                            @include(
-                                                'livewire.admin.datatable.template',
-                                                [
-                                                    'id' => 'id',
-                                                    'thDisplayName' => 'ID',
-                                                ]
-                                            )
-                                            @include(
-                                                'livewire.admin.datatable.template',
-                                                [
-                                                    'id' => 'name',
-                                                    'thDisplayName' => 'Name',
-                                                ]
-                                            )
-                                            @include(
-                                                'livewire.admin.datatable.template',
-                                                [
-                                                    'id' => 'username',
-                                                    'thDisplayName' => 'Username',
-                                                ]
-                                            )
-                                            @include(
-                                                'livewire.admin.datatable.template',
-                                                [
-                                                    'id' => 'email',
-                                                    'thDisplayName' => 'Email',
-                                                ]
-                                            )
-                                            @include(
-                                                'livewire.admin.datatable.template',
-                                                [
-                                                    'id' => 'phone',
-                                                    'thDisplayName' => 'Phone',
-                                                ]
-                                            )
-                                            @include(
-                                                'livewire.admin.datatable.template',
-                                                [
-                                                    'id' => 'status',
-                                                    'thDisplayName' => 'Status',
-                                                ]
-                                            )
-                                            @include(
-                                                'livewire.admin.datatable.template',
-                                                [
-                                                    'id' => 'created_at',
-                                                    'thDisplayName' => 'Created Date',
-                                                ]
-                                            )
+                                            @include('livewire.admin.datatable.admin-datatable-th-sorting', [
+                                                'id' => 'id',
+                                                'thDisplayName' => 'ID',
+                                            ])
+                                            @include('livewire.admin.datatable.admin-datatable-th-sorting', [
+                                                'id' => 'name',
+                                                'thDisplayName' => 'Name',
+                                            ])
+                                            @include('livewire.admin.datatable.admin-datatable-th-sorting', [
+                                                'id' => 'username',
+                                                'thDisplayName' => 'Username',
+                                            ])
+                                            @include('livewire.admin.datatable.admin-datatable-th-sorting', [
+                                                'id' => 'email',
+                                                'thDisplayName' => 'Email',
+                                            ])
+                                            @include('livewire.admin.datatable.admin-datatable-th-sorting', [
+                                                'id' => 'phone',
+                                                'thDisplayName' => 'Phone',
+                                            ])
+                                            @include('livewire.admin.datatable.admin-datatable-th-sorting', [
+                                                'id' => 'status',
+                                                'thDisplayName' => 'Status',
+                                            ])
+                                            @include('livewire.admin.datatable.admin-datatable-th-sorting', [
+                                                'id' => 'created_at',
+                                                'thDisplayName' => 'Created Date',
+                                            ])
                                             <th class="align-middle text-center">Action</th>
                                         </tr>
                                     </thead>

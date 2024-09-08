@@ -12,7 +12,8 @@ use Illuminate\Support\Facades\Hash;
 class UsersComponent extends Component
 {
     use WithPagination, WithFileUploads;
-    public $sortingValue = 10, $searchTerm, $sortBy = 'created_at', $sortDirection = 'DESC';
+    public $sortingValue = 10, $searchTerm;
+    public $sortBy = 'created_at', $sortDirection = 'DESC';
     public $edit_id, $delete_id;
     public $first_name, $last_name, $username, $email, $phone, $password, $avatar, $uploadedAvatar;
     #[Url('history:true')]
