@@ -4,6 +4,7 @@ namespace App\Livewire\Admin\Users;
 
 use App\Models\User;
 use Livewire\Component;
+use Livewire\Attributes\Url;
 use Livewire\WithPagination;
 use Livewire\WithFileUploads;
 use Illuminate\Support\Facades\Hash;
@@ -11,12 +12,12 @@ use Illuminate\Support\Facades\Hash;
 class UsersComponent extends Component
 {
     use WithPagination, WithFileUploads;
-    public $searchTerm, $sortingValue = 10, $delete_id, $edit_id;
+    public $sortingValue = 10, $searchTerm;
+    public $sortBy = 'created_at', $sortDirection = 'DESC';
+    public $edit_id, $delete_id;
     public $first_name, $last_name, $username, $email, $phone, $password, $avatar, $uploadedAvatar;
-
-    public function mount()
-    {
-    }
+    #[Url('history:true')]
+    public function mount() {}
 
     public function updated($fields)
     {
@@ -165,10 +166,26 @@ class UsersComponent extends Component
         $this->delete_id = '';
     }
 
+    public function setSortBy($sortByField)
+    {
+        if ($this->sortBy === $sortByField) {
+            $this->sortDirection = ($this->sortDirection ==  "ASC") ? 'DESC' : "ASC";
+            return;
+        }
+        $this->sortBy = $sortByField;
+        $this->sortDirection = 'DESC';
+    }
+
+    public function updateSearch()
+    {
+        $this->resetPage();
+    }
+
     public function render()
     {
-        $users = User::orderBy('id', 'DESC')->paginate($this->sortingValue);
-
+        $users = User::where('first_name', 'like', '%' . $this->searchTerm . '%')
+            ->orderBy($this->sortBy, $this->sortDirection)
+            ->paginate($this->sortingValue);
         $this->dispatch('reload_scripts');
         return view('livewire.admin.users.users-component', ['users' => $users])->layout('livewire.admin.layouts.base');
     }
