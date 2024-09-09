@@ -11,6 +11,7 @@ use Livewire\WithPagination;
 class SubAccountComponent extends Component
 {
     use WithPagination;
+    public $sortBy = 'created_at', $sortDirection = 'DESC';
     public $searchTerm, $sortingValue = 10, $delete_id, $edit_id, $lPermissions, $mPermissions, $rPermissions;
     public $user_id, $first_name, $last_name, $username, $email, $password, $confirm_password, $permissions = [];
 
@@ -110,9 +111,22 @@ class SubAccountComponent extends Component
         session()->flash('message', 'Sub Account Deleted Successfully.');
     }
 
+    public function setSortBy($sortByField)
+    {
+        if ($this->sortBy === $sortByField) {
+            $this->sortDirection = ($this->sortDirection ==  "ASC") ? 'DESC' : "ASC";
+            return;
+        }
+        $this->sortBy = $sortByField;
+        $this->sortDirection = 'DESC';
+    }
+
     public function render()
     {
-        $subAccounts = User::where('type', 'sub')->where('parent_id', user()->id)->paginate($this->sortingValue);
+        $subAccounts = User::where(function($q){
+            $q->where('first_name', 'like', '%'.$this->searchTerm.'%')
+                ->orWhere('last_name', 'like', '%'.$this->searchTerm.'%');
+        })->orderBy($this->sortBy, $this->sortDirection)->where('type', 'sub')->where('parent_id', user()->id)->paginate($this->sortingValue);
 
         return view('livewire.app.settings.sub-account-component', ['subAccounts' => $subAccounts])->layout('livewire.app.layouts.base');
     }

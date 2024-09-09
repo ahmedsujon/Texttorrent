@@ -30,15 +30,15 @@ class InboxTemplateComponent extends Component
         $this->validate([
             'template_name' => 'required',
             'status' => 'required',
-            // 'preview_message' => 'required',
+            'preview_message' => 'required',
         ]);
 
         $template = new InboxTemplate();
         $template->template_name = $this->template_name;
         $template->status = $this->status;
         $template->preview_message = $this->preview_message;
-
         $template->save();
+
         $this->dispatch('closeModal');
         $this->resetInputs();
         $this->dispatch('success', ['message' => 'New template added successfully']);
@@ -60,7 +60,7 @@ class InboxTemplateComponent extends Component
         $this->validate([
             'template_name' => 'required',
             'status' => 'required',
-            // 'preview_message' => 'required',
+            'preview_message' => 'required',
         ]);
 
         $template = InboxTemplate::where('id', $this->edit_id)->first();
