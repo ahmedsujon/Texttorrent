@@ -121,6 +121,28 @@ class SubAccountComponent extends Component
         $this->sortDirection = 'DESC';
     }
 
+    //Delete Admin
+    public function deleteConfirmation($id)
+    {
+        $this->delete_id = $id;
+        $this->dispatch('show_delete_confirmation');
+    }
+
+    public function deleteData()
+    {
+        $data = User::where('id', $this->delete_id)->first();
+        $data->delete();
+
+        $this->dispatch('user_deleted');
+        $this->delete_id = '';
+    }
+
+    public function changeStatus($id, $status)
+    {
+        User::where('id', $id)->update(['status' => ($status == 1 ? 0 : 1)]);
+        $this->dispatch('success', ['message' => 'User updated successfully.']);
+    }
+
     public function render()
     {
         $subAccounts = User::where(function($q){

@@ -150,7 +150,6 @@ class NotificationComponent extends Component
     public function deleteData()
     {
         $data = TriggerNotification::where('id', $this->delete_id)->first();
-        deleteFile($data->avatar);
         $data->delete();
 
         $this->dispatch('notification_deleted');

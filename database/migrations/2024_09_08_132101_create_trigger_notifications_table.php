@@ -19,7 +19,7 @@ return new class extends Migration
             $table->string('phone')->nullable();
             $table->string('webhook_url')->nullable();
             $table->string('webhook_format')->nullable();
-            $table->string('auto_responder')->nullable();
+            $table->tinyInteger('auto_responder')->default(0);
             $table->longText('auto_responder_message')->nullable();
             $table->timestamps();
         });
