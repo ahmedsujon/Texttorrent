@@ -118,7 +118,7 @@
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
-                        <div class="warning_area">
+                        <div class="warning_area" wire:ignore>
                             <p>
                                 <span>IMPORTANT:</span>  Enter your mobile number with country
                                 code (US Example: 12025248725)
@@ -141,16 +141,18 @@
                                     <p class="text-danger" style="font-size: 11.5px;">{{ $message }}</p>
                                 @enderror
                             </div>
-                            <div class="input_row searchable_select" wire:ignore>
-                                <label for="type">Type</label>
-                                <select name="lang" class="js-searchBox searchBox_type">
-                                    <option value="">Select</option>
-                                    <option value="Email">Email</option>
-                                    <option value="Phone">Phone</option>
-                                    <option value="Webhook">Webhook</option>
-                                </select>
-                                <img src="{{ asset('assets/app/icons/arrow-down.svg') }}" alt="down arrow"
-                                    class="down_arrow" />
+                            <div class="input_row searchable_select">
+                                <div wire:ignore>
+                                    <label for="type">Type</label>
+                                    <select name="lang" class="js-searchBox searchBox_type">
+                                        <option value="">Select</option>
+                                        <option value="Email">Email</option>
+                                        <option value="Phone">Phone</option>
+                                        <option value="Webhook">Webhook</option>
+                                    </select>
+                                    <img src="{{ asset('assets/app/icons/arrow-down.svg') }}" alt="down arrow"
+                                        class="down_arrow" />
+                                </div>
                                 @error('type')
                                     <p class="text-danger" style="font-size: 11.5px;">{{ $message }}</p>
                                 @enderror
@@ -179,15 +181,17 @@
                                     <p class="text-danger" style="font-size: 11.5px;">{{ $message }}</p>
                                 @enderror
                             </div>
-                            <div class="input_row searchable_select" wire:ignore>
-                                <label for="webhook_format">Webhook Format</label>
-                                <select name="lang" class="js-searchBox webhook_format">
-                                    <option value="">Select</option>
-                                    <option value="Json">Json</option>
-                                    <option value="Urlencoded">Urlencoded</option>
-                                </select>
-                                <img src="{{ asset('assets/app/icons/arrow-down.svg') }}" alt="down arrow"
-                                    class="down_arrow" />
+                            <div class="input_row searchable_select">
+                                <div wire:ignore>
+                                    <label for="webhook_format">Webhook Format</label>
+                                    <select name="lang" class="js-searchBox webhook_format">
+                                        <option value="">Select</option>
+                                        <option value="Json">Json</option>
+                                        <option value="Urlencoded">Urlencoded</option>
+                                    </select>
+                                    <img src="{{ asset('assets/app/icons/arrow-down.svg') }}" alt="down arrow"
+                                        class="down_arrow" />
+                                </div>
                                 @error('webhook_format')
                                     <p class="text-danger" style="font-size: 11.5px;">{{ $message }}</p>
                                 @enderror
@@ -262,17 +266,19 @@
                                     <p class="text-danger" style="font-size: 11.5px;">{{ $message }}</p>
                                 @enderror
                             </div>
-                            <div class="input_row searchable_select" wire:ignore>
-                                <label for="type">Type</label>
-                                <select name="lang" wire:model.blur='type'
-                                    class="js-searchBox edit_searchBox_type">
-                                    <option value="">Select</option>
-                                    <option value="Email">Email</option>
-                                    <option value="Phone">Phone</option>
-                                    <option value="Webhook">Webhook</option>
-                                </select>
-                                <img src="{{ asset('assets/app/icons/arrow-down.svg') }}" alt="down arrow"
-                                    class="down_arrow" />
+                            <div class="input_row searchable_select">
+                                <div wire:ignore>
+                                    <label for="type">Type</label>
+                                    <select name="lang" wire:model.live='type'
+                                        class="js-searchBox edit_searchBox_type">
+                                        <option value="">Select</option>
+                                        <option value="Email">Email</option>
+                                        <option value="Phone">Phone</option>
+                                        <option value="Webhook">Webhook</option>
+                                    </select>
+                                    <img src="{{ asset('assets/app/icons/arrow-down.svg') }}" alt="down arrow"
+                                        class="down_arrow" />
+                                </div>
                                 @error('type')
                                     <p class="text-danger" style="font-size: 11.5px;">{{ $message }}</p>
                                 @enderror
@@ -301,27 +307,28 @@
                                     <p class="text-danger" style="font-size: 11.5px;">{{ $message }}</p>
                                 @enderror
                             </div>
-                            <div class="input_row searchable_select" wire:ignore>
-                                <label for="webhook_format">Webhook Format</label>
-                                <select name="lang" wire:model.blur='webhook_format'
-                                    class="js-searchBox edit_webhook_format">
-                                    <option value="">Select</option>
-                                    <option value="Json">Json</option>
-                                    <option value="Urlencoded">Urlencoded</option>
-                                </select>
-                                <img src="{{ asset('assets/app/icons/arrow-down.svg') }}" alt="down arrow"
-                                    class="down_arrow" />
+                            <div class="input_row searchable_select">
+                                <div wire:ignore>
+                                    <label for="webhook_format">Webhook Format</label>
+                                    <select name="lang" wire:model.live='webhook_format'
+                                        class="js-searchBox edit_webhook_format">
+                                        <option value="">Select</option>
+                                        <option value="Json">Json</option>
+                                        <option value="Urlencoded">Urlencoded</option>
+                                    </select>
+                                    <img src="{{ asset('assets/app/icons/arrow-down.svg') }}" alt="down arrow"
+                                        class="down_arrow" />
+                                </div>
                                 @error('webhook_format')
                                     <p class="text-danger" style="font-size: 11.5px;">{{ $message }}</p>
                                 @enderror
                             </div>
+
                             <div class="input_row">
                                 <div class="checkbox_area d-flex align-items-center flex-wrap mb-0 pt-2">
                                     <div class="form-check">
-                                        <input class="form-check-input" wire:model.blur='auto_responder'
-                                            type="checkbox" id="fromPhone" value="1"
-                                            {{ $auto_responder == 1 ? 'checked' : '' }} />
-                                        <label class="form-check-label mb-0" for="fromPhone">
+                                        <input class="form-check-input" type="checkbox" id="fromPhone1" value="1" @if($auto_responder == 1) checked @endif>
+                                        <label class="form-check-label mb-0" for="fromPhone1">
                                             Send Auto Responder?
                                         </label>
                                         @error('auto_responder')
@@ -394,6 +401,14 @@
         $(".edit_webhook_format").on('change', function() {
             @this.set('webhook_format', $(this).val());
         });
+
+        $('#fromPhone1').change(function() {
+            if ($(this).is(':checked')) {
+                @this.set('auto_responder', 1);
+            } else {
+                @this.set('auto_responder', 0);
+            }
+        });
     </script>
 
     <script>
@@ -407,6 +422,9 @@
     <script>
         window.addEventListener('showEditModal', event => {
             $('#editNotificationModal').modal('show');
+            setTimeout(() => {
+                $('.modal-body').click();
+            }, 100);
         });
         window.addEventListener('closeModal', event => {
             $('#triggerNotificationModal').modal('hide');
