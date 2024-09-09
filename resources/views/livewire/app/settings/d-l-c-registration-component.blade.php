@@ -45,8 +45,8 @@
                 </li>
             </ul>
             <div class="tab-content" id="pills-tabContent">
-                <div wire:ignore.self class="tab-pane fade show active" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab"
-                    tabindex="0">
+                <div wire:ignore.self class="tab-pane fade show active" id="pills-home" role="tabpanel"
+                    aria-labelledby="pills-home-tab" tabindex="0">
                     <div class="register_area">
                         <h4>Register your brand</h4>
                         <p>
@@ -91,7 +91,7 @@
                                 <div class="input_row searchable_select">
                                     <div wire:ignore>
                                         <label for="industry">Industry</label>
-                                        <select name="lang" class="js-searchBox industry">
+                                        <select name="lang" wire:model.blur='industry' class="js-searchBox industry">
                                             <option value="">Select Vertical</option>
                                             <option value="AGRICULTURE">Agriculture</option>
                                             <option value="COMMUNICATION">Communication</option>
@@ -121,7 +121,8 @@
                                 <div class="input_row searchable_select">
                                     <div wire:ignore>
                                         <label for="organization_type">Organization type</label>
-                                        <select name="lang" class="js-searchBox organization_type">
+                                        <select name="lang" wire:model.blur='organization_type'
+                                            class="js-searchBox organization_type">
                                             <option value="">Select Type</option>
                                             <option value="PUBLIC_PROFIT">
                                                 Publicly Traded Company
@@ -143,7 +144,8 @@
                                 <div class="input_row searchable_select">
                                     <div wire:ignore>
                                         <label for="country_of_registration">Country of registration</label>
-                                        <select name="lang" class="js-searchBox country_of_registration">
+                                        <select name="lang" wire:model.blur='country_of_registration'
+                                            class="js-searchBox country_of_registration">
                                             <option value="Afghanistan">Afghanistan</option>
                                             <option value="Albania">Albania</option>
                                             <option value="Algeria">Algeria</option>
@@ -461,7 +463,7 @@
                                             <option value="Zimbabwe">Zimbabwe</option>
                                         </select>
                                         <img src="{{ asset('assets/app/icons/arrow-down.svg') }}" alt="down arrow"
-                                        class="down_arrow" />
+                                            class="down_arrow" />
                                     </div>
                                     @error('country_of_registration')
                                         <p class="text-danger mb-1" style="font-size: 13px;">{{ $message }}</p>
@@ -539,8 +541,8 @@
                         </div>
                     </form>
                 </div>
-                <div wire:ignore.self class="tab-pane fade" id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab"
-                    tabindex="0">
+                <div wire:ignore.self class="tab-pane fade" id="pills-profile" role="tabpanel"
+                    aria-labelledby="pills-profile-tab" tabindex="0">
                     <form wire:submit.prevent='saveCampaignData' class="event_form_area">
                         <div class="register_group">
                             <h4>Company details</h4>
@@ -557,7 +559,8 @@
                                 <div class="input_row searchable_select">
                                     <div wire:ignore>
                                         <label for="campaign_type">Campaign type</label>
-                                        <select name="lang" class="js-searchBox campaign_type">
+                                        <select name="lang" wire:model.blur='campaign_type'
+                                            class="js-searchBox campaign_type">
                                             <option value="">Select</option>
                                             <option value="Python">Python</option>
                                             <option value="Java">Java</option>
@@ -770,7 +773,7 @@
                                             value="0" id="additionalRecipients"
                                             onchange="additionalRecipientsValue(this)"
                                             @if ($terms_aggre) checked @endif id="fromPhone" />
-                                        <label class="form-check-label mb-0" for="fromPhone">
+                                        <label class="form-check-label mb-0" for="terms_aggre">
                                             I consent to have Texttorrent's SMS gateway partners
                                             register and vet my brand on my organization’s behalf. I
                                             understand that there will be a one-time fee of $44 and
@@ -798,17 +801,17 @@
 
 @push('scripts')
     <script>
-        $(document).ready(function(){
-            $('.industry').on('change', function(){
+        $(document).ready(function() {
+            $('.industry').on('change', function() {
                 @this.set('industry', this.value);
             });
-            $('.organization_type').on('change', function(){
+            $('.organization_type').on('change', function() {
                 @this.set('organization_type', this.value);
             });
-            $('.country_of_registration').on('change', function(){
+            $('.country_of_registration').on('change', function() {
                 @this.set('country_of_registration', this.value);
             });
-            $('.campaign_type').on('change', function(){
+            $('.campaign_type').on('change', function() {
                 @this.set('campaign_type', this.value);
             });
         });
