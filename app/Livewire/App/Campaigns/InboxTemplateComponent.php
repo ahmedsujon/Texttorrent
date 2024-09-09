@@ -60,7 +60,7 @@ class InboxTemplateComponent extends Component
         $this->validate([
             'template_name' => 'required',
             'status' => 'required',
-            'preview_message' => 'required',
+            // 'preview_message' => 'required',
         ]);
 
         $template = InboxTemplate::where('id', $this->edit_id)->first();
@@ -72,6 +72,12 @@ class InboxTemplateComponent extends Component
         $this->dispatch('closeModal');
         $this->resetInputs();
         $this->dispatch('success', ['message' => 'Template updated successfully']);
+    }
+
+    public function resetForm()
+    {
+        $this->reset(['template_name', 'status', 'preview_message']);
+        $this->permissions = [];
     }
 
     public function resetInputs()
