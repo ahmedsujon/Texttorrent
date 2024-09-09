@@ -1,4 +1,9 @@
 <div>
+    <style>
+        .app-spinner {
+            margin-right: 3px;
+        }
+    </style>
     <main class="main_content_wrapper setting_content_wrapper">
         <!-- Sub Account Section  -->
         <section class="sub_account_wrapper account_border">
@@ -59,6 +64,11 @@
                                 )
                                 <th scope="col">
                                     <div class="column_area">
+                                        <span>Status</span>
+                                    </div>
+                                </th>
+                                <th scope="col">
+                                    <div class="column_area">
                                         <span>Action</span>
                                     </div>
                                 </th>
@@ -84,12 +94,30 @@
                                         <h5 class="send_time">{{ $sAccount->email }}</h5>
                                     </td>
                                     <td>
+                                        @if ($sAccount->status == 0)
+                                            <button class="btn btn-xs btn-danger d-flex"
+                                                wire:click.prevent='changeStatus({{ $sAccount->id }}, {{ $sAccount->status }})'
+                                                style="font-weight: normal; font-size: 11px; padding: 1px 7px;">{!! loadingStateStatus('changeStatus(' . $sAccount->id . ', ' . $sAccount->status . ')', 'Inactive') !!}</button>
+                                        @else
+                                            <button class="btn btn-xs btn-success d-flex"
+                                                wire:click.prevent='changeStatus({{ $sAccount->id }}, {{ $sAccount->status }})'
+                                                style="font-weight: normal; font-size: 11px; padding: 1px 7px;">{!! loadingStateStatus('changeStatus(' . $sAccount->id . ', ' . $sAccount->status . ')', 'Active') !!}</button>
+                                        @endif
+                                    </td>
+                                    <td>
                                         <div class="table_dropdown_area d-flex align-items-center flex-wrap gap-1">
                                             <button type="button" class="table_edit_btn" wire:click.prevent='editData({{ $sAccount->id }})'>
                                                 <img src="{{ asset('assets/app/icons/edit-03.svg') }}" alt="edit icon" />
                                                 <span>Edit</span>
                                             </button>
-                                            <div class="dropdown">
+                                            <button type="button" class="table_delete_btn"
+                                                wire:click.prevent='deleteConfirmation({{ $sAccount->id }})'
+                                                wire:loading.attr='disabled'>
+                                                <img src="{{ asset('assets/app/icons/delete-04.svg') }}"
+                                                    alt="delete icon" />
+                                            </button>
+
+                                            {{-- <div class="dropdown">
                                                 <button class="table_dot_btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
                                                     <img src="{{ asset('assets/app/icons/dot-horizontal.svg') }}" alt="dot icon" />
                                                 </button>
@@ -112,14 +140,14 @@
                                                         </button>
                                                     </li>
                                                 </ul>
-                                            </div>
+                                            </div> --}}
                                         </div>
                                     </td>
                                 </tr>
                                 @endforeach
                             @else
                                 <tr>
-                                    <td colspan="5" class="pt-5 text-center"><small>No data found!</small></td>
+                                    <td colspan="6" class="pt-5 text-center"><small>No data found!</small></td>
                                 </tr>
                             @endif
                         </tbody>
@@ -398,6 +426,30 @@
                 </div>
             </div>
         </div>
+
+        <!-- Delete  Modal  -->
+        <div wire:ignore.self class="modal fade delete_modal" id="deleteDataModal" tabindex="-1"
+            aria-labelledby="deleteModal" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+                <div class="modal-content">
+                    <div class="modal-body">
+                        <div class="content_area">
+                            <h2>Would you like to permanently delete this event?</h2>
+                            <h4>Once deleted, this event will no longer be accessible</h4>
+                            <div class="delete_action_area d-flex align-items-center flex-wrap">
+                                <button type="button" class="delete_cancel_btn" id="deleteModalCloseBtn" data-bs-dismiss="modal">
+                                    Cancel
+                                </button>
+                                <button type="button" wire:click.prevent='deleteData' wire:loading.attr='disabled' class="delete_yes_btn">
+                                    {!! loadingStateWithText('deleteData', 'Yes') !!}
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
     </main>
 </div>
 @push('scripts')
@@ -417,7 +469,7 @@
             $('#editSubAccountModal').modal('hide');
         });
 
-        window.addEventListener('admin_deleted', event => {
+        window.addEventListener('user_deleted', event => {
             $('#deleteDataModal').modal('hide');
             Swal.fire(
                 "Deleted!",

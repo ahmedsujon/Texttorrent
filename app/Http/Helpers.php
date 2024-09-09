@@ -112,7 +112,7 @@ function loadingStateXs($key, $title)
 function loadingStateStatus($key, $title)
 {
     $loadingSpinner = '
-        <div wire:loading wire:target="' . $key . '" wire:key="' . $key . '"><span class="spinner-border spinner-border-xs" role="status" aria-hidden="true"></span></div> ' . $title . '
+        <div wire:loading wire:target="' . $key . '" wire:key="' . $key . '" class="app-spinner"><span class="spinner-border spinner-border-xs" role="status" aria-hidden="true"></span></div> ' . $title . '
     ';
     return $loadingSpinner;
 }
