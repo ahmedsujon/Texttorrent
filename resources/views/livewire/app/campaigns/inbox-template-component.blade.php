@@ -35,39 +35,22 @@
                     <table class="table table-hover">
                         <thead>
                             <tr>
-                                <th scope="col">
-                                    <div class="checkbox_name_area">
-                                        <div class="form-check table_checkbox_area">
-                                            <input class="form-check-input" type="checkbox" value="" />
-                                        </div>
-                                        <div class="column_area">
-                                            <span>Name</span>
-                                            <img src="{{ asset('assets/app/icons/tp-down-table-arrow.svg') }}"
-                                                alt="top down arrow" />
-                                        </div>
-                                    </div>
-                                </th>
-                                <th scope="col">
-                                    <div class="column_area">
-                                        <span>Message</span>
-                                        <img src="{{ asset('assets/app/icons/tp-down-table-arrow.svg') }}"
-                                            alt="top down arrow" />
-                                    </div>
-                                </th>
-                                <th scope="col">
-                                    <div class="column_area">
-                                        <span>Created</span>
-                                        <img src="{{ asset('assets/app/icons/tp-down-table-arrow.svg') }}"
-                                            alt="top down arrow" />
-                                    </div>
-                                </th>
-                                <th scope="col">
-                                    <div class="column_area">
-                                        <span>Status</span>
-                                        <img src="{{ asset('assets/app/icons/tp-down-table-arrow.svg') }}"
-                                            alt="top down arrow" />
-                                    </div>
-                                </th>
+                                @include('livewire.app.datatable.app-datatable-th-sorting', [
+                                    'id' => 'template_name',
+                                    'thDisplayName' => 'Name',
+                                ])
+                                @include('livewire.app.datatable.app-datatable-th-sorting', [
+                                    'id' => 'preview_message',
+                                    'thDisplayName' => 'Message',
+                                ])
+                                @include('livewire.app.datatable.app-datatable-th-sorting', [
+                                    'id' => 'created_at',
+                                    'thDisplayName' => 'Created',
+                                ])
+                                @include('livewire.app.datatable.app-datatable-th-sorting', [
+                                    'id' => 'status',
+                                    'thDisplayName' => 'Status',
+                                ])
                                 <th scope="col">
                                     <div class="column_area">
                                         <span>Action</span>
@@ -178,8 +161,7 @@
                         <h1 class="modal-title fs-5" id="createModal">
                             Create SMS template
                         </h1>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal"
-                            aria-label="Close"></button>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
                         <form wire:submit.prevent='storeData' class="event_form_area">
@@ -219,27 +201,32 @@
                                                 </button>
                                                 <ul class="dropdown-menu">
                                                     <li>
-                                                        <button type="button" class="dropdown-item" data-variable="[phone_number]">
+                                                        <button type="button" class="dropdown-item"
+                                                            data-variable="[phone_number]">
                                                             <span>Phone Number</span>
                                                         </button>
                                                     </li>
                                                     <li>
-                                                        <button type="button" class="dropdown-item" data-variable="[email_address]">
+                                                        <button type="button" class="dropdown-item"
+                                                            data-variable="[email_address]">
                                                             <span>Email Address</span>
                                                         </button>
                                                     </li>
                                                     <li>
-                                                        <button type="button" class="dropdown-item" data-variable="[first_name]">
+                                                        <button type="button" class="dropdown-item"
+                                                            data-variable="[first_name]">
                                                             <span>First Name</span>
                                                         </button>
                                                     </li>
                                                     <li>
-                                                        <button type="button" class="dropdown-item" data-variable="[last_name]">
+                                                        <button type="button" class="dropdown-item"
+                                                            data-variable="[last_name]">
                                                             <span>Last Name</span>
                                                         </button>
                                                     </li>
                                                     <li>
-                                                        <button type="button" class="dropdown-item" data-variable="[company]">
+                                                        <button type="button" class="dropdown-item"
+                                                            data-variable="[company]">
                                                             <span>Company</span>
                                                         </button>
                                                     </li>
@@ -247,7 +234,8 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <textarea name="" id="template_preview" rows="6" class="input_field textarea_field" placeholder="Write a template..." value=""></textarea>
+                                    <textarea name="" id="template_preview" rows="6" class="input_field textarea_field"
+                                        placeholder="Write a template..." value=""></textarea>
                                 </div>
                                 @error('preview_message')
                                     <p class="text-danger" style="font-size: 11.5px;">{{ $message }}</p>
@@ -357,12 +345,12 @@
 </div>
 @push('scripts')
     <script>
-        $(document).ready(function(){
-            $('.sortingValue').on('change', function(){
+        $(document).ready(function() {
+            $('.sortingValue').on('change', function() {
                 @this.set('sortingValue', this.value);
             });
 
-            $('#template_preview').on('change', function(){
+            $('#template_preview').on('change', function() {
                 var template = $(this).val();
 
                 @this.set('preview_message', template);
@@ -376,7 +364,7 @@
 
         // Add a click event listener to each button
         dropdownItems.forEach(item => {
-            item.addEventListener('click', function () {
+            item.addEventListener('click', function() {
                 // Get the data-variable attribute value (e.g., [phone_number])
                 let variable = this.getAttribute('data-variable');
 
