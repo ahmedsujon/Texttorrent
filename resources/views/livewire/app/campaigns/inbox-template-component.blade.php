@@ -35,39 +35,22 @@
                     <table class="table table-hover">
                         <thead>
                             <tr>
-                                <th scope="col">
-                                    <div class="checkbox_name_area">
-                                        <div class="form-check table_checkbox_area">
-                                            <input class="form-check-input" type="checkbox" value="" />
-                                        </div>
-                                        <div class="column_area">
-                                            <span>Name</span>
-                                            <img src="{{ asset('assets/app/icons/tp-down-table-arrow.svg') }}"
-                                                alt="top down arrow" />
-                                        </div>
-                                    </div>
-                                </th>
-                                <th scope="col">
-                                    <div class="column_area">
-                                        <span>Message</span>
-                                        <img src="{{ asset('assets/app/icons/tp-down-table-arrow.svg') }}"
-                                            alt="top down arrow" />
-                                    </div>
-                                </th>
-                                <th scope="col">
-                                    <div class="column_area">
-                                        <span>Created</span>
-                                        <img src="{{ asset('assets/app/icons/tp-down-table-arrow.svg') }}"
-                                            alt="top down arrow" />
-                                    </div>
-                                </th>
-                                <th scope="col">
-                                    <div class="column_area">
-                                        <span>Status</span>
-                                        <img src="{{ asset('assets/app/icons/tp-down-table-arrow.svg') }}"
-                                            alt="top down arrow" />
-                                    </div>
-                                </th>
+                                @include('livewire.app.datatable.app-datatable-th-sorting', [
+                                    'id' => 'template_name',
+                                    'thDisplayName' => 'Name',
+                                ])
+                                @include('livewire.app.datatable.app-datatable-th-sorting', [
+                                    'id' => 'preview_message',
+                                    'thDisplayName' => 'Message',
+                                ])
+                                @include('livewire.app.datatable.app-datatable-th-sorting', [
+                                    'id' => 'created_at',
+                                    'thDisplayName' => 'Created',
+                                ])
+                                @include('livewire.app.datatable.app-datatable-th-sorting', [
+                                    'id' => 'status',
+                                    'thDisplayName' => 'Status',
+                                ])
                                 <th scope="col">
                                     <div class="column_area">
                                         <span>Action</span>
@@ -111,8 +94,9 @@
                                         </td>
                                         <td>
                                             <div class="table_dropdown_area d-flex align-items-center flex-wrap gap-1">
-                                                <button type="button" class="table_edit_btn" data-bs-toggle="modal"
-                                                    data-bs-target="#editTemplateModal">
+                                                <button type="button" class="table_edit_btn"
+                                                    wire:click.prevent='editData({{ $template->id }})'
+                                                    wire:loading.attr='disabled'>
                                                     <img src="{{ asset('assets/app/icons/edit-03.svg') }}"
                                                         alt="edit icon" />
                                                     <span>Edit</span>
@@ -178,8 +162,7 @@
                         <h1 class="modal-title fs-5" id="createModal">
                             Create SMS template
                         </h1>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal"
-                            aria-label="Close"></button>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
                         <form wire:submit.prevent='storeData' class="event_form_area">
@@ -219,27 +202,32 @@
                                                 </button>
                                                 <ul class="dropdown-menu">
                                                     <li>
-                                                        <button type="button" class="dropdown-item" data-variable="[phone_number]">
+                                                        <button type="button" class="dropdown-item"
+                                                            data-variable="[phone_number]">
                                                             <span>Phone Number</span>
                                                         </button>
                                                     </li>
                                                     <li>
-                                                        <button type="button" class="dropdown-item" data-variable="[email_address]">
+                                                        <button type="button" class="dropdown-item"
+                                                            data-variable="[email_address]">
                                                             <span>Email Address</span>
                                                         </button>
                                                     </li>
                                                     <li>
-                                                        <button type="button" class="dropdown-item" data-variable="[first_name]">
+                                                        <button type="button" class="dropdown-item"
+                                                            data-variable="[first_name]">
                                                             <span>First Name</span>
                                                         </button>
                                                     </li>
                                                     <li>
-                                                        <button type="button" class="dropdown-item" data-variable="[last_name]">
+                                                        <button type="button" class="dropdown-item"
+                                                            data-variable="[last_name]">
                                                             <span>Last Name</span>
                                                         </button>
                                                     </li>
                                                     <li>
-                                                        <button type="button" class="dropdown-item" data-variable="[company]">
+                                                        <button type="button" class="dropdown-item"
+                                                            data-variable="[company]">
                                                             <span>Company</span>
                                                         </button>
                                                     </li>
@@ -247,7 +235,8 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <textarea name="" id="template_preview" rows="6" class="input_field textarea_field" placeholder="Write a template..." value=""></textarea>
+                                    <textarea name="" id="template_preview" rows="6" class="input_field textarea_field"
+                                        placeholder="Write a template..." value=""></textarea>
                                 </div>
                                 @error('preview_message')
                                     <p class="text-danger" style="font-size: 11.5px;">{{ $message }}</p>
@@ -268,8 +257,8 @@
         </div>
 
         <!-- Edit Template Modal  -->
-        <div class="modal fade common_modal" id="editTemplateModal" tabindex="-1" aria-labelledby="editModal"
-            aria-hidden="true">
+        <div wire:ignore.self class="modal fade common_modal" id="editTemplateModal" tabindex="-1"
+            aria-labelledby="editModal" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -278,23 +267,31 @@
                             aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
-                        <form action="" class="event_form_area">
+                        <form wire:submit.prevent='updateData' class="event_form_area">
                             <div class="two_grid">
                                 <div class="input_row">
-                                    <label for="">Template name</label>
-                                    <input type="text" placeholder="Name" class="input_field" />
+                                    <label for="template_name">Template name</label>
+                                    <input type="text" wire:model.blur='template_name' placeholder="Name"
+                                        class="input_field" />
+                                    @error('template_name')
+                                        <p class="text-danger" style="font-size: 11.5px;">{{ $message }}</p>
+                                    @enderror
                                 </div>
                                 <div class="input_row" id="statusRow">
-                                    <label for="">Status</label>
-                                    <select class="niceSelect niceSelect_status_area" id="statusSelect">
-                                        <option data-display="Active" value="1">Active</option>
+                                    <label for="status">Status</label>
+                                    <select class="niceSelect niceSelect_status_area" wire:model.blur='status'
+                                        id="statusSelect">
+                                        <option value="1">Active</option>
                                         <option value="0">Inactive</option>
                                     </select>
+                                    @error('status')
+                                        <p class="text-danger" style="font-size: 11.5px;">{{ $message }}</p>
+                                    @enderror
                                 </div>
                             </div>
                             <div class="input_row">
                                 <label for="">Preview</label>
-                                <div class="textarea_header_top">
+                                <div class="textarea_header_top" wire:ignore>
                                     <div class="textarea_header">
                                         <div class="table_dropdown_area">
                                             <div class="dropdown">
@@ -307,30 +304,32 @@
                                                 </button>
                                                 <ul class="dropdown-menu">
                                                     <li>
-                                                        <h4>Select</h4>
-                                                    </li>
-                                                    <li>
-                                                        <button type="button" class="dropdown-item">
+                                                        <button type="button" class="dropdown-item"
+                                                            data-variable="[phone_number]">
                                                             <span>Phone Number</span>
                                                         </button>
                                                     </li>
                                                     <li>
-                                                        <button type="button" class="dropdown-item">
+                                                        <button type="button" class="dropdown-item"
+                                                            data-variable="[email_address]">
                                                             <span>Email Address</span>
                                                         </button>
                                                     </li>
                                                     <li>
-                                                        <button type="button" class="dropdown-item">
+                                                        <button type="button" class="dropdown-item"
+                                                            data-variable="[first_name]">
                                                             <span>First Name</span>
                                                         </button>
                                                     </li>
                                                     <li>
-                                                        <button type="button" class="dropdown-item">
+                                                        <button type="button" class="dropdown-item"
+                                                            data-variable="[last_name]">
                                                             <span>Last Name</span>
                                                         </button>
                                                     </li>
                                                     <li>
-                                                        <button type="button" class="dropdown-item">
+                                                        <button type="button" class="dropdown-item"
+                                                            data-variable="[company]">
                                                             <span>Company</span>
                                                         </button>
                                                     </li>
@@ -338,17 +337,21 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <textarea name="" id="" rows="6" class="input_field textarea_field"
+                                    <textarea name="" id="template_preview" rows="6" class="input_field textarea_field"
                                         placeholder="Write a template..." value=""></textarea>
                                 </div>
+                                @error('preview_message')
+                                    <p class="text-danger" style="font-size: 11.5px;">{{ $message }}</p>
+                                @enderror
                             </div>
                         </form>
                     </div>
                     <div class="modal-footer event_modal_footer">
-                        <button type="button" class="cancel_btn" data-bs-dismiss="modal">
-                            Cancel
+                        <button type="button" wire:click.prevent='resetForm' class="cancel_btn"
+                            data-bs-dismiss="modal">Cancel</button>
+                        <button type="button" wire:click.prevent='updateData' class="create_event_btn">
+                            {!! loadingStateWithText('updateData', 'Save') !!}
                         </button>
-                        <button type="button" class="create_event_btn">Save</button>
                     </div>
                 </div>
             </div>
@@ -357,12 +360,12 @@
 </div>
 @push('scripts')
     <script>
-        $(document).ready(function(){
-            $('.sortingValue').on('change', function(){
+        $(document).ready(function() {
+            $('.sortingValue').on('change', function() {
                 @this.set('sortingValue', this.value);
             });
 
-            $('#template_preview').on('change', function(){
+            $('#template_preview').on('change', function() {
                 var template = $(this).val();
 
                 @this.set('preview_message', template);
@@ -376,7 +379,7 @@
 
         // Add a click event listener to each button
         dropdownItems.forEach(item => {
-            item.addEventListener('click', function () {
+            item.addEventListener('click', function() {
                 // Get the data-variable attribute value (e.g., [phone_number])
                 let variable = this.getAttribute('data-variable');
 
@@ -459,7 +462,9 @@
                 $("#editorEditDropdownArea").fadeOut();
             });
         });
-
+        window.addEventListener('showEditModal', event => {
+            $('#editTemplateModal').modal('show');
+        });
         window.addEventListener('closeModal', event => {
             $('#createTemplateModal').modal('hide');
             $('#editTemplateModal').modal('hide');
