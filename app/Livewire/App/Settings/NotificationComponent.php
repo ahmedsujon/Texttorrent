@@ -14,7 +14,10 @@ class NotificationComponent extends Component
     public $edit_id, $delete_id;
     public $keyword, $type, $email, $phone, $webhook_url, $webhook_format, $auto_responder, $auto_responder_message;
 
-    public function mount() {}
+    public function mount()
+    {
+        //
+    }
 
     public function updated($fields)
     {
@@ -52,7 +55,6 @@ class NotificationComponent extends Component
         $data->webhook_format = $this->webhook_format;
         $data->auto_responder = $this->auto_responder;
         $data->auto_responder_message = $this->auto_responder_message;
-
         $data->save();
         $this->dispatch('closeModal');
         $this->resetInputs();
@@ -132,6 +134,7 @@ class NotificationComponent extends Component
         $this->sortBy = $sortByField;
         $this->sortDirection = 'DESC';
     }
+
     public function updateSearch()
     {
         $this->resetPage();
@@ -156,6 +159,10 @@ class NotificationComponent extends Component
 
     public function render()
     {
-        return view('livewire.app.settings.notification-component')->layout('livewire.app.layouts.base');
+        $trigger_notifications = TriggerNotification::where(function ($q) {
+            $q->where('keyword', 'like', '%' . $this->searchTerm . '%');
+        })->orderBy($this->sortBy, $this->sortDirection)->paginate($this->sortingValue);
+
+        return view('livewire.app.settings.notification-component', ['trigger_notifications' => $trigger_notifications])->layout('livewire.app.layouts.base');
     }
 }
