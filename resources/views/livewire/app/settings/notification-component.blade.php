@@ -431,11 +431,11 @@
             $('#editNotificationModal').modal('hide');
         });
 
-        window.addEventListener('user_deleted', event => {
+        window.addEventListener('notification_deleted', event => {
             $('#deleteDataModal').modal('hide');
             Swal.fire(
                 "Deleted!",
-                "The user has been deleted.",
+                "Data has been deleted.",
                 "success"
             );
         });

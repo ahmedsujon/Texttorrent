@@ -85,7 +85,7 @@ function uploadFile($type, $ratio, $directory, $uploaded_by, $file)
 
 function deleteFile($file)
 {
-    if (Storage::disk('public_path')->exists($file)) {
+    if ($file && Storage::disk('public_path')->exists($file)) {
         Storage::disk('public_path')->delete($file);
     }
 }
