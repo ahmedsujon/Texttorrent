@@ -176,12 +176,13 @@
                                     @enderror
                                 </div>
                                 <div class="input_row" id="statusRow">
-                                    <label for="status">Status</label>
-                                    <select class="niceSelect niceSelect_status_area" wire:model.blur='status'
-                                        id="statusSelect">
-                                        <option value="1">Active</option>
-                                        <option value="0">Inactive</option>
-                                    </select>
+                                    <div wire:ignore>
+                                        <label for="status">Status</label>
+                                        <select class="niceSelect w-100 statusSelect">
+                                            <option value="1">Active</option>
+                                            <option value="0">Inactive</option>
+                                        </select>
+                                    </div>
                                     @error('status')
                                         <p class="text-danger" style="font-size: 11.5px;">{{ $message }}</p>
                                     @enderror
@@ -369,6 +370,11 @@
                 var template = $(this).val();
 
                 @this.set('preview_message', template);
+            });
+
+            $('.statusSelect').on('change', function() {
+                var status = $(this).val();
+                @this.set('status', status);
             });
         });
     </script>
