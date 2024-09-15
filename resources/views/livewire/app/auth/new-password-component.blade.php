@@ -5,8 +5,7 @@
         </a>
         <div class="login_others_form_area">
             <form class="login_form_area" wire:submit.prevent='changePassword'>
-                <h3 class="login_title">Log in</h3>
-                <h6 class="page_subtitle">Enter your email to login your account.</h6>
+                <h3 class="login_title">Create new password</h3>
                 @if (session()->has('error'))
                     <div class="alert alert-danger text-center">{{ session('error') }}</div>
                 @endif
@@ -52,7 +51,7 @@
                         <span class="text-danger" style="font-size: 13px;">{{ $message }}</span>
                     @enderror
                 </div>
-                <button type="submit" class="login_btn">{!! loadingStateWithText('changePassword', 'Login') !!}</button>
+                <button type="submit" class="login_btn">{!! loadingStateWithText('changePassword', 'Create  Password') !!}</button>
         </div>
     </section>
 </div>
