@@ -6,6 +6,7 @@
                     <a href="{{ route('login') }}" class="logo">
                         <img src="{{ asset('assets/app/images/header/logo.svg') }}" alt="logo" />
                     </a>
+                    <a href="{{ route('login') }}" class="create_account_btn">Already have account? Login</a>
                 </div>
                 <div class="d-flex justify-content-center align-items-center flex-column h-100">
                     <form class="login_form_area" wire:submit.prevent='userRegistration'>

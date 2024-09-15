@@ -1,28 +1,30 @@
 <?php
 
+use App\Livewire\App\InboxComponent;
+use App\Livewire\App\ClaimsComponent;
 use Illuminate\Support\Facades\Route;
+use App\Livewire\App\CalendarComponent;
 use App\Livewire\App\Auth\LoginComponent;
 use App\Http\Controllers\LogoutController;
+use App\Livewire\App\Settings\ApiComponent;
+use App\Livewire\App\Settings\LogsComponent;
 use App\Livewire\App\User\DashboardComponent;
 use App\Livewire\App\Auth\RegistrationComponent;
-use App\Livewire\App\CalendarComponent;
+use App\Livewire\App\Settings\GetNumberComponent;
+use App\Livewire\App\Settings\MyAccountComponent;
+use App\Livewire\App\Auth\ForgetPasswordComponent;
+use App\Livewire\App\Auth\NewPasswordComponent;
+use App\Livewire\App\Settings\SubAccountComponent;
 use App\Livewire\App\Campaigns\BatchQueueComponent;
-use App\Livewire\App\Campaigns\BulkMessageComponent;
-use App\Livewire\App\Campaigns\ContactMessageQueueComponent;
 use App\Livewire\App\Campaigns\GroupQueueComponent;
+use App\Livewire\App\Campaigns\BulkMessageComponent;
+use App\Livewire\App\Settings\NotificationComponent;
 use App\Livewire\App\Campaigns\InboxTemplateComponent;
-use App\Livewire\App\ClaimsComponent;
 use App\Livewire\App\Contacts\ManageContactsComponent;
-use App\Livewire\App\Contacts\ValidatorCreditsComponent;
-use App\Livewire\App\InboxComponent;
-use App\Livewire\App\Settings\ApiComponent;
 use App\Livewire\App\Settings\ChangePasswordComponent;
 use App\Livewire\App\Settings\DLCRegistrationComponent;
-use App\Livewire\App\Settings\GetNumberComponent;
-use App\Livewire\App\Settings\LogsComponent;
-use App\Livewire\App\Settings\MyAccountComponent;
-use App\Livewire\App\Settings\NotificationComponent;
-use App\Livewire\App\Settings\SubAccountComponent;
+use App\Livewire\App\Contacts\ValidatorCreditsComponent;
+use App\Livewire\App\Campaigns\ContactMessageQueueComponent;
 
 /*
 |--------------------------------------------------------------------------
@@ -70,3 +72,7 @@ Route::name('user.')->middleware('auth')->group(function () {
     Route::get('settings/dlc-registration', DLCRegistrationComponent::class)->name('dlcRegistration');
     Route::get('settings/trigger-notification', NotificationComponent::class)->name('triggerNotification');
 });
+
+// Forget Password
+Route::get('user/password/reset', ForgetPasswordComponent::class)->name('user.reset.password');
+Route::get('user/change/password', NewPasswordComponent::class)->name('user.change.password');

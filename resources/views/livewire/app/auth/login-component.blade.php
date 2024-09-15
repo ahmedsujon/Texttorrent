@@ -43,7 +43,7 @@
                                 <p class="text-danger" style="font-size: 12.5px;">{{ $message }}</p>
                             @enderror
                         </div>
-                        <a href="#" class="forget_text">Forgot password?</a>
+                        <a href="{{ route('user.reset.password') }}" class="forget_text">Forgot password?</a>
                         @if ($login_status == 1)
                             <button type="button" class="login_btn"><i class="bx bx-check-circle"
                                     style="font-size: 17px;"></i></button>
