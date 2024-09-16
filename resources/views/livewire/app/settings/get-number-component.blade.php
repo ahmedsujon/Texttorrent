@@ -121,7 +121,7 @@
                                         <td>
                                             <div class="table_dropdown_area d-flex align-items-center flex-wrap gap-1">
                                                 <button type="button" class="icon_btn"
-                                                    wire:click.prevent='purchaseNumberConfirmation("{{ $number['phoneNumber'] }}")'>
+                                                    wire:click.prevent='purchaseNumberConfirmation("{{ $number['phoneNumber'] }}", "{{ $number['friendlyName'] }}", "{{ $number['region'] }}", "{{ $number['isoCountry'] }}", "{{ $number['latitude'] }}", "{{ $number['longitude'] }}", "{{ $number['postalCode'] }}")'>
                                                     {{-- data-bs-toggle="modal" data-bs-target="#confirmPurchaseModal" --}}
                                                     <img src="{{ asset('assets/app/icons/shopping-cart.svg') }}"
                                                         alt="" />
@@ -172,7 +172,7 @@
 
 
         <!-- Confirm Modal  -->
-        <div class="modal fade common_modal confirm_purchase_modal" id="confirmPurchaseModal" tabindex="-1"
+        <div wire:ignore.self class="modal fade common_modal confirm_purchase_modal" id="confirmPurchaseModal" tabindex="-1"
             aria-labelledby="newEventModal" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
                 <div class="modal-content">
@@ -196,7 +196,7 @@
                         <button type="button" class="cancel_btn" data-bs-dismiss="modal">
                             Cancel
                         </button>
-                        <button type="button" wire:click.prevent='purchaseNumber' class="create_event_btn">
+                        <button type="button" wire:click.prevent='purchaseNumber' wire:loading.attr="disabled" class="create_event_btn">
                             {!! loadingStateWithText('purchaseNumber', 'Purchase') !!}
                         </button>
                     </div>
@@ -204,7 +204,7 @@
             </div>
         </div>
 
-        <div class="modal fade common_modal confirm_purchase_modal" id="confirmBulkPurchaseModal" tabindex="-1"
+        <div wire:ignore.self class="modal fade common_modal confirm_purchase_modal" id="confirmBulkPurchaseModal" tabindex="-1"
             aria-labelledby="newEventModal" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
                 <div class="modal-content">
@@ -220,8 +220,8 @@
                             <div class="row justify-content-center">
                                 @if ($selected_numbers)
                                     @foreach ($selected_numbers as $sNumber)
-                                        <div class="col-md-6 text-center mb-2">
-                                            <div class="card card-body p-1">
+                                        <div class="col-md-auto text-center mb-2">
+                                            <div class="card card-body ps-3 pe-3 p-1">
                                                 {{ $sNumber }}
                                             </div>
                                         </div>
@@ -240,13 +240,44 @@
                         <button type="button" class="cancel_btn" data-bs-dismiss="modal">
                             Cancel
                         </button>
-                        <button type="button" wire:click.prevent='bulkPurchaseNumber' class="create_event_btn">
+                        <button type="button" wire:click.prevent='bulkPurchaseNumber' wire:loading.attr="disabled" class="create_event_btn">
                             {!! loadingStateWithText('bulkPurchaseNumber', 'Purchase') !!}
                         </button>
                     </div>
                 </div>
             </div>
         </div>
+
+        <div wire:ignore.self class="modal fade common_modal confirm_purchase_modal" id="purchaseResultModal" tabindex="-1" data-bs-keyboard="false" data-bs-backdrop="static"
+            aria-labelledby="newEventModal" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="newEventModal">
+                            Your Purchase Results
+                        </h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                            aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="purchase_area">
+                            @if (session()->has('purchase_result'))
+                                <table class="table table-bordered">
+                                    @foreach (session('purchase_result') as $key => $result)
+                                        <tr>
+                                            <td>{{ $key + 1 }}</td>
+                                            <td>{{ $result['number'] }}</td>
+                                            <td class="text-center">{!! $result['status'] !!}</td>
+                                        </tr>
+                                    @endforeach
+                                </table>
+                            @endif
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
     </main>
 </div>
 
@@ -271,9 +302,13 @@
             $('#confirmPurchaseModal').modal('show');
         });
 
+        window.addEventListener('bulk_purchase_complete', event => {
+            $('#confirmBulkPurchaseModal').modal('hide');
+            $('#purchaseResultModal').modal('show');
+        });
+
         window.addEventListener('purchase_success', event => {
             $('#confirmPurchaseModal').modal('hide');
-            $('#confirmBulkPurchaseModal').modal('hide');
             Swal.fire(
                 "Success!",
                 "Number Purchased Successfully!",
