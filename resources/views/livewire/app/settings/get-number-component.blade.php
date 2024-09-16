@@ -228,9 +228,6 @@
                                     @endforeach
                                 @endif
                             </div>
-
-                            {{-- <img class="cart_purchase_icon"
-                                src="{{ asset('assets/app/images/others/shopping-cart-02.png') }}" alt="cart icon" /> --}}
                             <small class="mt-3">
                                 Buying a phone number will cost you 295 credits per month
                             </small>
