@@ -11,7 +11,7 @@ use Twilio\Rest\Client;
 class GetNumberComponent extends Component
 {
     use WithPagination;
-    public $country = 'US', $areaCode, $qty = 1, $selectedNumber, $all_numbers = [], $numberType = 'local', $purchasedNumbers = [], $sortingValue = 10, $numbers_array = [], $numbers_info_array = [];
+    public $country = 'US', $areaCode, $qty = 1, $searchTerm = '', $selectedNumber, $all_numbers = [], $numberType = 'local', $purchasedNumbers = [], $sortingValue = 10, $numbers_array = [], $numbers_info_array = [];
 
     public function mount()
     {
@@ -199,12 +199,12 @@ class GetNumberComponent extends Component
                 if ($saveData) {
                     $purchase_result[] = [
                         'number' => $number['number'],
-                        'status' => "<span class='text-success'>Success</span>"
+                        'status' => "<span class='text-success'>Success</span>",
                     ];
                 } else {
                     $purchase_result[] = [
                         'number' => $number['number'],
-                        'status' => "<span class='text-danger'>Failed</span>"
+                        'status' => "<span class='text-danger'>Failed</span>",
                     ];
                 }
             }
@@ -282,7 +282,9 @@ class GetNumberComponent extends Component
 
     public function render()
     {
-        $numbers = collect($this->all_numbers)->paginate($this->sortingValue);
+        $numbers = collect($this->all_numbers)->filter(function ($item) {
+            return false !== stripos($item['phoneNumber'], $this->searchTerm);
+        })->paginate($this->sortingValue);
         $purchasedNumbers = collect($this->purchasedNumbers)->paginate($this->sortingValue);
 
         return view('livewire.app.settings.get-number-component', ['numbers' => $numbers, 'purchasedNumbers' => $purchasedNumbers])->layout('livewire.app.layouts.base');
