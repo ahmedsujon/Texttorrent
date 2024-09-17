@@ -18,11 +18,12 @@ body {
   padding-right: 0px !important;
   @include customScrollbar();
   overflow-y: auto !important;
-}
-html,
-body {
   overflow-x: hidden;
 }
+// html,
+// body {
+//   overflow-x: hidden;
+// }
 
 h1,
 h2,
@@ -296,6 +297,7 @@ input[type="number"] {
   word-break: break-all;
 }
 .table-responsive {
+  min-height: 300px;
   @include customScrollbarTable();
 }
 .table_header_right {

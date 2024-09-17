@@ -107,14 +107,14 @@
   position: absolute;
   top: 15px;
   right: 10px;
-  background-image: url("/assets/app/icons/arrow-down-02.svg");
+  background-image: url("/assets/icons/arrow-down-02.svg");
   background-size: 12px;
 }
 .sidebar_wrapper .accordion-button:not(.collapsed) {
   background-color: rgba(208, 213, 221, 0.4);
 }
 .sidebar_wrapper .accordion-button:not(.collapsed)::after {
-  background-image: url("/assets/app/icons/arrow-up.svg") !important;
+  background-image: url("/assets/icons/arrow-up.svg") !important;
   transform: rotate(0) !important;
   -webkit-transform: rotate(0) !important;
   -moz-transform: rotate(0) !important;
@@ -482,6 +482,7 @@ body {
   /* Handle */
   /* Handle on hover */
   overflow-y: auto !important;
+  overflow-x: hidden;
 }
 body::-webkit-scrollbar {
   width: 8px;
@@ -497,11 +498,6 @@ body::-webkit-scrollbar-thumb {
 body::-webkit-scrollbar-thumb:hover {
   background: #f84f4f;
   cursor: grab;
-}
-
-html,
-body {
-  overflow-x: hidden;
 }
 
 h1,
@@ -863,6 +859,7 @@ input[type=number] {
 }
 
 .table-responsive {
+  min-height: 300px;
   overflow: auto;
   /* width */
   /* Track */
@@ -8994,5 +8991,39 @@ input[type=number] {
     order: 2;
     max-width: none;
     width: 100%;
+  }
+}
+
+/*
+!This file is only for the back end developer 
+*/
+.className#idName {
+  padding-bottom: 16px;
+  /* 
+    ?Break points if you need
+    */
+}
+@media (min-width: 992px) and (max-width: 1199px) {
+  .className#idName {
+    transition: 0.5s;
+  }
+}
+@media (min-width: 768px) and (max-width: 991px) {
+  .className#idName {
+    transition: 0.5s;
+  }
+}
+@media all and (min-width: 768px) {
+  .className#idName {
+    transition: 0.5s;
+    -webkit-transition: 0.5s;
+    -moz-transition: 0.5s;
+    -ms-transition: 0.5s;
+    -o-transition: 0.5s;
+  }
+}
+@media all and (max-width: 767px) {
+  .className#idName {
+    transition: 0.5s;
   }
 }/*# sourceMappingURL=style.css.map */
