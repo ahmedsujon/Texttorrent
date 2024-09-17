@@ -82,6 +82,7 @@
             'settings/change-password',
             'settings/sub-account',
             'settings/get-number',
+            'settings/active-numbers',
             'settings/logs',
             'settings/apis',
             'settings/dlc-registration',

@@ -13,7 +13,8 @@
             <div class="main_top_area">
                 <div class="top_menu_area">
                     <h4>ACCOUNT</h4>
-                    <a href="{{ route('user.myAccount') }}" class="{{ request()->is('settings/my-account') || request()->is('settings/my-account/*') ? 'menu_grid active_menu' : 'menu_grid' }}">
+                    <a href="{{ route('user.myAccount') }}"
+                        class="{{ request()->is('settings/my-account') || request()->is('settings/my-account/*') ? 'menu_grid active_menu' : 'menu_grid' }}">
                         <div class="icon">
                             <svg width="20" height="20" viewBox="0 0 20 20" fill="none"
                                 xmlns="http://www.w3.org/2000/svg" currentColor="#696F8C">
@@ -27,7 +28,8 @@
                         </div>
                         <div class="label">My Account</div>
                     </a>
-                    <a href="{{ route('user.changePassword') }}" class="{{ request()->is('settings/change-password') || request()->is('settings/change-password/*') ? 'menu_grid active_menu' : 'menu_grid' }}">
+                    <a href="{{ route('user.changePassword') }}"
+                        class="{{ request()->is('settings/change-password') || request()->is('settings/change-password/*') ? 'menu_grid active_menu' : 'menu_grid' }}">
                         <div class="icon">
                             <svg width="20" height="20" viewBox="0 0 20 20" fill="none"
                                 xmlns="http://www.w3.org/2000/svg" currentColor="#696F8C">
@@ -48,7 +50,8 @@
                         </div>
                         <div class="label">Change Password</div>
                     </a>
-                    <a href="{{ route('user.subAccount') }}" class="{{ request()->is('settings/sub-account') || request()->is('settings/sub-account/*') ? 'menu_grid active_menu' : 'menu_grid' }}">
+                    <a href="{{ route('user.subAccount') }}"
+                        class="{{ request()->is('settings/sub-account') || request()->is('settings/sub-account/*') ? 'menu_grid active_menu' : 'menu_grid' }}">
                         <div class="icon">
                             <svg width="20" height="16" viewBox="0 0 20 16" fill="none"
                                 xmlns="http://www.w3.org/2000/svg" currentColor="#696F8C">
@@ -69,7 +72,8 @@
                 <div class="main_menu_area">
                     <h4>WORKSPACE</h4>
                     <div class="inner_main_menu">
-                        <a href="{{ route('user.getNumber') }}" class="{{ request()->is('settings/get-number') || request()->is('settings/get-number/*') ? 'menu_grid active_menu' : 'menu_grid' }}">
+                        <a href="{{ route('user.getNumber') }}"
+                            class="{{ request()->is('settings/get-number') || request()->is('settings/get-number/*') ? 'menu_grid active_menu' : 'menu_grid' }}">
                             <div class="icon">
                                 <svg width="20" height="20" viewBox="0 0 20 20" fill="none"
                                     xmlns="http://www.w3.org/2000/svg" currentColor="#696F8C">
@@ -87,7 +91,20 @@
                             </div>
                             <div class="label">Get Number</div>
                         </a>
-                        <a href="{{ route('user.logs') }}" class="{{ request()->is('settings/logs') || request()->is('settings/logs/*') ? 'menu_grid active_menu' : 'menu_grid' }}">
+                        <a href="{{ route('user.activeNumber') }}"
+                            class="{{ request()->is('settings/active-numbers') || request()->is('settings/active-numbers/*') ? 'menu_grid active_menu' : 'menu_grid' }}">
+                            <div class="icon">
+                                <svg width="20" height="20" viewBox="0 0 20 20" fill="none"
+                                    xmlns="http://www.w3.org/2000/svg">
+                                    <path
+                                        d="M12.5415 4.16536C13.3555 4.32417 14.1035 4.72225 14.6899 5.30864C15.2763 5.89504 15.6744 6.64308 15.8332 7.45703M12.5415 0.832031C14.2326 1.01989 15.8095 1.77718 17.0134 2.97954C18.2173 4.1819 18.9765 5.75787 19.1665 7.4487M18.3332 14.0987V16.5987C18.3341 16.8308 18.2866 17.0605 18.1936 17.2732C18.1006 17.4858 17.9643 17.6767 17.7933 17.8336C17.6222 17.9905 17.4203 18.1099 17.2005 18.1843C16.9806 18.2586 16.7477 18.2863 16.5165 18.2654C13.9522 17.9867 11.489 17.1105 9.32486 15.707C7.31139 14.4276 5.60431 12.7205 4.32486 10.707C2.91651 8.53303 2.04007 6.05786 1.76653 3.48203C1.7457 3.25159 1.77309 3.01933 1.84695 2.80005C1.9208 2.58077 2.03951 2.37927 2.1955 2.20838C2.3515 2.03749 2.54137 1.90096 2.75302 1.80747C2.96468 1.71398 3.19348 1.66558 3.42486 1.66536H5.92486C6.32928 1.66138 6.72136 1.8046 7.028 2.06831C7.33464 2.33202 7.53493 2.69824 7.59153 3.0987C7.69705 3.89875 7.89274 4.6843 8.17486 5.44036C8.28698 5.73863 8.31125 6.06279 8.24478 6.37443C8.17832 6.68607 8.02392 6.97212 7.79986 7.1987L6.74153 8.25703C7.92783 10.3433 9.65524 12.0707 11.7415 13.257L12.7999 12.1987C13.0264 11.9746 13.3125 11.8202 13.6241 11.7538C13.9358 11.6873 14.2599 11.7116 14.5582 11.8237C15.3143 12.1058 16.0998 12.3015 16.8999 12.407C17.3047 12.4641 17.6744 12.668 17.9386 12.9799C18.2029 13.2918 18.3433 13.69 18.3332 14.0987Z"
+                                        stroke="#696F8C" stroke-linecap="round" stroke-linejoin="round" />
+                                </svg>
+                            </div>
+                            <div class="label">Active Number</div>
+                        </a>
+                        <a href="{{ route('user.logs') }}"
+                            class="{{ request()->is('settings/logs') || request()->is('settings/logs/*') ? 'menu_grid active_menu' : 'menu_grid' }}">
                             <div class="icon">
                                 <svg width="20" height="20" viewBox="0 0 20 20" fill="none"
                                     xmlns="http://www.w3.org/2000/svg" currentColor="#696F8C">
@@ -101,7 +118,8 @@
                             </div>
                             <div class="label">Logs</div>
                         </a>
-                        <a href="{{ route('user.apis') }}" class="{{ request()->is('settings/apis') || request()->is('settings/apis/*') ? 'menu_grid active_menu' : 'menu_grid' }}">
+                        <a href="{{ route('user.apis') }}"
+                            class="{{ request()->is('settings/apis') || request()->is('settings/apis/*') ? 'menu_grid active_menu' : 'menu_grid' }}">
                             <div class="icon">
                                 <svg width="20" height="20" viewBox="0 0 20 20" fill="none"
                                     xmlns="http://www.w3.org/2000/svg" currentColor="#696F8C">
@@ -114,7 +132,8 @@
                             </div>
                             <div class="label">API</div>
                         </a>
-                        <a href="{{ route('user.dlcRegistration') }}" class="{{ request()->is('settings/dlc-registration') || request()->is('settings/dlc-registration/*') ? 'menu_grid active_menu' : 'menu_grid' }}">
+                        <a href="{{ route('user.dlcRegistration') }}"
+                            class="{{ request()->is('settings/dlc-registration') || request()->is('settings/dlc-registration/*') ? 'menu_grid active_menu' : 'menu_grid' }}">
                             <div class="icon">
                                 <svg width="20" height="20" viewBox="0 0 20 20" fill="none"
                                     xmlns="http://www.w3.org/2000/svg" currentColor="#696F8C">
@@ -125,7 +144,8 @@
                             </div>
                             <div class="label">10 DLC Registration</div>
                         </a>
-                        <a href="{{ route('user.triggerNotification') }}" class="{{ request()->is('settings/trigger-notification') || request()->is('settings/trigger-notification/*') ? 'menu_grid active_menu' : 'menu_grid' }}">
+                        <a href="{{ route('user.triggerNotification') }}"
+                            class="{{ request()->is('settings/trigger-notification') || request()->is('settings/trigger-notification/*') ? 'menu_grid active_menu' : 'menu_grid' }}">
                             <div class="icon">
                                 <svg width="18" height="20" viewBox="0 0 18 20" fill="none"
                                     xmlns="http://www.w3.org/2000/svg" currentColor="#696F8C">
