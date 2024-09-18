@@ -1,9 +1,9 @@
-@section('page_title') Dashboard @endsection
+@section('page_title')
+    Dashboard
+@endsection
 <div>
-
     <div class="page-content">
         <div class="container-fluid">
-
             <div class="row">
                 <div class="col-12">
                     <div class="page-title-box d-sm-flex align-items-center justify-content-between">
@@ -200,8 +200,10 @@
                                             <tr>
                                                 <th style="width: 20px;">
                                                     <div class="form-check font-size-16 align-middle">
-                                                        <input class="form-check-input" type="checkbox" id="transactionCheck01">
-                                                        <label class="form-check-label" for="transactionCheck01"></label>
+                                                        <input class="form-check-input" type="checkbox"
+                                                            id="transactionCheck01">
+                                                        <label class="form-check-label"
+                                                            for="transactionCheck01"></label>
                                                     </div>
                                                 </th>
                                                 <th class="align-middle">Order ID</th>
@@ -217,11 +219,14 @@
                                             <tr>
                                                 <td>
                                                     <div class="form-check font-size-16">
-                                                        <input class="form-check-input" type="checkbox" id="transactionCheck02">
-                                                        <label class="form-check-label" for="transactionCheck02"></label>
+                                                        <input class="form-check-input" type="checkbox"
+                                                            id="transactionCheck02">
+                                                        <label class="form-check-label"
+                                                            for="transactionCheck02"></label>
                                                     </div>
                                                 </td>
-                                                <td><a href="javascript: void(0);" class="text-body fw-bold">#SK2540</a> </td>
+                                                <td><a href="javascript: void(0);"
+                                                        class="text-body fw-bold">#SK2540</a> </td>
                                                 <td>Neal Matthews</td>
                                                 <td>
                                                     07 Oct, 2019
@@ -230,13 +235,17 @@
                                                     $400
                                                 </td>
                                                 <td>
-                                                    <span class="badge badge-pill badge-soft-success font-size-11">Paid</span>
+                                                    <span
+                                                        class="badge badge-pill badge-soft-success font-size-11">Paid</span>
                                                 </td>
                                                 <td>
                                                     <i class="fab fa-cc-mastercard me-1"></i> Mastercard
                                                 </td>
                                                 <td>
-                                                    <button type="button" class="btn btn-primary btn-sm btn-rounded waves-effect waves-light" data-bs-toggle="modal" data-bs-target=".transaction-detailModal">
+                                                    <button type="button"
+                                                        class="btn btn-primary btn-sm btn-rounded waves-effect waves-light"
+                                                        data-bs-toggle="modal"
+                                                        data-bs-target=".transaction-detailModal">
                                                         View Details
                                                     </button>
                                                 </td>
@@ -245,11 +254,14 @@
                                             <tr>
                                                 <td>
                                                     <div class="form-check font-size-16">
-                                                        <input class="form-check-input" type="checkbox" id="transactionCheck03">
-                                                        <label class="form-check-label" for="transactionCheck03"></label>
+                                                        <input class="form-check-input" type="checkbox"
+                                                            id="transactionCheck03">
+                                                        <label class="form-check-label"
+                                                            for="transactionCheck03"></label>
                                                     </div>
                                                 </td>
-                                                <td><a href="javascript: void(0);" class="text-body fw-bold">#SK2541</a> </td>
+                                                <td><a href="javascript: void(0);"
+                                                        class="text-body fw-bold">#SK2541</a> </td>
                                                 <td>Jamal Burnett</td>
                                                 <td>
                                                     07 Oct, 2019
@@ -258,14 +270,18 @@
                                                     $380
                                                 </td>
                                                 <td>
-                                                    <span class="badge badge-pill badge-soft-danger font-size-11">Chargeback</span>
+                                                    <span
+                                                        class="badge badge-pill badge-soft-danger font-size-11">Chargeback</span>
                                                 </td>
                                                 <td>
                                                     <i class="fab fa-cc-visa me-1"></i> Visa
                                                 </td>
                                                 <td>
                                                     <!-- Button trigger modal -->
-                                                    <button type="button" class="btn btn-primary btn-sm btn-rounded waves-effect waves-light" data-bs-toggle="modal" data-bs-target=".transaction-detailModal">
+                                                    <button type="button"
+                                                        class="btn btn-primary btn-sm btn-rounded waves-effect waves-light"
+                                                        data-bs-toggle="modal"
+                                                        data-bs-target=".transaction-detailModal">
                                                         View Details
                                                     </button>
                                                 </td>
@@ -274,11 +290,14 @@
                                             <tr>
                                                 <td>
                                                     <div class="form-check font-size-16">
-                                                        <input class="form-check-input" type="checkbox" id="transactionCheck04">
-                                                        <label class="form-check-label" for="transactionCheck04"></label>
+                                                        <input class="form-check-input" type="checkbox"
+                                                            id="transactionCheck04">
+                                                        <label class="form-check-label"
+                                                            for="transactionCheck04"></label>
                                                     </div>
                                                 </td>
-                                                <td><a href="javascript: void(0);" class="text-body fw-bold">#SK2542</a> </td>
+                                                <td><a href="javascript: void(0);"
+                                                        class="text-body fw-bold">#SK2542</a> </td>
                                                 <td>Juan Mitchell</td>
                                                 <td>
                                                     06 Oct, 2019
@@ -287,14 +306,18 @@
                                                     $384
                                                 </td>
                                                 <td>
-                                                    <span class="badge badge-pill badge-soft-success font-size-11">Paid</span>
+                                                    <span
+                                                        class="badge badge-pill badge-soft-success font-size-11">Paid</span>
                                                 </td>
                                                 <td>
                                                     <i class="fab fa-cc-paypal me-1"></i> Paypal
                                                 </td>
                                                 <td>
                                                     <!-- Button trigger modal -->
-                                                    <button type="button" class="btn btn-primary btn-sm btn-rounded waves-effect waves-light" data-bs-toggle="modal" data-bs-target=".transaction-detailModal">
+                                                    <button type="button"
+                                                        class="btn btn-primary btn-sm btn-rounded waves-effect waves-light"
+                                                        data-bs-toggle="modal"
+                                                        data-bs-target=".transaction-detailModal">
                                                         View Details
                                                     </button>
                                                 </td>
@@ -302,11 +325,14 @@
                                             <tr>
                                                 <td>
                                                     <div class="form-check font-size-16">
-                                                        <input class="form-check-input" type="checkbox" id="transactionCheck05">
-                                                        <label class="form-check-label" for="transactionCheck05"></label>
+                                                        <input class="form-check-input" type="checkbox"
+                                                            id="transactionCheck05">
+                                                        <label class="form-check-label"
+                                                            for="transactionCheck05"></label>
                                                     </div>
                                                 </td>
-                                                <td><a href="javascript: void(0);" class="text-body fw-bold">#SK2543</a> </td>
+                                                <td><a href="javascript: void(0);"
+                                                        class="text-body fw-bold">#SK2543</a> </td>
                                                 <td>Barry Dick</td>
                                                 <td>
                                                     05 Oct, 2019
@@ -315,14 +341,18 @@
                                                     $412
                                                 </td>
                                                 <td>
-                                                    <span class="badge badge-pill badge-soft-success font-size-11">Paid</span>
+                                                    <span
+                                                        class="badge badge-pill badge-soft-success font-size-11">Paid</span>
                                                 </td>
                                                 <td>
                                                     <i class="fab fa-cc-mastercard me-1"></i> Mastercard
                                                 </td>
                                                 <td>
                                                     <!-- Button trigger modal -->
-                                                    <button type="button" class="btn btn-primary btn-sm btn-rounded waves-effect waves-light" data-bs-toggle="modal" data-bs-target=".transaction-detailModal">
+                                                    <button type="button"
+                                                        class="btn btn-primary btn-sm btn-rounded waves-effect waves-light"
+                                                        data-bs-toggle="modal"
+                                                        data-bs-target=".transaction-detailModal">
                                                         View Details
                                                     </button>
                                                 </td>
@@ -330,11 +360,14 @@
                                             <tr>
                                                 <td>
                                                     <div class="form-check font-size-16">
-                                                        <input class="form-check-input" type="checkbox" id="transactionCheck06">
-                                                        <label class="form-check-label" for="transactionCheck06"></label>
+                                                        <input class="form-check-input" type="checkbox"
+                                                            id="transactionCheck06">
+                                                        <label class="form-check-label"
+                                                            for="transactionCheck06"></label>
                                                     </div>
                                                 </td>
-                                                <td><a href="javascript: void(0);" class="text-body fw-bold">#SK2544</a> </td>
+                                                <td><a href="javascript: void(0);"
+                                                        class="text-body fw-bold">#SK2544</a> </td>
                                                 <td>Ronald Taylor</td>
                                                 <td>
                                                     04 Oct, 2019
@@ -343,14 +376,18 @@
                                                     $404
                                                 </td>
                                                 <td>
-                                                    <span class="badge badge-pill badge-soft-warning font-size-11">Refund</span>
+                                                    <span
+                                                        class="badge badge-pill badge-soft-warning font-size-11">Refund</span>
                                                 </td>
                                                 <td>
                                                     <i class="fab fa-cc-visa me-1"></i> Visa
                                                 </td>
                                                 <td>
                                                     <!-- Button trigger modal -->
-                                                    <button type="button" class="btn btn-primary btn-sm btn-rounded waves-effect waves-light" data-bs-toggle="modal" data-bs-target=".transaction-detailModal">
+                                                    <button type="button"
+                                                        class="btn btn-primary btn-sm btn-rounded waves-effect waves-light"
+                                                        data-bs-toggle="modal"
+                                                        data-bs-target=".transaction-detailModal">
                                                         View Details
                                                     </button>
                                                 </td>
@@ -358,11 +395,14 @@
                                             <tr>
                                                 <td>
                                                     <div class="form-check font-size-16">
-                                                        <input class="form-check-input" type="checkbox" id="transactionCheck07">
-                                                        <label class="form-check-label" for="transactionCheck07"></label>
+                                                        <input class="form-check-input" type="checkbox"
+                                                            id="transactionCheck07">
+                                                        <label class="form-check-label"
+                                                            for="transactionCheck07"></label>
                                                     </div>
                                                 </td>
-                                                <td><a href="javascript: void(0);" class="text-body fw-bold">#SK2545</a> </td>
+                                                <td><a href="javascript: void(0);"
+                                                        class="text-body fw-bold">#SK2545</a> </td>
                                                 <td>Jacob Hunter</td>
                                                 <td>
                                                     04 Oct, 2019
@@ -371,13 +411,17 @@
                                                     $392
                                                 </td>
                                                 <td>
-                                                    <span class="badge badge-pill badge-soft-success font-size-11">Paid</span>
+                                                    <span
+                                                        class="badge badge-pill badge-soft-success font-size-11">Paid</span>
                                                 </td>
                                                 <td>
                                                     <i class="fab fa-cc-paypal me-1"></i> Paypal
                                                 </td>
                                                 <td>
-                                                    <button type="button" class="btn btn-primary btn-sm btn-rounded waves-effect waves-light" data-bs-toggle="modal" data-bs-target=".transaction-detailModal">
+                                                    <button type="button"
+                                                        class="btn btn-primary btn-sm btn-rounded waves-effect waves-light"
+                                                        data-bs-toggle="modal"
+                                                        data-bs-target=".transaction-detailModal">
                                                         View Details
                                                     </button>
                                                 </td>

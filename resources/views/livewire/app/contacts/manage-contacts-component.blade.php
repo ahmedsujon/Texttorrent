@@ -2000,7 +2000,7 @@
                                     </div>
                                     <div>
                                         <h4>Company</h4>
-                                        <h5>Texttorrent</h5>
+                                        <h5>Text Torrent</h5>
                                     </div>
                                 </div>
                                 <div class="user_info_grid">
