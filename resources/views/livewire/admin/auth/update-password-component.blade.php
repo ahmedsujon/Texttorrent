@@ -71,7 +71,7 @@
                     </div>
                     <div class="mt-5 text-center">
                         <p>Remember Old Password ? <a href="{{ route('admin.login') }}" class="fw-medium text-primary"> Sign In here</a> </p>
-                        <p>© <script>document.write(new Date().getFullYear())</script> NzCoding</p>
+                        <p>© <script>document.write(new Date().getFullYear())</script> Text Torrent</p>
                     </div>
 
                 </div>

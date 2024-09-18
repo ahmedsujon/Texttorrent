@@ -18,8 +18,8 @@ class SettingTableSeeder extends Seeder
             $setting = new Setting();
             $setting->favicon = '';
             $setting->logo = '';
-            $setting->site_title = 'NzCoding - Laravel 10 CMS';
-            $setting->copyright_text = 'Copyright 2023 © All Rights Reserved by NzCoding';
+            $setting->site_title = 'Text Torrent - Laravel 10 CMS';
+            $setting->copyright_text = 'Copyright 2023 © All Rights Reserved by Text Torrent';
             $setting->save();
         }
     }

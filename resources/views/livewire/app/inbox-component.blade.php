@@ -517,7 +517,7 @@
                                         </div>
                                         <div>
                                             <h4>Company</h4>
-                                            <h5>Texttorrent</h5>
+                                            <h5>Text Torrent</h5>
                                         </div>
                                     </div>
                                     <div class="user_info_grid">
@@ -1248,7 +1248,7 @@
                                 <div class="input_row">
                                     <label for="">Company </label>
                                     <input type="text" placeholder="Type Subject" class="input_field"
-                                        value="Texttorrent" />
+                                        value="Text Torrent" />
                                 </div>
                                 <div class="input_row">
                                     <label for="">Contact</label>

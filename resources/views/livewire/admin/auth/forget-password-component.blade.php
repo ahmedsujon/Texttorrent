@@ -9,7 +9,7 @@
                                 <div class="col-7">
                                     <div class="text-primary p-4">
                                         <h5 class="text-primary"> Reset Password</h5>
-                                        <p>Reset Password with NzCoding.</p>
+                                        <p>Reset Password with Text Torrent.</p>
                                     </div>
                                 </div>
                                 <div class="col-5 align-self-end">
@@ -63,7 +63,7 @@
                     </div>
                     <div class="mt-5 text-center">
                         <p>Remember It ? <a href="{{ route('admin.login') }}" class="fw-medium text-primary"> Sign In here</a> </p>
-                        <p>© <script>document.write(new Date().getFullYear())</script> NzCoding</p>
+                        <p>© <script>document.write(new Date().getFullYear())</script> Text Torrent</p>
                     </div>
 
                 </div>

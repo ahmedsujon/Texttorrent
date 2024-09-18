@@ -12,7 +12,7 @@
                                         <div class="text-center">
                                             <h4 class="mb-3"><i
                                                     class="bx bxs-quote-alt-left text-primary h1 align-middle me-3"></i><span
-                                                    class="text-primary">TextTorrent</span></h4>
+                                                    class="text-primary">Text Torrent</span></h4>
                                         </div>
                                     </div>
                                 </div>
@@ -40,7 +40,7 @@
 
                                 <div>
                                     <h5 class="text-primary">Welcome Back !</h5>
-                                    <p class="text-muted">Sign in to continue to TextTorrent.</p>
+                                    <p class="text-muted">Sign in to continue to Text Torrent.</p>
                                 </div>
                                 @if (session()->has('error'))
                                     <div class="alert alert-danger text-center">{{ session('error') }}</div>
@@ -126,7 +126,7 @@
                                 <p class="mb-0">©
                                     <script>
                                         document.write(new Date().getFullYear())
-                                    </script> TextTorrent. Crafted with <i
+                                    </script> Text Torrent. Crafted with <i
                                         class="mdi mdi-heart text-danger"></i> by
                                     <a href="mailto:sujonahmed424@gmail.com">SUJAN AHMED</a>
                                 </p>
