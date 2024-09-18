@@ -107,14 +107,14 @@
   position: absolute;
   top: 15px;
   right: 10px;
-  background-image: url("/assets/icons/arrow-down-02.svg");
+  background-image: url("/assets/app/icons/arrow-down-02.svg");
   background-size: 12px;
 }
 .sidebar_wrapper .accordion-button:not(.collapsed) {
   background-color: rgba(208, 213, 221, 0.4);
 }
 .sidebar_wrapper .accordion-button:not(.collapsed)::after {
-  background-image: url("/assets/icons/arrow-up.svg") !important;
+  background-image: url("/assets/app/icons/arrow-up.svg") !important;
   transform: rotate(0) !important;
   -webkit-transform: rotate(0) !important;
   -moz-transform: rotate(0) !important;
