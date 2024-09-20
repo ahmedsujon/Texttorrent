@@ -80,6 +80,20 @@
                                             @include(
                                                 'livewire.admin.datatable.admin-datatable-th-sorting',
                                                 [
+                                                    'id' => 'username',
+                                                    'thDisplayName' => 'SMS Getway',
+                                                ]
+                                            )
+                                            @include(
+                                                'livewire.admin.datatable.admin-datatable-th-sorting',
+                                                [
+                                                    'id' => 'username',
+                                                    'thDisplayName' => 'SMS Credits',
+                                                ]
+                                            )
+                                            @include(
+                                                'livewire.admin.datatable.admin-datatable-th-sorting',
+                                                [
                                                     'id' => 'email',
                                                     'thDisplayName' => 'Email',
                                                 ]
@@ -127,8 +141,10 @@
                                                                 class="img-fluid rounded-circle mr-3"
                                                                 style="height: 40px; width: 40px;" alt="">
                                                         @endif
-                                                        {{ $user->full_name }}
+                                                        {{ $user->first_name }} {{ $user->last_name }}
                                                     </td>
+                                                    <td class="align-middle">{{ $user->username }}</td>
+                                                    <td class="align-middle">{{ $user->username }}</td>
                                                     <td class="align-middle">{{ $user->username }}</td>
                                                     <td class="align-middle">{{ $user->email }}</td>
                                                     <td class="align-middle">{{ $user->phone }}</td>
@@ -144,26 +160,41 @@
                                                         @endif
                                                     </td>
                                                     <td class="align-middle">{{ $user->created_at }}</td>
-                                                    <td class="align-middle text-center">
-                                                        <button
-                                                            class="btn btn-sm btn-soft-primary waves-effect waves-light action-btn edit_btn"
-                                                            wire:click.prevent='editData({{ $user->id }})'
-                                                            wire:loading.attr='disabled'>
-                                                            <i
-                                                                class="mdi mdi-square-edit-outline font-size-13 align-middle"></i>
-                                                        </button>
-                                                        <button
-                                                            class="btn btn-sm btn-soft-danger waves-effect waves-light action-btn delete_btn"
-                                                            wire:click.prevent='deleteConfirmation({{ $user->id }})'
-                                                            wire:loading.attr='disabled'>
-                                                            <i class="bx bx-trash font-size-13 align-middle"></i>
-                                                        </button>
+                                                    <td style="text-align: center;">
+                                                        <div class="btn-group" role="group">
+                                                            <button id="btnGroupVerticalDrop1" type="button"
+                                                                class="btn btn-outline-primary waves-effect waves-light"
+                                                                data-bs-toggle="dropdown" aria-haspopup="true"
+                                                                aria-expanded="false">
+                                                                Options <i class="mdi mdi-chevron-down"></i>
+                                                            </button>
+                                                            <div class="dropdown-menu"
+                                                                aria-labelledby="btnGroupVerticalDrop1" style="">
+                                                                <a class="dropdown-item" href="#">View Details</a>
+                                                                <button type="button" class="dropdown-item"
+                                                                    wire:click.prevent='editData({{ $user->id }})'
+                                                                    wire:loading.attr='disabled'>Edit Info</button>
+                                                                <a class="dropdown-item" href="#">Login</a>
+                                                                <a class="dropdown-item" href="#">Sub-Accounts</a>
+                                                                <a class="dropdown-item" href="#">10DLC
+                                                                    Registration</a>
+                                                                <a class="dropdown-item" href="#">Toll-Free
+                                                                    Registration</a>
+                                                                <a class="dropdown-item" href="#">Change
+                                                                    Password</a>
+                                                                <button type="button" class="dropdown-item"
+                                                                    wire:click.prevent='deleteConfirmation({{ $user->id }})'
+                                                                    wire:loading.attr='disabled'>Delete
+                                                                    account</button>
+                                                            </div>
+                                                        </div>
                                                     </td>
                                                 </tr>
                                             @endforeach
                                         @else
                                             <tr>
-                                                <td colspan="7" class="text-center pt-5 pb-5">No data available!</td>
+                                                <td colspan="7" class="text-center pt-5 pb-5">No data available!
+                                                </td>
                                             </tr>
                                         @endif
                                     </tbody>
@@ -180,8 +211,8 @@
     </div>
 
     <!-- Add Data Modal -->
-    <div wire:ignore.self class="modal fade" id="addDataModal" tabindex="-1" role="dialog" data-bs-backdrop="static"
-        data-bs-keyboard="false" aria-labelledby="modelTitleId">
+    <div wire:ignore.self class="modal fade" id="addDataModal" tabindex="-1" role="dialog"
+        data-bs-backdrop="static" data-bs-keyboard="false" aria-labelledby="modelTitleId">
         <div class="modal-dialog modal-dialog-centered modal-dialog-zoom modal-lg" role="document">
             <div class="modal-content">
                 <div class="modal-header" style="background: white;">
