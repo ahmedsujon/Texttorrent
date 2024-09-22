@@ -106,6 +106,18 @@
                                     </span>
                                 </h6>
                             </div>
+                            <div class="custom_switch_area">
+                                <label class="switch">
+                                    <input type="checkbox" checked />
+                                    <span class="slider round"></span>
+                                </label>
+                                <h6 class="switch_title">
+                                    Round Robin campaign
+                                    <span data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Some Text">
+                                        <img src="{{ asset('assets/app/icons/info-circle.svg') }}" alt="info circle" />
+                                    </span>
+                                </h6>
+                            </div>
                         </div>
                         <div class="input_row">
                             <label for="">Phone number</label>
