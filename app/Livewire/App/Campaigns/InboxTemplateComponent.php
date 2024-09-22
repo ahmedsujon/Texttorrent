@@ -12,9 +12,10 @@ class InboxTemplateComponent extends Component
     public $sortingValue = 10, $searchTerm;
     public $sortBy = 'created_at', $sortDirection = 'DESC';
     public $edit_id, $delete_id;
-    public $template_name, $status, $preview_message;
+    public $template_name, $status = 1, $preview_message;
 
-    public function mount() {}
+    public function mount()
+    {}
 
     public function updated($fields)
     {
@@ -77,13 +78,12 @@ class InboxTemplateComponent extends Component
     public function resetForm()
     {
         $this->reset(['template_name', 'status', 'preview_message']);
-        $this->permissions = [];
     }
 
     public function resetInputs()
     {
         $this->template_name = '';
-        $this->status = '';
+        $this->status = 1;
         $this->preview_message = '';
         $this->delete_id = '';
         $this->edit_id = '';
@@ -97,7 +97,7 @@ class InboxTemplateComponent extends Component
     public function setSortBy($sortByField)
     {
         if ($this->sortBy === $sortByField) {
-            $this->sortDirection = ($this->sortDirection ==  "ASC") ? 'DESC' : "ASC";
+            $this->sortDirection = ($this->sortDirection == "ASC") ? 'DESC' : "ASC";
             return;
         }
         $this->sortBy = $sortByField;
@@ -129,6 +129,7 @@ class InboxTemplateComponent extends Component
         $templates = InboxTemplate::where('template_name', 'like', '%' . $this->searchTerm . '%')
             ->orderBy($this->sortBy, $this->sortDirection)
             ->paginate($this->sortingValue);
+
         $this->dispatch('reload_scripts');
         return view('livewire.app.campaigns.inbox-template-component', ['templates' => $templates])->layout('livewire.app.layouts.base');
     }

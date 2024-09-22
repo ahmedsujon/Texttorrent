@@ -92,7 +92,7 @@ class GetNumberComponent extends Component
             $this->numbers_array[] = $number->phoneNumber;
             $this->numbers_info_array[] = [
                 'friendly_name' => $number->friendlyName,
-                'number' => '+14154750306',
+                'number' => $number->phoneNumber, // '+14154750306'
                 'region' => $number->region,
                 'country' => $number->isoCountry,
                 'latitude' => $number->latitude,
@@ -110,7 +110,7 @@ class GetNumberComponent extends Component
         $this->numberToPurchase = $number;
         $this->numberToPurchaseInfo = [
             'friendly_name' => $friendlyName,
-            'number' => '+14154750306',
+            'number' => $number, // '+14154750306'
             'region' => $region,
             'country' => $isoCountry,
             'latitude' => $latitude,

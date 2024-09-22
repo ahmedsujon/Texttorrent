@@ -30,6 +30,11 @@
                     </button>
                 </div>
             </div>
+            <div class="row">
+                <div class="col-md-12 text-center">
+                    <span wire:loading wire:target='deleteConfirmation'><i class="fa fa-spinner fa-spin"></i> Processing...</span>
+                </div>
+            </div>
             <div class="inbox_template_table_area">
                 <div class="table-responsive">
                     <table class="table table-hover">
@@ -97,8 +102,7 @@
                                                 <button type="button" class="table_edit_btn"
                                                     wire:click.prevent='editData({{ $template->id }})'
                                                     wire:loading.attr='disabled'>
-                                                    <img src="{{ asset('assets/app/icons/edit-03.svg') }}"
-                                                        alt="edit icon" />
+                                                    {!! loadingStateWithoutText('editData('.$template->id.')', '<img src="'.asset("assets/app/icons/edit-03.svg").'" alt="edit icon" />') !!}
                                                     <span>Edit</span>
                                                 </button>
                                                 <div class="dropdown">
@@ -119,7 +123,7 @@
                                                             </button>
                                                         </li>
                                                         <li>
-                                                            <button type="button" class="dropdown-item">
+                                                            <button type="button" wire:click.prevent='deleteConfirmation({{ $template->id }})' class="dropdown-item">
                                                                 <img src="{{ asset('assets/app/icons/delete-01.svg') }}"
                                                                     alt="delete icon" />
                                                                 <span>Delete template</span>
@@ -264,7 +268,7 @@
                 <div class="modal-content">
                     <div class="modal-header">
                         <h1 class="modal-title fs-5" id="editModal">Edit SMS template</h1>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                        <button type="button" class="btn-close" wire:click.prevent='close' data-bs-dismiss="modal"
                             aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
@@ -305,31 +309,31 @@
                                                 </button>
                                                 <ul class="dropdown-menu">
                                                     <li>
-                                                        <button type="button" class="dropdown-item"
+                                                        <button type="button" class="dropdown-item dropdown-item-edit"
                                                             data-variable="[phone_number]">
                                                             <span>Phone Number</span>
                                                         </button>
                                                     </li>
                                                     <li>
-                                                        <button type="button" class="dropdown-item"
+                                                        <button type="button" class="dropdown-item dropdown-item-edit"
                                                             data-variable="[email_address]">
                                                             <span>Email Address</span>
                                                         </button>
                                                     </li>
                                                     <li>
-                                                        <button type="button" class="dropdown-item"
+                                                        <button type="button" class="dropdown-item dropdown-item-edit"
                                                             data-variable="[first_name]">
                                                             <span>First Name</span>
                                                         </button>
                                                     </li>
                                                     <li>
-                                                        <button type="button" class="dropdown-item"
+                                                        <button type="button" class="dropdown-item dropdown-item-edit"
                                                             data-variable="[last_name]">
                                                             <span>Last Name</span>
                                                         </button>
                                                     </li>
                                                     <li>
-                                                        <button type="button" class="dropdown-item"
+                                                        <button type="button" class="dropdown-item dropdown-item-edit"
                                                             data-variable="[company]">
                                                             <span>Company</span>
                                                         </button>
@@ -338,8 +342,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <textarea name="" id="template_preview" rows="6" class="input_field textarea_field"
-                                        placeholder="Write a template..." value=""></textarea>
+                                    <textarea name="" id="template_preview_edit" rows="6" class="input_field textarea_field" placeholder="Write a template..."></textarea>
                                 </div>
                                 @error('preview_message')
                                     <p class="text-danger" style="font-size: 11.5px;">{{ $message }}</p>
@@ -348,7 +351,7 @@
                         </form>
                     </div>
                     <div class="modal-footer event_modal_footer">
-                        <button type="button" wire:click.prevent='resetForm' class="cancel_btn"
+                        <button type="button" wire:click.prevent='close' class="cancel_btn"
                             data-bs-dismiss="modal">Cancel</button>
                         <button type="button" wire:click.prevent='updateData' class="create_event_btn">
                             {!! loadingStateWithText('updateData', 'Save') !!}
@@ -358,6 +361,31 @@
             </div>
         </div>
     </main>
+
+    <!-- Delete  Modal  -->
+    <div wire:ignore.self class="modal fade delete_modal" id="deleteDataModal" tabindex="-1"
+    aria-labelledby="deleteModal" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <div class="content_area">
+                        <h2>Would you like to permanently delete this template?</h2>
+                        <h4>Once deleted, this event will no longer be accessible</h4>
+                        <div class="delete_action_area d-flex align-items-center flex-wrap">
+                            <button type="button" class="delete_cancel_btn" id="deleteModalCloseBtn" data-bs-dismiss="modal">
+                                Cancel
+                            </button>
+                            <button type="button" wire:click.prevent='deleteData' wire:loading.attr='disabled' class="delete_yes_btn">
+                                {!! loadingStateWithText('deleteData', 'Yes') !!}
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <input type="hidden" class="editItem" value='{{ $preview_message }}' />
 </div>
 @push('scripts')
     <script>
@@ -372,6 +400,12 @@
                 @this.set('preview_message', template);
             });
 
+            $('#template_preview_edit').on('change', function() {
+                var template = $(this).val();
+
+                @this.set('preview_message', template);
+            });
+
             $('.statusSelect').on('change', function() {
                 var status = $(this).val();
                 @this.set('status', status);
@@ -380,19 +414,23 @@
     </script>
 
     <script>
-        // Get all buttons with the class 'dropdown-item'
         const dropdownItems = document.querySelectorAll('.dropdown-item');
-
-        // Add a click event listener to each button
         dropdownItems.forEach(item => {
             item.addEventListener('click', function() {
-                // Get the data-variable attribute value (e.g., [phone_number])
                 let variable = this.getAttribute('data-variable');
-
-                // Append the selected variable to the textarea
                 let textarea = document.getElementById('template_preview');
                 textarea.value += variable + " ";
-
+                @this.set('preview_message', textarea.value);
+            });
+        });
+    </script>
+    <script>
+        const dropdownItemsEdit = document.querySelectorAll('.dropdown-item-edit');
+        dropdownItemsEdit.forEach(item => {
+            item.addEventListener('click', function() {
+                let variable = this.getAttribute('data-variable');
+                let textarea = document.getElementById('template_preview_edit');
+                textarea.value += variable + " ";
                 @this.set('preview_message', textarea.value);
             });
         });
@@ -400,66 +438,10 @@
 
     <script>
         $(document).ready(function() {
-            //Text Editor for new
-            var MergeButton = function(context) {
-                var ui = $.summernote.ui;
-
-                // create button
-                var button = ui.button({
-                    contents: '<span>Import merge field</span> <img src="{{ asset('assets/app/icons/arrow-down.png') }}" alt="down arrow">',
-                    className: "merge_btn",
-                    click: function() {
-                        $("#editorDropdownArea").fadeToggle();
-                    },
-                });
-
-                return button.render(); // return button as jquery object
-            };
-
-            $("#summernote").summernote({
-                placeholder: "Write a template...",
-                height: 170,
-                toolbar: [
-                    ["style", ["bold", "italic", "underline"]],
-                    ["mybutton", ["hello"]],
-                ],
-                buttons: {
-                    hello: MergeButton,
-                },
-            });
-
             //Hide Dropdown on click the mehu
             $("#editorDropdownArea .dropdown-item").click(function(e) {
                 e.preventDefault();
                 $("#editorDropdownArea").fadeOut();
-            });
-
-            //Text Editor for edit
-            var MergeEditButton = function(context) {
-                var ui = $.summernote.ui;
-
-                // create button
-                var button = ui.button({
-                    contents: '<span>Import merge field</span> <img src="{{ asset('assets/app/icons/arrow-down.png') }}" alt="down arrow">',
-                    className: "merge_btn",
-                    click: function() {
-                        $("#editorEditDropdownArea").fadeToggle();
-                    },
-                });
-
-                return button.render(); // return button as jquery object
-            };
-
-            $("#editTempalte").summernote({
-                placeholder: "Write a template...",
-                height: 170,
-                toolbar: [
-                    ["style", ["bold", "italic", "underline"]],
-                    ["mybutton", ["hello"]],
-                ],
-                buttons: {
-                    hello: MergeEditButton,
-                },
             });
 
             //Hide Dropdown on click the mehu
@@ -469,6 +451,13 @@
             });
         });
         window.addEventListener('showEditModal', event => {
+            let textarea = document.getElementById('template_preview_edit');
+
+            setTimeout(() => {
+                let value = document.querySelector('.editItem').value;
+                textarea.value = value;
+            }, 300);
+
             $('#editTemplateModal').modal('show');
         });
         window.addEventListener('closeModal', event => {
@@ -476,11 +465,11 @@
             $('#editTemplateModal').modal('hide');
         });
 
-        window.addEventListener('user_deleted', event => {
+        window.addEventListener('template_deleted', event => {
             $('#deleteDataModal').modal('hide');
             Swal.fire(
                 "Deleted!",
-                "The user has been deleted.",
+                "The template has been deleted.",
                 "success"
             );
         });
