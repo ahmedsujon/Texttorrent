@@ -25,6 +25,7 @@ use App\Livewire\App\Settings\ChangePasswordComponent;
 use App\Livewire\App\Settings\DLCRegistrationComponent;
 use App\Livewire\App\Contacts\ValidatorCreditsComponent;
 use App\Livewire\App\Campaigns\ContactMessageQueueComponent;
+use App\Livewire\App\Settings\ActiveNumberComponent;
 
 /*
 |--------------------------------------------------------------------------
@@ -67,6 +68,7 @@ Route::name('user.')->middleware('auth')->group(function () {
     Route::get('settings/change-password', ChangePasswordComponent::class)->name('changePassword');
     Route::get('settings/sub-account', SubAccountComponent::class)->name('subAccount');
     Route::get('settings/get-number', GetNumberComponent::class)->name('getNumber');
+    Route::get('settings/active-numbers', ActiveNumberComponent::class)->name('activeNumber');
     Route::get('settings/logs', LogsComponent::class)->name('logs');
     Route::get('settings/apis', ApiComponent::class)->name('apis');
     Route::get('settings/dlc-registration', DLCRegistrationComponent::class)->name('dlcRegistration');

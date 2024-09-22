@@ -4,10 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>NzCoding - @yield('page_title')</title>
+    <title>{{ $title ?? config('app.name', 'Laravel CMS') }}</title>
 
     <!-- App favicon -->
-    <link rel="shortcut icon" href="{{ asset('assets/images/favicon.png') }}">
+    <link rel="shortcut icon" href="{{ asset('assets/admin/images/favicon.ico') }}">
 
     <!-- Styles CSS -->
     <link href="{{ asset('assets/admin/css/bootstrap.min.css') }}" id="bootstrap-style" rel="stylesheet" type="text/css" />
@@ -16,8 +16,9 @@
     <!-- App Css -->
     <link href="{{ asset('assets/admin/css/app.min.css') }}" id="app-style" rel="stylesheet" type="text/css" />
 
+    @livewireStyles
 </head>
-<body>
+<body class="auth-body-bg">
 
     {{ $slot }}
 
@@ -31,7 +32,6 @@
     <!-- App js -->
     <script src="{{ asset('assets/admin/js/app.js') }}"></script>
 
-    @stack('scripts')
-
+    @livewireScripts
 </body>
 </html>

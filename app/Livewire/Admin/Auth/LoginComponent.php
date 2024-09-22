@@ -4,12 +4,13 @@ namespace App\Livewire\Admin\Auth;
 
 use App\Models\Admin;
 use Livewire\Component;
+use Livewire\Attributes\Title;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
 class LoginComponent extends Component
 {
-    public $email, $password, $remember_me = 0, $login_status;
+    public $email, $password;
 
     public function updated($fields)
     {
@@ -30,14 +31,10 @@ class LoginComponent extends Component
 
         if ($getAdmin) {
             if (Hash::check($this->password, $getAdmin->password)) {
-                $remember = $this->remember_me == 1 ? true : false;
+                Auth::guard('admin')->attempt(['email' => $this->email, 'password' => $this->password]);
 
-                if(Auth::guard('admin')->attempt(['email' => $this->email, 'password' => $this->password], $remember)){
-                    $this->login_status = 1;
-                    $this->dispatch('login_success');
-                } else {
-                    session()->flash('error', 'Incorrect email or password');
-                }
+                session()->flash('success', 'Login Successful');
+                return redirect()->route('admin.dashboard');
             } else {
                 session()->flash('error', 'Incorrect email or password');
             }
@@ -45,9 +42,10 @@ class LoginComponent extends Component
             session()->flash('error', 'Incorrect email or password');
         }
     }
-
+    
+    #[Title('Login')]
     public function render()
     {
-        return view('livewire.admin.auth.login-component')->layout('livewire.admin.auth.layout.base');
+        return view('livewire.admin.auth.login-component')->layout('livewire.admin.auth.layouts.base');
     }
 }
