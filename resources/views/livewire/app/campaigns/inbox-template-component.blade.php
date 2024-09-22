@@ -30,6 +30,11 @@
                     </button>
                 </div>
             </div>
+            <div class="row">
+                <div class="col-md-12 text-center">
+                    <span wire:loading wire:target='deleteConfirmation'><i class="fa fa-spinner fa-spin"></i> Processing...</span>
+                </div>
+            </div>
             <div class="inbox_template_table_area">
                 <div class="table-responsive">
                     <table class="table table-hover">
@@ -97,8 +102,7 @@
                                                 <button type="button" class="table_edit_btn"
                                                     wire:click.prevent='editData({{ $template->id }})'
                                                     wire:loading.attr='disabled'>
-                                                    <img src="{{ asset('assets/app/icons/edit-03.svg') }}"
-                                                        alt="edit icon" />
+                                                    {!! loadingStateWithoutText('editData('.$template->id.')', '<img src="'.asset("assets/app/icons/edit-03.svg").'" alt="edit icon" />') !!}
                                                     <span>Edit</span>
                                                 </button>
                                                 <div class="dropdown">
@@ -119,7 +123,7 @@
                                                             </button>
                                                         </li>
                                                         <li>
-                                                            <button type="button" class="dropdown-item">
+                                                            <button type="button" wire:click.prevent='deleteConfirmation({{ $template->id }})' class="dropdown-item">
                                                                 <img src="{{ asset('assets/app/icons/delete-01.svg') }}"
                                                                     alt="delete icon" />
                                                                 <span>Delete template</span>
@@ -264,7 +268,7 @@
                 <div class="modal-content">
                     <div class="modal-header">
                         <h1 class="modal-title fs-5" id="editModal">Edit SMS template</h1>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                        <button type="button" class="btn-close" wire:click.prevent='close' data-bs-dismiss="modal"
                             aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
@@ -347,7 +351,7 @@
                         </form>
                     </div>
                     <div class="modal-footer event_modal_footer">
-                        <button type="button" wire:click.prevent='resetForm' class="cancel_btn"
+                        <button type="button" wire:click.prevent='close' class="cancel_btn"
                             data-bs-dismiss="modal">Cancel</button>
                         <button type="button" wire:click.prevent='updateData' class="create_event_btn">
                             {!! loadingStateWithText('updateData', 'Save') !!}
@@ -357,6 +361,29 @@
             </div>
         </div>
     </main>
+
+    <!-- Delete  Modal  -->
+    <div wire:ignore.self class="modal fade delete_modal" id="deleteDataModal" tabindex="-1"
+    aria-labelledby="deleteModal" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <div class="content_area">
+                        <h2>Would you like to permanently delete this template?</h2>
+                        <h4>Once deleted, this event will no longer be accessible</h4>
+                        <div class="delete_action_area d-flex align-items-center flex-wrap">
+                            <button type="button" class="delete_cancel_btn" id="deleteModalCloseBtn" data-bs-dismiss="modal">
+                                Cancel
+                            </button>
+                            <button type="button" wire:click.prevent='deleteData' wire:loading.attr='disabled' class="delete_yes_btn">
+                                {!! loadingStateWithText('deleteData', 'Yes') !!}
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <input type="hidden" class="editItem" value='{{ $preview_message }}' />
 </div>
@@ -368,6 +395,12 @@
             });
 
             $('#template_preview').on('change', function() {
+                var template = $(this).val();
+
+                @this.set('preview_message', template);
+            });
+
+            $('#template_preview_edit').on('change', function() {
                 var template = $(this).val();
 
                 @this.set('preview_message', template);
@@ -432,11 +465,11 @@
             $('#editTemplateModal').modal('hide');
         });
 
-        window.addEventListener('user_deleted', event => {
+        window.addEventListener('template_deleted', event => {
             $('#deleteDataModal').modal('hide');
             Swal.fire(
                 "Deleted!",
-                "The user has been deleted.",
+                "The template has been deleted.",
                 "success"
             );
         });

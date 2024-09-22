@@ -83,7 +83,7 @@ class InboxTemplateComponent extends Component
     public function resetInputs()
     {
         $this->template_name = '';
-        $this->status = '';
+        $this->status = 1;
         $this->preview_message = '';
         $this->delete_id = '';
         $this->edit_id = '';
