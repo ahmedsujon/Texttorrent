@@ -16,13 +16,13 @@
 </head>
 
 <body>
-    @livewire('app.layouts.inc.app_header')
+    @livewire('web.layouts.inc.header')
 
     <div class="overlay" id="mobileMenuOverlayArea"></div>
 
     {{ $slot }}
 
-    @livewire('app.layouts.inc.app_header')
+    @livewire('web.layouts.inc.header')
 
     <!-- JS Here -->
     <script src="{{ asset('assets/app/plugins/js/jquery-3.6.0.min.js') }}"></script>

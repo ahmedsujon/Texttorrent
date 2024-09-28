@@ -12,21 +12,24 @@
                         <nav class="nav_area">
                             <ul class="main_menu_list d-flex align-items-center justify-content-center flex-wrap">
                                 <li>
-                                    <a href="#" class="active_menu">Home</a>
-                                </li>
-
-                                <li>
-                                    <a href="#">Features</a>
+                                    <a href="{{ route('app.home') }}"
+                                        class="{{ request()->is('/') ? 'active_menu' : '' }}">Home</a>
                                 </li>
                                 <li>
-                                    <a href="#">Pricing</a>
-                                </li>
-
-                                <li>
-                                    <a href="#">About</a>
+                                    <a href="{{ route('app.feature') }}"
+                                        class="{{ request()->is('/features') ? 'active_menu' : '' }}">Features</a>
                                 </li>
                                 <li>
-                                    <a href="#">Contact Us</a>
+                                    <a href="{{ route('app.pricing') }}"
+                                        class="{{ request()->is('/pricing') ? 'active_menu' : '' }}">Pricing</a>
+                                </li>
+                                <li>
+                                    <a href="{{ route('app.contact-us') }}"
+                                        class="{{ request()->is('/about-us') ? 'active_menu' : '' }}">About</a>
+                                </li>
+                                <li>
+                                    <a href="{{ route('app.contact-us') }}"
+                                        class="{{ request()->is('/contact-us') ? 'active_menu' : '' }}">Contact Us</a>
                                 </li>
                             </ul>
                         </nav>
@@ -40,19 +43,25 @@
                             <div class="mobile_menu_area" id="mobileMenuListArea">
                                 <ul>
                                     <li>
-                                        <a href="#" class="active_menu"> Home </a>
+                                        <a href="{{ route('app.home') }}"
+                                            class="{{ request()->is('/') ? 'active_menu' : '' }}">Home</a>
                                     </li>
                                     <li>
-                                        <a href="#"> Features </a>
+                                        <a href="{{ route('app.feature') }}"
+                                            class="{{ request()->is('/features') ? 'active_menu' : '' }}">Features</a>
                                     </li>
                                     <li>
-                                        <a href="#"> Pricing </a>
+                                        <a href="{{ route('app.pricing') }}"
+                                            class="{{ request()->is('/pricing') ? 'active_menu' : '' }}">Pricing</a>
                                     </li>
                                     <li>
-                                        <a href="#"> About </a>
+                                        <a href="{{ route('app.contact-us') }}"
+                                            class="{{ request()->is('/about-us') ? 'active_menu' : '' }}">About</a>
                                     </li>
                                     <li>
-                                        <a href="#"> Contact Us </a>
+                                        <a href="{{ route('app.contact-us') }}"
+                                            class="{{ request()->is('/contact-us') ? 'active_menu' : '' }}">Contact
+                                            Us</a>
                                     </li>
                                 </ul>
                                 <a href="{{ route('login') }}" class="sign_up_btn">Sign in</a>
