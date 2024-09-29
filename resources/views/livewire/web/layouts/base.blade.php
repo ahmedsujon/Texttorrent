@@ -22,7 +22,7 @@
 
     {{ $slot }}
 
-    @livewire('web.layouts.inc.header')
+    @livewire('web.layouts.inc.footer')
 
     <!-- JS Here -->
     <script src="{{ asset('assets/app/plugins/js/jquery-3.6.0.min.js') }}"></script>
