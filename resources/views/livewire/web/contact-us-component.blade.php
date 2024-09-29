@@ -34,19 +34,22 @@
                                 <ul>
                                     <li>
                                         <div class="icon">
-                                            <img src="{{ asset('assets/app/icons/bxs_phone-call.svg') }}" alt="phone icon" />
+                                            <img src="{{ asset('assets/app/icons/bxs_phone-call.svg') }}"
+                                                alt="phone icon" />
                                         </div>
                                         <a href="tel:+10123456789">+1012 3456 789</a>
                                     </li>
                                     <li>
                                         <div class="icon">
-                                            <img src="{{ asset('assets/app/icons/ic_sharp-email.svg') }}" alt="email icon" />
+                                            <img src="{{ asset('assets/app/icons/ic_sharp-email.svg') }}"
+                                                alt="email icon" />
                                         </div>
                                         <a href="mailto:demo@gmail.com">demo@gmail.com</a>
                                     </li>
                                     <li>
                                         <div class="icon">
-                                            <img src="{{ asset('assets/app/icons/carbon_location-filled.svg') }}" alt="location icon" />
+                                            <img src="{{ asset('assets/app/icons/carbon_location-filled.svg') }}"
+                                                alt="location icon" />
                                         </div>
                                         <h6>
                                             132 Dartmouth Street Boston, Massachusetts 02156 United
@@ -56,34 +59,55 @@
                                 </ul>
                             </div>
                             <div class="contact_form_area">
-                                <form action="" class="form_area">
+                                @if (session()->has('success'))
+                                    <div class="alert alert-success mb-5">
+                                        {{ session('success') }}
+                                    </div>
+                                @endif
+                                <form wire:submit.prevent='storeData' class="form_area">
                                     <div class="input_grid">
                                         <div class="input_row">
-                                            <input type="text" class="input_filed" required />
-                                            <label for="" class="form_label"> Full Name </label>
+                                            <input type="text" wire:model="first_name" class="input_filed"
+                                                required />
+                                            <label for="first_name" class="form_label"> Fast Name </label>
+                                            @error('first_name')
+                                                <p class="text-danger" style="font-size: 11.5px;">{{ $message }}</p>
+                                            @enderror
                                         </div>
                                         <div class="input_row">
-                                            <input type="text" class="input_filed" />
-                                            <label for="" class="form_label"> Last Name </label>
+                                            <input type="text" wire:model="last_name" class="input_filed" />
+                                            <label for="last_name" class="form_label"> Last Name </label>
+                                            @error('last_name')
+                                                <p class="text-danger" style="font-size: 11.5px;">{{ $message }}</p>
+                                            @enderror
                                         </div>
                                     </div>
                                     <div class="input_grid">
                                         <div class="input_row">
-                                            <input type="email" class="input_filed" />
-                                            <label for="" class="form_label"> Email </label>
+                                            <input type="email" wire:model="email" class="input_filed" />
+                                            <label for="email" class="form_label"> Email </label>
+                                            @error('email')
+                                                <p class="text-danger" style="font-size: 11.5px;">{{ $message }}</p>
+                                            @enderror
                                         </div>
                                         <div class="input_row">
-                                            <input type="number" class="input_filed" />
-                                            <label for="" class="form_label"> Phone Number </label>
+                                            <input type="number" wire:model="phone" class="input_filed" />
+                                            <label for="phone" class="form_label"> Phone Number </label>
+                                            @error('phone')
+                                                <p class="text-danger" style="font-size: 11.5px;">{{ $message }}</p>
+                                            @enderror
                                         </div>
                                     </div>
                                     <div class="input_row">
-                                        <textarea name="" id="" class="input_filed"></textarea>
-                                        <label for="" class="form_label"> Message </label>
+                                        <textarea wire:model="descriptions" class="input_filed"></textarea>
+                                        <label for="descriptions" class="form_label"> Message </label>
+                                        @error('descriptions')
+                                            <p class="text-danger" style="font-size: 11.5px;">{{ $message }}</p>
+                                        @enderror
                                     </div>
                                     <div class="text-end">
                                         <button type="submit" class="submit_btn ms-auto">
-                                            Send Message
+                                            {!! loadingStateWithText('storeData', 'Send Message') !!}
                                         </button>
                                     </div>
                                 </form>
@@ -110,12 +134,13 @@
                                 </button>
                             </div>
                             <div class="works_image_area">
-                                <img src="{{ asset('assets/app/images/landing/how-work-preview.png') }}" alt="preview video image"
-                                    class="image_preview" />
-                                <img src="{{ asset('assets/app/images/landing/letter_send_1.png') }}" alt="send icon" class="send_shape" />
+                                <img src="{{ asset('assets/app/images/landing/how-work-preview.png') }}"
+                                    alt="preview video image" class="image_preview" />
+                                <img src="{{ asset('assets/app/images/landing/letter_send_1.png') }}" alt="send icon"
+                                    class="send_shape" />
                                 <div class="video_btn_area">
                                     <button class="video_play_button modal_video_btn" data-channel="custom"
-                                        data-video-url="assets/videos/featues_video.mp4">
+                                        data-video-url="{{ asset('assets/app/videos/featues_video.mp4') }}">
                                         <svg width="37" height="40" viewBox="0 0 37 40" fill="none"
                                             xmlns="http://www.w3.org/2000/svg">
                                             <path
@@ -185,3 +210,173 @@
         </section>
     </main>
 </div>
+@push('scripts')
+    <!-- JS Here -->
+    <script src="{{ asset('assets/app/plugins/js/jquery-modal-video.min.js') }}"></script>
+    <script src="https://kit.fontawesome.com/46f35fbc02.js" crossorigin="anonymous"></script>
+    <!-- Map Resources -->
+    <script src="https://cdn.amcharts.com/lib/5/index.js"></script>
+    <script src="https://cdn.amcharts.com/lib/5/map.js"></script>
+    <script src="https://cdn.amcharts.com/lib/5/geodata/worldLow.js"></script>
+    <script src="https://cdn.amcharts.com/lib/5/themes/Animated.js"></script>
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+    <script>
+        am5.ready(function() {
+            // Create root element
+            var root = am5.Root.new("locationMap");
+
+            // Set themes
+            root.setThemes([am5themes_Animated.new(root)]);
+
+            // Create the map chart
+            var chart = root.container.children.push(
+                am5map.MapChart.new(root, {
+                    panX: "rotateX",
+                    panY: "translateY",
+                    projection: am5map.geoMercator(),
+                })
+            );
+
+            var zoomControl = chart.set(
+                "zoomControl",
+                am5map.ZoomControl.new(root, {})
+            );
+            zoomControl.homeButton.set("visible", true);
+
+            // Create main polygon series for countries
+            var polygonSeries = chart.series.push(
+                am5map.MapPolygonSeries.new(root, {
+                    geoJSON: am5geodata_worldLow,
+                    exclude: ["AQ"],
+                })
+            );
+
+            polygonSeries.mapPolygons.template.setAll({
+                fill: am5.color("#0097FE"),
+            });
+
+            // Create point series for markers
+            var pointSeries = chart.series.push(
+                am5map.ClusteredPointSeries.new(root, {})
+            );
+
+            // Set clustered bullet
+            pointSeries.set("clusteredBullet", function(root) {
+                var container = am5.Container.new(root, {
+                    cursorOverStyle: "pointer",
+                });
+
+                var circle1 = container.children.push(
+                    am5.Circle.new(root, {
+                        radius: 8,
+                        tooltipY: 0,
+                        fill: am5.color(0xff8c00),
+                    })
+                );
+
+                var circle2 = container.children.push(
+                    am5.Circle.new(root, {
+                        radius: 12,
+                        fillOpacity: 0.3,
+                        tooltipY: 0,
+                        fill: am5.color(0xff8c00),
+                    })
+                );
+
+                var circle3 = container.children.push(
+                    am5.Circle.new(root, {
+                        radius: 16,
+                        fillOpacity: 0.3,
+                        tooltipY: 0,
+                        fill: am5.color(0xff8c00),
+                    })
+                );
+
+                var label = container.children.push(
+                    am5.Label.new(root, {
+                        centerX: am5.p50,
+                        centerY: am5.p50,
+                        fill: am5.color(0xffffff),
+                        populateText: true,
+                        fontSize: "8",
+                        fontWeight: 600,
+                        text: "{value}",
+                    })
+                );
+
+                container.events.on("click", function(e) {
+                    pointSeries.zoomToCluster(e.target.dataItem);
+                });
+
+                return am5.Bullet.new(root, {
+                    sprite: container,
+                });
+            });
+
+            // Create regular bullets
+            pointSeries.bullets.push(function() {
+                var circle = am5.Circle.new(root, {
+                    radius: 6,
+                    tooltipY: 0,
+                    fill: am5.color(0xff8c00),
+                    tooltipText: "{title}",
+                });
+
+                return am5.Bullet.new(root, {
+                    sprite: circle,
+                });
+            });
+
+            // Set data
+            var cities = [{
+                    title: "Vienna",
+                    latitude: 48.2092,
+                    longitude: 16.3728
+                },
+                {
+                    title: "Minsk",
+                    latitude: 53.9678,
+                    longitude: 27.5766
+                },
+                {
+                    title: "Nairobi",
+                    latitude: -1.2762,
+                    longitude: 36.7965
+                },
+                {
+                    title: "Dodoma",
+                    latitude: -6.167,
+                    longitude: 35.7497
+                },
+                {
+                    title: "Lome",
+                    latitude: 6.1228,
+                    longitude: 1.2255
+                },
+                {
+                    title: "Tunis",
+                    latitude: 36.8117,
+                    longitude: 10.1761
+                },
+            ];
+
+            for (var i = 0; i < cities.length; i++) {
+                var city = cities[i];
+                addCity(city.longitude, city.latitude, city.title);
+            }
+
+            function addCity(longitude, latitude, title) {
+                pointSeries.data.push({
+                    geometry: {
+                        type: "Point",
+                        coordinates: [longitude, latitude]
+                    },
+                    title: title,
+                });
+            }
+
+            // Make stuff animate on load
+            chart.appear(1000, 100);
+        });
+    </script>
+@endpush
