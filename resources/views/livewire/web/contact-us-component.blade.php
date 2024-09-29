@@ -59,34 +59,55 @@
                                 </ul>
                             </div>
                             <div class="contact_form_area">
-                                <form action="" class="form_area">
+                                @if (session()->has('success'))
+                                    <div class="alert alert-success mb-5">
+                                        {{ session('success') }}
+                                    </div>
+                                @endif
+                                <form wire:submit.prevent='storeData' class="form_area">
                                     <div class="input_grid">
                                         <div class="input_row">
-                                            <input type="text" class="input_filed" required />
-                                            <label for="" class="form_label"> Full Name </label>
+                                            <input type="text" wire:model="first_name" class="input_filed"
+                                                required />
+                                            <label for="first_name" class="form_label"> Fast Name </label>
+                                            @error('first_name')
+                                                <p class="text-danger" style="font-size: 11.5px;">{{ $message }}</p>
+                                            @enderror
                                         </div>
                                         <div class="input_row">
-                                            <input type="text" class="input_filed" />
-                                            <label for="" class="form_label"> Last Name </label>
+                                            <input type="text" wire:model="last_name" class="input_filed" />
+                                            <label for="last_name" class="form_label"> Last Name </label>
+                                            @error('last_name')
+                                                <p class="text-danger" style="font-size: 11.5px;">{{ $message }}</p>
+                                            @enderror
                                         </div>
                                     </div>
                                     <div class="input_grid">
                                         <div class="input_row">
-                                            <input type="email" class="input_filed" />
-                                            <label for="" class="form_label"> Email </label>
+                                            <input type="email" wire:model="email" class="input_filed" />
+                                            <label for="email" class="form_label"> Email </label>
+                                            @error('email')
+                                                <p class="text-danger" style="font-size: 11.5px;">{{ $message }}</p>
+                                            @enderror
                                         </div>
                                         <div class="input_row">
-                                            <input type="number" class="input_filed" />
-                                            <label for="" class="form_label"> Phone Number </label>
+                                            <input type="number" wire:model="phone" class="input_filed" />
+                                            <label for="phone" class="form_label"> Phone Number </label>
+                                            @error('phone')
+                                                <p class="text-danger" style="font-size: 11.5px;">{{ $message }}</p>
+                                            @enderror
                                         </div>
                                     </div>
                                     <div class="input_row">
-                                        <textarea name="" id="" class="input_filed"></textarea>
-                                        <label for="" class="form_label"> Message </label>
+                                        <textarea wire:model="descriptions" class="input_filed"></textarea>
+                                        <label for="descriptions" class="form_label"> Message </label>
+                                        @error('descriptions')
+                                            <p class="text-danger" style="font-size: 11.5px;">{{ $message }}</p>
+                                        @enderror
                                     </div>
                                     <div class="text-end">
                                         <button type="submit" class="submit_btn ms-auto">
-                                            Send Message
+                                            {!! loadingStateWithText('storeData', 'Send Message') !!}
                                         </button>
                                     </div>
                                 </form>
