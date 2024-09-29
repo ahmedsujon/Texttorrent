@@ -1,11 +1,11 @@
 <div>
-    <footer class="footer_wrapper" style="background-image: url(assets/images/landing/BackgroundFooter.png)">
+    <footer class="footer_wrapper" style="background-image: url(assets/app/images/landing/BackgroundFooter.png)">
         <div class="container container-custom">
             <div class="row">
                 <div class="col-md-6">
                     <div class="logo_area">
-                        <a href="#">
-                            <img src="assets/images/landing/footer-logo.svg" alt="logo" />
+                        <a href="/" wire:navigate>
+                            <img src="{{ asset('assets/app/images/landing/footer-logo.svg') }}" alt="logo" />
                         </a>
                         <h5>
                             Just as its name suggests, it simplifies the process of creating
@@ -19,19 +19,19 @@
                             <h3>Pages</h3>
                             <ul class="menu_list">
                                 <li>
-                                    <a href="#">Home</a>
+                                    <a href="/" wire:navigate >Home</a>
                                 </li>
                                 <li>
-                                    <a href="#">Features</a>
+                                    <a href="/features" wire:navigate >Features</a>
                                 </li>
                                 <li>
-                                    <a href="#">Pricing</a>
+                                    <a href="/pricing" wire:navigate >Pricing</a>
                                 </li>
                                 <li>
-                                    <a href="#">About</a>
+                                    <a href="/about-us" wire:navigate >About</a>
                                 </li>
                                 <li>
-                                    <a href="#">Contact Us</a>
+                                    <a href="/contact-us" wire:navigate >Contact Us</a>
                                 </li>
                             </ul>
                         </div>
@@ -40,10 +40,10 @@
                             <h3>Important Links</h3>
                             <ul class="menu_list">
                                 <li>
-                                    <a href="#">Privacy Policy</a>
+                                    <a href="/privacy-policy" wire:navigate >Privacy Policy</a>
                                 </li>
                                 <li>
-                                    <a href="#">Terms and Conditions</a>
+                                    <a href="/terms-conditions" wire:navigate >Terms and Conditions</a>
                                 </li>
                             </ul>
                         </div>
@@ -53,32 +53,32 @@
                     <ul class="social_list_area d-flex align-items-center justify-content-center flex-wrap">
                         <li>
                             <a href="#" target="_blank">
-                                <img src="assets/icons/globe.svg" alt="globe cion" />
+                                <img src="{{ asset('assets/app/icons/globe.svg') }}" alt="globe cion" />
                             </a>
                         </li>
                         <li>
                             <a href="#" target="_blank">
-                                <img src="assets/icons/facebook.svg" alt="facebook cion" />
+                                <img src="{{ asset('assets/app/icons/facebook.svg') }}" alt="facebook cion" />
                             </a>
                         </li>
                         <li>
                             <a href="#" target="_blank">
-                                <img src="assets/icons/twitter.svg" alt="twitter cion" />
+                                <img src="{{ asset('assets/app/icons/twitter.svg') }}" alt="twitter cion" />
                             </a>
                         </li>
                         <li>
                             <a href="#" target="_blank">
-                                <img src="assets/icons/google.svg" alt="google cion" />
+                                <img src="{{ asset('assets/app/icons/google.svg') }}" alt="google cion" />
                             </a>
                         </li>
                         <li>
                             <a href="#" target="_blank">
-                                <img src="assets/icons/linkedin.svg" alt="linkedin cion" />
+                                <img src="{{ asset('assets/app/icons/linkedin.svg') }}" alt="linkedin cion" />
                             </a>
                         </li>
                     </ul>
                     <div class="copy_right_area">
-                        <p>@ Copyright 2024 Text Torrent | All Right Reserved.</p>
+                        <p>&copy; Copyright  <?php echo date('Y'); ?> Text Torrent | All Rights Reserved.</p>
                     </div>
                 </div>
             </div>

@@ -39,8 +39,6 @@ use App\Livewire\App\Settings\ActiveNumberComponent;
 |
 */
 
-Route::get('/', HomeComponent::class)->name('app.home');
-
 Route::get('/login', LoginComponent::class)->name('login')->middleware('guest');
 Route::get('/register', RegistrationComponent::class)->name('register')->middleware('guest');
 

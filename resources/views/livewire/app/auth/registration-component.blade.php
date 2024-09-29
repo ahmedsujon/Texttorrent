@@ -3,7 +3,7 @@
         <div class="login_grid">
             <div class="login_left_area">
                 <div class="d-flex-between">
-                    <a href="{{ route('login') }}" class="logo">
+                    <a href="/" wire:navigate class="logo">
                         <img src="{{ asset('assets/app/images/header/logo.svg') }}" alt="logo" />
                     </a>
                     <a href="{{ route('login') }}" class="create_account_btn">Already have account? Login</a>
