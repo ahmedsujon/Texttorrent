@@ -3,9 +3,9 @@
 namespace Database\Seeders;
 
 use App\Models\Contact;
+use App\Models\ContactFolder;
 use App\Models\ContactList;
 use Faker\Factory as Faker;
-use App\Models\ContactFolder;
 use Illuminate\Database\Seeder;
 
 class UserContactsTableSeeder extends Seeder
@@ -22,9 +22,9 @@ class UserContactsTableSeeder extends Seeder
             $contactList = new ContactList();
             $contactList->user_id = 1;
             $contactList->name = $list;
+            $contactList->bookmarked = $key <= 1 ? 1 : 0;
             $contactList->save();
         }
-
         foreach ($folders as $key => $folder) {
             $contactList = new ContactFolder();
             $contactList->user_id = 1;
@@ -32,7 +32,7 @@ class UserContactsTableSeeder extends Seeder
             $contactList->save();
         }
 
-        for ($i=0; $i < 100; $i++) {
+        for ($i = 0; $i < 100; $i++) {
             $faker = Faker::create();
 
             $contact = new Contact();
