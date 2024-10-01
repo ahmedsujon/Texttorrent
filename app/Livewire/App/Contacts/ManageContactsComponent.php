@@ -67,6 +67,57 @@ class ManageContactsComponent extends Component
     }
 
 
+    // contacts
+    public $first_name, $last_name, $mobile_number, $company_name, $list_id;
+    public function addNewContact()
+    {
+        $this->validate([
+            'first_name' => 'required',
+            'mobile_number' => 'required',
+            'company_name' => 'required',
+        ]);
+
+        $list = new Contact();
+        $list->user_id = user()->id;
+        $list->first_name = $this->first_name;
+        $list->last_name = $this->last_name;
+        $list->number = '+1 ' . $this->mobile_number;
+        $list->company = $this->company_name;
+        $list->list_id = $this->list_id;
+        $list->save();
+
+        $this->first_name = '';
+        $this->last_name = '';
+        $this->mobile_number = '';
+        $this->company_name = '';
+        $this->list_id = '';
+
+        $this->dispatch('closeModal');
+        $this->dispatch('success', ['message' => 'New contact added successfully']);
+    }
+    public function editContact($id)
+    {
+        $list = ContactList::find($id);
+        $this->list_name = $list->name;
+        $this->list_edit_id = $list->id;
+
+        $this->dispatch('showListEditModal');
+    }
+    public function updateContact()
+    {
+        $this->validate([
+            'list_name' => 'required|max:15',
+        ]);
+
+        $list = ContactList::find($this->list_edit_id);
+        $list->name = $this->list_name;
+        $list->save();
+
+        $this->list_name = '';
+
+        $this->dispatch('closeModal');
+        $this->dispatch('success', ['message' => 'List updated successfully']);
+    }
 
 
 

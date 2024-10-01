@@ -34,7 +34,8 @@
                             </div>
                         </div>
                         <form action="" class="search_input_form">
-                            <input type="search" placeholder="Search..." wire:model.live='list_search_term' class="input_field" />
+                            <input type="search" placeholder="Search..." wire:model.live='list_search_term'
+                                class="input_field" />
                             <button type="submit" class="search_icon">
                                 <img src="{{ asset('assets/app/icons/search-gray.svg') }}" alt="search icon" />
                             </button>
@@ -47,53 +48,61 @@
                             </li>
                             @if ($bookmarked_lists->count() > 0)
                                 @foreach ($bookmarked_lists as $bList)
-                                <li>
-                                    <a href="#" class="list_btn">
-                                        <span class="list_title">{{ $bList->name }}</span>
-                                        <div
-                                            class="list_action_area d-flex align-items-center justify-content-end flex-wrap">
-                                            <div class="user_number_area d-flex align-items-center">
-                                                <img src="{{ asset('assets/app/icons/user.svg') }}" alt="user icon" />
-                                                <span>{{ listContactsCount($bList->id) }}</span>
-                                            </div>
-                                            <div class="table_dropdown_area">
-                                                <div class="dropdown">
-                                                    <button class="dot_icon" type="button" data-bs-toggle="dropdown"
-                                                        aria-expanded="false">
-                                                        <img src="{{ asset('assets/app/icons/dot-horizontal.svg') }}"
-                                                            alt="dot icon" />
-                                                    </button>
-                                                    <ul class="dropdown-menu dropdown-menu-end">
-                                                        <li>
-                                                            <h5>Select</h5>
-                                                        </li>
+                                    <li>
+                                        <a href="#" class="list_btn">
+                                            <span class="list_title">{{ $bList->name }}</span>
+                                            <div
+                                                class="list_action_area d-flex align-items-center justify-content-end flex-wrap">
+                                                <div class="user_number_area d-flex align-items-center">
+                                                    <img src="{{ asset('assets/app/icons/user.svg') }}"
+                                                        alt="user icon" />
+                                                    <span>{{ listContactsCount($bList->id) }}</span>
+                                                </div>
+                                                <div class="table_dropdown_area">
+                                                    <div class="dropdown">
+                                                        <button class="dot_icon" type="button"
+                                                            data-bs-toggle="dropdown" aria-expanded="false">
+                                                            <img src="{{ asset('assets/app/icons/dot-horizontal.svg') }}"
+                                                                alt="dot icon" />
+                                                        </button>
+                                                        <ul class="dropdown-menu dropdown-menu-end">
+                                                            <li>
+                                                                <h5>Select</h5>
+                                                            </li>
 
-                                                        <li>
-                                                            <button type="button" wire:click.prevent='addRemoveBookmark({{ $bList->id }})' class="dropdown-item">
-                                                                <img src="{{ asset('assets/app/icons/bookmark-minus-02.svg') }}"
-                                                                    alt="bookmark icon" />
-                                                                <span>Remove from bookmark</span>
-                                                            </button>
-                                                        </li>
-                                                        <li>
-                                                            <button type="button" wire:click.prevent='editList({{ $bList->id }})' class="dropdown-item">
-                                                                <img src="{{ asset('assets/app/icons/edit-04.svg') }}" alt="edit icon" />
-                                                                <span>Edit list</span>
-                                                            </button>
-                                                        </li>
-                                                        <li>
-                                                            <button type="button" wire:click.prevent='deleteConfirmation({{ $bList->id }}, "list")' class="dropdown-item">
-                                                                <img src="{{ asset('assets/app/icons/delete-03.svg') }}"
-                                                                    alt="copy icon" />
-                                                                <span>Delete list</span>
-                                                            </button>
-                                                        </li>
-                                                    </ul>
+                                                            <li>
+                                                                <button type="button"
+                                                                    wire:click.prevent='addRemoveBookmark({{ $bList->id }})'
+                                                                    class="dropdown-item">
+                                                                    <img src="{{ asset('assets/app/icons/bookmark-minus-02.svg') }}"
+                                                                        alt="bookmark icon" />
+                                                                    <span>Remove from bookmark</span>
+                                                                </button>
+                                                            </li>
+                                                            <li>
+                                                                <button type="button"
+                                                                    wire:click.prevent='editList({{ $bList->id }})'
+                                                                    class="dropdown-item">
+                                                                    <img src="{{ asset('assets/app/icons/edit-04.svg') }}"
+                                                                        alt="edit icon" />
+                                                                    <span>Edit list</span>
+                                                                </button>
+                                                            </li>
+                                                            <li>
+                                                                <button type="button"
+                                                                    wire:click.prevent='deleteConfirmation({{ $bList->id }}, "list")'
+                                                                    class="dropdown-item">
+                                                                    <img src="{{ asset('assets/app/icons/delete-03.svg') }}"
+                                                                        alt="copy icon" />
+                                                                    <span>Delete list</span>
+                                                                </button>
+                                                            </li>
+                                                        </ul>
+                                                    </div>
                                                 </div>
                                             </div>
-                                        </div>
-                                    </a>
-                                </li>
+                                        </a>
+                                    </li>
                                 @endforeach
                             @else
                                 <li class="mt-3 text-center">
@@ -105,53 +114,61 @@
                             </li>
                             @if ($other_lists->count() > 0)
                                 @foreach ($other_lists as $oList)
-                                <li>
-                                    <a href="#" class="list_btn">
-                                        <span class="list_title">{{ $oList->name }}</span>
-                                        <div
-                                            class="list_action_area d-flex align-items-center justify-content-end flex-wrap">
-                                            <div class="user_number_area d-flex align-items-center">
-                                                <img src="{{ asset('assets/app/icons/user.svg') }}" alt="user icon" />
-                                                <span>{{ listContactsCount($oList->id) }}</span>
-                                            </div>
-                                            <div class="table_dropdown_area">
-                                                <div class="dropdown">
-                                                    <button class="dot_icon" type="button" data-bs-toggle="dropdown"
-                                                        aria-expanded="false">
-                                                        <img src="{{ asset('assets/app/icons/dot-horizontal.svg') }}"
-                                                            alt="dot icon" />
-                                                    </button>
-                                                    <ul class="dropdown-menu dropdown-menu-end">
-                                                        <li>
-                                                            <h5>Select</h5>
-                                                        </li>
+                                    <li>
+                                        <a href="#" class="list_btn">
+                                            <span class="list_title">{{ $oList->name }}</span>
+                                            <div
+                                                class="list_action_area d-flex align-items-center justify-content-end flex-wrap">
+                                                <div class="user_number_area d-flex align-items-center">
+                                                    <img src="{{ asset('assets/app/icons/user.svg') }}"
+                                                        alt="user icon" />
+                                                    <span>{{ listContactsCount($oList->id) }}</span>
+                                                </div>
+                                                <div class="table_dropdown_area">
+                                                    <div class="dropdown">
+                                                        <button class="dot_icon" type="button"
+                                                            data-bs-toggle="dropdown" aria-expanded="false">
+                                                            <img src="{{ asset('assets/app/icons/dot-horizontal.svg') }}"
+                                                                alt="dot icon" />
+                                                        </button>
+                                                        <ul class="dropdown-menu dropdown-menu-end">
+                                                            <li>
+                                                                <h5>Select</h5>
+                                                            </li>
 
-                                                        <li>
-                                                            <button type="button" wire:click.prevent='addRemoveBookmark({{ $oList->id }})' class="dropdown-item">
-                                                                <img src="{{ asset('assets/app/icons/bookmark-minus-02.svg') }}"
-                                                                    alt="bookmark icon" />
-                                                                <span>Add to Bookmark</span>
-                                                            </button>
-                                                        </li>
-                                                        <li>
-                                                            <button type="button" wire:click.prevent='editList({{ $oList->id }})' class="dropdown-item">
-                                                                <img src="{{ asset('assets/app/icons/edit-04.svg') }}" alt="edit icon" />
-                                                                <span>Edit list</span>
-                                                            </button>
-                                                        </li>
-                                                        <li>
-                                                            <button type="button" wire:click.prevent='deleteConfirmation({{ $oList->id }}, "list")' class="dropdown-item">
-                                                                <img src="{{ asset('assets/app/icons/delete-03.svg') }}"
-                                                                    alt="copy icon" />
-                                                                <span>Delete list</span>
-                                                            </button>
-                                                        </li>
-                                                    </ul>
+                                                            <li>
+                                                                <button type="button"
+                                                                    wire:click.prevent='addRemoveBookmark({{ $oList->id }})'
+                                                                    class="dropdown-item">
+                                                                    <img src="{{ asset('assets/app/icons/bookmark-minus-02.svg') }}"
+                                                                        alt="bookmark icon" />
+                                                                    <span>Add to Bookmark</span>
+                                                                </button>
+                                                            </li>
+                                                            <li>
+                                                                <button type="button"
+                                                                    wire:click.prevent='editList({{ $oList->id }})'
+                                                                    class="dropdown-item">
+                                                                    <img src="{{ asset('assets/app/icons/edit-04.svg') }}"
+                                                                        alt="edit icon" />
+                                                                    <span>Edit list</span>
+                                                                </button>
+                                                            </li>
+                                                            <li>
+                                                                <button type="button"
+                                                                    wire:click.prevent='deleteConfirmation({{ $oList->id }}, "list")'
+                                                                    class="dropdown-item">
+                                                                    <img src="{{ asset('assets/app/icons/delete-03.svg') }}"
+                                                                        alt="copy icon" />
+                                                                    <span>Delete list</span>
+                                                                </button>
+                                                            </li>
+                                                        </ul>
+                                                    </div>
                                                 </div>
                                             </div>
-                                        </div>
-                                    </a>
-                                </li>
+                                        </a>
+                                    </li>
                                 @endforeach
                             @else
                                 <li class="mt-3 text-center">
@@ -235,70 +252,72 @@
                     <div class="details_list_area">
                         @if ($contacts->count() > 0)
                             @foreach ($contacts as $contact)
-                            <div class="deatils_list_grid">
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" value="" />
-                                </div>
-                                <div class="user_info_area">
-                                    <img src="{{ asset('assets/app/images/inbox/user_main.png') }}" alt="user image"
-                                        class="user_top_img" />
-                                    <div>
-                                        <h4>{{ $contact->first_name }} {{ $contact->last_name }}</h4>
-                                        <div class="d-flex align-items-center flex-wrap gap-1">
-                                            <h5>{{ $contact->number }}</h5>
-                                            <button type="button" class="copy_icon">
-                                                <img src="{{ asset('assets/app/icons/copy-01.svg') }}"
-                                                    alt="copy icon" />
-                                            </button>
+                                <div class="deatils_list_grid">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" value="" />
+                                    </div>
+                                    <div class="user_info_area">
+                                        <img src="{{ asset('assets/app/images/inbox/user_main.png') }}"
+                                            alt="user image" class="user_top_img" />
+                                        <div>
+                                            <h4>{{ $contact->first_name }} {{ $contact->last_name }}</h4>
+                                            <div class="d-flex align-items-center flex-wrap gap-1">
+                                                <h5>{{ $contact->number }}</h5>
+                                                <button type="button" class="copy_icon">
+                                                    <img src="{{ asset('assets/app/icons/copy-01.svg') }}"
+                                                        alt="copy icon" />
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div
+                                        class="list_action_details_area d-flex align-items-center justify-content-end flex-wrap g-sm">
+                                        <button type="button" class="icon_btn" data-bs-toggle="modal"
+                                            data-bs-target="#detailsModal">
+                                            <img src="{{ asset('assets/app/icons/info-02.svg') }}"
+                                                alt="message icon" />
+                                        </button>
+                                        <button type="button" class="icon_btn" data-bs-toggle="modal"
+                                            data-bs-target="#noteModal">
+                                            <img src="{{ asset('assets/app/icons/notebook.svg') }}"
+                                                alt="note icon" />
+                                        </button>
+                                        <button type="button" class="icon_btn" data-bs-target="#folderToggleModal"
+                                            data-bs-toggle="modal">
+                                            <img src="{{ asset('assets/app/icons/folder-add-02.svg') }}"
+                                                alt="folder add icon" />
+                                        </button>
+                                        <div class="table_dropdown_area">
+                                            <div class="dropdown">
+                                                <button class="icon_btn" type="button" data-bs-toggle="dropdown"
+                                                    aria-expanded="false">
+                                                    <img src="{{ asset('assets/app/icons/dot-horizontal.svg') }}"
+                                                        alt="dot icon" />
+                                                </button>
+                                                <ul class="dropdown-menu">
+                                                    <li>
+                                                        <h5>Select</h5>
+                                                    </li>
+                                                    <li>
+                                                        <button type="button" class="dropdown-item"
+                                                            data-bs-toggle="modal" data-bs-target="#contactEditModal">
+                                                            <img src="{{ asset('assets/app/icons/edit-04.svg') }}"
+                                                                alt="edit icon" />
+                                                            <span>Edit contact</span>
+                                                        </button>
+                                                    </li>
+                                                    <li>
+                                                        <button type="button" class="dropdown-item">
+                                                            <img src="{{ asset('assets/app/icons/delete-03.svg') }}"
+                                                                alt="copy icon" />
+                                                            <span>Delete contact</span>
+                                                        </button>
+                                                    </li>
+                                                </ul>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-                                <div
-                                    class="list_action_details_area d-flex align-items-center justify-content-end flex-wrap g-sm">
-                                    <button type="button" class="icon_btn" data-bs-toggle="modal"
-                                        data-bs-target="#detailsModal">
-                                        <img src="{{ asset('assets/app/icons/info-02.svg') }}" alt="message icon" />
-                                    </button>
-                                    <button type="button" class="icon_btn" data-bs-toggle="modal"
-                                        data-bs-target="#noteModal">
-                                        <img src="{{ asset('assets/app/icons/notebook.svg') }}" alt="note icon" />
-                                    </button>
-                                    <button type="button" class="icon_btn" data-bs-target="#folderToggleModal"
-                                        data-bs-toggle="modal">
-                                        <img src="{{ asset('assets/app/icons/folder-add-02.svg') }}"
-                                            alt="folder add icon" />
-                                    </button>
-                                    <div class="table_dropdown_area">
-                                        <div class="dropdown">
-                                            <button class="icon_btn" type="button" data-bs-toggle="dropdown"
-                                                aria-expanded="false">
-                                                <img src="{{ asset('assets/app/icons/dot-horizontal.svg') }}"
-                                                    alt="dot icon" />
-                                            </button>
-                                            <ul class="dropdown-menu">
-                                                <li>
-                                                    <h5>Select</h5>
-                                                </li>
-                                                <li>
-                                                    <button type="button" class="dropdown-item" data-bs-toggle="modal"
-                                                        data-bs-target="#contactEditModal">
-                                                        <img src="{{ asset('assets/app/icons/edit-04.svg') }}"
-                                                            alt="edit icon" />
-                                                        <span>Edit contact</span>
-                                                    </button>
-                                                </li>
-                                                <li>
-                                                    <button type="button" class="dropdown-item">
-                                                        <img src="{{ asset('assets/app/icons/delete-03.svg') }}"
-                                                            alt="copy icon" />
-                                                        <span>Delete contact</span>
-                                                    </button>
-                                                </li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
                             @endforeach
                         @endif
                     </div>
@@ -320,7 +339,8 @@
                         <form action="" class="event_form_area">
                             <div class="input_row">
                                 <label for="">List name</label>
-                                <input type="text" placeholder="Type List Name" wire:model.blur='list_name' class="input_field" />
+                                <input type="text" placeholder="Type List Name" wire:model.blur='list_name'
+                                    class="input_field" />
 
                                 @error('list_name')
                                     <p class="text-danger" style="font-size: 12.5px;">{{ $message }}</p>
@@ -354,7 +374,8 @@
                         <form action="" class="event_form_area">
                             <div class="input_row">
                                 <label for="">List name</label>
-                                <input type="text" placeholder="Type List Name" wire:model.blur='list_name' class="input_field" />
+                                <input type="text" placeholder="Type List Name" wire:model.blur='list_name'
+                                    class="input_field" />
 
                                 @error('list_name')
                                     <p class="text-danger" style="font-size: 12.5px;">{{ $message }}</p>
@@ -375,7 +396,7 @@
         </div>
 
         <!-- Import Modal  -->
-        <div class="modal fade common_modal contact_import_modal" id="importModal" tabindex="-1"
+        <div wire:ignore.self class="modal fade common_modal contact_import_modal" id="importModal" tabindex="-1"
             aria-labelledby="importFileModal" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
                 <div class="modal-content">
@@ -401,8 +422,7 @@
                                 </button>
 
                                 <div class="file_name_grid">
-                                    <img src="{{ asset('assets/app/icons/bi_filetype-csv.svg') }}"
-                                        alt="mp3" />
+                                    <img src="{{ asset('assets/app/icons/bi_filetype-csv.svg') }}" alt="mp3" />
                                     <div>
                                         <h4>Uploading...</h4>
                                         <h5>7/16 MB</h5>
@@ -421,8 +441,7 @@
                                     <img src="{{ asset('assets/app/icons/delete-01.svg') }}" alt="delete icon" />
                                 </button>
                                 <div class="file_name_grid">
-                                    <img src="{{ asset('assets/app/icons/bi_filetype-csv.svg') }}"
-                                        alt="mp3" />
+                                    <img src="{{ asset('assets/app/icons/bi_filetype-csv.svg') }}" alt="mp3" />
                                     <div>
                                         <h4>my-cv.csv</h4>
                                         <div class="complete_status">
@@ -557,12 +576,12 @@
         </div>
 
         <!-- New Contact Modal  -->
-        <div class="modal fade common_modal" id="contactModal" tabindex="-1" aria-labelledby="newContactModal"
-            aria-hidden="true">
+        <div wire:ignore.self class="modal fade common_modal" id="contactModal" tabindex="-1"
+            aria-labelledby="newContactModal" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h1 class="modal-title fs-5" id="newContactModal">Add contact</h1>
+                        <h1 class="modal-title fs-5" id="newContactModal">Add Contact</h1>
                         <button type="button" class="btn-close" data-bs-dismiss="modal"
                             aria-label="Close"></button>
                     </div>
@@ -571,20 +590,38 @@
                             <div class="two_grid">
                                 <div class="input_row">
                                     <label for="">First name</label>
-                                    <input type="text" placeholder="Type First name" class="input_field" />
+                                    <input type="text" placeholder="Type First name" wire:model.blur='first_name'
+                                        class="input_field" />
+                                    @error('first_name')
+                                        <p class="text-danger" style="font-size: 12.5px;">{{ $message }}</p>
+                                    @enderror
                                 </div>
                                 <div class="input_row">
                                     <label for="">Last name</label>
-                                    <input type="text" placeholder="Type Last name" class="input_field" />
+                                    <input type="text" placeholder="Type Last name" wire:model.blur='last_name'
+                                        class="input_field" />
+                                    @error('last_name')
+                                        <p class="text-danger" style="font-size: 12.5px;">{{ $message }}</p>
+                                    @enderror
                                 </div>
                             </div>
                             <div class="input_row">
                                 <label for="">Mobile number</label>
-                                <input type="number" placeholder="Type Mobile number" class="input_field" />
+                                <div class="input-group">
+                                    <span class="input-group-text" id="basic-addon1">+1</span>
+                                    <input id="tel-input" type="tel" class="form-control" wire:model.blur='mobile_number' placeholder="xxx-xxx-xxxx" maxlength="12"/>
+                                </div>
+                                @error('mobile_number')
+                                    <p class="text-danger" style="font-size: 12.5px;">{{ $message }}</p>
+                                @enderror
                             </div>
                             <div class="input_row">
                                 <label for="">Company</label>
-                                <input type="text" placeholder="Type Company Name" class="input_field" />
+                                <input type="text" placeholder="Type Company Name" wire:model.blur='company_name'
+                                    class="input_field" />
+                                @error('company_name')
+                                    <p class="text-danger" style="font-size: 12.5px;">{{ $message }}</p>
+                                @enderror
                             </div>
                         </form>
                     </div>
@@ -592,15 +629,17 @@
                         <button type="button" class="cancel_btn" data-bs-dismiss="modal">
                             Cancel
                         </button>
-                        <button type="button" class="create_event_btn">Submit</button>
+                        <button type="button" class="create_event_btn" wire:click.prevent='addNewContact'>
+                            {!! loadingStateWithText('addNewContact', 'Submit') !!}
+                        </button>
                     </div>
                 </div>
             </div>
         </div>
 
         <!-- Edit Contact Modal  -->
-        <div class="modal fade common_modal" id="contactEditModal" tabindex="-1"
-            aria-labelledby="editContactModal" aria-hidden="true">
+        <div class="modal fade common_modal" id="contactEditModal" tabindex="-1" aria-labelledby="editContactModal"
+            aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -662,8 +701,7 @@
                                     <div class="d-flex align-items-center flex-wrap gap-1">
                                         <h5>+1 254-125-4446</h5>
                                         <button type="button" class="copy_icon">
-                                            <img src="{{ asset('assets/app/icons/copy-01.svg') }}"
-                                                alt="copy icon" />
+                                            <img src="{{ asset('assets/app/icons/copy-01.svg') }}" alt="copy icon" />
                                         </button>
                                     </div>
                                 </div>
@@ -690,8 +728,7 @@
                                 </div>
                                 <div class="user_info_grid">
                                     <div class="icon">
-                                        <img src="{{ asset('assets/app/icons/contact.svg') }}"
-                                            alt="building icon" />
+                                        <img src="{{ asset('assets/app/icons/contact.svg') }}" alt="building icon" />
                                     </div>
                                     <div>
                                         <h4>Contact list</h4>
@@ -800,8 +837,7 @@
                             <form action="" class="search_input_form">
                                 <input type="search" placeholder="Search folder" class="input_field" />
                                 <button type="submit" class="search_icon">
-                                    <img src="{{ asset('assets/app/icons/search-gray.svg') }}"
-                                        alt="search icon" />
+                                    <img src="{{ asset('assets/app/icons/search-gray.svg') }}" alt="search icon" />
                                 </button>
                             </form>
                             <h4>Select folder</h4>
@@ -817,8 +853,7 @@
                                     <div class="d-flex align-items-center justify-content-end flex-wrap gap-1">
                                         <button type="button" class="edit_folder_btn"
                                             data-bs-target="#folderToggleModal3" data-bs-toggle="modal">
-                                            <img src="{{ asset('assets/app/icons/edit-03.svg') }}"
-                                                alt="edit icon" />
+                                            <img src="{{ asset('assets/app/icons/edit-03.svg') }}" alt="edit icon" />
                                         </button>
                                         <button type="button" class="edit_folder_btn">
                                             <img src="{{ asset('assets/app/icons/delete-03.svg') }}"
@@ -837,8 +872,7 @@
                                     <div class="d-flex align-items-center justify-content-end flex-wrap gap-1">
                                         <button type="button" class="edit_folder_btn"
                                             data-bs-target="#folderToggleModal3" data-bs-toggle="modal">
-                                            <img src="{{ asset('assets/app/icons/edit-03.svg') }}"
-                                                alt="edit icon" />
+                                            <img src="{{ asset('assets/app/icons/edit-03.svg') }}" alt="edit icon" />
                                         </button>
                                         <button type="button" class="edit_folder_btn">
                                             <img src="{{ asset('assets/app/icons/delete-03.svg') }}"
@@ -858,8 +892,7 @@
                                     <div class="d-flex align-items-center justify-content-end flex-wrap gap-1">
                                         <button type="button" class="edit_folder_btn"
                                             data-bs-target="#folderToggleModal3" data-bs-toggle="modal">
-                                            <img src="{{ asset('assets/app/icons/edit-03.svg') }}"
-                                                alt="edit icon" />
+                                            <img src="{{ asset('assets/app/icons/edit-03.svg') }}" alt="edit icon" />
                                         </button>
                                         <button type="button" class="edit_folder_btn">
                                             <img src="{{ asset('assets/app/icons/delete-03.svg') }}"
@@ -879,8 +912,7 @@
                                     <div class="d-flex align-items-center justify-content-end flex-wrap gap-1">
                                         <button type="button" class="edit_folder_btn"
                                             data-bs-target="#folderToggleModal3" data-bs-toggle="modal">
-                                            <img src="{{ asset('assets/app/icons/edit-03.svg') }}"
-                                                alt="edit icon" />
+                                            <img src="{{ asset('assets/app/icons/edit-03.svg') }}" alt="edit icon" />
                                         </button>
                                         <button type="button" class="edit_folder_btn">
                                             <img src="{{ asset('assets/app/icons/delete-03.svg') }}"
@@ -901,8 +933,7 @@
                                     <div class="d-flex align-items-center justify-content-end flex-wrap gap-1">
                                         <button type="button" class="edit_folder_btn"
                                             data-bs-target="#folderToggleModal3" data-bs-toggle="modal">
-                                            <img src="{{ asset('assets/app/icons/edit-03.svg') }}"
-                                                alt="edit icon" />
+                                            <img src="{{ asset('assets/app/icons/edit-03.svg') }}" alt="edit icon" />
                                         </button>
                                         <button type="button" class="edit_folder_btn">
                                             <img src="{{ asset('assets/app/icons/delete-03.svg') }}"
@@ -922,8 +953,7 @@
                                     <div class="d-flex align-items-center justify-content-end flex-wrap gap-1">
                                         <button type="button" class="edit_folder_btn"
                                             data-bs-target="#folderToggleModal3" data-bs-toggle="modal">
-                                            <img src="{{ asset('assets/app/icons/edit-03.svg') }}"
-                                                alt="edit icon" />
+                                            <img src="{{ asset('assets/app/icons/edit-03.svg') }}" alt="edit icon" />
                                         </button>
                                         <button type="button" class="edit_folder_btn">
                                             <img src="{{ asset('assets/app/icons/delete-03.svg') }}"
@@ -943,8 +973,7 @@
                                     <div class="d-flex align-items-center justify-content-end flex-wrap gap-1">
                                         <button type="button" class="edit_folder_btn"
                                             data-bs-target="#folderToggleModal3" data-bs-toggle="modal">
-                                            <img src="{{ asset('assets/app/icons/edit-03.svg') }}"
-                                                alt="edit icon" />
+                                            <img src="{{ asset('assets/app/icons/edit-03.svg') }}" alt="edit icon" />
                                         </button>
                                         <button type="button" class="edit_folder_btn">
                                             <img src="{{ asset('assets/app/icons/delete-03.svg') }}"
@@ -965,8 +994,7 @@
                                     <div class="d-flex align-items-center justify-content-end flex-wrap gap-1">
                                         <button type="button" class="edit_folder_btn"
                                             data-bs-target="#folderToggleModal3" data-bs-toggle="modal">
-                                            <img src="{{ asset('assets/app/icons/edit-03.svg') }}"
-                                                alt="edit icon" />
+                                            <img src="{{ asset('assets/app/icons/edit-03.svg') }}" alt="edit icon" />
                                         </button>
                                         <button type="button" class="edit_folder_btn">
                                             <img src="{{ asset('assets/app/icons/delete-03.svg') }}"
@@ -986,8 +1014,7 @@
                                     <div class="d-flex align-items-center justify-content-end flex-wrap gap-1">
                                         <button type="button" class="edit_folder_btn"
                                             data-bs-target="#folderToggleModal3" data-bs-toggle="modal">
-                                            <img src="{{ asset('assets/app/icons/edit-03.svg') }}"
-                                                alt="edit icon" />
+                                            <img src="{{ asset('assets/app/icons/edit-03.svg') }}" alt="edit icon" />
                                         </button>
                                         <button type="button" class="edit_folder_btn">
                                             <img src="{{ asset('assets/app/icons/delete-03.svg') }}"
@@ -1007,8 +1034,7 @@
                                     <div class="d-flex align-items-center justify-content-end flex-wrap gap-1">
                                         <button type="button" class="edit_folder_btn"
                                             data-bs-target="#folderToggleModal3" data-bs-toggle="modal">
-                                            <img src="{{ asset('assets/app/icons/edit-03.svg') }}"
-                                                alt="edit icon" />
+                                            <img src="{{ asset('assets/app/icons/edit-03.svg') }}" alt="edit icon" />
                                         </button>
                                         <button type="button" class="edit_folder_btn">
                                             <img src="{{ asset('assets/app/icons/delete-03.svg') }}"
@@ -1030,8 +1056,7 @@
                         </button>
                         <button type="button"
                             class="create_event_btn d-flex align-items-center justify-content-center flex-wrap gap-1">
-                            <img src="{{ asset('assets/app/icons/save.svg') }}" alt="save icon"
-                                class="save_icon" />
+                            <img src="{{ asset('assets/app/icons/save.svg') }}" alt="save icon" class="save_icon" />
                             Save
                         </button>
                     </div>
@@ -1133,10 +1158,12 @@
                             <h2>Would you like to permanently delete this event?</h2>
                             <h4>Once deleted, this event will no longer be accessible</h4>
                             <div class="delete_action_area d-flex align-items-center flex-wrap">
-                                <button type="button" class="delete_cancel_btn" id="deleteModalCloseBtn" data-bs-dismiss="modal">
+                                <button type="button" class="delete_cancel_btn" id="deleteModalCloseBtn"
+                                    data-bs-dismiss="modal">
                                     Cancel
                                 </button>
-                                <button type="button" wire:click.prevent='deleteData' wire:loading.attr='disabled' class="delete_yes_btn">
+                                <button type="button" wire:click.prevent='deleteData' wire:loading.attr='disabled'
+                                    class="delete_yes_btn">
                                     {!! loadingStateWithText('deleteData', 'Yes') !!}
                                 </button>
                             </div>
@@ -1149,20 +1176,33 @@
 </div>
 @push('scripts')
     <script>
-        $(document).ready(function(){
+        document.addEventListener("DOMContentLoaded", () => {
+            const input = document.querySelector("#tel-input");
+
+            input.addEventListener('input', (e) => {
+                if (e.target.value) {
+                    const x = e.target.value.replace(/\D/g, '').match(/(\d{0,3})(\d{0,3})(\d{0,4})/);
+                    e.target.value = +x[1] + (x[2] ? `-${x[2]}` : '') + (x[3] ? `-${x[3]}` : '')
+                }
+            });
+        });
+    </script>
+    <script>
+        $(document).ready(function() {
             window.addEventListener('showListEditModal', event => {
                 $('#editListModal').modal('show');
             });
             window.addEventListener('closeModal', event => {
                 $('#newListModal').modal('hide');
                 $('#editListModal').modal('hide');
+                $('#contactModal').modal('hide');
             });
 
             window.addEventListener('data_deleted', event => {
                 $('#deleteDataModal').modal('hide');
                 Swal.fire(
                     "Deleted!",
-                    ""+event.detail[0].message+"",
+                    "" + event.detail[0].message + "",
                     "success"
                 );
             });
