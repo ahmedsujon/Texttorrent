@@ -272,8 +272,7 @@
                                     </div>
                                     <div
                                         class="list_action_details_area d-flex align-items-center justify-content-end flex-wrap g-sm">
-                                        <button type="button" class="icon_btn" data-bs-toggle="modal"
-                                            data-bs-target="#detailsModal">
+                                        <button type="button" class="icon_btn" wire:click.prevent='showDetails({{ $contact->id }})'>
                                             <img src="{{ asset('assets/app/icons/info-02.svg') }}"
                                                 alt="message icon" />
                                         </button>
@@ -282,8 +281,7 @@
                                             <img src="{{ asset('assets/app/icons/notebook.svg') }}"
                                                 alt="note icon" />
                                         </button>
-                                        <button type="button" class="icon_btn" data-bs-target="#folderToggleModal"
-                                            data-bs-toggle="modal">
+                                        <button type="button" class="icon_btn" wire:click.prevent='addFolderModal({{ $contact->id }})'>
                                             <img src="{{ asset('assets/app/icons/folder-add-02.svg') }}"
                                                 alt="folder add icon" />
                                         </button>
@@ -299,15 +297,14 @@
                                                         <h5>Select</h5>
                                                     </li>
                                                     <li>
-                                                        <button type="button" class="dropdown-item"
-                                                            data-bs-toggle="modal" data-bs-target="#contactEditModal">
+                                                        <button type="button" class="dropdown-item" wire:click.prevent='editContact({{ $contact->id }})'>
                                                             <img src="{{ asset('assets/app/icons/edit-04.svg') }}"
                                                                 alt="edit icon" />
                                                             <span>Edit contact</span>
                                                         </button>
                                                     </li>
                                                     <li>
-                                                        <button type="button" class="dropdown-item">
+                                                        <button type="button" wire:click.prevent='deleteConfirmation({{ $contact->id }}, "contact")' class="dropdown-item">
                                                             <img src="{{ asset('assets/app/icons/delete-03.svg') }}"
                                                                 alt="copy icon" />
                                                             <span>Delete contact</span>
@@ -638,7 +635,7 @@
         </div>
 
         <!-- Edit Contact Modal  -->
-        <div class="modal fade common_modal" id="contactEditModal" tabindex="-1" aria-labelledby="editContactModal"
+        <div wire:ignore.self class="modal fade common_modal" id="contactEditModal" tabindex="-1" aria-labelledby="editContactModal"
             aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
                 <div class="modal-content">
@@ -654,20 +651,38 @@
                             <div class="two_grid">
                                 <div class="input_row">
                                     <label for="">First name</label>
-                                    <input type="text" placeholder="Type First name" class="input_field" />
+                                    <input type="text" placeholder="Type First name" wire:model.blur='first_name'
+                                        class="input_field" />
+                                    @error('first_name')
+                                        <p class="text-danger" style="font-size: 12.5px;">{{ $message }}</p>
+                                    @enderror
                                 </div>
                                 <div class="input_row">
                                     <label for="">Last name</label>
-                                    <input type="text" placeholder="Type Last name" class="input_field" />
+                                    <input type="text" placeholder="Type Last name" wire:model.blur='last_name'
+                                        class="input_field" />
+                                    @error('last_name')
+                                        <p class="text-danger" style="font-size: 12.5px;">{{ $message }}</p>
+                                    @enderror
                                 </div>
                             </div>
-                            <div class="input_row telephone_int_area">
+                            <div class="input_row">
                                 <label for="">Mobile number</label>
-                                <input type="tel" placeholder="" id="telephone2" />
+                                <div class="input-group">
+                                    <span class="input-group-text" id="basic-addon1">+1</span>
+                                    <input id="tel-input-edit" type="tel" class="form-control" wire:model.blur='mobile_number' placeholder="xxx-xxx-xxxx" maxlength="12"/>
+                                </div>
+                                @error('mobile_number')
+                                    <p class="text-danger" style="font-size: 12.5px;">{{ $message }}</p>
+                                @enderror
                             </div>
                             <div class="input_row">
                                 <label for="">Company</label>
-                                <input type="text" placeholder="Type Company Name" class="input_field" />
+                                <input type="text" placeholder="Type Company Name" wire:model.blur='company_name'
+                                    class="input_field" />
+                                @error('company_name')
+                                    <p class="text-danger" style="font-size: 12.5px;">{{ $message }}</p>
+                                @enderror
                             </div>
                         </form>
                     </div>
@@ -675,7 +690,9 @@
                         <button type="button" class="cancel_btn" data-bs-dismiss="modal">
                             Cancel
                         </button>
-                        <button type="button" class="create_event_btn">Submit</button>
+                        <button type="button" class="create_event_btn" wire:click.prevent='updateContact'>
+                            {!! loadingStateWithText('updateContact', 'Submit') !!}
+                        </button>
                     </div>
                 </div>
             </div>
@@ -692,88 +709,96 @@
                             aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
-                        <div class="user_details_modal_area">
-                            <div class="user_info_area">
-                                <img src="{{ asset('assets/app/images/inbox/user_main.png') }}" alt="user image"
-                                    class="user_top_img" />
-                                <div>
-                                    <h4>Tom Hardy</h4>
-                                    <div class="d-flex align-items-center flex-wrap gap-1">
-                                        <h5>+1 254-125-4446</h5>
-                                        <button type="button" class="copy_icon">
-                                            <img src="{{ asset('assets/app/icons/copy-01.svg') }}" alt="copy icon" />
-                                        </button>
+                        @if ($numberDetails)
+                            <div class="user_details_modal_area">
+                                <div class="user_info_area">
+                                    <img src="{{ asset('assets/app/images/inbox/user_main.png') }}" alt="user image"
+                                        class="user_top_img" />
+                                    <div>
+                                        <h4>{{ $numberDetails->first_name ? $numberDetails->first_name : '---' }} {{ $numberDetails->last_name ? $numberDetails->last_name : '' }}</h4>
+                                        <div class="d-flex align-items-center flex-wrap gap-1">
+                                            <h5>{{ $numberDetails->number ? $numberDetails->number : '---' }}</h5>
+                                            <button type="button" class="copy_icon">
+                                                <img src="{{ asset('assets/app/icons/copy-01.svg') }}" alt="copy icon" />
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="user_info_contact_area">
+                                    <div class="user_info_grid">
+                                        <div class="icon">
+                                            <img src="{{ asset('assets/app/icons/user.svg') }}" alt="user icon" />
+                                        </div>
+                                        <div>
+                                            <h4>Name</h4>
+                                            <h5>{{ $numberDetails->first_name ? $numberDetails->first_name : '---' }} {{ $numberDetails->last_name ? $numberDetails->last_name : '' }}</h5>
+                                        </div>
+                                    </div>
+                                    <div class="user_info_grid">
+                                        <div class="icon">
+                                            <img src="{{ asset('assets/app/icons/building-03.svg') }}"
+                                                alt="building icon" />
+                                        </div>
+                                        <div>
+                                            <h4>Company</h4>
+                                            <h5>{{ $numberDetails->company ? $numberDetails->company : '---' }}</h5>
+                                        </div>
+                                    </div>
+                                    <div class="user_info_grid">
+                                        <div class="icon">
+                                            <img src="{{ asset('assets/app/icons/contact.svg') }}" alt="building icon" />
+                                        </div>
+                                        <div>
+                                            <h4>Contact list</h4>
+                                            <h5>{{ $numberDetails->list_id ? getListByID($numberDetails->list_id)->name : '---' }}</h5>
+                                        </div>
+                                    </div>
+                                    <div class="user_info_grid">
+                                        <div class="icon">
+                                            <img src="{{ asset('assets/app/icons/call.svg') }}" alt="building icon" />
+                                        </div>
+                                        <div>
+                                            <h4>Phone:</h4>
+                                            <h5>{{ $numberDetails->number ? $numberDetails->number : '---' }}</h5>
+                                        </div>
+                                    </div>
+                                    <div class="user_info_grid">
+                                        <div class="icon">
+                                            <img src="{{ asset('assets/app/icons/email.svg') }}" alt="email icon" />
+                                        </div>
+                                        <div>
+                                            <h4>Email:</h4>
+                                            <h5 class="word-break-all">{{ $numberDetails->email ? $numberDetails->email : '---' }}</h5>
+                                        </div>
+                                    </div>
+                                    <div class="user_info_grid">
+                                        <div class="icon">
+                                            <img src="{{ asset('assets/app/icons/location.svg') }}"
+                                                alt="building icon" />
+                                        </div>
+                                        <div>
+                                            <h4>Country</h4>
+                                            <h5>USA</h5>
+                                        </div>
+                                    </div>
+                                    <div class="user_info_grid">
+                                        <div class="icon">
+                                            <img src="{{ asset('assets/app/icons/note-02.svg') }}" alt="note icon" />
+                                        </div>
+                                        <div>
+                                            <h4>Notes</h4>
+                                            <h5>{{ $numberDetails->note ? $numberDetails->note : '---' }}</h5>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                            <div class="user_info_contact_area">
-                                <div class="user_info_grid">
-                                    <div class="icon">
-                                        <img src="{{ asset('assets/app/icons/user.svg') }}" alt="user icon" />
-                                    </div>
-                                    <div>
-                                        <h4>Name</h4>
-                                        <h5>Tom Hardy</h5>
-                                    </div>
-                                </div>
-                                <div class="user_info_grid">
-                                    <div class="icon">
-                                        <img src="{{ asset('assets/app/icons/building-03.svg') }}"
-                                            alt="building icon" />
-                                    </div>
-                                    <div>
-                                        <h4>Company</h4>
-                                        <h5>Text Torrent</h5>
-                                    </div>
-                                </div>
-                                <div class="user_info_grid">
-                                    <div class="icon">
-                                        <img src="{{ asset('assets/app/icons/contact.svg') }}" alt="building icon" />
-                                    </div>
-                                    <div>
-                                        <h4>Contact list</h4>
-                                        <h5>Default</h5>
-                                    </div>
-                                </div>
-                                <div class="user_info_grid">
-                                    <div class="icon">
-                                        <img src="{{ asset('assets/app/icons/call.svg') }}" alt="building icon" />
-                                    </div>
-                                    <div>
-                                        <h4>Phone:</h4>
-                                        <h5>(229) 555-0109</h5>
-                                    </div>
-                                </div>
-                                <div class="user_info_grid">
-                                    <div class="icon">
-                                        <img src="{{ asset('assets/app/icons/email.svg') }}" alt="email icon" />
-                                    </div>
-                                    <div>
-                                        <h4>Email:</h4>
-                                        <h5 class="word-break-all">example@gmail.com</h5>
-                                    </div>
-                                </div>
-                                <div class="user_info_grid">
-                                    <div class="icon">
-                                        <img src="{{ asset('assets/app/icons/location.svg') }}"
-                                            alt="building icon" />
-                                    </div>
-                                    <div>
-                                        <h4>Country</h4>
-                                        <h5>USA</h5>
-                                    </div>
-                                </div>
-                                <div class="user_info_grid">
-                                    <div class="icon">
-                                        <img src="{{ asset('assets/app/icons/note-02.svg') }}" alt="note icon" />
-                                    </div>
-                                    <div>
-                                        <h4>Notes</h4>
-                                        <h5>Text here</h5>
-                                    </div>
+                        @else
+                            <div class="row mt-5 mb-5">
+                                <div class="col-md-12 text-center">
+                                    <small class="text-muted">No data found!</small>
                                 </div>
                             </div>
-                        </div>
+                        @endif
                     </div>
                 </div>
             </div>
@@ -820,7 +845,7 @@
         </div>
 
         <!-- Folder Modal  -->
-        <div class="modal fade common_modal folder_modal" id="folderToggleModal" aria-hidden="true"
+        <div wire:ignore.self class="modal fade common_modal folder_modal" id="folderToggleModal" aria-hidden="true"
             aria-labelledby="folderToggleModalLabel" tabindex="-1" data-bs-backdrop="static"
             data-bs-keyboard="false">
             <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
@@ -835,214 +860,41 @@
                     <div class="modal-body">
                         <div class="folder_area">
                             <form action="" class="search_input_form">
-                                <input type="search" placeholder="Search folder" class="input_field" />
+                                <input type="search" placeholder="Search folder" wire:model.live='folder_search_term' class="input_field" />
                                 <button type="submit" class="search_icon">
                                     <img src="{{ asset('assets/app/icons/search-gray.svg') }}" alt="search icon" />
                                 </button>
                             </form>
                             <h4>Select folder</h4>
                             <div class="folder_list_area">
-                                <div class="folder_list_item">
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="radio" name="folderRadioInput"
-                                            id="folderRadioInput1" />
-                                        <label class="form-check-label" for="folderRadioInput1">
-                                            Folder 1
-                                        </label>
+                                @if ($folders->count() > 0)
+                                    @foreach ($folders as $folder)
+                                    <div class="folder_list_item">
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" wire:model.live='folder_id' value="{{ $folder->id }}" name="folderRadioInput"
+                                                id="folderRadioInput{{ $folder->id }}" />
+                                            <label class="form-check-label" for="folderRadioInput{{ $folder->id }}">
+                                                {{ $folder->name }}
+                                            </label>
+                                        </div>
+                                        <div class="d-flex align-items-center justify-content-end flex-wrap gap-1">
+                                            <button type="button" class="edit_folder_btn" wire:click.prevent='editFolder({{ $folder->id }})'>
+                                                <img src="{{ asset('assets/app/icons/edit-03.svg') }}" alt="edit icon" />
+                                            </button>
+                                            <button type="button" wire:click.prevent='deleteConfirmation({{ $folder->id }}, "folder")' class="edit_folder_btn">
+                                                <img src="{{ asset('assets/app/icons/delete-03.svg') }}"
+                                                    alt="delete icon" />
+                                            </button>
+                                        </div>
                                     </div>
-                                    <div class="d-flex align-items-center justify-content-end flex-wrap gap-1">
-                                        <button type="button" class="edit_folder_btn"
-                                            data-bs-target="#folderToggleModal3" data-bs-toggle="modal">
-                                            <img src="{{ asset('assets/app/icons/edit-03.svg') }}" alt="edit icon" />
-                                        </button>
-                                        <button type="button" class="edit_folder_btn">
-                                            <img src="{{ asset('assets/app/icons/delete-03.svg') }}"
-                                                alt="delete icon" />
-                                        </button>
-                                    </div>
-                                </div>
-                                <div class="folder_list_item">
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="radio" name="folderRadioInput"
-                                            id="folderRadioInput2" checked />
-                                        <label class="form-check-label" for="folderRadioInput2">
-                                            Folder 2
-                                        </label>
-                                    </div>
-                                    <div class="d-flex align-items-center justify-content-end flex-wrap gap-1">
-                                        <button type="button" class="edit_folder_btn"
-                                            data-bs-target="#folderToggleModal3" data-bs-toggle="modal">
-                                            <img src="{{ asset('assets/app/icons/edit-03.svg') }}" alt="edit icon" />
-                                        </button>
-                                        <button type="button" class="edit_folder_btn">
-                                            <img src="{{ asset('assets/app/icons/delete-03.svg') }}"
-                                                alt="delete icon" />
-                                        </button>
-                                    </div>
-                                </div>
-                                <div class="folder_list_item">
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="radio" name="folderRadioInput"
-                                            id="folderRadioInput3" />
-                                        <label class="form-check-label" for="folderRadioInput3">
-                                            Folder 3
-                                        </label>
-                                    </div>
+                                    @endforeach
+                                @else
 
-                                    <div class="d-flex align-items-center justify-content-end flex-wrap gap-1">
-                                        <button type="button" class="edit_folder_btn"
-                                            data-bs-target="#folderToggleModal3" data-bs-toggle="modal">
-                                            <img src="{{ asset('assets/app/icons/edit-03.svg') }}" alt="edit icon" />
-                                        </button>
-                                        <button type="button" class="edit_folder_btn">
-                                            <img src="{{ asset('assets/app/icons/delete-03.svg') }}"
-                                                alt="delete icon" />
-                                        </button>
-                                    </div>
-                                </div>
-                                <div class="folder_list_item">
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="radio" name="folderRadioInput"
-                                            id="folderRadioInput4" checked />
-                                        <label class="form-check-label" for="folderRadioInput4">
-                                            Folder 4
-                                        </label>
-                                    </div>
-
-                                    <div class="d-flex align-items-center justify-content-end flex-wrap gap-1">
-                                        <button type="button" class="edit_folder_btn"
-                                            data-bs-target="#folderToggleModal3" data-bs-toggle="modal">
-                                            <img src="{{ asset('assets/app/icons/edit-03.svg') }}" alt="edit icon" />
-                                        </button>
-                                        <button type="button" class="edit_folder_btn">
-                                            <img src="{{ asset('assets/app/icons/delete-03.svg') }}"
-                                                alt="delete icon" />
-                                        </button>
-                                    </div>
-                                </div>
-
-                                <div class="folder_list_item">
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="radio" name="folderRadioInput"
-                                            id="folderRadioInput5" />
-                                        <label class="form-check-label" for="folderRadioInput5">
-                                            Folder 5
-                                        </label>
-                                    </div>
-
-                                    <div class="d-flex align-items-center justify-content-end flex-wrap gap-1">
-                                        <button type="button" class="edit_folder_btn"
-                                            data-bs-target="#folderToggleModal3" data-bs-toggle="modal">
-                                            <img src="{{ asset('assets/app/icons/edit-03.svg') }}" alt="edit icon" />
-                                        </button>
-                                        <button type="button" class="edit_folder_btn">
-                                            <img src="{{ asset('assets/app/icons/delete-03.svg') }}"
-                                                alt="delete icon" />
-                                        </button>
-                                    </div>
-                                </div>
-
-                                <div class="folder_list_item">
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="radio" name="folderRadioInput"
-                                            id="folderRadioInput6" checked />
-                                        <label class="form-check-label" for="folderRadioInput6">
-                                            Folder 6
-                                        </label>
-                                    </div>
-                                    <div class="d-flex align-items-center justify-content-end flex-wrap gap-1">
-                                        <button type="button" class="edit_folder_btn"
-                                            data-bs-target="#folderToggleModal3" data-bs-toggle="modal">
-                                            <img src="{{ asset('assets/app/icons/edit-03.svg') }}" alt="edit icon" />
-                                        </button>
-                                        <button type="button" class="edit_folder_btn">
-                                            <img src="{{ asset('assets/app/icons/delete-03.svg') }}"
-                                                alt="delete icon" />
-                                        </button>
-                                    </div>
-                                </div>
-
-                                <div class="folder_list_item">
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="radio" name="folderRadioInput"
-                                            id="folderRadioInput7" />
-                                        <label class="form-check-label" for="folderRadioInput7">
-                                            Folder 7
-                                        </label>
-                                    </div>
-                                    <div class="d-flex align-items-center justify-content-end flex-wrap gap-1">
-                                        <button type="button" class="edit_folder_btn"
-                                            data-bs-target="#folderToggleModal3" data-bs-toggle="modal">
-                                            <img src="{{ asset('assets/app/icons/edit-03.svg') }}" alt="edit icon" />
-                                        </button>
-                                        <button type="button" class="edit_folder_btn">
-                                            <img src="{{ asset('assets/app/icons/delete-03.svg') }}"
-                                                alt="delete icon" />
-                                        </button>
-                                    </div>
-                                </div>
-
-                                <div class="folder_list_item">
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="radio" name="folderRadioInput"
-                                            id="folderRadioInput8" checked />
-                                        <label class="form-check-label" for="folderRadioInput8">
-                                            Folder 8
-                                        </label>
-                                    </div>
-
-                                    <div class="d-flex align-items-center justify-content-end flex-wrap gap-1">
-                                        <button type="button" class="edit_folder_btn"
-                                            data-bs-target="#folderToggleModal3" data-bs-toggle="modal">
-                                            <img src="{{ asset('assets/app/icons/edit-03.svg') }}" alt="edit icon" />
-                                        </button>
-                                        <button type="button" class="edit_folder_btn">
-                                            <img src="{{ asset('assets/app/icons/delete-03.svg') }}"
-                                                alt="delete icon" />
-                                        </button>
-                                    </div>
-                                </div>
-
-                                <div class="folder_list_item">
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="radio" name="folderRadioInput"
-                                            id="folderRadioInput9" />
-                                        <label class="form-check-label" for="folderRadioInput9">
-                                            Folder 9
-                                        </label>
-                                    </div>
-                                    <div class="d-flex align-items-center justify-content-end flex-wrap gap-1">
-                                        <button type="button" class="edit_folder_btn"
-                                            data-bs-target="#folderToggleModal3" data-bs-toggle="modal">
-                                            <img src="{{ asset('assets/app/icons/edit-03.svg') }}" alt="edit icon" />
-                                        </button>
-                                        <button type="button" class="edit_folder_btn">
-                                            <img src="{{ asset('assets/app/icons/delete-03.svg') }}"
-                                                alt="delete icon" />
-                                        </button>
-                                    </div>
-                                </div>
-
-                                <div class="folder_list_item">
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="radio" name="folderRadioInput"
-                                            id="folderRadioInput10" checked />
-                                        <label class="form-check-label" for="folderRadioInput10">
-                                            Folder 10
-                                        </label>
-                                    </div>
-                                    <div class="d-flex align-items-center justify-content-end flex-wrap gap-1">
-                                        <button type="button" class="edit_folder_btn"
-                                            data-bs-target="#folderToggleModal3" data-bs-toggle="modal">
-                                            <img src="{{ asset('assets/app/icons/edit-03.svg') }}" alt="edit icon" />
-                                        </button>
-                                        <button type="button" class="edit_folder_btn">
-                                            <img src="{{ asset('assets/app/icons/delete-03.svg') }}"
-                                                alt="delete icon" />
-                                        </button>
-                                    </div>
-                                </div>
+                                @endif
                             </div>
+                            @error('folder_id')
+                                <p class="text-danger mt-3" style="font-size: 12.5px;">{{ $message }}</p>
+                            @enderror
                         </div>
                         <button type="button" class="folder_create_btn" data-bs-target="#folderToggleModal2"
                             data-bs-toggle="modal">
@@ -1054,10 +906,8 @@
                         <button type="button" class="cancel_btn" data-bs-dismiss="modal">
                             Cancel
                         </button>
-                        <button type="button"
-                            class="create_event_btn d-flex align-items-center justify-content-center flex-wrap gap-1">
-                            <img src="{{ asset('assets/app/icons/save.svg') }}" alt="save icon" class="save_icon" />
-                            Save
+                        <button type="button" wire:click.prevent='addToFolder' class="create_event_btn d-flex align-items-center justify-content-center flex-wrap gap-1">
+                            {!! loadingStateWithoutText('addToFolder', '<img src="'.asset("assets/app/icons/save.svg").'" alt="save icon" class="save_icon" />') !!} Save
                         </button>
                     </div>
                 </div>
@@ -1065,7 +915,7 @@
         </div>
 
         <!-- Add Folder Modal  -->
-        <div class="modal fade common_modal folder_modal" id="folderToggleModal2" aria-hidden="true"
+        <div wire:ignore.self class="modal fade common_modal folder_modal" id="folderToggleModal2" aria-hidden="true"
             aria-labelledby="folderToggleModalLabel2" tabindex="-1" data-bs-backdrop="static"
             data-bs-keyboard="false">
             <div class="modal-dialog modal-dialog-centered">
@@ -1087,10 +937,13 @@
                             <div class="input_row">
                                 <label for="">Folder Name</label>
                                 <div class="input_arae">
-                                    <input type="text" placeholder="Enter folder name" class="input_field" />
+                                    <input type="text" placeholder="Enter folder name" wire:model.blur='folder_name' class="input_field" />
                                     <img src="{{ asset('assets/app/icons/folder-01.png') }}" alt="folder icon"
                                         class="folder_icon" />
                                 </div>
+                                @error('folder_name')
+                                    <p class="text-danger" style="font-size: 12.5px;">{{ $message }}</p>
+                                @enderror
                             </div>
                         </form>
                     </div>
@@ -1099,14 +952,14 @@
                             data-bs-toggle="modal">
                             Cancel
                         </button>
-                        <button type="button" class="create_event_btn">Save</button>
+                        <button type="button" class="create_event_btn" wire:click='createFolder'>{!! loadingStateWithText('createFolder', 'Save') !!}</button>
                     </div>
                 </div>
             </div>
         </div>
 
         <!-- Edit Folder Modal  -->
-        <div class="modal fade common_modal folder_modal" id="folderToggleModal3" aria-hidden="true"
+        <div wire:ignore.self class="modal fade common_modal folder_modal" id="folderToggleModal3" aria-hidden="true"
             aria-labelledby="folderToggleModalLabel3" tabindex="-1" data-bs-backdrop="static"
             data-bs-keyboard="false">
             <div class="modal-dialog modal-dialog-centered">
@@ -1128,10 +981,13 @@
                             <div class="input_row">
                                 <label for="">Folder Name</label>
                                 <div class="input_arae">
-                                    <input type="text" placeholder="Enter folder name" class="input_field" />
+                                    <input type="text" placeholder="Enter folder name" wire:model.blur='folder_name' class="input_field" />
                                     <img src="{{ asset('assets/app/icons/folder-01.png') }}" alt="folder icon"
                                         class="folder_icon" />
                                 </div>
+                                @error('folder_name')
+                                    <p class="text-danger" style="font-size: 12.5px;">{{ $message }}</p>
+                                @enderror
                             </div>
                         </form>
                     </div>
@@ -1140,7 +996,7 @@
                             data-bs-toggle="modal">
                             Cancel
                         </button>
-                        <button type="button" class="create_event_btn">Save</button>
+                        <button type="button" class="create_event_btn" wire:click='updateFolder'>{!! loadingStateWithText('updateFolder', 'Save') !!}</button>
                     </div>
                 </div>
             </div>
@@ -1178,8 +1034,15 @@
     <script>
         document.addEventListener("DOMContentLoaded", () => {
             const input = document.querySelector("#tel-input");
-
             input.addEventListener('input', (e) => {
+                if (e.target.value) {
+                    const x = e.target.value.replace(/\D/g, '').match(/(\d{0,3})(\d{0,3})(\d{0,4})/);
+                    e.target.value = +x[1] + (x[2] ? `-${x[2]}` : '') + (x[3] ? `-${x[3]}` : '')
+                }
+            });
+
+            const edit_input = document.querySelector("#tel-input-edit");
+            edit_input.addEventListener('input', (e) => {
                 if (e.target.value) {
                     const x = e.target.value.replace(/\D/g, '').match(/(\d{0,3})(\d{0,3})(\d{0,4})/);
                     e.target.value = +x[1] + (x[2] ? `-${x[2]}` : '') + (x[3] ? `-${x[3]}` : '')
@@ -1192,10 +1055,46 @@
             window.addEventListener('showListEditModal', event => {
                 $('#editListModal').modal('show');
             });
+
+            window.addEventListener('showContactEditModal', event => {
+                $('#contactEditModal').modal('show');
+            });
+
+            window.addEventListener('showDetailsModal', event => {
+                $('#detailsModal').modal('show');
+            });
+
+            window.addEventListener('showFolderModal', event => {
+                $('#folderToggleModal').modal('show');
+            });
+
+            window.addEventListener('showFolderEditModal', event => {
+                $('#folderToggleModal').modal('hide');
+                setTimeout(() => {
+                    $('#folderToggleModal3').modal('show');
+                }, 100);
+            });
+
+            window.addEventListener('folderAdded', event => {
+                $('#folderToggleModal2').modal('hide');
+                setTimeout(() => {
+                    $('#folderToggleModal').modal('show');
+                }, 100);
+            });
+
+            window.addEventListener('folderUpdated', event => {
+                $('#folderToggleModal3').modal('hide');
+                setTimeout(() => {
+                    $('#folderToggleModal').modal('show');
+                }, 100);
+            });
+
             window.addEventListener('closeModal', event => {
                 $('#newListModal').modal('hide');
                 $('#editListModal').modal('hide');
                 $('#contactModal').modal('hide');
+                $('#contactEditModal').modal('hide');
+                $('#folderToggleModal').modal('hide');
             });
 
             window.addEventListener('data_deleted', event => {

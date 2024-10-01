@@ -68,7 +68,7 @@ class ManageContactsComponent extends Component
 
 
     // contacts
-    public $first_name, $last_name, $mobile_number, $company_name, $list_id;
+    public $first_name, $last_name, $mobile_number, $company_name, $list_id, $contact_edit_id;
     public function addNewContact()
     {
         $this->validate([
@@ -97,28 +97,117 @@ class ManageContactsComponent extends Component
     }
     public function editContact($id)
     {
-        $list = ContactList::find($id);
-        $this->list_name = $list->name;
-        $this->list_edit_id = $list->id;
+        $data = Contact::find($id);
+        $this->first_name = $data->first_name;
+        $this->last_name = $data->last_name;
+        $this->mobile_number = str_replace('+1 ', '', $data->number);
+        $this->company_name = $data->company;
+        $this->contact_edit_id = $data->id;
 
-        $this->dispatch('showListEditModal');
+        $this->dispatch('showContactEditModal');
     }
     public function updateContact()
     {
         $this->validate([
-            'list_name' => 'required|max:15',
+            'first_name' => 'required',
+            'mobile_number' => 'required',
+            'company_name' => 'required',
         ]);
 
-        $list = ContactList::find($this->list_edit_id);
-        $list->name = $this->list_name;
+        $list = Contact::find($this->contact_edit_id);
+        $list->first_name = $this->first_name;
+        $list->last_name = $this->last_name;
+        $list->number = '+1 ' . $this->mobile_number;
+        $list->company = $this->company_name;
         $list->save();
 
-        $this->list_name = '';
+        $this->first_name = '';
+        $this->last_name = '';
+        $this->mobile_number = '';
+        $this->company_name = '';
 
         $this->dispatch('closeModal');
-        $this->dispatch('success', ['message' => 'List updated successfully']);
+        $this->dispatch('success', ['message' => 'Contact updated successfully']);
     }
 
+    // details
+    public $numberDetails;
+    public function showDetails($id)
+    {
+        $this->numberDetails = Contact::find($id);
+        $this->dispatch('showDetailsModal');
+    }
+
+
+    public $folder_id, $contact_id;
+    public function addFolderModal($id)
+    {
+        $cont = Contact::find($id);
+
+        $this->folder_id = $cont->folder_id;
+
+        $this->contact_id = $id;
+        $this->dispatch('showFolderModal');
+    }
+
+    public function addToFolder()
+    {
+        $this->validate([
+            'folder_id' => 'required',
+        ],[
+            'folder_id.required' => 'Select a folder',
+        ]);
+
+        $contact = Contact::find($this->contact_id);
+        $contact->folder_id = $this->folder_id;
+        $contact->save();
+
+        $this->folder_id = '';
+
+        $this->dispatch('closeModal');
+        $this->dispatch('success', ['message' => 'Contact added to folder successfully']);
+    }
+
+    public $folder_name, $folder_edit_id, $folder_delete_id;
+    public function createFolder()
+    {
+        $this->validate([
+            'folder_name' => 'required',
+        ]);
+
+        $folder = new ContactFolder();
+        $folder->user_id = user()->id;
+        $folder->name = $this->folder_name;
+        $folder->save();
+
+        $this->folder_name = '';
+
+        $this->dispatch('folderAdded');
+        $this->dispatch('success', ['message' => 'Folder added successfully']);
+    }
+    public function editFolder($folder_id)
+    {
+        $folder = ContactFolder::find($folder_id);
+        $this->folder_name = $folder->name;
+        $this->folder_edit_id = $folder->id;
+
+        $this->dispatch('showFolderEditModal');
+    }
+    public function updateFolder()
+    {
+        $this->validate([
+            'folder_name' => 'required|max:15',
+        ]);
+
+        $folder = ContactFolder::find($this->folder_edit_id);
+        $folder->name = $this->folder_name;
+        $folder->save();
+
+        $this->folder_name = '';
+
+        $this->dispatch('folderUpdated');
+        $this->dispatch('success', ['message' => 'Folder updated successfully']);
+    }
 
 
     public $delete_id, $delete_type;
@@ -136,6 +225,20 @@ class ManageContactsComponent extends Component
             $data->delete();
 
             $message = 'List deleted successfully';
+        }
+
+        if ($this->delete_type == 'folder') {
+            $data = ContactFolder::where('id', $this->delete_id)->first();
+            $data->delete();
+
+            $message = 'Folder deleted successfully';
+        }
+
+        if ($this->delete_type == 'contact') {
+            $data = Contact::where('id', $this->delete_id)->first();
+            $data->delete();
+
+            $message = 'Contact deleted successfully';
         }
 
         $this->dispatch('data_deleted', ['message'=>$message]);
