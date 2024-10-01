@@ -34,7 +34,7 @@
                             </div>
                         </div>
                         <form action="" class="search_input_form">
-                            <input type="search" placeholder="Search..." class="input_field" />
+                            <input type="search" placeholder="Search..." wire:model.live='list_search_term' class="input_field" />
                             <button type="submit" class="search_icon">
                                 <img src="{{ asset('assets/app/icons/search-gray.svg') }}" alt="search icon" />
                             </button>
@@ -95,6 +95,10 @@
                                     </a>
                                 </li>
                                 @endforeach
+                            @else
+                                <li class="mt-3 text-center">
+                                    <small class="text-muted">No bookmarked lists found.</small>
+                                </li>
                             @endif
                             <li>
                                 <h4 class="mt-4">Other</h4>
@@ -149,6 +153,10 @@
                                     </a>
                                 </li>
                                 @endforeach
+                            @else
+                                <li class="mt-3 text-center">
+                                    <small class="text-muted">No lists found.</small>
+                                </li>
                             @endif
                         </ul>
                     </div>
