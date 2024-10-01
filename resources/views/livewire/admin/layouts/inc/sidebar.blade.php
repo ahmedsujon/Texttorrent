@@ -9,7 +9,8 @@
                     <li class="menu-title" key="t-menu">Menu</li>
 
                     <li>
-                        <a href="{{ route('admin.dashboard') }}" class="waves-effect {{ request()->is('admin/dashboard') ? 'active_menu' : '' }}">
+                        <a href="{{ route('admin.dashboard') }}"
+                            class="waves-effect {{ request()->is('admin/dashboard') ? 'active_menu' : '' }}">
                             <i class="bx bx-grid-alt"></i>
                             <span key="t-dashboard">Dashboard</span>
                         </a>
@@ -17,20 +18,25 @@
 
                     @if (is_permitted('manage_admins'))
                         <li>
-                            <a href="javascript: void(0);" class="has-arrow waves-effect {{ request()->is('admin/all-admins') || request()->is('admin/all-admins/*') ? 'active_menu' : '' }}">
+                            <a href="javascript: void(0);"
+                                class="has-arrow waves-effect {{ request()->is('admin/all-admins') || request()->is('admin/all-admins/*') ? 'active_menu' : '' }}">
                                 <i class="bx bx-group"></i>
                                 <span key="t-multi-level">Admins</span>
                             </a>
                             <ul class="sub-menu" aria-expanded="true">
                                 @if (is_permitted('manage_admins'))
                                     <li>
-                                        <a href="{{ route('admin.allAdmins') }}" key="t-level-1-1" class="{{ request()->is('admin/all-admins') ? 'active_sub_menu' : '' }}">All Admins</a>
+                                        <a href="{{ route('admin.allAdmins') }}" key="t-level-1-1"
+                                            class="{{ request()->is('admin/all-admins') ? 'active_sub_menu' : '' }}">All
+                                            Admins</a>
                                     </li>
                                 @endif
 
                                 @if (is_permitted('manage_roles_permissions'))
                                     <li>
-                                        <a href="{{ route('admin.adminRolePermissions') }}" key="t-level-1-1" class="{{ request()->is('admin/all-admins/role-permissions') ? 'active_sub_menu' : '' }}">Roles & Permissions</a>
+                                        <a href="{{ route('admin.adminRolePermissions') }}" key="t-level-1-1"
+                                            class="{{ request()->is('admin/all-admins/role-permissions') ? 'active_sub_menu' : '' }}">Roles
+                                            & Permissions</a>
                                     </li>
                                 @endif
                             </ul>
@@ -39,14 +45,35 @@
 
                     @if (is_permitted('manage_users'))
                         <li>
-                            <a href="javascript: void(0);" class="has-arrow waves-effect {{ request()->is('admin/all-users') || request()->is('admin/all-users/*') ? 'active_menu' : '' }}">
+                            <a href="javascript: void(0);"
+                                class="has-arrow waves-effect {{ request()->is('admin/all-users') || request()->is('admin/all-users/*') ? 'active_menu' : '' }}">
                                 <i class="bx bx-group"></i>
                                 <span key="t-multi-level">Users</span>
                             </a>
                             <ul class="sub-menu" aria-expanded="true">
                                 @if (is_permitted('manage_users'))
                                     <li>
-                                        <a href="{{ route('admin.allUsers') }}" key="t-level-1-1" class="{{ request()->is('admin/all-users') ? 'active_sub_menu' : '' }}">All Users</a>
+                                        <a href="{{ route('admin.allUsers') }}" key="t-level-1-1"
+                                            class="{{ request()->is('admin/all-users') ? 'active_sub_menu' : '' }}">All
+                                            Users</a>
+                                    </li>
+                                @endif
+                            </ul>
+                        </li>
+                    @endif
+
+                    @if (is_permitted('manage_users'))
+                        <li>
+                            <a href="javascript: void(0);"
+                                class="has-arrow waves-effect {{ request()->is('admin/contact-message') || request()->is('admin/contact-message/*') ? 'active_menu' : '' }}">
+                                <i class="bx bx-message-rounded-dots"></i>
+                                <span key="t-multi-level">Messages</span>
+                            </a>
+                            <ul class="sub-menu" aria-expanded="true">
+                                @if (is_permitted('manage_users'))
+                                    <li>
+                                        <a href="{{ route('admin.contact-message') }}" key="t-level-1-1"
+                                            class="{{ request()->is('admin/contact-message') ? 'active_sub_menu' : '' }}">Messages</a>
                                     </li>
                                 @endif
                             </ul>
@@ -55,14 +82,16 @@
 
                     @if (is_permitted('manage_settings'))
                         <li>
-                            <a href="javascript: void(0);" class="has-arrow waves-effect {{ request()->is('admin/settings') || request()->is('admin/settings/*') ? 'active_menu' : '' }}">
+                            <a href="javascript: void(0);"
+                                class="has-arrow waves-effect {{ request()->is('admin/settings') || request()->is('admin/settings/*') ? 'active_menu' : '' }}">
                                 <i class="bx bx-cog"></i>
                                 <span key="t-multi-level">Settings</span>
                             </a>
                             <ul class="sub-menu" aria-expanded="true">
                                 @if (is_permitted('manage_console'))
                                     <li>
-                                        <a href="{{ route('admin.console') }}" key="t-level-1-1" class="{{ request()->is('admin/settings/console') ? 'active_sub_menu' : '' }}">Console</a>
+                                        <a href="{{ route('admin.console') }}" key="t-level-1-1"
+                                            class="{{ request()->is('admin/settings/console') ? 'active_sub_menu' : '' }}">Console</a>
                                     </li>
                                 @endif
                             </ul>

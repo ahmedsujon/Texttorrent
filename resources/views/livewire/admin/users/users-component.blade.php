@@ -80,6 +80,20 @@
                                             @include(
                                                 'livewire.admin.datatable.admin-datatable-th-sorting',
                                                 [
+                                                    'id' => 'username',
+                                                    'thDisplayName' => 'SMS Getway',
+                                                ]
+                                            )
+                                            @include(
+                                                'livewire.admin.datatable.admin-datatable-th-sorting',
+                                                [
+                                                    'id' => 'username',
+                                                    'thDisplayName' => 'SMS Credits',
+                                                ]
+                                            )
+                                            @include(
+                                                'livewire.admin.datatable.admin-datatable-th-sorting',
+                                                [
                                                     'id' => 'email',
                                                     'thDisplayName' => 'Email',
                                                 ]
@@ -127,8 +141,10 @@
                                                                 class="img-fluid rounded-circle mr-3"
                                                                 style="height: 40px; width: 40px;" alt="">
                                                         @endif
-                                                        {{ $user->full_name }}
+                                                        {{ $user->first_name }} {{ $user->last_name }}
                                                     </td>
+                                                    <td class="align-middle">{{ $user->username }}</td>
+                                                    <td class="align-middle">{{ $user->username }}</td>
                                                     <td class="align-middle">{{ $user->username }}</td>
                                                     <td class="align-middle">{{ $user->email }}</td>
                                                     <td class="align-middle">{{ $user->phone }}</td>
@@ -144,26 +160,38 @@
                                                         @endif
                                                     </td>
                                                     <td class="align-middle">{{ $user->created_at }}</td>
-                                                    <td class="align-middle text-center">
-                                                        <button
-                                                            class="btn btn-sm btn-soft-primary waves-effect waves-light action-btn edit_btn"
-                                                            wire:click.prevent='editData({{ $user->id }})'
-                                                            wire:loading.attr='disabled'>
-                                                            <i
-                                                                class="mdi mdi-square-edit-outline font-size-13 align-middle"></i>
-                                                        </button>
-                                                        <button
-                                                            class="btn btn-sm btn-soft-danger waves-effect waves-light action-btn delete_btn"
-                                                            wire:click.prevent='deleteConfirmation({{ $user->id }})'
-                                                            wire:loading.attr='disabled'>
-                                                            <i class="bx bx-trash font-size-13 align-middle"></i>
-                                                        </button>
+                                                    <td style="text-align: center;">
+                                                        <div class="btn-group" role="group">
+                                                            <button id="btnGroupVerticalDrop1" type="button"
+                                                                class="btn btn-outline-primary waves-effect waves-light"
+                                                                data-bs-toggle="dropdown" aria-haspopup="true"
+                                                                aria-expanded="false">
+                                                                Options <i class="mdi mdi-chevron-down"></i>
+                                                            </button>
+                                                            <div class="dropdown-menu"
+                                                                aria-labelledby="btnGroupVerticalDrop1" style="">
+                                                                <button type="button" class="dropdown-item"
+                                                                    wire:click.prevent='editData({{ $user->id }})'
+                                                                    wire:loading.attr='disabled'>View Details</button>
+                                                                <a class="dropdown-item" href="#">10DLC
+                                                                    Registration</a>
+                                                                <a class="dropdown-item" href="#">Toll-Free
+                                                                    Registration</a>
+                                                                <a class="dropdown-item" href="#">Change
+                                                                    Password</a>
+                                                                <button type="button" class="dropdown-item"
+                                                                    wire:click.prevent='deleteConfirmation({{ $user->id }})'
+                                                                    wire:loading.attr='disabled'>Delete
+                                                                    account</button>
+                                                            </div>
+                                                        </div>
                                                     </td>
                                                 </tr>
                                             @endforeach
                                         @else
                                             <tr>
-                                                <td colspan="7" class="text-center pt-5 pb-5">No data available!</td>
+                                                <td colspan="7" class="text-center pt-5 pb-5">No data available!
+                                                </td>
                                             </tr>
                                         @endif
                                     </tbody>
@@ -180,8 +208,8 @@
     </div>
 
     <!-- Add Data Modal -->
-    <div wire:ignore.self class="modal fade" id="addDataModal" tabindex="-1" role="dialog" data-bs-backdrop="static"
-        data-bs-keyboard="false" aria-labelledby="modelTitleId">
+    <div wire:ignore.self class="modal fade" id="addDataModal" tabindex="-1" role="dialog"
+        data-bs-backdrop="static" data-bs-keyboard="false" aria-labelledby="modelTitleId">
         <div class="modal-dialog modal-dialog-centered modal-dialog-zoom modal-lg" role="document">
             <div class="modal-content">
                 <div class="modal-header" style="background: white;">
@@ -284,7 +312,228 @@
     <!-- Edit Data Modal -->
     <div wire:ignore.self class="modal fade" id="editDataModal" tabindex="-1" role="dialog"
         data-bs-backdrop="static" data-bs-keyboard="false" aria-labelledby="modelTitleId">
-        <div class="modal-dialog modal-dialog-centered modal-dialog-zoom modal-lg" role="document">
+        <div class="modal-dialog modal-dialog-centered modal-dialog-zoom modal-xl" role="document">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <div class="row justify-content-center">
+                        <div class="col-lg-12">
+                            <div class="card bg-info-subtle">
+                                <div class="card-body">
+                                    <button style="float: right;" type="button" class="btn-close"
+                                        data-bs-dismiss="modal" aria-label="Close"
+                                        wire:click.prevent='close'></button>
+                                    <div class="text-center mb-4">
+                                        <img src="{{ asset($user->avatar) }}" alt="avatar"
+                                            class="avatar-md rounded-circle mx-auto d-block" />
+                                        <h5 class="mt-3 mb-1">{{ $user->first_name }} {{ $user->last_name }}</h5>
+                                        <p class="text-muted mb-3">UI/UX Designer</p>
+                                        <div class="mx-auto">
+                                            <span class="badge text-bg-info">Freelance</span>
+                                            <span class="badge text-bg-success">Active</span>
+                                            <span class="badge text-bg-warning">Adobe XD</span>
+                                            <span class="badge text-bg-warning">Figma</span>
+                                            <span class="badge text-bg-warning">Sketch</span>
+                                        </div>
+                                    </div>
+                                    <div class="d-flex align-items-center">
+                                        <ul class="list-unstyled hstack gap-3 mb-0 flex-grow-1">
+                                            <li>
+                                                <i class="bx bx-time align-middle"></i> Last Login: 5 days ago
+                                            </li>
+                                        </ul>
+                                        <div class="hstack gap-2">
+                                            <button type="button" class="btn btn-primary">Login Account <i
+                                                    class='bx bx-download align-baseline ms-1'></i></button>
+                                            {{-- <button type="button" class="btn btn-light"><i
+                                                    class='bx bx-bookmark align-baseline'></i></button> --}}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-lg-3">
+                            <div class="card">
+                                <div class="card-body">
+                                    <ul class="list-unstyled vstack gap-3 mb-0">
+                                        <li>
+                                            <div class="d-flex">
+                                                <i class='bx bx-calendar font-size-18 text-primary'></i>
+                                                <div class="ms-3">
+                                                    <h6 class="mb-1 fw-semibold">Experience:</h6>
+                                                    <span class="text-muted">2+ Years</span>
+                                                </div>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="d-flex">
+                                                <i class='bx bx-money font-size-18 text-primary'></i>
+                                                <div class="ms-3">
+                                                    <h6 class="mb-1 fw-semibold">Total Credit Spent:</h6>
+                                                    <span class="text-muted">$ 3451</span>
+                                                </div>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="d-flex">
+                                                <i class='bx bx-money font-size-18 text-primary'></i>
+                                                <div class="ms-3">
+                                                    <h6 class="mb-1 fw-semibold">Current Credit:</h6>
+                                                    <span class="text-muted">$ 4000+</span>
+                                                </div>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="d-flex">
+                                                <i class='bx bx-user font-size-18 text-primary'></i>
+                                                <div class="ms-3">
+                                                    <h6 class="mb-1 fw-semibold">Sub Accounts:</h6>
+                                                    Male
+                                                </div>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="d-flex">
+                                                <i class='mdi mdi-book-education font-size-18 text-primary'></i>
+                                                <div class="ms-3">
+                                                    <h6 class="mb-1 fw-semibold">Total Message Sent:</h6>
+                                                    <span class="text-muted">Master Degree</span>
+                                                </div>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="d-flex">
+                                                <i class='mdi mdi-google-translate font-size-18 text-primary'></i>
+                                                <div class="ms-3">
+                                                    <h6 class="mb-1 fw-semibold">Languages:</h6>
+                                                    <span class="text-muted">English, France</span>
+                                                </div>
+                                            </div>
+                                        </li>
+                                        <li class="hstack gap-2 mt-3">
+                                            <a href="#!" class="btn btn-soft-danger w-100">Diactive Account</a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div><!--end col-->
+                        <div class="col-lg-9">
+                            <div class="card">
+                                <div class="card-body">
+                                    <h5 class="mb-3">Personal Info</h5>
+                                    <form wire:submit.prevent='updateData' enctype="multipart/form-data">
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <label for="example-number-input" class="col-form-label">First
+                                                    Name</label>
+                                                <input class="form-control" type="text"
+                                                    wire:model.blur="first_name" placeholder="Enter first name">
+                                                @error('first_name')
+                                                    <p class="text-danger" style="font-size: 11.5px;">{{ $message }}
+                                                    </p>
+                                                @enderror
+                                            </div>
+
+                                            <div class="col-md-6">
+                                                <label for="example-number-input" class="col-form-label">Last
+                                                    Name</label>
+                                                <input class="form-control" type="text"
+                                                    wire:model.blur="last_name" placeholder="Enter last name">
+                                                @error('last_name')
+                                                    <p class="text-danger" style="font-size: 11.5px;">{{ $message }}
+                                                    </p>
+                                                @enderror
+                                            </div>
+
+                                            <div class="col-md-6">
+                                                <label for="example-number-input"
+                                                    class="col-form-label">Username</label>
+                                                <input class="form-control" type="text" wire:model.blur="username"
+                                                    placeholder="Enter username">
+                                                @error('username')
+                                                    <p class="text-danger" style="font-size: 11.5px;">{{ $message }}
+                                                    </p>
+                                                @enderror
+                                            </div>
+
+                                            <div class="col-md-6">
+                                                <label for="example-number-input" class="col-form-label">Email</label>
+                                                <input class="form-control" type="email" wire:model.blur="email"
+                                                    placeholder="Enter email">
+                                                @error('email')
+                                                    <p class="text-danger" style="font-size: 11.5px;">{{ $message }}
+                                                    </p>
+                                                @enderror
+                                            </div>
+
+                                            <div class="col-md-6">
+                                                <label for="example-number-input" class="col-form-label">Phone</label>
+                                                <input class="form-control" type="number" wire:model.blur="phone"
+                                                    placeholder="Enter phone">
+                                                @error('phone')
+                                                    <p class="text-danger" style="font-size: 11.5px;">{{ $message }}
+                                                    </p>
+                                                @enderror
+                                            </div>
+
+                                            <div class="col-md-6">
+                                                <label for="example-number-input"
+                                                    class="col-form-label">Password</label>
+                                                <input class="form-control" type="password"
+                                                    wire:model.blur="password" placeholder="Enter new password">
+                                                @error('password')
+                                                    <p class="text-danger" style="font-size: 11.5px;">{{ $message }}
+                                                    </p>
+                                                @enderror
+                                            </div>
+
+                                            <div class="col-md-12">
+                                                <label for="example-number-input" class="col-form-label">Image</label>
+                                                <input type="file" class="form-control"
+                                                    wire:model.blur='avatar' />
+                                                @error('avatar')
+                                                    <p class="text-danger" style="font-size: 11.5px;">{{ $message }}
+                                                    </p>
+                                                @enderror
+
+                                                <div wire:loading wire:target='avatar' wire:key='avatar'>
+                                                    <span class="spinner-border spinner-border-xs" role="status"
+                                                        aria-hidden="true"></span> <small>Uploading</small>
+                                                </div>
+                                                @if ($avatar)
+                                                    <img src="{{ $avatar->temporaryUrl() }}" class="img-fluid mt-2"
+                                                        style="height: 55px; width: 55px;" />
+                                                @elseif ($uploadedAvatar)
+                                                    <img src="{{ asset($uploadedAvatar) }}" class="img-fluid mt-2"
+                                                        style="height: 55px; width: 55px;" />
+                                                @endif
+                                            </div>
+                                        </div>
+                                        <div class="mb-3 row mt-4" style="float: right;">
+                                            <div class="col-12">
+                                                <button type="submit"
+                                                    class="btn btn-primary waves-effect waves-light w-30">
+                                                    {!! loadingStateWithText('updateData', 'Update User') !!}
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- End Edit Data Modal -->
+
+    <!-- View Data Modal -->
+    {{-- <div wire:ignore.self class="modal fade" id="viewDataModal" tabindex="-1" role="dialog"
+        data-bs-backdrop="static" data-bs-keyboard="false" aria-labelledby="modelTitleId">
+        <div class="modal-dialog modal-dialog-centered modal-dialog-zoom modal-xl" role="document">
             <div class="modal-content">
                 <div class="modal-header" style="background: white;">
                     <h5 class="modal-title m-0" id="mySmallModalLabel">Edit User</h5>
@@ -385,7 +634,7 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div> --}}
     <!-- End Edit Data Modal -->
 
     <!-- Delete Modal -->

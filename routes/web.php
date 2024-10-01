@@ -1,7 +1,12 @@
 <?php
 
-use App\Livewire\App\HomeComponent;
-use App\Livewire\App\User\DashboardComponent;
+use App\Livewire\Web\AboutComponent;
+use App\Livewire\Web\ContactUsComponent;
+use App\Livewire\Web\FeatureComponent;
+use App\Livewire\Web\HomeComponent;
+use App\Livewire\Web\PricingComponent;
+use App\Livewire\Web\PrivacyPolicyComponent;
+use App\Livewire\Web\TermsConditionsComponent;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -16,6 +21,16 @@ use Illuminate\Support\Facades\Route;
 */
 
 
+Route::get('/', HomeComponent::class)->name('app.home');
+Route::get('/features', FeatureComponent::class)->name('app.feature');
+Route::get('/pricing', PricingComponent::class)->name('app.pricing');
+Route::get('/about-us', AboutComponent::class)->name('app.contact-us');
+Route::get('/contact-us', ContactUsComponent::class)->name('app.contact-us');
+Route::get('/privacy-policy', PrivacyPolicyComponent::class)->name('app.privacy-policy');
+Route::get('/terms-conditions', TermsConditionsComponent::class)->name('app.terms-conditions');
+
+
 //Call Route Files
 require __DIR__ . '/admin.php';
 require __DIR__ . '/user.php';
+// require __DIR__ . '/web.php';

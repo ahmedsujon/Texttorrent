@@ -292,8 +292,8 @@
             <div class="main_menu_area">
                 <h4>Main menu</h4>
                 <div class="inner_main_menu">
-                    <a href="{{ route('app.home') }}"
-                        class="{{ request()->is('/') || request()->is('dashboard/*') ? 'menu_grid active_menu' : 'menu_grid' }}">
+                    <a href="{{ route('user.dashboard') }}"
+                        class="{{ request()->is('dashboard') || request()->is('dashboard/*') ? 'menu_grid active_menu' : 'menu_grid' }}">
                         <div class="icon">
                             <svg width="20" height="20" viewBox="0 0 20 20" fill="none"
                                 xmlns="http://www.w3.org/2000/svg" currentColor="#235DE4">

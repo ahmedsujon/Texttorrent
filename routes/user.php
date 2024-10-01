@@ -25,6 +25,7 @@ use App\Livewire\App\Settings\ChangePasswordComponent;
 use App\Livewire\App\Settings\DLCRegistrationComponent;
 use App\Livewire\App\Contacts\ValidatorCreditsComponent;
 use App\Livewire\App\Campaigns\ContactMessageQueueComponent;
+use App\Livewire\App\HomeComponent;
 use App\Livewire\App\Settings\ActiveNumberComponent;
 
 /*
@@ -41,9 +42,8 @@ use App\Livewire\App\Settings\ActiveNumberComponent;
 Route::get('/login', LoginComponent::class)->name('login')->middleware('guest');
 Route::get('/register', RegistrationComponent::class)->name('register')->middleware('guest');
 
-Route::get('user', DashboardComponent::class)->middleware('auth:user');
+// Route::get('user', DashboardComponent::class)->middleware('auth:user');
 
-Route::get('/', DashboardComponent::class)->name('app.home')->middleware('auth');
 Route::name('user.')->middleware('auth')->group(function () {
     Route::post('logout', [LogoutController::class, 'userLogout'])->name('logout');
 
