@@ -90,6 +90,18 @@ function deleteFile($file)
     }
 }
 
+function listContactsCount($list_id)
+{
+    $count = DB::table('contacts')->where('list_id', $list_id)->where('user_id', user()->id)->count();
+    return $count;
+}
+
+function getListByID($list_id)
+{
+    $list = DB::table('contact_lists')->where('id', $list_id)->first();
+    return $list;
+}
+
 function loadingStateSm($key, $title)
 {
     $loadingSpinner = '
