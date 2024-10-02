@@ -98,7 +98,7 @@
                                                     <img src="{{ asset('assets/app/icons/shopping-cart.svg') }}"
                                                         alt="" />
                                                 </button>
-                                                {{-- <div class="dropdown">
+                                                <div class="dropdown">
                                                 <button class="table_dot_btn dropdown-toggle" type="button"
                                                     data-bs-toggle="dropdown" aria-expanded="false">
                                                     <img src="{{ asset('assets/app/icons/dot-horizontal.svg') }}" alt="dot icon" />
@@ -114,7 +114,7 @@
                                                         </button>
                                                     </li>
                                                 </ul>
-                                            </div> --}}
+                                            </div>
                                             </div>
                                         </td>
                                     </tr>
