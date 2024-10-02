@@ -3,14 +3,39 @@
 namespace App\Livewire\App\Contacts;
 
 use App\Models\Contact;
-use App\Models\ContactFolder;
+use Livewire\Component;
 use App\Models\ContactList;
 use App\Models\ContactNote;
-use Livewire\Component;
+use App\Models\ContactFolder;
+use Livewire\WithFileUploads;
+use Livewire\WithProgressBar;
 
 class ManageContactsComponent extends Component
 {
-    public $list_search_term, $folder_search_term;
+    use WithFileUploads;
+
+    public $file;
+    public $progress = 0;
+
+    // Method to handle file upload
+    public function uploadFile()
+    {
+        // Validate the file (max size 10MB)
+        $this->validate([
+            'file' => 'required|file', // 10MB Max
+        ]);
+
+        // Store the file in the 'uploads' folder
+        $this->file->store('uploads');
+
+        // Reset progress after upload is done
+        $this->progress = 0;
+
+        // Flash success message
+        session()->flash('message', 'File uploaded successfully.');
+    }
+
+    public $list_search_term, $folder_search_term, $contacts_search_term;
 
     public $list_name, $list_edit_id, $list_delete_id;
     public function addNewList()
@@ -283,7 +308,7 @@ class ManageContactsComponent extends Component
 
         $folders = ContactFolder::where('name', 'like', '%' . $this->folder_search_term . '%')->where('user_id', user()->id)->get();
 
-        $contacts = Contact::where('user_id', user()->id)->orderBy('id', 'DESC')->get();
+        $contacts = Contact::where('first_name', 'like', '%' . $this->contacts_search_term . '%')->where('user_id', user()->id)->orderBy('id', 'DESC')->get();
 
         return view('livewire.app.contacts.manage-contacts-component', ['contacts' => $contacts, 'bookmarked_lists' => $bookmarked_lists, 'other_lists' => $other_lists, 'folders' => $folders])->layout('livewire.app.layouts.base');
     }

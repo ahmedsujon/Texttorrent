@@ -193,6 +193,7 @@
                                     <img src="{{ asset('assets/app/icons/plus-sign-white.svg') }}" alt="plus icon" />
                                     <span>Add contact</span>
                                 </button>
+
                                 <div class="table_dropdown_area">
                                     <div class="dropdown">
                                         <button class="icon_btn" type="button" data-bs-toggle="dropdown"
@@ -231,7 +232,7 @@
                             </div>
                         </div>
                         <form action="" class="search_input_form">
-                            <input type="search" placeholder="Search folder" class="input_field" />
+                            <input type="search" placeholder="Search contacts" wire:model.live='contacts_search_term' class="input_field" />
                             <button type="submit" class="search_icon">
                                 <img src="{{ asset('assets/app/icons/search-gray.svg') }}" alt="search icon" />
                             </button>
@@ -243,6 +244,11 @@
                             <label class="form-check-label" for="formCheckAll">
                                 Select all contacts
                             </label>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12 text-center">
+                                <span wire:loading wire:target='editContact,deleteConfirmation,editList,addRemoveBookmark,list_search_term,contacts_search_term'><i class="fa fa-spinner fa-spin"></i> Processing...</span>
+                            </div>
                         </div>
                         <a href="#" class="import_btn">
                             <img src="{{ asset('assets/app/icons/call-disabled.svg') }}" alt="call disabled" />
@@ -272,24 +278,21 @@
                                     </div>
                                     <div
                                         class="list_action_details_area d-flex align-items-center justify-content-end flex-wrap g-sm">
-                                        <button type="button" class="icon_btn" wire:click.prevent='showDetails({{ $contact->id }})'>
-                                            <img src="{{ asset('assets/app/icons/info-02.svg') }}"
-                                                alt="message icon" />
+                                        <button type="button" class="icon_btn" wire:click.prevent='showDetails({{ $contact->id }})' wire:loading.attr='disabled'>
+                                            {!! loadingStateWithoutText('showDetails('.$contact->id.')', '<img src="'. asset('assets/app/icons/info-02.svg') . '" alt="message icon" />') !!}
                                         </button>
-                                        <button type="button" class="icon_btn" wire:click.prevent='addNoteModal({{ $contact->id }})'>
-                                            <img src="{{ asset('assets/app/icons/notebook.svg') }}"
-                                                alt="note icon" />
+                                        <button type="button" class="icon_btn" wire:click.prevent='addNoteModal({{ $contact->id }})' wire:loading.attr='disabled'>
+                                            {!! loadingStateWithoutText('addNoteModal('.$contact->id.')', '<img src="'. asset('assets/app/icons/notebook.svg') . '" alt="note icon" />') !!}
                                         </button>
-                                        <button type="button" class="icon_btn" wire:click.prevent='addFolderModal({{ $contact->id }})'>
-                                            <img src="{{ asset('assets/app/icons/folder-add-02.svg') }}"
-                                                alt="folder add icon" />
+                                        <button type="button" class="icon_btn" wire:click.prevent='addFolderModal({{ $contact->id }})' wire:loading.attr='disabled'>
+                                            {!! loadingStateWithoutText('addFolderModal('.$contact->id.')', '<img src="'. asset('assets/app/icons/folder-add-02.svg') . '" alt="folder icon" />') !!}
                                         </button>
                                         <div class="table_dropdown_area">
                                             <div class="dropdown">
                                                 <button class="icon_btn" type="button" data-bs-toggle="dropdown"
-                                                    aria-expanded="false">
-                                                    <img src="{{ asset('assets/app/icons/dot-horizontal.svg') }}"
-                                                        alt="dot icon" />
+                                                    aria-expanded="false" wire:loading.attr='disabled'>
+
+                                                    <img src="{{ asset('assets/app/icons/dot-horizontal.svg') }}" alt="dot icon" />
                                                 </button>
                                                 <ul class="dropdown-menu">
                                                     <li>
@@ -404,7 +407,48 @@
                             aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
-                        <form action="" class="event_form_area">
+                        <div class="row justify-content-center">
+                            <div class="col-md-6">
+                                <!-- Success Message -->
+                                @if (session()->has('message'))
+                                    <div class="alert alert-success">
+                                        {{ session('message') }}
+                                    </div>
+                                @endif
+
+                                <!-- File Upload Form -->
+                                <form wire:submit.prevent="uploadFile" x-data="{ progress: 0 }" x-on:livewire-upload-start="progress = 0"
+                                      x-on:livewire-upload-finish="progress = 100"
+                                      x-on:livewire-upload-error="progress = 0"
+                                      x-on:livewire-upload-progress="progress = $event.detail.progress">
+
+                                    <!-- File Input -->
+                                    <div class="mb-3">
+                                        <label for="file" class="form-label">Choose a file</label>
+                                        <input type="file" id="file" wire:model="file" class="form-control">
+                                        @error('file') <span class="text-danger">{{ $message }}</span> @enderror
+                                    </div>
+
+                                    <!-- Progress Bar -->
+                                    <div class="progress mb-3" style="height: 30px;">
+                                        <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar"
+                                             :style="`width: ${progress}%`" aria-valuenow="progress" aria-valuemin="0" aria-valuemax="100"
+                                             x-text="`${progress}%`">
+                                        </div>
+                                    </div>
+
+                                    <!-- Submit Button -->
+                                    <button type="submit" class="btn btn-primary">Upload</button>
+                                </form>
+
+                                <!-- Loading Spinner -->
+                                <div wire:loading wire:target="file" class="spinner-border text-primary mt-3" role="status">
+                                    <span class="visually-hidden">Uploading...</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        {{-- <form action="" class="event_form_area">
                             <div class="file_upload_area mb-2">
                                 <div class="import_icon">
                                     <img src="{{ asset('assets/app/icons/import.svg') }}" alt="import icon" />
@@ -559,7 +603,7 @@
                                 <img src="{{ asset('assets/app/icons/arrow-down.svg') }}" alt="down arrow"
                                     class="down_arrow" />
                             </div>
-                        </form>
+                        </form> --}}
                     </div>
                     <div class="modal-footer event_modal_footer">
                         <button type="button" class="cancel_btn" data-bs-dismiss="modal">
@@ -749,7 +793,7 @@
                                         </div>
                                         <div>
                                             <h4>Contact list</h4>
-                                            <h5>{{ $numberDetails->list_id ? getListByID($numberDetails->list_id)->name : '---' }}</h5>
+                                            <h5>{{ $numberDetails->list_id && isset(getListByID($numberDetails->list_id)->name) ? getListByID($numberDetails->list_id)->name : '---' }}</h5>
                                         </div>
                                     </div>
                                     <div class="user_info_grid">
@@ -1041,6 +1085,8 @@
     </main>
 </div>
 @push('scripts')
+    <!-- Include Alpine.js for reactive progress bar handling -->
+    <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
     <script>
         document.addEventListener("DOMContentLoaded", () => {
             const input = document.querySelector("#tel-input");
