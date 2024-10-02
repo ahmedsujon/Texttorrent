@@ -276,8 +276,7 @@
                                             <img src="{{ asset('assets/app/icons/info-02.svg') }}"
                                                 alt="message icon" />
                                         </button>
-                                        <button type="button" class="icon_btn" data-bs-toggle="modal"
-                                            data-bs-target="#noteModal">
+                                        <button type="button" class="icon_btn" wire:click.prevent='addNoteModal({{ $contact->id }})'>
                                             <img src="{{ asset('assets/app/icons/notebook.svg') }}"
                                                 alt="note icon" />
                                         </button>
@@ -787,7 +786,13 @@
                                         </div>
                                         <div>
                                             <h4>Notes</h4>
-                                            <h5>{{ $numberDetails->note ? $numberDetails->note : '---' }}</h5>
+                                            @if ($numberDetails->notes)
+                                                @foreach ($numberDetails->notes as $note)
+                                                    <p>{{ $note->note }}</p> <br>
+                                                @endforeach
+                                            @else
+                                                <p>---</p>
+                                            @endif
                                         </div>
                                     </div>
                                 </div>
@@ -805,7 +810,7 @@
         </div>
 
         <!-- New Note Modal  -->
-        <div class="modal fade common_modal" id="noteModal" tabindex="-1" aria-labelledby="newNoteModal"
+        <div wire:ignore.self class="modal fade common_modal" id="noteModal" tabindex="-1" aria-labelledby="newNoteModal"
             aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
                 <div class="modal-content">
@@ -829,7 +834,10 @@
                                                 alt="link" />
                                         </button>
                                     </div>
-                                    <textarea name="" rows="10" id="noteWriteArea" class="input_field" placeholder="Write a note..."></textarea>
+                                    <textarea name="" rows="10" id="noteWriteArea" wire:model.blur='note' class="input_field" placeholder="Write a note..."></textarea>
+                                    @error('note')
+                                        <p class="text-danger" style="font-size: 12.5px;">{{ $message }}</p>
+                                    @enderror
                                 </div>
                             </div>
                         </form>
@@ -838,7 +846,9 @@
                         <button type="button" class="cancel_btn" data-bs-dismiss="modal">
                             Cancel
                         </button>
-                        <button type="button" class="create_event_btn">Submit</button>
+                        <button type="button" class="create_event_btn" wire:click.prevent='addNote'>
+                            {!! loadingStateWithText('addNote', 'Save') !!}
+                        </button>
                     </div>
                 </div>
             </div>
@@ -1068,6 +1078,10 @@
                 $('#folderToggleModal').modal('show');
             });
 
+            window.addEventListener('showNoteAddModal', event => {
+                $('#noteModal').modal('show');
+            });
+
             window.addEventListener('showFolderEditModal', event => {
                 $('#folderToggleModal').modal('hide');
                 setTimeout(() => {
@@ -1080,6 +1094,10 @@
                 setTimeout(() => {
                     $('#folderToggleModal').modal('show');
                 }, 100);
+            });
+
+            window.addEventListener('noteAdded', event => {
+                $('#noteModal').modal('hide');
             });
 
             window.addEventListener('folderUpdated', event => {

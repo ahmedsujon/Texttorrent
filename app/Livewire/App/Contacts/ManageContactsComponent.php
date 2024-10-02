@@ -5,6 +5,7 @@ namespace App\Livewire\App\Contacts;
 use App\Models\Contact;
 use App\Models\ContactFolder;
 use App\Models\ContactList;
+use App\Models\ContactNote;
 use Livewire\Component;
 
 class ManageContactsComponent extends Component
@@ -134,7 +135,10 @@ class ManageContactsComponent extends Component
     public $numberDetails;
     public function showDetails($id)
     {
-        $this->numberDetails = Contact::find($id);
+        $contact = Contact::find($id);
+        $contact->notes = ContactNote::where('contact_id', $contact->id)->get();
+
+        $this->numberDetails = $contact;
         $this->dispatch('showDetailsModal');
     }
 
@@ -207,6 +211,31 @@ class ManageContactsComponent extends Component
 
         $this->dispatch('folderUpdated');
         $this->dispatch('success', ['message' => 'Folder updated successfully']);
+    }
+
+    public $note_contact_id;
+    public function addNoteModal($id)
+    {
+        $this->note_contact_id = $id;
+        $this->dispatch('showNoteAddModal');
+    }
+
+    public $note;
+    public function addNote()
+    {
+        $this->validate([
+            'note' => 'required',
+        ]);
+
+        $note = new ContactNote();
+        $note->contact_id = $this->note_contact_id;
+        $note->note = $this->note;
+        $note->save();
+
+        $this->note = '';
+
+        $this->dispatch('noteAdded');
+        $this->dispatch('success', ['message' => 'Note added successfully']);
     }
 
 
