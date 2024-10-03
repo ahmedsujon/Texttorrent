@@ -24,7 +24,7 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', HomeComponent::class)->name('app.home');
 Route::get('/features', FeatureComponent::class)->name('app.feature');
 Route::get('/pricing', PricingComponent::class)->name('app.pricing');
-Route::get('/about-us', AboutComponent::class)->name('app.contact-us');
+Route::get('/about-us', AboutComponent::class)->name('app.about-us');
 Route::get('/contact-us', ContactUsComponent::class)->name('app.contact-us');
 Route::get('/privacy-policy', PrivacyPolicyComponent::class)->name('app.privacy-policy');
 Route::get('/terms-conditions', TermsConditionsComponent::class)->name('app.terms-conditions');

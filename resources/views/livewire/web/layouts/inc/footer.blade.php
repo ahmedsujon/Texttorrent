@@ -4,7 +4,7 @@
             <div class="row">
                 <div class="col-md-6">
                     <div class="logo_area">
-                        <a href="/" wire:navigate>
+                        <a href="{{ route('app.home') }}">
                             <img src="{{ asset('assets/app/images/landing/footer-logo.svg') }}" alt="logo" />
                         </a>
                         <h5>
@@ -19,19 +19,16 @@
                             <h3>Pages</h3>
                             <ul class="menu_list">
                                 <li>
-                                    <a href="/" wire:navigate >Home</a>
+                                    <a href="{{ route('app.home') }}" >Home</a>
                                 </li>
                                 <li>
-                                    <a href="/features" wire:navigate >Features</a>
+                                    <a href="{{ route('app.feature') }}" >Features</a>
                                 </li>
                                 <li>
-                                    <a href="/pricing" wire:navigate >Pricing</a>
+                                    <a href="{{ route('app.pricing') }}" >Pricing</a>
                                 </li>
                                 <li>
-                                    <a href="/about-us" wire:navigate >About</a>
-                                </li>
-                                <li>
-                                    <a href="/contact-us" wire:navigate >Contact Us</a>
+                                    <a href="{{ route('app.contact-us') }}" >Contact Us</a>
                                 </li>
                             </ul>
                         </div>
@@ -40,10 +37,10 @@
                             <h3>Important Links</h3>
                             <ul class="menu_list">
                                 <li>
-                                    <a href="/privacy-policy" wire:navigate >Privacy Policy</a>
+                                    <a href="{{ route('app.privacy-policy') }}" >Privacy Policy</a>
                                 </li>
                                 <li>
-                                    <a href="/terms-conditions" wire:navigate >Terms and Conditions</a>
+                                    <a href="{{ route('app.terms-conditions') }}" >Terms and Conditions</a>
                                 </li>
                             </ul>
                         </div>
