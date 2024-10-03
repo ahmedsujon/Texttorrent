@@ -49,7 +49,8 @@
                             @if ($bookmarked_lists->count() > 0)
                                 @foreach ($bookmarked_lists as $bList)
                                     <li>
-                                        <a href="#" class="list_btn">
+                                        <a href="#" wire:click.prevent='selectList({{ $bList->id }})'
+                                            class="list_btn {{ $sort_list_id == $bList->id ? 'active_list_btn' : '' }}">
                                             <span class="list_title">{{ $bList->name }}</span>
                                             <div
                                                 class="list_action_area d-flex align-items-center justify-content-end flex-wrap">
@@ -115,7 +116,8 @@
                             @if ($other_lists->count() > 0)
                                 @foreach ($other_lists as $oList)
                                     <li>
-                                        <a href="#" class="list_btn">
+                                        <a href="#" wire:click.prevent='selectList({{ $oList->id }})'
+                                            class="list_btn {{ $sort_list_id == $oList->id ? 'active_list_btn' : '' }}">
                                             <span class="list_title">{{ $oList->name }}</span>
                                             <div
                                                 class="list_action_area d-flex align-items-center justify-content-end flex-wrap">
@@ -249,7 +251,7 @@
                         <div class="row">
                             <div class="col-md-12 text-center">
                                 <span wire:loading
-                                    wire:target='editContact,deleteConfirmation,editList,addRemoveBookmark,list_search_term,contacts_search_term'><i
+                                    wire:target='editContact,deleteConfirmation,editList,addRemoveBookmark,list_search_term,contacts_search_term,selectList'><i
                                         class="fa fa-spinner fa-spin"></i> Processing...</span>
                             </div>
                         </div>
@@ -271,8 +273,10 @@
                                         <div>
                                             <h4>{{ $contact->first_name }} {{ $contact->last_name }}</h4>
                                             <div class="d-flex align-items-center flex-wrap gap-1">
-                                                <h5>{{ $contact->number }}</h5>
-                                                <button type="button" class="copy_icon">
+                                                <h5 id="contact_number_{{ $contact->id }}">{{ $contact->number }}
+                                                </h5>
+                                                <button type="button" class="copy_icon"
+                                                    onclick="copyToClipboard({{ $contact->id }})">
                                                     <img src="{{ asset('assets/app/icons/copy-01.svg') }}"
                                                         alt="copy icon" />
                                                 </button>
@@ -582,7 +586,8 @@
                                 <div class="input_row searchable_select">
                                     <label for="">Email Address Column
                                     </label>
-                                    <select name="lang" class="form-control" wire:model.blur='email_address_column'>
+                                    <select name="lang" class="form-control"
+                                        wire:model.blur='email_address_column'>
                                         <option value="">Select Column</option>
                                         <option value="First Name">First Name</option>
                                         <option value="Last Name">Last Name</option>
@@ -627,7 +632,8 @@
                                 <div class="input_row searchable_select col-md-4">
                                     <label for="">Additional Data 1 Column
                                     </label>
-                                    <select name="lang" class="form-control" wire:model.blur='additional_1_column'>
+                                    <select name="lang" class="form-control"
+                                        wire:model.blur='additional_1_column'>
                                         <option value="">Select Column</option>
                                         <option value="Additional 1">Additional 1</option>
                                         <option value="Additional 2">Additional 2</option>
@@ -639,7 +645,8 @@
                                 <div class="input_row searchable_select col-md-4">
                                     <label for="">Additional Data 2 Column
                                     </label>
-                                    <select name="lang" class="form-control" wire:model.blur='additional_2_column'>
+                                    <select name="lang" class="form-control"
+                                        wire:model.blur='additional_2_column'>
                                         <option value="">Select Column</option>
                                         <option value="Additional 1">Additional 1</option>
                                         <option value="Additional 2">Additional 2</option>
@@ -651,7 +658,8 @@
                                 <div class="input_row searchable_select col-md-4">
                                     <label for="">Additional Data 3 Column
                                     </label>
-                                    <select name="lang" class="form-control" wire:model.blur='additional_3_column'>
+                                    <select name="lang" class="form-control"
+                                        wire:model.blur='additional_3_column'>
                                         <option value="">Select Column</option>
                                         <option value="Additional 1">Additional 1</option>
                                         <option value="Additional 2">Additional 2</option>
@@ -835,8 +843,9 @@
                                         <h4>{{ $numberDetails->first_name ? $numberDetails->first_name : '---' }}
                                             {{ $numberDetails->last_name ? $numberDetails->last_name : '' }}</h4>
                                         <div class="d-flex align-items-center flex-wrap gap-1">
-                                            <h5>{{ $numberDetails->number ? $numberDetails->number : '---' }}</h5>
-                                            <button type="button" class="copy_icon">
+
+                                            <h5 id="contact_number_details_{{ $numberDetails->id }}">{{ $numberDetails->number ? $numberDetails->number : '---' }}</h5>
+                                            <button type="button" class="copy_icon" onclick="copyToClipboardDetails({{ $numberDetails->id }})">
                                                 <img src="{{ asset('assets/app/icons/copy-01.svg') }}"
                                                     alt="copy icon" />
                                             </button>
@@ -1185,6 +1194,25 @@
     <!-- Include Alpine.js for reactive progress bar handling -->
     <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
     <script>
+        function copyToClipboard(contact_id) {
+            const text = document.getElementById('contact_number_'+contact_id).innerText;
+            navigator.clipboard.writeText(text).then(function() {
+                successMsg('Number copied successfully');
+            }, function(err) {
+                console.log(err);
+            });
+        }
+
+        function copyToClipboardDetails(contact_id) {
+            const text = document.getElementById('contact_number_details_'+contact_id).innerText;
+            navigator.clipboard.writeText(text).then(function() {
+                successMsg('Number copied successfully');
+            }, function(err) {
+                console.log(err);
+            });
+        }
+    </script>
+    <script>
         document.addEventListener("DOMContentLoaded", () => {
             const input = document.querySelector("#tel-input");
             input.addEventListener('input', (e) => {
@@ -1205,6 +1233,7 @@
     </script>
     <script>
         $(document).ready(function() {
+
             $('.js-searchBox-file-select').on('change', function() {
                 var data = $(this).val();
 

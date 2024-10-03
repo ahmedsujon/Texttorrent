@@ -65,6 +65,10 @@
         font-size: 1em;
         color: #5a5a5a;
     }
+
+    .active_list_btn {
+        background-color: #E7EAEB;
+    }
 </style>
 
 <body>
