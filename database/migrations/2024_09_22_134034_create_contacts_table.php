@@ -18,8 +18,12 @@ return new class extends Migration
             $table->unsignedBigInteger('folder_id')->nullable();
             $table->string('first_name')->nullable();
             $table->string('last_name')->nullable();
+            $table->string('email')->nullable();
             $table->string('number')->nullable();
             $table->string('company')->nullable();
+            $table->string('additional_1')->nullable();
+            $table->string('additional_2')->nullable();
+            $table->string('additional_3')->nullable();
             $table->tinyInteger('status')->default(1);
             $table->timestamps();
         });

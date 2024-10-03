@@ -8,34 +8,13 @@ use App\Models\ContactList;
 use App\Models\ContactNote;
 use App\Models\ContactFolder;
 use Livewire\WithFileUploads;
-use Livewire\WithProgressBar;
+use App\Imports\ContactsImport;
+use Maatwebsite\Excel\Facades\Excel;
 
 class ManageContactsComponent extends Component
 {
     use WithFileUploads;
-
-    public $file;
-    public $progress = 0;
-
-    // Method to handle file upload
-    public function uploadFile()
-    {
-        // Validate the file (max size 10MB)
-        $this->validate([
-            'file' => 'required|file', // 10MB Max
-        ]);
-
-        // Store the file in the 'uploads' folder
-        $this->file->store('uploads');
-
-        // Reset progress after upload is done
-        $this->progress = 0;
-
-        // Flash success message
-        session()->flash('message', 'File uploaded successfully.');
-    }
-
-    public $list_search_term, $folder_search_term, $contacts_search_term;
+    public $file, $list_search_term, $folder_search_term, $contacts_search_term;
 
     public $list_name, $list_edit_id, $list_delete_id;
     public function addNewList()
@@ -91,7 +70,6 @@ class ManageContactsComponent extends Component
 
         $this->dispatch('success', ['message' => $message]);
     }
-
 
     // contacts
     public $first_name, $last_name, $mobile_number, $company_name, $list_id, $contact_edit_id;
@@ -167,7 +145,6 @@ class ManageContactsComponent extends Component
         $this->dispatch('showDetailsModal');
     }
 
-
     public $folder_id, $contact_id;
     public function addFolderModal($id)
     {
@@ -183,7 +160,7 @@ class ManageContactsComponent extends Component
     {
         $this->validate([
             'folder_id' => 'required',
-        ],[
+        ], [
             'folder_id.required' => 'Select a folder',
         ]);
 
@@ -263,6 +240,69 @@ class ManageContactsComponent extends Component
         $this->dispatch('success', ['message' => 'Note added successfully']);
     }
 
+     // public $progress = 0;
+    // public $uploadedSize = 0;
+    // public $totalSize = 0;
+
+    public $columns;
+    public function updatedFile()
+    {
+        $this->validate([
+            'file' => 'required|file|mimes:csv,xlsx|max:10240', // 10MB
+        ]);
+        $this->columns = $this->getCsvHeaders();
+    }
+
+    public function resetUpload()
+    {
+        $this->reset('file');
+    }
+
+    // Step 2: Extract CSV headers dynamically
+    public function getCsvHeaders()
+    {
+        $file = fopen($this->file->getRealPath(), 'r');
+        $headers = fgetcsv($file);
+        fclose($file);
+
+        return $headers;
+    }
+
+    public $first_name_column = 'First Name', $last_name_column = 'Last Name', $email_address_column = 'Email Address', $company_column = 'Company', $phone_number_column = 'Phone Number', $additional_1_column = 'Additional 1',$additional_2_column  = 'Additional 2', $additional_3_column = 'Additional 3', $import_list_id;
+    public function import()
+    {
+        $this->validate([
+            'file' => 'required|mimes:csv,txt|max:51200', // File validation
+            'first_name_column' => 'required',
+            // 'last_name_column' => 'required',
+            'phone_number_column' => 'required',
+            // 'email_address_column' => 'required',
+            'company_column' => 'required',
+            // 'additional_1_column' => 'required',
+            // 'additional_2_column' => 'required',
+            // 'additional_3_column' => 'required',
+        ]);
+
+        // Pass the selected column mappings to the import class
+        Excel::import(new ContactsImport([
+            'first_name_column' => $this->first_name_column,
+            'last_name_column' => $this->last_name_column,
+            'phone_number_column' => $this->phone_number_column,
+            'email_address_column' => $this->email_address_column,
+            'company_column' => $this->company_column,
+            'additional_1_column' => $this->additional_1_column,
+            'additional_2_column' => $this->additional_2_column,
+            'additional_3_column' => $this->additional_3_column,
+            'import_list_id' => $this->import_list_id,
+        ]), $this->file);
+
+        $this->dispatch('closeModal');
+        $this->dispatch('success', ['message' => 'Contacts imported successfully.']);
+
+        // Reset the form
+        $this->reset(['file', 'first_name_column', 'last_name_column', 'phone_number_column', 'email_address_column', 'company_column', 'additional_1_column', 'additional_2_column', 'additional_3_column', 'import_list_id']);
+    }
+
 
     public $delete_id, $delete_type;
     public function deleteConfirmation($id, $type)
@@ -295,11 +335,10 @@ class ManageContactsComponent extends Component
             $message = 'Contact deleted successfully';
         }
 
-        $this->dispatch('data_deleted', ['message'=>$message]);
+        $this->dispatch('data_deleted', ['message' => $message]);
         $this->delete_id = '';
         $this->delete_type = '';
     }
-
 
     public function render()
     {
@@ -310,6 +349,8 @@ class ManageContactsComponent extends Component
 
         $contacts = Contact::where('first_name', 'like', '%' . $this->contacts_search_term . '%')->where('user_id', user()->id)->orderBy('id', 'DESC')->get();
 
-        return view('livewire.app.contacts.manage-contacts-component', ['contacts' => $contacts, 'bookmarked_lists' => $bookmarked_lists, 'other_lists' => $other_lists, 'folders' => $folders])->layout('livewire.app.layouts.base');
+        $allLists = ContactList::where('user_id', user()->id)->get();
+
+        return view('livewire.app.contacts.manage-contacts-component', ['contacts' => $contacts, 'bookmarked_lists' => $bookmarked_lists, 'other_lists' => $other_lists, 'folders' => $folders, 'allLists'=>$allLists])->layout('livewire.app.layouts.base');
     }
 }

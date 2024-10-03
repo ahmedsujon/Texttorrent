@@ -2472,7 +2472,7 @@ input[type=number] {
   font-weight: 400 !important;
 }
 
-.common_modal .modal-dialog {
+.common_modal .modal-dialog:not(.modal-xl):not(.modal-lg):not(.modal-sm) {
   max-width: 581px;
 }
 .common_modal .modal-content {
@@ -3139,21 +3139,6 @@ input[type=number] {
 }
 .searchable_select .searchBoxElement li span {
   font-size: 14px;
-}
-.searchable_select .searchBoxElement li:first-child {
-  color: #7b7d85;
-  font-size: 12px;
-  font-style: normal;
-  font-weight: 400;
-  letter-spacing: 0.12px;
-  text-transform: uppercase;
-  pointer-events: none;
-}
-.searchable_select .searchBoxElement li:first-child span {
-  color: #7b7d85;
-  font-size: 12px;
-  font-style: normal;
-  font-weight: 400;
 }
 .searchable_select .searchBoxElement li:not(:first-child).selected {
   background-color: rgba(224, 224, 228, 0.5);
