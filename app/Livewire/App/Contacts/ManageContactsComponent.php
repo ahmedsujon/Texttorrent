@@ -340,6 +340,12 @@ class ManageContactsComponent extends Component
         $this->delete_type = '';
     }
 
+    public $sort_list_id;
+    public function selectList($id)
+    {
+        $this->sort_list_id = $id;
+    }
+
     public function render()
     {
         $bookmarked_lists = ContactList::where('name', 'like', '%' . $this->list_search_term . '%')->where('user_id', user()->id)->where('bookmarked', 1)->get();
@@ -347,7 +353,11 @@ class ManageContactsComponent extends Component
 
         $folders = ContactFolder::where('name', 'like', '%' . $this->folder_search_term . '%')->where('user_id', user()->id)->get();
 
-        $contacts = Contact::where('first_name', 'like', '%' . $this->contacts_search_term . '%')->where('user_id', user()->id)->orderBy('id', 'DESC')->get();
+        $contacts = Contact::where('first_name', 'like', '%' . $this->contacts_search_term . '%')->where('user_id', user()->id)->orderBy('id', 'DESC');
+        if ($this->sort_list_id) {
+            $contacts = $contacts->where('list_id', $this->sort_list_id);
+        }
+        $contacts = $contacts->get();
 
         $allLists = ContactList::where('user_id', user()->id)->get();
 
