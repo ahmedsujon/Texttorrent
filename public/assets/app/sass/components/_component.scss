@@ -217,7 +217,7 @@
     &:hover {
       background-color: rgba($gray-color-7b, 0.4);
     }
-    img{
+    img {
       max-width: 16px;
     }
   }
@@ -721,7 +721,7 @@
 
 //Modal Style
 .common_modal {
-  .modal-dialog {
+  .modal-dialog:not(.modal-xl):not(.modal-lg):not(.modal-sm) {
     max-width: 581px;
   }
   .modal-content {
@@ -1279,22 +1279,22 @@
       span {
         font-size: 14px;
       }
-      &:first-child {
-        color: $gray-color-7b;
-        font-size: 12px;
-        font-style: normal;
-        font-weight: 400;
-        letter-spacing: 0.12px;
-        text-transform: uppercase;
-        pointer-events: none;
+      // &:first-child {
+      //   color: $gray-color-7b;
+      //   font-size: 12px;
+      //   font-style: normal;
+      //   font-weight: 400;
+      //   letter-spacing: 0.12px;
+      //   text-transform: uppercase;
+      //   pointer-events: none;
 
-        span {
-          color: $gray-color-7b;
-          font-size: 12px;
-          font-style: normal;
-          font-weight: 400;
-        }
-      }
+      //   span {
+      //     color: $gray-color-7b;
+      //     font-size: 12px;
+      //     font-style: normal;
+      //     font-weight: 400;
+      //   }
+      // }
       &:not(:first-child) {
         &.selected {
           background-color: rgba($gray-color-e0, 0.5);
@@ -1764,14 +1764,14 @@
     border-radius: 4px;
     box-shadow: 0px 1px 2px 0px rgba(11, 18, 52, 0.15),
       0px 0px 0px 1px rgba(11, 18, 52, 0.1);
+    border: none !important;
+    border-color: transparent !important;
+    &:focus {
       border: none !important;
       border-color: transparent !important;
-      &:focus {
-        border: none !important;
-        border-color: transparent !important;
-        box-shadow: 0px 1px 2px 0px rgba(11, 18, 52, 0.15),
-          0px 0px 0px 1px rgba(11, 18, 52, 0.1) !important;
-      }
+      box-shadow: 0px 1px 2px 0px rgba(11, 18, 52, 0.15),
+        0px 0px 0px 1px rgba(11, 18, 52, 0.1) !important;
+    }
   }
 }
 
