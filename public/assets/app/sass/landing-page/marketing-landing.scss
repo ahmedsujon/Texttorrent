@@ -22,6 +22,9 @@ h4,
 h5 {
   font-family: "DM Sans", sans-serif;
 }
+.overflow-x-hidden{
+  overflow-x: hidden;
+}
 
 .swiper {
   width: 100%;
@@ -448,7 +451,7 @@ h5 {
       border: 1px solid #fff;
       background: transparent;
       &:hover {
-        background: rgba(58, 59, 59, 0.741);
+        background: linear-gradient(to right, #1583f8, #00c9ff);
         img {
           transform: translateX(0px);
           -webkit-transform: translateX(0px);
@@ -1284,8 +1287,10 @@ h5 {
     }
   }
   .menu_list {
+    position: sticky;
+    top: 100px;
     max-height: 720px;
-    padding-right: 8px;
+    padding: 0 8px;
     @include customScrollbarInner();
     overflow-y: auto;
     @include max-media-width(991) {
@@ -1325,11 +1330,11 @@ h5 {
       height: 51px;
       border-radius: 20px;
       background: #e5f9fe;
-      filter: drop-shadow(-2px -2px 6px rgba(0, 0, 0, 0.25))
+      filter: drop-shadow(-2px -2px 4px rgba(0, 0, 0, 0.25))
         drop-shadow(2px 2px 1px rgba(0, 0, 0, 0.25));
-      -webkit-filter: drop-shadow(-2px -2px 6px rgba(0, 0, 0, 0.25))
+      -webkit-filter: drop-shadow(-2px -2px 4px rgba(0, 0, 0, 0.25))
         drop-shadow(2px 2px 1px rgba(0, 0, 0, 0.25));
-
+      @include hover-transition();
       @include media-break-width(768, 991) {
         height: 44px;
         border-radius: 16px;
@@ -1347,9 +1352,9 @@ h5 {
         -o-border-radius: 12px;
       }
       &:hover {
-        filter: drop-shadow(-2px -2px 6px rgba(0, 0, 0, 0.35))
+        filter: drop-shadow(-2px -2px 4px rgba(0, 0, 0, 0.35))
           drop-shadow(2px 2px 1px rgba(0, 0, 0, 0.35));
-        -webkit-filter: drop-shadow(-2px -2px 6px rgba(0, 0, 0, 0.35))
+        -webkit-filter: drop-shadow(-2px -2px 4px rgba(0, 0, 0, 0.35))
           drop-shadow(2px 2px 1px rgba(0, 0, 0, 0.35));
       }
       &.active_list {

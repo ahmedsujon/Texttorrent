@@ -49,7 +49,8 @@
                             @if ($bookmarked_lists->count() > 0)
                                 @foreach ($bookmarked_lists as $bList)
                                     <li>
-                                        <a href="#" class="list_btn">
+                                        <a href="#" wire:click.prevent='selectList({{ $bList->id }})'
+                                            class="list_btn {{ $sort_list_id == $bList->id ? 'active_list_btn' : '' }}">
                                             <span class="list_title">{{ $bList->name }}</span>
                                             <div
                                                 class="list_action_area d-flex align-items-center justify-content-end flex-wrap">
@@ -115,7 +116,8 @@
                             @if ($other_lists->count() > 0)
                                 @foreach ($other_lists as $oList)
                                     <li>
-                                        <a href="#" class="list_btn">
+                                        <a href="#" wire:click.prevent='selectList({{ $oList->id }})'
+                                            class="list_btn {{ $sort_list_id == $oList->id ? 'active_list_btn' : '' }}">
                                             <span class="list_title">{{ $oList->name }}</span>
                                             <div
                                                 class="list_action_area d-flex align-items-center justify-content-end flex-wrap">
@@ -193,6 +195,7 @@
                                     <img src="{{ asset('assets/app/icons/plus-sign-white.svg') }}" alt="plus icon" />
                                     <span>Add contact</span>
                                 </button>
+
                                 <div class="table_dropdown_area">
                                     <div class="dropdown">
                                         <button class="icon_btn" type="button" data-bs-toggle="dropdown"
@@ -231,7 +234,8 @@
                             </div>
                         </div>
                         <form action="" class="search_input_form">
-                            <input type="search" placeholder="Search folder" class="input_field" />
+                            <input type="search" placeholder="Search contacts"
+                                wire:model.live='contacts_search_term' class="input_field" />
                             <button type="submit" class="search_icon">
                                 <img src="{{ asset('assets/app/icons/search-gray.svg') }}" alt="search icon" />
                             </button>
@@ -243,6 +247,13 @@
                             <label class="form-check-label" for="formCheckAll">
                                 Select all contacts
                             </label>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12 text-center">
+                                <span wire:loading
+                                    wire:target='editContact,deleteConfirmation,editList,addRemoveBookmark,list_search_term,contacts_search_term,selectList'><i
+                                        class="fa fa-spinner fa-spin"></i> Processing...</span>
+                            </div>
                         </div>
                         <a href="#" class="import_btn">
                             <img src="{{ asset('assets/app/icons/call-disabled.svg') }}" alt="call disabled" />
@@ -262,8 +273,10 @@
                                         <div>
                                             <h4>{{ $contact->first_name }} {{ $contact->last_name }}</h4>
                                             <div class="d-flex align-items-center flex-wrap gap-1">
-                                                <h5>{{ $contact->number }}</h5>
-                                                <button type="button" class="copy_icon">
+                                                <h5 id="contact_number_{{ $contact->id }}">{{ $contact->number }}
+                                                </h5>
+                                                <button type="button" class="copy_icon"
+                                                    onclick="copyToClipboard({{ $contact->id }})">
                                                     <img src="{{ asset('assets/app/icons/copy-01.svg') }}"
                                                         alt="copy icon" />
                                                 </button>
@@ -272,23 +285,35 @@
                                     </div>
                                     <div
                                         class="list_action_details_area d-flex align-items-center justify-content-end flex-wrap g-sm">
-                                        <button type="button" class="icon_btn" wire:click.prevent='showDetails({{ $contact->id }})'>
-                                            <img src="{{ asset('assets/app/icons/info-02.svg') }}"
-                                                alt="message icon" />
+                                        <button type="button" class="icon_btn"
+                                            wire:click.prevent='showDetails({{ $contact->id }})'
+                                            wire:loading.attr='disabled'>
+                                            {!! loadingStateWithoutText(
+                                                'showDetails(' . $contact->id . ')',
+                                                '<img src="' . asset('assets/app/icons/info-02.svg') . '" alt="message icon" />',
+                                            ) !!}
                                         </button>
-                                        <button type="button" class="icon_btn" data-bs-toggle="modal"
-                                            data-bs-target="#noteModal">
-                                            <img src="{{ asset('assets/app/icons/notebook.svg') }}"
-                                                alt="note icon" />
+                                        <button type="button" class="icon_btn"
+                                            wire:click.prevent='addNoteModal({{ $contact->id }})'
+                                            wire:loading.attr='disabled'>
+                                            {!! loadingStateWithoutText(
+                                                'addNoteModal(' . $contact->id . ')',
+                                                '<img src="' . asset('assets/app/icons/notebook.svg') . '" alt="note icon" />',
+                                            ) !!}
                                         </button>
-                                        <button type="button" class="icon_btn" wire:click.prevent='addFolderModal({{ $contact->id }})'>
-                                            <img src="{{ asset('assets/app/icons/folder-add-02.svg') }}"
-                                                alt="folder add icon" />
+                                        <button type="button" class="icon_btn"
+                                            wire:click.prevent='addFolderModal({{ $contact->id }})'
+                                            wire:loading.attr='disabled'>
+                                            {!! loadingStateWithoutText(
+                                                'addFolderModal(' . $contact->id . ')',
+                                                '<img src="' . asset('assets/app/icons/folder-add-02.svg') . '" alt="folder icon" />',
+                                            ) !!}
                                         </button>
                                         <div class="table_dropdown_area">
                                             <div class="dropdown">
                                                 <button class="icon_btn" type="button" data-bs-toggle="dropdown"
-                                                    aria-expanded="false">
+                                                    aria-expanded="false" wire:loading.attr='disabled'>
+
                                                     <img src="{{ asset('assets/app/icons/dot-horizontal.svg') }}"
                                                         alt="dot icon" />
                                                 </button>
@@ -297,14 +322,17 @@
                                                         <h5>Select</h5>
                                                     </li>
                                                     <li>
-                                                        <button type="button" class="dropdown-item" wire:click.prevent='editContact({{ $contact->id }})'>
+                                                        <button type="button" class="dropdown-item"
+                                                            wire:click.prevent='editContact({{ $contact->id }})'>
                                                             <img src="{{ asset('assets/app/icons/edit-04.svg') }}"
                                                                 alt="edit icon" />
                                                             <span>Edit contact</span>
                                                         </button>
                                                     </li>
                                                     <li>
-                                                        <button type="button" wire:click.prevent='deleteConfirmation({{ $contact->id }}, "contact")' class="dropdown-item">
+                                                        <button type="button"
+                                                            wire:click.prevent='deleteConfirmation({{ $contact->id }}, "contact")'
+                                                            class="dropdown-item">
                                                             <img src="{{ asset('assets/app/icons/delete-03.svg') }}"
                                                                 alt="copy icon" />
                                                             <span>Delete contact</span>
@@ -395,7 +423,7 @@
         <!-- Import Modal  -->
         <div wire:ignore.self class="modal fade common_modal contact_import_modal" id="importModal" tabindex="-1"
             aria-labelledby="importFileModal" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+            <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-xl">
                 <div class="modal-content">
                     <div class="modal-header">
                         <h1 class="modal-title fs-5" id="importFileModal">
@@ -405,112 +433,150 @@
                             aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
-                        <form action="" class="event_form_area">
-                            <div class="file_upload_area mb-2">
+                        {{-- <form class="mb-5" wire:submit.prevent="uploadFile" x-data="{ progress: 0, uploadedSize: 0, totalSize: 0 }"
+                            x-on:livewire-upload-start="progress = 0"
+                            x-on:livewire-upload-progress="progress = $event.detail.progress; uploadedSize = (progress / 100 * totalSize).toFixed(2)"
+                            x-on:livewire-upload-finish="progress = 100" x-on:livewire-upload-error="progress = 0"
+                            x-on:livewire-upload-finish="uploadedSize = totalSize">
+
+                            <!-- File Upload Area -->
+                            <label for="contactUploadImage" class="d-flex file_upload_area mb-2 w-100">
                                 <div class="import_icon">
                                     <img src="{{ asset('assets/app/icons/import.svg') }}" alt="import icon" />
                                 </div>
                                 <h4><span>Click to upload</span> or drag and drop</h4>
                                 <h5>Headers are mandatory (max. limit of contacts 10,000)</h5>
-                            </div>
-                            <div class="uploading_status_area mb-2">
-                                <button type="button" class="close_btn">
-                                    <img src="{{ asset('assets/app/icons/close.svg') }}" alt="close icon" />
-                                </button>
+                            </label>
 
+                            <!-- File Input -->
+                            <input type="file" id="contactUploadImage" wire:model="file"
+                                x-on:change="totalSize = ($event.target.files[0].size / 1024 / 1024).toFixed(2)"
+                                class="position-absolute opacity-0 visually-hidden" />
+
+                            <!-- Error Message -->
+                            @error('file')
+                                <p class="text-danger" style="font-size: 12.5px;">{{ $message }}</p>
+                            @enderror
+
+                            @if (!$file)
+                            <div class="uploading_status_area mb-2" x-show="progress > 0">
+                                <!-- File Name and Upload Info -->
                                 <div class="file_name_grid">
-                                    <img src="{{ asset('assets/app/icons/bi_filetype-csv.svg') }}" alt="mp3" />
+                                    <img src="{{ asset('assets/app/icons/bi_filetype-csv.svg') }}" alt="csv" />
                                     <div>
-                                        <h4>Uploading...</h4>
-                                        <h5>7/16 MB</h5>
+                                        <h4 x-show="progress > 0">Uploading...</h4>
+                                        <h5 x-text="`${uploadedSize}/${totalSize} MB`"></h5>
                                     </div>
                                 </div>
+
+                                <!-- Progress Bar -->
                                 <div class="progress_grid">
-                                    <div class="progress" role="progressbar" aria-label="Basic example"
-                                        aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">
-                                        <div class="progress-bar" style="width: 40%"></div>
+                                    <div class="progress" style="height: 15px;">
+                                        <div class="progress-bar progress-bar-animated" role="progressbar"
+                                            :style="`width: ${progress}%`" aria-valuenow="progress" aria-valuemin="0"
+                                            aria-valuemax="100">
+                                        </div>
                                     </div>
-                                    <div class="number">40%</div>
+                                    <div x-text="`${progress}%`" class="number"></div>
                                 </div>
                             </div>
-                            <div class="uploading_status_area">
-                                <button type="button" class="close_btn">
-                                    <img src="{{ asset('assets/app/icons/delete-01.svg') }}" alt="delete icon" />
-                                </button>
-                                <div class="file_name_grid">
-                                    <img src="{{ asset('assets/app/icons/bi_filetype-csv.svg') }}" alt="mp3" />
-                                    <div>
-                                        <h4>my-cv.csv</h4>
-                                        <div class="complete_status">
-                                            <div class="circle">
-                                                <img src="{{ asset('assets/app/icons/tick-circle.svg') }}"
-                                                    alt="track icon" />
+                            @endif
+
+                            <div wire:loading wire:target='file' wire:key='file'>
+                                <i class="fa fa-spinner fa-spin"></i> Uploading...
+                            </div>
+
+                            @if ($file)
+                                <div class="uploading_status_area">
+                                    <button type="button" class="close_btn" wire:click.prevent='resetUpload'>
+                                        <img src="{{ asset('assets/app/icons/delete-01.svg') }}" alt="delete icon" />
+                                    </button>
+                                    <div class="file_name_grid">
+                                        <img src="{{ asset('assets/app/icons/bi_filetype-csv.svg') }}" alt="csv" />
+                                        <div>
+                                            <h4>{{ $file->getClientOriginalName() }}</h4>
+                                            <div class="complete_status">
+                                                <div class="circle">
+                                                    <img src="{{ asset('assets/app/icons/tick-circle.svg') }}" alt="track icon" />
+                                                </div>
+                                                <h5>Completed</h5>
                                             </div>
-                                            <h5>Completed</h5>
                                         </div>
                                     </div>
                                 </div>
+                            @endif
+                        </form> --}}
+
+                        <form action="" class="event_form_area">
+                            <label for="contactUploadImage" class="d-flex file_upload_area w-100">
+                                <div class="import_icon">
+                                    <img src="{{ asset('assets/app/icons/import.svg') }}" alt="import icon" />
+                                </div>
+                                <h4><span>Click to upload</span> or drag and drop</h4>
+                                <h5>Headers are mandatory (max. limit of contacts 10,000)</h5>
+                            </label>
+
+                            <!-- File Input -->
+                            <input type="file" id="contactUploadImage" accept=".csv,.xlsx" wire:model="file"
+                                x-on:change="totalSize = ($event.target.files[0].size / 1024 / 1024).toFixed(2)"
+                                class="position-absolute opacity-0 visually-hidden" />
+
+                            <!-- Error Message -->
+                            @error('file')
+                                <p class="text-danger" style="font-size: 12.5px;">{{ $message }}</p>
+                            @enderror
+
+                            <div wire:loading wire:target='file' wire:key='file' style="font-size: 15px;">
+                                <i class="fa fa-spinner fa-spin"></i> Uploading...
                             </div>
 
-                            <div class="two_grid">
+                            @if ($file)
+                                <div class="uploading_status_area mb-5">
+                                    <button type="button" class="close_btn" wire:click.prevent='resetUpload'>
+                                        <img src="{{ asset('assets/app/icons/delete-01.svg') }}" alt="delete icon" />
+                                    </button>
+                                    <div class="file_name_grid">
+                                        <img src="{{ asset('assets/app/icons/bi_filetype-csv.svg') }}"
+                                            alt="csv" />
+                                        <div>
+                                            <h4>{{ $file->getClientOriginalName() }}</h4>
+                                            <div class="complete_status">
+                                                <div class="circle">
+                                                    <img src="{{ asset('assets/app/icons/tick-circle.svg') }}"
+                                                        alt="track icon" />
+                                                </div>
+                                                <h5>Completed</h5>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            @endif
+
+                            <div class="two_grid mt-3">
                                 <div class="input_row searchable_select">
-                                    <label for="">First name column <span class="star">*</span>
+                                    <label for="">First Name Column <span class="star">*</span>
                                     </label>
-                                    <select name="lang" class="js-searchBox">
-                                        <option value="">Select</option>
-                                        <option value="1">Business Name</option>
-                                        <option value="2">First Name</option>
-                                        <option value="3">Last Name</option>
-                                        <option value="4">Phone</option>
-                                        <option value="5">Line Type</option>
-                                        <option value="6">Carrier</option>
+                                    <select name="lang" class="form-control" wire:model.blur='first_name_column'>
+                                        <option value="">Select Column</option>
+                                        <option value="First Name">First Name</option>
+                                        <option value="Last Name">Last Name</option>
+                                        <option value="Email Address">Email Address</option>
+                                        <option value="Company">Company</option>
+                                        <option value="Phone Number">Phone Number</option>
                                     </select>
                                     <img src="{{ asset('assets/app/icons/arrow-down.svg') }}" alt="down arrow"
                                         class="down_arrow" />
                                 </div>
                                 <div class="input_row searchable_select">
-                                    <label for="">First name column <span class="star">*</span>
+                                    <label for="">Last Name Column
                                     </label>
-                                    <select name="lang" class="js-searchBox">
-                                        <option value="">Last name column</option>
-                                        <option value="1">Business Name</option>
-                                        <option value="2">First Name</option>
-                                        <option value="3">Last Name</option>
-                                        <option value="4">Phone</option>
-                                        <option value="5">Line Type</option>
-                                        <option value="6">Carrier</option>
-                                    </select>
-                                    <img src="{{ asset('assets/app/icons/arrow-down.svg') }}" alt="down arrow"
-                                        class="down_arrow" />
-                                </div>
-                            </div>
-                            <div class="two_grid">
-                                <div class="input_row searchable_select">
-                                    <label for="">Phone number column <span class="star">*</span>
-                                    </label>
-                                    <select name="lang" class="js-searchBox">
-                                        <option value="">Select</option>
-                                        <option value="1">Business Name</option>
-                                        <option value="2">First Name</option>
-                                        <option value="3">Last Name</option>
-                                        <option value="4">Phone</option>
-                                        <option value="5">Line Type</option>
-                                        <option value="6">Carrier</option>
-                                    </select>
-                                    <img src="{{ asset('assets/app/icons/arrow-down.svg') }}" alt="down arrow"
-                                        class="down_arrow" />
-                                </div>
-                                <div class="input_row searchable_select">
-                                    <label for="">Email address column<span class="star">*</span>
-                                    </label>
-                                    <select name="lang" class="js-searchBox">
-                                        <option value="">Last name column</option>
-                                        <option value="1">Business Name</option>
-                                        <option value="2">First Name</option>
-                                        <option value="3">Last Name</option>
-                                        <option value="4">Phone</option>
-                                        <option value="5">Line Type</option>
-                                        <option value="6">Carrier</option>
+                                    <select name="lang" class="form-control" wire:model.blur='last_name_column'>
+                                        <option value="">Select Column</option>
+                                        <option value="First Name">First Name</option>
+                                        <option value="Last Name">Last Name</option>
+                                        <option value="Email Address">Email Address</option>
+                                        <option value="Company">Company</option>
+                                        <option value="Phone Number">Phone Number</option>
                                     </select>
                                     <img src="{{ asset('assets/app/icons/arrow-down.svg') }}" alt="down arrow"
                                         class="down_arrow" />
@@ -518,44 +584,99 @@
                             </div>
                             <div class="two_grid">
                                 <div class="input_row searchable_select">
-                                    <label for="">Company column<span class="star">*</span>
+                                    <label for="">Email Address Column
                                     </label>
-                                    <select name="lang" class="js-searchBox">
-                                        <option value="">Select</option>
-                                        <option value="1">Business Name</option>
-                                        <option value="2">First Name</option>
-                                        <option value="3">Last Name</option>
-                                        <option value="4">Phone</option>
-                                        <option value="5">Line Type</option>
-                                        <option value="6">Carrier</option>
+                                    <select name="lang" class="form-control"
+                                        wire:model.blur='email_address_column'>
+                                        <option value="">Select Column</option>
+                                        <option value="First Name">First Name</option>
+                                        <option value="Last Name">Last Name</option>
+                                        <option value="Email Address">Email Address</option>
+                                        <option value="Company">Company</option>
+                                        <option value="Phone Number">Phone Number</option>
                                     </select>
                                     <img src="{{ asset('assets/app/icons/arrow-down.svg') }}" alt="down arrow"
                                         class="down_arrow" />
                                 </div>
                                 <div class="input_row searchable_select">
-                                    <label for="">Additional fields <span class="star">*</span>
+                                    <label for="">Company Column <span class="star">*</span>
                                     </label>
-                                    <select name="lang" class="js-searchBox">
-                                        <option value="">Last name column</option>
-                                        <option value="1">Business Name</option>
-                                        <option value="2">First Name</option>
-                                        <option value="3">Last Name</option>
-                                        <option value="4">Phone</option>
-                                        <option value="5">Line Type</option>
-                                        <option value="6">Carrier</option>
+                                    <select name="lang" class="form-control" wire:model.blur='company_column'>
+                                        <option value="">Select Column</option>
+                                        <option value="First Name">First Name</option>
+                                        <option value="Last Name">Last Name</option>
+                                        <option value="Email Address">Email Address</option>
+                                        <option value="Company">Company</option>
+                                        <option value="Phone Number">Phone Number</option>
                                     </select>
                                     <img src="{{ asset('assets/app/icons/arrow-down.svg') }}" alt="down arrow"
                                         class="down_arrow" />
                                 </div>
                             </div>
                             <div class="input_row searchable_select">
-                                <label for="">Import list into </label>
-                                <select name="lang" class="js-searchBox">
+                                <label for="">Phone Number Column <span class="star">*</span>
+                                </label>
+                                <select name="lang" class="form-control" wire:model.blur='phone_number_column'>
+                                    <option value="">Select Column</option>
+                                    <option value="First Name">First Name</option>
+                                    <option value="Last Name">Last Name</option>
+                                    <option value="Email Address">Email Address</option>
+                                    <option value="Company">Company</option>
+                                    <option value="Phone Number">Phone Number</option>
+                                </select>
+                                <img src="{{ asset('assets/app/icons/arrow-down.svg') }}" alt="down arrow"
+                                    class="down_arrow" />
+                            </div>
+
+                            <div class="row">
+                                <div class="input_row searchable_select col-md-4">
+                                    <label for="">Additional Data 1 Column
+                                    </label>
+                                    <select name="lang" class="form-control"
+                                        wire:model.blur='additional_1_column'>
+                                        <option value="">Select Column</option>
+                                        <option value="Additional 1">Additional 1</option>
+                                        <option value="Additional 2">Additional 2</option>
+                                        <option value="Additional 3">Additional 3</option>
+                                    </select>
+                                    <img src="{{ asset('assets/app/icons/arrow-down.svg') }}" alt="down arrow"
+                                        class="down_arrow" />
+                                </div>
+                                <div class="input_row searchable_select col-md-4">
+                                    <label for="">Additional Data 2 Column
+                                    </label>
+                                    <select name="lang" class="form-control"
+                                        wire:model.blur='additional_2_column'>
+                                        <option value="">Select Column</option>
+                                        <option value="Additional 1">Additional 1</option>
+                                        <option value="Additional 2">Additional 2</option>
+                                        <option value="Additional 3">Additional 3</option>
+                                    </select>
+                                    <img src="{{ asset('assets/app/icons/arrow-down.svg') }}" alt="down arrow"
+                                        class="down_arrow" />
+                                </div>
+                                <div class="input_row searchable_select col-md-4">
+                                    <label for="">Additional Data 3 Column
+                                    </label>
+                                    <select name="lang" class="form-control"
+                                        wire:model.blur='additional_3_column'>
+                                        <option value="">Select Column</option>
+                                        <option value="Additional 1">Additional 1</option>
+                                        <option value="Additional 2">Additional 2</option>
+                                        <option value="Additional 3">Additional 3</option>
+                                    </select>
+                                    <img src="{{ asset('assets/app/icons/arrow-down.svg') }}" alt="down arrow"
+                                        class="down_arrow" />
+                                </div>
+                            </div>
+
+                            <div class="input_row searchable_select" wire:ignore>
+                                <label for="">Import List Into </label>
+                                <select name="lang" class="js-searchBox js-searchBox-file-select">
                                     <option value="">Select</option>
-                                    <option value="1">8/8/24</option>
-                                    <option value="2">28/8/24</option>
-                                    <option value="3">18/8/24</option>
-                                    <option value="4">20/8/24</option>
+                                    @foreach ($allLists as $lItem)
+                                        <option value="{{ $lItem->id }}">{{ $lItem->name }}</option>
+                                    @endforeach
                                 </select>
                                 <img src="{{ asset('assets/app/icons/arrow-down.svg') }}" alt="down arrow"
                                     class="down_arrow" />
@@ -566,7 +687,9 @@
                         <button type="button" class="cancel_btn" data-bs-dismiss="modal">
                             Cancel
                         </button>
-                        <button type="button" class="create_event_btn">Submit</button>
+                        <button type="button" class="create_event_btn" wire:click.prevent='import'>
+                            {!! loadingStateWithText('import', 'Submit') !!}
+                        </button>
                     </div>
                 </div>
             </div>
@@ -606,7 +729,8 @@
                                 <label for="">Mobile number</label>
                                 <div class="input-group">
                                     <span class="input-group-text" id="basic-addon1">+1</span>
-                                    <input id="tel-input" type="tel" class="form-control" wire:model.blur='mobile_number' placeholder="xxx-xxx-xxxx" maxlength="12"/>
+                                    <input id="tel-input" type="tel" class="form-control"
+                                        wire:model.blur='mobile_number' placeholder="xxx-xxx-xxxx" maxlength="12" />
                                 </div>
                                 @error('mobile_number')
                                     <p class="text-danger" style="font-size: 12.5px;">{{ $message }}</p>
@@ -635,8 +759,8 @@
         </div>
 
         <!-- Edit Contact Modal  -->
-        <div wire:ignore.self class="modal fade common_modal" id="contactEditModal" tabindex="-1" aria-labelledby="editContactModal"
-            aria-hidden="true">
+        <div wire:ignore.self class="modal fade common_modal" id="contactEditModal" tabindex="-1"
+            aria-labelledby="editContactModal" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -670,7 +794,8 @@
                                 <label for="">Mobile number</label>
                                 <div class="input-group">
                                     <span class="input-group-text" id="basic-addon1">+1</span>
-                                    <input id="tel-input-edit" type="tel" class="form-control" wire:model.blur='mobile_number' placeholder="xxx-xxx-xxxx" maxlength="12"/>
+                                    <input id="tel-input-edit" type="tel" class="form-control"
+                                        wire:model.blur='mobile_number' placeholder="xxx-xxx-xxxx" maxlength="12" />
                                 </div>
                                 @error('mobile_number')
                                     <p class="text-danger" style="font-size: 12.5px;">{{ $message }}</p>
@@ -715,11 +840,14 @@
                                     <img src="{{ asset('assets/app/images/inbox/user_main.png') }}" alt="user image"
                                         class="user_top_img" />
                                     <div>
-                                        <h4>{{ $numberDetails->first_name ? $numberDetails->first_name : '---' }} {{ $numberDetails->last_name ? $numberDetails->last_name : '' }}</h4>
+                                        <h4>{{ $numberDetails->first_name ? $numberDetails->first_name : '---' }}
+                                            {{ $numberDetails->last_name ? $numberDetails->last_name : '' }}</h4>
                                         <div class="d-flex align-items-center flex-wrap gap-1">
-                                            <h5>{{ $numberDetails->number ? $numberDetails->number : '---' }}</h5>
-                                            <button type="button" class="copy_icon">
-                                                <img src="{{ asset('assets/app/icons/copy-01.svg') }}" alt="copy icon" />
+
+                                            <h5 id="contact_number_details_{{ $numberDetails->id }}">{{ $numberDetails->number ? $numberDetails->number : '---' }}</h5>
+                                            <button type="button" class="copy_icon" onclick="copyToClipboardDetails({{ $numberDetails->id }})">
+                                                <img src="{{ asset('assets/app/icons/copy-01.svg') }}"
+                                                    alt="copy icon" />
                                             </button>
                                         </div>
                                     </div>
@@ -731,7 +859,8 @@
                                         </div>
                                         <div>
                                             <h4>Name</h4>
-                                            <h5>{{ $numberDetails->first_name ? $numberDetails->first_name : '---' }} {{ $numberDetails->last_name ? $numberDetails->last_name : '' }}</h5>
+                                            <h5>{{ $numberDetails->first_name ? $numberDetails->first_name : '---' }}
+                                                {{ $numberDetails->last_name ? $numberDetails->last_name : '' }}</h5>
                                         </div>
                                     </div>
                                     <div class="user_info_grid">
@@ -746,16 +875,19 @@
                                     </div>
                                     <div class="user_info_grid">
                                         <div class="icon">
-                                            <img src="{{ asset('assets/app/icons/contact.svg') }}" alt="building icon" />
+                                            <img src="{{ asset('assets/app/icons/contact.svg') }}"
+                                                alt="building icon" />
                                         </div>
                                         <div>
                                             <h4>Contact list</h4>
-                                            <h5>{{ $numberDetails->list_id ? getListByID($numberDetails->list_id)->name : '---' }}</h5>
+                                            <h5>{{ $numberDetails->list_id && isset(getListByID($numberDetails->list_id)->name) ? getListByID($numberDetails->list_id)->name : '---' }}
+                                            </h5>
                                         </div>
                                     </div>
                                     <div class="user_info_grid">
                                         <div class="icon">
-                                            <img src="{{ asset('assets/app/icons/call.svg') }}" alt="building icon" />
+                                            <img src="{{ asset('assets/app/icons/call.svg') }}"
+                                                alt="building icon" />
                                         </div>
                                         <div>
                                             <h4>Phone:</h4>
@@ -768,7 +900,8 @@
                                         </div>
                                         <div>
                                             <h4>Email:</h4>
-                                            <h5 class="word-break-all">{{ $numberDetails->email ? $numberDetails->email : '---' }}</h5>
+                                            <h5 class="word-break-all">
+                                                {{ $numberDetails->email ? $numberDetails->email : '---' }}</h5>
                                         </div>
                                     </div>
                                     <div class="user_info_grid">
@@ -787,7 +920,13 @@
                                         </div>
                                         <div>
                                             <h4>Notes</h4>
-                                            <h5>{{ $numberDetails->note ? $numberDetails->note : '---' }}</h5>
+                                            @if ($numberDetails->notes)
+                                                @foreach ($numberDetails->notes as $note)
+                                                    <p>{{ $note->note }}</p> <br>
+                                                @endforeach
+                                            @else
+                                                <p>---</p>
+                                            @endif
                                         </div>
                                     </div>
                                 </div>
@@ -805,8 +944,8 @@
         </div>
 
         <!-- New Note Modal  -->
-        <div class="modal fade common_modal" id="noteModal" tabindex="-1" aria-labelledby="newNoteModal"
-            aria-hidden="true">
+        <div wire:ignore.self class="modal fade common_modal" id="noteModal" tabindex="-1"
+            aria-labelledby="newNoteModal" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -829,7 +968,11 @@
                                                 alt="link" />
                                         </button>
                                     </div>
-                                    <textarea name="" rows="10" id="noteWriteArea" class="input_field" placeholder="Write a note..."></textarea>
+                                    <textarea name="" rows="10" id="noteWriteArea" wire:model.blur='note' class="input_field"
+                                        placeholder="Write a note..."></textarea>
+                                    @error('note')
+                                        <p class="text-danger" style="font-size: 12.5px;">{{ $message }}</p>
+                                    @enderror
                                 </div>
                             </div>
                         </form>
@@ -838,7 +981,9 @@
                         <button type="button" class="cancel_btn" data-bs-dismiss="modal">
                             Cancel
                         </button>
-                        <button type="button" class="create_event_btn">Submit</button>
+                        <button type="button" class="create_event_btn" wire:click.prevent='addNote'>
+                            {!! loadingStateWithText('addNote', 'Save') !!}
+                        </button>
                     </div>
                 </div>
             </div>
@@ -860,7 +1005,8 @@
                     <div class="modal-body">
                         <div class="folder_area">
                             <form action="" class="search_input_form">
-                                <input type="search" placeholder="Search folder" wire:model.live='folder_search_term' class="input_field" />
+                                <input type="search" placeholder="Search folder"
+                                    wire:model.live='folder_search_term' class="input_field" />
                                 <button type="submit" class="search_icon">
                                     <img src="{{ asset('assets/app/icons/search-gray.svg') }}" alt="search icon" />
                                 </button>
@@ -869,27 +1015,33 @@
                             <div class="folder_list_area">
                                 @if ($folders->count() > 0)
                                     @foreach ($folders as $folder)
-                                    <div class="folder_list_item">
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="radio" wire:model.live='folder_id' value="{{ $folder->id }}" name="folderRadioInput"
-                                                id="folderRadioInput{{ $folder->id }}" />
-                                            <label class="form-check-label" for="folderRadioInput{{ $folder->id }}">
-                                                {{ $folder->name }}
-                                            </label>
+                                        <div class="folder_list_item">
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="radio"
+                                                    wire:model.live='folder_id' value="{{ $folder->id }}"
+                                                    name="folderRadioInput"
+                                                    id="folderRadioInput{{ $folder->id }}" />
+                                                <label class="form-check-label"
+                                                    for="folderRadioInput{{ $folder->id }}">
+                                                    {{ $folder->name }}
+                                                </label>
+                                            </div>
+                                            <div class="d-flex align-items-center justify-content-end flex-wrap gap-1">
+                                                <button type="button" class="edit_folder_btn"
+                                                    wire:click.prevent='editFolder({{ $folder->id }})'>
+                                                    <img src="{{ asset('assets/app/icons/edit-03.svg') }}"
+                                                        alt="edit icon" />
+                                                </button>
+                                                <button type="button"
+                                                    wire:click.prevent='deleteConfirmation({{ $folder->id }}, "folder")'
+                                                    class="edit_folder_btn">
+                                                    <img src="{{ asset('assets/app/icons/delete-03.svg') }}"
+                                                        alt="delete icon" />
+                                                </button>
+                                            </div>
                                         </div>
-                                        <div class="d-flex align-items-center justify-content-end flex-wrap gap-1">
-                                            <button type="button" class="edit_folder_btn" wire:click.prevent='editFolder({{ $folder->id }})'>
-                                                <img src="{{ asset('assets/app/icons/edit-03.svg') }}" alt="edit icon" />
-                                            </button>
-                                            <button type="button" wire:click.prevent='deleteConfirmation({{ $folder->id }}, "folder")' class="edit_folder_btn">
-                                                <img src="{{ asset('assets/app/icons/delete-03.svg') }}"
-                                                    alt="delete icon" />
-                                            </button>
-                                        </div>
-                                    </div>
                                     @endforeach
                                 @else
-
                                 @endif
                             </div>
                             @error('folder_id')
@@ -906,8 +1058,12 @@
                         <button type="button" class="cancel_btn" data-bs-dismiss="modal">
                             Cancel
                         </button>
-                        <button type="button" wire:click.prevent='addToFolder' class="create_event_btn d-flex align-items-center justify-content-center flex-wrap gap-1">
-                            {!! loadingStateWithoutText('addToFolder', '<img src="'.asset("assets/app/icons/save.svg").'" alt="save icon" class="save_icon" />') !!} Save
+                        <button type="button" wire:click.prevent='addToFolder'
+                            class="create_event_btn d-flex align-items-center justify-content-center flex-wrap gap-1">
+                            {!! loadingStateWithoutText(
+                                'addToFolder',
+                                '<img src="' . asset('assets/app/icons/save.svg') . '" alt="save icon" class="save_icon" />',
+                            ) !!} Save
                         </button>
                     </div>
                 </div>
@@ -937,7 +1093,8 @@
                             <div class="input_row">
                                 <label for="">Folder Name</label>
                                 <div class="input_arae">
-                                    <input type="text" placeholder="Enter folder name" wire:model.blur='folder_name' class="input_field" />
+                                    <input type="text" placeholder="Enter folder name"
+                                        wire:model.blur='folder_name' class="input_field" />
                                     <img src="{{ asset('assets/app/icons/folder-01.png') }}" alt="folder icon"
                                         class="folder_icon" />
                                 </div>
@@ -952,7 +1109,8 @@
                             data-bs-toggle="modal">
                             Cancel
                         </button>
-                        <button type="button" class="create_event_btn" wire:click='createFolder'>{!! loadingStateWithText('createFolder', 'Save') !!}</button>
+                        <button type="button" class="create_event_btn"
+                            wire:click='createFolder'>{!! loadingStateWithText('createFolder', 'Save') !!}</button>
                     </div>
                 </div>
             </div>
@@ -981,7 +1139,8 @@
                             <div class="input_row">
                                 <label for="">Folder Name</label>
                                 <div class="input_arae">
-                                    <input type="text" placeholder="Enter folder name" wire:model.blur='folder_name' class="input_field" />
+                                    <input type="text" placeholder="Enter folder name"
+                                        wire:model.blur='folder_name' class="input_field" />
                                     <img src="{{ asset('assets/app/icons/folder-01.png') }}" alt="folder icon"
                                         class="folder_icon" />
                                 </div>
@@ -996,7 +1155,8 @@
                             data-bs-toggle="modal">
                             Cancel
                         </button>
-                        <button type="button" class="create_event_btn" wire:click='updateFolder'>{!! loadingStateWithText('updateFolder', 'Save') !!}</button>
+                        <button type="button" class="create_event_btn"
+                            wire:click='updateFolder'>{!! loadingStateWithText('updateFolder', 'Save') !!}</button>
                     </div>
                 </div>
             </div>
@@ -1031,6 +1191,27 @@
     </main>
 </div>
 @push('scripts')
+    <!-- Include Alpine.js for reactive progress bar handling -->
+    <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <script>
+        function copyToClipboard(contact_id) {
+            const text = document.getElementById('contact_number_'+contact_id).innerText;
+            navigator.clipboard.writeText(text).then(function() {
+                successMsg('Number copied successfully');
+            }, function(err) {
+                console.log(err);
+            });
+        }
+
+        function copyToClipboardDetails(contact_id) {
+            const text = document.getElementById('contact_number_details_'+contact_id).innerText;
+            navigator.clipboard.writeText(text).then(function() {
+                successMsg('Number copied successfully');
+            }, function(err) {
+                console.log(err);
+            });
+        }
+    </script>
     <script>
         document.addEventListener("DOMContentLoaded", () => {
             const input = document.querySelector("#tel-input");
@@ -1052,6 +1233,13 @@
     </script>
     <script>
         $(document).ready(function() {
+
+            $('.js-searchBox-file-select').on('change', function() {
+                var data = $(this).val();
+
+                @this.set('import_list_id', data);
+            });
+
             window.addEventListener('showListEditModal', event => {
                 $('#editListModal').modal('show');
             });
@@ -1068,6 +1256,10 @@
                 $('#folderToggleModal').modal('show');
             });
 
+            window.addEventListener('showNoteAddModal', event => {
+                $('#noteModal').modal('show');
+            });
+
             window.addEventListener('showFolderEditModal', event => {
                 $('#folderToggleModal').modal('hide');
                 setTimeout(() => {
@@ -1080,6 +1272,10 @@
                 setTimeout(() => {
                     $('#folderToggleModal').modal('show');
                 }, 100);
+            });
+
+            window.addEventListener('noteAdded', event => {
+                $('#noteModal').modal('hide');
             });
 
             window.addEventListener('folderUpdated', event => {
@@ -1095,6 +1291,7 @@
                 $('#contactModal').modal('hide');
                 $('#contactEditModal').modal('hide');
                 $('#folderToggleModal').modal('hide');
+                $('#importModal').modal('hide');
             });
 
             window.addEventListener('data_deleted', event => {
