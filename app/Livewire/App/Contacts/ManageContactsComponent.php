@@ -2,6 +2,7 @@
 
 namespace App\Livewire\App\Contacts;
 
+use App\Exports\ContactsExport;
 use App\Imports\ContactsImport;
 use App\Models\Contact;
 use App\Models\ContactFolder;
@@ -378,6 +379,15 @@ class ManageContactsComponent extends Component
     public function selectList($id)
     {
         $this->sort_list_id = $id;
+    }
+
+    public function exportContacts()
+    {
+        if (!$this->contact_checkbox) {
+            $this->dispatch('error', ['message' => 'Select contacts first']);
+        } else {
+            return Excel::download(new ContactsExport(['selectedContacts'=>$this->contact_checkbox]), 'contacts.csv');
+        }
     }
 
 

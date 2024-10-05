@@ -215,7 +215,7 @@
                                                 </button>
                                             </li>
                                             <li>
-                                                <button type="button" class="dropdown-item">
+                                                <button type="button" class="dropdown-item" wire:click.prevent='exportContacts'>
                                                     <img src="{{ asset('assets/app/icons/cloud-download.svg') }}"
                                                         alt="export icon" />
                                                     <span>Export contact list</span>
@@ -251,7 +251,7 @@
                         <div class="row">
                             <div class="col-md-12 text-center">
                                 <span wire:loading
-                                    wire:target='editContact,deleteConfirmation,editList,addRemoveBookmark,list_search_term,contacts_search_term,selectList,deleteAllContacts'><i
+                                    wire:target='editContact,deleteConfirmation,editList,addRemoveBookmark,list_search_term,contacts_search_term,selectList,deleteAllContacts,exportContacts'><i
                                         class="fa fa-spinner fa-spin"></i> Processing...</span>
                             </div>
                         </div>
