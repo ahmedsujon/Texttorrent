@@ -2,13 +2,13 @@
 
 namespace App\Livewire\App\Contacts;
 
+use App\Imports\ContactsImport;
 use App\Models\Contact;
-use Livewire\Component;
+use App\Models\ContactFolder;
 use App\Models\ContactList;
 use App\Models\ContactNote;
-use App\Models\ContactFolder;
+use Livewire\Component;
 use Livewire\WithFileUploads;
-use App\Imports\ContactsImport;
 use Maatwebsite\Excel\Facades\Excel;
 
 class ManageContactsComponent extends Component
@@ -240,7 +240,7 @@ class ManageContactsComponent extends Component
         $this->dispatch('success', ['message' => 'Note added successfully']);
     }
 
-     // public $progress = 0;
+    // public $progress = 0;
     // public $uploadedSize = 0;
     // public $totalSize = 0;
 
@@ -268,7 +268,7 @@ class ManageContactsComponent extends Component
         return $headers;
     }
 
-    public $first_name_column = 'First Name', $last_name_column = 'Last Name', $email_address_column = 'Email Address', $company_column = 'Company', $phone_number_column = 'Phone Number', $additional_1_column = 'Additional 1',$additional_2_column  = 'Additional 2', $additional_3_column = 'Additional 3', $import_list_id;
+    public $first_name_column = 'First Name', $last_name_column = 'Last Name', $email_address_column = 'Email Address', $company_column = 'Company', $phone_number_column = 'Phone Number', $additional_1_column = 'Additional 1', $additional_2_column = 'Additional 2', $additional_3_column = 'Additional 3', $import_list_id;
     public function import()
     {
         $this->validate([
@@ -303,13 +303,32 @@ class ManageContactsComponent extends Component
         $this->reset(['file', 'first_name_column', 'last_name_column', 'phone_number_column', 'email_address_column', 'company_column', 'additional_1_column', 'additional_2_column', 'additional_3_column', 'import_list_id']);
     }
 
+    public $contact_checkbox = [], $contactIDs, $check_all;
+    public function selectAll()
+    {
+        if ($this->check_all) {
+            $this->contact_checkbox = $this->contactIDs;
+        } else {
+            $this->contact_checkbox = [];
+        }
+    }
 
     public $delete_id, $delete_type;
     public function deleteConfirmation($id, $type)
     {
-        $this->delete_id = $id;
-        $this->delete_type = $type;
-        $this->dispatch('show_delete_confirmation');
+        if ($type == 'bulk_delete_contact') {
+            if (!$this->contact_checkbox) {
+                $this->dispatch('error', ['message' => 'Select contacts first']);
+            } else {
+                $this->delete_type = $type;
+                $this->dispatch('show_delete_confirmation');
+            }
+        } else {
+            $this->delete_id = $id;
+            $this->delete_type = $type;
+            $this->dispatch('show_delete_confirmation');
+        }
+
     }
 
     public function deleteData()
@@ -335,6 +354,21 @@ class ManageContactsComponent extends Component
             $message = 'Contact deleted successfully';
         }
 
+        if ($this->delete_type == 'bulk_delete_contact') {
+            if (!$this->contact_checkbox) {
+                $this->dispatch('error', ['message' => 'Select contacts first']);
+            } else {
+                foreach ($this->contact_checkbox as $key => $chkId) {
+                    $data = Contact::where('id', $chkId)->first();
+                    $data->delete();
+                }
+
+                $message = 'Contacts deleted successfully';
+                $this->contact_checkbox = [];
+                $this->check_all = false;
+            }
+        }
+
         $this->dispatch('data_deleted', ['message' => $message]);
         $this->delete_id = '';
         $this->delete_type = '';
@@ -345,6 +379,7 @@ class ManageContactsComponent extends Component
     {
         $this->sort_list_id = $id;
     }
+
 
     public function render()
     {
@@ -361,6 +396,8 @@ class ManageContactsComponent extends Component
 
         $allLists = ContactList::where('user_id', user()->id)->get();
 
-        return view('livewire.app.contacts.manage-contacts-component', ['contacts' => $contacts, 'bookmarked_lists' => $bookmarked_lists, 'other_lists' => $other_lists, 'folders' => $folders, 'allLists'=>$allLists])->layout('livewire.app.layouts.base');
+        $this->contactIDs = $contacts->pluck('id')->toArray();
+
+        return view('livewire.app.contacts.manage-contacts-component', ['contacts' => $contacts, 'bookmarked_lists' => $bookmarked_lists, 'other_lists' => $other_lists, 'folders' => $folders, 'allLists' => $allLists])->layout('livewire.app.layouts.base');
     }
 }
