@@ -7,7 +7,8 @@
                         <button type="button" class="sidebar_open_btn" id="sidebarShowBtn">
                             <img src="{{ asset('assets/app/icons/back-double-arrow.svg') }}" alt="double arrow" />
                         </button>
-                        <img src="{{ asset('assets/app/icons/shopping-cart-02.svg') }}" alt="cart icon" class="user_icon" />
+                        <img src="{{ asset('assets/app/icons/shopping-cart-02.svg') }}" alt="cart icon"
+                            class="user_icon" />
                         <h2>Active Numbers</h2>
                     </div>
                 </div>
@@ -68,7 +69,7 @@
                                         <td>
                                             <div class="phone_number_area d-flex align-items-center gap-2">
                                                 <img src="{{ asset('assets/app/icons/phone.svg') }}" alt="phone icon" />
-                                                <h4 class="timezone">{{ $number['phoneNumber'] }}</h4>
+                                                <h4 class="timezone">{{ $number->number }}</h4>
                                             </div>
                                         </td>
                                         <td>
@@ -92,29 +93,30 @@
 
                                         <td>
                                             <div class="table_dropdown_area d-flex align-items-center flex-wrap gap-1">
-                                                <button type="button" class="icon_btn"
-                                                    wire:click.prevent='purchaseNumberConfirmation("{{ $number['phoneNumber'] }}", "{{ $number['friendlyName'] }}", "{{ $number['region'] }}", "{{ $number['isoCountry'] }}", "{{ $number['latitude'] }}", "{{ $number['longitude'] }}", "{{ $number['postalCode'] }}")'>
-                                                    {{-- data-bs-toggle="modal" data-bs-target="#confirmPurchaseModal" --}}
-                                                    <img src="{{ asset('assets/app/icons/shopping-cart.svg') }}"
-                                                        alt="" />
-                                                </button>
-                                                {{-- <div class="dropdown">
-                                                <button class="table_dot_btn dropdown-toggle" type="button"
-                                                    data-bs-toggle="dropdown" aria-expanded="false">
-                                                    <img src="{{ asset('assets/app/icons/dot-horizontal.svg') }}" alt="dot icon" />
-                                                </button>
-                                                <ul class="dropdown-menu">
-                                                    <li>
-                                                        <h4>Select</h4>
-                                                    </li>
-                                                    <li>
-                                                        <button type="button" class="dropdown-item">
-                                                            <img src="{{ asset('assets/app/icons/copy-02.svg') }}" alt="copy icon" />
-                                                            <span>Copy</span>
-                                                        </button>
-                                                    </li>
-                                                </ul>
-                                            </div> --}}
+                                                <div class="dropdown">
+                                                    <button class="table_dot_btn dropdown-toggle" type="button"
+                                                        data-bs-toggle="dropdown" aria-expanded="false">
+                                                        <img src="{{ asset('assets/app/icons/dot-horizontal.svg') }}"
+                                                            alt="dot icon" />
+                                                    </button>
+                                                    <ul class="dropdown-menu">
+                                                        <li>
+                                                            <h4>Select</h4>
+                                                        </li>
+                                                        <li>
+                                                            <button type="button" class="dropdown-item">
+                                                                <img src="{{ asset('assets/app/icons/copy-02.svg') }}"
+                                                                    alt="copy icon" />
+                                                                <span>Inactive</span>
+                                                            </button>
+                                                            <button type="button" class="dropdown-item">
+                                                                <img src="{{ asset('assets/app/icons/copy-02.svg') }}"
+                                                                    alt="copy icon" />
+                                                                <span>Delete</span>
+                                                            </button>
+                                                        </li>
+                                                    </ul>
+                                                </div>
                                             </div>
                                         </td>
                                     </tr>

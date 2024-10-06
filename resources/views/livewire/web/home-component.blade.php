@@ -1,6 +1,8 @@
 <div>
     <main>
-        <section class="hero_wrapper" style="background-image: url(assets/app/images/landing/BackgroundHero.png)">
+        <!-- Hero Section  -->
+        <section class="hero_wrapper overflow-x-hidden"
+            style="background-image: url(assets/app/images/landing/BackgroundHero.png)">
             <div class="container">
                 <div class="row">
                     <div class="col-12">
@@ -29,7 +31,7 @@
             </div>
         </section>
         <!-- Hero Image Section  -->
-        <section class="hero_image_wrapper" data-aos="fade-up">
+        <section class="hero_image_wrapper overflow-x-hidden" data-aos="fade-up">
             <div class="container">
                 <div class="row">
                     <div class="col-12">
@@ -44,7 +46,7 @@
             </div>
         </section>
         <!-- Campaign Section  -->
-        <section class="campaign_wrapper">
+        <section class="campaign_wrapper overflow-x-hidden">
             <div class="container container-custom">
                 <div class="row">
                     <div class="col-12">
@@ -69,7 +71,7 @@
                             </div>
                         </div>
                         <div class="campaign_grid campaign_left_grid compliance_item">
-                            <div class="content" data-aos="fade-left">
+                            <div class="content" data-aos="slide-up">
                                 <div class="icon">
                                     <img src="{{ asset('assets/app/icons/campaings-icon2.svg') }}"
                                         alt="campaigns icon" />
@@ -87,7 +89,7 @@
                             </div>
                         </div>
                         <div class="campaign_grid campaign_left_grid message_item">
-                            <div class="content" data-aos="fade-left">
+                            <div class="content" data-aos="fade-down-right">
                                 <div class="icon">
                                     <img src="{{ asset('assets/app/icons/campaings-icon5.svg') }}"
                                         alt="custom template icon" />
@@ -99,7 +101,7 @@
                                     finance, or healthcare, we’ve got you covered.
                                 </h5>
                             </div>
-                            <div class="campaign_image" data-aos="fade-right">
+                            <div class="campaign_image" data-aos="fade-up-right">
                                 <img src="{{ asset('assets/app/images/landing/message.png') }}" alt="message image" />
                             </div>
                         </div>
@@ -116,13 +118,13 @@
                                     with your messages.
                                 </h5>
                             </div>
-                            <div class="campaign_image" data-aos="fade-right">
+                            <div class="campaign_image" data-aos="zoom-in-up">
                                 <img src="{{ asset('assets/app/images/landing/real-time.png') }}"
                                     alt="real time image" />
                             </div>
                         </div>
                         <div class="campaign_grid campaign_left_grid automated_item">
-                            <div class="content" data-aos="fade-left">
+                            <div class="content" data-aos="fade-down-left">
                                 <div class="icon">
                                     <img src="{{ asset('assets/app/icons/campaings-icon3.svg') }}"
                                         alt="custom template icon" />
@@ -134,12 +136,12 @@
                                     finger.
                                 </h5>
                             </div>
-                            <div class="campaign_image" data-aos="fade-right">
+                            <div class="campaign_image" data-aos="fade-up">
                                 <img src="{{ asset('assets/app/images/landing/message.png') }}" alt="message image" />
                             </div>
                         </div>
                         <div class="campaign_grid api_time_item">
-                            <div class="content" data-aos="fade-left">
+                            <div class="content" data-aos="fade-up-left">
                                 <div class="icon">
                                     <img src="{{ asset('assets/app/icons/campaings-icon1.svg') }}" alt="api icon" />
                                 </div>
@@ -152,7 +154,7 @@
                                     millions of messages without missing a beat."
                                 </h5>
                             </div>
-                            <div class="campaign_image" data-aos="fade-right">
+                            <div class="campaign_image" data-aos="fade-down">
                                 <img src="{{ asset('assets/app/images/landing/api.png') }}" alt="api image" />
                             </div>
                         </div>
@@ -163,7 +165,7 @@
                 class="campaign_shape" />
         </section>
         <!-- Testimonial  Section  -->
-        <section class="testimonial_wrapper">
+        <section class="testimonial_wrapper overflow-x-hidden">
             <img src="{{ asset('assets/app/images/landing/testimonial_curve.png') }}" alt="testimonial curve"
                 class="testimonial_curve" />
             <div class="container">
@@ -247,7 +249,8 @@
             </div>
         </section>
         <!-- Business Section  -->
-        <section class="business_wrapper" style="background-image: url(assets/app/images/landing/BackgroundCTA.png)">
+        <section class="business_wrapper overflow-x-hidden"
+            style="background-image: url(assets/app/images/landing/BackgroundCTA.png)">
             <div class="container">
                 <div class="row">
                     <div class="col-12">
@@ -261,8 +264,8 @@
                             </h4>
                             <div class="business_btn_area d-flex align-items-center justify-content-center flex-wrap"
                                 data-aos="fade-right">
-                                <a href="#" class="business_btn">Register Now</a>
-                                <a href="#" class="business_btn">Contact Us</a>
+                                <a href="{{ route('register') }}" class="business_btn">Register Now</a>
+                                <a href="{{ route('app.contact-us') }}" class="business_btn">Contact Us</a>
                             </div>
                         </div>
                     </div>
