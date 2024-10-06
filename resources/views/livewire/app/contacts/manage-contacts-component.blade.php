@@ -61,7 +61,7 @@
                                                 </div>
                                                 <div class="table_dropdown_area">
                                                     <div class="dropdown">
-                                                        <button class="dot_icon" type="button"
+                                                        <button class="dot_icon" type="button" onclick="event.stopPropagation();"
                                                             data-bs-toggle="dropdown" aria-expanded="false">
                                                             <img src="{{ asset('assets/app/icons/dot-horizontal.svg') }}"
                                                                 alt="dot icon" />
@@ -128,7 +128,7 @@
                                                 </div>
                                                 <div class="table_dropdown_area">
                                                     <div class="dropdown">
-                                                        <button class="dot_icon" type="button"
+                                                        <button class="dot_icon" type="button" onclick="event.stopPropagation();"
                                                             data-bs-toggle="dropdown" aria-expanded="false">
                                                             <img src="{{ asset('assets/app/icons/dot-horizontal.svg') }}"
                                                                 alt="dot icon" />
@@ -215,14 +215,14 @@
                                                 </button>
                                             </li>
                                             <li>
-                                                <button type="button" class="dropdown-item">
+                                                <button type="button" class="dropdown-item" wire:click.prevent='exportContacts'>
                                                     <img src="{{ asset('assets/app/icons/cloud-download.svg') }}"
                                                         alt="export icon" />
                                                     <span>Export contact list</span>
                                                 </button>
                                             </li>
                                             <li>
-                                                <button type="button" class="dropdown-item">
+                                                <button type="button" class="dropdown-item" wire:click.prevent='deleteConfirmation("", "bulk_delete_contact")'>
                                                     <img src="{{ asset('assets/app/icons/delete-03.svg') }}"
                                                         alt="copy icon" />
                                                     <span>Delete all contacts</span>
@@ -236,14 +236,14 @@
                         <form action="" class="search_input_form">
                             <input type="search" placeholder="Search contacts"
                                 wire:model.live='contacts_search_term' class="input_field" />
-                            <button type="submit" class="search_icon">
+                            <button type="button" class="search_icon">
                                 <img src="{{ asset('assets/app/icons/search-gray.svg') }}" alt="search icon" />
                             </button>
                         </form>
                     </div>
                     <div class="details_table_header_area d-flex-between">
                         <div class="form-check">
-                            <input class="form-check-input" type="checkbox" value="" id="formCheckAll" />
+                            <input class="form-check-input" type="checkbox" value="1" wire:change='selectAll' id="formCheckAll" wire:model.live="check_all" />
                             <label class="form-check-label" for="formCheckAll">
                                 Select all contacts
                             </label>
@@ -251,7 +251,7 @@
                         <div class="row">
                             <div class="col-md-12 text-center">
                                 <span wire:loading
-                                    wire:target='editContact,deleteConfirmation,editList,addRemoveBookmark,list_search_term,contacts_search_term,selectList'><i
+                                    wire:target='editContact,deleteConfirmation,editList,addRemoveBookmark,list_search_term,contacts_search_term,selectList,deleteAllContacts,exportContacts'><i
                                         class="fa fa-spinner fa-spin"></i> Processing...</span>
                             </div>
                         </div>
@@ -265,7 +265,7 @@
                             @foreach ($contacts as $contact)
                                 <div class="deatils_list_grid">
                                     <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" value="" />
+                                        <input class="form-check-input contact-checkbox" type="checkbox" name="contact_checkbox[]" wire:model.live='contact_checkbox' value="{{ $contact->id }}" />
                                     </div>
                                     <div class="user_info_area">
                                         <img src="{{ asset('assets/app/images/inbox/user_main.png') }}"
@@ -1233,6 +1233,13 @@
     </script>
     <script>
         $(document).ready(function() {
+            // document.getElementById('formCheckAll').addEventListener('click', function() {
+            //     const isChecked = this.checked;
+            //     const checkboxes = document.querySelectorAll('.contact-checkbox');
+            //     checkboxes.forEach(function(checkbox) {
+            //         checkbox.checked = isChecked;
+            //     });
+            // });
 
             $('.js-searchBox-file-select').on('change', function() {
                 var data = $(this).val();
