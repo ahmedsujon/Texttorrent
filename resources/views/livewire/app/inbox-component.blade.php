@@ -45,9 +45,10 @@
                                         <img class="down_icon" src="{{ asset('assets/app/icons/arrow-down.svg') }}"
                                             alt="down arrow" />
                                     </button>
-                                    <div class="folder_dropdown_area" id="folderDropdownArea">
+                                    <div class="folder_dropdown_area" wire:ignore.self id="folderDropdownArea">
                                         <form action="" class="search_input_form search_input_form_sm">
-                                            <input type="search" placeholder="Search folder" class="input_field" />
+                                            <input type="search" placeholder="Search folder"
+                                                wire:model.live='folder_search_term' class="input_field" />
                                             <button type="submit" class="search_icon">
                                                 <img src="{{ asset('assets/app/icons/search-gray.svg') }}"
                                                     alt="search icon" />
@@ -55,57 +56,19 @@
                                         </form>
                                         <h4>Select folder</h4>
                                         <ul class="folder_list folderMenuList">
-                                            <li>
-                                                <button type="button">
-                                                    <img class="folder_icon"
-                                                        src="{{ asset('assets/app/icons/folder-01.svg') }}"
-                                                        alt="folder icon" />
-                                                    <span>Folder 1 </span>
-                                                </button>
-                                            </li>
-                                            <li>
-                                                <button type="button">
-                                                    <img class="folder_icon"
-                                                        src="{{ asset('assets/app/icons/folder-01.svg') }}"
-                                                        alt="folder icon" />
-                                                    <span>Folder 2</span>
-                                                </button>
-                                            </li>
-                                            <li>
-                                                <button type="button">
-                                                    <img class="folder_icon"
-                                                        src="{{ asset('assets/app/icons/folder-01.svg') }}"
-                                                        alt="folder icon" />
-                                                    <span>Folder 3</span>
-                                                </button>
-                                            </li>
-                                            <li>
-                                                <button type="button">
-                                                    <img class="folder_icon"
-                                                        src="{{ asset('assets/app/icons/folder-01.svg') }}"
-                                                        alt="folder icon" />
-                                                    <span>Folder 4</span>
-                                                </button>
-                                            </li>
-                                            <li>
-                                                <button type="button">
-                                                    <img class="folder_icon"
-                                                        src="{{ asset('assets/app/icons/folder-01.svg') }}"
-                                                        alt="folder icon" />
-                                                    <span>Folder 5</span>
-                                                </button>
-                                            </li>
-                                            <li>
-                                                <button type="button">
-                                                    <img class="folder_icon"
-                                                        src="{{ asset('assets/app/icons/folder-01.svg') }}"
-                                                        alt="folder icon" />
-                                                    <span>Folder 6</span>
-                                                </button>
-                                            </li>
+                                            @foreach ($folders as $folder)
+                                                <li>
+                                                    <button type="button" class="{{ $sort_folder_id == $folder->id ? 'active_dropdown' : '' }}"
+                                                        wire:click.prevent='selectFolder({{ $folder->id }})'>
+                                                        <img class="folder_icon" src="{{ asset('assets/app/icons/folder-01.svg') }}" alt="folder icon" />
+                                                        <span>{{ $folder->name }}</span>
+                                                    </button>
+                                                </li>
+                                            @endforeach
                                         </ul>
                                         <div class="all_folder folderMenuList">
-                                            <button type="button" class="active_dropdown">
+                                            <button type="button" class="{{ $sort_folder_id == 'all' ? 'active_dropdown' : '' }}"
+                                                wire:click.prevent='selectFolder("all")'>
                                                 <img class="folder_icon"
                                                     src="{{ asset('assets/app/icons/folder-01.svg') }}"
                                                     alt="folder icon" />
@@ -127,215 +90,30 @@
                         </div>
                         <div class="friend_list_area">
                             <ul>
-                                <li>
-                                    <button type="button" class="list_item active_chat">
-                                        <img class="user_image"
-                                            src="{{ asset('assets/app/images/inbox/chat_user1.png') }}"
-                                            alt="user image" />
-                                        <div class="short_message_are">
-                                            <h4>+1 254-125-4446</h4>
-                                            <p>
-                                                Hey Matt, The OKR are ready to received you product
-                                            </p>
-                                        </div>
-                                        <div class="time_area">
-                                            <h5>12:23 AM</h5>
-                                        </div>
-                                    </button>
-                                </li>
-                                <li>
-                                    <button type="button" class="list_item unread_item">
-                                        <img class="user_image"
-                                            src="{{ asset('assets/app/images/inbox/chat_user3.png') }}"
-                                            alt="user image" />
-                                        <div class="short_message_are">
-                                            <h4>+1 254-125-4446</h4>
-                                            <p>Make it asap!!!</p>
-                                        </div>
-                                        <div class="time_area">
-                                            <h5>12:32 AM</h5>
-                                            <div class="d-flex justify-content-end">
-                                                <div class="number">1</div>
-                                            </div>
-                                        </div>
-                                    </button>
-                                </li>
-                                <li>
-                                    <button type="button" class="list_item">
-                                        <img class="user_image"
-                                            src="{{ asset('assets/app/images/inbox/chat_user2.png') }}"
-                                            alt="user image" />
-                                        <div class="short_message_are">
-                                            <h4>+1 254-125-4446</h4>
-                                            <p>What a pleasant surprise! Please let m</p>
-                                        </div>
-                                        <div class="time_area">
-                                            <h5>1:32 AM</h5>
-                                        </div>
-                                    </button>
-                                </li>
-                                <li>
-                                    <button type="button" class="list_item unread_item">
-                                        <img class="user_image"
-                                            src="{{ asset('assets/app/images/inbox/chat_user9.png') }}"
-                                            alt="user image" />
-                                        <div class="short_message_are">
-                                            <h4>+1 254-125-4446</h4>
-                                            <p>Great work!</p>
-                                        </div>
-                                        <div class="time_area">
-                                            <h5>1:32 AM</h5>
-                                            <div class="d-flex justify-content-end">
-                                                <div class="number">1</div>
-                                            </div>
-                                        </div>
-                                    </button>
-                                </li>
-                                <li>
-                                    <button type="button" class="list_item">
-                                        <img class="user_image"
-                                            src="{{ asset('assets/app/images/inbox/chat_user8.png') }}"
-                                            alt="user image" />
-                                        <div class="short_message_are">
-                                            <h4>+1 254-125-4446</h4>
-                                            <p>What a pleasant surprise! Please let m</p>
-                                        </div>
-                                        <div class="time_area">
-                                            <h5>Yesterday</h5>
-                                        </div>
-                                    </button>
-                                </li>
-                                <li>
-                                    <button type="button" class="list_item">
-                                        <img class="user_image"
-                                            src="{{ asset('assets/app/images/inbox/chat_user6.png') }}"
-                                            alt="user image" />
-                                        <div class="short_message_are">
-                                            <h4>+1 254-125-4446</h4>
-                                            <p>You need to improve now</p>
-                                        </div>
-                                        <div class="time_area">
-                                            <h5>Mon</h5>
-                                        </div>
-                                    </button>
-                                </li>
-                                <li>
-                                    <button type="button" class="list_item">
-                                        <img class="user_image"
-                                            src="{{ asset('assets/app/images/inbox/chat_user8.png') }}"
-                                            alt="user image" />
-                                        <div class="short_message_are">
-                                            <h4>+1 254-125-4446</h4>
-                                            <p>So cool 😍 I’ll let you know if anything el...</p>
-                                        </div>
-                                        <div class="time_area">
-                                            <h5>Jul 12</h5>
-                                        </div>
-                                    </button>
-                                </li>
-                                <li>
-                                    <button type="button" class="list_item">
-                                        <img class="user_image"
-                                            src="{{ asset('assets/app/images/inbox/chat_user1.png') }}"
-                                            alt="user image" />
-                                        <div class="short_message_are">
-                                            <h4>+1 254-125-4446</h4>
-                                            <p>
-                                                Hey Matt, The OKR are ready to received you product
-                                            </p>
-                                        </div>
-                                        <div class="time_area">
-                                            <h5>12:23 AM</h5>
-                                        </div>
-                                    </button>
-                                </li>
-                                <li>
-                                    <button type="button" class="list_item unread_item">
-                                        <img class="user_image"
-                                            src="{{ asset('assets/app/images/inbox/chat_user3.png') }}"
-                                            alt="user image" />
-                                        <div class="short_message_are">
-                                            <h4>+1 254-125-4446</h4>
-                                            <p>Make it asap!!!</p>
-                                        </div>
-                                        <div class="time_area">
-                                            <h5>12:32 AM</h5>
-                                            <div class="d-flex justify-content-end">
-                                                <div class="number">1</div>
-                                            </div>
-                                        </div>
-                                    </button>
-                                </li>
-                                <li>
-                                    <button type="button" class="list_item">
-                                        <img class="user_image"
-                                            src="{{ asset('assets/app/images/inbox/chat_user2.png') }}"
-                                            alt="user image" />
-                                        <div class="short_message_are">
-                                            <h4>+1 254-125-4446</h4>
-                                            <p>What a pleasant surprise! Please let m</p>
-                                        </div>
-                                        <div class="time_area">
-                                            <h5>1:32 AM</h5>
-                                        </div>
-                                    </button>
-                                </li>
-                                <li>
-                                    <button type="button" class="list_item">
-                                        <img class="user_image"
-                                            src="{{ asset('assets/app/images/inbox/chat_user4.png') }}"
-                                            alt="user image" />
-                                        <div class="short_message_are">
-                                            <h4>+1 254-125-4446</h4>
-                                            <p>Great work!</p>
-                                        </div>
-                                        <div class="time_area">
-                                            <h5>1:32 AM</h5>
-                                        </div>
-                                    </button>
-                                </li>
-                                <li>
-                                    <button type="button" class="list_item">
-                                        <img class="user_image"
-                                            src="{{ asset('assets/app/images/inbox/chat_user5.png') }}"
-                                            alt="user image" />
-                                        <div class="short_message_are">
-                                            <h4>+1 254-125-4446</h4>
-                                            <p>What a pleasant surprise! Please let m</p>
-                                        </div>
-                                        <div class="time_area">
-                                            <h5>Yesterday</h5>
-                                        </div>
-                                    </button>
-                                </li>
-                                <li>
-                                    <button type="button" class="list_item">
-                                        <img class="user_image"
-                                            src="{{ asset('assets/app/images/inbox/chat_user6.png') }}"
-                                            alt="user image" />
-                                        <div class="short_message_are">
-                                            <h4>+1 254-125-4446</h4>
-                                            <p>You need to improve now</p>
-                                        </div>
-                                        <div class="time_area">
-                                            <h5>Mon</h5>
-                                        </div>
-                                    </button>
-                                </li>
-                                <li>
-                                    <button type="button" class="list_item">
-                                        <img class="user_image"
-                                            src="{{ asset('assets/app/images/inbox/chat_user7.png') }}"
-                                            alt="user image" />
-                                        <div class="short_message_are">
-                                            <h4>+1 254-125-4446</h4>
-                                            <p>So cool 😍 I’ll let you know if anything el...</p>
-                                        </div>
-                                        <div class="time_area">
-                                            <h5>Jul 12</h5>
-                                        </div>
-                                    </button>
-                                </li>
+                                @if ($chats->count() > 0)
+                                    @foreach ($chats as $chat)
+                                        <li>
+                                            <button type="button" wire:click.prevent='selectChat({{ $chat->id }})' class="list_item {{ $selected_chat_id == $chat->id ? 'active_chat' : '' }}">
+                                                <div class="user_image chat-avatar">{{ $chat->avatar_ltr }}</div>
+                                                <div class="short_message_are">
+                                                    <h4>{{ $chat->number }}</h4>
+                                                    <p>
+                                                        {{ $chat->last_message }}
+                                                    </p>
+                                                </div>
+                                                <div class="time_area">
+                                                    <h5>{{ Carbon\Carbon::parse($chat->created_at)->format('H:i A') }}
+                                                    </h5>
+                                                    {{-- <div class="d-flex justify-content-end">
+                                                        <div class="number">1</div>
+                                                    </div> --}}
+                                                </div>
+                                            </button>
+                                        </li>
+                                    @endforeach
+                                @else
+                                    <li class="text-center p-5"><small>No chats found!</small></li>
+                                @endif
                             </ul>
                             <button type="button" class="new_msg_btn" data-bs-toggle="modal"
                                 data-bs-target="#newChartModal">
@@ -345,14 +123,14 @@
                     </div>
                 </div>
                 <div class="message_area">
+                    @if ($selected_chat)
                     <div class="user_header_area" id="userHeaderArea">
                         <div class="user_info_area">
-                            <img src="{{ asset('assets/app/images/inbox/user_main.png') }}" alt="user image"
-                                class="user_top_img" />
-                            <div>
-                                <h4>Tom Hardy</h4>
+                            <div class="user_top_img chat-avatar" style="height: 50px; width: 50px;">{{ $selected_chat->avatar_ltr }}</div>
+                            <div style="padding-left: 10px; ">
+                                <h4>{{ $selected_chat->first_name }} {{ $selected_chat->last_name }}</h4>
                                 <div class="d-flex align-items-center flex-wrap gap-1">
-                                    <h5 id="usersNumber">+1 254-125-4446</h5>
+                                    <h6 id="usersNumber">{{ $selected_chat->number }}</h6>
                                     <button type="button" class="copy_icon" id="copyNumber">
                                         <img src="{{ asset('assets/app/icons/copy-01.svg') }}" alt="copy icon" />
                                     </button>
@@ -371,69 +149,48 @@
                             </button>
                         </div>
                     </div>
+
                     <div class="message_write_area">
                         <div class="message_chat_area" id="messageArea">
-                            <div class="receive_msg">
-                                <img src="{{ asset('assets/app/images/inbox/user_main.png') }}" alt="user image"
-                                    class="recevier_user" />
-                                <div class="text_area">
-                                    <p class="msg">
-                                        Hi Royal! <br />
-                                        I like to buy your products. I just love what your
-                                        providing. Also I’ll send you few examples.
-                                    </p>
-                                    <img src="{{ asset('assets/app/icons/receive_shape.svg') }}"
-                                        alt="receive
-                      shape" class="msg_shape" />
-                                    <h6 class="time">12:20 AM</h6>
+                            @if ($messages->count() > 0)
+                                @foreach ($messages as $msg)
+                                    @if ($msg->sender == user()->id)
+                                    <div class="sender_msg">
+                                        <div class="text_area">
+                                            <p class="msg">
+                                                Hey Sheikh, <br />
+                                                Thanks for your words. I really appriciate that. Just let
+                                                me know if there any things you need from me.
+                                            </p>
+                                            <img src="{{ asset('assets/app/icons/sender_shape.svg') }}"
+                                                alt="sender
+                                            shape" class="msg_shape" />
+                                            <h6 class="time">12:20 AM</h6>
+                                        </div>
+                                    </div>
+                                    @else
+                                    <div class="receive_msg">
+                                        <img src="{{ asset('assets/app/images/inbox/user_main.png') }}" alt="user image"
+                                            class="recevier_user" />
+                                        <div class="text_area">
+                                            <p class="msg">
+                                                Hi Royal! <br />
+                                                I like to buy your products. I just love what your
+                                                providing. Also I’ll send you few examples.
+                                            </p>
+                                            <img src="{{ asset('assets/app/icons/receive_shape.svg') }}"
+                                                alt="receive
+                                                shape" class="msg_shape" />
+                                            <h6 class="time">12:20 AM</h6>
+                                        </div>
+                                    </div>
+                                    @endif
+                                @endforeach
+                            @else
+                                <div class="w-100 mt-5 text-center">
+                                    <p class="">No messages found!</p>
                                 </div>
-                            </div>
-                            <div class="sender_msg">
-                                <div class="text_area">
-                                    <p class="msg">
-                                        Hey Sheikh, <br />
-                                        Thanks for your words. I really appriciate that. Just let
-                                        me know if there any things you need from me.
-                                    </p>
-                                    <img src="{{ asset('assets/app/icons/sender_shape.svg') }}"
-                                        alt="sender
-                      shape" class="msg_shape" />
-                                    <h6 class="time">12:20 AM</h6>
-                                </div>
-                            </div>
-                            <div class="receive_msg">
-                                <img src="{{ asset('assets/app/images/inbox/user_main.png') }}" alt="user image"
-                                    class="recevier_user" />
-                                <div class="text_area">
-                                    <p class="msg">
-                                        I have bought the products. Also i gonna buy more products
-                                        from you soon.
-                                    </p>
-                                    <img src="{{ asset('assets/app/icons/receive_shape.svg') }}"
-                                        alt="receive
-                      shape" class="msg_shape" />
-                                    <h6 class="time">12:22 AM</h6>
-                                </div>
-                            </div>
-                            <div class="sender_msg">
-                                <div class="text_area">
-                                    <p class="msg">Thank you. See you soon.</p>
-                                    <img src="{{ asset('assets/app/icons/sender_shape.svg') }}"
-                                        alt="sender
-                      shape" class="msg_shape" />
-                                    <h6 class="time">12:20 AM</h6>
-                                </div>
-                            </div>
-                            <div class="receive_msg">
-                                <img src="{{ asset('assets/app/images/inbox/user_main.png') }}" alt="user image"
-                                    class="recevier_user" />
-                                <div class="text_area">
-                                    <p class="msg">See you. Good luck!</p>
-                                    <img src="{{ asset('assets/app/icons/receive_shape.svg') }}" alt="receiveshape"
-                                        class="msg_shape" />
-                                    <h6 class="time">12:22 AM</h6>
-                                </div>
-                            </div>
+                            @endif
                         </div>
                         <div class="message_write_input_area position-relative" id="messageInputArea">
                             <form class="chat_box_area">
@@ -444,9 +201,9 @@
 
                                     <button type="button" class="emoji_btn">
                                         <!-- <img
-                        src="assets/icons/relieved-01.svg"
-                        alt="emoji icon"
-                      /> -->
+                                            src="assets/icons/relieved-01.svg"
+                                            alt="emoji icon"
+                                        /> -->
                                     </button>
 
                                     <button type="button" class="template_btn" data-bs-toggle="modal"
@@ -473,156 +230,159 @@
                                 id="fileUpload" />
                         </div>
                     </div>
+                    @endif
                 </div>
                 <div class="contact_info_warapper" id="contactInfoArea">
-                    <div class="contact_info_area">
-                        <div class="contact_header_area d-flex align-items-center flex-wrap gap-1">
-                            <h3>Contact Info</h3>
-                        </div>
-                        <div class="user_name_area">
-                            <img src="{{ asset('assets/app/images/inbox/user_main.png') }}" alt="user image"
-                                class="user_right_img" />
-                            <h4>Tom Hardy</h4>
-                            <div
-                                class="user_action_btn_list d-flex align-items-center justify-content-center flex-wrap">
-                                <button type="button">
-                                    <img src="{{ asset('assets/app/icons/user-block-02.svg') }}" alt="user block" />
-                                </button>
+                    @if ($selected_chat)
+                        <div class="contact_info_area">
+                            <div class="contact_header_area d-flex align-items-center flex-wrap gap-1">
+                                <h3>Contact Info</h3>
                             </div>
-                        </div>
-                        <div class="about_number_area">
-                            <div class="about_area">
-                                <div class="d-flex-between">
-                                    <h3>About</h3>
-                                    <button type="button" class="edit_btn" data-bs-toggle="modal"
-                                        data-bs-target="#updateModal">
-                                        <img src="{{ asset('assets/app/icons/edit-02.svg') }}" alt="edit icon" />
-                                        <span>Edit</span>
+                            <div class="user_name_area d-flex flex-column align-items-center">
+                                <div class="user_right_img chat-avatar d-flex justify-content-center align-items-center">
+                                    {{ $selected_chat->avatar_ltr }}
+                                </div>
+                                <h4 class="mt-3">{{ $selected_chat->first_name }} {{ $selected_chat->last_name }}</h4>
+                                <div class="user_action_btn_list d-flex align-items-center justify-content-center flex-wrap">
+                                    <button type="button" class="btn">
+                                        <img src="{{ asset('assets/app/icons/user-block-02.svg') }}" alt="user block" />
                                     </button>
                                 </div>
-                                <div class="user_info_contact_area">
-                                    <div class="user_info_grid">
-                                        <div class="icon">
-                                            <img src="{{ asset('assets/app/icons/user.svg') }}" alt="user icon" />
-                                        </div>
-                                        <div>
-                                            <h4>Name</h4>
-                                            <h5>Tom Hardy</h5>
-                                        </div>
-                                    </div>
-                                    <div class="user_info_grid">
-                                        <div class="icon">
-                                            <img src="{{ asset('assets/app/icons/building-03.svg') }}"
-                                                alt="building icon" />
-                                        </div>
-                                        <div>
-                                            <h4>Company</h4>
-                                            <h5>Text Torrent</h5>
-                                        </div>
-                                    </div>
-                                    <div class="user_info_grid">
-                                        <div class="icon">
-                                            <img src="{{ asset('assets/app/icons/contact.svg') }}"
-                                                alt="building icon" />
-                                        </div>
-                                        <div>
-                                            <h4>Contact list</h4>
-                                            <h5>Default</h5>
-                                        </div>
-                                    </div>
-                                    <div class="user_info_grid">
-                                        <div class="icon">
-                                            <img src="{{ asset('assets/app/icons/call.svg') }}"
-                                                alt="building icon" />
-                                        </div>
-                                        <div>
-                                            <h4>Phone:</h4>
-                                            <h5>(229) 555-0109</h5>
-                                        </div>
-                                    </div>
-                                    <div class="user_info_grid">
-                                        <div class="icon">
-                                            <img src="{{ asset('assets/app/icons/email.svg') }}"
-                                                alt="building icon" />
-                                        </div>
-                                        <div>
-                                            <h4>Email:</h4>
-                                            <h5 class="word-break-all">example@gmail.com</h5>
-                                        </div>
-                                    </div>
-                                    <div class="user_info_grid">
-                                        <div class="icon">
-                                            <img src="{{ asset('assets/app/icons/location.svg') }}"
-                                                alt="building icon" />
-                                        </div>
-                                        <div>
-                                            <h4>Country</h4>
-                                            <h5>USA</h5>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="note_area position-relative">
-                                    <h3>Notes</h3>
-                                    <div class="note_list_area">
-                                        <div class="note_user_grid">
-                                            <img src="{{ asset('assets/app/images/inbox/chat_user3.png') }}"
-                                                alt="user image" class="user_image" />
-                                            <div class="name_times_area d-flex align-items-center flex-wrap">
-                                                <h4>Jenny Wilson</h4>
-                                                <h5>Today, 9:34 am</h5>
-                                            </div>
-                                        </div>
-                                        <p>
-                                            Brandon has already made the arrangement to set up the
-                                            solar project. Can you reach out?
-                                        </p>
-                                        <div class="note_action_btn">
-                                            <button type="button">
-                                                <img src="{{ asset('assets/app/icons/check.png') }}"
-                                                    alt="check icon" />
-                                            </button>
-                                            <button type="button">
-                                                <img src="{{ asset('assets/app/icons/20-emoji-smile.svg') }}"
-                                                    alt="emoji  icon" />
-                                            </button>
-                                        </div>
-                                    </div>
-                                    <form action="" class="note_form">
-                                        <textarea name="" id="noteWriteArea" class="note_input" placeholder="Write a note..."></textarea>
-                                        <div class="note_action_grid">
-                                            <div class="note_action_area d-flex align-items-center flex-wrap">
-                                                <button type="button">
-                                                    <img src="{{ asset('assets/app/icons/at-sign.svg') }}"
-                                                        alt="at sign" />
-                                                </button>
-                                                <label for="noteFileUpload" class="file_upload">
-                                                    <img src="{{ asset('assets/app/icons/link-02.svg') }}"
-                                                        alt="link icon" />
-                                                </label>
-
-                                                <button type="button"></button>
-                                            </div>
-                                            <button type="submit" class="note_submit_btn">
-                                                <img src="{{ asset('assets/app/icons/note_top_arrow.svg') }}"
-                                                    alt="note arrow icon" />
-                                            </button>
-                                        </div>
-                                    </form>
-                                    <input type="file" class="opacity-0 visually-hidden position-absolute zn-1"
-                                        id="noteFileUpload" />
-                                </div>
                             </div>
-                            <div class="user_number_area">
-                                <h4>From</h4>
-                                <a href="tel:+(229)555-0109" class="number_grid">
-                                    <img src="{{ asset('assets/app/icons/call-outgoing-01.svg') }}"
-                                        alt="call icon" />
-                                    <span>(229) 555-0109</span>
-                                </a>
+                            <div class="about_number_area">
+                                <div class="about_area">
+                                    <div class="d-flex-between">
+                                        <h3>About</h3>
+                                        <button type="button" class="edit_btn" data-bs-toggle="modal"
+                                            data-bs-target="#updateModal">
+                                            <img src="{{ asset('assets/app/icons/edit-02.svg') }}" alt="edit icon" />
+                                            <span>Edit</span>
+                                        </button>
+                                    </div>
+                                    <div class="user_info_contact_area">
+                                        <div class="user_info_grid">
+                                            <div class="icon">
+                                                <img src="{{ asset('assets/app/icons/user.svg') }}" alt="user icon" />
+                                            </div>
+                                            <div>
+                                                <h4>Name</h4>
+                                                <h5>{{ $selected_chat->first_name }} {{ $selected_chat->last_name }}</h5>
+                                            </div>
+                                        </div>
+                                        <div class="user_info_grid">
+                                            <div class="icon">
+                                                <img src="{{ asset('assets/app/icons/building-03.svg') }}"
+                                                    alt="building icon" />
+                                            </div>
+                                            <div>
+                                                <h4>Company</h4>
+                                                <h5>{{ $selected_chat->company }}</h5>
+                                            </div>
+                                        </div>
+                                        <div class="user_info_grid">
+                                            <div class="icon">
+                                                <img src="{{ asset('assets/app/icons/contact.svg') }}"
+                                                    alt="building icon" />
+                                            </div>
+                                            <div>
+                                                <h4>Contact list</h4>
+                                                <h5>{{ $selected_chat->list_id && isset(getListByID($selected_chat->list_id)->name) ? getListByID($selected_chat->list_id)->name : '---' }}</h5>
+                                            </div>
+                                        </div>
+                                        <div class="user_info_grid">
+                                            <div class="icon">
+                                                <img src="{{ asset('assets/app/icons/call.svg') }}"
+                                                    alt="building icon" />
+                                            </div>
+                                            <div>
+                                                <h4>Phone:</h4>
+                                                <h5>{{ $selected_chat->number }}</h5>
+                                            </div>
+                                        </div>
+                                        <div class="user_info_grid">
+                                            <div class="icon">
+                                                <img src="{{ asset('assets/app/icons/email.svg') }}"
+                                                    alt="building icon" />
+                                            </div>
+                                            <div>
+                                                <h4>Email:</h4>
+                                                <h5 class="word-break-all">{{ $selected_chat->email ?? '---' }}</h5>
+                                            </div>
+                                        </div>
+                                        <div class="user_info_grid">
+                                            <div class="icon">
+                                                <img src="{{ asset('assets/app/icons/location.svg') }}"
+                                                    alt="building icon" />
+                                            </div>
+                                            <div>
+                                                <h4>Country</h4>
+                                                <h5>USA</h5>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="note_area position-relative">
+                                        <h3>Notes</h3>
+                                        <div class="note_list_area">
+                                            <div class="note_user_grid">
+                                                <img src="{{ asset('assets/app/images/inbox/chat_user3.png') }}"
+                                                    alt="user image" class="user_image" />
+                                                <div class="name_times_area d-flex align-items-center flex-wrap">
+                                                    <h4>Jenny Wilson</h4>
+                                                    <h5>Today, 9:34 am</h5>
+                                                </div>
+                                            </div>
+                                            <p>
+                                                Brandon has already made the arrangement to set up the
+                                                solar project. Can you reach out?
+                                            </p>
+                                            <div class="note_action_btn">
+                                                <button type="button">
+                                                    <img src="{{ asset('assets/app/icons/check.png') }}"
+                                                        alt="check icon" />
+                                                </button>
+                                                <button type="button">
+                                                    <img src="{{ asset('assets/app/icons/20-emoji-smile.svg') }}"
+                                                        alt="emoji  icon" />
+                                                </button>
+                                            </div>
+                                        </div>
+                                        <form action="" class="note_form">
+                                            <textarea name="" id="noteWriteArea" class="note_input" placeholder="Write a note..."></textarea>
+                                            <div class="note_action_grid">
+                                                <div class="note_action_area d-flex align-items-center flex-wrap">
+                                                    <button type="button">
+                                                        <img src="{{ asset('assets/app/icons/at-sign.svg') }}"
+                                                            alt="at sign" />
+                                                    </button>
+                                                    <label for="noteFileUpload" class="file_upload">
+                                                        <img src="{{ asset('assets/app/icons/link-02.svg') }}"
+                                                            alt="link icon" />
+                                                    </label>
+
+                                                    <button type="button"></button>
+                                                </div>
+                                                <button type="submit" class="note_submit_btn">
+                                                    <img src="{{ asset('assets/app/icons/note_top_arrow.svg') }}"
+                                                        alt="note arrow icon" />
+                                                </button>
+                                            </div>
+                                        </form>
+                                        <input type="file" class="opacity-0 visually-hidden position-absolute zn-1"
+                                            id="noteFileUpload" />
+                                    </div>
+                                </div>
+                                <div class="user_number_area">
+                                    <h4>From</h4>
+                                    <a href="tel:+(229)555-0109" class="number_grid">
+                                        <img src="{{ asset('assets/app/icons/call-outgoing-01.svg') }}"
+                                            alt="call icon" />
+                                        <span>(229) 555-0109</span>
+                                    </a>
+                                </div>
                             </div>
                         </div>
-                    </div>
+                    @endif
                 </div>
             </div>
         </section>
@@ -1308,6 +1068,31 @@
 
 @push('scripts')
     <script>
+        window.addEventListener('reload_scripts', event => {
+            setTimeout(() => {
+                function adjustMessageHeight() {
+                    var windowHeight = $(window).height();
+                    var headerHeight = $("#userHeaderArea").outerHeight();
+                    var inputHeight = $("#messageInputArea").outerHeight();
+                    var messagesHeight = windowHeight - headerHeight - inputHeight;
+                    $("#messageArea").css(
+                        "height",
+                        window?.innerWidth < 768 ?
+                        messagesHeight - 140 :
+                        messagesHeight - 80 + "px"
+                    );
+                }
+
+                // Initial adjustment
+                adjustMessageHeight();
+
+                // Adjust on window resize
+                $(window).resize(function() {
+                    adjustMessageHeight();
+                });
+            }, 1);
+        });
+
         $(document).ready(function() {
             //Message Height
             function adjustMessageHeight() {
@@ -1330,7 +1115,10 @@
             $(window).resize(function() {
                 adjustMessageHeight();
             });
-
+        });
+    </script>
+    <script>
+        $(document).ready(function() {
             //Chat list Functionality
             $("#openChatBtn").click(function(e) {
                 e.preventDefault();
