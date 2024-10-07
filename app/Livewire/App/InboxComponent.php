@@ -2,10 +2,10 @@
 
 namespace App\Livewire\App;
 
-use Livewire\Component;
 use App\Models\ChatMessage;
 use App\Models\Contact;
 use Illuminate\Support\Facades\DB;
+use Livewire\Component;
 
 class InboxComponent extends Component
 {
@@ -69,7 +69,7 @@ class InboxComponent extends Component
     {
         $this->validate([
             'selected_template_id' => 'required',
-        ],[
+        ], [
             'selected_template_id.required' => 'Select a template',
         ]);
 
@@ -85,9 +85,48 @@ class InboxComponent extends Component
         $this->reset(['selected_template_preview', 'selected_template_id']);
     }
 
+    public $unread_filter;
+    public function showUnread()
+    {
+        if ($this->unread_filter) {
+            $this->unread_filter = false;
+        } else {
+            $this->unread_filter = true;
+        }
+    }
+
+    public $filter_time;
     public function render()
     {
-        $chats = DB::table('chats')->select('chats.*', 'contacts.first_name', 'contacts.last_name', 'contacts.number')->join('contacts', 'contacts.id', 'chats.contact_id')->where('chats.user_id', user()->id)->orderBy('chats.updated_at', 'DESC')->get();
+        $chats = DB::table('chats')->select('chats.*', 'contacts.first_name', 'contacts.last_name', 'contacts.number')->join('contacts', 'contacts.id', 'chats.contact_id')->where('chats.user_id', user()->id)->orderBy('chats.updated_at', 'DESC');
+
+        if ($this->sort_folder_id) {
+            $chats = $chats->where('contacts.folder_id', $this->sort_folder_id);
+        }
+
+        if ($this->unread_filter) {
+            $chats = $chats->where('chats.status', 0);
+        }
+
+        // Apply time filter if set
+        if ($this->filter_time) {
+            switch ($this->filter_time) {
+                case 'last_week':
+                    $chats = $chats->where('chats.updated_at', '>=', now()->subWeek());
+                    break;
+                case 'last_month':
+                    $chats = $chats->where('chats.updated_at', '>=', now()->subMonth());
+                    break;
+                case 'last_year':
+                    $chats = $chats->where('chats.updated_at', '>=', now()->subYear());
+                    break;
+                default:
+                    // If 'all' or no filter is applied, no additional filtering is necessary
+                    break;
+            }
+        }
+
+        $chats = $chats->get();
 
         foreach ($chats as $key => $chat) {
             $chat->avatar_ltr = substr($chat->first_name, 0, 1) . substr($chat->last_name, 0, 1);

@@ -81,15 +81,17 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="chat_time_area">
-                                    <select class="niceSelect">
-                                        <option data-display="Last 7days">Last 7days</option>
-                                        <option value="1">Last month</option>
-                                        <option value="2">Last 12 month</option>
-                                        <option value="4">All chat</option>
+                                <div class="chat_time_area" wire:ignore>
+                                    <select class="niceSelect" id="filter_time">
+                                        <option value="all" selected>All Chats</option>
+                                        <option value="last_week">Last 7Days</option>
+                                        <option value="last_month">Last Month</option>
+                                        <option value="last_year">Last 12 Month</option>
                                     </select>
                                 </div>
-                                <button type="button" class="unread_btn">Unread</button>
+                                <button type="button" class="unread_btn" style="{{ $unread_filter ? 'background: #F5F6F8;' : '' }}" wire:click.prevent='showUnread'>
+                                    {!! loadingStateWithText('showUnread', 'Unread') !!}
+                                </button>
                             </div>
                         </div>
                         <div class="friend_list_area">
@@ -1132,6 +1134,10 @@
                 $('#templateSelect').val('');
             });
 
+            $('#filter_time').on('change', function(){
+                var data = $(this).val();
+                @this.set('filter_time', data);
+            });
 
 
 
