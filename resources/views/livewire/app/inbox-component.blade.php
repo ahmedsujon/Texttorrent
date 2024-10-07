@@ -1,4 +1,26 @@
 <div>
+    <style>
+        /* clears the ‘X’ from Internet Explorer */
+        input[type=search]::-ms-clear {
+            display: none;
+            width: 0;
+            height: 0;
+        }
+
+        input[type=search]::-ms-reveal {
+            display: none;
+            width: 0;
+            height: 0;
+        }
+
+        /* clears the ‘X’ from Chrome */
+        input[type="search"]::-webkit-search-decoration,
+        input[type="search"]::-webkit-search-cancel-button,
+        input[type="search"]::-webkit-search-results-button,
+        input[type="search"]::-webkit-search-results-decoration {
+            display: none;
+        }
+    </style>
     <main class="main_content_wrapper inbox_fixed_height">
         <!-- Inbox Section  -->
         <section class="inbox_wrapper content_no_space content_md_no_space">
@@ -29,8 +51,9 @@
                                     </button>
                                     <h3>Chats</h3>
                                 </div>
-                                <form action="" class="chat_search_form" id="chartSearchFormArea">
-                                    <input type="search" placeholder="Search Friends" class="input_field" />
+                                <form action="" class="chat_search_form" id="chartSearchFormArea" wire:ignore>
+                                    <input type="search" placeholder="Search chats" id="searchChat"
+                                        class="input_field" />
                                     <button type="button" class="search_btn" id="chatSearchBtn">
                                         <img src="{{ asset('assets/app/icons/search-gray.svg') }}" alt="search icon" />
                                     </button>
@@ -89,12 +112,19 @@
                                         <option value="last_year">Last 12 Month</option>
                                     </select>
                                 </div>
-                                <button type="button" class="unread_btn" style="{{ $unread_filter ? 'background: #F5F6F8;' : '' }}" wire:click.prevent='showUnread'>
-                                    {!! loadingStateWithText('showUnread', 'Unread') !!}
+                                <button type="button" class="unread_btn"
+                                    style="{{ $unread_filter ? 'background: #F5F6F8;' : '' }}"
+                                    wire:click.prevent='showUnread'>
+                                    Unread
                                 </button>
                             </div>
                         </div>
                         <div class="friend_list_area">
+                            <div wire:loading wire:target='showUnread,filter_time,selectFolder,searchTerm,selectChat'
+                                style="position: absolute; left: 35%; top: -15px; background: #F5F6F8; border-radius: 5px; padding: 1px 10px;">
+                                <span class="spinner-border spinner-border-sm align-middle" role="status"
+                                    aria-hidden="true"></span> <small>Processing...</small>
+                            </div>
                             <ul>
                                 @if ($chats->count() > 0)
                                     @foreach ($chats as $chat)
@@ -203,17 +233,17 @@
                                 @endif
                             </div>
                             <div class="message_write_input_area position-relative" id="messageInputArea">
-                                <form class="chat_box_area" id="sendMessageForm" enctype="multipart/form-data" wire:ignore>
+                                <form class="chat_box_area" id="sendMessageForm" enctype="multipart/form-data"
+                                    wire:ignore>
                                     <div class="chat_box_header_area d-flex align-items-center flex-wrap gap-2">
                                         <label for="fileUpload" class="link_btn">
                                             <img src="{{ asset('assets/app/icons/link-02.svg') }}" alt="link icon" />
                                         </label>
 
-                                        <button type="button" class="emoji_btn">
-                                            <!-- <img
-                                            src="assets/icons/relieved-01.svg"
-                                            alt="emoji icon"
-                                        /> -->
+                                        <!-- Emoji Button Trigger -->
+                                        <button type="button" class="emoji_btn" id="emoji_btn">
+                                            <img src="{{ asset('assets/app/icons/relieved-01.svg') }}"
+                                                alt="emoji icon" />
                                         </button>
 
                                         <button type="button" class="template_btn" data-bs-toggle="modal"
@@ -222,6 +252,7 @@
                                                 alt="dashboard icon" />
                                             <span>SMS template</span>
                                         </button>
+
                                         <button type="button" class="calender_btn" data-bs-toggle="modal"
                                             data-bs-target="#eventModal">
                                             <img src="{{ asset('assets/app/icons/event_add.svg') }}"
@@ -229,11 +260,20 @@
                                             <span>Add event to calendar</span>
                                         </button>
                                     </div>
+
+                                    <!-- Emoji Picker Container -->
+                                    <div id="emoji-picker-container"
+                                        style="display: none; position: absolute; bottom: 3rem; left: 0; z-index: 1000;">
+                                    </div>
+
                                     <div class="msg_input_area">
                                         <textarea name="message" placeholder="Write here..." class="msg_input" id="messageWriteArea"></textarea>
                                     </div>
                                     <button type="submit" class="send_btn" wire:loading.attr='disabled'>
-                                        {!! loadingStateWithoutText('sendMessage', '<img src="'.asset('assets/app/icons/send-white.svg').'" alt="send icon" />') !!}
+                                        {!! loadingStateWithoutText(
+                                            'sendMessage',
+                                            '<img src="' . asset('assets/app/icons/send-white.svg') . '" alt="send icon" />',
+                                        ) !!}
                                     </button>
                                 </form>
                                 <input type="file" class="opacity-0 visually-hidden position-absolute zn-1"
@@ -730,15 +770,16 @@
         </div>
 
         <!-- Sms Template Modal  -->
-        <div wire:ignore.self class="modal fade common_modal" id="smsTemplateModal" tabindex="-1" aria-labelledby="templateModal"
-            aria-hidden="true" wire:ignore.self>
+        <div wire:ignore.self class="modal fade common_modal" id="smsTemplateModal" tabindex="-1"
+            aria-labelledby="templateModal" aria-hidden="true" wire:ignore.self>
             <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
                 <div class="modal-content">
                     <div class="modal-header">
                         <h1 class="modal-title fs-5" id="templateModal">
                             Select template
                         </h1>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                            aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
                         <form action="" class="event_form_area">
@@ -747,18 +788,20 @@
                                 <select name="lang" class="js-searchBox" id="templateSelect">
                                     <option value="">Choose Template</option>
                                     @foreach ($templates as $content)
-                                        <option value="{{ $content->preview_message }}" data-id="{{ $content->id }}">{{ $content->template_name }}</option>
+                                        <option value="{{ $content->preview_message }}"
+                                            data-id="{{ $content->id }}">{{ $content->template_name }}</option>
                                     @endforeach
                                 </select>
-                                <img src="{{ asset('assets/app/icons/arrow-down.svg') }}" alt="down arrow" class="down_arrow" />
+                                <img src="{{ asset('assets/app/icons/arrow-down.svg') }}" alt="down arrow"
+                                    class="down_arrow" />
                             </div>
                             @error('selected_template_id')
                                 <p class="text-danger" style="font-size: 12.5px;">{{ $message }}</p>
                             @enderror
                             <div class="input_row">
                                 <label for="">Preview</label>
-                                <textarea id="templatePreview" placeholder="Template Preview" class="input_field textarea_field"
-                                        rows="5" readonly></textarea>
+                                <textarea id="templatePreview" placeholder="Template Preview" class="input_field textarea_field" rows="5"
+                                    readonly></textarea>
                             </div>
                         </form>
                     </div>
@@ -1076,6 +1119,49 @@
 
 @push('scripts')
     <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            import("https://unpkg.com/@joeattardi/emoji-button@4.6.0/dist/index.js").then(({
+                EmojiButton
+            }) => {
+                const picker = new EmojiButton({
+                    showPreview: true,
+                    position: "bottom-start", // Position below the button
+                    emojiVersion: "11.0",
+                    emojiSize: "1.5em",
+                    emojisPerRow: 9,
+                    rows: 7,
+                    zIndex: 1000,
+                    autoHide: false
+                });
+
+                const emojiButton = document.querySelector("#emoji_btn");
+                const emojiContainer = document.querySelector("#emoji-picker-container");
+                const messageArea = document.querySelector("#messageWriteArea");
+
+                // Toggle the picker display
+                emojiButton.addEventListener("click", () => {
+                    picker.togglePicker(emojiButton);
+                });
+
+                // Append emoji to textarea
+                picker.on("emoji", (selection) => {
+                    messageArea.value += selection.emoji;
+                });
+
+                // Show and hide picker within the specified container
+                picker.on("show", () => {
+                    emojiContainer.appendChild(picker.picker);
+                    emojiContainer.style.display = 'block';
+                });
+
+                picker.on("hide", () => {
+                    emojiContainer.style.display = 'none';
+                });
+            });
+        });
+    </script>
+
+    <script>
         $(document).ready(function() {
 
             function scrollToBottom() {
@@ -1104,18 +1190,18 @@
                 return `${formattedHours}:${minutes} ${ampm}`;
             }
 
-            $('#sendMessageForm').on('submit', function(e){
+            $('#sendMessageForm').on('submit', function(e) {
                 e.preventDefault();
 
                 var message = $(".msg_input").val();
-                if(message!= '') {
+                if (message != '') {
                     @this.sendMessage(message);
 
                     $(".msg_input").val('');
                 }
             });
 
-            $('#templateSelect').on('change', function(e){
+            $('#templateSelect').on('change', function(e) {
                 e.preventDefault();
 
                 const selectedOption = templateSelect.options[templateSelect.selectedIndex];
@@ -1127,16 +1213,21 @@
                 @this.set('selected_template_id', selectedId);
 
             });
-            document.addEventListener('updateTextarea', function (output) {
+            document.addEventListener('updateTextarea', function(output) {
                 document.getElementById('messageWriteArea').value = output.detail;
                 $('#smsTemplateModal').modal('hide');
                 $('#templatePreview').val('');
                 $('#templateSelect').val('');
             });
 
-            $('#filter_time').on('change', function(){
+            $('#filter_time').on('change', function() {
                 var data = $(this).val();
                 @this.set('filter_time', data);
+            });
+
+            $('#searchChat').on('keyup', function() {
+                var data = $(this).val();
+                @this.set('searchTerm', data);
             });
 
 
@@ -1231,19 +1322,18 @@
             });
 
             //Emoji Picker
-            $("#messageWriteArea").emojioneArea({
-                pickerPosition: "top",
-                filtersPosition: "bottom",
-                buttonTitle: "",
-                events: {
-                    ready: function(editor, button) {
-                        // Customize the button icon
-                        $(button).html(
-                            '<img src="{{ asset('assets/app/icons/relieved-02.svg') }}" alt="Emoji Picker Icon">'
-                        );
-                    },
-                },
-            });
+            // $("#messageWriteArea").emojioneArea({
+            //     pickerPosition: "top",
+            //     filtersPosition: "bottom",
+            //     buttonTitle: "",
+            //     events: {
+            //         ready: function(editor, button) {
+            //             $(button).html(
+            //                 '<img src="{{ asset('assets/app/icons/relieved-02.svg') }}" alt="Emoji Picker Icon">'
+            //             );
+            //         },
+            //     },
+            // });
             $("#noteWriteArea").emojioneArea({
                 pickerPosition: "top",
                 filtersPosition: "bottom",

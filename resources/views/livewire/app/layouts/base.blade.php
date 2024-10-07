@@ -11,6 +11,7 @@
     <link rel="stylesheet" href="{{ asset('assets/app/plugins/css/bootstrap.min.css') }}" />
     <link rel="stylesheet" href="{{ asset('assets/app/plugins/css/nice-select.css') }}" />
     <link rel="stylesheet" href="{{ asset('assets/app/plugins/css/daterangepicker.css') }}" />
+    <link rel="stylesheet" href="{{ asset('assets/app/plugins/css/emojionearea.min.css') }}" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/noUiSlider/15.5.0/nouislider.min.css" />
 
     <!-- Toast -->
@@ -118,7 +119,8 @@
     <script src="{{ asset('assets/app/plugins/js/daterangepicker.js') }}"></script>
     <script src="{{ asset('assets/app/plugins/js/index.global.min.js') }}"></script>
     <script src="{{ asset('assets/app/plugins/js/jquery-searchbox.js') }}"></script>
-    <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+    <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>\
+    <script src="{{ asset('assets/app/plugins/js/emojionearea.min.js') }}"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/noUiSlider/15.5.0/nouislider.min.js"></script>
 
     <!-- Toast -->

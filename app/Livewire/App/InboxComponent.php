@@ -95,10 +95,12 @@ class InboxComponent extends Component
         }
     }
 
-    public $filter_time;
+    public $filter_time, $searchTerm;
     public function render()
     {
-        $chats = DB::table('chats')->select('chats.*', 'contacts.first_name', 'contacts.last_name', 'contacts.number')->join('contacts', 'contacts.id', 'chats.contact_id')->where('chats.user_id', user()->id)->orderBy('chats.updated_at', 'DESC');
+        $chats = DB::table('chats')->select('chats.*', 'contacts.first_name', 'contacts.last_name', 'contacts.number')->join('contacts', 'contacts.id', 'chats.contact_id')->where(function($q){
+            $q->where('contacts.number', 'like', '%' . $this->searchTerm . '%');
+        })->where('chats.user_id', user()->id)->orderBy('chats.updated_at', 'DESC');
 
         if ($this->sort_folder_id) {
             $chats = $chats->where('contacts.folder_id', $this->sort_folder_id);
