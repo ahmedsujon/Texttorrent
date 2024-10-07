@@ -2,14 +2,15 @@
 
 namespace App\Livewire\App;
 
-use App\Models\ChatMessage;
+use App\Models\Chat;
 use App\Models\Contact;
-use Illuminate\Support\Facades\DB;
 use Livewire\Component;
+use App\Models\ChatMessage;
+use Illuminate\Support\Facades\DB;
 
 class InboxComponent extends Component
 {
-    public $folders, $folder_search_term, $templates;
+    public $folders, $folder_search_term, $templates, $active_numbers, $receiver_numbers;
     public function mount()
     {
         $this->folders = DB::table('contact_folders')->where('user_id', user()->id)->get();
@@ -20,6 +21,10 @@ class InboxComponent extends Component
         }
 
         $this->templates = DB::table('inbox_templates')->where('user_id', user()->id)->get();
+        $this->active_numbers = DB::table('numbers')->where('user_id', user()->id)->get();
+
+        $extContacts = DB::table('chats')->select('contact_id')->where('user_id', user()->id)->pluck('contact_id')->toArray();
+        $this->receiver_numbers = DB::table('contacts')->where('user_id', user()->id)->whereNotIn('id', $extContacts)->get();
     }
 
     public function updatedFolderSearchTerm()
@@ -62,6 +67,65 @@ class InboxComponent extends Component
 
         $this->messages->push($msg);
         $this->dispatch('scrollToBottom');
+    }
+
+    public $selected_template_preview_new_chat, $selected_template_id_new_chat, $receiver_id, $sender_id, $new_chat_message;
+    public function useTemplateNewChat()
+    {
+        if ($this->receiver_id) {
+            $contact = Contact::find($this->receiver_id);
+            $output = $this->selected_template_preview_new_chat; // Start with the template preview
+            $output = str_replace('[phone_number]', $contact->number, $output);
+            $output = str_replace('[email_address]', $contact->email, $output);
+            $output = str_replace('[first_name]', $contact->first_name, $output);
+            $output = str_replace('[last_name]', $contact->last_name, $output);
+            $output = str_replace('[company]', $contact->company, $output);
+
+            $this->new_chat_message = $output;
+
+            $this->dispatch('updateTextareaNewChat', $output);
+            // $this->reset(['selected_template_preview_new_chat', 'selected_template_id_new_chat']);
+        } else {
+            $this->dispatch('error', ['message'=>'No receiver selected']);
+        }
+
+    }
+
+    public function updatedReceiverId()
+    {
+        if ($this->selected_template_id_new_chat) {
+            $this->useTemplateNewChat();
+        }
+    }
+
+    public function startNewChat()
+    {
+        $this->validate([
+            'sender_id' =>'required',
+            'receiver_id' =>'required',
+            'selected_template_id_new_chat' =>'required',
+            'selected_template_preview_new_chat' =>'required',
+
+        ], [
+            '*.required' => 'This field is required'
+        ]);
+
+        $chat = new Chat();
+        $chat->user_id = user()->id;
+        $chat->contact_id = $this->receiver_id;
+        $chat->last_message = $this->new_chat_message;
+        $chat->from_number = $this->sender_id;
+        $chat->save();
+
+        $message = new ChatMessage();
+        $message->chat_id = $chat->id;
+        $message->sender = user()->id;
+        $message->receiver = $this->receiver_id;
+        $message->message = $this->new_chat_message;
+        $message->save();
+
+        session()->flash('success', 'New chat started successfully');
+        return redirect()->route('user.inbox');
     }
 
     public $selected_template_preview, $selected_template_id;

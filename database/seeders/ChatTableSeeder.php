@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use App\Models\Chat;
 use App\Models\ChatMessage;
+use App\Models\Number;
 use Carbon\Carbon;
 use Faker\Factory as Faker;
 use Illuminate\Database\Seeder;
@@ -23,6 +24,7 @@ class ChatTableSeeder extends Seeder
         foreach ($contact_numbers as $key => $cNum) {
             $chat = new Chat();
             $chat->user_id = 1;
+            $chat->from_number = Number::where('user_id', 1)->first()->number;
             $chat->contact_id = $cNum->id;
             $chat->last_message = $faker->randomElement(['Hello', 'Hi', 'Hey']);
             $chat->created_at = Carbon::parse(now())->subMinutes(15)->addMinutes($key + 1);

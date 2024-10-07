@@ -952,7 +952,7 @@
         </div>
 
         <!-- New Chat Modal  -->
-        <div class="modal fade common_modal" id="newChartModal" tabindex="-1" aria-labelledby="chatModal"
+        <div wire:ignore.self class="modal fade common_modal" id="newChartModal" tabindex="-1" aria-labelledby="chatModal"
             aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
                 <div class="modal-content">
@@ -963,52 +963,66 @@
                     </div>
                     <div class="modal-body">
                         <form action="" class="event_form_area">
-                            <div class="input_row searchable_select">
+                            <div class="input_row searchable_select" wire:ignore>
                                 <label for="">Sender</label>
-                                <select name="lang" class="js-searchBox">
+                                <select name="lang" class="js-searchBox new_chat_select_sender">
                                     <option value="">Choose Sender</option>
-                                    <option value="1">+1(332)262-786</option>
-                                    <option value="2">+1 (332) 262-780</option>
-                                    <option value="3">+1 (332) 262-784</option>
-                                    <option value="4">+1 (332) 262-788</option>
-                                    <option value="5">+1 (332) 262-783</option>
+                                    @foreach ($active_numbers as $nItem)
+                                        <option value="{{ $nItem->number }}">{{ $nItem->number }}</option>
+                                    @endforeach
                                 </select>
-                                <img src="{{ asset('assets/app/icons/arrow-down.svg') }}" alt="down arrow"
-                                    class="down_arrow" />
+                                <img src="{{ asset('assets/app/icons/arrow-down.svg') }}" alt="down arrow" class="down_arrow" />
                             </div>
-                            <!-- <div class="input_row telephone_int_area">
-                    <label for="">Receiver</label>
-                    <input type="tel" placeholder="" id="telephone" />
-                  </div> -->
-                            <div class="input_row">
+                            @error('sender_id')
+                                <p class="text-danger" style="font-size: 12.5px; margin-top: -15px;">{{ $message }}</p>
+                            @enderror
+
+                            <div class="input_row searchable_select" wire:ignore>
                                 <label for="">Receiver</label>
-                                <input type=" number" placeholder="Type receiver number" class="input_field" />
-                            </div>
-                            <div class="input_row searchable_select">
-                                <label for="">Template</label>
-                                <select name="lang" class="js-searchBox">
-                                    <option value="">Choose Template</option>
-                                    <option value="1">Template 1</option>
-                                    <option value="2">Template 2</option>
-                                    <option value="3">Template 3</option>
-                                    <option value="4">Template 4</option>
-                                    <option value="5">Template 5</option>
+                                <select name="lang" class="js-searchBox new_chat_select_receiver">
+                                    <option value="">Select Receiver</option>
+                                    @foreach ($receiver_numbers as $receiverNumber)
+                                        <option value="{{ $receiverNumber->id }}">{{ $receiverNumber->number }}</option>
+                                    @endforeach
                                 </select>
                                 <img src="{{ asset('assets/app/icons/arrow-down.svg') }}" alt="down arrow"
                                     class="down_arrow" />
                             </div>
-                            <div class="input_row">
-                                <label for="">Message</label>
-                                <textarea name="" id="" rows="5" class="input_field textarea_field"
-                                    placeholder="Write here..."></textarea>
+                            @error('receiver_id')
+                                <p class="text-danger" style="font-size: 12.5px; margin-top: -15px;">{{ $message }}</p>
+                            @enderror
+
+                            <div class="input_row searchable_select" wire:ignore>
+                                <label for="">Template</label>
+                                <select name="lang" class="js-searchBox new_chat_select_template" id="new_chat_select_template">
+                                    <option value="">Choose Template</option>
+                                    @foreach ($templates as $content)
+                                        <option value="{{ $content->preview_message }}"
+                                            data-id="{{ $content->id }}">{{ $content->template_name }}</option>
+                                    @endforeach
+                                </select>
+                                <img src="{{ asset('assets/app/icons/arrow-down.svg') }}" alt="down arrow"
+                                    class="down_arrow" />
                             </div>
+                            @error('selected_template_id_new_chat')
+                                <p class="text-danger" style="font-size: 12.5px; margin-top: -15px;">{{ $message }}</p>
+                            @enderror
+                            <div class="input_row">
+                                <label for="">Message <span wire:loading wire:target='useTemplateNewChat' class="spinner-border spinner-border-xs align-middle" role="status" aria-hidden="true"></span></label>
+                                <textarea name="" id="" rows="5" class="input_field textarea_field new_chat_text_area" id="new_chat_text_area" placeholder="Write here..."></textarea>
+                            </div>
+                            @error('selected_template_preview_new_chat')
+                                <p class="text-danger" style="font-size: 12.5px; margin-top: -15px;">{{ $message }}</p>
+                            @enderror
                         </form>
                     </div>
                     <div class="modal-footer event_modal_footer">
                         <button type="button" class="cancel_btn" data-bs-dismiss="modal">
                             Cancel
                         </button>
-                        <button type="button" class="create_event_btn">Start chat</button>
+                        <button type="button" wire:click.prevent='startNewChat' wire:loading.attr='disabled' class="create_event_btn">
+                            {!! loadingStateWithText('startNewChat', 'Start Chat') !!}
+                        </button>
                     </div>
                 </div>
             </div>
@@ -1228,6 +1242,34 @@
             $('#searchChat').on('keyup', function() {
                 var data = $(this).val();
                 @this.set('searchTerm', data);
+            });
+
+            $('.new_chat_select_receiver').on('change', function(e) {
+                e.preventDefault();
+                var value = $(this).val();
+                @this.set('receiver_id', value);
+            });
+            $('.new_chat_select_sender').on('change', function(e) {
+                e.preventDefault();
+                var value = $(this).val();
+                @this.set('sender_id', value);
+            });
+
+            $('#new_chat_select_template').on('change', function(e) {
+                e.preventDefault();
+
+                const selectedOptionNewChat = new_chat_select_template.options[new_chat_select_template.selectedIndex];
+                const selectedIdNC = selectedOptionNewChat.getAttribute('data-id');
+                const selectedPreviewMessageNC = selectedOptionNewChat.value;
+
+                @this.set('selected_template_preview_new_chat', selectedPreviewMessageNC);
+                @this.set('selected_template_id_new_chat', selectedIdNC);
+
+                @this.useTemplateNewChat();
+            });
+
+            document.addEventListener('updateTextareaNewChat', function(output) {
+                $('.new_chat_text_area').val(output.detail);
             });
 
 
