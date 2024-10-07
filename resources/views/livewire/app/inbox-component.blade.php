@@ -431,10 +431,10 @@
                                 </div>
                                 <div class="user_number_area">
                                     <h4>From</h4>
-                                    <a href="tel:+(229)555-0109" class="number_grid">
+                                    <a href="tel:{{ $selected_chat->from_number ?? '' }}" class="number_grid">
                                         <img src="{{ asset('assets/app/icons/call-outgoing-01.svg') }}"
                                             alt="call icon" />
-                                        <span>(229) 555-0109</span>
+                                        <span>{{ $selected_chat->from_number ?? '---' }}</span>
                                     </a>
                                 </div>
                             </div>
@@ -1272,21 +1272,6 @@
                 $('.new_chat_text_area').val(output.detail);
             });
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
             //Chat list Functionality
             $("#openChatBtn").click(function(e) {
                 e.preventDefault();
@@ -1347,7 +1332,6 @@
             });
 
             //Toggle Chat Search Functionality
-
             $("#chatSearchBtn").click(function(e) {
                 e.preventDefault();
                 $("#chartSearchFormArea").toggleClass("search_active");
@@ -1361,25 +1345,7 @@
                 tempTextarea.val(textToCopy).select();
                 document.execCommand("copy");
                 tempTextarea.remove();
-            });
-
-            //Emoji Picker
-            // $("#messageWriteArea").emojioneArea({
-            //     pickerPosition: "top",
-            //     filtersPosition: "bottom",
-            //     buttonTitle: "",
-            //     events: {
-            //         ready: function(editor, button) {
-            //             $(button).html(
-            //                 '<img src="{{ asset('assets/app/icons/relieved-02.svg') }}" alt="Emoji Picker Icon">'
-            //             );
-            //         },
-            //     },
-            // });
-            $("#noteWriteArea").emojioneArea({
-                pickerPosition: "top",
-                filtersPosition: "bottom",
-                buttonTitle: "",
+                successMsg('Number copied successfully');
             });
         });
     </script>

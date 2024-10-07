@@ -46,7 +46,7 @@ class InboxComponent extends Component
     public function selectChat($chat_id)
     {
         $this->selected_chat_id = $chat_id;
-        $selected_chat = DB::table('chats')->select('contacts.*')->join('contacts', 'contacts.id', 'chats.contact_id')->where('chats.id', $chat_id)->first();
+        $selected_chat = DB::table('chats')->select('contacts.*', 'chats.from_number as from_number')->join('contacts', 'contacts.id', 'chats.contact_id')->where('chats.id', $chat_id)->first();
         $selected_chat->avatar_ltr = substr($selected_chat->first_name, 0, 1) . substr($selected_chat->last_name, 0, 1);
         $selected_chat->notes = DB::table('contact_notes')->where('contact_id', $selected_chat->id)->get();
         $this->selected_chat = $selected_chat;
@@ -64,6 +64,10 @@ class InboxComponent extends Component
         $msg->receiver = $this->selected_chat->id;
         $msg->message = $message;
         $msg->save();
+
+        $chat = Chat::where('id', $this->selected_chat_id)->first();
+        $chat->last_message = $message;
+        $chat->save();
 
         $this->messages->push($msg);
         $this->dispatch('scrollToBottom');
