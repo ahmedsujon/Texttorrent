@@ -11,6 +11,11 @@ class InboxComponent extends Component
     public function mount()
     {
         $this->folders = DB::table('contact_folders')->where('user_id', user()->id)->get();
+        $last_chat = DB::table('chats')->select('id')->where('user_id', user()->id)->orderBy('updated_at', 'DESC')->first();
+
+        if ($last_chat) {
+            $this->selectChat($last_chat->id);
+        }
     }
 
     public function updatedFolderSearchTerm()
@@ -38,11 +43,13 @@ class InboxComponent extends Component
         $this->selected_chat = $selected_chat;
 
         $this->messages = DB::table('chat_messages')->where('chat_id', $chat_id)->get();
+
+        $this->dispatch('scrollToBottom');
     }
 
     public function render()
     {
-        $chats = DB::table('chats')->select('chats.*', 'contacts.first_name', 'contacts.last_name', 'contacts.number')->join('contacts', 'contacts.id', 'chats.contact_id')->where('chats.user_id', user()->id)->get();
+        $chats = DB::table('chats')->select('chats.*', 'contacts.first_name', 'contacts.last_name', 'contacts.number')->join('contacts', 'contacts.id', 'chats.contact_id')->where('chats.user_id', user()->id)->orderBy('chats.updated_at', 'DESC')->get();
 
         foreach ($chats as $key => $chat) {
             $chat->avatar_ltr = substr($chat->first_name, 0, 1) . substr($chat->last_name, 0, 1);

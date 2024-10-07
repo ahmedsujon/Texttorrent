@@ -1,5 +1,5 @@
 <div>
-    <main class="main_content_wrapper">
+    <main class="main_content_wrapper inbox_fixed_height">
         <!-- Inbox Section  -->
         <section class="inbox_wrapper content_no_space content_md_no_space">
             <div class="inbox_grid">
@@ -38,7 +38,7 @@
                             </div>
                             <div class="chat_fitler_grid">
                                 <div class="folder_filter_area">
-                                    <button type="button" class="all_chat_btn" id="folderFilterBtn">
+                                    <button type="button" class="all_chat_btn" id="folderFilterBtn" wire:ignore>
                                         <img class="folder_icon" src="{{ asset('assets/app/icons/folder-01.svg') }}"
                                             alt="folder icon" />
                                         <span>All chat</span>
@@ -58,16 +58,20 @@
                                         <ul class="folder_list folderMenuList">
                                             @foreach ($folders as $folder)
                                                 <li>
-                                                    <button type="button" class="{{ $sort_folder_id == $folder->id ? 'active_dropdown' : '' }}"
+                                                    <button type="button"
+                                                        class="{{ $sort_folder_id == $folder->id ? 'active_dropdown' : '' }}"
                                                         wire:click.prevent='selectFolder({{ $folder->id }})'>
-                                                        <img class="folder_icon" src="{{ asset('assets/app/icons/folder-01.svg') }}" alt="folder icon" />
+                                                        <img class="folder_icon"
+                                                            src="{{ asset('assets/app/icons/folder-01.svg') }}"
+                                                            alt="folder icon" />
                                                         <span>{{ $folder->name }}</span>
                                                     </button>
                                                 </li>
                                             @endforeach
                                         </ul>
                                         <div class="all_folder folderMenuList">
-                                            <button type="button" class="{{ $sort_folder_id == 'all' ? 'active_dropdown' : '' }}"
+                                            <button type="button"
+                                                class="{{ $sort_folder_id == 'all' ? 'active_dropdown' : '' }}"
                                                 wire:click.prevent='selectFolder("all")'>
                                                 <img class="folder_icon"
                                                     src="{{ asset('assets/app/icons/folder-01.svg') }}"
@@ -93,7 +97,8 @@
                                 @if ($chats->count() > 0)
                                     @foreach ($chats as $chat)
                                         <li>
-                                            <button type="button" wire:click.prevent='selectChat({{ $chat->id }})' class="list_item {{ $selected_chat_id == $chat->id ? 'active_chat' : '' }}">
+                                            <button type="button" wire:click.prevent='selectChat({{ $chat->id }})'
+                                                class="list_item {{ $selected_chat_id == $chat->id ? 'active_chat' : '' }}">
                                                 <div class="user_image chat-avatar">{{ $chat->avatar_ltr }}</div>
                                                 <div class="short_message_are">
                                                     <h4>{{ $chat->number }}</h4>
@@ -102,7 +107,7 @@
                                                     </p>
                                                 </div>
                                                 <div class="time_area">
-                                                    <h5>{{ Carbon\Carbon::parse($chat->created_at)->format('H:i A') }}
+                                                    <h5>{{ Carbon\Carbon::parse($chat->updated_at)->format('H:i A') }}
                                                     </h5>
                                                     {{-- <div class="d-flex justify-content-end">
                                                         <div class="number">1</div>
@@ -124,112 +129,117 @@
                 </div>
                 <div class="message_area">
                     @if ($selected_chat)
-                    <div class="user_header_area" id="userHeaderArea">
-                        <div class="user_info_area">
-                            <div class="user_top_img chat-avatar" style="height: 50px; width: 50px;">{{ $selected_chat->avatar_ltr }}</div>
-                            <div style="padding-left: 10px; ">
-                                <h4>{{ $selected_chat->first_name }} {{ $selected_chat->last_name }}</h4>
-                                <div class="d-flex align-items-center flex-wrap gap-1">
-                                    <h6 id="usersNumber">{{ $selected_chat->number }}</h6>
-                                    <button type="button" class="copy_icon" id="copyNumber">
-                                        <img src="{{ asset('assets/app/icons/copy-01.svg') }}" alt="copy icon" />
-                                    </button>
+                        <div class="user_header_area" id="userHeaderArea">
+                            <div class="user_info_area">
+                                <div class="user_top_img chat-avatar" style="height: 50px; width: 50px;">
+                                    {{ $selected_chat->avatar_ltr }}</div>
+                                <div style="padding-left: 10px; ">
+                                    <h4>{{ $selected_chat->first_name }} {{ $selected_chat->last_name }}</h4>
+                                    <div class="d-flex align-items-center flex-wrap gap-1">
+                                        <h6 id="usersNumber">{{ $selected_chat->number }}</h6>
+                                        <button type="button" class="copy_icon" id="copyNumber">
+                                            <img src="{{ asset('assets/app/icons/copy-01.svg') }}" alt="copy icon" />
+                                        </button>
+                                    </div>
                                 </div>
                             </div>
+                            <div class="header_action_area d-flex align-items-center justify-content-end flex-wrap">
+                                <button type="button" data-bs-target="#folderToggleModal" data-bs-toggle="modal">
+                                    <img src="{{ asset('assets/app/icons/folder-add.svg') }}"
+                                        alt="folder add icon" />
+                                </button>
+                                <button type="button" data-bs-toggle="modal" data-bs-target="#deleteModal">
+                                    <img src="{{ asset('assets/app/icons/delete-01.svg') }}" alt="delete icon" />
+                                </button>
+                                <button type="button" class="info_btn" id="contactInfoOpenBtn">
+                                    <img src="{{ asset('assets/app/icons/info-circle.svg') }}" alt="info icon" />
+                                </button>
+                            </div>
                         </div>
-                        <div class="header_action_area d-flex align-items-center justify-content-end flex-wrap">
-                            <button type="button" data-bs-target="#folderToggleModal" data-bs-toggle="modal">
-                                <img src="{{ asset('assets/app/icons/folder-add.svg') }}" alt="folder add icon" />
-                            </button>
-                            <button type="button" data-bs-toggle="modal" data-bs-target="#deleteModal">
-                                <img src="{{ asset('assets/app/icons/delete-01.svg') }}" alt="delete icon" />
-                            </button>
-                            <button type="button" class="info_btn" id="contactInfoOpenBtn">
-                                <img src="{{ asset('assets/app/icons/info-circle.svg') }}" alt="info icon" />
-                            </button>
-                        </div>
-                    </div>
 
-                    <div class="message_write_area">
-                        <div class="message_chat_area" id="messageArea">
-                            @if ($messages->count() > 0)
-                                @foreach ($messages as $msg)
-                                    @if ($msg->sender == user()->id)
-                                    <div class="sender_msg">
-                                        <div class="text_area">
-                                            <p class="msg">
-                                                Hey Sheikh, <br />
-                                                Thanks for your words. I really appriciate that. Just let
-                                                me know if there any things you need from me.
-                                            </p>
-                                            <img src="{{ asset('assets/app/icons/sender_shape.svg') }}"
-                                                alt="sender
-                                            shape" class="msg_shape" />
-                                            <h6 class="time">12:20 AM</h6>
-                                        </div>
+                        <div class="message_write_area">
+                            <div class="message_chat_area" id="messageArea">
+                                @if ($messages->count() > 0)
+                                    @foreach ($messages as $msg)
+                                        @if ($msg->sender == user()->id)
+                                            <div class="sender_msg">
+                                                <div class="text_area">
+                                                    <p class="msg">
+                                                        {!! $msg->message !!}
+                                                    </p>
+                                                    <img src="{{ asset('assets/app/icons/sender_shape.svg') }}"
+                                                        alt="sender
+                                            shape"
+                                                        class="msg_shape" />
+                                                    <h6 class="time">
+                                                        {{ Carbon\Carbon::parse($msg->updated_at)->format('H:i A') }}
+                                                    </h6>
+                                                </div>
+                                            </div>
+                                        @else
+                                            <div class="receive_msg">
+                                                <div class="recevier_user chat-avatar"
+                                                    style="height: 50px; width: 50px;">
+                                                    {{ $selected_chat->avatar_ltr }}</div>
+                                                <div class="text_area">
+                                                    <p class="msg">
+                                                        {!! $msg->message !!}
+                                                    </p>
+                                                    <img src="{{ asset('assets/app/icons/receive_shape.svg') }}"
+                                                        alt="receive
+                                                shape"
+                                                        class="msg_shape" />
+                                                    <h6 class="time">
+                                                        {{ Carbon\Carbon::parse($msg->updated_at)->format('H:i A') }}
+                                                    </h6>
+                                                </div>
+                                            </div>
+                                        @endif
+                                    @endforeach
+                                @else
+                                    <div class="w-100 mt-5 text-center">
+                                        <p class="">No messages found!</p>
                                     </div>
-                                    @else
-                                    <div class="receive_msg">
-                                        <img src="{{ asset('assets/app/images/inbox/user_main.png') }}" alt="user image"
-                                            class="recevier_user" />
-                                        <div class="text_area">
-                                            <p class="msg">
-                                                Hi Royal! <br />
-                                                I like to buy your products. I just love what your
-                                                providing. Also I’ll send you few examples.
-                                            </p>
-                                            <img src="{{ asset('assets/app/icons/receive_shape.svg') }}"
-                                                alt="receive
-                                                shape" class="msg_shape" />
-                                            <h6 class="time">12:20 AM</h6>
-                                        </div>
-                                    </div>
-                                    @endif
-                                @endforeach
-                            @else
-                                <div class="w-100 mt-5 text-center">
-                                    <p class="">No messages found!</p>
-                                </div>
-                            @endif
-                        </div>
-                        <div class="message_write_input_area position-relative" id="messageInputArea">
-                            <form class="chat_box_area">
-                                <div class="chat_box_header_area d-flex align-items-center flex-wrap gap-2">
-                                    <label for="fileUpload" class="link_btn">
-                                        <img src="{{ asset('assets/app/icons/link-02.svg') }}" alt="link icon" />
-                                    </label>
+                                @endif
+                            </div>
+                            <div class="message_write_input_area position-relative" id="messageInputArea">
+                                <form class="chat_box_area">
+                                    <div class="chat_box_header_area d-flex align-items-center flex-wrap gap-2">
+                                        <label for="fileUpload" class="link_btn">
+                                            <img src="{{ asset('assets/app/icons/link-02.svg') }}" alt="link icon" />
+                                        </label>
 
-                                    <button type="button" class="emoji_btn">
-                                        <!-- <img
+                                        <button type="button" class="emoji_btn">
+                                            <!-- <img
                                             src="assets/icons/relieved-01.svg"
                                             alt="emoji icon"
                                         /> -->
-                                    </button>
+                                        </button>
 
-                                    <button type="button" class="template_btn" data-bs-toggle="modal"
-                                        data-bs-target="#smsTemplateModal">
-                                        <img src="{{ asset('assets/app/icons/dashboard-square-add.svg') }}"
-                                            alt="dashboard icon" />
-                                        <span>SMS template</span>
+                                        <button type="button" class="template_btn" data-bs-toggle="modal"
+                                            data-bs-target="#smsTemplateModal">
+                                            <img src="{{ asset('assets/app/icons/dashboard-square-add.svg') }}"
+                                                alt="dashboard icon" />
+                                            <span>SMS template</span>
+                                        </button>
+                                        <button type="button" class="calender_btn" data-bs-toggle="modal"
+                                            data-bs-target="#eventModal">
+                                            <img src="{{ asset('assets/app/icons/event_add.svg') }}"
+                                                alt="dashboard icon" />
+                                            <span>Add event to calendar</span>
+                                        </button>
+                                    </div>
+                                    <div class="msg_input_area">
+                                        <textarea name="" placeholder="Write here..." class="msg_input" id="messageWriteArea"></textarea>
+                                    </div>
+                                    <button type="submit" class="send_btn">
+                                        <img src="{{ asset('assets/app/icons/send-white.svg') }}" alt="send icon" />
                                     </button>
-                                    <button type="button" class="calender_btn" data-bs-toggle="modal"
-                                        data-bs-target="#eventModal">
-                                        <img src="{{ asset('assets/app/icons/event_add.svg') }}"
-                                            alt="dashboard icon" />
-                                        <span>Add event to calendar</span>
-                                    </button>
-                                </div>
-                                <div class="msg_input_area">
-                                    <textarea name="" placeholder="Write here..." class="msg_input" id="messageWriteArea"></textarea>
-                                </div>
-                                <button type="submit" class="send_btn">
-                                    <img src="{{ asset('assets/app/icons/send-white.svg') }}" alt="send icon" />
-                                </button>
-                            </form>
-                            <input type="file" class="opacity-0 visually-hidden position-absolute zn-1"
-                                id="fileUpload" />
+                                </form>
+                                <input type="file" class="opacity-0 visually-hidden position-absolute zn-1"
+                                    id="fileUpload" />
+                            </div>
                         </div>
-                    </div>
                     @endif
                 </div>
                 <div class="contact_info_warapper" id="contactInfoArea">
@@ -239,13 +249,17 @@
                                 <h3>Contact Info</h3>
                             </div>
                             <div class="user_name_area d-flex flex-column align-items-center">
-                                <div class="user_right_img chat-avatar d-flex justify-content-center align-items-center">
+                                <div
+                                    class="user_right_img chat-avatar d-flex justify-content-center align-items-center">
                                     {{ $selected_chat->avatar_ltr }}
                                 </div>
-                                <h4 class="mt-3">{{ $selected_chat->first_name }} {{ $selected_chat->last_name }}</h4>
-                                <div class="user_action_btn_list d-flex align-items-center justify-content-center flex-wrap">
+                                <h4 class="mt-3">{{ $selected_chat->first_name }} {{ $selected_chat->last_name }}
+                                </h4>
+                                <div
+                                    class="user_action_btn_list d-flex align-items-center justify-content-center flex-wrap">
                                     <button type="button" class="btn">
-                                        <img src="{{ asset('assets/app/icons/user-block-02.svg') }}" alt="user block" />
+                                        <img src="{{ asset('assets/app/icons/user-block-02.svg') }}"
+                                            alt="user block" />
                                     </button>
                                 </div>
                             </div>
@@ -262,11 +276,13 @@
                                     <div class="user_info_contact_area">
                                         <div class="user_info_grid">
                                             <div class="icon">
-                                                <img src="{{ asset('assets/app/icons/user.svg') }}" alt="user icon" />
+                                                <img src="{{ asset('assets/app/icons/user.svg') }}"
+                                                    alt="user icon" />
                                             </div>
                                             <div>
                                                 <h4>Name</h4>
-                                                <h5>{{ $selected_chat->first_name }} {{ $selected_chat->last_name }}</h5>
+                                                <h5>{{ $selected_chat->first_name }} {{ $selected_chat->last_name }}
+                                                </h5>
                                             </div>
                                         </div>
                                         <div class="user_info_grid">
@@ -286,7 +302,8 @@
                                             </div>
                                             <div>
                                                 <h4>Contact list</h4>
-                                                <h5>{{ $selected_chat->list_id && isset(getListByID($selected_chat->list_id)->name) ? getListByID($selected_chat->list_id)->name : '---' }}</h5>
+                                                <h5>{{ $selected_chat->list_id && isset(getListByID($selected_chat->list_id)->name) ? getListByID($selected_chat->list_id)->name : '---' }}
+                                                </h5>
                                             </div>
                                         </div>
                                         <div class="user_info_grid">
@@ -1068,57 +1085,28 @@
 
 @push('scripts')
     <script>
-        window.addEventListener('reload_scripts', event => {
-            setTimeout(() => {
-                function adjustMessageHeight() {
-                    var windowHeight = $(window).height();
-                    var headerHeight = $("#userHeaderArea").outerHeight();
-                    var inputHeight = $("#messageInputArea").outerHeight();
-                    var messagesHeight = windowHeight - headerHeight - inputHeight;
-                    $("#messageArea").css(
-                        "height",
-                        window?.innerWidth < 768 ?
-                        messagesHeight - 140 :
-                        messagesHeight - 80 + "px"
-                    );
-                }
-
-                // Initial adjustment
-                adjustMessageHeight();
-
-                // Adjust on window resize
-                $(window).resize(function() {
-                    adjustMessageHeight();
-                });
-            }, 1);
-        });
-
         $(document).ready(function() {
-            //Message Height
-            function adjustMessageHeight() {
-                var windowHeight = $(window).height();
-                var headerHeight = $("#userHeaderArea").outerHeight();
-                var inputHeight = $("#messageInputArea").outerHeight();
-                var messagesHeight = windowHeight - headerHeight - inputHeight;
-                $("#messageArea").css(
-                    "height",
-                    window?.innerWidth < 768 ?
-                    messagesHeight - 140 :
-                    messagesHeight - 80 + "px"
-                );
+            // var messageDivB = document.getElementById("messageArea");
+            // function scrollToBottom() {
+            //     messageDivB.scrollTop = messageDivB.scrollHeight;
+            // }
+
+            function scrollToBottom() {
+                const messageArea = document.getElementById('messageArea');
+                messageArea.scrollTo({
+                    top: messageArea.scrollHeight,
+                    behavior: 'smooth'
+                });
             }
 
-            // Initial adjustment
-            adjustMessageHeight();
-
-            // Adjust on window resize
-            $(window).resize(function() {
-                adjustMessageHeight();
+            scrollToBottom();
+            window.addEventListener('scrollToBottom', event => {
+                setTimeout(() => {
+                    scrollToBottom();
+                }, 5);
             });
-        });
-    </script>
-    <script>
-        $(document).ready(function() {
+
+
             //Chat list Functionality
             $("#openChatBtn").click(function(e) {
                 e.preventDefault();

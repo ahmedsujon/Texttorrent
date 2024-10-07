@@ -1,19 +1,19 @@
 @import url("https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap");
 @font-face {
   font-family: SFLightFont;
-  src: url(/assets/app/fonts/SF-Pro-Display-Light.woff);
+  src: url(/assets/fonts/SF-Pro-Display-Light.woff);
 }
 @font-face {
   font-family: SFRegularFont;
-  src: url(/assets/app/fonts/SF-Pro-Display-Regular.woff);
+  src: url(/assets/fonts/SF-Pro-Display-Regular.woff);
 }
 @font-face {
   font-family: SFMediumFont;
-  src: url(/assets/app/fonts/SF-Pro-Display-Medium.woff);
+  src: url(/assets/fonts/SF-Pro-Display-Medium.woff);
 }
 @font-face {
   font-family: SFSemiBoldFont;
-  src: url(/assets/app/fonts/SF-Pro-Display-Semibold.woff);
+  src: url(/assets/fonts/SF-Pro-Display-Semibold.woff);
 }
 /* Hover Transistion */
 /* Custom scroll Bar */
@@ -749,6 +749,10 @@ input[type=number] {
   height: 100%;
   background: rgba(0, 0, 0, 0.5);
   z-index: 500;
+  display: none;
+}
+
+.scrolltop {
   display: none;
 }
 
@@ -5834,10 +5838,57 @@ input[type=number] {
   box-shadow: 0px 1px 2px 0px rgba(11, 18, 52, 0.15), 0px 0px 0px 1px rgba(11, 18, 52, 0.1);
 }
 
+.inbox_fixed_height {
+  height: 100vh;
+  margin-top: 0;
+  margin-bottom: 0;
+  margin-right: 0px;
+  overflow: hidden;
+}
+
+.inbox_wrapper {
+  height: calc(100% - 20px);
+  margin-top: 20px;
+  padding-top: 1px;
+  overflow-y: auto;
+  /* width */
+  /* Track */
+  /* Handle */
+  /* Handle on hover */
+  overflow: auto;
+}
+.inbox_wrapper::-webkit-scrollbar {
+  width: 8px;
+}
+.inbox_wrapper::-webkit-scrollbar-track {
+  background: #b4f3d1;
+  border-radius: 5px;
+}
+.inbox_wrapper::-webkit-scrollbar-thumb {
+  background: #235de4;
+  border-radius: 5px;
+}
+.inbox_wrapper::-webkit-scrollbar-thumb:hover {
+  background: #f84f4f;
+  cursor: grab;
+}
+@media all and (min-width: 768px) {
+  .inbox_wrapper.content_no_space {
+    transition: 0.5s;
+    -webkit-transition: 0.5s;
+    -moz-transition: 0.5s;
+    -ms-transition: 0.5s;
+    -o-transition: 0.5s;
+    margin-left: -14px;
+    width: calc(100% + 14px);
+  }
+}
 .inbox_wrapper .inbox_grid {
   display: grid;
   grid-template-columns: minmax(0, 360px) minmax(0, 1fr) minmax(0, 0.4fr);
   align-items: start;
+  height: 100%;
+  overflow: hidden;
 }
 @media (min-width: 1200px) and (max-width: 1299px) {
   .inbox_wrapper .inbox_grid {
@@ -5855,6 +5906,7 @@ input[type=number] {
   .inbox_wrapper .inbox_grid {
     transition: 0.5s;
     grid-template-columns: minmax(0, 1fr);
+    padding: 0 10px;
   }
 }
 .inbox_wrapper .mobile_chat_header {
@@ -6446,6 +6498,7 @@ input[type=number] {
 .inbox_wrapper .user_header_area {
   position: relative;
   padding: 0 24px 16px 24px;
+  height: 68px;
 }
 .inbox_wrapper .user_header_area::after {
   content: "";
@@ -6594,8 +6647,12 @@ input[type=number] {
     display: block;
   }
 }
+.inbox_wrapper .message_area {
+  height: 100%;
+}
 .inbox_wrapper .message_write_area {
   padding: 24px 24px 16px 24px;
+  height: 100%;
 }
 @media all and (max-width: 1199px) {
   .inbox_wrapper .message_write_area {
@@ -6612,6 +6669,7 @@ input[type=number] {
 .inbox_wrapper .message_chat_area {
   padding-right: 8px;
   margin-bottom: 20px;
+  height: calc(100vh - 314px);
   overflow-y: auto;
   /* width */
   /* Track */
@@ -6633,6 +6691,12 @@ input[type=number] {
 .inbox_wrapper .message_chat_area::-webkit-scrollbar-thumb:hover {
   background: #f84f4f;
   cursor: grab;
+}
+@media all and (max-width: 767px) {
+  .inbox_wrapper .message_chat_area {
+    transition: 0.5s;
+    height: calc(100vh - 362px);
+  }
 }
 .inbox_wrapper .receive_msg,
 .inbox_wrapper .sender_msg {
@@ -6983,6 +7047,7 @@ input[type=number] {
 }
 .inbox_wrapper .contact_info_area {
   position: relative;
+  margin-right: 10px;
 }
 .inbox_wrapper .contact_info_area::after {
   content: "";

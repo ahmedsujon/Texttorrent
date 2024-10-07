@@ -1,8 +1,28 @@
+.inbox_fixed_height {
+  height: 100vh;
+  margin-top: 0;
+  margin-bottom: 0;
+  margin-right: 0px;
+  overflow: hidden;
+}
 .inbox_wrapper {
+  height: calc(100% - 20px);
+  margin-top: 20px;
+  padding-top: 1px;
+  @include customScrollbar();
+  overflow: auto;
+  &.content_no_space {
+    @include min-media-width(768) {
+      margin-left: -14px;
+      width: calc(100% + 14px);
+    }
+  }
   .inbox_grid {
     display: grid;
     grid-template-columns: minmax(0, 360px) minmax(0, 1fr) minmax(0, 0.4fr);
     align-items: start;
+    height: 100%;
+    overflow: hidden;
     @include media-break-width(1200, 1299) {
       grid-template-columns: minmax(0, 350px) minmax(0, 1fr) minmax(0, 0.5fr);
     }
@@ -11,6 +31,7 @@
     }
     @include max-media-width(767) {
       grid-template-columns: minmax(0, 1fr);
+      padding: 0 10px;
     }
   }
   .mobile_chat_header {
@@ -512,6 +533,7 @@
   .user_header_area {
     position: relative;
     padding: 0 24px 16px 24px;
+    height: 68px;
     &::after {
       content: "";
       position: absolute;
@@ -605,8 +627,12 @@
       }
     }
   }
+  .message_area {
+    height: 100%;
+  }
   .message_write_area {
     padding: 24px 24px 16px 24px;
+    height: 100%;
     @include max-media-width(1199) {
       padding: 20px 0px 12px 20px;
     }
@@ -617,11 +643,11 @@
   .message_chat_area {
     padding-right: 8px;
     margin-bottom: 20px;
-    // max-height: calc(100vh - 310px);
+    height: calc(100vh - 314px);
     @include customScrollbarInner();
-    // @include max-media-width(767) {
-    //   max-height: calc(100vh - 350px);
-    // }
+    @include max-media-width(767) {
+      height: calc(100vh - 362px);
+    }
   }
   .receive_msg,
   .sender_msg {
@@ -902,6 +928,7 @@
   }
   .contact_info_area {
     position: relative;
+    margin-right: 10px;
     &::after {
       content: "";
       position: absolute;
