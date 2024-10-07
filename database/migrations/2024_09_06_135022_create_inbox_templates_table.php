@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('inbox_templates', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('user_id')->nullable();
             $table->string('template_name')->nullable();
             $table->string('status')->nullable();
             $table->string('preview_message')->nullable();

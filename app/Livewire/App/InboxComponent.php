@@ -4,11 +4,12 @@ namespace App\Livewire\App;
 
 use Livewire\Component;
 use App\Models\ChatMessage;
+use App\Models\Contact;
 use Illuminate\Support\Facades\DB;
 
 class InboxComponent extends Component
 {
-    public $folders, $folder_search_term;
+    public $folders, $folder_search_term, $templates;
     public function mount()
     {
         $this->folders = DB::table('contact_folders')->where('user_id', user()->id)->get();
@@ -17,6 +18,8 @@ class InboxComponent extends Component
         if ($last_chat) {
             $this->selectChat($last_chat->id);
         }
+
+        $this->templates = DB::table('inbox_templates')->where('user_id', user()->id)->get();
     }
 
     public function updatedFolderSearchTerm()
@@ -59,6 +62,27 @@ class InboxComponent extends Component
 
         $this->messages->push($msg);
         $this->dispatch('scrollToBottom');
+    }
+
+    public $selected_template_preview, $selected_template_id;
+    public function useTemplate()
+    {
+        $this->validate([
+            'selected_template_id' => 'required',
+        ],[
+            'selected_template_id.required' => 'Select a template',
+        ]);
+
+        $contact = Contact::find($this->selected_chat->id);
+        $output = $this->selected_template_preview; // Start with the template preview
+        $output = str_replace('[phone_number]', $contact->number, $output);
+        $output = str_replace('[email_address]', $contact->email, $output);
+        $output = str_replace('[first_name]', $contact->first_name, $output);
+        $output = str_replace('[last_name]', $contact->last_name, $output);
+        $output = str_replace('[company]', $contact->company, $output);
+
+        $this->dispatch('updateTextarea', $output);
+        $this->reset(['selected_template_preview', 'selected_template_id']);
     }
 
     public function render()

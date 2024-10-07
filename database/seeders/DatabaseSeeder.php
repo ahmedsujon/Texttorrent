@@ -20,5 +20,6 @@ class DatabaseSeeder extends Seeder
         $this->call(UserPermissionTableSeeder::class);
         $this->call(UserContactsTableSeeder::class);
         $this->call(ChatTableSeeder::class);
+        $this->call(InboxTemplateTableSeeder::class);
     }
 }

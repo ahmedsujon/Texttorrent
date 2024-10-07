@@ -728,52 +728,43 @@
         </div>
 
         <!-- Sms Template Modal  -->
-        <div class="modal fade common_modal" id="smsTemplateModal" tabindex="-1" aria-labelledby="templateModal"
-            aria-hidden="true">
+        <div wire:ignore.self class="modal fade common_modal" id="smsTemplateModal" tabindex="-1" aria-labelledby="templateModal"
+            aria-hidden="true" wire:ignore.self>
             <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
                 <div class="modal-content">
                     <div class="modal-header">
                         <h1 class="modal-title fs-5" id="templateModal">
                             Select template
                         </h1>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal"
-                            aria-label="Close"></button>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
                         <form action="" class="event_form_area">
-                            <div class="input_row searchable_select">
+                            <div class="input_row searchable_select" wire:ignore>
                                 <label for="">Template</label>
-                                <select name="lang" class="js-searchBox">
+                                <select name="lang" class="js-searchBox" id="templateSelect">
                                     <option value="">Choose Template</option>
-                                    <option value="1">Python</option>
-                                    <option value="2">Java</option>
-                                    <option value="3">Ruby</option>
-                                    <option value="4">C/C++</option>
-                                    <option value="5">C#</option>
-                                    <option value="6">JavaScript</option>
-                                    <option value="7">PHP</option>
-                                    <option value="8">Swift</option>
-                                    <option value="9">Scala</option>
-                                    <option value="10">R</option>
-                                    <option value="11">Go</option>
-                                    <option value="12">VisualBasic.NET</option>
-                                    <option value="13">Kotlin</option>
+                                    @foreach ($templates as $content)
+                                        <option value="{{ $content->preview_message }}" data-id="{{ $content->id }}">{{ $content->template_name }}</option>
+                                    @endforeach
                                 </select>
-                                <img src="{{ asset('assets/app/icons/arrow-down.svg') }}" alt="down arrow"
-                                    class="down_arrow" />
+                                <img src="{{ asset('assets/app/icons/arrow-down.svg') }}" alt="down arrow" class="down_arrow" />
                             </div>
+                            @error('selected_template_id')
+                                <p class="text-danger" style="font-size: 12.5px;">{{ $message }}</p>
+                            @enderror
                             <div class="input_row">
                                 <label for="">Preview</label>
-                                <textarea name="" id="" placeholder="Template Preview" class="input_field textarea_field"
-                                    rows="5"></textarea>
+                                <textarea id="templatePreview" placeholder="Template Preview" class="input_field textarea_field"
+                                        rows="5" readonly></textarea>
                             </div>
                         </form>
                     </div>
                     <div class="modal-footer event_modal_footer">
-                        <button type="button" class="cancel_btn" data-bs-dismiss="modal">
-                            Cancel
+                        <button type="button" class="cancel_btn" data-bs-dismiss="modal">Cancel</button>
+                        <button type="button" class="create_event_btn" wire:click.prevent='useTemplate'>
+                            {!! loadingStateWithText('useTemplate', 'Use Template') !!}
                         </button>
-                        <button type="button" class="create_event_btn">Save</button>
                     </div>
                 </div>
             </div>
@@ -1084,10 +1075,6 @@
 @push('scripts')
     <script>
         $(document).ready(function() {
-            // var messageDivB = document.getElementById("messageArea");
-            // function scrollToBottom() {
-            //     messageDivB.scrollTop = messageDivB.scrollHeight;
-            // }
 
             function scrollToBottom() {
                 const messageArea = document.getElementById('messageArea');
@@ -1096,7 +1083,6 @@
                     behavior: 'smooth'
                 });
             }
-
             scrollToBottom();
             window.addEventListener('scrollToBottom', event => {
                 setTimeout(() => {
@@ -1127,7 +1113,24 @@
                 }
             });
 
+            $('#templateSelect').on('change', function(e){
+                e.preventDefault();
 
+                const selectedOption = templateSelect.options[templateSelect.selectedIndex];
+                const selectedId = selectedOption.getAttribute('data-id');
+                const selectedPreviewMessage = selectedOption.value;
+
+                $('#templatePreview').val(selectedPreviewMessage);
+                @this.set('selected_template_preview', selectedPreviewMessage);
+                @this.set('selected_template_id', selectedId);
+
+            });
+            document.addEventListener('updateTextarea', function (output) {
+                document.getElementById('messageWriteArea').value = output.detail;
+                $('#smsTemplateModal').modal('hide');
+                $('#templatePreview').val('');
+                $('#templateSelect').val('');
+            });
 
 
 
