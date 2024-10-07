@@ -1049,7 +1049,6 @@
         </div>
 
         <!-- Edit Modal  -->
-        <!-- New Event Modal  -->
         <div class="modal fade common_modal" id="updateModal" tabindex="-1" aria-labelledby="updateInfoModal"
             aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
@@ -1063,56 +1062,36 @@
                     </div>
                     <div class="modal-body">
                         <form action="" class="event_form_area">
-                            <div class="input_row">
-                                <label for="">Name</label>
-                                <input type="text" placeholder="Type Name" value="Tom Hardy"
-                                    class="input_field" />
+                            <div class="two_grid">
+                                <div class="input_row">
+                                    <label for="">First Name</label>
+                                    <input type="text" placeholder="Enter first name" wire:model.blur='first_name' class="input_field" />
+                                </div>
+                                <div class="input_row">
+                                    <label for="">Last Name</label>
+                                    <input type="text" placeholder="Enter last name" wire:model.blur='last_name' class="input_field" />
+                                </div>
                             </div>
 
                             <div class="two_grid">
                                 <div class="input_row">
-                                    <label for="">Company </label>
-                                    <input type="text" placeholder="Type Subject" class="input_field"
-                                        value="Text Torrent" />
+                                    <label for="">Email</label>
+                                    <input type="text" placeholder="Enter email" wire:model.blur='email' class="input_field" />
                                 </div>
                                 <div class="input_row">
-                                    <label for="">Contact</label>
-                                    <input type="text" placeholder="Type Subject" class="input_field"
-                                        value="(229) 555-0109" />
+                                    <label for="">Phone</label>
+                                    <input type="text" placeholder="Enter phone number" wire:model.blur='phone' class="input_field" />
                                 </div>
                             </div>
                             <div class="two_grid">
                                 <div class="input_row">
-                                    <label for="">Email </label>
-                                    <input type="email" placeholder="Type Email" class="input_field"
-                                        value="example@gmail.com" />
+                                    <label for="">Company</label>
+                                    <input type="text" placeholder="Enter company" wire:model.blur='company' class="input_field" />
                                 </div>
                                 <div class="input_row">
-                                    <label for="">Phone</label>
-                                    <input type="text" placeholder="Type Phone Number" class="input_field"
-                                        value="(229) 555-0109" />
+                                    <label for="">Country</label>
+                                    <input type="text" readonly value="USA" class="input_field" />
                                 </div>
-                            </div>
-                            <div class="input_row searchable_select">
-                                <label for="">Country</label>
-                                <select name="lang" class="js-searchBox">
-                                    <option value="">Choose Sender</option>
-                                    <option value="1">Python</option>
-                                    <option selected value="2">Java</option>
-                                    <option value="3">Ruby</option>
-                                    <option value="4">C/C++</option>
-                                    <option value="5">C#</option>
-                                    <option value="6">JavaScript</option>
-                                    <option value="7">PHP</option>
-                                    <option value="8">Swift</option>
-                                    <option value="9">Scala</option>
-                                    <option value="10">R</option>
-                                    <option value="11">Go</option>
-                                    <option value="12">VisualBasic.NET</option>
-                                    <option value="13">Kotlin</option>
-                                </select>
-                                <img src="{{ asset('assets/app/icons/arrow-down.svg') }}" alt="down arrow"
-                                    class="down_arrow" />
                             </div>
                         </form>
                     </div>
