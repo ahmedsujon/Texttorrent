@@ -2,8 +2,9 @@
 
 namespace App\Livewire\App;
 
-use Illuminate\Support\Facades\DB;
 use Livewire\Component;
+use App\Models\ChatMessage;
+use Illuminate\Support\Facades\DB;
 
 class InboxComponent extends Component
 {
@@ -44,6 +45,19 @@ class InboxComponent extends Component
 
         $this->messages = DB::table('chat_messages')->where('chat_id', $chat_id)->get();
 
+        $this->dispatch('scrollToBottom');
+    }
+
+    public function sendMessage($message)
+    {
+        $msg = new ChatMessage();
+        $msg->chat_id = $this->selected_chat_id;
+        $msg->sender = user()->id;
+        $msg->receiver = $this->selected_chat->id;
+        $msg->message = $message;
+        $msg->save();
+
+        $this->messages->push($msg);
         $this->dispatch('scrollToBottom');
     }
 

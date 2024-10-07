@@ -168,9 +168,7 @@
                                                         {!! $msg->message !!}
                                                     </p>
                                                     <img src="{{ asset('assets/app/icons/sender_shape.svg') }}"
-                                                        alt="sender
-                                            shape"
-                                                        class="msg_shape" />
+                                                        alt="sender shape" class="msg_shape" />
                                                     <h6 class="time">
                                                         {{ Carbon\Carbon::parse($msg->updated_at)->format('H:i A') }}
                                                     </h6>
@@ -203,7 +201,7 @@
                                 @endif
                             </div>
                             <div class="message_write_input_area position-relative" id="messageInputArea">
-                                <form class="chat_box_area">
+                                <form class="chat_box_area" id="sendMessageForm" enctype="multipart/form-data" wire:ignore>
                                     <div class="chat_box_header_area d-flex align-items-center flex-wrap gap-2">
                                         <label for="fileUpload" class="link_btn">
                                             <img src="{{ asset('assets/app/icons/link-02.svg') }}" alt="link icon" />
@@ -230,10 +228,10 @@
                                         </button>
                                     </div>
                                     <div class="msg_input_area">
-                                        <textarea name="" placeholder="Write here..." class="msg_input" id="messageWriteArea"></textarea>
+                                        <textarea name="message" placeholder="Write here..." class="msg_input" id="messageWriteArea"></textarea>
                                     </div>
-                                    <button type="submit" class="send_btn">
-                                        <img src="{{ asset('assets/app/icons/send-white.svg') }}" alt="send icon" />
+                                    <button type="submit" class="send_btn" wire:loading.attr='disabled'>
+                                        {!! loadingStateWithoutText('sendMessage', '<img src="'.asset('assets/app/icons/send-white.svg').'" alt="send icon" />') !!}
                                     </button>
                                 </form>
                                 <input type="file" class="opacity-0 visually-hidden position-absolute zn-1"
@@ -1105,6 +1103,46 @@
                     scrollToBottom();
                 }, 5);
             });
+
+            function getCurrentTime() {
+                const now = new Date();
+                let hours = now.getHours();
+                const minutes = now.getMinutes().toString().padStart(2, '0');
+                const ampm = hours >= 12 ? 'PM' : 'AM';
+
+                hours = hours % 12;
+                hours = hours ? hours : 12; // If the hour is 0, set it to 12 (midnight or noon)
+                const formattedHours = hours.toString().padStart(2, '0'); // Pad hours with 0 if needed
+                return `${formattedHours}:${minutes} ${ampm}`;
+            }
+
+            $('#sendMessageForm').on('submit', function(e){
+                e.preventDefault();
+
+                var message = $(".msg_input").val();
+                if(message!= '') {
+                    @this.sendMessage(message);
+
+                    $(".msg_input").val('');
+                }
+            });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
             //Chat list Functionality
