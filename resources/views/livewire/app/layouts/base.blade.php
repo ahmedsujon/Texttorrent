@@ -69,6 +69,19 @@
     .active_list_btn {
         background-color: #E7EAEB;
     }
+
+    /* Styling the avatar */
+    .chat-avatar {
+        background-color: #DDDDDD;
+        color: rgb(124, 124, 124);
+        border-radius: 50%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-weight: bold;
+        font-size: 14px;
+        text-transform: uppercase;
+    }
 </style>
 
 <body>

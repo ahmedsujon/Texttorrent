@@ -11,12 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('inbox_templates', function (Blueprint $table) {
+        Schema::create('chats', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('user_id')->nullable();
-            $table->string('template_name')->nullable();
-            $table->string('status')->nullable();
-            $table->string('preview_message')->nullable();
+            $table->unsignedBigInteger('contact_id')->nullable();
+            $table->string('from_number')->nullable();
+            $table->text('last_message')->nullable();
+            $table->tinyInteger('status')->default(0);
             $table->timestamps();
         });
     }
@@ -26,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('inbox_templates');
+        Schema::dropIfExists('chats');
     }
 };
