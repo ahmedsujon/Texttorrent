@@ -35,6 +35,7 @@ class InboxTemplateComponent extends Component
         ]);
 
         $template = new InboxTemplate();
+        $template->user_id = user()->id;
         $template->template_name = $this->template_name;
         $template->status = $this->status;
         $template->preview_message = $this->preview_message;
@@ -127,6 +128,7 @@ class InboxTemplateComponent extends Component
     public function render()
     {
         $templates = InboxTemplate::where('template_name', 'like', '%' . $this->searchTerm . '%')
+            ->where('user_id', user()->id)
             ->orderBy($this->sortBy, $this->sortDirection)
             ->paginate($this->sortingValue);
 
