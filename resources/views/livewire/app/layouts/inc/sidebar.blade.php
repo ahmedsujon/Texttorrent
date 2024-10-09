@@ -3,7 +3,7 @@
     <div class="sidebar_wrapper" id="sidebarArea">
         <div>
             <div class="logo_grid">
-                <a href="{{ route('app.home') }}" class="logo">
+                <a href="{{ route('user.dashboard') }}" class="logo">
                     <img src="{{ asset('assets/app/images/header/logo.svg') }}" alt="logo" class="desktop_logo" />
                     <img src="{{ asset('assets/app/images/header/short_logo.svg') }}" alt="logo" class="short_logo" />
                 </a>
