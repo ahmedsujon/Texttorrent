@@ -3,28 +3,30 @@
 namespace App\Livewire\App;
 
 use App\Models\Event;
+use App\Models\Number;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
 
 class CalendarComponent extends Component
 {
-    public $name, $subject, $time, $sender_number, $alert_before, $participant_number, $participant_email, $edit_id, $user_id;
+    public $name, $subject, $date, $time, $sender_number, $alert_before, $participant_number, $participant_email, $edit_id, $user_id;
+
     public function storeData()
     {
         $this->validate([
             'name' => 'required',
             'subject' => 'required',
+            'date' => 'required',
             'time' => 'required',
             'sender_number' => 'required',
             'alert_before' => 'required',
-            'participant_number' => 'required',
-            'participant_email' => 'required',
         ]);
 
         $event = new Event();
         $event->user_id = Auth::user()->id;
         $event->name = $this->name;
         $event->subject = $this->subject;
+        $event->date = $this->date;
         $event->time = $this->time;
         $event->sender_number = $this->sender_number;
         $event->alert_before = $this->alert_before;
@@ -44,6 +46,7 @@ class CalendarComponent extends Component
         $this->user_id = $event->user_id;
         $this->name = $event->name;
         $this->subject = $event->subject;
+        $this->date = $event->date;
         $this->time = $event->time;
         $this->sender_number = $event->sender_number;
         $this->alert_before = $event->alert_before;
@@ -54,23 +57,14 @@ class CalendarComponent extends Component
 
     public function updateData()
     {
-        if ($this->password) {
-            $this->validate([
-                'username' => 'required|unique:users,username,' . $this->edit_id . '',
-                'email' => 'required|email|unique:users,email,' . $this->edit_id . '',
-                'first_name' => 'required|max:20',
-                'last_name' => 'required|max:20',
-                'password' => 'required|string|min:6',
-                'confirm_password' => 'required|same:password',
-            ]);
-        } else {
-            $this->validate([
-                'username' => 'required|unique:users,username,' . $this->edit_id . '',
-                'email' => 'required|email|unique:users,email,' . $this->edit_id . '',
-                'first_name' => 'required|max:20',
-                'last_name' => 'required|max:20',
-            ]);
-        }
+        $this->validate([
+            'name' => 'required',
+            'subject' => 'required',
+            'date' => 'required',
+            'time' => 'required',
+            'sender_number' => 'required',
+            'alert_before' => 'required',
+        ]);
 
         $user = User::find($this->edit_id);
         $user->first_name = $this->first_name;
@@ -90,7 +84,7 @@ class CalendarComponent extends Component
 
     public function resetForm()
     {
-        $this->reset(['', 'name', 'subject', 'time', 'sender_number', 'alert_before', 'participant_number', 'participant_email']);
+        $this->reset(['name', 'subject', 'date', 'time', 'sender_number', 'alert_before', 'participant_number', 'participant_email', 'edit_id', 'user_id']);
     }
 
     public function delete($id)
@@ -133,6 +127,7 @@ class CalendarComponent extends Component
 
     public function render()
     {
-        return view('livewire.app.calendar-component')->layout('livewire.app.layouts.base');
+        $active_numbers = Number::where('id', Auth::user()->id)->get();
+        return view('livewire.app.calendar-component', ['active_numbers' => $active_numbers])->layout('livewire.app.layouts.base');
     }
 }
