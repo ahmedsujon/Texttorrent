@@ -35,7 +35,7 @@
                     <img class="slash_icon" src="{{ asset('assets/app/icons/slash.svg') }}" alt="slash icon" />
                 </form>
             </div>
-            <div class="calender_full_area">
+            <div class="calender_full_area" wire:ignore>
                 <div id="calendarFull"></div>
             </div>
         </section>
@@ -472,6 +472,11 @@
             //Calender
             var calendarEl = document.getElementById("calendarFull");
 
+            const jsonData = @json($events);
+
+            const today = new Date();
+            const initDate = today.toISOString().split('T')[0];
+
             var calendar = new FullCalendar.Calendar(calendarEl, {
                 headerToolbar: {
                     left: "title ",
@@ -484,7 +489,7 @@
                     week: "Week",
                     day: "Day",
                 },
-                initialDate: "2023-01-12",
+                initialDate: initDate,
                 navLinks: true, // can click day/week names to navigate views
                 selectable: true,
                 selectMirror: false,
@@ -508,93 +513,10 @@
                     // Use this to format the event time display
                     hour: "2-digit",
                     minute: "2-digit",
-                    meridiem: false, // Set to true for AM/PM format
-                    hour12: false, // Set to true if you want to show 12-hour format
+                    meridiem: true, // Set to true for AM/PM format
+                    hour12: true, // Set to true if you want to show 12-hour format
                 },
-                events: [
-                    // {
-                    //   title: "All Day Event",
-                    //   start: "2023-01-01",
-                    //   backgroundColor: "#ffcdb3",
-                    // },
-                    {
-                        title: "7:35P: airport",
-                        start: "2023-01-07",
-                        end: "2023-01-09",
-                        backgroundColor: "#b4f3d1",
-                    },
-                    {
-                        groupId: 999,
-                        title: "7:35P: train",
-                        start: "2023-01-09",
-                        backgroundColor: "#B1E5FC",
-                    },
-                    {
-                        groupId: 991,
-                        title: "7:35P: train 2",
-                        start: "2023-01-09",
-                        backgroundColor: "#B1E5FC",
-                    },
-                    {
-                        groupId: 992,
-                        title: "7:35P: train 3",
-                        start: "2023-01-09",
-                        backgroundColor: "#B1E5FC",
-                    },
-                    {
-                        groupId: 992,
-                        title: "7:35P: train 4",
-                        start: "2023-01-09",
-                        backgroundColor: "#B1E5FC",
-                    },
-                    {
-                        groupId: 999,
-                        title: "7:35P: Bus",
-                        start: "2023-01-16",
-                        backgroundColor: "#d0c5ff",
-                    },
-                    {
-                        title: "Conference",
-                        start: "2023-01-11",
-                        end: "2023-01-11",
-                        backgroundColor: "#B1E5FC",
-                    },
-                    {
-                        title: "Meeting",
-                        start: "2023-01-12T10:30:00",
-                        end: "2023-01-12T02:59:00",
-                        // backgroundColor: "#B1E5FC",
-                        // eventBackgroundColor: "#d0c5ff",
-                        classNames: ["send_event"],
-                    },
-                    {
-                        title: "Meeting with client",
-                        start: "2023-01-15T10:30:00",
-                        end: "2023-01-15T12:30:00",
-                        // backgroundColor: "#B1E5FC",
-                        // eventBackgroundColor: "#d0c5ff",
-                        classNames: ["sms_event"],
-                    },
-                    {
-                        title: "Meeting with client",
-                        start: "2023-01-24T10:30:00",
-                        end: "2023-01-24T12:30:00",
-                        // backgroundColor: "#B1E5FC",
-                        // eventBackgroundColor: "#d0c5ff",
-                        classNames: ["voice_event"],
-                    },
-                    // {
-                    //   title: "Lunch",
-                    //   start: "2023-01-12T12:00:00",
-                    // },
-
-                    {
-                        title: "Click for Google",
-                        url: "http://google.com/",
-                        start: "2023-01-28",
-                        backgroundColor: "#d0c5ff",
-                    },
-                ],
+                events: JSON.parse(jsonData),
             });
 
             calendar.render();
