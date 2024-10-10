@@ -2,10 +2,11 @@
 
 namespace App\Livewire\App;
 
+use Carbon\Carbon;
 use App\Models\Event;
 use App\Models\Number;
-use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
+use Illuminate\Support\Facades\Auth;
 
 class CalendarComponent extends Component
 {
@@ -128,6 +129,23 @@ class CalendarComponent extends Component
     public function render()
     {
         $active_numbers = Number::where('id', Auth::user()->id)->get();
-        return view('livewire.app.calendar-component', ['active_numbers' => $active_numbers])->layout('livewire.app.layouts.base');
+
+        $formattedEvents = Event::where('user_id', Auth::user()->id)
+        ->get()
+        ->map(function ($event) {
+            return [
+                'title' => $event->name,
+                'start' => Carbon::parse($event->date)->format('Y-m-d').'T'.Carbon::parse($event->time)->format('h:i:s'),
+                'classNames' => ['sms_event'],
+            ];
+        })
+        ->toArray();
+
+        $formattedEvents = json_encode($formattedEvents);
+
+        // dd($formattedEvents);
+
+        // $this->dispatch('reload_scripts');
+        return view('livewire.app.calendar-component', ['active_numbers' => $active_numbers, 'events' => $formattedEvents])->layout('livewire.app.layouts.base');
     }
 }
