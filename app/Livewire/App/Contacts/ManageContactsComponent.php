@@ -286,20 +286,6 @@ class ManageContactsComponent extends Component
     public $first_name_column, $last_name_column, $email_address_column, $company_column, $phone_number_column, $additional_1_column, $additional_2_column, $additional_3_column, $import_list_id;
     public function import()
     {
-        $allData = [
-            $this->first_name_column,
-            $this->last_name_column,
-            $this->phone_number_column,
-            $this->email_address_column,
-            $this->company_column,
-            $this->additional_1_column,
-            $this->additional_2_column,
-            $this->additional_3_column,
-            $this->import_list_id
-        ];
-
-        dd($allData);
-
         $this->validate([
             'file' => 'required|mimes:csv,txt|max:51200', // File validation
             'first_name_column' => 'required',
