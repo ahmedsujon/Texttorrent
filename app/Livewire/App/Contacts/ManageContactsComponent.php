@@ -379,6 +379,8 @@ class ManageContactsComponent extends Component
     public function selectList($id)
     {
         $this->sort_list_id = $id;
+        $this->contact_checkbox = [];
+        $this->check_all = false;
     }
 
     public function exportContacts()
