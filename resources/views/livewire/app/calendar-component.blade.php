@@ -378,8 +378,7 @@
                                 <button type="button" class="action_btn" id="editEventFormModalBtn">
                                     <img src="{{ asset('assets/app/icons/pencil.svg') }}" alt="pencil icon" />
                                 </button>
-                                <button type="button" wire:click.prevent='deleteConfirmation({{ $event->id }})'
-                                    wire:loading.attr='disabled' class="action_btn" id="openSecondModalBtn">
+                                <button type="button" class="action_btn" id="openSecondModalBtn">
                                     <img src="{{ asset('assets/app/icons/delete-pin.svg') }}" alt="delete icon" />
                                 </button>
                                 <button type="button" class="btn-close" data-bs-dismiss="modal"
