@@ -133,7 +133,8 @@
                                                 class="list_item {{ $selected_chat_id == $chat->id ? 'active_chat' : '' }}">
                                                 <div class="user_image chat-avatar">{{ $chat->avatar_ltr }}</div>
                                                 <div class="short_message_are">
-                                                    <h4>{{ $chat->number }}</h4>
+                                                    <h6>{{ $chat->first_name }} {{ $chat->last_name }}</h6>
+                                                    <p style="font-size: 11.5px;">{{ $chat->number }}</p>
                                                     <p>
                                                         {{ $chat->last_message }}
                                                     </p>
