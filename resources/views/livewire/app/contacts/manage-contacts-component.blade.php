@@ -10,10 +10,10 @@
                     <h2 class="inbox_template_title">Manage Contacts</h2>
                 </div>
                 <div class="d-flex align-items-center flex-wrap g-sm">
-                    <button type="button" class="import_btn">
+                    <a href="{{ asset('files/Sample Contact File.csv') }}" download type="button" class="import_btn">
                         <img src="{{ asset('assets/app/icons/import.svg') }}" alt="import icon" />
                         <span>Download sample import file</span>
-                    </button>
+                    </a>
                     <button type="button" class="import_btn" data-bs-toggle="modal" data-bs-target="#importModal">
                         <img src="{{ asset('assets/app/icons/import.svg') }}" alt="import icon" />
                         <span>Import contacts</span>
@@ -33,7 +33,7 @@
                                 </button>
                             </div>
                         </div>
-                        <form action="" class="search_input_form">
+                        <form onsubmit="event.preventDefault()" class="search_input_form">
                             <input type="search" placeholder="Search..." wire:model.live='list_search_term'
                                 class="input_field" />
                             <button type="submit" class="search_icon">
@@ -61,8 +61,9 @@
                                                 </div>
                                                 <div class="table_dropdown_area">
                                                     <div class="dropdown">
-                                                        <button class="dot_icon" type="button" onclick="event.stopPropagation();"
-                                                            data-bs-toggle="dropdown" aria-expanded="false">
+                                                        <button class="dot_icon" type="button"
+                                                            onclick="event.stopPropagation();" data-bs-toggle="dropdown"
+                                                            aria-expanded="false">
                                                             <img src="{{ asset('assets/app/icons/dot-horizontal.svg') }}"
                                                                 alt="dot icon" />
                                                         </button>
@@ -128,8 +129,9 @@
                                                 </div>
                                                 <div class="table_dropdown_area">
                                                     <div class="dropdown">
-                                                        <button class="dot_icon" type="button" onclick="event.stopPropagation();"
-                                                            data-bs-toggle="dropdown" aria-expanded="false">
+                                                        <button class="dot_icon" type="button"
+                                                            onclick="event.stopPropagation();" data-bs-toggle="dropdown"
+                                                            aria-expanded="false">
                                                             <img src="{{ asset('assets/app/icons/dot-horizontal.svg') }}"
                                                                 alt="dot icon" />
                                                         </button>
@@ -215,14 +217,16 @@
                                                 </button>
                                             </li>
                                             <li>
-                                                <button type="button" class="dropdown-item" wire:click.prevent='exportContacts'>
+                                                <button type="button" class="dropdown-item"
+                                                    wire:click.prevent='exportContacts'>
                                                     <img src="{{ asset('assets/app/icons/cloud-download.svg') }}"
                                                         alt="export icon" />
                                                     <span>Export contact list</span>
                                                 </button>
                                             </li>
                                             <li>
-                                                <button type="button" class="dropdown-item" wire:click.prevent='deleteConfirmation("", "bulk_delete_contact")'>
+                                                <button type="button" class="dropdown-item"
+                                                    wire:click.prevent='deleteConfirmation("", "bulk_delete_contact")'>
                                                     <img src="{{ asset('assets/app/icons/delete-03.svg') }}"
                                                         alt="copy icon" />
                                                     <span>Delete all contacts</span>
@@ -233,7 +237,7 @@
                                 </div>
                             </div>
                         </div>
-                        <form action="" class="search_input_form">
+                        <form onsubmit="event.preventDefault()" class="search_input_form">
                             <input type="search" placeholder="Search contacts"
                                 wire:model.live='contacts_search_term' class="input_field" />
                             <button type="button" class="search_icon">
@@ -243,7 +247,8 @@
                     </div>
                     <div class="details_table_header_area d-flex-between">
                         <div class="form-check">
-                            <input class="form-check-input" type="checkbox" value="1" wire:change='selectAll' id="formCheckAll" wire:model.live="check_all" />
+                            <input class="form-check-input" type="checkbox" value="1" wire:change='selectAll'
+                                id="formCheckAll" wire:model.live="check_all" />
                             <label class="form-check-label" for="formCheckAll">
                                 Select all contacts
                             </label>
@@ -265,7 +270,9 @@
                             @foreach ($contacts as $contact)
                                 <div class="deatils_list_grid">
                                     <div class="form-check">
-                                        <input class="form-check-input contact-checkbox" type="checkbox" name="contact_checkbox[]" wire:model.live='contact_checkbox' value="{{ $contact->id }}" />
+                                        <input class="form-check-input contact-checkbox" type="checkbox"
+                                            name="contact_checkbox[]" wire:model.live='contact_checkbox'
+                                            value="{{ $contact->id }}" />
                                     </div>
                                     <div class="user_info_area">
                                         <img src="{{ asset('assets/app/images/inbox/user_main.png') }}"
@@ -355,13 +362,13 @@
             aria-labelledby="newListModal" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
                 <div class="modal-content">
-                    <div class="modal-header">
-                        <h1 class="modal-title fs-5" id="newListModal">Add new list</h1>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal"
-                            aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
-                        <form action="" class="event_form_area">
+                    <form wire:submit.prevent='addNewList' class="event_form_area">
+                        <div class="modal-header">
+                            <h1 class="modal-title fs-5" id="newListModal">Add new list</h1>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
                             <div class="input_row">
                                 <label for="">List name</label>
                                 <input type="text" placeholder="Type List Name" wire:model.blur='list_name'
@@ -371,16 +378,16 @@
                                     <p class="text-danger" style="font-size: 12.5px;">{{ $message }}</p>
                                 @enderror
                             </div>
-                        </form>
-                    </div>
-                    <div class="modal-footer event_modal_footer">
-                        <button type="button" class="cancel_btn" data-bs-dismiss="modal">
-                            Cancel
-                        </button>
-                        <button type="button" class="create_event_btn" wire:click.prevent='addNewList'>
-                            {!! loadingStateWithText('addNewList', 'Save') !!}
-                        </button>
-                    </div>
+                        </div>
+                        <div class="modal-footer event_modal_footer">
+                            <button type="button" class="cancel_btn" data-bs-dismiss="modal">
+                                Cancel
+                            </button>
+                            <button type="submit" class="create_event_btn">
+                                {!! loadingStateWithText('addNewList', 'Save') !!}
+                            </button>
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>
@@ -390,13 +397,15 @@
             aria-labelledby="newListModal" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
                 <div class="modal-content">
-                    <div class="modal-header">
-                        <h1 class="modal-title fs-5" id="newListModal">Edit list</h1>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal"
-                            aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
-                        <form action="" class="event_form_area">
+                    <form wire:submit.prevent='updateList' class="event_form_area">
+                        <div class="modal-header">
+                            <h1 class="modal-title fs-5" id="newListModal">Edit list</h1>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                aria-label="Close"></button>
+                        </div>
+
+                        <div class="modal-body">
+
                             <div class="input_row">
                                 <label for="">List name</label>
                                 <input type="text" placeholder="Type List Name" wire:model.blur='list_name'
@@ -406,16 +415,16 @@
                                     <p class="text-danger" style="font-size: 12.5px;">{{ $message }}</p>
                                 @enderror
                             </div>
-                        </form>
-                    </div>
-                    <div class="modal-footer event_modal_footer">
-                        <button type="button" class="cancel_btn" data-bs-dismiss="modal">
-                            Cancel
-                        </button>
-                        <button type="button" class="create_event_btn" wire:click.prevent='updateList'>
-                            {!! loadingStateWithText('updateList', 'Save') !!}
-                        </button>
-                    </div>
+                        </div>
+                        <div class="modal-footer event_modal_footer">
+                            <button type="button" class="cancel_btn" data-bs-dismiss="modal">
+                                Cancel
+                            </button>
+                            <button type="button" class="create_event_btn">
+                                {!! loadingStateWithText('updateList', 'Save') !!}
+                            </button>
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>
@@ -558,11 +567,9 @@
                                     </label>
                                     <select name="lang" class="form-control" wire:model.blur='first_name_column'>
                                         <option value="">Select Column</option>
-                                        <option value="First Name">First Name</option>
-                                        <option value="Last Name">Last Name</option>
-                                        <option value="Email Address">Email Address</option>
-                                        <option value="Company">Company</option>
-                                        <option value="Phone Number">Phone Number</option>
+                                        @foreach ($columns as $key => $column)
+                                            <option value="{{ $column }}" {{ $key == 0 ? 'selected' : '' }}>{{ $column }}</option>
+                                        @endforeach
                                     </select>
                                     <img src="{{ asset('assets/app/icons/arrow-down.svg') }}" alt="down arrow"
                                         class="down_arrow" />
@@ -572,11 +579,9 @@
                                     </label>
                                     <select name="lang" class="form-control" wire:model.blur='last_name_column'>
                                         <option value="">Select Column</option>
-                                        <option value="First Name">First Name</option>
-                                        <option value="Last Name">Last Name</option>
-                                        <option value="Email Address">Email Address</option>
-                                        <option value="Company">Company</option>
-                                        <option value="Phone Number">Phone Number</option>
+                                        @foreach ($columns as $key => $column)
+                                            <option value="{{ $column }}" {{ $key == 1 ? 'selected' : '' }}>{{ $column }}</option>
+                                        @endforeach
                                     </select>
                                     <img src="{{ asset('assets/app/icons/arrow-down.svg') }}" alt="down arrow"
                                         class="down_arrow" />
@@ -589,11 +594,9 @@
                                     <select name="lang" class="form-control"
                                         wire:model.blur='email_address_column'>
                                         <option value="">Select Column</option>
-                                        <option value="First Name">First Name</option>
-                                        <option value="Last Name">Last Name</option>
-                                        <option value="Email Address">Email Address</option>
-                                        <option value="Company">Company</option>
-                                        <option value="Phone Number">Phone Number</option>
+                                        @foreach ($columns as $key => $column)
+                                            <option value="{{ $column }}" {{ $key == 2 ? 'selected' : '' }}>{{ $column }}</option>
+                                        @endforeach
                                     </select>
                                     <img src="{{ asset('assets/app/icons/arrow-down.svg') }}" alt="down arrow"
                                         class="down_arrow" />
@@ -603,11 +606,9 @@
                                     </label>
                                     <select name="lang" class="form-control" wire:model.blur='company_column'>
                                         <option value="">Select Column</option>
-                                        <option value="First Name">First Name</option>
-                                        <option value="Last Name">Last Name</option>
-                                        <option value="Email Address">Email Address</option>
-                                        <option value="Company">Company</option>
-                                        <option value="Phone Number">Phone Number</option>
+                                        @foreach ($columns as $key => $column)
+                                            <option value="{{ $column }}" {{ $key == 3 ? 'selected' : '' }}>{{ $column }}</option>
+                                        @endforeach
                                     </select>
                                     <img src="{{ asset('assets/app/icons/arrow-down.svg') }}" alt="down arrow"
                                         class="down_arrow" />
@@ -618,11 +619,9 @@
                                 </label>
                                 <select name="lang" class="form-control" wire:model.blur='phone_number_column'>
                                     <option value="">Select Column</option>
-                                    <option value="First Name">First Name</option>
-                                    <option value="Last Name">Last Name</option>
-                                    <option value="Email Address">Email Address</option>
-                                    <option value="Company">Company</option>
-                                    <option value="Phone Number">Phone Number</option>
+                                    @foreach ($columns as $key => $column)
+                                        <option value="{{ $column }}" {{ $key == 4 ? 'selected' : '' }}>{{ $column }}</option>
+                                    @endforeach
                                 </select>
                                 <img src="{{ asset('assets/app/icons/arrow-down.svg') }}" alt="down arrow"
                                     class="down_arrow" />
@@ -635,9 +634,9 @@
                                     <select name="lang" class="form-control"
                                         wire:model.blur='additional_1_column'>
                                         <option value="">Select Column</option>
-                                        <option value="Additional 1">Additional 1</option>
-                                        <option value="Additional 2">Additional 2</option>
-                                        <option value="Additional 3">Additional 3</option>
+                                        @foreach ($columns as $key => $column)
+                                            <option value="{{ $column }}" {{ $key == 5 ? 'selected' : '' }}>{{ $column }}</option>
+                                        @endforeach
                                     </select>
                                     <img src="{{ asset('assets/app/icons/arrow-down.svg') }}" alt="down arrow"
                                         class="down_arrow" />
@@ -648,9 +647,9 @@
                                     <select name="lang" class="form-control"
                                         wire:model.blur='additional_2_column'>
                                         <option value="">Select Column</option>
-                                        <option value="Additional 1">Additional 1</option>
-                                        <option value="Additional 2">Additional 2</option>
-                                        <option value="Additional 3">Additional 3</option>
+                                        @foreach ($columns as $key => $column)
+                                            <option value="{{ $column }}" {{ $key == 6 ? 'selected' : '' }}>{{ $column }}</option>
+                                        @endforeach
                                     </select>
                                     <img src="{{ asset('assets/app/icons/arrow-down.svg') }}" alt="down arrow"
                                         class="down_arrow" />
@@ -661,9 +660,9 @@
                                     <select name="lang" class="form-control"
                                         wire:model.blur='additional_3_column'>
                                         <option value="">Select Column</option>
-                                        <option value="Additional 1">Additional 1</option>
-                                        <option value="Additional 2">Additional 2</option>
-                                        <option value="Additional 3">Additional 3</option>
+                                        @foreach ($columns as $key => $column)
+                                            <option value="{{ $column }}" {{ $key == 7 ? 'selected' : '' }}>{{ $column }}</option>
+                                        @endforeach
                                     </select>
                                     <img src="{{ asset('assets/app/icons/arrow-down.svg') }}" alt="down arrow"
                                         class="down_arrow" />
@@ -705,8 +704,8 @@
                         <button type="button" class="btn-close" data-bs-dismiss="modal"
                             aria-label="Close"></button>
                     </div>
-                    <div class="modal-body">
-                        <form action="" class="event_form_area">
+                    <form wire:submit.prevent='addNewContact' class="event_form_area">
+                        <div class="modal-body">
                             <div class="two_grid">
                                 <div class="input_row">
                                     <label for="">First name</label>
@@ -729,31 +728,39 @@
                                 <label for="">Mobile number</label>
                                 <div class="input-group">
                                     <span class="input-group-text" id="basic-addon1">+1</span>
-                                    <input id="tel-input" type="tel" class="form-control"
-                                        wire:model.blur='mobile_number' placeholder="xxx-xxx-xxxx" maxlength="12" />
+                                    <input id="tel-input" type="tel" class="form-control" wire:model.blur='mobile_number' placeholder="xxx-xxx-xxxx" maxlength="12" />
                                 </div>
                                 @error('mobile_number')
                                     <p class="text-danger" style="font-size: 12.5px;">{{ $message }}</p>
                                 @enderror
                             </div>
-                            <div class="input_row">
-                                <label for="">Company</label>
-                                <input type="text" placeholder="Type Company Name" wire:model.blur='company_name'
-                                    class="input_field" />
-                                @error('company_name')
-                                    <p class="text-danger" style="font-size: 12.5px;">{{ $message }}</p>
-                                @enderror
+                            <div class="two_grid">
+                                <div class="input_row">
+                                    <label for="">Email</label>
+                                    <input type="email" placeholder="Type email" wire:model.blur='email' class="input_field" />
+                                    @error('email')
+                                        <p class="text-danger" style="font-size: 12.5px;">{{ $message }}</p>
+                                    @enderror
+                                </div>
+                                <div class="input_row">
+                                    <label for="">Company</label>
+                                    <input type="text" placeholder="Type Company Name" wire:model.blur='company_name' class="input_field" />
+                                    @error('company_name')
+                                        <p class="text-danger" style="font-size: 12.5px;">{{ $message }}</p>
+                                    @enderror
+                                </div>
                             </div>
-                        </form>
-                    </div>
-                    <div class="modal-footer event_modal_footer">
-                        <button type="button" class="cancel_btn" data-bs-dismiss="modal">
-                            Cancel
-                        </button>
-                        <button type="button" class="create_event_btn" wire:click.prevent='addNewContact'>
-                            {!! loadingStateWithText('addNewContact', 'Submit') !!}
-                        </button>
-                    </div>
+
+                        </div>
+                        <div class="modal-footer event_modal_footer">
+                            <button type="button" class="cancel_btn" data-bs-dismiss="modal">
+                                Cancel
+                            </button>
+                            <button type="submit" class="create_event_btn">
+                                {!! loadingStateWithText('addNewContact', 'Submit') !!}
+                            </button>
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>
@@ -770,8 +777,8 @@
                         <button type="button" class="btn-close" data-bs-dismiss="modal"
                             aria-label="Close"></button>
                     </div>
-                    <div class="modal-body">
-                        <form action="" class="event_form_area">
+                    <form wire:submit.prevent='updateContact' class="event_form_area">
+                        <div class="modal-body">
                             <div class="two_grid">
                                 <div class="input_row">
                                     <label for="">First name</label>
@@ -801,24 +808,32 @@
                                     <p class="text-danger" style="font-size: 12.5px;">{{ $message }}</p>
                                 @enderror
                             </div>
-                            <div class="input_row">
-                                <label for="">Company</label>
-                                <input type="text" placeholder="Type Company Name" wire:model.blur='company_name'
-                                    class="input_field" />
-                                @error('company_name')
-                                    <p class="text-danger" style="font-size: 12.5px;">{{ $message }}</p>
-                                @enderror
+                            <div class="two_grid">
+                                <div class="input_row">
+                                    <label for="">Email</label>
+                                    <input type="email" placeholder="Type email" wire:model.blur='email' class="input_field" />
+                                    @error('email')
+                                        <p class="text-danger" style="font-size: 12.5px;">{{ $message }}</p>
+                                    @enderror
+                                </div>
+                                <div class="input_row">
+                                    <label for="">Company</label>
+                                    <input type="text" placeholder="Type Company Name" wire:model.blur='company_name' class="input_field" />
+                                    @error('company_name')
+                                        <p class="text-danger" style="font-size: 12.5px;">{{ $message }}</p>
+                                    @enderror
+                                </div>
                             </div>
-                        </form>
-                    </div>
-                    <div class="modal-footer event_modal_footer">
-                        <button type="button" class="cancel_btn" data-bs-dismiss="modal">
-                            Cancel
-                        </button>
-                        <button type="button" class="create_event_btn" wire:click.prevent='updateContact'>
-                            {!! loadingStateWithText('updateContact', 'Submit') !!}
-                        </button>
-                    </div>
+                        </div>
+                        <div class="modal-footer event_modal_footer">
+                            <button type="button" class="cancel_btn" data-bs-dismiss="modal">
+                                Cancel
+                            </button>
+                            <button type="submit" class="create_event_btn">
+                                {!! loadingStateWithText('updateContact', 'Submit') !!}
+                            </button>
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>
@@ -844,8 +859,10 @@
                                             {{ $numberDetails->last_name ? $numberDetails->last_name : '' }}</h4>
                                         <div class="d-flex align-items-center flex-wrap gap-1">
 
-                                            <h5 id="contact_number_details_{{ $numberDetails->id }}">{{ $numberDetails->number ? $numberDetails->number : '---' }}</h5>
-                                            <button type="button" class="copy_icon" onclick="copyToClipboardDetails({{ $numberDetails->id }})">
+                                            <h5 id="contact_number_details_{{ $numberDetails->id }}">
+                                                {{ $numberDetails->number ? $numberDetails->number : '---' }}</h5>
+                                            <button type="button" class="copy_icon"
+                                                onclick="copyToClipboardDetails({{ $numberDetails->id }})">
                                                 <img src="{{ asset('assets/app/icons/copy-01.svg') }}"
                                                     alt="copy icon" />
                                             </button>
@@ -953,8 +970,8 @@
                         <button type="button" class="btn-close" data-bs-dismiss="modal"
                             aria-label="Close"></button>
                     </div>
-                    <div class="modal-body">
-                        <form action="" class="event_form_area">
+                    <form wire:submit.prevent='addNote' class="event_form_area">
+                        <div class="modal-body">
                             <div class="input_row note_input_row">
                                 <label for="">Note</label>
                                 <div class="note_area">
@@ -975,16 +992,16 @@
                                     @enderror
                                 </div>
                             </div>
-                        </form>
-                    </div>
-                    <div class="modal-footer event_modal_footer">
-                        <button type="button" class="cancel_btn" data-bs-dismiss="modal">
-                            Cancel
-                        </button>
-                        <button type="button" class="create_event_btn" wire:click.prevent='addNote'>
-                            {!! loadingStateWithText('addNote', 'Save') !!}
-                        </button>
-                    </div>
+                        </div>
+                        <div class="modal-footer event_modal_footer">
+                            <button type="button" class="cancel_btn" data-bs-dismiss="modal">
+                                Cancel
+                            </button>
+                            <button type="submit" class="create_event_btn">
+                                {!! loadingStateWithText('addNote', 'Save') !!}
+                            </button>
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>
@@ -1004,7 +1021,7 @@
                     </div>
                     <div class="modal-body">
                         <div class="folder_area">
-                            <form action="" class="search_input_form">
+                            <form onsubmit="event.preventDefault()" class="search_input_form">
                                 <input type="search" placeholder="Search folder"
                                     wire:model.live='folder_search_term' class="input_field" />
                                 <button type="submit" class="search_icon">
@@ -1083,8 +1100,8 @@
                         <button type="button" class="btn-close" data-bs-dismiss="modal"
                             aria-label="Close"></button>
                     </div>
-                    <div class="modal-body">
-                        <form action="" class="folder_create_area">
+                    <form wire:submit.prevent='createFolder' class="folder_create_area">
+                        <div class="modal-body">
                             <button type="button" class="back_btn" data-bs-target="#folderToggleModal"
                                 data-bs-toggle="modal">
                                 <img src="{{ asset('assets/app/icons/back-arrow.png') }}" alt="back arrow" />
@@ -1102,16 +1119,15 @@
                                     <p class="text-danger" style="font-size: 12.5px;">{{ $message }}</p>
                                 @enderror
                             </div>
-                        </form>
-                    </div>
-                    <div class="modal-footer event_modal_footer">
-                        <button type="button" class="cancel_btn" data-bs-target="#folderToggleModal"
-                            data-bs-toggle="modal">
-                            Cancel
-                        </button>
-                        <button type="button" class="create_event_btn"
-                            wire:click='createFolder'>{!! loadingStateWithText('createFolder', 'Save') !!}</button>
-                    </div>
+                        </div>
+                        <div class="modal-footer event_modal_footer">
+                            <button type="button" class="cancel_btn" data-bs-target="#folderToggleModal"
+                                data-bs-toggle="modal">
+                                Cancel
+                            </button>
+                            <button type="submit" class="create_event_btn">{!! loadingStateWithText('createFolder', 'Save') !!}</button>
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>
@@ -1129,8 +1145,8 @@
                         <button type="button" class="btn-close" data-bs-dismiss="modal"
                             aria-label="Close"></button>
                     </div>
-                    <div class="modal-body">
-                        <form action="" class="folder_create_area">
+                    <form wire:submit.prevent='updateFolder' class="folder_create_area">
+                        <div class="modal-body">
                             <button type="button" class="back_btn" data-bs-target="#folderToggleModal"
                                 data-bs-toggle="modal">
                                 <img src="{{ asset('assets/app/icons/back-arrow.png') }}" alt="back arrow" />
@@ -1148,16 +1164,15 @@
                                     <p class="text-danger" style="font-size: 12.5px;">{{ $message }}</p>
                                 @enderror
                             </div>
-                        </form>
-                    </div>
-                    <div class="modal-footer event_modal_footer">
-                        <button type="button" class="cancel_btn" data-bs-target="#folderToggleModal"
-                            data-bs-toggle="modal">
-                            Cancel
-                        </button>
-                        <button type="button" class="create_event_btn"
-                            wire:click='updateFolder'>{!! loadingStateWithText('updateFolder', 'Save') !!}</button>
-                    </div>
+                        </div>
+                        <div class="modal-footer event_modal_footer">
+                            <button type="button" class="cancel_btn" data-bs-target="#folderToggleModal"
+                                data-bs-toggle="modal">
+                                Cancel
+                            </button>
+                            <button type="submit" class="create_event_btn">{!! loadingStateWithText('updateFolder', 'Save') !!}</button>
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>
@@ -1195,7 +1210,7 @@
     <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
     <script>
         function copyToClipboard(contact_id) {
-            const text = document.getElementById('contact_number_'+contact_id).innerText;
+            const text = document.getElementById('contact_number_' + contact_id).innerText;
             navigator.clipboard.writeText(text).then(function() {
                 successMsg('Number copied successfully');
             }, function(err) {
@@ -1204,7 +1219,7 @@
         }
 
         function copyToClipboardDetails(contact_id) {
-            const text = document.getElementById('contact_number_details_'+contact_id).innerText;
+            const text = document.getElementById('contact_number_details_' + contact_id).innerText;
             navigator.clipboard.writeText(text).then(function() {
                 successMsg('Number copied successfully');
             }, function(err) {
@@ -1243,8 +1258,13 @@
 
             $('.js-searchBox-file-select').on('change', function() {
                 var data = $(this).val();
+                console.log(data);
 
                 @this.set('import_list_id', data);
+            });
+
+            window.addEventListener('setSelectedList', event => {
+                $('.js-searchBox-file-select').val(event.detail);
             });
 
             window.addEventListener('showListEditModal', event => {

@@ -73,7 +73,7 @@ class ManageContactsComponent extends Component
     }
 
     // contacts
-    public $first_name, $last_name, $mobile_number, $company_name, $list_id, $contact_edit_id;
+    public $first_name, $last_name, $mobile_number, $company_name, $email, $list_id, $contact_edit_id;
     public function addNewContact()
     {
         $this->validate([
@@ -87,6 +87,7 @@ class ManageContactsComponent extends Component
         $list->first_name = $this->first_name;
         $list->last_name = $this->last_name;
         $list->number = '+1 ' . $this->mobile_number;
+        $list->email = $this->email;
         $list->company = $this->company_name;
         $list->list_id = $this->list_id;
         $list->save();
@@ -95,6 +96,7 @@ class ManageContactsComponent extends Component
         $this->last_name = '';
         $this->mobile_number = '';
         $this->company_name = '';
+        $this->email = '';
         $this->list_id = '';
 
         $this->dispatch('closeModal');
@@ -107,6 +109,7 @@ class ManageContactsComponent extends Component
         $this->last_name = $data->last_name;
         $this->mobile_number = str_replace('+1 ', '', $data->number);
         $this->company_name = $data->company;
+        $this->email = $data->email;
         $this->contact_edit_id = $data->id;
 
         $this->dispatch('showContactEditModal');
@@ -124,12 +127,14 @@ class ManageContactsComponent extends Component
         $list->last_name = $this->last_name;
         $list->number = '+1 ' . $this->mobile_number;
         $list->company = $this->company_name;
+        $list->email = $this->email;
         $list->save();
 
         $this->first_name = '';
         $this->last_name = '';
         $this->mobile_number = '';
         $this->company_name = '';
+        $this->email = '';
 
         $this->dispatch('closeModal');
         $this->dispatch('success', ['message' => 'Contact updated successfully']);
@@ -245,13 +250,22 @@ class ManageContactsComponent extends Component
     // public $uploadedSize = 0;
     // public $totalSize = 0;
 
-    public $columns;
+    public $columns = [];
     public function updatedFile()
     {
         $this->validate([
             'file' => 'required|file|mimes:csv,xlsx|max:10240', // 10MB
         ]);
         $this->columns = $this->getCsvHeaders();
+
+        $this->first_name_column = isset($this->columns[0]) ? $this->columns[0] : '';
+        $this->last_name_column = isset($this->columns[1]) ? $this->columns[1] : '';
+        $this->phone_number_column = isset($this->columns[2]) ? $this->columns[2] : '';
+        $this->email_address_column = isset($this->columns[3]) ? $this->columns[3] : '';
+        $this->company_column = isset($this->columns[4]) ? $this->columns[4] : '';
+        $this->additional_1_column = isset($this->columns[5]) ? $this->columns[5] : '';
+        $this->additional_2_column = isset($this->columns[6]) ? $this->columns[6] : '';
+        $this->additional_3_column = isset($this->columns[7]) ? $this->columns[7] : '';
     }
 
     public function resetUpload()
@@ -269,9 +283,23 @@ class ManageContactsComponent extends Component
         return $headers;
     }
 
-    public $first_name_column = 'First Name', $last_name_column = 'Last Name', $email_address_column = 'Email Address', $company_column = 'Company', $phone_number_column = 'Phone Number', $additional_1_column = 'Additional 1', $additional_2_column = 'Additional 2', $additional_3_column = 'Additional 3', $import_list_id;
+    public $first_name_column, $last_name_column, $email_address_column, $company_column, $phone_number_column, $additional_1_column, $additional_2_column, $additional_3_column, $import_list_id;
     public function import()
     {
+        $allData = [
+            $this->first_name_column,
+            $this->last_name_column,
+            $this->phone_number_column,
+            $this->email_address_column,
+            $this->company_column,
+            $this->additional_1_column,
+            $this->additional_2_column,
+            $this->additional_3_column,
+            $this->import_list_id
+        ];
+
+        dd($allData);
+
         $this->validate([
             'file' => 'required|mimes:csv,txt|max:51200', // File validation
             'first_name_column' => 'required',
@@ -381,6 +409,9 @@ class ManageContactsComponent extends Component
         $this->sort_list_id = $id;
         $this->contact_checkbox = [];
         $this->check_all = false;
+
+        $this->import_list_id = $id;
+        $this->dispatch('setSelectedList', $id);
     }
 
     public function exportContacts()
@@ -400,7 +431,11 @@ class ManageContactsComponent extends Component
 
         $folders = ContactFolder::where('name', 'like', '%' . $this->folder_search_term . '%')->where('user_id', user()->id)->get();
 
-        $contacts = Contact::where('first_name', 'like', '%' . $this->contacts_search_term . '%')->where('user_id', user()->id)->orderBy('id', 'DESC');
+        $contacts = Contact::where(function($q){
+            $q->where('first_name', 'like', '%' . $this->contacts_search_term . '%')
+                ->orWhere('last_name', 'like', '%' . $this->contacts_search_term . '%')
+                ->orWhere('number', 'like', '%' . $this->contacts_search_term . '%');
+        })->where('user_id', user()->id)->orderBy('id', 'DESC');
         if ($this->sort_list_id) {
             $contacts = $contacts->where('list_id', $this->sort_list_id);
         }
