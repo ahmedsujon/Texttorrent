@@ -3,6 +3,7 @@
 namespace App\Livewire\App\Settings;
 
 use App\Models\Number;
+use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
 use Livewire\WithPagination;
 
@@ -52,7 +53,7 @@ class ActiveNumberComponent extends Component
 
     public function render()
     {
-        $numbers = Number::where(function ($q) {
+        $numbers = Number::where('id', Auth::user()->id)->where(function ($q) {
             $q->where('number', 'like', '%' . $this->searchTerm . '%');
         })->orderBy($this->sortBy, $this->sortDirection)->paginate($this->sortingValue);
 

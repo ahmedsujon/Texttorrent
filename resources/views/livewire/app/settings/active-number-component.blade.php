@@ -57,6 +57,11 @@
                                 </th>
                                 <th scope="col">
                                     <div class="column_area">
+                                        <span>Status</span>
+                                    </div>
+                                </th>
+                                <th scope="col">
+                                    <div class="column_area">
                                         <span>Action</span>
                                     </div>
                                 </th>
@@ -90,7 +95,13 @@
                                                 @endif
                                             </div>
                                         </td>
-
+                                        <td class="capability_status_area">
+                                            @if ($number['status'] == 0)
+                                                <div class="capability_status">Active</div>
+                                            @else
+                                                <div class="capability_status sms">Inactive</div>
+                                            @endif
+                                        </td>
                                         <td>
                                             <div class="table_dropdown_area d-flex align-items-center flex-wrap gap-1">
                                                 <div class="dropdown">
@@ -104,12 +115,24 @@
                                                             <h4>Select</h4>
                                                         </li>
                                                         <li>
-                                                            <button type="button" class="dropdown-item">
-                                                                <img src="{{ asset('assets/app/icons/copy-02.svg') }}"
-                                                                    alt="copy icon" />
-                                                                <span>Inactive</span>
-                                                            </button>
-                                                            <button type="button" class="dropdown-item">
+                                                            @if ($number->status == 0)
+                                                                <button type="button" class="dropdown-item"
+                                                                    wire:click.prevent='changeStatus({{ $number->id }}, {{ $number->status }})'>
+                                                                    <img src="{{ asset('assets/app/icons/copy-02.svg') }}"
+                                                                        alt="copy icon" />
+                                                                    <span>Inactive</span>
+                                                                </button>
+                                                            @else
+                                                                <button type="button" class="dropdown-item"
+                                                                    wire:click.prevent='changeStatus({{ $number->id }}, {{ $number->status }})'>
+                                                                    <img src="{{ asset('assets/app/icons/copy-02.svg') }}"
+                                                                        alt="copy icon" />
+                                                                    <span>Active</span>
+                                                            @endif
+
+                                                            <button type="button" class="dropdown-item"
+                                                                wire:click.prevent='deleteConfirmation({{ $number->id }})'
+                                                                wire:loading.attr='disabled'>
                                                                 <img src="{{ asset('assets/app/icons/copy-02.svg') }}"
                                                                     alt="copy icon" />
                                                                 <span>Delete</span>
@@ -142,5 +165,42 @@
                 {{ $numbers->links('livewire.app-pagination') }}
             </div>
         </section>
+
+        <!-- Delete  Modal  -->
+        <div wire:ignore.self class="modal fade delete_modal" id="deleteDataModal" tabindex="-1"
+            aria-labelledby="deleteModal" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+                <div class="modal-content">
+                    <div class="modal-body">
+                        <div class="content_area">
+                            <h2>Would you like to permanently delete this event?</h2>
+                            <h4>Once deleted, this event will no longer be accessible</h4>
+                            <div class="delete_action_area d-flex align-items-center flex-wrap">
+                                <button type="button" class="delete_cancel_btn" id="deleteModalCloseBtn"
+                                    data-bs-dismiss="modal">
+                                    Cancel
+                                </button>
+                                <button type="button" wire:click.prevent='deleteData' wire:loading.attr='disabled'
+                                    class="delete_yes_btn">
+                                    {!! loadingStateWithText('deleteData', 'Yes') !!}
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </main>
 </div>
+@push('scripts')
+    <script>
+        window.addEventListener('number_deleted', event => {
+            $('#deleteDataModal').modal('hide');
+            Swal.fire(
+                "Deleted!",
+                "The number has been deleted.",
+                "success"
+            );
+        });
+    </script>
+@endpush
