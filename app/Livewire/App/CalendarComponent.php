@@ -39,9 +39,22 @@ class CalendarComponent extends Component
         $event->participant_email = $this->participant_email;
         $event->save();
 
+        $this->dispatch('refreshCalendar');
         $this->dispatch('closeModal');
         $this->dispatch('success', ['message' => 'New event added successfully']);
         $this->resetForm();
+    }
+
+    public $selected_event_id, $selectedEvent;
+    public function viewData($id)
+    {
+        $event = Event::findOrFail($id);
+
+
+        $this->selectedEvent = $event;
+        $this->selected_event_id = $event->id;
+
+        $this->dispatch('viewEventDetails');
     }
 
     public function editData($id)
@@ -57,23 +70,8 @@ class CalendarComponent extends Component
         $this->alert_before = $event->alert_before;
         $this->participant_number = $event->participant_number;
         $this->participant_email = $event->participant_email;
-        $this->dispatch('showEditModal');
-    }
 
-    public function viewData($id)
-    {
-        $event = Event::findOrFail($id);
-        $this->edit_id = $event->id;
-        $this->user_id = $event->user_id;
-        $this->name = $event->name;
-        $this->subject = $event->subject;
-        $this->date = $event->date;
-        $this->time = $event->time;
-        $this->sender_number = $event->sender_number;
-        $this->alert_before = $event->alert_before;
-        $this->participant_number = $event->participant_number;
-        $this->participant_email = $event->participant_email;
-        $this->dispatch('editEventModalBtn');
+        $this->dispatch('showEditModal', ['sender_number' => $event->sender_number, 'participant_number' => $event->participant_number]);
     }
 
     public function updateData()
@@ -88,7 +86,7 @@ class CalendarComponent extends Component
         ]);
 
         $event = Event::find($this->edit_id);
-        $event->user_id = Auth::user()->id;
+        // $event->user_id = Auth::user()->id;
         $event->name = $this->name;
         $event->subject = $this->subject;
         $event->date = $this->date;
@@ -100,7 +98,7 @@ class CalendarComponent extends Component
         $event->save();
 
         $this->dispatch('closeModal');
-        $this->dispatch('success', ['message' => 'User updated successfully']);
+        $this->dispatch('success', ['message' => 'Event updated successfully']);
         $this->resetForm();
     }
 
@@ -149,6 +147,7 @@ class CalendarComponent extends Component
             ->get()
             ->map(function ($event) {
                 return [
+                    'id' => $event->id,
                     'title' => $event->name,
                     'start' => Carbon::parse($event->date)->format('Y-m-d') . 'T' . Carbon::parse($event->time)->format('h:i:s'),
                     'classNames' => ['sms_event'],

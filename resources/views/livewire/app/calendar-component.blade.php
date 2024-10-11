@@ -99,10 +99,11 @@
                                 </select>
                                 <img src="{{ asset('assets/app/icons/arrow-down.svg') }}" alt="down arrow"
                                     class="down_arrow" />
-                                @error('sender_number')
-                                    <p class="text-danger mb-0" style="font-size: 13px;">{{ $message }}</p>
-                                @enderror
+
                             </div>
+                            @error('sender_number')
+                                <p class="text-danger mb-0" style="font-size: 13px;">{{ $message }}</p>
+                            @enderror
                             <div class="input_row searchable_select" wire:ignore>
                                 <label for="">Alert Before</label>
                                 <select name="lang" wire:model.blur='alert_before' class="js-searchBox alert_before">
@@ -169,7 +170,7 @@
         </div>
 
         <!-- Edit Event Modal  -->
-        <div class="modal fade common_modal" wire:ignore.self id="editEventFormModal" tabindex="-1"
+        <div wire:ignore.self class="modal fade common_modal" id="editEventFormModal" tabindex="-1"
             aria-labelledby="editEventFormModal" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
                 <div class="modal-content">
@@ -177,10 +178,10 @@
                         <h1 class="modal-title fs-5" id="editEventFormModal">
                             Edit Event
                         </h1>
-                        <button type="button" class="btn-close" id="eventEventTopCloseBtn"></button>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                     </div>
-                    <div class="modal-body">
-                        <form class="event_form_area">
+                    <form class="event_form_area" wire:submit.prevent='updateData'>
+                        <div class="modal-body">
                             <div class="input_row">
                                 <label for="">Event Name</label>
                                 <input type="text" wire:model.blur='name' placeholder="Type Name"
@@ -227,10 +228,11 @@
                                 </select>
                                 <img src="{{ asset('assets/app/icons/arrow-down.svg') }}" alt="down arrow"
                                     class="down_arrow" />
-                                @error('sender_number')
-                                    <p class="text-danger mb-0" style="font-size: 13px;">{{ $message }}</p>
-                                @enderror
+
                             </div>
+                            @error('sender_number')
+                                <p class="text-danger mb-0" style="font-size: 13px;">{{ $message }}</p>
+                            @enderror
                             <div class="input_row searchable_select" wire:ignore>
                                 <label for="">Alert Before</label>
                                 <select name="lang" wire:model.blur='alert_before'
@@ -283,21 +285,21 @@
                                     </div>
                                 </div>
                             </div>
-                        </form>
-                    </div>
-                    <div class="modal-footer event_modal_footer">
-                        <button type="button" class="cancel_btn" id="editEventFormModalCloseBtn">
-                            Cancel
-                        </button>
-                        <button type="button" class="create_event_btn">
-                            {!! loadingStateWithText('updateData', 'Update Event') !!}
-                        </button>
-                    </div>
+                        </div>
+                        <div class="modal-footer event_modal_footer">
+                            <button type="button" class="cancel_btn" data-bs-dismiss="modal">
+                                Cancel
+                            </button>
+                            <button type="submit" class="create_event_btn">
+                                {!! loadingStateWithText('updateData', 'Update Event') !!}
+                            </button>
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>
 
-        <!-- Ciew Event Content Modal  -->
+        <!-- View Event Content Modal  -->
         <div class="modal fade edit_event_modal" id="editEventModalBtn" tabindex="-1"
             aria-labelledby="editEventModalBtn" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
@@ -305,42 +307,63 @@
                     <div class="modal-body">
                         <div class="event_edit_grid">
                             <div class="dot"></div>
-                            <div class="content_area">
-                                <h2>Meeting with Cameron Williamson for wecraft logo</h2>
-                                <h3>
-                                    Subject:
-                                    <span> Lorem ipsum dolor sit amet, consectetur lodo</span>
-                                </h3>
-                                <div class="icon_grid">
-                                    <div class="icon">
-                                        <img src="{{ asset('assets/app/icons/clock-01.svg') }}" alt="clock icon" />
-                                    </div>
-                                    <h6>Friday, Mar 10 - 11:15 AM - 11:45 PM</h6>
-                                </div>
-                                <div class="two_grid">
+                            @if ($selectedEvent)
+                                <div class="content_area">
+                                    <h2>{{ $selectedEvent->name }}</h2>
+                                    <h3>
+                                        Subject:
+                                        <span> {{ $selectedEvent->subject }}</span>
+                                    </h3>
                                     <div class="icon_grid">
                                         <div class="icon">
-                                            <img src="{{ asset('assets/app/icons/user.svg') }}" alt="user icon" />
+                                            <img src="{{ asset('assets/app/icons/clock-01.svg') }}"
+                                                alt="clock icon" />
                                         </div>
-                                        <h6>Royal Parvej</h6>
+                                        <h6>{{ Carbon\Carbon::parse($selectedEvent->date)->format('l, M j') }} -
+                                            {{ Carbon\Carbon::parse($selectedEvent->time)->format('h:i A') }}</h6>
+                                    </div>
+                                    <div class="two_grid">
+                                        <div class="icon_grid">
+                                            <div class="icon">
+                                                <img src="{{ asset('assets/app/icons/user.svg') }}"
+                                                    alt="user icon" />
+                                            </div>
+                                            <h6>{{ user()->first_name }} {{ user()->last_name }}</h6>
+                                        </div>
+                                        <div class="icon_grid">
+                                            <div class="icon">
+                                                <img src="{{ asset('assets/app/icons/mail-02.svg') }}"
+                                                    alt="mail icon" />
+                                            </div>
+                                            <h6 class="email">{{ user()->email }}</h6>
+                                        </div>
                                     </div>
                                     <div class="icon_grid">
                                         <div class="icon">
-                                            <img src="{{ asset('assets/app/icons/mail-02.svg') }}" alt="mail icon" />
+                                            <img src="{{ asset('assets/app/icons/notification-02.svg') }}"
+                                                alt="notification icon" />
                                         </div>
-                                        <h6 class="email">hi.rooyal@gmail.com</h6>
+                                        <h6>{{ $selectedEvent->alert_before }} minutes before</h6>
                                     </div>
-                                </div>
-                                <div class="icon_grid">
-                                    <div class="icon">
-                                        <img src="{{ asset('assets/app/icons/notification-02.svg') }}"
-                                            alt="notification icon" />
-                                    </div>
-                                    <h6>30 minutes before</h6>
-                                </div>
-                                <div class="participant_area" id="participantListArea">
-                                    <h4>Participants</h4>
-                                    <div class="participant_user_grid">
+                                    <div class="participant_area" id="participantListArea">
+                                        <h4>Participants</h4>
+                                        <div class="participant_user_grid">
+                                            <div class="user_icon">
+                                                <img src="{{ asset('assets/app/icons/user-multiple.svg') }}"
+                                                    alt="user icon" />
+                                            </div>
+                                            <div>
+                                                <h5>{{ $selectedEvent->participant_email }}</h5>
+                                                <h6>{{ $selectedEvent->participant_number }}</h6>
+                                            </div>
+                                            {{-- <div class="delete_icon">
+                                            <button type="button">
+                                                <img src="{{ asset('assets/app/icons/elements.svg') }}"
+                                                    alt="cross icon" />
+                                            </button>
+                                        </div> --}}
+                                        </div>
+                                        {{-- <div class="participant_user_grid">
                                         <div class="user_icon">
                                             <img src="{{ asset('assets/app/icons/user-multiple.svg') }}"
                                                 alt="user icon" />
@@ -355,35 +378,28 @@
                                                     alt="cross icon" />
                                             </button>
                                         </div>
-                                    </div>
-                                    <div class="participant_user_grid">
-                                        <div class="user_icon">
-                                            <img src="{{ asset('assets/app/icons/user-multiple.svg') }}"
-                                                alt="user icon" />
-                                        </div>
-                                        <div>
-                                            <h5>hi.geto@gmail.com</h5>
-                                            <h6>(480) 555-0103</h6>
-                                        </div>
-                                        <div class="delete_icon">
-                                            <button type="button">
-                                                <img src="{{ asset('assets/app/icons/elements.svg') }}"
-                                                    alt="cross icon" />
-                                            </button>
-                                        </div>
+                                    </div> --}}
                                     </div>
                                 </div>
-                            </div>
-                            <div class="action_area d-flex align-items-center justify-content-end flex-wrap gap-1">
-                                <button type="button" class="action_btn" id="editEventFormModalBtn">
-                                    <img src="{{ asset('assets/app/icons/pencil.svg') }}" alt="pencil icon" />
-                                </button>
-                                <button type="button" class="action_btn" id="openSecondModalBtn">
-                                    <img src="{{ asset('assets/app/icons/delete-pin.svg') }}" alt="delete icon" />
-                                </button>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                    aria-label="Close"></button>
-                            </div>
+                                <div class="action_area d-flex align-items-center justify-content-end flex-wrap gap-1">
+                                    <button type="button" class="action_btn"
+                                        wire:click.prevent='editData({{ $selectedEvent->id }})'>
+                                        {!! loadingStateWithoutText(
+                                            'editData(' . $selectedEvent->id . ')',
+                                            '<img src="' . asset('assets/app/icons/pencil.svg') . '" alt="pencil icon" />',
+                                        ) !!}
+                                    </button>
+                                    <button type="button" class="action_btn" id="openSecondModalBtn"
+                                        wire:click.prevent='deleteConfirmation({{ $selectedEvent->id }})'>
+                                        {!! loadingStateWithoutText(
+                                            'deleteConfirmation(' . $selectedEvent->id . ')',
+                                            '<img src="' . asset('assets/app/icons/delete-pin.svg') . '" alt="pencil icon" />',
+                                        ) !!}
+                                    </button>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                        aria-label="Close"></button>
+                                </div>
+                            @endif
                         </div>
                     </div>
                 </div>
@@ -391,8 +407,8 @@
         </div>
 
         <!-- Delete  Modal  -->
-        <div class="modal fade delete_modal" id="deleteModal" tabindex="-1" aria-labelledby="deleteModal"
-            aria-hidden="true">
+        <div wire:ignore.self class="modal fade delete_modal" id="deleteDataModal" tabindex="-1"
+            aria-labelledby="deleteModal" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
                 <div class="modal-content">
                     <div class="modal-body">
@@ -400,10 +416,14 @@
                             <h2>Would you like to permanently delete this event?</h2>
                             <h4>Once deleted, this event will no longer be accessible</h4>
                             <div class="delete_action_area d-flex align-items-center flex-wrap">
-                                <button type="button" class="delete_cancel_btn" id="deleteModalCloseBtn">
+                                <button type="button" class="delete_cancel_btn" id="deleteModalCloseBtn"
+                                    data-bs-dismiss="modal">
                                     Cancel
                                 </button>
-                                <button type="button" class="delete_yes_btn">Yes</button>
+                                <button type="button" wire:click.prevent='deleteData' wire:loading.attr='disabled'
+                                    class="delete_yes_btn">
+                                    {!! loadingStateWithText('deleteData', 'Yes') !!}
+                                </button>
                             </div>
                         </div>
                     </div>
@@ -438,7 +458,34 @@
     <script>
         window.addEventListener('closeModal', event => {
             $('#eventModal').modal('hide');
-            $('#eventModal').modal('hide');
+            $('#editEventFormModal').modal('hide');
+        });
+
+        window.addEventListener('viewEventDetails', event => {
+            const myModal = new bootstrap.Modal("#editEventModalBtn", {
+                backdrop: "static",
+            });
+            myModal.show();
+        });
+
+        window.addEventListener('showEditModal', event => {
+            const myModal = new bootstrap.Modal("#editEventFormModal", {
+                backdrop: "static",
+            });
+            myModal.show();
+            setTimeout(() => {
+                $('.modal-body').click();
+                $('#editEventModalBtn').modal('hide');
+            }, 100);
+        });
+
+        window.addEventListener('event_deleted', event => {
+            $('#deleteDataModal').modal('hide');
+            Swal.fire(
+                "Deleted!",
+                "Event has been deleted successfully",
+                "success"
+            );
         });
     </script>
 
@@ -483,10 +530,8 @@
                     myModal.show();
                 },
                 eventClick: function(arg) {
-                    const myModal = new bootstrap.Modal("#editEventModalBtn", {
-                        backdrop: "static",
-                    });
-                    myModal.show();
+                    const eventId = arg.event.id;
+                    @this.viewData(eventId);
                 },
                 editable: true,
                 dayMaxEvents: 2, // allow "more" link when too many events
@@ -504,92 +549,13 @@
 
             calendar.render();
 
-            //Get edit content modal
-            const editModalActionEl = document.getElementById("editEventModalBtn");
-            const toggleEditModalBackdrop = (isShow = true) => {
-                if (isShow) {
-                    editModalActionEl.style.zIndex = "1055";
-                } else {
-                    editModalActionEl.style.zIndex = "1040";
-                }
-            };
 
-            //Edit form modal
-            const editEventFormModalBtn = document.querySelector(
-                "#editEventFormModalBtn"
-            );
-            const editEventFormModalCloseBtn = document.querySelector(
-                "#editEventFormModalCloseBtn"
-            );
-            const eventEventTopCloseBtn = document.querySelector(
-                "#eventEventTopCloseBtn"
-            );
-            const editEventModal = new bootstrap.Modal("#editEventFormModal", {
-                backdrop: false,
+
+            window.addEventListener('refreshCalendar', event => {
+                calendar.refetchEvents();
+                console.log('reloadDone');
+
             });
-
-            if (editEventFormModalBtn) {
-                editEventFormModalBtn.addEventListener("click", () => {
-                    editEventModal.show();
-                    //Hide event modal for show backdrop overlay
-                    toggleEditModalBackdrop(false);
-                });
-            }
-            if (editEventFormModalCloseBtn) {
-                editEventFormModalCloseBtn.addEventListener("click", () => {
-                    editEventModal.hide();
-                    //Show event modal
-                    toggleEditModalBackdrop();
-                });
-            }
-            if (eventEventTopCloseBtn) {
-                eventEventTopCloseBtn.addEventListener("click", () => {
-                    editEventModal.hide();
-                    //Show event modal
-                    toggleEditModalBackdrop();
-                });
-            }
-
-            //Delete modal functionality
-            const deleteModalActionBtn =
-                document.getElementById("openSecondModalBtn");
-            const deleteModalCloseBtn = document.getElementById(
-                "deleteModalCloseBtn"
-            );
-            const deleteModal = new bootstrap.Modal("#deleteModal", {
-                backdrop: false,
-            });
-
-            if (deleteModalActionBtn) {
-                deleteModalActionBtn.addEventListener("click", function() {
-                    deleteModal.show();
-
-                    //Hide event modal for show backdrop overlay
-                    toggleEditModalBackdrop(false);
-                });
-            }
-            if (deleteModalCloseBtn) {
-                deleteModalCloseBtn.addEventListener("click", function() {
-                    deleteModal.hide();
-                    //Show event modal
-                    toggleEditModalBackdrop();
-                });
-            }
-
-            //Participant delete modal action
-            const getParticipantListEl = document.querySelectorAll(
-                "#participantListArea .delete_icon button"
-            );
-            if (getParticipantListEl) {
-                getParticipantListEl.forEach((item) => {
-                    item.addEventListener("click", () => {
-                        deleteModal.show();
-
-                        //Hide event modal for show backdrop overlay
-                        toggleEditModalBackdrop(false);
-                    });
-                });
-            }
         });
     </script>
 @endpush
