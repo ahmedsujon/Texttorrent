@@ -297,7 +297,7 @@
             </div>
         </div>
 
-        <!-- Edit Event Content Modal  -->
+        <!-- Ciew Event Content Modal  -->
         <div class="modal fade edit_event_modal" id="editEventModalBtn" tabindex="-1"
             aria-labelledby="editEventModalBtn" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
@@ -381,23 +381,6 @@
                                 <button type="button" class="action_btn" id="openSecondModalBtn">
                                     <img src="{{ asset('assets/app/icons/delete-pin.svg') }}" alt="delete icon" />
                                 </button>
-                                <div class="dropdown bootstrap_dropdown">
-                                    <button class="action_btn dropdown-toggle hide_dropdown_arrow" type="button"
-                                        data-bs-toggle="dropdown" aria-expanded="false">
-                                        <img src="{{ asset('assets/app/icons/more-2-linepng') }}" alt="more  icon" />
-                                    </button>
-                                    <ul class="dropdown-menu">
-                                        <li>
-                                            <a class="dropdown-item" href="#">Drop down menu 1</a>
-                                        </li>
-                                        <li>
-                                            <a class="dropdown-item" href="#">Drop down menu 1</a>
-                                        </li>
-                                        <li>
-                                            <a class="dropdown-item" href="#">Drop down menu 1</a>
-                                        </li>
-                                    </ul>
-                                </div>
                                 <button type="button" class="btn-close" data-bs-dismiss="modal"
                                     aria-label="Close"></button>
                             </div>
