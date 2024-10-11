@@ -101,7 +101,7 @@
                                         stroke="#696F8C" stroke-linecap="round" stroke-linejoin="round" />
                                 </svg>
                             </div>
-                            <div class="label">Active Number</div>
+                            <div class="label">My Numbers</div>
                         </a>
                         <a href="{{ route('user.logs') }}"
                             class="{{ request()->is('settings/logs') || request()->is('settings/logs/*') ? 'menu_grid active_menu' : 'menu_grid' }}">

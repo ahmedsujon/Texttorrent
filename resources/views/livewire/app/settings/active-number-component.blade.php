@@ -9,7 +9,7 @@
                         </button>
                         <img src="{{ asset('assets/app/icons/shopping-cart-02.svg') }}" alt="cart icon"
                             class="user_icon" />
-                        <h2>Active Numbers</h2>
+                        <h2>My Numbers</h2>
                     </div>
                 </div>
                 <div class="account_right_area d-flex align-items-center justify-content-end flex-wrap">
@@ -57,6 +57,11 @@
                                 </th>
                                 <th scope="col">
                                     <div class="column_area">
+                                        <span>Assigned</span>
+                                    </div>
+                                </th>
+                                <th scope="col">
+                                    <div class="column_area">
                                         <span>Status</span>
                                     </div>
                                 </th>
@@ -95,6 +100,10 @@
                                                 @endif
                                             </div>
                                         </td>
+                                        <td>
+                                            <h4 class="phone_number">{{ getUserByID($number->user_id)->first_name }}
+                                                {{ getUserByID($number->user_id)->last_name }}</h4>
+                                        </td>
                                         <td class="capability_status_area">
                                             @if ($number['status'] == 0)
                                                 <div class="capability_status">Active</div>
@@ -131,12 +140,22 @@
                                                             @endif
 
                                                             <button type="button" class="dropdown-item"
+                                                                wire:click.prevent='releaseNumber({{ $number->id }}, {{ $number->status }})'
+                                                                wire:loading.attr='disabled'>
+                                                                <img src="{{ asset('assets/app/icons/copy-02.svg') }}"
+                                                                    alt="copy icon" />
+                                                                <span>Release</span>
+                                                            </button>
+
+
+                                                            <button type="button" class="dropdown-item"
                                                                 wire:click.prevent='deleteConfirmation({{ $number->id }})'
                                                                 wire:loading.attr='disabled'>
                                                                 <img src="{{ asset('assets/app/icons/copy-02.svg') }}"
                                                                     alt="copy icon" />
                                                                 <span>Delete</span>
                                                             </button>
+
                                                         </li>
                                                     </ul>
                                                 </div>
@@ -156,10 +175,10 @@
             <div class="pagination_area pagination_top_border">
                 <div class="d-flex" wire:ignore>
                     <select class="niceSelect sortingValue">
-                        <option value="10">10 Accounts</option>
-                        <option value="30">30 Accounts</option>
-                        <option value="50">50 Accounts</option>
-                        <option value="100">100 Accounts</option>
+                        <option value="10">10 Numbers</option>
+                        <option value="30">30 Numbers</option>
+                        <option value="50">50 Numbers</option>
+                        <option value="100">100 Numbers</option>
                     </select>
                 </div>
                 {{ $numbers->links('livewire.app-pagination') }}
