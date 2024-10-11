@@ -51,7 +51,7 @@
                                     </button>
                                     <h3>Chats</h3>
                                 </div>
-                                <form action="" class="chat_search_form" id="chartSearchFormArea" wire:ignore>
+                                <form onsubmit="event.preventDefault()" class="chat_search_form" id="chartSearchFormArea" wire:ignore>
                                     <input type="search" placeholder="Search chats" id="searchChat"
                                         class="input_field" />
                                     <button type="button" class="search_btn" id="chatSearchBtn">
@@ -69,7 +69,7 @@
                                             alt="down arrow" />
                                     </button>
                                     <div class="folder_dropdown_area" wire:ignore.self id="folderDropdownArea">
-                                        <form action="" class="search_input_form search_input_form_sm">
+                                        <form onsubmit="event.preventDefault()" class="search_input_form search_input_form_sm">
                                             <input type="search" placeholder="Search folder"
                                                 wire:model.live='folder_search_term' class="input_field" />
                                             <button type="submit" class="search_icon">
@@ -133,7 +133,8 @@
                                                 class="list_item {{ $selected_chat_id == $chat->id ? 'active_chat' : '' }}">
                                                 <div class="user_image chat-avatar">{{ $chat->avatar_ltr }}</div>
                                                 <div class="short_message_are">
-                                                    <h4>{{ $chat->number }}</h4>
+                                                    <h6>{{ $chat->first_name }} {{ $chat->last_name }}</h6>
+                                                    <p style="font-size: 11.5px;">{{ $chat->number }}</p>
                                                     <p>
                                                         {{ $chat->last_message }}
                                                     </p>
@@ -459,7 +460,7 @@
                     </div>
                     <div class="modal-body">
                         <div class="folder_area">
-                            <form action="" class="search_input_form">
+                            <form onsubmit="event.preventDefault()" class="search_input_form">
                                 <input type="search" placeholder="Search folder" class="input_field" />
                                 <button type="submit" class="search_icon">
                                     <img src="{{ asset('assets/app/icons/search-gray.svg') }}" alt="search icon" />

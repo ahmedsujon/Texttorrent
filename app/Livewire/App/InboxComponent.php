@@ -167,7 +167,10 @@ class InboxComponent extends Component
     public function render()
     {
         $chats = DB::table('chats')->select('chats.*', 'contacts.first_name', 'contacts.last_name', 'contacts.number')->join('contacts', 'contacts.id', 'chats.contact_id')->where(function($q){
-            $q->where('contacts.number', 'like', '%' . $this->searchTerm . '%');
+            $q->where('contacts.number', 'like', '%' . $this->searchTerm . '%')
+                ->orWhere('contacts.first_name', 'like', '%' . $this->searchTerm . '%')
+                ->orWhere('contacts.last_name', 'like', '%' . $this->searchTerm . '%')
+                ->orWhere('chats.last_message', 'like', '%' . $this->searchTerm . '%');
         })->where('chats.user_id', user()->id)->orderBy('chats.updated_at', 'DESC');
 
         if ($this->sort_folder_id) {
