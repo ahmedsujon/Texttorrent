@@ -33,6 +33,26 @@ class NumbersTableSeeder extends Seeder
                 'purchased_at' => '2024-10-07 10:15:24',
                 'created_at' => '2024-10-07 10:15:24',
                 'updated_at' => '2024-10-07 10:15:24',
+            ],
+            [
+                'id' => 2,
+                'user_id' => 1,
+                'friendly_name' => '(202) 816-4450',
+                'number' => '+12028164450',
+                'region' => 'KY',
+                'country' => 'US',
+                'latitude' => '37.645600',
+                'longitude' => '-84.772200',
+                'postal_code' => '40422',
+                'capabilities' => json_encode([
+                    'mms' => true,
+                    'sms' => true,
+                    'voice' => true,
+                    'fax' => false
+                ]),
+                'purchased_at' => '2024-10-07 10:15:24',
+                'created_at' => '2024-10-07 10:15:24',
+                'updated_at' => '2024-10-07 10:15:24',
             ]
         ]);
     }

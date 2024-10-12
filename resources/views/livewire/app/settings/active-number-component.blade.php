@@ -1,4 +1,9 @@
 <div>
+    <style>
+        .mr-5 {
+            margin-right: 5px;
+        }
+    </style>
     <main class="main_content_wrapper setting_content_wrapper">
         <section class="get_number_wrapper account_border">
             <div class="number_buy_area">
@@ -11,6 +16,18 @@
                             class="user_icon" />
                         <h2>My Numbers</h2>
                     </div>
+
+                    <div class="mt-4">
+                        <button type="submit" class="create_event_btn">
+                            <div wire:loading="" wire:target="updateData" wire:key="updateData"><span
+                                    class="spinner-border spinner-border-sm align-middle" role="status"
+                                    aria-hidden="true"></span> </div> <span wire:loading.remove=""
+                                wire:target="updateData" wire:key="updateData"><img
+                                    src="{{ asset('assets/app/icons/users.svg') }}" alt="save icon"
+                                    class="save_icon mr-5"></span>Assign User
+                        </button>
+                    </div>
+
                 </div>
                 <div class="account_right_area d-flex align-items-center justify-content-end flex-wrap">
                     <form action="" class="search_input_form">
@@ -20,7 +37,13 @@
                             <img src="{{ asset('assets/app/icons/search-gray.svg') }}" alt="search icon" />
                         </button>
                     </form>
-
+                    <div wire:ignore>
+                        <select class="niceSelect niceSelect_area numberType">
+                            <option value="local">All</option>
+                            <option value="local">Active</option>
+                            <option value="tollfree">Inactive</option>
+                        </select>
+                    </div>
                     <div wire:ignore>
                         <select class="niceSelect niceSelect_area numberType">
                             <option value="local">Local</option>
@@ -40,6 +63,12 @@
                     <table class="table table-hover">
                         <thead>
                             <tr>
+                                <th scope="col">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" value="1"
+                                            wire:change="selectAll" id="formCheckAll" wire:model.live="check_all">
+                                    </div>
+                                </th>
                                 <th scope="col">
                                     <div class="column_area">
                                         <span>Phone number</span>
@@ -76,6 +105,13 @@
                             @if (count($numbers) > 0)
                                 @foreach ($numbers as $number)
                                     <tr>
+                                        <td>
+                                            <div class="form-check">
+                                                <input class="form-check-input contact-checkbox" type="checkbox"
+                                                    name="contact_checkbox[]" wire:model.live="contact_checkbox"
+                                                    value="100">
+                                            </div>
+                                        </td>
                                         <td>
                                             <div class="phone_number_area d-flex align-items-center gap-2">
                                                 <img src="{{ asset('assets/app/icons/phone.svg') }}" alt="phone icon" />
@@ -147,7 +183,6 @@
                                                                 <span>Release</span>
                                                             </button>
 
-
                                                             <button type="button" class="dropdown-item"
                                                                 wire:click.prevent='deleteConfirmation({{ $number->id }})'
                                                                 wire:loading.attr='disabled'>
@@ -155,7 +190,6 @@
                                                                     alt="copy icon" />
                                                                 <span>Delete</span>
                                                             </button>
-
                                                         </li>
                                                     </ul>
                                                 </div>
