@@ -83,7 +83,7 @@ class ActiveNumberComponent extends Component
     public function render()
     {
         $sub_accounts = User::where('type', 'sub')->where('parent_id', user()->id)->get();
-        $numbers = Number::where('id', Auth::user()->id)->where(function ($q) {
+        $numbers = Number::where('user_id', user()->id)->where(function ($q) {
             $q->where('number', 'like', '%' . $this->searchTerm . '%');
         })->orderBy($this->sortBy, $this->sortDirection)->paginate($this->sortingValue);
 
