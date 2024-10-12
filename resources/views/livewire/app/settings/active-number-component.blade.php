@@ -18,13 +18,10 @@
                     </div>
 
                     <div class="mt-4">
-                        <button type="submit" class="create_event_btn">
-                            <div wire:loading="" wire:target="updateData" wire:key="updateData"><span
-                                    class="spinner-border spinner-border-sm align-middle" role="status"
-                                    aria-hidden="true"></span> </div> <span wire:loading.remove=""
-                                wire:target="updateData" wire:key="updateData"><img
-                                    src="{{ asset('assets/app/icons/users.svg') }}" alt="save icon"
-                                    class="save_icon mr-5"></span>Assign User
+                        <button type="button" class="create_event_btn" data-bs-toggle="modal"
+                            data-bs-target="#eventModal">
+                            <img src="{{ asset('assets/app/icons/users.svg') }}" alt="save icon"
+                                class="save_icon mr-5"></span>Assign User
                         </button>
                     </div>
 
@@ -218,6 +215,49 @@
                 {{ $numbers->links('livewire.app-pagination') }}
             </div>
         </section>
+
+        <!-- New Event Modal  -->
+        <div class="modal fade common_modal" wire:ignore.self id="eventModal" tabindex="-1"
+            aria-labelledby="newEventModal" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="newEventModal">
+                            Phone Numbers Bulk Assign
+                        </h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                            aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form class="event_form_area">
+                            <div class="input_row searchable_select" wire:ignore>
+                                <label for="">User</label>
+                                <select name="lang" wire:model.blur='sender_number'
+                                    class="js-searchBox sender_number">
+                                    <option value="">Choose User</option>
+                                    @foreach ($sub_accounts as $sub_account)
+                                        <option value="{{ $sub_account->id }}">{{ $sub_account->first_name }} {{ $sub_account->first_name }}</option>
+                                    @endforeach
+                                </select>
+                                <img src="{{ asset('assets/app/icons/arrow-down.svg') }}" alt="down arrow"
+                                    class="down_arrow" />
+                                @error('sender_number')
+                                    <p class="text-danger mb-0" style="font-size: 13px;">{{ $message }}</p>
+                                @enderror
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer event_modal_footer">
+                        <button type="button" class="cancel_btn" data-bs-dismiss="modal">
+                            Cancel
+                        </button>
+                        <button type="button" wire:click.prevent='storeData' class="create_event_btn">
+                            {!! loadingStateWithText('storeData', 'Save') !!}
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
 
         <!-- Delete  Modal  -->
         <div wire:ignore.self class="modal fade delete_modal" id="deleteDataModal" tabindex="-1"
