@@ -249,7 +249,7 @@ class ManageContactsComponent extends Component
     // public $uploadedSize = 0;
     // public $totalSize = 0;
 
-    public $columns = [];
+    public $columns = [], $first_name_column, $last_name_column, $email_address_column, $company_column, $phone_number_column, $additional_1_column, $additional_2_column, $additional_3_column, $import_list_id;
     public function updatedFile()
     {
         $this->validate([
@@ -259,9 +259,9 @@ class ManageContactsComponent extends Component
 
         $this->first_name_column = isset($this->columns[0]) ? $this->columns[0] : '';
         $this->last_name_column = isset($this->columns[1]) ? $this->columns[1] : '';
-        $this->phone_number_column = isset($this->columns[2]) ? $this->columns[2] : '';
-        $this->email_address_column = isset($this->columns[3]) ? $this->columns[3] : '';
-        $this->company_column = isset($this->columns[4]) ? $this->columns[4] : '';
+        $this->email_address_column = isset($this->columns[2]) ? $this->columns[2] : '';
+        $this->company_column = isset($this->columns[3]) ? $this->columns[3] : '';
+        $this->phone_number_column = isset($this->columns[4]) ? $this->columns[4] : '';
         $this->additional_1_column = isset($this->columns[5]) ? $this->columns[5] : '';
         $this->additional_2_column = isset($this->columns[6]) ? $this->columns[6] : '';
         $this->additional_3_column = isset($this->columns[7]) ? $this->columns[7] : '';
@@ -282,7 +282,6 @@ class ManageContactsComponent extends Component
         return $headers;
     }
 
-    public $first_name_column, $last_name_column, $email_address_column, $company_column, $phone_number_column, $additional_1_column, $additional_2_column, $additional_3_column, $import_list_id;
     public function import()
     {
         $this->validate([
