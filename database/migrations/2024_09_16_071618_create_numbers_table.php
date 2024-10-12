@@ -23,6 +23,7 @@ return new class extends Migration
             $table->string('postal_code')->nullable();
             $table->text('capabilities')->nullable();
             $table->timestamp('purchased_at')->nullable();
+            $table->tinyInteger('status')->default(0);
             $table->timestamps();
         });
     }
