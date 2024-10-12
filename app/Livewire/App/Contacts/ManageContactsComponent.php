@@ -17,7 +17,7 @@ class ManageContactsComponent extends Component
     use WithFileUploads;
     public $file, $list_search_term, $folder_search_term, $contacts_search_term;
 
-    public $list_name, $list_edit_id, $list_delete_id;
+    public $list_name, $list_edit_id, $list_delete_id, $sort_list_id;
     public function addNewList()
     {
         $this->validate([
@@ -89,7 +89,7 @@ class ManageContactsComponent extends Component
         $list->number = '+1 ' . $this->mobile_number;
         $list->email = $this->email;
         $list->company = $this->company_name;
-        $list->list_id = $this->list_id;
+        $list->list_id = $this->sort_list_id;
         $list->save();
 
         $this->first_name = '';
@@ -97,7 +97,6 @@ class ManageContactsComponent extends Component
         $this->mobile_number = '';
         $this->company_name = '';
         $this->email = '';
-        $this->list_id = '';
 
         $this->dispatch('closeModal');
         $this->dispatch('success', ['message' => 'New contact added successfully']);
@@ -250,7 +249,7 @@ class ManageContactsComponent extends Component
     // public $uploadedSize = 0;
     // public $totalSize = 0;
 
-    public $columns = [];
+    public $columns = [], $first_name_column, $last_name_column, $email_address_column, $company_column, $phone_number_column, $additional_1_column, $additional_2_column, $additional_3_column, $import_list_id;
     public function updatedFile()
     {
         $this->validate([
@@ -260,9 +259,9 @@ class ManageContactsComponent extends Component
 
         $this->first_name_column = isset($this->columns[0]) ? $this->columns[0] : '';
         $this->last_name_column = isset($this->columns[1]) ? $this->columns[1] : '';
-        $this->phone_number_column = isset($this->columns[2]) ? $this->columns[2] : '';
-        $this->email_address_column = isset($this->columns[3]) ? $this->columns[3] : '';
-        $this->company_column = isset($this->columns[4]) ? $this->columns[4] : '';
+        $this->email_address_column = isset($this->columns[2]) ? $this->columns[2] : '';
+        $this->company_column = isset($this->columns[3]) ? $this->columns[3] : '';
+        $this->phone_number_column = isset($this->columns[4]) ? $this->columns[4] : '';
         $this->additional_1_column = isset($this->columns[5]) ? $this->columns[5] : '';
         $this->additional_2_column = isset($this->columns[6]) ? $this->columns[6] : '';
         $this->additional_3_column = isset($this->columns[7]) ? $this->columns[7] : '';
@@ -283,7 +282,6 @@ class ManageContactsComponent extends Component
         return $headers;
     }
 
-    public $first_name_column, $last_name_column, $email_address_column, $company_column, $phone_number_column, $additional_1_column, $additional_2_column, $additional_3_column, $import_list_id;
     public function import()
     {
         $this->validate([
@@ -389,7 +387,6 @@ class ManageContactsComponent extends Component
         $this->delete_type = '';
     }
 
-    public $sort_list_id;
     public function selectList($id)
     {
         $this->sort_list_id = $id;
