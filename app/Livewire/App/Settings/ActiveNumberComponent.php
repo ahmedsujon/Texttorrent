@@ -2,11 +2,12 @@
 
 namespace App\Livewire\App\Settings;
 
+use App\Models\User;
 use App\Models\Number;
-use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
-use Livewire\WithPagination;
 use Twilio\Rest\Client;
+use Livewire\WithPagination;
+use Illuminate\Support\Facades\Auth;
 
 class ActiveNumberComponent extends Component
 {
@@ -81,10 +82,11 @@ class ActiveNumberComponent extends Component
 
     public function render()
     {
+        $sub_accounts = User::where('type', 'sub')->where('parent_id', user()->id)->get();
         $numbers = Number::where('id', Auth::user()->id)->where(function ($q) {
             $q->where('number', 'like', '%' . $this->searchTerm . '%');
         })->orderBy($this->sortBy, $this->sortDirection)->paginate($this->sortingValue);
 
-        return view('livewire.app.settings.active-number-component', ['numbers' => $numbers])->layout('livewire.app.layouts.base');
+        return view('livewire.app.settings.active-number-component', ['numbers' => $numbers, 'sub_accounts'=>$sub_accounts])->layout('livewire.app.layouts.base');
     }
 }
