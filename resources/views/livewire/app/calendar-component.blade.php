@@ -27,13 +27,13 @@
                         <span>Voice Scheduled</span>
                     </li>
                 </ul>
-                <form action="" class="calender_search_area">
+                {{-- <form action="" class="calender_search_area">
                     <button type="submit" class="search_icon">
                         <img src="{{ asset('assets/app/icons/search.svg') }}" alt="search icon" />
                     </button>
                     <input type="search" placeholder="Search anything..." class="input_filed" id="calenderSearch" />
                     <img class="slash_icon" src="{{ asset('assets/app/icons/slash.svg') }}" alt="slash icon" />
-                </form>
+                </form> --}}
             </div>
             <div class="calender_full_area" wire:ignore>
                 <div id="calendarFull"></div>
@@ -529,6 +529,9 @@
                     day: "Day",
                 },
                 initialDate: initDate,
+                validRange: {
+                    start: new Date().toISOString().split('T')[0]
+                },
                 navLinks: true, // can click day/week names to navigate views
                 selectable: true,
                 selectMirror: false,
