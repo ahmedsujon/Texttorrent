@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('numbers', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('user_id')->nullable();
+            $table->unsignedBigInteger('purchased_by')->nullable();
             $table->string('friendly_name')->nullable();
             $table->string('number')->nullable();
             $table->string('region')->nullable();
@@ -24,7 +25,8 @@ return new class extends Migration
             $table->text('capabilities')->nullable();
             $table->string('twilio_number_sid')->nullable();
             $table->timestamp('purchased_at')->nullable();
-            $table->tinyInteger('status')->default(0);
+            $table->enum('type', ['local', 'tollfree'])->default('local');
+            $table->tinyInteger('status')->default(1);
             $table->timestamps();
         });
     }

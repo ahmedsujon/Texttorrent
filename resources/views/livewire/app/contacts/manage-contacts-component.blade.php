@@ -669,9 +669,9 @@
                                 </div>
                             </div>
 
-                            <div class="input_row searchable_select" wire:ignore>
+                            <div class="input_row searchable_select">
                                 <label for="">Import List Into </label>
-                                <select name="lang" class="js-searchBox js-searchBox-file-select">
+                                <select name="lang" class="form-control js-searchBox-file-select">
                                     <option value="">Select</option>
                                     @foreach ($allLists as $lItem)
                                         <option value="{{ $lItem->id }}">{{ $lItem->name }}</option>

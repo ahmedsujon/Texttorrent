@@ -2,13 +2,12 @@
 
 namespace App\Livewire\App\Settings;
 
-use App\Models\User;
 use App\Models\Number;
-use Livewire\Component;
-use Twilio\Rest\Client;
-use Livewire\WithPagination;
-use Illuminate\Support\Facades\Auth;
+use App\Models\User;
 use Illuminate\Support\Facades\DB;
+use Livewire\Component;
+use Livewire\WithPagination;
+use Twilio\Rest\Client;
 
 class ActiveNumberComponent extends Component
 {
@@ -25,7 +24,7 @@ class ActiveNumberComponent extends Component
     public function setSortBy($sortByField)
     {
         if ($this->sortBy === $sortByField) {
-            $this->sortDirection = ($this->sortDirection ==  "ASC") ? 'DESC' : "ASC";
+            $this->sortDirection = ($this->sortDirection == "ASC") ? 'DESC' : "ASC";
             return;
         }
         $this->sortBy = $sortByField;
@@ -54,8 +53,20 @@ class ActiveNumberComponent extends Component
         $this->dispatch('success', ['message' => 'Number updated successfully.']);
     }
 
-    public function releaseNumber($id, $status)
+    public $release_id, $release_status;
+    public function releaseConfirmation($id, $status)
     {
+        $this->release_id = $id;
+        $this->release_status = $status;
+
+        $this->dispatch('show_release_modal');
+    }
+
+    public function releaseNumber()
+    {
+        $id = $this->release_id;
+        $status = $this->release_status;
+
         $number = Number::find($id);
         if ($number) {
             // If status is 'Active' or whatever the current status, change it to 'Released' (e.g., status = 2)
@@ -66,11 +77,16 @@ class ActiveNumberComponent extends Component
             $twilio = new Client(env('TWILIO_SID'), env('TWILIO_AUTH_TOKEN'));
 
             try {
-                // Release the number from Twilio
-                $twilio->incomingPhoneNumbers($number->twilio_number_sid)->delete();
+                if ($number->twilio_number_sid) {
+                    // Release the number from Twilio
+                    $twilio->incomingPhoneNumbers($number->twilio_number_sid)->delete();
 
-                // Dispatch success message
-                $this->dispatch('success', ['message' => 'Number released successfully.']);
+                    // Dispatch success message
+                    $this->dispatch('success', ['message' => 'Number released successfully.']);
+                } else {
+                    $this->dispatch('error', ['message' => 'Failed to release the number.']);
+                }
+
             } catch (\Exception $e) {
                 // Dispatch error message if Twilio release fails
                 $this->dispatch('error', ['message' => 'Failed to release the number.']);
@@ -81,13 +97,76 @@ class ActiveNumberComponent extends Component
         }
     }
 
+    public $selectedNumbers = [], $allNumberIDs, $s_numbers, $check_all;
+    public function selectAll()
+    {
+        if ($this->check_all) {
+            $this->selectedNumbers = $this->allNumberIDs;
+        } else {
+            $this->selectedNumbers = [];
+        }
+    }
+
+    public $user_to_assign;
+    public function assignNumberToUser()
+    {
+        if ($this->selectedNumbers != []) {
+            $this->s_numbers = Number::whereIn('id', $this->selectedNumbers)->pluck('number')->toArray();
+            $this->dispatch('showNumberAssignModal');
+        } else {
+            $this->dispatch('error', ['message' => 'Select a number first!']);
+        }
+    }
+
+    public function assignToUser()
+    {
+        $this->validate([
+            'user_to_assign' => 'required|exists:users,id',
+        ]);
+        foreach ($this->selectedNumbers as $number_id) {
+            Number::where('id', $number_id)->update(['user_id' => $this->user_to_assign]);
+        }
+
+        $this->dispatch('closeModal');
+        $this->dispatch('success', ['message' => 'User has been assigned']);
+    }
+
+    public function updatedSearchTerm()
+    {
+        $this->check_all = false;
+        $this->selectedNumbers = [];
+    }
+    public function updatedSortType()
+    {
+        $this->check_all = false;
+        $this->selectedNumbers = [];
+    }
+    public function updatedSortStatus()
+    {
+        $this->check_all = false;
+        $this->selectedNumbers = [];
+    }
+
+    public $sort_type = 'all', $sort_status = 'all';
     public function render()
     {
-        $sub_accounts = User::where('type', 'sub')->where('parent_id', user()->id)->get();
+        $sub_accounts = User::where('type', 'sub')->where('status', 1)->where('parent_id', user()->id)->get();
         $numbers = Number::where('user_id', user()->id)->where(function ($q) {
             $q->where('number', 'like', '%' . $this->searchTerm . '%');
-        })->orderBy($this->sortBy, $this->sortDirection)->paginate($this->sortingValue);
+        })->orderBy($this->sortBy, $this->sortDirection);
 
-        return view('livewire.app.settings.active-number-component', ['numbers' => $numbers, 'sub_accounts'=>$sub_accounts])->layout('livewire.app.layouts.base');
+        if ($this->sort_type && $this->sort_type != 'all') {
+            $numbers = $numbers->where('type', $this->sort_type);
+        }
+
+        if ($this->sort_status && $this->sort_status != 'all') {
+            $numbers = $numbers->where('status', $this->sort_status);
+        }
+
+        $numbers = $numbers->paginate($this->sortingValue);
+
+        $this->allNumberIDs = $numbers->pluck('id')->toArray();
+
+        return view('livewire.app.settings.active-number-component', ['numbers' => $numbers, 'sub_accounts' => $sub_accounts])->layout('livewire.app.layouts.base');
     }
 }
