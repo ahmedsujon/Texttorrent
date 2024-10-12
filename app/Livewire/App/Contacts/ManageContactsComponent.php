@@ -17,7 +17,7 @@ class ManageContactsComponent extends Component
     use WithFileUploads;
     public $file, $list_search_term, $folder_search_term, $contacts_search_term;
 
-    public $list_name, $list_edit_id, $list_delete_id;
+    public $list_name, $list_edit_id, $list_delete_id, $sort_list_id;
     public function addNewList()
     {
         $this->validate([
@@ -89,7 +89,7 @@ class ManageContactsComponent extends Component
         $list->number = '+1 ' . $this->mobile_number;
         $list->email = $this->email;
         $list->company = $this->company_name;
-        $list->list_id = $this->list_id;
+        $list->list_id = $this->sort_list_id;
         $list->save();
 
         $this->first_name = '';
@@ -97,7 +97,6 @@ class ManageContactsComponent extends Component
         $this->mobile_number = '';
         $this->company_name = '';
         $this->email = '';
-        $this->list_id = '';
 
         $this->dispatch('closeModal');
         $this->dispatch('success', ['message' => 'New contact added successfully']);
@@ -389,7 +388,6 @@ class ManageContactsComponent extends Component
         $this->delete_type = '';
     }
 
-    public $sort_list_id;
     public function selectList($id)
     {
         $this->sort_list_id = $id;
