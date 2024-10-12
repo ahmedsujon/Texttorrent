@@ -8,6 +8,7 @@ use Livewire\Component;
 use Twilio\Rest\Client;
 use Livewire\WithPagination;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class ActiveNumberComponent extends Component
 {
@@ -59,7 +60,7 @@ class ActiveNumberComponent extends Component
         if ($number) {
             // If status is 'Active' or whatever the current status, change it to 'Released' (e.g., status = 2)
             $newStatus = 2; // Assuming 2 is for 'Released'
-            $number->update(['status' => $newStatus]);
+            DB::table('numbers')->where('id', $id)->update(['status' => $newStatus]);
 
             // Initialize Twilio Client
             $twilio = new Client(env('TWILIO_SID'), env('TWILIO_AUTH_TOKEN'));
@@ -83,7 +84,7 @@ class ActiveNumberComponent extends Component
     public function render()
     {
         $sub_accounts = User::where('type', 'sub')->where('parent_id', user()->id)->get();
-        $numbers = Number::where('id', Auth::user()->id)->where(function ($q) {
+        $numbers = Number::where('user_id', user()->id)->where(function ($q) {
             $q->where('number', 'like', '%' . $this->searchTerm . '%');
         })->orderBy($this->sortBy, $this->sortDirection)->paginate($this->sortingValue);
 
