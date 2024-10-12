@@ -2,9 +2,12 @@
 
 namespace App\Livewire\App\Settings;
 
+use App\Models\User;
 use App\Models\Number;
 use Livewire\Component;
+use Twilio\Rest\Client;
 use Livewire\WithPagination;
+use Illuminate\Support\Facades\Auth;
 
 class ActiveNumberComponent extends Component
 {
@@ -50,12 +53,40 @@ class ActiveNumberComponent extends Component
         $this->dispatch('success', ['message' => 'Number updated successfully.']);
     }
 
+    public function releaseNumber($id, $status)
+    {
+        $number = Number::find($id);
+        if ($number) {
+            // If status is 'Active' or whatever the current status, change it to 'Released' (e.g., status = 2)
+            $newStatus = 2; // Assuming 2 is for 'Released'
+            $number->update(['status' => $newStatus]);
+
+            // Initialize Twilio Client
+            $twilio = new Client(env('TWILIO_SID'), env('TWILIO_AUTH_TOKEN'));
+
+            try {
+                // Release the number from Twilio
+                $twilio->incomingPhoneNumbers($number->twilio_number_sid)->delete();
+
+                // Dispatch success message
+                $this->dispatch('success', ['message' => 'Number released successfully.']);
+            } catch (\Exception $e) {
+                // Dispatch error message if Twilio release fails
+                $this->dispatch('error', ['message' => 'Failed to release the number.']);
+            }
+        } else {
+            // Dispatch error message if the number is not found
+            $this->dispatch('error', ['message' => 'Number not found.']);
+        }
+    }
+
     public function render()
     {
-        $numbers = Number::where(function ($q) {
+        $sub_accounts = User::where('type', 'sub')->where('parent_id', user()->id)->get();
+        $numbers = Number::where('id', Auth::user()->id)->where(function ($q) {
             $q->where('number', 'like', '%' . $this->searchTerm . '%');
         })->orderBy($this->sortBy, $this->sortDirection)->paginate($this->sortingValue);
 
-        return view('livewire.app.settings.active-number-component', ['numbers' => $numbers])->layout('livewire.app.layouts.base');
+        return view('livewire.app.settings.active-number-component', ['numbers' => $numbers, 'sub_accounts'=>$sub_accounts])->layout('livewire.app.layouts.base');
     }
 }
