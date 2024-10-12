@@ -162,6 +162,7 @@ class GetNumberComponent extends Component
             $number->longitude = $data['longitude'];
             $number->postal_code = $data['postal_code'];
             $number->capabilities = $this->fetchPurchasedNumberCaps($data['number']);
+            $number->twilio_number_sid = $this->fetchPurchasedNumberSID($data['number']);
             $number->purchased_at = Carbon::parse(now());
             $number->save();
 
@@ -275,6 +276,22 @@ class GetNumberComponent extends Component
                 }
             }
             return $caps;
+        } catch (\Exception $e) {
+            session()->flash('error', 'Failed to fetch purchased numbers: ' . $e->getMessage());
+        }
+    }
+
+    public function fetchPurchasedNumberSID($number)
+    {
+        $twilio = new Client(env('TWILIO_SID'), env('TWILIO_AUTH_TOKEN'));
+        try {
+            $incomingNumbers = $twilio->incomingPhoneNumbers->read(["phoneNumber" => $number]);
+            // Check if the number exists and return its SID
+            if (!empty($incomingNumbers)) {
+                return $incomingNumbers[0]->sid;
+            } else {
+                return "";
+            }
         } catch (\Exception $e) {
             session()->flash('error', 'Failed to fetch purchased numbers: ' . $e->getMessage());
         }
