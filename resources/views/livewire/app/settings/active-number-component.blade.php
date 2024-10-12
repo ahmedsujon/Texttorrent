@@ -18,10 +18,8 @@
                     </div>
 
                     <div class="mt-4">
-                        <button type="button" class="create_event_btn" data-bs-toggle="modal"
-                            data-bs-target="#eventModal">
-                            <img src="{{ asset('assets/app/icons/users.svg') }}" alt="save icon"
-                                class="save_icon mr-5"></span>Assign User
+                        <button type="button" class="create_event_btn" wire:click.prevent='assignNumberToUser'>
+                            {!! loadingStateWithoutText('assignNumberToUser', '<img src="'. asset('assets/app/icons/users.svg') .'" alt="save icon" class="save_icon mr-5">') !!}  Assign User
                         </button>
                     </div>
 
@@ -35,14 +33,14 @@
                         </button>
                     </form>
                     <div wire:ignore>
-                        <select class="niceSelect niceSelect_area numberType">
-                            <option value="local">All</option>
-                            <option value="local">Active</option>
-                            <option value="tollfree">Inactive</option>
+                        <select class="niceSelect niceSelect_area sort_status">
+                            <option value="all">All</option>
+                            <option value="1">Active</option>
+                            <option value="0">Inactive</option>
                         </select>
                     </div>
                     <div wire:ignore>
-                        <select class="niceSelect niceSelect_area numberType">
+                        <select class="niceSelect niceSelect_area sort_type">
                             <option value="local">Local</option>
                             <option value="tollfree">Toll-Free</option>
                         </select>
@@ -51,7 +49,7 @@
             </div>
             <div class="row">
                 <div class="col-md-12 text-center">
-                    <span wire:loading wire:target='numberType'><i class="fa fa-spinner fa-spin"></i>
+                    <span wire:loading wire:target='numberType,sort_type,sort_status'><i class="fa fa-spinner fa-spin"></i>
                         Processing...</span>
                 </div>
             </div>
@@ -104,9 +102,7 @@
                                     <tr>
                                         <td>
                                             <div class="form-check">
-                                                <input class="form-check-input contact-checkbox" type="checkbox"
-                                                    name="contact_checkbox[]" wire:model.live="contact_checkbox"
-                                                    value="100">
+                                                <input class="form-check-input contact-checkbox" type="checkbox" name="selectedNumbers" wire:model.live="selectedNumbers" value="{{ $number->id }}">
                                             </div>
                                         </td>
                                         <td>
@@ -138,7 +134,7 @@
                                                 {{ getUserByID($number->user_id)->last_name }}</h4>
                                         </td>
                                         <td class="capability_status_area">
-                                            @if ($number['status'] == 0)
+                                            @if ($number['status'] == 1)
                                                 <div class="capability_status">Active</div>
                                             @else
                                                 <div class="capability_status sms">Inactive</div>
@@ -173,7 +169,7 @@
                                                             @endif
 
                                                             <button type="button" class="dropdown-item"
-                                                                wire:click.prevent='releaseNumber({{ $number->id }}, {{ $number->status }})'
+                                                                wire:click.prevent='releaseConfirmation({{ $number->id }}, {{ $number->status }})'
                                                                 wire:loading.attr='disabled'>
                                                                 <img src="{{ asset('assets/app/icons/copy-02.svg') }}"
                                                                     alt="copy icon" />
@@ -196,7 +192,7 @@
                                 @endforeach
                             @else
                                 <tr>
-                                    <td colspan="4" class="text-center pt-5 pb-0 mb-0">No number found!</td>
+                                    <td colspan="7" class="text-center pt-5 pb-0 mb-0">No number found!</td>
                                 </tr>
                             @endif
                         </tbody>
@@ -216,8 +212,8 @@
             </div>
         </section>
 
-        <!-- New Event Modal  -->
-        <div class="modal fade common_modal" wire:ignore.self id="eventModal" tabindex="-1"
+        <!-- Assign Modal  -->
+        <div class="modal fade common_modal" wire:ignore.self id="assignModal" tabindex="-1"
             aria-labelledby="newEventModal" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
                 <div class="modal-content">
@@ -228,12 +224,25 @@
                         <button type="button" class="btn-close" data-bs-dismiss="modal"
                             aria-label="Close"></button>
                     </div>
-                    <div class="modal-body">
-                        <form class="event_form_area">
+
+                    <form class="event_form_area" wire:submit.prevent='assignToUser'>
+                        <div class="modal-body pb-5">
+                            <div class="row mb-3">
+                                <div class="col-md-12 mb-2">Selected Numbers</div>
+                                @if ($s_numbers)
+                                    @foreach ($s_numbers as $sNumber)
+                                        <div class="col-md-4 text-center mb-2">
+                                            <div class="card card-body ps-3 pe-3 p-1">
+                                                {{ $sNumber }}
+                                            </div>
+                                        </div>
+                                    @endforeach
+                                @endif
+                            </div>
+
                             <div class="input_row searchable_select" wire:ignore>
                                 <label for="">User</label>
-                                <select name="lang" wire:model.blur='sender_number'
-                                    class="js-searchBox sender_number">
+                                <select name="lang" class="js-searchBox user_to_assign">
                                     <option value="">Choose User</option>
                                     @foreach ($sub_accounts as $sub_account)
                                         <option value="{{ $sub_account->id }}">{{ $sub_account->first_name }} {{ $sub_account->first_name }}</option>
@@ -241,19 +250,44 @@
                                 </select>
                                 <img src="{{ asset('assets/app/icons/arrow-down.svg') }}" alt="down arrow"
                                     class="down_arrow" />
-                                @error('sender_number')
-                                    <p class="text-danger mb-0" style="font-size: 13px;">{{ $message }}</p>
-                                @enderror
                             </div>
-                        </form>
-                    </div>
-                    <div class="modal-footer event_modal_footer">
-                        <button type="button" class="cancel_btn" data-bs-dismiss="modal">
-                            Cancel
-                        </button>
-                        <button type="button" wire:click.prevent='storeData' class="create_event_btn">
-                            {!! loadingStateWithText('storeData', 'Save') !!}
-                        </button>
+                            @error('user_to_assign')
+                                <p class="text-danger mb-0" style="font-size: 13px;">{{ $message }}</p>
+                            @enderror
+                        </div>
+                        <div class="modal-footer event_modal_footer">
+                            <button type="button" class="cancel_btn" data-bs-dismiss="modal">
+                                Cancel
+                            </button>
+                            <button type="submit" class="create_event_btn">
+                                {!! loadingStateWithText('assignToUser', 'Save') !!}
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- Release  Modal  -->
+        <div wire:ignore.self class="modal fade delete_modal" id="releaseModal" tabindex="-1"
+            aria-labelledby="deleteModal" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+                <div class="modal-content">
+                    <div class="modal-body">
+                        <div class="content_area">
+                            <h2>Would you like to release this number?</h2>
+                            <h4>Once released, this number will no longer be accessible</h4>
+                            <div class="delete_action_area d-flex align-items-center flex-wrap">
+                                <button type="button" class="delete_cancel_btn" id="deleteModalCloseBtn"
+                                    data-bs-dismiss="modal">
+                                    Cancel
+                                </button>
+                                <button type="button" wire:click.prevent='releaseNumber' wire:loading.attr='disabled'
+                                    class="delete_yes_btn">
+                                    {!! loadingStateWithText('releaseNumber', 'Yes') !!}
+                                </button>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -287,6 +321,32 @@
 </div>
 @push('scripts')
     <script>
+        $(document).ready(function(){
+            $('.sort_status').on('change', function(){
+                @this.set('sort_status', this.value);
+            });
+
+            $('.sort_type').on('change', function(){
+                @this.set('sort_type', this.value);
+            });
+
+            $('.user_to_assign').on('change', function(){
+                @this.set('user_to_assign', this.value);
+            });
+        });
+
+        window.addEventListener('showNumberAssignModal', event => {
+            $('#assignModal').modal('show');
+        });
+
+        window.addEventListener('show_release_modal', event => {
+            $('#releaseModal').modal('show');
+        });
+
+        window.addEventListener('closeModal', event => {
+            $('#assignModal').modal('hide');
+        });
+
         window.addEventListener('number_deleted', event => {
             $('#deleteDataModal').modal('hide');
             Swal.fire(

@@ -154,6 +154,7 @@ class GetNumberComponent extends Component
         if (!$get_number) {
             $number = new Number();
             $number->user_id = user()->id;
+            $number->purchased_by = user()->id;
             $number->friendly_name = $data['friendly_name'];
             $number->number = $data['number'];
             $number->region = $data['region'];
@@ -164,6 +165,7 @@ class GetNumberComponent extends Component
             $number->capabilities = $this->fetchPurchasedNumberCaps($data['number']);
             $number->twilio_number_sid = $this->fetchPurchasedNumberSID($data['number']);
             $number->purchased_at = Carbon::parse(now());
+            $number->type = $this->numberType;
             $number->save();
 
             return true;

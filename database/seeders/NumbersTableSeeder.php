@@ -17,6 +17,7 @@ class NumbersTableSeeder extends Seeder
             [
                 'id' => 1,
                 'user_id' => 1,
+                'purchased_by' => 1,
                 'friendly_name' => '(859) 209-6359',
                 'number' => '+18592096359',
                 'region' => 'KY',
@@ -30,6 +31,7 @@ class NumbersTableSeeder extends Seeder
                     'voice' => true,
                     'fax' => false
                 ]),
+                'type' => 'local',
                 'purchased_at' => '2024-10-07 10:15:24',
                 'created_at' => '2024-10-07 10:15:24',
                 'updated_at' => '2024-10-07 10:15:24',
@@ -37,6 +39,7 @@ class NumbersTableSeeder extends Seeder
             [
                 'id' => 2,
                 'user_id' => 1,
+                'purchased_by' => 1,
                 'friendly_name' => '(202) 816-4450',
                 'number' => '+12028164450',
                 'region' => 'KY',
@@ -50,6 +53,7 @@ class NumbersTableSeeder extends Seeder
                     'voice' => true,
                     'fax' => false
                 ]),
+                'type' => 'local',
                 'purchased_at' => '2024-10-07 10:15:24',
                 'created_at' => '2024-10-07 10:15:24',
                 'updated_at' => '2024-10-07 10:15:24',
