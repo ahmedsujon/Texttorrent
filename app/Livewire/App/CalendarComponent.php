@@ -127,7 +127,7 @@ class CalendarComponent extends Component
     public function deleteConfirmation($id)
     {
         $this->delete_id = $id;
-        $this->dispatch('show_delete_confirmation');
+        $this->dispatch('show_delete_confirmation_event');
     }
 
     public function deleteData()

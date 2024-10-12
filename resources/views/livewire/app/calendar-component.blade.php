@@ -460,6 +460,15 @@
             $('#eventModal').modal('hide');
             $('#editEventFormModal').modal('hide');
         });
+        window.addEventListener('show_delete_confirmation_event', event => {
+            const myModal = new bootstrap.Modal("#deleteDataModal", {
+                backdrop: "static",
+            });
+            myModal.show();
+            setTimeout(() => {
+                $('#editEventModalBtn').modal('hide');
+            }, 100);
+        });
 
         window.addEventListener('viewEventDetails', event => {
             const myModal = new bootstrap.Modal("#editEventModalBtn", {
