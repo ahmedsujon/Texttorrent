@@ -179,12 +179,6 @@ class InboxComponent extends Component
 
     public function updateInformation()
     {
-        $this->validate([
-            'first_name' => 'required',
-            'mobile_number' => 'required',
-            'company_name' => 'required',
-        ]);
-
         $list = Contact::find($this->info_edit_id);
         $list->first_name = $this->first_name;
         $list->last_name = $this->last_name;
@@ -201,6 +195,8 @@ class InboxComponent extends Component
 
         $this->dispatch('closeModal');
         $this->dispatch('success', ['message' => 'Info updated successfully']);
+
+        $this->selectChat($this->selected_chat_id);
     }
 
     public $filter_time, $searchTerm;

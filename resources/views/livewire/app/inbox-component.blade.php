@@ -1027,6 +1027,78 @@
                 </div>
             </div>
         </div>
+
+        <!-- New Chat Modal  -->
+        <div wire:ignore.self class="modal fade common_modal" id="editInfoModal" tabindex="-1" aria-labelledby="chatModal"
+            aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="chatModal">Start new chat</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                            aria-label="Close"></button>
+                    </div>
+                    <form wire:submit.prevent='updateInformation' class="event_form_area">
+                        <div class="modal-body">
+                            <div class="two_grid">
+                                <div class="input_row">
+                                    <label for="">First name</label>
+                                    <input type="text" placeholder="Type First name" wire:model.blur='first_name' required
+                                        class="input_field" />
+                                    @error('first_name')
+                                        <p class="text-danger" style="font-size: 12.5px;">{{ $message }}</p>
+                                    @enderror
+                                </div>
+                                <div class="input_row">
+                                    <label for="">Last name</label>
+                                    <input type="text" placeholder="Type Last name" wire:model.blur='last_name'
+                                        class="input_field" />
+                                    @error('last_name')
+                                        <p class="text-danger" style="font-size: 12.5px;">{{ $message }}</p>
+                                    @enderror
+                                </div>
+                            </div>
+                            <div class="input_row">
+                                <label for="">Mobile number</label>
+                                <div class="input-group">
+                                    <span class="input-group-text" id="basic-addon1">+1</span>
+                                    <input id="tel-input" type="tel" class="form-control" wire:model.blur='mobile_number' placeholder="xxx-xxx-xxxx" maxlength="12" required />
+                                </div>
+                                @error('mobile_number')
+                                    <p class="text-danger" style="font-size: 12.5px;">{{ $message }}</p>
+                                @enderror
+                            </div>
+                            <div class="two_grid">
+                                <div class="input_row">
+                                    <label for="">Email</label>
+                                    <input type="email" placeholder="Type email" wire:model.blur='email' class="input_field" />
+                                    @error('email')
+                                        <p class="text-danger" style="font-size: 12.5px;">{{ $message }}</p>
+                                    @enderror
+                                </div>
+                                <div class="input_row">
+                                    <label for="">Company</label>
+                                    <input type="text" placeholder="Type Company Name" wire:model.blur='company_name' class="input_field" required />
+                                    @error('company_name')
+                                        <p class="text-danger" style="font-size: 12.5px;">{{ $message }}</p>
+                                    @enderror
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="modal-footer event_modal_footer">
+                            <button type="button" class="cancel_btn" data-bs-dismiss="modal">
+                                Cancel
+                            </button>
+                            <button type="submit" class="create_event_btn">
+                                {!! loadingStateWithText('updateInformation', 'Submit') !!}
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
         <!-- Delete  Modal  -->
         <div class="modal fade delete_modal" id="deleteModal" tabindex="-1" aria-labelledby="deleteModal"
             aria-hidden="true">
@@ -1049,7 +1121,7 @@
         </div>
 
         <!-- Edit Modal  -->
-        <div wire:ignore.self class="modal fade common_modal" id="infoUpdateModal" tabindex="-1"
+        {{-- <div wire:ignore.self class="modal fade common_modal" id="infoUpdateModal" tabindex="-1"
             aria-labelledby="infoUpdateModalA" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
                 <div class="modal-content">
@@ -1117,7 +1189,7 @@
                     </form>
                 </div>
             </div>
-        </div>
+        </div> --}}
 
         <div class="overlay" id="contactInfoOverlay"></div>
         <div class="overlay" id="chatListOverlay"></div>
@@ -1125,6 +1197,18 @@
 </div>
 
 @push('scripts')
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const input = document.querySelector("#tel-input");
+            input.addEventListener('input', (e) => {
+                if (e.target.value) {
+                    const x = e.target.value.replace(/\D/g, '').match(/(\d{0,3})(\d{0,3})(\d{0,4})/);
+                    e.target.value = +x[1] + (x[2] ? `-${x[2]}` : '') + (x[3] ? `-${x[3]}` : '')
+                }
+            });
+        });
+    </script>
+
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             import("https://unpkg.com/@joeattardi/emoji-button@4.6.0/dist/index.js").then(({
@@ -1170,7 +1254,10 @@
 
     <script>
         window.addEventListener('showInfoUpdateModal', event => {
-            $('#infoUpdateModal').modal('show');
+            $('#editInfoModal').modal('show');
+        });
+        window.addEventListener('closeModal', event => {
+            $('#editInfoModal').modal('hide');
         });
     </script>
 
