@@ -163,6 +163,46 @@ class InboxComponent extends Component
         }
     }
 
+    public $info_edit_id, $first_name, $last_name, $mobile_number, $company_name, $email;
+    public function editInfo($id)
+    {
+        $data = Contact::find($id);
+        $this->first_name = $data->first_name;
+        $this->last_name = $data->last_name;
+        $this->mobile_number = str_replace('+1 ', '', $data->number);
+        $this->company_name = $data->company;
+        $this->email = $data->email;
+        $this->info_edit_id = $data->id;
+
+        $this->dispatch('showInfoUpdateModal');
+    }
+
+    public function updateInformation()
+    {
+        $this->validate([
+            'first_name' => 'required',
+            'mobile_number' => 'required',
+            'company_name' => 'required',
+        ]);
+
+        $list = Contact::find($this->info_edit_id);
+        $list->first_name = $this->first_name;
+        $list->last_name = $this->last_name;
+        $list->number = '+1 ' . $this->mobile_number;
+        $list->company = $this->company_name;
+        $list->email = $this->email;
+        $list->save();
+
+        $this->first_name = '';
+        $this->last_name = '';
+        $this->mobile_number = '';
+        $this->company_name = '';
+        $this->email = '';
+
+        $this->dispatch('closeModal');
+        $this->dispatch('success', ['message' => 'Info updated successfully']);
+    }
+
     public $filter_time, $searchTerm;
     public function render()
     {

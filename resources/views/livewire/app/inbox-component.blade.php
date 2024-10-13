@@ -308,8 +308,7 @@
                                 <div class="about_area">
                                     <div class="d-flex-between">
                                         <h3>About</h3>
-                                        <button type="button" class="edit_btn" data-bs-toggle="modal"
-                                            data-bs-target="#updateModal">
+                                        <button type="button" class="edit_btn" wire:click.prevent='editInfo({{ $selected_chat->id }})'>
                                             <img src="{{ asset('assets/app/icons/edit-02.svg') }}" alt="edit icon" />
                                             <span>Edit</span>
                                         </button>
@@ -1050,58 +1049,72 @@
         </div>
 
         <!-- Edit Modal  -->
-        <div class="modal fade common_modal" id="updateModal" tabindex="-1" aria-labelledby="updateInfoModal"
-            aria-hidden="true">
+        <div wire:ignore.self class="modal fade common_modal" id="infoUpdateModal" tabindex="-1"
+            aria-labelledby="infoUpdateModalA" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h1 class="modal-title fs-5" id="updateInfoModal">
-                            Update Information
-                        </h1>
+                        <h1 class="modal-title fs-5" id="infoUpdateModalA">Update Information</h1>
                         <button type="button" class="btn-close" data-bs-dismiss="modal"
                             aria-label="Close"></button>
                     </div>
-                    <div class="modal-body">
-                        <form action="" class="event_form_area">
+                    <form wire:submit.prevent='updateInformation' class="event_form_area">
+                        <div class="modal-body">
                             <div class="two_grid">
                                 <div class="input_row">
-                                    <label for="">First Name</label>
-                                    <input type="text" placeholder="Enter first name" wire:model.blur='first_name' class="input_field" />
+                                    <label for="">First name</label>
+                                    <input type="text" placeholder="Type First name" wire:model.blur='first_name'
+                                        class="input_field" />
+                                    @error('first_name')
+                                        <p class="text-danger" style="font-size: 12.5px;">{{ $message }}</p>
+                                    @enderror
                                 </div>
                                 <div class="input_row">
-                                    <label for="">Last Name</label>
-                                    <input type="text" placeholder="Enter last name" wire:model.blur='last_name' class="input_field" />
+                                    <label for="">Last name</label>
+                                    <input type="text" placeholder="Type Last name" wire:model.blur='last_name'
+                                        class="input_field" />
+                                    @error('last_name')
+                                        <p class="text-danger" style="font-size: 12.5px;">{{ $message }}</p>
+                                    @enderror
                                 </div>
                             </div>
-
+                            <div class="input_row">
+                                <label for="">Mobile number</label>
+                                <div class="input-group">
+                                    <span class="input-group-text" id="basic-addon1">+1</span>
+                                    <input id="tel-input" type="tel" class="form-control" wire:model.blur='mobile_number' placeholder="xxx-xxx-xxxx" maxlength="12" />
+                                </div>
+                                @error('mobile_number')
+                                    <p class="text-danger" style="font-size: 12.5px;">{{ $message }}</p>
+                                @enderror
+                            </div>
                             <div class="two_grid">
                                 <div class="input_row">
                                     <label for="">Email</label>
-                                    <input type="text" placeholder="Enter email" wire:model.blur='email' class="input_field" />
+                                    <input type="email" placeholder="Type email" wire:model.blur='email' class="input_field" />
+                                    @error('email')
+                                        <p class="text-danger" style="font-size: 12.5px;">{{ $message }}</p>
+                                    @enderror
                                 </div>
-                                <div class="input_row">
-                                    <label for="">Phone</label>
-                                    <input type="text" placeholder="Enter phone number" wire:model.blur='phone' class="input_field" />
-                                </div>
-                            </div>
-                            <div class="two_grid">
                                 <div class="input_row">
                                     <label for="">Company</label>
-                                    <input type="text" placeholder="Enter company" wire:model.blur='company' class="input_field" />
-                                </div>
-                                <div class="input_row">
-                                    <label for="">Country</label>
-                                    <input type="text" readonly value="USA" class="input_field" />
+                                    <input type="text" placeholder="Type Company Name" wire:model.blur='company_name' class="input_field" />
+                                    @error('company_name')
+                                        <p class="text-danger" style="font-size: 12.5px;">{{ $message }}</p>
+                                    @enderror
                                 </div>
                             </div>
-                        </form>
-                    </div>
-                    <div class="modal-footer event_modal_footer">
-                        <button type="button" class="cancel_btn" data-bs-dismiss="modal">
-                            Cancel
-                        </button>
-                        <button type="button" class="create_event_btn">Update</button>
-                    </div>
+
+                        </div>
+                        <div class="modal-footer event_modal_footer">
+                            <button type="button" class="cancel_btn" data-bs-dismiss="modal">
+                                Cancel
+                            </button>
+                            <button type="submit" class="create_event_btn">
+                                {!! loadingStateWithText('updateInformation', 'Submit') !!}
+                            </button>
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>
@@ -1152,6 +1165,12 @@
                     emojiContainer.style.display = 'none';
                 });
             });
+        });
+    </script>
+
+    <script>
+        window.addEventListener('showInfoUpdateModal', event => {
+            $('#infoUpdateModal').modal('show');
         });
     </script>
 
