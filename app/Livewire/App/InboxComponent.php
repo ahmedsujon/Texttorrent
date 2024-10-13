@@ -6,6 +6,7 @@ use App\Models\Chat;
 use App\Models\Contact;
 use Livewire\Component;
 use App\Models\ChatMessage;
+use App\Models\ContactNote;
 use Illuminate\Support\Facades\DB;
 
 class InboxComponent extends Component
@@ -196,6 +197,38 @@ class InboxComponent extends Component
         $this->dispatch('closeModal');
         $this->dispatch('success', ['message' => 'Info updated successfully']);
 
+        $this->selectChat($this->selected_chat_id);
+    }
+
+    public $note;
+    public function addNote()
+    {
+        $this->validate([
+            'note' => 'required',
+        ], [
+            'note.required' => 'Note is required',
+        ]);
+
+        $note = new ContactNote();
+        $note->contact_id = $this->selected_chat->id;
+        $note->note = $this->note;
+        $note->save();
+
+        $this->note = '';
+
+        $this->dispatch('closeModal');
+        $this->dispatch('success', ['message' => 'Note added successfully']);
+
+        $this->selectChat($this->selected_chat_id);
+    }
+
+    public function deleteNote($id)
+    {
+        $note = ContactNote::find($id);
+        $note->delete();
+
+        $this->note = '';
+        $this->dispatch('success', ['message' => 'Note deleted successfully']);
         $this->selectChat($this->selected_chat_id);
     }
 

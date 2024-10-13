@@ -381,52 +381,54 @@
                                     <div class="note_area position-relative">
                                         <h3>Notes</h3>
                                         <div class="note_list_area">
-                                            <div class="note_user_grid">
-                                                <img src="{{ asset('assets/app/images/inbox/chat_user3.png') }}"
-                                                    alt="user image" class="user_image" />
-                                                <div class="name_times_area d-flex align-items-center flex-wrap">
-                                                    <h4>Jenny Wilson</h4>
-                                                    <h5>Today, 9:34 am</h5>
+                                            @foreach ($selected_chat->notes as $chNote)
+                                                {{-- <div class="note_user_grid">
+                                                    <img src="{{ asset('assets/app/images/inbox/chat_user3.png') }}"
+                                                        alt="user image" class="user_image" />
+                                                    <div class="name_times_area d-flex align-items-center flex-wrap">
+                                                        <h4>Jenny Wilson</h4>
+                                                        <h5>Today, 9:34 am</h5>
+                                                    </div>
+                                                </div> --}}
+                                                <p class="mb-0 pb-0">
+                                                    {{ $chNote->note }}
+                                                </p>
+                                                <div class="note_action_btn mt-0">
+                                                    <button type="button" wire:click.prevent='deleteNote({{ $chNote->id }})'>
+                                                        <img src="{{ asset('assets/app/icons/check.png') }}"
+                                                            alt="check icon" />
+                                                    </button>
+                                                    {{-- <button type="button">
+                                                        <img src="{{ asset('assets/app/icons/20-emoji-smile.svg') }}"
+                                                            alt="emoji  icon" />
+                                                    </button> --}}
                                                 </div>
-                                            </div>
-                                            <p>
-                                                Brandon has already made the arrangement to set up the
-                                                solar project. Can you reach out?
-                                            </p>
-                                            <div class="note_action_btn">
-                                                <button type="button">
-                                                    <img src="{{ asset('assets/app/icons/check.png') }}"
-                                                        alt="check icon" />
-                                                </button>
-                                                <button type="button">
-                                                    <img src="{{ asset('assets/app/icons/20-emoji-smile.svg') }}"
-                                                        alt="emoji  icon" />
-                                                </button>
-                                            </div>
+                                            @endforeach
                                         </div>
-                                        <form action="" class="note_form">
-                                            <textarea name="" id="noteWriteArea" class="note_input" placeholder="Write a note..."></textarea>
+                                        <form wire:submit.prevent='addNote' class="note_form">
+                                            <textarea name="" wire:model.blur='note' id="noteWriteArea" class="form-control note_input" placeholder="Write a note..."></textarea>
+                                            @error('note')
+                                                <p class="text-danger" style="font-size: 12.5px;">{{ $message }}</p>
+                                            @enderror
                                             <div class="note_action_grid">
                                                 <div class="note_action_area d-flex align-items-center flex-wrap">
                                                     <button type="button">
                                                         <img src="{{ asset('assets/app/icons/at-sign.svg') }}"
                                                             alt="at sign" />
                                                     </button>
-                                                    <label for="noteFileUpload" class="file_upload">
+                                                    {{-- <label for="noteFileUpload" class="file_upload">
                                                         <img src="{{ asset('assets/app/icons/link-02.svg') }}"
                                                             alt="link icon" />
-                                                    </label>
+                                                    </label> --}}
 
                                                     <button type="button"></button>
                                                 </div>
                                                 <button type="submit" class="note_submit_btn">
-                                                    <img src="{{ asset('assets/app/icons/note_top_arrow.svg') }}"
-                                                        alt="note arrow icon" />
+                                                    <img src="{{ asset('assets/app/icons/note_top_arrow.svg') }}" alt="note arrow icon" />
                                                 </button>
                                             </div>
                                         </form>
-                                        <input type="file" class="opacity-0 visually-hidden position-absolute zn-1"
-                                            id="noteFileUpload" />
+                                        <input type="file" class="opacity-0 visually-hidden position-absolute zn-1" id="noteFileUpload" />
                                     </div>
                                 </div>
                                 <div class="user_number_area">
