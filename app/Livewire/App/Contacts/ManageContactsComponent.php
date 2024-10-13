@@ -77,9 +77,7 @@ class ManageContactsComponent extends Component
     public function addNewContact()
     {
         $this->validate([
-            'first_name' => 'required',
-            'mobile_number' => 'required',
-            'company_name' => 'required',
+            'list_name' => 'required',
         ]);
 
         $list = new Contact();
