@@ -183,9 +183,9 @@
                                 <button type="button" wire:click.prevent='deleteConfirmation({{ $selected_chat->id }}, "chat")'>
                                     {!! loadingStateWithoutText("deleteConfirmation(".$selected_chat->id.", 'chat')", '<img src="'.asset('assets/app/icons/delete-01.svg').'" alt="folder add icon" />') !!}
                                 </button>
-                                {{-- <button type="button" class="info_btn" id="contactInfoOpenBtn">
+                                <button type="button" class="info_btn" id="contactInfoOpenBtn">
                                     <img src="{{ asset('assets/app/icons/info-circle.svg') }}" alt="info icon" />
-                                </button> --}}
+                                </button>
                             </div>
                         </div>
 
