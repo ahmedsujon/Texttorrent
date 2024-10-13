@@ -7,6 +7,7 @@ use App\Models\Contact;
 use Livewire\Component;
 use App\Models\ChatMessage;
 use App\Models\ContactNote;
+use App\Models\ContactFolder;
 use Illuminate\Support\Facades\DB;
 
 class InboxComponent extends Component
@@ -91,7 +92,7 @@ class InboxComponent extends Component
             $this->dispatch('updateTextareaNewChat', $output);
             // $this->reset(['selected_template_preview_new_chat', 'selected_template_id_new_chat']);
         } else {
-            $this->dispatch('error', ['message'=>'No receiver selected']);
+            $this->dispatch('error', ['message' => 'No receiver selected']);
         }
 
     }
@@ -106,13 +107,13 @@ class InboxComponent extends Component
     public function startNewChat()
     {
         $this->validate([
-            'sender_id' =>'required',
-            'receiver_id' =>'required',
-            'selected_template_id_new_chat' =>'required',
-            'selected_template_preview_new_chat' =>'required',
+            'sender_id' => 'required',
+            'receiver_id' => 'required',
+            'selected_template_id_new_chat' => 'required',
+            'selected_template_preview_new_chat' => 'required',
 
         ], [
-            '*.required' => 'This field is required'
+            '*.required' => 'This field is required',
         ]);
 
         $chat = new Chat();
@@ -232,10 +233,117 @@ class InboxComponent extends Component
         $this->selectChat($this->selected_chat_id);
     }
 
+    public $folder_id, $contact_id;
+    public function addFolderModal($id)
+    {
+        $cont = Contact::find($id);
+
+        $this->folder_id = $cont->folder_id;
+
+        $this->contact_id = $id;
+        $this->dispatch('showFolderModal');
+    }
+
+    public function addToFolder()
+    {
+        $this->validate([
+            'folder_id' => 'required',
+        ], [
+            'folder_id.required' => 'Select a folder',
+        ]);
+
+        $contact = Contact::find($this->contact_id);
+        $contact->folder_id = $this->folder_id;
+        $contact->save();
+
+        $this->folder_id = '';
+
+        $this->dispatch('closeModal');
+        $this->dispatch('success', ['message' => 'Contact added to folder successfully']);
+    }
+
+    public $folder_name, $folder_edit_id, $folder_delete_id;
+    public function createFolder()
+    {
+        $this->validate([
+            'folder_name' => 'required',
+        ], [
+            'folder_name.required' => 'Folder name is required',
+        ]);
+
+        $folder = new ContactFolder();
+        $folder->user_id = user()->id;
+        $folder->name = $this->folder_name;
+        $folder->save();
+
+        $this->folder_name = '';
+
+        $this->dispatch('folderAdded');
+        $this->dispatch('success', ['message' => 'Folder added successfully']);
+        $this->mount();
+    }
+    public function editFolder($folder_id)
+    {
+        $folder = ContactFolder::find($folder_id);
+        $this->folder_name = $folder->name;
+        $this->folder_edit_id = $folder->id;
+
+        $this->dispatch('showFolderEditModal');
+    }
+    public function updateFolder()
+    {
+        $this->validate([
+            'folder_name' => 'required|max:15',
+        ], [
+            'folder_name.required' => 'Folder name is required',
+        ]);
+
+        $folder = ContactFolder::find($this->folder_edit_id);
+        $folder->name = $this->folder_name;
+        $folder->save();
+
+        $this->folder_name = '';
+
+        $this->dispatch('folderUpdated');
+        $this->dispatch('success', ['message' => 'Folder updated successfully']);
+        $this->mount();
+    }
+
+    public $delete_id, $delete_type;
+    public function deleteConfirmation($id, $type)
+    {
+        $this->delete_id = $id;
+        $this->delete_type = $type;
+        $this->dispatch('show_delete_confirmation');
+    }
+
+    public function deleteData()
+    {
+        if ($this->delete_type == 'folder') {
+            $data = ContactFolder::where('id', $this->delete_id)->first();
+            $data->delete();
+
+            $message = 'Folder deleted successfully';
+        }
+
+        if ($this->delete_type == 'chat') {
+            $data = Chat::where('id', $this->delete_id)->first();
+            $data->delete();
+
+            $message = 'Chat deleted successfully';
+        }
+
+        $this->dispatch('data_deleted', ['message' => $message]);
+        $this->delete_id = '';
+        $this->delete_type = '';
+
+        $this->mount();
+    }
+
     public $filter_time, $searchTerm;
     public function render()
     {
-        $chats = DB::table('chats')->select('chats.*', 'contacts.first_name', 'contacts.last_name', 'contacts.number')->join('contacts', 'contacts.id', 'chats.contact_id')->where(function($q){
+        $chats = DB::table('chats')->select('chats.*', 'contacts.first_name', 'contacts.last_name', 'contacts.number')->join('contacts', 'contacts.id', 'chats.contact_id')->where(function ($q) {
             $q->where('contacts.number', 'like', '%' . $this->searchTerm . '%')
                 ->orWhere('contacts.first_name', 'like', '%' . $this->searchTerm . '%')
                 ->orWhere('contacts.last_name', 'like', '%' . $this->searchTerm . '%')
