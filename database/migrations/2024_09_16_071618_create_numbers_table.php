@@ -26,6 +26,7 @@ return new class extends Migration
             $table->string('twilio_number_sid')->nullable();
             $table->timestamp('purchased_at')->nullable();
             $table->enum('type', ['local', 'tollfree'])->default('local');
+            $table->integer('webhook')->default(0);
             $table->tinyInteger('status')->default(1);
             $table->timestamps();
         });

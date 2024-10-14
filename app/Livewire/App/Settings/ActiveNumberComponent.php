@@ -97,6 +97,33 @@ class ActiveNumberComponent extends Component
         }
     }
 
+    public function setWebhook($phoneNumber)
+    {
+        $twilioCredentials = DB::table('apis')
+            ->where('user_id', auth()->id())
+            ->where('gateway', 'Twilio')
+            ->first();
+
+        if ($twilioCredentials) {
+
+            $sid = $twilioCredentials->account_sid;
+            $token = $twilioCredentials->auth_token;
+
+            try {
+                $client = new Client($sid, $token);
+                $client->incomingPhoneNumbers
+                    ->read(['phoneNumber' => $phoneNumber])[0]
+                    ->update([
+                        "smsUrl" => 'https://texttorrent.com/api/v1/twilio/incoming-message',
+                        "voiceUrl" => 'https://texttorrent.com/api/v1/twilio/incoming-message'
+                    ]);
+                $this->dispatch('success', ['message' => 'Webhook updated successfully']);
+            } catch (\Exception $e) {
+                $this->dispatch('error', ['message' => 'Failed to update webhook URL: ' . $e->getMessage()]);
+            }
+        }
+    }
+
     public $selectedNumbers = [], $allNumberIDs, $s_numbers, $check_all;
     public function selectAll()
     {

@@ -728,7 +728,7 @@
                                 <label for="">Mobile number</label>
                                 <div class="input-group">
                                     <span class="input-group-text" id="basic-addon1">+1</span>
-                                    <input id="tel-input" type="tel" class="form-control" wire:model.blur='mobile_number' placeholder="xxx-xxx-xxxx" maxlength="12" />
+                                    <input id="tel-input" type="tel" class="form-control" wire:model.blur='mobile_number' placeholder="xxxxxxxxxx" maxlength="10" />
                                 </div>
                                 @error('mobile_number')
                                     <p class="text-danger" style="font-size: 12.5px;">{{ $message }}</p>
@@ -802,7 +802,7 @@
                                 <div class="input-group">
                                     <span class="input-group-text" id="basic-addon1">+1</span>
                                     <input id="tel-input-edit" type="tel" class="form-control"
-                                        wire:model.blur='mobile_number' placeholder="xxx-xxx-xxxx" maxlength="12" />
+                                        wire:model.blur='mobile_number' placeholder="xxxxxxxxxx" maxlength="10" />
                                 </div>
                                 @error('mobile_number')
                                     <p class="text-danger" style="font-size: 12.5px;">{{ $message }}</p>
@@ -1228,23 +1228,23 @@
         }
     </script>
     <script>
-        document.addEventListener("DOMContentLoaded", () => {
-            const input = document.querySelector("#tel-input");
-            input.addEventListener('input', (e) => {
-                if (e.target.value) {
-                    const x = e.target.value.replace(/\D/g, '').match(/(\d{0,3})(\d{0,3})(\d{0,4})/);
-                    e.target.value = +x[1] + (x[2] ? `-${x[2]}` : '') + (x[3] ? `-${x[3]}` : '')
-                }
-            });
+        // document.addEventListener("DOMContentLoaded", () => {
+        //     const input = document.querySelector("#tel-input");
+        //     input.addEventListener('input', (e) => {
+        //         if (e.target.value) {
+        //             const x = e.target.value.replace(/\D/g, '').match(/(\d{0,3})(\d{0,3})(\d{0,4})/);
+        //             e.target.value = +x[1] + (x[2] ? `-${x[2]}` : '') + (x[3] ? `-${x[3]}` : '')
+        //         }
+        //     });
 
-            const edit_input = document.querySelector("#tel-input-edit");
-            edit_input.addEventListener('input', (e) => {
-                if (e.target.value) {
-                    const x = e.target.value.replace(/\D/g, '').match(/(\d{0,3})(\d{0,3})(\d{0,4})/);
-                    e.target.value = +x[1] + (x[2] ? `-${x[2]}` : '') + (x[3] ? `-${x[3]}` : '')
-                }
-            });
-        });
+        //     const edit_input = document.querySelector("#tel-input-edit");
+        //     edit_input.addEventListener('input', (e) => {
+        //         if (e.target.value) {
+        //             const x = e.target.value.replace(/\D/g, '').match(/(\d{0,3})(\d{0,3})(\d{0,4})/);
+        //             e.target.value = +x[1] + (x[2] ? `-${x[2]}` : '') + (x[3] ? `-${x[3]}` : '')
+        //         }
+        //     });
+        // });
     </script>
     <script>
         $(document).ready(function() {

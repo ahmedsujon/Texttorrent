@@ -172,38 +172,3 @@ function showErrorMessage($message, $file, $line)
     }
 }
 
-// twilio sms
-function sendSMSviaTwilio($receiverNumber, $fromNumber, $message)
-{
-    $getCredentials = DB::table('apis')->where('user_id', user()->id)->where('gateway', 'Twilio')->first();
-
-    if ($getCredentials) {
-        $sid = $getCredentials->account_sid;
-        $token = $getCredentials->auth_token;
-
-        try {
-            $client = new Client($sid, $token);
-            $output = $client->messages->create($receiverNumber, [
-                'from' => $fromNumber,
-                'body' => $message,
-            ]);
-            return [
-                'result' => true,
-                'message' => 'Message sent successfully',
-                'twilio_response' => $output,
-                'sid' => $output->sid,
-            ];
-        } catch (Exception $e) {
-            return [
-                'result' => false,
-                'message' => 'Failed to send message. Please try again later.',
-                'error' => $e->getMessage(),
-            ];
-        }
-    } else {
-        return [
-            'result' => false,
-            'message' => 'Twilio API credentials not found for this user.',
-        ];
-    }
-}
