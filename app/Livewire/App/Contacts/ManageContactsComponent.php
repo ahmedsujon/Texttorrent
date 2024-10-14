@@ -77,14 +77,16 @@ class ManageContactsComponent extends Component
     public function addNewContact()
     {
         $this->validate([
-            'list_name' => 'required',
+            'first_name' => 'required',
+            'mobile_number' => 'required',
+            'company_name' => 'required',
         ]);
 
         $list = new Contact();
         $list->user_id = user()->id;
         $list->first_name = $this->first_name;
         $list->last_name = $this->last_name;
-        $list->number = '+1 ' . $this->mobile_number;
+        $list->number = '+1' . $this->mobile_number;
         $list->email = $this->email;
         $list->company = $this->company_name;
         $list->list_id = $this->sort_list_id;
@@ -104,7 +106,7 @@ class ManageContactsComponent extends Component
         $data = Contact::find($id);
         $this->first_name = $data->first_name;
         $this->last_name = $data->last_name;
-        $this->mobile_number = str_replace('+1 ', '', $data->number);
+        $this->mobile_number = str_replace('+1', '', $data->number);
         $this->company_name = $data->company;
         $this->email = $data->email;
         $this->contact_edit_id = $data->id;
@@ -122,7 +124,7 @@ class ManageContactsComponent extends Component
         $list = Contact::find($this->contact_edit_id);
         $list->first_name = $this->first_name;
         $list->last_name = $this->last_name;
-        $list->number = '+1 ' . $this->mobile_number;
+        $list->number = '+1' . $this->mobile_number;
         $list->company = $this->company_name;
         $list->email = $this->email;
         $list->save();

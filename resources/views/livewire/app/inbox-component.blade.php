@@ -193,7 +193,7 @@
                             <div class="message_chat_area" id="messageArea">
                                 @if ($messages->count() > 0)
                                     @foreach ($messages as $msg)
-                                        @if ($msg->sender == user()->id)
+                                        @if ($msg->direction == 'outbound')
                                             <div class="sender_msg">
                                                 <div class="text_area">
                                                     <p class="msg">
@@ -203,6 +203,8 @@
                                                         alt="sender shape" class="msg_shape" />
                                                     <h6 class="time">
                                                         @if ($msg->api_send_status == 'failed') <small class="text-danger" style="font-size: 11px;">Message sending failed</small> @else {{ Carbon\Carbon::parse($msg->updated_at)->format('H:i A') }} @endif
+
+                                                        <a href="" wire:click.prevent='getMsgStatus("{{ $msg->msg_sid }}")'>{!! loadingStateWithText('getMsgStatus', 'GetStatus') !!}</a>
                                                     </h6>
                                                 </div>
                                             </div>

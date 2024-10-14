@@ -89,6 +89,9 @@
                                         <span>Status</span>
                                     </div>
                                 </th>
+                                <th class="text-center" scope="col">
+                                    <span>WebHook</span>
+                                </th>
                                 <th scope="col">
                                     <div class="column_area">
                                         <span>Action</span>
@@ -139,6 +142,9 @@
                                             @else
                                                 <div class="capability_status sms">Inactive</div>
                                             @endif
+                                        </td>
+                                        <td class="text-center">
+                                            <button class="btn btn-sm btn-primary" wire:click.prevent='setWebhook("{{ $number->number }}")'>{!! loadingStateWithText("setWebhook('".$number->number."')", 'Set WebHook') !!}</button>
                                         </td>
                                         <td>
                                             <div class="table_dropdown_area d-flex align-items-center flex-wrap gap-1">
