@@ -3,6 +3,8 @@
 use Carbon\Carbon;
 use App\Models\User;
 use App\Models\Admin;
+use App\Models\ContactList;
+use App\Models\InboxTemplate;
 use Twilio\Rest\Client;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
@@ -27,6 +29,16 @@ function user()
 function getUserByID($id)
 {
     return User::find($id);
+}
+
+function getContactListByID($id)
+{
+    return ContactList::find($id);
+}
+
+function getSMSTempByID($id)
+{
+    return InboxTemplate::find($id);
 }
 
 //Admin Panel Helper Functions
