@@ -61,7 +61,7 @@
                     </div>
                     <div>
                         <h3>Local time</h3>
-                        <h4>12 May, 2024 9AM</h4>
+                        <h4 id="currentTime">{{ \Carbon\Carbon::now()->format('d F, Y h:i:s A') }}</h4>
                     </div>
                 </div>
             </div>
@@ -551,5 +551,19 @@
                 $("#contactContent").fadeIn();
             });
         });
+    </script>
+    <script>
+        function updateTime() {
+            const now = new Date();
+            const options = {
+                year: 'numeric', month: 'long', day: 'numeric',
+                hour: 'numeric', minute: 'numeric', second: 'numeric',
+                hour12: true
+            };
+            const formattedTime = now.toLocaleString('en-US', options);
+            document.getElementById('currentTime').innerText = formattedTime;
+        }
+        updateTime();
+        setInterval(updateTime, 1000);
     </script>
 @endpush
