@@ -3,12 +3,13 @@
 namespace App\Livewire\App;
 
 use App\Models\Chat;
-use App\Models\Contact;
-use Livewire\Component;
 use App\Models\ChatMessage;
-use App\Models\ContactNote;
+use App\Models\Contact;
 use App\Models\ContactFolder;
+use App\Models\ContactNote;
+use App\Models\Event;
 use Illuminate\Support\Facades\DB;
+use Livewire\Component;
 
 class InboxComponent extends Component
 {
@@ -338,6 +339,38 @@ class InboxComponent extends Component
         $this->delete_type = '';
 
         $this->mount();
+    }
+
+    public $name, $subject, $date, $time, $sender_number, $alert_before, $participant_number, $participant_email;
+
+    public function addEvent()
+    {
+        $this->validate([
+            'name' => 'required',
+            'subject' => 'required',
+            'date' => 'required',
+            'time' => 'required',
+            'sender_number' => 'required',
+            'alert_before' => 'required',
+        ], [
+            '*' => 'This field is required'
+        ]);
+
+        $event = new Event();
+        $event->user_id = user()->id;
+        $event->name = $this->name;
+        $event->subject = $this->subject;
+        $event->date = $this->date;
+        $event->time = $this->time;
+        $event->sender_number = $this->sender_number;
+        $event->alert_before = $this->alert_before;
+        $event->participant_number = $this->participant_number;
+        $event->participant_email = $this->participant_email;
+        $event->save();
+
+        $this->dispatch('closeModal');
+        $this->dispatch('success', ['message' => 'New event added successfully']);
+        $this->reset(['name', 'subject', 'date', 'time', 'sender_number', 'alert_before', 'participant_number', 'participant_email']);
     }
 
     public $filter_time, $searchTerm;

@@ -661,139 +661,131 @@
                 </div>
             </div>
         </div>
+
         <!-- New Event Modal  -->
-        <div class="modal fade common_modal" id="eventModal" tabindex="-1" aria-labelledby="newEventModal"
-            aria-hidden="true">
+        <div class="modal fade common_modal" wire:ignore.self id="eventModal" tabindex="-1"
+            aria-labelledby="newEventModal" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
                 <div class="modal-content">
                     <div class="modal-header">
                         <h1 class="modal-title fs-5" id="newEventModal">
                             Create New Event
                         </h1>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal"
-                            aria-label="Close"></button>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
-                    <div class="modal-body">
-                        <form action="" class="event_form_area">
+                    <form wire:submit.prevent='addEvent' class="event_form_area">
+                        <div class="modal-body">
                             <div class="input_row">
                                 <label for="">Event Name</label>
-                                <input type="text" placeholder="Type Name" class="input_field" />
+                                <input type="text" wire:model.blur='name' placeholder="Type Name"
+                                    class="input_field" />
+                                @error('name')
+                                    <p class="text-danger mb-0" style="font-size: 13px;">{{ $message }}</p>
+                                @enderror
                             </div>
                             <div class="input_row">
                                 <label for="">Subject</label>
-                                <input type="text" placeholder="Type Subject" class="input_field" />
+                                <input type="text" wire:model.blur='subject' placeholder="Type Subject"
+                                    class="input_field" />
+                                @error('subject')
+                                    <p class="text-danger mb-0" style="font-size: 13px;">{{ $message }}</p>
+                                @enderror
                             </div>
                             <div class="two_grid">
                                 <div class="input_row">
                                     <label for="">Date</label>
-                                    <input type="date" placeholder="Type Name" class="input_field" />
+                                    <input type="date" wire:model.blur='date' placeholder="Type Name"
+                                        class="input_field" />
+                                    @error('date')
+                                        <p class="text-danger mb-0" style="font-size: 13px;">{{ $message }}</p>
+                                    @enderror
                                 </div>
                                 <div class="input_row">
                                     <label for="">Time</label>
-                                    <input type="time" placeholder="Type Subject" class="input_field" />
+                                    <input type="time" wire:model.blur='time' placeholder="Type Subject"
+                                        class="input_field" />
+                                    @error('time')
+                                        <p class="text-danger mb-0" style="font-size: 13px;">{{ $message }}</p>
+                                    @enderror
                                 </div>
                             </div>
-                            <div class="input_row searchable_select">
+                            <div class="input_row searchable_select mb-1" wire:ignore>
                                 <label for="">Sender</label>
-                                <select name="lang" class="js-searchBox">
+                                <select name="lang" wire:model.blur='sender_number'
+                                    class="js-searchBox sender_number">
                                     <option value="">Choose Sender</option>
-                                    <option value="1">Python</option>
-                                    <option value="2">Java</option>
-                                    <option value="3">Ruby</option>
-                                    <option value="4">C/C++</option>
-                                    <option value="5">C#</option>
-                                    <option value="6">JavaScript</option>
-                                    <option value="7">PHP</option>
-                                    <option value="8">Swift</option>
-                                    <option value="9">Scala</option>
-                                    <option value="10">R</option>
-                                    <option value="11">Go</option>
-                                    <option value="12">VisualBasic.NET</option>
-                                    <option value="13">Kotlin</option>
+                                    @foreach ($active_numbers as $active_number)
+                                        <option value="{{ $active_number->number }}">{{ $active_number->number }}
+                                        </option>
+                                    @endforeach
                                 </select>
                                 <img src="{{ asset('assets/app/icons/arrow-down.svg') }}" alt="down arrow"
                                     class="down_arrow" />
                             </div>
-                            <div class="input_row searchable_select">
-                                <label for="">From Email</label>
-                                <select name="lang" class="js-searchBox">
-                                    <option value="">Choose Email</option>
-                                    <option value="1">example@gmail.com</option>
-                                    <option value="2">example1@gmail.com</option>
-                                    <option value="3">example2@gmail.com</option>
-                                    <option value="4">example3@gmail.com</option>
-                                    <option value="5">example4@gmail.com</option>
-                                    <option value="6">example5@gmail.com</option>
-                                    <option value="7">example6@gmail.com</option>
-                                </select>
-                                <img src="{{ asset('assets/app/icons/arrow-down.svg') }}" alt="down arrow"
-                                    class="down_arrow" />
-                            </div>
-                            <div class="checkbox_area d-flex align-items-center flex-wrap">
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" value="" id="fromPhone" />
-                                    <label class="form-check-label mb-0" for="fromPhone">
-                                        From Phone
-                                    </label>
-                                </div>
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" value="" id="fromEmail" />
-                                    <label class="form-check-label mb-0" for="fromEmail">
-                                        From Email
-                                    </label>
-                                </div>
-                            </div>
-                            <div class="input_row searchable_select">
+                            @error('sender_number')
+                                <p class="text-danger mt-0" style="font-size: 13px;">{{ $message }}</p>
+                            @enderror
+                            <div class="input_row searchable_select mt-2">
                                 <label for="">Alert Before</label>
-                                <select name="lang" class="js-searchBox">
-                                    <option value="">Select Minutes</option>
-                                    <option value="1">10 Minutes</option>
-                                    <option value="2">20 Minutes</option>
-                                    <option value="3">30 Minutes</option>
-                                    <option value="4">40 Minutes</option>
+                                <select name="lang" wire:model.blur='alert_before' class="form-control">
+                                    <option value="0">Select Minutes</option>
+                                    <option value="10">10 Minutes</option>
+                                    <option value="20">20 Minutes</option>
+                                    <option value="30">30 Minutes</option>
+                                    <option value="40">40 Minutes</option>
                                 </select>
                                 <img src="{{ asset('assets/app/icons/arrow-down.svg') }}" alt="down arrow"
                                     class="down_arrow" />
+                                @error('alert_before')
+                                    <p class="text-danger mb-0" style="font-size: 13px;">{{ $message }}</p>
+                                @enderror
                             </div>
                             <div class="partipants_area">
                                 <div class="d-flex-between">
                                     <h3>Participants</h3>
-                                    <button type="button" class="border_btn" id="addNew">
+                                    {{-- <button type="button" class="border_btn" id="addNew">
                                         Add New
-                                    </button>
+                                    </button> --}}
                                 </div>
                             </div>
                             <div class="participants_user_area" id="participantsArea">
                                 <div class="two_grid">
-                                    <div class="input_row searchable_select">
+                                    <div class="input_row searchable_select" wire:ignore>
                                         <label for="">Phone Number</label>
-                                        <select name="lang" class="js-searchBox">
+                                        <select name="lang" wire:model.blur='participant_number'
+                                            class="js-searchBox participant_number">
                                             <option value="">Select Phone Number</option>
-                                            <option value="1">0170000001</option>
-                                            <option value="2">0170000002</option>
-                                            <option value="3">0170000003</option>
-                                            <option value="4">0170000004</option>
+                                            @foreach ($active_numbers as $active_number)
+                                                <option value="{{ $active_number->number }}">
+                                                    {{ $active_number->number }}</option>
+                                            @endforeach
                                         </select>
                                         <img src="{{ asset('assets/app/icons/arrow-down.svg') }}" alt="down arrow"
                                             class="down_arrow" />
+                                        @error('participant_number')
+                                            <p class="text-danger mb-0" style="font-size: 13px;">{{ $message }}</p>
+                                        @enderror
                                     </div>
                                     <div class="input_row">
                                         <label for="">Participant Email</label>
-                                        <input type="email" placeholder="Type Participant Email"
-                                            class="input_field" />
+                                        <input type="email" wire:model.blur='participant_email'
+                                            placeholder="Type Participant Email" class="input_field" />
+                                        @error('participant_email')
+                                            <p class="text-danger mb-0" style="font-size: 13px;">{{ $message }}</p>
+                                        @enderror
                                     </div>
                                 </div>
                             </div>
-                        </form>
-                    </div>
-                    <div class="modal-footer event_modal_footer">
-                        <button type="button" class="cancel_btn" data-bs-dismiss="modal">
-                            Cancel
-                        </button>
-                        <button type="button" class="create_event_btn">
-                            Create Event
-                        </button>
-                    </div>
+                        </div>
+                        <div class="modal-footer event_modal_footer">
+                            <button type="button" class="cancel_btn" data-bs-dismiss="modal">
+                                Cancel
+                            </button>
+                            <button type="submit" class="create_event_btn">
+                                {!! loadingStateWithText('addEvent', 'Save') !!}
+                            </button>
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>
@@ -1065,6 +1057,7 @@
         window.addEventListener('closeModal', event => {
             $('#folderToggleModal').modal('hide');
             $('#editInfoModal').modal('hide');
+            $('#eventModal').modal('hide');
         });
         window.addEventListener('data_deleted', event => {
             $('#deleteDataModal').modal('hide');
@@ -1073,6 +1066,12 @@
                 "" + event.detail[0].message + "",
                 "success"
             );
+        });
+
+        $(document).ready(function() {
+            $(".sender_number").on('change', function() {
+                @this.set('sender_number', $(this).val());
+            });
         });
     </script>
 
