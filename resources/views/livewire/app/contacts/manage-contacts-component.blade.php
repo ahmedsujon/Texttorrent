@@ -1279,12 +1279,16 @@
                 $('#detailsModal').modal('show');
             });
 
-            window.addEventListener('showFolderModal', event => {
-                $('#folderToggleModal').modal('show');
-            });
-
             window.addEventListener('showNoteAddModal', event => {
                 $('#noteModal').modal('show');
+            });
+
+            window.addEventListener('noteAdded', event => {
+                $('#noteModal').modal('hide');
+            });
+
+            window.addEventListener('showFolderModal', event => {
+                $('#folderToggleModal').modal('show');
             });
 
             window.addEventListener('showFolderEditModal', event => {
@@ -1299,10 +1303,6 @@
                 setTimeout(() => {
                     $('#folderToggleModal').modal('show');
                 }, 100);
-            });
-
-            window.addEventListener('noteAdded', event => {
-                $('#noteModal').modal('hide');
             });
 
             window.addEventListener('folderUpdated', event => {
