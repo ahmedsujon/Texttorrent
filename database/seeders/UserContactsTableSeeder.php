@@ -36,7 +36,7 @@ class UserContactsTableSeeder extends Seeder
         $contact->user_id = 1;
         $contact->first_name = 'TextTorrent';
         $contact->last_name = 'Owner';
-        $contact->number = '+1347-210-2794';
+        $contact->number = '+13472102794';
         $contact->company = 'TextTorrent';
         $contact->list_id = 1;
         $contact->folder_id = 1;

@@ -64,8 +64,7 @@ class InboxComponent extends Component
     {
         $msg = new ChatMessage();
         $msg->chat_id = $this->selected_chat_id;
-        $msg->sender = user()->id;
-        $msg->receiver = $this->selected_chat->id;
+        $msg->direction = 'outbound';
         $msg->message = $message;
         $msg->save();
 
@@ -95,6 +94,13 @@ class InboxComponent extends Component
 
         $this->messages->push($msg);
         $this->dispatch('scrollToBottom');
+    }
+
+    public function getMsgStatus($sid)
+    {
+        $output = twilioMsgStatus($sid);
+
+        dd($output);
     }
 
     public $selected_template_preview_new_chat, $selected_template_id_new_chat, $receiver_id, $sender_id, $new_chat_message;

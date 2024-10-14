@@ -2,22 +2,30 @@
 
 namespace App\Livewire\App\Settings;
 
-use App\Models\Number;
 use Carbon\Carbon;
+use App\Models\Number;
 use Livewire\Component;
-use Livewire\WithPagination;
 use Twilio\Rest\Client;
+use Livewire\WithPagination;
+use Illuminate\Support\Facades\DB;
 
 class GetNumberComponent extends Component
 {
     use WithPagination;
-    public $country = 'US', $areaCode, $qty = 1, $searchTerm = '', $selectedNumber, $all_numbers = [], $numberType = 'local', $purchasedNumbers = [], $sortingValue = 10, $numbers_array = [], $numbers_info_array = [];
+    public $country = 'US', $areaCode, $qty = 1, $searchTerm = '', $selectedNumber, $all_numbers = [], $numberType = 'local', $purchasedNumbers = [], $sortingValue = 10, $numbers_array = [], $numbers_info_array = [], $TWILIO_SID, $TWILIO_AUTH_TOKEN;
 
     public function mount()
     {
+        $twilioCredentials = DB::table('apis')
+        ->where('user_id', auth()->id())
+        ->where('gateway', 'Twilio')
+        ->first();
+
+        $this->TWILIO_SID = $twilioCredentials->account_sid;
+        $this->TWILIO_AUTH_TOKEN = $twilioCredentials->auth_token;
+
         $this->getNumbers();
         // $this->fetchPurchasedNumbers();
-
     }
 
     public function areaCodeSearch()
@@ -56,7 +64,7 @@ class GetNumberComponent extends Component
 
     public function getNumbers()
     {
-        $twilio = new Client(env('TWILIO_SID'), env('TWILIO_AUTH_TOKEN'));
+        $twilio = new Client($this->TWILIO_SID, $this->TWILIO_AUTH_TOKEN);
 
         if ($this->numberType == 'local') {
             $numbers = $twilio->availablePhoneNumbers($this->country)->local->read(["areaCode" => $this->areaCode]);
@@ -123,7 +131,7 @@ class GetNumberComponent extends Component
 
     public function purchaseNumber()
     {
-        $twilio = new Client(env('TWILIO_SID'), env('TWILIO_AUTH_TOKEN'));
+        $twilio = new Client($this->TWILIO_SID, $this->TWILIO_AUTH_TOKEN);
 
         try {
             $twilio->incomingPhoneNumbers->create([
@@ -166,12 +174,25 @@ class GetNumberComponent extends Component
             $number->twilio_number_sid = $this->fetchPurchasedNumberSID($data['number']);
             $number->purchased_at = Carbon::parse(now());
             $number->type = $this->numberType;
+            $number->webhook = $this->setWebhook($data['number']);
             $number->save();
 
             return true;
         } else {
             return false;
         }
+    }
+    public function setWebhook($number)
+    {
+        $twilio = new Client($this->TWILIO_SID, $this->TWILIO_AUTH_TOKEN);
+        $twilio->incomingPhoneNumbers
+            ->read(['phoneNumber' => $number])[0]
+            ->update([
+                "smsUrl" => 'https://texttorrent.com/api/v1/twilio/incoming-message',
+                "voiceUrl" => 'https://texttorrent.com/api/v1/twilio/incoming-message',
+            ]);
+
+        return 1;
     }
 
     public $selected_numbers, $selected_numbers_info;
@@ -188,7 +209,7 @@ class GetNumberComponent extends Component
 
     public function bulkPurchaseNumber()
     {
-        $twilio = new Client(env('TWILIO_SID'), env('TWILIO_AUTH_TOKEN'));
+        $twilio = new Client($this->TWILIO_SID, $this->TWILIO_AUTH_TOKEN);
 
         try {
             $purchase_result = [];
@@ -227,7 +248,7 @@ class GetNumberComponent extends Component
 
     public function fetchPurchasedNumbers()
     {
-        $twilio = new Client(env('TWILIO_SID'), env('TWILIO_AUTH_TOKEN'));
+        $twilio = new Client($this->TWILIO_SID, $this->TWILIO_AUTH_TOKEN);
 
         try {
             // Fetch purchased numbers
@@ -264,7 +285,7 @@ class GetNumberComponent extends Component
 
     public function fetchPurchasedNumberCaps($number)
     {
-        $twilio = new Client(env('TWILIO_SID'), env('TWILIO_AUTH_TOKEN'));
+        $twilio = new Client($this->TWILIO_SID, $this->TWILIO_AUTH_TOKEN);
         try {
             $incomingNumbers = $twilio->incomingPhoneNumbers->read(["phoneNumber" => $number]);
             foreach ($incomingNumbers as $number) {
@@ -285,7 +306,7 @@ class GetNumberComponent extends Component
 
     public function fetchPurchasedNumberSID($number)
     {
-        $twilio = new Client(env('TWILIO_SID'), env('TWILIO_AUTH_TOKEN'));
+        $twilio = new Client($this->TWILIO_SID, $this->TWILIO_AUTH_TOKEN);
         try {
             $incomingNumbers = $twilio->incomingPhoneNumbers->read(["phoneNumber" => $number]);
             // Check if the number exists and return its SID

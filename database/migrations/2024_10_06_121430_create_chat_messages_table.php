@@ -14,8 +14,7 @@ return new class extends Migration
         Schema::create('chat_messages', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('chat_id')->nullable();
-            $table->unsignedBigInteger('sender')->nullable();
-            $table->unsignedBigInteger('receiver')->nullable();
+            $table->enum('direction', ['inbound', 'outbound'])->default('outbound');
             $table->longText('message')->nullable();
             $table->string('file', 2048)->nullable();
             $table->string('file_type')->nullable();
@@ -25,6 +24,8 @@ return new class extends Migration
             $table->string('api')->nullable();
             $table->enum('api_send_status', ['success', 'failed'])->default('success');
             $table->longText('api_send_response')->nullable();
+            $table->enum('api_receive_status', ['success', 'failed'])->default('success');
+            $table->longText('api_receive_response')->nullable();
             $table->timestamps();
         });
     }
