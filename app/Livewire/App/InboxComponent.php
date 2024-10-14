@@ -3,13 +3,14 @@
 namespace App\Livewire\App;
 
 use App\Models\Chat;
-use App\Models\ChatMessage;
-use App\Models\Contact;
-use App\Models\ContactFolder;
-use App\Models\ContactNote;
 use App\Models\Event;
-use Illuminate\Support\Facades\DB;
+use App\Models\Contact;
 use Livewire\Component;
+use App\Models\ChatMessage;
+use App\Models\ContactNote;
+use App\Models\ContactFolder;
+use App\Services\TwilioService;
+use Illuminate\Support\Facades\DB;
 
 class InboxComponent extends Component
 {
@@ -71,6 +72,22 @@ class InboxComponent extends Component
         $chat = Chat::where('id', $this->selected_chat_id)->first();
         $chat->last_message = $message;
         $chat->save();
+
+        // send msg
+        $result = sendSMSviaTwilio($this->selected_chat->number, $chat->from_number, $message);
+        if ($result['result'] == false) {
+            $msgSt = ChatMessage::find($msg->id);
+            $msgSt->api_send_status = 'failed';
+            $msgSt->save();
+
+            $msg->api_send_status = 'failed';
+        } else {
+            $msgSt = ChatMessage::find($msg->id);
+            $msgSt->api_send_status ='success';
+            $msgSt->save();
+
+            $msg->api_send_status = 'success';
+        }
 
         $this->messages->push($msg);
         $this->dispatch('scrollToBottom');

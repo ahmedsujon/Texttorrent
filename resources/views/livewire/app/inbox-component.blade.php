@@ -202,7 +202,7 @@
                                                     <img src="{{ asset('assets/app/icons/sender_shape.svg') }}"
                                                         alt="sender shape" class="msg_shape" />
                                                     <h6 class="time">
-                                                        {{ Carbon\Carbon::parse($msg->updated_at)->format('H:i A') }}
+                                                        @if ($msg->api_send_status == 'failed') <small class="text-danger" style="font-size: 11px;">Message sending failed</small> @else {{ Carbon\Carbon::parse($msg->updated_at)->format('H:i A') }} @endif
                                                     </h6>
                                                 </div>
                                             </div>
@@ -216,8 +216,7 @@
                                                         {!! $msg->message !!}
                                                     </p>
                                                     <img src="{{ asset('assets/app/icons/receive_shape.svg') }}"
-                                                        alt="receive
-                                                shape"
+                                                        alt="receive shape"
                                                         class="msg_shape" />
                                                     <h6 class="time">
                                                         {{ Carbon\Carbon::parse($msg->updated_at)->format('H:i A') }}
