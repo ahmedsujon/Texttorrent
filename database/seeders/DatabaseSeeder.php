@@ -22,5 +22,6 @@ class DatabaseSeeder extends Seeder
         $this->call(UserContactsTableSeeder::class);
         $this->call(ChatTableSeeder::class);
         $this->call(InboxTemplateTableSeeder::class);
+        $this->call(ApiTableSeeder::class);
     }
 }

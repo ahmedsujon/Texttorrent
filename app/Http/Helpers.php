@@ -1,10 +1,11 @@
 <?php
 
-use App\Models\Admin;
-use App\Models\User;
 use Carbon\Carbon;
-use Illuminate\Support\Facades\Auth;
+use App\Models\User;
+use App\Models\Admin;
+use Twilio\Rest\Client;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Intervention\Image\ImageManagerStatic as Image;
 
@@ -77,7 +78,7 @@ function uploadFile($type, $ratio, $directory, $uploaded_by, $file)
         $fileName = uniqid() . Carbon::now()->timestamp . '.webp';
         Storage::disk('public_path')->put($file_directory . $fileName, $image->getEncoded());
 
-        return $file_directory.$fileName;
+        return $file_directory . $fileName;
     } else {
         return 'unsupported';
     }
@@ -156,5 +157,41 @@ function showErrorMessage($message, $file, $line)
             'Line No' => $line,
         ];
         return dd($error_array);
+    }
+}
+
+// twilio sms
+function sendSMSviaTwilio($receiverNumber, $fromNumber, $message)
+{
+    $getCredentials = DB::table('apis')->where('user_id', user()->id)->where('gateway', 'Twilio')->first();
+
+    if ($getCredentials) {
+        $sid = $getCredentials->account_sid;
+        $token = $getCredentials->auth_token;
+
+        try {
+            $client = new Client($sid, $token);
+            $output = $client->messages->create($receiverNumber, [
+                'from' => $fromNumber,
+                'body' => $message,
+            ]);
+            return [
+                'result' => true,
+                'message' => 'Message sent successfully',
+                'twilio_response' => $output,
+                'sid' => $output->sid,
+            ];
+        } catch (Exception $e) {
+            return [
+                'result' => false,
+                'message' => 'Failed to send message. Please try again later.',
+                'error' => $e->getMessage(),
+            ];
+        }
+    } else {
+        return [
+            'result' => false,
+            'message' => 'Twilio API credentials not found for this user.',
+        ];
     }
 }

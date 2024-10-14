@@ -21,6 +21,10 @@ return new class extends Migration
             $table->string('file_type')->nullable();
             $table->string('file_name')->nullable();
             $table->tinyInteger('seen')->default(0);
+            $table->string('msg_sid', 2048)->nullable();
+            $table->string('api')->nullable();
+            $table->enum('api_send_status', ['success', 'failed'])->default('success');
+            $table->longText('api_send_response')->nullable();
             $table->timestamps();
         });
     }

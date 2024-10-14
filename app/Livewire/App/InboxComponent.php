@@ -3,11 +3,13 @@
 namespace App\Livewire\App;
 
 use App\Models\Chat;
+use App\Models\Event;
 use App\Models\Contact;
 use Livewire\Component;
 use App\Models\ChatMessage;
 use App\Models\ContactNote;
 use App\Models\ContactFolder;
+use App\Services\TwilioService;
 use Illuminate\Support\Facades\DB;
 
 class InboxComponent extends Component
@@ -70,6 +72,26 @@ class InboxComponent extends Component
         $chat = Chat::where('id', $this->selected_chat_id)->first();
         $chat->last_message = $message;
         $chat->save();
+
+        // send msg
+        $result = sendSMSviaTwilio($this->selected_chat->number, $chat->from_number, $message);
+
+        if ($result['result'] == false) {
+            $msgSt = ChatMessage::find($msg->id);
+            $msgSt->api_send_status = 'failed';
+            $msgSt->save();
+
+            $msg->api_send_status = 'failed';
+        } else {
+            $msgSt = ChatMessage::find($msg->id);
+            $msgSt->api = 'Twilio';
+            $msgSt->api_send_status = 'success';
+            $msgSt->api_send_response = $result['twilio_response'];
+            $msgSt->msg_sid = $result['sid'];
+            $msgSt->save();
+
+            $msg->api_send_status = 'success';
+        }
 
         $this->messages->push($msg);
         $this->dispatch('scrollToBottom');
@@ -338,6 +360,38 @@ class InboxComponent extends Component
         $this->delete_type = '';
 
         $this->mount();
+    }
+
+    public $name, $subject, $date, $time, $sender_number, $alert_before, $participant_number, $participant_email;
+
+    public function addEvent()
+    {
+        $this->validate([
+            'name' => 'required',
+            'subject' => 'required',
+            'date' => 'required',
+            'time' => 'required',
+            'sender_number' => 'required',
+            'alert_before' => 'required',
+        ], [
+            '*' => 'This field is required'
+        ]);
+
+        $event = new Event();
+        $event->user_id = user()->id;
+        $event->name = $this->name;
+        $event->subject = $this->subject;
+        $event->date = $this->date;
+        $event->time = $this->time;
+        $event->sender_number = $this->sender_number;
+        $event->alert_before = $this->alert_before;
+        $event->participant_number = $this->participant_number;
+        $event->participant_email = $this->participant_email;
+        $event->save();
+
+        $this->dispatch('closeModal');
+        $this->dispatch('success', ['message' => 'New event added successfully']);
+        $this->reset(['name', 'subject', 'date', 'time', 'sender_number', 'alert_before', 'participant_number', 'participant_email']);
     }
 
     public $filter_time, $searchTerm;
