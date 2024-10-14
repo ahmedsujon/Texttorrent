@@ -252,8 +252,6 @@ class ManageContactsComponent extends Component
     public $columns = [], $first_name_column, $last_name_column, $email_address_column, $company_column, $phone_number_column, $additional_1_column, $additional_2_column, $additional_3_column, $import_list_id;
     public function updatedFile()
     {
-        dd('ok');
-
         $this->validate([
             'file' => 'required|file|mimes:csv,xlsx|max:10240', // 10MB
         ]);
