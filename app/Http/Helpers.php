@@ -171,13 +171,15 @@ function sendSMSviaTwilio($receiverNumber, $fromNumber, $message)
 
         try {
             $client = new Client($sid, $token);
-            $client->messages->create($receiverNumber, [
+            $output = $client->messages->create($receiverNumber, [
                 'from' => $fromNumber,
                 'body' => $message,
             ]);
             return [
                 'result' => true,
                 'message' => 'Message sent successfully',
+                'twilio_response' => $output,
+                'sid' => $output->sid,
             ];
         } catch (Exception $e) {
             return [

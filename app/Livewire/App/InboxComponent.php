@@ -75,6 +75,7 @@ class InboxComponent extends Component
 
         // send msg
         $result = sendSMSviaTwilio($this->selected_chat->number, $chat->from_number, $message);
+
         if ($result['result'] == false) {
             $msgSt = ChatMessage::find($msg->id);
             $msgSt->api_send_status = 'failed';
@@ -83,7 +84,10 @@ class InboxComponent extends Component
             $msg->api_send_status = 'failed';
         } else {
             $msgSt = ChatMessage::find($msg->id);
-            $msgSt->api_send_status ='success';
+            $msgSt->api = 'Twilio';
+            $msgSt->api_send_status = 'success';
+            $msgSt->api_send_response = $result['twilio_response'];
+            $msgSt->msg_sid = $result['sid'];
             $msgSt->save();
 
             $msg->api_send_status = 'success';
