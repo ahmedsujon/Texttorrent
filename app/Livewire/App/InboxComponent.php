@@ -151,11 +151,31 @@ class InboxComponent extends Component
         $chat->from_number = $this->sender_id;
         $chat->save();
 
-        $message = new ChatMessage();
-        $message->chat_id = $chat->id;
-        $message->direction = 'outbound';
-        $message->message = $this->new_chat_message;
-        $message->save();
+        $msg = new ChatMessage();
+        $msg->chat_id = $chat->id;
+        $msg->direction = 'outbound';
+        $msg->message = $this->new_chat_message;
+        $msg->save();
+
+        // send msg
+        $result = sendSMSviaTwilio($this->selected_chat->number, $chat->from_number, $this->new_chat_message);
+
+        if ($result['result'] == false) {
+            $msgSt = ChatMessage::find($msg->id);
+            $msgSt->api_send_status = 'failed';
+            $msgSt->save();
+
+            $msg->api_send_status = 'failed';
+        } else {
+            $msgSt = ChatMessage::find($msg->id);
+            $msgSt->api = 'Twilio';
+            $msgSt->api_send_status = 'success';
+            $msgSt->api_send_response = $result['twilio_response'];
+            $msgSt->msg_sid = $result['sid'];
+            $msgSt->save();
+
+            $msg->api_send_status = 'success';
+        }
 
         session()->flash('success', 'New chat started successfully');
         return redirect()->route('user.inbox');
