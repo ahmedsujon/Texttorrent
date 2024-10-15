@@ -153,8 +153,7 @@ class InboxComponent extends Component
 
         $message = new ChatMessage();
         $message->chat_id = $chat->id;
-        $message->sender = user()->id;
-        $message->receiver = $this->receiver_id;
+        $message->direction = 'outbound';
         $message->message = $this->new_chat_message;
         $message->save();
 
