@@ -1,6 +1,23 @@
 <div>
+    <style>
+        .pricing_title {
+            font-size: 50px !important;
+        }
+
+        .ready_start_wrapper .ready_content_area h4 {
+            font-size: 25px !important;
+        }
+
+        .ready_start_wrapper .ready_btn_grid .ready_btn {
+            font-size: 27px !important;
+            height: 70px !important;
+        }
+
+        .ready_start_wrapper .ready_btn_grid h6 {
+            font-size: 25px !important;
+        }
+    </style>
     <main>
-        <!-- Hero Section  -->
         <section class="hero_wrapper hero_wrapper_others"
             style="background-image: url(assets/app/images/landing/BackgroundHero.png)">
             <div class="container">
@@ -32,7 +49,7 @@
                         </div>
                         <div class="pricing_grid">
                             <div data-aos="fade-up">
-                                <div class="pricing_item">
+                                <div class="pricing_item" wire:ignore>
                                     <h3>Standard</h3>
                                     <ul>
                                         <li>
@@ -86,8 +103,10 @@
                                         </li>
                                     </ul>
                                     <h6 class="price">$49 <span>/month </span></h6>
+
                                     @auth
-                                        <a href="{{ route('login') }}" class="choose_btn"> Choose Your Plan </a>
+                                        <button wire:click="standardPlan"
+                                            class="choose_btn">{!! loadingStateWithText('standardPlan', 'Choose Your Plan') !!}</button>
                                     @else
                                         <a href="{{ route('login') }}" class="choose_btn"> Choose Your Plan </a>
                                     @endauth

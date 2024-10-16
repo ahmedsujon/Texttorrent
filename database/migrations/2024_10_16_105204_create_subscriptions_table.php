@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string('package_type')->nullable();
             $table->string('package_name')->nullable();
             $table->string('amount')->nullable();
+            $table->tinyInteger('status')->default(1);
             $table->timestamps();
         });
     }
