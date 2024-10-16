@@ -442,7 +442,7 @@
                                         class="menu_grid single_menu_grid {{ request()->is('campaigns/send-bulk-message') ? 'active_menu' : '' }}">
                                         <div class="label">Send Bulk Message</div>
                                     </a>
-                                    <a href="{{ route('user.campaigns.groupQueue') }}"
+                                    {{-- <a href="{{ route('user.campaigns.groupQueue') }}"
                                         class="menu_grid single_menu_grid {{ request()->is('campaigns/group-queue') ? 'active_menu' : '' }}">
                                         <div class="label">Group Queue</div>
                                     </a>
@@ -453,7 +453,7 @@
                                     <a href="{{ route('user.campaigns.batchQueue') }}"
                                         class="menu_grid single_menu_grid {{ request()->is('campaigns/batch-queue') ? 'active_menu' : '' }}">
                                         <div class="label">Batch Queue</div>
-                                    </a>
+                                    </a> --}}
                                     <a href="{{ route('user.campaigns.inboxTemplate') }}"
                                         class="menu_grid single_menu_grid {{ request()->is('campaigns/inbox-template') ? 'active_menu' : '' }}">
                                         <div class="label">Inbox template</div>
