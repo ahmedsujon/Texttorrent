@@ -25,7 +25,7 @@ class PricingComponent extends Component
         $data->amount = $amount;
         $data->status = $status;
         $data->save();
-        return redirect()->route('user.dashboard');
+        return redirect()->route('app.payment');
     }
 
     public function premiumPlan()
@@ -42,7 +42,7 @@ class PricingComponent extends Component
         $data->amount = $amount;
         $data->status = $status;
         $data->save();
-        return redirect()->route('user.dashboard');
+        return redirect()->route('app.payment');
     }
 
     public function enterprisePlan()
@@ -59,7 +59,7 @@ class PricingComponent extends Component
         $data->amount = $amount;
         $data->status = $status;
         $data->save();
-        return redirect()->route('user.dashboard');
+        return redirect()->route('app.payment');
     }
 
     // inclusive plan
@@ -78,7 +78,7 @@ class PricingComponent extends Component
         $data->amount = $amount;
         $data->status = $status;
         $data->save();
-        return redirect()->route('user.dashboard');
+        return redirect()->route('app.payment');
     }
 
     public function growthPlan()
@@ -95,7 +95,7 @@ class PricingComponent extends Component
         $data->amount = $amount;
         $data->status = $status;
         $data->save();
-        return redirect()->route('user.dashboard');
+        return redirect()->route('app.payment');
     }
 
     public function proPlan()
@@ -112,7 +112,7 @@ class PricingComponent extends Component
         $data->amount = $amount;
         $data->status = $status;
         $data->save();
-        return redirect()->route('user.dashboard');
+        return redirect()->route('app.payment');
     }
 
     public function render()

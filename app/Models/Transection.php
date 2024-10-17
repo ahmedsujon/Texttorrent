@@ -9,5 +9,8 @@ class Transection extends Model
 {
     use HasFactory;
 
+    protected $fillable = [
+        'amount'
+    ];
     protected $table = 'transections';
 }
