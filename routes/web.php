@@ -6,6 +6,7 @@ use App\Livewire\Web\FeatureComponent;
 use App\Livewire\Web\HomeComponent;
 use App\Livewire\Web\PricingComponent;
 use App\Livewire\Web\PrivacyPolicyComponent;
+use App\Livewire\Web\Subscription\PaymentComponent;
 use App\Livewire\Web\TermsConditionsComponent;
 use Illuminate\Support\Facades\Route;
 
@@ -23,7 +24,11 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', HomeComponent::class)->name('app.home');
 Route::get('/features', FeatureComponent::class)->name('app.feature');
+
 Route::get('/pricing', PricingComponent::class)->name('app.pricing');
+Route::get('/payment', PaymentComponent::class)->name('app.payment');
+
+
 Route::get('/about-us', AboutComponent::class)->name('app.about-us');
 Route::get('/contact-us', ContactUsComponent::class)->name('app.contact-us');
 Route::get('/privacy-policy', PrivacyPolicyComponent::class)->name('app.privacy-policy');

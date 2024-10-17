@@ -59,21 +59,24 @@
                     <div class="icon">
                         <img src="{{ asset('assets/app/icons/watch.svg') }}" alt="watch icon" />
                     </div>
-                    <div>
+                    <div wire:ignore>
                         <h3>Local time</h3>
-                        <h4>12 May, 2024 9AM</h4>
+                        <h4 id="currentTime">{{ \Carbon\Carbon::now()->format('d F, Y h:i:s A') }}</h4>
                     </div>
                 </div>
             </div>
-            <form class="event_form_area">
+            <form class="event_form_area" wire:submit.prevent='storeData'>
                 <div class="message_grid">
                     <div class="setup_bulk_area">
                         <h3>Set up</h3>
                         <div class="setup_checkbox_grid mt-16">
                             <div class="custom_switch_area">
                                 <label class="switch">
-                                    <input type="checkbox" checked />
+                                    <input type="checkbox" wire:model.live='number_pool' />
                                     <span class="slider round"></span>
+                                    @error('number_pool')
+                                        <p class="text-danger mb-0" style="font-size: 13px;">{{ $message }}</p>
+                                    @enderror
                                 </label>
                                 <h6 class="switch_title">
                                     Number pool
@@ -84,8 +87,11 @@
                             </div>
                             <div class="custom_switch_area">
                                 <label class="switch">
-                                    <input type="checkbox" checked />
+                                    <input type="checkbox" wire:model.live='batch_process' />
                                     <span class="slider round"></span>
+                                    @error('batch_process')
+                                        <p class="text-danger mb-0" style="font-size: 13px;">{{ $message }}</p>
+                                    @enderror
                                 </label>
                                 <h6 class="switch_title">
                                     Execute batch process
@@ -96,8 +102,11 @@
                             </div>
                             <div class="custom_switch_area">
                                 <label class="switch">
-                                    <input type="checkbox" checked />
+                                    <input type="checkbox" wire:model.blur='opt_out_link' />
                                     <span class="slider round"></span>
+                                    @error('opt_out_link')
+                                        <p class="text-danger mb-0" style="font-size: 13px;">{{ $message }}</p>
+                                    @enderror
                                 </label>
                                 <h6 class="switch_title">
                                     Add opt-out link
@@ -108,8 +117,11 @@
                             </div>
                             <div class="custom_switch_area">
                                 <label class="switch">
-                                    <input type="checkbox" checked />
+                                    <input type="checkbox" wire:model.live='round_robin_campaign' />
                                     <span class="slider round"></span>
+                                    @error('round_robin_campaign')
+                                        <p class="text-danger mb-0" style="font-size: 13px;">{{ $message }}</p>
+                                    @enderror
                                 </label>
                                 <h6 class="switch_title">
                                     Round Robin campaign
@@ -133,7 +145,8 @@
                                     </button>
                                     <div class="dropdown-menu">
                                         <div class="search_input_form search_input_form_sm">
-                                            <input type="search" placeholder="Search senders" class="input_search" />
+                                            <input type="search" placeholder="Search senders"
+                                                class="input_search" />
                                             <button type="submit" class="search_icon">
                                                 <img src="{{ asset('assets/app/icons/search-gray.svg') }}"
                                                     alt="search icon" />
@@ -145,7 +158,8 @@
                                             </li>
                                             <li>
                                                 <div class="input_row mb-0 mt-2">
-                                                    <div class="checkbox_area d-flex align-items-center flex-wrap mb-0">
+                                                    <div
+                                                        class="checkbox_area d-flex align-items-center flex-wrap mb-0">
                                                         <div class="form-check">
                                                             <input class="form-check-input" type="checkbox"
                                                                 value="" id="fromPhone" />
@@ -158,43 +172,43 @@
                                             </li>
                                             <li>
                                                 <button type="button" class="dropdown-item">
-                                                    <img src="assets/images/inbox/user_main.png') }}" alt="user icon"
-                                                        class="user_image" />
+                                                    <img src="{{ asset('assets/app/images/inbox/user_main.png') }}"
+                                                        alt="user icon" class="user_image" />
                                                     <span>+1 (566) 456-344</span>
                                                 </button>
                                             </li>
                                             <li>
                                                 <button type="button" class="dropdown-item active_check">
-                                                    <img src="assets/images/inbox/user_main.png') }}" alt="user icon"
-                                                        class="user_image" />
+                                                    <img src="{{ asset('assets/app/images/inbox/user_main.png') }}"
+                                                        alt="user icon" class="user_image" />
                                                     <span>+1 (566) 456-344</span>
                                                 </button>
                                             </li>
                                             <li>
                                                 <button type="button" class="dropdown-item active_check">
-                                                    <img src="assets/images/inbox/user_main.png') }}" alt="user icon"
-                                                        class="user_image" />
+                                                    <img src="{{ asset('assets/app/images/inbox/user_main.png') }}"
+                                                        alt="user icon" class="user_image" />
                                                     <span>+1 (566) 456-344</span>
                                                 </button>
                                             </li>
                                             <li>
                                                 <button type="button" class="dropdown-item active_check">
-                                                    <img src="assets/images/inbox/user_main.png') }}" alt="user icon"
-                                                        class="user_image" />
+                                                    <img src="{{ asset('assets/app/images/inbox/user_main.png') }}"
+                                                        alt="user icon" class="user_image" />
                                                     <span>+1 (566) 456-344</span>
                                                 </button>
                                             </li>
                                             <li>
                                                 <button type="button" class="dropdown-item active_check">
-                                                    <img src="assets/images/inbox/user_main.png') }}" alt="user icon"
-                                                        class="user_image" />
+                                                    <img src="{{ asset('assets/app/images/inbox/user_main.png') }}"
+                                                        alt="user icon" class="user_image" />
                                                     <span>+1 (566) 456-344</span>
                                                 </button>
                                             </li>
                                             <li>
                                                 <button type="button" class="dropdown-item">
-                                                    <img src="assets/images/inbox/user_main.png') }}" alt="user icon"
-                                                        class="user_image" />
+                                                    <img src="{{ asset('assets/app/images/inbox/user_main.png') }}"
+                                                        alt="user icon" class="user_image" />
                                                     <span>+1 (566) 456-344</span>
                                                 </button>
                                             </li>
@@ -205,160 +219,116 @@
                         </div>
                         <div class="input_row">
                             <label for="">Appended (Opt-out) message</label>
-                            <input type="text" placeholder="STOP to opt out" class="input_field" />
+                            <input type="text" placeholder="STOP to opt out" wire:model.blur='appended_message'
+                                class="input_field" />
+                            @error('appended_message')
+                                <p class="text-danger mb-0" style="font-size: 13px;">{{ $message }}</p>
+                            @enderror
                         </div>
                         <div class="two_grid">
                             <div class="input_row searchable_select">
-                                <label for="">Batch size</label>
-                                <select name="lang" class="js-searchBox">
-                                    <option value="">Select</option>
-                                    <option value="1">20</option>
-                                    <option value="2">50</option>
-                                    <option value="2">100</option>
-                                    <option value="2">250</option>
-                                    <option value="2">500</option>
-                                    <option value="2">1000</option>
-                                    <option value="2">2500</option>
-                                </select>
-                                <img src="{{ asset('assets/app/icons/arrow-down.svg') }}" alt="down arrow"
-                                    class="down_arrow" />
+                                <div class="wire-ignore" wire:ignore>
+                                    <label for="">Batch size</label>
+                                    <select name="lang" wire:model.blur='batch_size'
+                                        class="js-searchBox batch_size">
+                                        <option value="">Select</option>
+                                        <option value="20">20</option>
+                                        <option value="50">50</option>
+                                        <option value="100">100</option>
+                                        <option value="250">250</option>
+                                        <option value="500">500</option>
+                                        <option value="1000">1000</option>
+                                        <option value="2500">2500</option>
+                                    </select>
+                                    <img src="{{ asset('assets/app/icons/arrow-down.svg') }}" alt="down arrow"
+                                        class="down_arrow" />
+                                </div>
+                                @error('batch_size')
+                                    <p class="text-danger mb-0" style="font-size: 13px;">{{ $message }}</p>
+                                @enderror
                             </div>
                             <div class="input_row searchable_select">
-                                <label for="">Batch frequency</label>
-                                <select name="lang" class="js-searchBox">
-                                    <option value="">Select</option>
-                                    <option value="1">2 minutes</option>
-                                    <option value="1">5 minutes</option>
-                                    <option value="1">10 minutes</option>
-                                    <option value="1">30 minutes</option>
-                                    <option value="1">60 minutes</option>
-                                </select>
-                                <img src="{{ asset('assets/app/icons/arrow-down.svg') }}" alt="down arrow"
-                                    class="down_arrow" />
+                                <div class="wire-ignore" wire:ignore>
+                                    <label for="">Batch frequency</label>
+                                    <select name="lang" wire:model.blur='batch_frequency'
+                                        class="js-searchBox batch_frequency">
+                                        <option value="">Select</option>
+                                        <option value="2">2 minutes</option>
+                                        <option value="5">5 minutes</option>
+                                        <option value="10">10 minutes</option>
+                                        <option value="30">30 minutes</option>
+                                        <option value="60">60 minutes</option>
+                                    </select>
+                                    <img src="{{ asset('assets/app/icons/arrow-down.svg') }}" alt="down arrow"
+                                        class="down_arrow" />
+                                </div>
+                                @error('batch_frequency')
+                                    <p class="text-danger mb-0" style="font-size: 13px;">{{ $message }}</p>
+                                @enderror
                             </div>
                         </div>
                         <div class="input_row searchable_select">
-                            <label for="">Sending Throttle
-                                <span data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Some Text">
-                                    <img src="{{ asset('assets/app/icons/info-circle.svg') }}" alt="info circle"
-                                        style="max-width: 12px; margin-left: 8px" />
-                                </span>
-                            </label>
-                            <select name="lang" class="js-searchBox">
-                                <option value="">Select</option>
-                                <option value="1">Slow</option>
-                                <option value="1">Medium</option>
-                                <option value="1">Slow</option>
-                            </select>
-                            <img src="{{ asset('assets/app/icons/arrow-down.svg') }}" alt="down arrow"
-                                class="down_arrow" />
+                            <div class="wire-ignore" wire:ignore>
+                                <label for="">Sending Throttle
+                                    <span data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Some Text">
+                                        <img src="{{ asset('assets/app/icons/info-circle.svg') }}" alt="info circle"
+                                            style="max-width: 12px; margin-left: 8px" />
+                                    </span>
+                                </label>
+                                <select name="lang" wire:model.blur='sending_throttle'
+                                    class="js-searchBox sending_throttle">
+                                    <option value="">Select</option>
+                                    <option value="1">Slow</option>
+                                    <option value="2">Medium</option>
+                                    <option value="3">Slow</option>
+                                </select>
+                                <img src="{{ asset('assets/app/icons/arrow-down.svg') }}" alt="down arrow"
+                                    class="down_arrow" />
+                            </div>
+                            @error('sending_throttle')
+                                <p class="text-danger mb-0" style="font-size: 13px;">{{ $message }}</p>
+                            @enderror
                         </div>
                     </div>
                     <div class="pick_list_area">
                         <h3>Pick list</h3>
                         <div class="two_grid mt-16">
-                            <div class="input_row">
-                                <label for="">Contact list</label>
-                                <div class="custom_select_dropdown_area">
-                                    <div class="dropdown">
-                                        <button class="input_field dropdown-toggle" type="button"
-                                            data-bs-toggle="dropdown" aria-expanded="false">
-                                            <img src="{{ asset('assets/app/icons/arrow-down.svg') }}"
-                                                alt="down arrow" class="arrow_down_icon" />
-                                            <!-- <div class="placeholder_text">Select</div> -->
-                                            <div class="dropdown_grid">
-                                                <div class="icon">G</div>
-                                                <div class="title">List 1</div>
-                                            </div>
-                                        </button>
-                                        <div class="dropdown-menu">
-                                            <div class="search_input_form search_input_form_sm">
-                                                <input type="search" placeholder="Search contact list"
-                                                    class="input_search" />
-                                                <button type="submit" class="search_icon">
-                                                    <img src="{{ asset('assets/app/icons/search-gray.svg') }}"
-                                                        alt="search icon" />
-                                                </button>
-                                            </div>
-                                            <ul class="dropdown_list">
-                                                <li>
-                                                    <h5>Select List</h5>
-                                                </li>
-                                                <li>
-                                                    <button type="button" class="dropdown-item">
-                                                        <span>List 1</span>
-                                                    </button>
-                                                </li>
-                                                <li>
-                                                    <button type="button" class="dropdown-item">
-                                                        <span>List 2</span>
-                                                    </button>
-                                                </li>
-                                                <li>
-                                                    <button type="button" class="dropdown-item">
-                                                        <span>List 3</span>
-                                                    </button>
-                                                </li>
-                                                <li>
-                                                    <button type="button" class="dropdown-item">
-                                                        <span>List 4</span>
-                                                    </button>
-                                                </li>
-                                                <li>
-                                                    <button type="button" class="dropdown-item">
-                                                        <span>List 5</span>
-                                                    </button>
-                                                </li>
-                                                <li>
-                                                    <button type="button" class="dropdown-item">
-                                                        <span>List 6</span>
-                                                    </button>
-                                                </li>
-                                                <li>
-                                                    <button type="button" class="dropdown-item">
-                                                        <span>List 7</span>
-                                                    </button>
-                                                </li>
-                                                <li>
-                                                    <button type="button" class="dropdown-item">
-                                                        <span>List 8</span>
-                                                    </button>
-                                                </li>
-                                                <li>
-                                                    <button type="button" class="dropdown-item">
-                                                        <span>List 9</span>
-                                                    </button>
-                                                </li>
-                                                <li>
-                                                    <button type="button" class="dropdown-item">
-                                                        <span>List 10</span>
-                                                    </button>
-                                                </li>
-                                            </ul>
-                                        </div>
-                                    </div>
+                            <div class="input_row searchable_select">
+                                <div class="wire-ignore" wire:ignore>
+                                    <label for="">Contact list</label>
+                                    <select name="lang" wire:model.blur='contact_list_id'
+                                        class="js-searchBox contact_list_id">
+                                        <option value="">Select list</option>
+                                        @foreach ($contactLists as $item)
+                                            <option value="{{ $item->id }}">
+                                                {{ getContactListByID($item->id)->name }}
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                    <img src="{{ asset('assets/app/icons/arrow-down.svg') }}" alt="down arrow"
+                                        class="down_arrow" />
                                 </div>
+                                @error('contact_list_id')
+                                    <p class="text-danger mb-0" style="font-size: 13px;">{{ $message }}</p>
+                                @enderror
                             </div>
                             <div class="input_row searchable_select">
-                                <label for="">Message template</label>
-                                <select name="lang" class="js-searchBox">
-                                    <option value="">Select</option>
-                                    <option value="1">Python</option>
-                                    <option value="2">Java</option>
-                                    <option value="3">Ruby</option>
-                                    <option value="4">C/C++</option>
-                                    <option value="5">C#</option>
-                                    <option value="6">JavaScript</option>
-                                    <option value="7">PHP</option>
-                                    <option value="8">Swift</option>
-                                    <option value="9">Scala</option>
-                                    <option value="10">R</option>
-                                    <option value="11">Go</option>
-                                    <option value="12">VisualBasic.NET</option>
-                                    <option value="13">Kotlin</option>
-                                </select>
-                                <img src="{{ asset('assets/app/icons/arrow-down.svg') }}" alt="down arrow"
-                                    class="down_arrow" />
+                                <div class="wire-ignore" wire:ignore>
+                                    <label for="">Message template</label>
+                                    <select name="lang" wire:model.blur='inbox_template_id'
+                                        class="js-searchBox inbox_template_id">
+                                        <option value="">Select</option>
+                                        @foreach ($messageTemplates as $item)
+                                            <option value="{{ $item->id }}">
+                                                {{ getSMSTempByID($item->id)->template_name }}</option>
+                                        @endforeach
+                                    </select>
+                                    <img src="{{ asset('assets/app/icons/arrow-down.svg') }}" alt="down arrow"
+                                        class="down_arrow" />
+                                </div>
+                                @error('inbox_template_id')
+                                    <p class="text-danger mb-0" style="font-size: 13px;">{{ $message }}</p>
+                                @enderror
                             </div>
                         </div>
                         <div class="sms_mms_contact_area mt-2">
@@ -448,13 +418,6 @@
                                         <button type="button" class="close_btn">
                                             <img src="{{ asset('assets/app/icons/close.svg') }}" alt="close icon" />
                                         </button>
-                                        <!-- ?After 100% uploading complete display this button  -->
-                                        <!-- <button type="button" class="close_btn">
-                        <img
-                          src="{{ asset('assets/app/icons/delete-01.svg') }}"
-                          alt="delete icon"
-                        />
-                      </button> -->
                                         <div class="file_name_grid">
                                             <img src="{{ asset('assets/app/icons/mp3.svg') }}" alt="mp3" />
                                             <div>
@@ -491,7 +454,7 @@
                             data-bs-target="#scheduleModal">
                             Schedule
                         </button>
-                        <button type="button" class="msg_send_btn">Send Message</button>
+                        <button type="submit" class="msg_send_btn">{!! loadingStateWithText('storeData', 'Send Message') !!}</button>
                     </div>
                 </div>
             </form>
@@ -538,6 +501,23 @@
 </div>
 @push('scripts')
     <script>
+        $(".contact_list_id").on('change', function() {
+            @this.set('contact_list_id', $(this).val());
+        });
+        $(".inbox_template_id").on('change', function() {
+            @this.set('inbox_template_id', $(this).val());
+        });
+        $(".batch_size").on('change', function() {
+            @this.set('batch_size', $(this).val());
+        });
+        $(".batch_frequency").on('change', function() {
+            @this.set('batch_frequency', $(this).val());
+        });
+        $(".sending_throttle").on('change', function() {
+            @this.set('sending_throttle', $(this).val());
+        });
+    </script>
+    <script>
         $(document).ready(function() {
             //Show split content
             $("#pills-home-tab").click(function(e) {
@@ -551,5 +531,23 @@
                 $("#contactContent").fadeIn();
             });
         });
+    </script>
+    <script>
+        function updateTime() {
+            const now = new Date();
+            const options = {
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric',
+                hour: 'numeric',
+                minute: 'numeric',
+                second: 'numeric',
+                hour12: true
+            };
+            const formattedTime = now.toLocaleString('en-US', options);
+            document.getElementById('currentTime').innerText = formattedTime;
+        }
+        updateTime();
+        setInterval(updateTime, 1000);
     </script>
 @endpush
