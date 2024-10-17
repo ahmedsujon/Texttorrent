@@ -103,12 +103,7 @@
                                         </li>
                                     </ul>
                                     <h6 class="price">$49 <span>/month </span></h6>
-                                    @auth
-                                        <button wire:click="standardPlan"
-                                            class="choose_btn">{!! loadingStateWithText('standardPlan', 'Choose Your Plan') !!}</button>
-                                    @else
-                                        <a href="{{ route('login') }}" class="choose_btn"> Choose Your Plan </a>
-                                    @endauth
+                                    <button wire:click="purchasePlan('own-gateway', 'standard')" class="choose_btn" wire:loading.attr='disabled'>{!! loadingStateWithText("purchasePlan('own-gateway', 'standard')", 'Choose Your Plan') !!}</button>
                                 </div>
                             </div>
                             <div data-aos="fade-up" data-aos-delay="100">
@@ -168,11 +163,7 @@
                                         </li>
                                     </ul>
                                     <h6 class="price">$99 <span>/month </span></h6>
-                                    @auth
-                                        <button wire:click="premiumPlan" class="choose_btn">{!! loadingStateWithText('premiumPlan', 'Choose Your Plan') !!}</button>
-                                    @else
-                                        <a href="{{ route('login') }}" class="choose_btn"> Choose Your Plan </a>
-                                    @endauth
+                                    <button wire:click="purchasePlan('own-gateway', 'premium')" class="choose_btn" wire:loading.attr='disabled'>{!! loadingStateWithText("purchasePlan('own-gateway', 'premium')", 'Choose Your Plan') !!}</button>
                                 </div>
                             </div>
                             <div data-aos="fade-up" data-aos-delay="150">
@@ -230,11 +221,7 @@
                                         </li>
                                     </ul>
                                     <h6 class="price">$149 <span>/month </span></h6>
-                                    @auth
-                                        <button wire:click="enterprisePlan" class="choose_btn">{!! loadingStateWithText('enterprisePlan', 'Choose Your Plan') !!}</button>
-                                    @else
-                                        <a href="{{ route('login') }}" class="choose_btn"> Choose Your Plan </a>
-                                    @endauth
+                                    <button wire:click="purchasePlan('own-gateway', 'enterprise')" class="choose_btn" wire:loading.attr='disabled'>{!! loadingStateWithText("purchasePlan('own-gateway', 'enterprise')", 'Choose Your Plan') !!}</button>
                                 </div>
                             </div>
                         </div>
@@ -291,11 +278,7 @@
                                         </li>
                                     </ul>
                                     <h6 class="price">$625 <span>/25,000 messages </span></h6>
-                                    @auth
-                                        <button wire:click="starterPlan" class="choose_btn">{!! loadingStateWithText('starterPlan', 'Choose Your Plan') !!}</button>
-                                    @else
-                                        <a href="{{ route('login') }}" class="choose_btn"> Choose Your Plan </a>
-                                    @endauth
+                                    <button wire:click="purchasePlan('text-torrent', 'starter')" class="choose_btn" wire:loading.attr='disabled'>{!! loadingStateWithText("purchasePlan('text-torrent', 'starter')", 'Choose Your Plan') !!}</button>
                                 </div>
                             </div>
                             <div data-aos="fade-right" data-aos-delay="150">
@@ -339,11 +322,7 @@
                                         </li>
                                     </ul>
                                     <h6 class="price">$1,250 <span>/50,000 messages </span></h6>
-                                    @auth
-                                        <button wire:click="growthPlan" class="choose_btn">{!! loadingStateWithText('growthPlan', 'Choose Your Plan') !!}</button>
-                                    @else
-                                        <a href="{{ route('login') }}" class="choose_btn"> Choose Your Plan </a>
-                                    @endauth
+                                    <button wire:click="purchasePlan('text-torrent', 'growth')" class="choose_btn" wire:loading.attr='disabled'>{!! loadingStateWithText("purchasePlan('text-torrent', 'growth')", 'Choose Your Plan') !!}</button>
                                 </div>
                             </div>
                             <div data-aos="fade-right" data-aos-delay="150">
@@ -387,11 +366,7 @@
                                         </li>
                                     </ul>
                                     <h6 class="price">$2,550 <span>/100,000 messages</span></h6>
-                                    @auth
-                                        <button wire:click="proPlan" class="choose_btn">{!! loadingStateWithText('proPlan', 'Choose Your Plan') !!}</button>
-                                    @else
-                                        <a href="{{ route('login') }}" class="choose_btn"> Choose Your Plan </a>
-                                    @endauth
+                                    <button wire:click="purchasePlan('text-torrent', 'pro')" class="choose_btn" wire:loading.attr='disabled'>{!! loadingStateWithText("purchasePlan('text-torrent', 'pro')", 'Choose Your Plan') !!}</button>
                                 </div>
                             </div>
                         </div>

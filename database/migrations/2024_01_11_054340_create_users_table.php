@@ -22,6 +22,11 @@ return new class extends Migration
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->string('avatar', 2048)->nullable();
+
+            $table->integer('credit_balance')->default(0);
+            $table->integer('message_balance')->nullable();
+            $table->string('sub_account_count')->default(0);
+
             $table->string('company_name')->nullable();
             $table->string('voicemail_notify_email')->nullable();
             $table->enum('voicemail_message_type', ['text', 'file'])->default('text');

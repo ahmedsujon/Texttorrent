@@ -15,6 +15,22 @@
     <link rel="stylesheet" href="{{ asset('assets/app/sass/landing-page/marketing-landing.css') }}" />
 </head>
 
+<style>
+    .spinner-border-sm {
+        width: 13px;
+        height: 13px;
+        border-width: 1px;
+        margin-right: 5px;
+        margin-top: -5px;
+    }
+
+    .spinner-border-xs {
+        width: 10px;
+        height: 10px;
+        border-width: 1px;
+    }
+</style>
+
 <body>
     @livewire('web.layouts.inc.header')
 
