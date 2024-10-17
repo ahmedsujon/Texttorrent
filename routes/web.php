@@ -7,6 +7,7 @@ use App\Livewire\Web\HomeComponent;
 use App\Livewire\Web\PricingComponent;
 use App\Livewire\Web\PrivacyPolicyComponent;
 use App\Livewire\Web\Subscription\PaymentComponent;
+use App\Livewire\Web\SubscriptionSuccessComponent;
 use App\Livewire\Web\TermsConditionsComponent;
 use Illuminate\Support\Facades\Route;
 
@@ -26,7 +27,8 @@ Route::get('/', HomeComponent::class)->name('app.home');
 Route::get('/features', FeatureComponent::class)->name('app.feature');
 
 Route::get('/pricing', PricingComponent::class)->name('app.pricing');
-Route::get('/payment', PaymentComponent::class)->name('app.payment');
+Route::get('/payment-success', [PricingComponent::class, 'stripePaymentSuccess'])->name('app.stripePaymentSuccess');
+Route::get('/subscription-successful', SubscriptionSuccessComponent::class)->name('app.subscriptionSuccess');
 
 
 Route::get('/about-us', AboutComponent::class)->name('app.about-us');

@@ -14,10 +14,15 @@ return new class extends Migration
         Schema::create('subscriptions', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('user_id')->nullable();
-            $table->string('package_type')->nullable();
+            $table->enum('package_type', ['text-torrent', 'own-gateway'])->nullable();
             $table->string('package_name')->nullable();
-            $table->string('amount')->nullable();
-            $table->tinyInteger('status')->default(1);
+            $table->double('amount', 20,2)->default(0);
+            $table->enum('payment_status', ['paid', 'unpaid'])->default('unpaid');
+            $table->string('stripe_transaction_id', 2048)->nullable();
+            $table->timestamp('start_date')->nullable();
+            $table->timestamp('end_date')->nullable();
+            $table->longText('features')->nullable();
+            $table->string('duration')->nullable();
             $table->timestamps();
         });
     }
