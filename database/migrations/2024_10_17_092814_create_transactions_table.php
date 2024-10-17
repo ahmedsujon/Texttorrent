@@ -11,11 +11,14 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('transections', function (Blueprint $table) {
+        Schema::create('transactions', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('user_id')->nullable();
-            $table->string('type')->nullable();
-            $table->string('amount')->nullable();
+            $table->string('transaction_type')->nullable();
+            $table->text('description')->nullable();
+            $table->double('amount', 20,2)->default(0);
+            $table->integer('credit')->default(0);
+            $table->integer('message')->default(0);
             $table->timestamps();
         });
     }
@@ -25,6 +28,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('transections');
+        Schema::dropIfExists('transactions');
     }
 };
