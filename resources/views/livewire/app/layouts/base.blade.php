@@ -97,6 +97,7 @@
     @if (request()->is(
             'settings/my-account',
             'settings/change-password',
+            'settings/subscription',
             'settings/sub-account',
             'settings/get-number',
             'settings/active-numbers',
