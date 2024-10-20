@@ -51,7 +51,8 @@
                                     </button>
                                     <h3>Chats</h3>
                                 </div>
-                                <form onsubmit="event.preventDefault()" class="chat_search_form" id="chartSearchFormArea" wire:ignore>
+                                <form onsubmit="event.preventDefault()" class="chat_search_form"
+                                    id="chartSearchFormArea" wire:ignore>
                                     <input type="search" placeholder="Search chats" id="searchChat"
                                         class="input_field" />
                                     <button type="button" class="search_btn" id="chatSearchBtn">
@@ -69,7 +70,8 @@
                                             alt="down arrow" />
                                     </button>
                                     <div class="folder_dropdown_area" wire:ignore.self id="folderDropdownArea">
-                                        <form onsubmit="event.preventDefault()" class="search_input_form search_input_form_sm">
+                                        <form onsubmit="event.preventDefault()"
+                                            class="search_input_form search_input_form_sm">
                                             <input type="search" placeholder="Search folder"
                                                 wire:model.live='folder_search_term' class="input_field" />
                                             <button type="submit" class="search_icon">
@@ -178,10 +180,17 @@
                             </div>
                             <div class="header_action_area d-flex align-items-center justify-content-end flex-wrap">
                                 <button type="button" wire:click.prevent='addFolderModal({{ $selected_chat->id }})'>
-                                    {!! loadingStateWithoutText('addFolderModal('.$selected_chat->id.')', '<img src="'.asset('assets/app/icons/folder-add.svg').'" alt="folder add icon" />') !!}
+                                    {!! loadingStateWithoutText(
+                                        'addFolderModal(' . $selected_chat->id . ')',
+                                        '<img src="' . asset('assets/app/icons/folder-add.svg') . '" alt="folder add icon" />',
+                                    ) !!}
                                 </button>
-                                <button type="button" wire:click.prevent='deleteConfirmation({{ $selected_chat->id }}, "chat")'>
-                                    {!! loadingStateWithoutText("deleteConfirmation(".$selected_chat->id.", 'chat')", '<img src="'.asset('assets/app/icons/delete-01.svg').'" alt="folder add icon" />') !!}
+                                <button type="button"
+                                    wire:click.prevent='deleteConfirmation({{ $selected_chat->id }}, "chat")'>
+                                    {!! loadingStateWithoutText(
+                                        'deleteConfirmation(' . $selected_chat->id . ", 'chat')",
+                                        '<img src="' . asset('assets/app/icons/delete-01.svg') . '" alt="folder add icon" />',
+                                    ) !!}
                                 </button>
                                 <button type="button" class="info_btn" id="contactInfoOpenBtn">
                                     <img src="{{ asset('assets/app/icons/info-circle.svg') }}" alt="info icon" />
@@ -202,9 +211,15 @@
                                                     <img src="{{ asset('assets/app/icons/sender_shape.svg') }}"
                                                         alt="sender shape" class="msg_shape" />
                                                     <h6 class="time">
-                                                        @if ($msg->api_send_status == 'failed') <small class="text-danger" style="font-size: 11px;">Message sending failed</small> @else {{ Carbon\Carbon::parse($msg->updated_at)->format('H:i A') }} @endif
+                                                        @if ($msg->api_send_status == 'failed')
+                                                            <small class="text-danger"
+                                                                style="font-size: 11px;">Message sending failed</small>
+                                                        @else
+                                                            {{ Carbon\Carbon::parse($msg->updated_at)->format('H:i A') }}
+                                                        @endif
 
-                                                        <a href="" wire:click.prevent='getMsgStatus("{{ $msg->msg_sid }}")'>{!! loadingStateWithText('getMsgStatus', 'GetStatus') !!}</a>
+                                                        <a href=""
+                                                            wire:click.prevent='getMsgStatus("{{ $msg->msg_sid }}")'>{!! loadingStateWithText('getMsgStatus', 'GetStatus') !!}</a>
                                                     </h6>
                                                 </div>
                                             </div>
@@ -218,8 +233,7 @@
                                                         {!! $msg->message !!}
                                                     </p>
                                                     <img src="{{ asset('assets/app/icons/receive_shape.svg') }}"
-                                                        alt="receive shape"
-                                                        class="msg_shape" />
+                                                        alt="receive shape" class="msg_shape" />
                                                     <h6 class="time">
                                                         {{ Carbon\Carbon::parse($msg->updated_at)->format('H:i A') }}
                                                     </h6>
@@ -308,7 +322,8 @@
                                 <div class="about_area">
                                     <div class="d-flex-between">
                                         <h3>About</h3>
-                                        <button type="button" class="edit_btn" wire:click.prevent='editInfo({{ $selected_chat->id }})'>
+                                        <button type="button" class="edit_btn"
+                                            wire:click.prevent='editInfo({{ $selected_chat->id }})'>
                                             <img src="{{ asset('assets/app/icons/edit-02.svg') }}" alt="edit icon" />
                                             <span>Edit</span>
                                         </button>
@@ -394,7 +409,8 @@
                                                     {{ $chNote->note }}
                                                 </p>
                                                 <div class="note_action_btn mt-0">
-                                                    <button type="button" wire:click.prevent='deleteNote({{ $chNote->id }})'>
+                                                    <button type="button"
+                                                        wire:click.prevent='deleteNote({{ $chNote->id }})'>
                                                         <img src="{{ asset('assets/app/icons/check.png') }}"
                                                             alt="check icon" />
                                                     </button>
@@ -406,7 +422,8 @@
                                             @endforeach
                                         </div>
                                         <form wire:submit.prevent='addNote' class="note_form">
-                                            <textarea name="" wire:model.blur='note' id="noteWriteArea" class="form-control note_input" placeholder="Write a note..."></textarea>
+                                            <textarea name="" wire:model.blur='note' id="noteWriteArea" class="form-control note_input"
+                                                placeholder="Write a note..."></textarea>
                                             @error('note')
                                                 <p class="text-danger" style="font-size: 12.5px;">{{ $message }}</p>
                                             @enderror
@@ -424,11 +441,13 @@
                                                     <button type="button"></button>
                                                 </div>
                                                 <button type="submit" class="note_submit_btn">
-                                                    <img src="{{ asset('assets/app/icons/note_top_arrow.svg') }}" alt="note arrow icon" />
+                                                    <img src="{{ asset('assets/app/icons/note_top_arrow.svg') }}"
+                                                        alt="note arrow icon" />
                                                 </button>
                                             </div>
                                         </form>
-                                        <input type="file" class="opacity-0 visually-hidden position-absolute zn-1" id="noteFileUpload" />
+                                        <input type="file" class="opacity-0 visually-hidden position-absolute zn-1"
+                                            id="noteFileUpload" />
                                     </div>
                                 </div>
                                 <div class="user_number_area">
@@ -672,7 +691,8 @@
                         <h1 class="modal-title fs-5" id="newEventModal">
                             Create New Event
                         </h1>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                            aria-label="Close"></button>
                     </div>
                     <form wire:submit.prevent='addEvent' class="event_form_area">
                         <div class="modal-body">
@@ -792,8 +812,8 @@
         </div>
 
         <!-- New Chat Modal  -->
-        <div wire:ignore.self class="modal fade common_modal" id="newChartModal" tabindex="-1" aria-labelledby="chatModal"
-            aria-hidden="true">
+        <div wire:ignore.self class="modal fade common_modal" id="newChartModal" tabindex="-1"
+            aria-labelledby="chatModal" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -811,10 +831,12 @@
                                         <option value="{{ $nItem->number }}">{{ $nItem->number }}</option>
                                     @endforeach
                                 </select>
-                                <img src="{{ asset('assets/app/icons/arrow-down.svg') }}" alt="down arrow" class="down_arrow" />
+                                <img src="{{ asset('assets/app/icons/arrow-down.svg') }}" alt="down arrow"
+                                    class="down_arrow" />
                             </div>
                             @error('sender_id')
-                                <p class="text-danger" style="font-size: 12.5px; margin-top: -15px;">{{ $message }}</p>
+                                <p class="text-danger" style="font-size: 12.5px; margin-top: -15px;">{{ $message }}
+                                </p>
                             @enderror
 
                             <div class="input_row searchable_select" wire:ignore>
@@ -822,19 +844,22 @@
                                 <select name="lang" class="js-searchBox new_chat_select_receiver">
                                     <option value="">Select Receiver</option>
                                     @foreach ($receiver_numbers as $receiverNumber)
-                                        <option value="{{ $receiverNumber->id }}">{{ $receiverNumber->number }}</option>
+                                        <option value="{{ $receiverNumber->id }}">{{ $receiverNumber->number }}
+                                        </option>
                                     @endforeach
                                 </select>
                                 <img src="{{ asset('assets/app/icons/arrow-down.svg') }}" alt="down arrow"
                                     class="down_arrow" />
                             </div>
                             @error('receiver_id')
-                                <p class="text-danger" style="font-size: 12.5px; margin-top: -15px;">{{ $message }}</p>
+                                <p class="text-danger" style="font-size: 12.5px; margin-top: -15px;">{{ $message }}
+                                </p>
                             @enderror
 
                             <div class="input_row searchable_select" wire:ignore>
                                 <label for="">Template</label>
-                                <select name="lang" class="js-searchBox new_chat_select_template" id="new_chat_select_template">
+                                <select name="lang" class="js-searchBox new_chat_select_template"
+                                    id="new_chat_select_template">
                                     <option value="">Choose Template</option>
                                     @foreach ($templates as $content)
                                         <option value="{{ $content->preview_message }}"
@@ -845,14 +870,19 @@
                                     class="down_arrow" />
                             </div>
                             @error('selected_template_id_new_chat')
-                                <p class="text-danger" style="font-size: 12.5px; margin-top: -15px;">{{ $message }}</p>
+                                <p class="text-danger" style="font-size: 12.5px; margin-top: -15px;">{{ $message }}
+                                </p>
                             @enderror
                             <div class="input_row">
-                                <label for="">Message <span wire:loading wire:target='useTemplateNewChat' class="spinner-border spinner-border-xs align-middle" role="status" aria-hidden="true"></span></label>
-                                <textarea name="" id="" rows="5" class="input_field textarea_field new_chat_text_area" id="new_chat_text_area" placeholder="Write here..."></textarea>
+                                <label for="">Message <span wire:loading wire:target='useTemplateNewChat'
+                                        class="spinner-border spinner-border-xs align-middle" role="status"
+                                        aria-hidden="true"></span></label>
+                                <textarea name="" id="" rows="5" class="input_field textarea_field new_chat_text_area"
+                                    id="new_chat_text_area" placeholder="Write here..."></textarea>
                             </div>
                             @error('selected_template_preview_new_chat')
-                                <p class="text-danger" style="font-size: 12.5px; margin-top: -15px;">{{ $message }}</p>
+                                <p class="text-danger" style="font-size: 12.5px; margin-top: -15px;">{{ $message }}
+                                </p>
                             @enderror
                         </form>
                     </div>
@@ -860,7 +890,8 @@
                         <button type="button" class="cancel_btn" data-bs-dismiss="modal">
                             Cancel
                         </button>
-                        <button type="button" wire:click.prevent='startNewChat' wire:loading.attr='disabled' class="create_event_btn">
+                        <button type="button" wire:click.prevent='startNewChat' wire:loading.attr='disabled'
+                            class="create_event_btn">
                             {!! loadingStateWithText('startNewChat', 'Start Chat') !!}
                         </button>
                     </div>
@@ -869,8 +900,8 @@
         </div>
 
         <!-- New Chat Modal  -->
-        <div wire:ignore.self class="modal fade common_modal" id="editInfoModal" tabindex="-1" aria-labelledby="chatModal"
-            aria-hidden="true">
+        <div wire:ignore.self class="modal fade common_modal" id="editInfoModal" tabindex="-1"
+            aria-labelledby="chatModal" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -883,8 +914,8 @@
                             <div class="two_grid">
                                 <div class="input_row">
                                     <label for="">First name</label>
-                                    <input type="text" placeholder="Type First name" wire:model.blur='first_name' required
-                                        class="input_field" />
+                                    <input type="text" placeholder="Type First name" wire:model.blur='first_name'
+                                        required class="input_field" />
                                     @error('first_name')
                                         <p class="text-danger" style="font-size: 12.5px;">{{ $message }}</p>
                                     @enderror
@@ -902,7 +933,9 @@
                                 <label for="">Mobile number</label>
                                 <div class="input-group">
                                     <span class="input-group-text" id="basic-addon1">+1</span>
-                                    <input id="tel-input" type="tel" class="form-control" wire:model.blur='mobile_number' placeholder="xxx-xxx-xxxx" maxlength="12" required />
+                                    <input id="tel-input" type="tel" class="form-control"
+                                        wire:model.blur='mobile_number' placeholder="xxx-xxx-xxxx" maxlength="12"
+                                        required />
                                 </div>
                                 @error('mobile_number')
                                     <p class="text-danger" style="font-size: 12.5px;">{{ $message }}</p>
@@ -911,14 +944,16 @@
                             <div class="two_grid">
                                 <div class="input_row">
                                     <label for="">Email</label>
-                                    <input type="email" placeholder="Type email" wire:model.blur='email' class="input_field" />
+                                    <input type="email" placeholder="Type email" wire:model.blur='email'
+                                        class="input_field" />
                                     @error('email')
                                         <p class="text-danger" style="font-size: 12.5px;">{{ $message }}</p>
                                     @enderror
                                 </div>
                                 <div class="input_row">
                                     <label for="">Company</label>
-                                    <input type="text" placeholder="Type Company Name" wire:model.blur='company_name' class="input_field" required />
+                                    <input type="text" placeholder="Type Company Name"
+                                        wire:model.blur='company_name' class="input_field" required />
                                     @error('company_name')
                                         <p class="text-danger" style="font-size: 12.5px;">{{ $message }}</p>
                                     @enderror
@@ -982,7 +1017,7 @@
         });
     </script>
 
-    <script>
+    {{-- <script>
         document.addEventListener('DOMContentLoaded', function() {
             import("https://unpkg.com/@joeattardi/emoji-button@4.6.0/dist/index.js").then(({
                 EmojiButton
@@ -1021,6 +1056,112 @@
                 picker.on("hide", () => {
                     emojiContainer.style.display = 'none';
                 });
+            });
+        });
+    </script> --}}
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const emojiButton = document.querySelector("#emoji_btn");
+            const emojiContainer = document.querySelector(
+                "#emoji-picker-container"
+            );
+            const messageArea = document.querySelector("#messageWriteArea");
+            const chatForm = document.getElementById("chatForm");
+
+            import(
+                "https://unpkg.com/@joeattardi/emoji-button@4.6.0/dist/index.js"
+            ).then(({
+                EmojiButton
+            }) => {
+                const picker = new EmojiButton({
+                    showPreview: true,
+                    position: "bottom-start", // Position below the button
+                    emojiVersion: "11.0",
+                    emojiSize: "1.5em",
+                    emojisPerRow: 9,
+                    rows: 7,
+                    zIndex: 1000,
+                    autoHide: false,
+                });
+
+                // Toggle the picker display
+                emojiButton.addEventListener("click", () => {
+                    picker.togglePicker(emojiButton);
+                });
+
+                // Insert emoji at the current cursor position
+                picker.on("emoji", (selection) => {
+                    const emoji = selection.emoji;
+                    const start = messageArea.selectionStart;
+                    const end = messageArea.selectionEnd;
+
+                    // Insert emoji at the cursor position
+                    messageArea.value =
+                        messageArea.value.substring(0, start) +
+                        emoji +
+                        messageArea.value.substring(end);
+
+                    // Move cursor to the position after the inserted emoji
+                    messageArea.selectionStart = messageArea.selectionEnd =
+                        start + emoji.length;
+
+                    // Focus back to the textarea for further typing
+                    messageArea.focus();
+                });
+
+                // Show and hide picker within the specified container
+                picker.on("show", () => {
+                    emojiContainer.appendChild(picker.picker);
+                    emojiContainer.style.display = "block";
+                });
+
+                picker.on("hide", () => {
+                    emojiContainer.style.display = "none";
+                });
+            });
+
+            // Prevent Enter from submitting if Shift is pressed
+            messageArea.addEventListener("keydown", (event) => {
+                if (event.key === "Enter") {
+                    if (event.shiftKey) {
+                        // Create a new line in the textarea
+                        event.preventDefault();
+                        const {
+                            selectionStart,
+                            selectionEnd,
+                            value
+                        } = messageArea;
+                        // Insert a newline character at the cursor position
+                        messageArea.value =
+                            value.substring(0, selectionStart) +
+                            "\n" +
+                            value.substring(selectionEnd);
+                        // Move the cursor to the new line
+                        messageArea.selectionStart = messageArea.selectionEnd =
+                            selectionStart + 1;
+                    } else {
+                        // Submit the form on Enter
+                        event.preventDefault();
+                        // Trigger form submission
+                        var message = $(".msg_input").val();
+                        if (message != '') {
+                            @this.sendMessage(message);
+
+                            $(".msg_input").val('');
+                        }
+                    }
+                }
+            });
+
+            // Form submission handler
+            chatForm.addEventListener("submit", (event) => {
+                event.preventDefault();
+                const message = messageArea.value.trim();
+                if (message) {
+                    console.log("Message sent:", message);
+                    messageArea.value = "";
+                }
             });
         });
     </script>
@@ -1105,16 +1246,16 @@
                 return `${formattedHours}:${minutes} ${ampm}`;
             }
 
-            $('#sendMessageForm').on('submit', function(e) {
-                e.preventDefault();
+            // $('#sendMessageForm').on('submit', function(e) {
+            //     e.preventDefault();
 
-                var message = $(".msg_input").val();
-                if (message != '') {
-                    @this.sendMessage(message);
+            //     var message = $(".msg_input").val();
+            //     if (message != '') {
+            //         @this.sendMessage(message);
 
-                    $(".msg_input").val('');
-                }
-            });
+            //         $(".msg_input").val('');
+            //     }
+            // });
 
             $('#templateSelect').on('change', function(e) {
                 e.preventDefault();
@@ -1159,7 +1300,8 @@
             $('#new_chat_select_template').on('change', function(e) {
                 e.preventDefault();
 
-                const selectedOptionNewChat = new_chat_select_template.options[new_chat_select_template.selectedIndex];
+                const selectedOptionNewChat = new_chat_select_template.options[new_chat_select_template
+                    .selectedIndex];
                 const selectedIdNC = selectedOptionNewChat.getAttribute('data-id');
                 const selectedPreviewMessageNC = selectedOptionNewChat.value;
 
