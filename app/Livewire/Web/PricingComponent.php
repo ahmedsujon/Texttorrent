@@ -110,7 +110,7 @@ class PricingComponent extends Component
                 ],
             ],
             'mode'        => 'payment',
-            'success_url' => route('app.stripePaymentSuccess').'?subscription_id='.$subscription->id.'&session_id={CHECKOUT_SESSION_ID}',
+            'success_url' => route('app.stripePaymentSuccess') . '?subscription_id=' . $subscription->id . '&session_id={CHECKOUT_SESSION_ID}',
             'cancel_url'  => route('app.pricing'),
         ]);
 
@@ -166,7 +166,7 @@ class PricingComponent extends Component
             }
             $trx2->save();
 
-            return redirect()->route('app.subscriptionSuccess');
+            return redirect()->route('user.dashboard');
         } catch (\Exception $e) {
             return "Error: " . $e->getMessage();
         }

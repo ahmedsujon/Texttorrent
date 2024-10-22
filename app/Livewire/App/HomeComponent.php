@@ -2,6 +2,8 @@
 
 namespace App\Livewire\App;
 
+use App\Models\Transaction;
+use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
 
 class HomeComponent extends Component
