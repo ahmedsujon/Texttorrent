@@ -834,6 +834,8 @@
     border: none;
     margin-bottom: 55px;
     width: 100%;
+    @include customScrollbarInner();
+    overflow: auto;
     @include max-media-width(767) {
       margin-bottom: 28px;
     }

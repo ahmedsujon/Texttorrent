@@ -793,7 +793,7 @@
     position: relative;
     margin-bottom: 16px;
 
-    .input_field {
+    .input_field,.bootstrap_select {
       color: $black-color-0b;
       font-size: 14px;
       font-style: normal;
@@ -2123,6 +2123,7 @@
   -o-border-radius: 10px;
   border: 2px dashed $gray-color-bf;
   background: rgba(245, 246, 248, 0.67);
+  @include hover-transition();
   @include media-break-width(992, 1199) {
     height: 200px;
   }
@@ -2131,6 +2132,14 @@
   }
   @include max-media-width(767) {
     height: 150px;
+  }
+  &.drag-over {
+    transform: scale(1.01);
+    border: 3px dashed $green-color-b6;
+    -webkit-transform: scale(1.01);
+    -moz-transform: scale(1.01);
+    -ms-transform: scale(1.01);
+    -o-transform: scale(1.01);
   }
   .import_icon {
     display: flex;
@@ -2642,11 +2651,17 @@
   &.contact_custom_select_area {
     .dropdown-item {
       display: grid;
-      grid-template-columns: minmax(0, 30px) repeat(2, minmax(0, 1fr));
+      grid-template-columns: minmax(0, 30px) repeat(1, minmax(0, 1fr)) minmax(
+          0,
+          20px
+        );
       align-items: center;
       gap: 8px;
       @include max-media-width(767) {
-        grid-template-columns: minmax(0, 24px) repeat(2, minmax(0, 1fr));
+        grid-template-columns: minmax(0, 24px) repeat(1, minmax(0, 1fr)) minmax(
+            0,
+            20px
+          );
       }
       .user_image {
         display: flex;

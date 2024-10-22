@@ -115,3 +115,29 @@
     }
   }
 }
+
+/* Price Section */
+.pricing_wrapper {
+  margin-top: 0px;
+  .pricing_title {
+    font-size: 34px;
+    @include media-break-width(992, 1199) {
+      font-size: 30;
+    }
+    @include media-break-width(768, 991) {
+      font-size: 24;
+    }
+    @include max-media-width(767) {
+      font-size: 20;
+    }
+  }
+  .pricing_grid {
+    margin-top: 40px;
+    @include max-media-width(1199) {
+      gap: 30px 20px;
+    }
+  }
+  &.inclusive_pricing_wrapper {
+    margin-top: 80px;
+  }
+}
