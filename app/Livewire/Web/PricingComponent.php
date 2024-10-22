@@ -17,7 +17,7 @@ class PricingComponent extends Component
     public $user_id, $package_type, $package_name, $amount, $status;
 
     // Own Gateway plan
-    public function purchasePlan($type, $name) // duration in months
+    public function purchasePlan($type, $name)
     {
         if (user()) {
             $conditions = [];
