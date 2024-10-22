@@ -115,6 +115,27 @@ function getListByID($list_id)
     return $list;
 }
 
+function getActiveSubscription()
+{
+    $subscription = DB::table('subscriptions')->select('package_type as type', 'package_name as name', 'end_date')->where('user_id', user()->id)->where('payment_status', 'paid')->latest()->first();
+
+    $status = '';
+    if ($subscription && $subscription->end_date < now()) {
+        $status = 'Expired';
+    } else {
+        $status = 'Active';
+    }
+
+    $details = [
+        'type' => $subscription->type ?? '',
+        'name' => $subscription->name ?? '',
+        'status' => $subscription->status ?? ''
+    ];
+
+    return $details;
+
+}
+
 function loadingStateSm($key, $title)
 {
     $loadingSpinner = '

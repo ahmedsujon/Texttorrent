@@ -276,7 +276,7 @@ class InboxComponent extends Component
         $note->delete();
 
         $this->note = '';
-        $this->dispatch('success', ['message' => 'Note deleted successfully']);
+        $this->dispatch('success', ['message' => 'Note completed successfully']);
         $this->selectChat($this->selected_chat_id);
     }
 
