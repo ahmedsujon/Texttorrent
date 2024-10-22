@@ -58,10 +58,10 @@
                             <span>or</span>
                         </div>
                         <div class="others_option_area">
-                            <button type="button" class="google_login_btn">
+                            <a href="{{ route('google.redirect') }}" type="button" class="google_login_btn">
                                 <img src="{{ asset('assets/app/icons/gmail.png') }}" alt="gmail icon" />
                                 <span> Sign in with Google</span>
-                            </button>
+                            </a>
                         </div>
                     </form>
                 </div>
