@@ -65,6 +65,25 @@
                     @if (is_permitted('manage_users'))
                         <li>
                             <a href="javascript: void(0);"
+                                class="has-arrow waves-effect {{ request()->is('admin/subscriptions') || request()->is('admin/subscriptions/*') ? 'active_menu' : '' }}">
+                                <i class="bx bx-purchase-tag-alt"></i>
+                                <span key="t-multi-level">Subscription</span>
+                            </a>
+                            <ul class="sub-menu" aria-expanded="true">
+                                @if (is_permitted('manage_users'))
+                                    <li>
+                                        <a href="{{ route('admin.subscriptions') }}" key="t-level-1-1"
+                                            class="{{ request()->is('admin/subscriptions') ? 'active_sub_menu' : '' }}">All
+                                            Subscription</a>
+                                    </li>
+                                @endif
+                            </ul>
+                        </li>
+                    @endif
+
+                    @if (is_permitted('manage_users'))
+                        <li>
+                            <a href="javascript: void(0);"
                                 class="has-arrow waves-effect {{ request()->is('admin/contact-message') || request()->is('admin/contact-message/*') ? 'active_menu' : '' }}">
                                 <i class="bx bx-message-rounded-dots"></i>
                                 <span key="t-multi-level">Messages</span>
