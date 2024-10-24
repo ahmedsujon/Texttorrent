@@ -9,6 +9,7 @@ use App\Livewire\Admin\Auth\LoginComponent;
 use App\Livewire\Admin\ContactMessage\ContactMessageComponent;
 use App\Livewire\Admin\Filesystem\UploadedFilesComponent;
 use App\Livewire\Admin\Settings\ConsoleComponent;
+use App\Livewire\Admin\Subscription\SubscritionComponent;
 use App\Livewire\Admin\Users\UsersComponent;
 
 /*
@@ -41,6 +42,9 @@ Route::prefix('admin/')->name('admin.')->middleware('auth:admin')->group(functio
 
     // settings routes
     Route::get('settings/console', ConsoleComponent::class)->name('console')->middleware('permission:manage_console');
+
+    // Subscription routes
+    Route::get('subscriptions', SubscritionComponent::class)->name('subscriptions');
 
     // Contact Message routes
     Route::get('contact-message', ContactMessageComponent::class)->name('contact-message');
