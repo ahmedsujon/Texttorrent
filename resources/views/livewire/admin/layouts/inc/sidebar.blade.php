@@ -48,14 +48,14 @@
                             <a href="javascript: void(0);"
                                 class="has-arrow waves-effect {{ request()->is('admin/all-users') || request()->is('admin/all-users/*') ? 'active_menu' : '' }}">
                                 <i class="bx bx-group"></i>
-                                <span key="t-multi-level">Users</span>
+                                <span key="t-multi-level">Customers</span>
                             </a>
                             <ul class="sub-menu" aria-expanded="true">
                                 @if (is_permitted('manage_users'))
                                     <li>
                                         <a href="{{ route('admin.allUsers') }}" key="t-level-1-1"
                                             class="{{ request()->is('admin/all-users') ? 'active_sub_menu' : '' }}">All
-                                            Users</a>
+                                            Customer</a>
                                     </li>
                                 @endif
                             </ul>
