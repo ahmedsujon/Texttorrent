@@ -17,7 +17,7 @@
                 <div class="row">
                     <div class="col-12">
                         <div class="privacy_item">
-                            <h4>Effective Date: [Insert Date]</h4>
+                            <h4>Effective Date: AUGUST 1ST 2024</h4>
                         </div>
                         <div class="privacy_item">
                             <h3>1. Introduction</h3>
@@ -214,11 +214,9 @@
                                 at:
                             </p>
                             <ul class="contact_list">
-                                <li>Text Torrent INC</li>
-                                <li>[Your Address]</li>
-                                <li>City, State, ZIP Code]</li>
-                                <li>Email: [Your Email Address]</li>
-                                <li>Phone: [Your Phone Number]</li>
+                                <li>TEXT TORRENT INC</li>
+                                <li>Email: SUPPORT@TEXTTORRENT.COM</li>
+                                <li>Phone: (786) 746-7133</li>
                             </ul>
                         </div>
                     </div>
