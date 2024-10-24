@@ -66,11 +66,36 @@ class BulkMessageComponent extends Component
         ]);
     }
 
+    public $numbers = [], $all_numbers, $selectAllNumbers = false, $selectNumberSearch;
+    public function selectPhoneNumbers($number)
+    {
+        if ($this->number_pool) {
+            if (($key = array_search($number, $this->numbers)) !== false) {
+                unset($this->numbers[$key]);
+            } else {
+                $this->numbers[] = $number;
+            }
+        } else {
+            $this->numbers = [$number];
+        }
+    }
+    public function updatedSelectAllNumbers()
+    {
+        if ($this->selectAllNumbers) {
+            $this->numbers = $this->all_numbers;
+        } else {
+            $this->numbers = [];
+        }
+    }
+
     public function render()
     {
         $contactLists = ContactList::orderBy('id', 'DESC')->get();
         $messageTemplates = InboxTemplate::orderBy('id', 'DESC')->get();
-        $activeNumbers = Number::where('id', Auth::user()->id)->orderBy('id', 'DESC')->get();
+        $activeNumbers = Number::where('user_id', Auth::user()->id)->where('number', 'like', '%' . $this->selectNumberSearch . '%')->orderBy('id', 'DESC')->get();
+
+        $this->all_numbers = $activeNumbers->pluck('number')->toArray();
+
         return view(
             'livewire.app.campaigns.bulk-message-component',
             [

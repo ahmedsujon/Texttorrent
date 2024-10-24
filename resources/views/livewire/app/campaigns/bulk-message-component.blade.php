@@ -34,16 +34,15 @@
                     </div>
                     <div>
                         <h3>Send from</h3>
-                        <h4>+1 (556) 232-1912</h4>
-                        <!-- <div class="select_area">
-                  <select class="niceSelect niceSelect_area">
-                    <option data-display="+1 (556) 232-1912">
-                      +1 (556) 232-1912
-                    </option>
-                    <option value="1">+1 (556) 232-1915</option>
-                    <option value="2">+1 (556) 232-1913</option>
-                  </select>
-                </div> -->
+                        <h4>
+                            @if (count($numbers) > 0)
+                                @foreach ($numbers as $sNum)
+                                <span class="badge text-dark" style="border: 1px solid grey;">{{ $sNum }}</span>
+                                @endforeach
+                            @else
+                                ---
+                            @endif
+                        </h4>
                     </div>
                 </div>
                 <div class="bulk_item send_form_item">
@@ -133,85 +132,57 @@
                         </div>
                         <div class="input_row">
                             <label for="">Phone number</label>
-                            <div class="custom_select_dropdown_area contact_custom_select_area">
+
+                            <div class="custom_select_dropdown_area contact_custom_select_area" id="phoneNumberSelect">
                                 <div class="dropdown">
-                                    <button class="input_field dropdown-toggle" type="button" data-bs-toggle="dropdown"
-                                        aria-expanded="false">
+                                    <button class="input_field dropdown-toggle" wire:ignore.self type="button" data-bs-toggle="dropdown"
+                                        data-bs-auto-close="outside" aria-expanded="false">
                                         <img src="{{ asset('assets/app/icons/arrow-down.svg') }}" alt="down arrow"
                                             class="arrow_down_icon" />
                                         <!-- <div class="placeholder_text">Select</div> -->
 
-                                        <div class="title">4 items selected</div>
+                                        <div class="title" id="userSelectTitle">
+                                            {{ count($numbers) }} items selected
+                                        </div>
                                     </button>
-                                    <div class="dropdown-menu">
+                                    <div class="dropdown-menu" wire:ignore.self>
                                         <div class="search_input_form search_input_form_sm">
-                                            <input type="search" placeholder="Search senders"
+                                            <input type="search" wire:model.live='selectNumberSearch' placeholder="Search senders"
                                                 class="input_search" />
                                             <button type="submit" class="search_icon">
-                                                <img src="{{ asset('assets/app/icons/search-gray.svg') }}"
-                                                    alt="search icon" />
+                                                <img src="{{ asset('assets/app/icons/search-gray.svg') }}" alt="search icon" />
                                             </button>
                                         </div>
                                         <ul class="dropdown_list">
                                             <li>
                                                 <h5>Select List</h5>
                                             </li>
-                                            <li>
-                                                <div class="input_row mb-0 mt-2">
-                                                    <div
-                                                        class="checkbox_area d-flex align-items-center flex-wrap mb-0">
-                                                        <div class="form-check">
-                                                            <input class="form-check-input" type="checkbox"
-                                                                value="" id="fromPhone" />
-                                                            <label class="form-check-label mb-0" for="fromPhone">
-                                                                Select all
-                                                            </label>
+                                            @if ($number_pool)
+                                                <li>
+                                                    <div class="input_row mb-0 mt-2">
+                                                        <div
+                                                            class="checkbox_area d-flex align-items-center flex-wrap mb-0">
+                                                            <div class="form-check">
+                                                                <input class="form-check-input" type="checkbox" wire:model.live='selectAllNumbers' value="1" id="fromPhone" />
+                                                                <label class="form-check-label mb-0" for="fromPhone">
+                                                                    Select all
+                                                                </label>
+                                                            </div>
                                                         </div>
                                                     </div>
-                                                </div>
-                                            </li>
-                                            <li>
-                                                <button type="button" class="dropdown-item">
-                                                    <img src="{{ asset('assets/app/images/inbox/user_main.png') }}"
-                                                        alt="user icon" class="user_image" />
-                                                    <span>+1 (566) 456-344</span>
-                                                </button>
-                                            </li>
-                                            <li>
-                                                <button type="button" class="dropdown-item active_check">
-                                                    <img src="{{ asset('assets/app/images/inbox/user_main.png') }}"
-                                                        alt="user icon" class="user_image" />
-                                                    <span>+1 (566) 456-344</span>
-                                                </button>
-                                            </li>
-                                            <li>
-                                                <button type="button" class="dropdown-item active_check">
-                                                    <img src="{{ asset('assets/app/images/inbox/user_main.png') }}"
-                                                        alt="user icon" class="user_image" />
-                                                    <span>+1 (566) 456-344</span>
-                                                </button>
-                                            </li>
-                                            <li>
-                                                <button type="button" class="dropdown-item active_check">
-                                                    <img src="{{ asset('assets/app/images/inbox/user_main.png') }}"
-                                                        alt="user icon" class="user_image" />
-                                                    <span>+1 (566) 456-344</span>
-                                                </button>
-                                            </li>
-                                            <li>
-                                                <button type="button" class="dropdown-item active_check">
-                                                    <img src="{{ asset('assets/app/images/inbox/user_main.png') }}"
-                                                        alt="user icon" class="user_image" />
-                                                    <span>+1 (566) 456-344</span>
-                                                </button>
-                                            </li>
-                                            <li>
-                                                <button type="button" class="dropdown-item">
-                                                    <img src="{{ asset('assets/app/images/inbox/user_main.png') }}"
-                                                        alt="user icon" class="user_image" />
-                                                    <span>+1 (566) 456-344</span>
-                                                </button>
-                                            </li>
+                                                </li>
+                                            @endif
+
+                                            @foreach ($activeNumbers as $activeNumber)
+                                                <li>
+                                                    <button type="button" class="dropdown-item {{ in_array($activeNumber->number, $numbers) ? 'active_check' : '' }}" wire:click.prevent="selectPhoneNumbers({{ $activeNumber->number }})">
+                                                        <img src="{{ asset('assets/app/images/inbox/user_main.png') }}" alt="user icon"
+                                                            class="user_image" />
+                                                        <span>{{ $activeNumber->number }}</span>
+                                                    </button>
+                                                </li>
+                                            @endforeach
+
                                         </ul>
                                     </div>
                                 </div>
@@ -517,6 +488,31 @@
             @this.set('sending_throttle', $(this).val());
         });
     </script>
+
+    <script>
+        $(document).ready(function() {
+            $("#phoneNumberSelect .dropdown-item").on("click", function() {
+                // Toggle active class
+                $(this).toggleClass("active_check");
+
+                // Get all active items
+                let selectedValues = $("#phoneNumberSelect .active_check")
+                    .map(function() {
+                        return $(this).data("value");
+                    })
+                    .get();
+
+                // Update the title with the selected item count
+                let selectedCount = selectedValues.length;
+                $("#userSelectTitle").text(`${selectedCount} items selected`);
+
+                // Log selected value
+                console.log("Selected values:", selectedValues);
+                s;
+            });
+        });
+    </script>
+
     <script>
         $(document).ready(function() {
             //Show split content
