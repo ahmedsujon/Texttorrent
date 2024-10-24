@@ -22,49 +22,70 @@
                                     <ul>
                                         <li>
                                             <div class="icon">
-                                                <img src="{{ asset('assets/app/icons/entypo_check.svg') }}" alt="check icon" />
+                                                <img src="{{ asset('assets/app/icons/entypo_check.svg') }}"
+                                                    alt="check icon" />
                                             </div>
                                             <h4>7,000 credits</h4>
                                         </li>
                                         <li>
                                             <div class="icon">
-                                                <img src="{{ asset('assets/app/icons/entypo_check.svg') }}" alt="check icon" />
+                                                <img src="{{ asset('assets/app/icons/entypo_check.svg') }}"
+                                                    alt="check icon" />
                                             </div>
                                             <h4>Access to essential SMS marketing features</h4>
                                         </li>
                                         <li>
                                             <div class="icon">
-                                                <img src="{{ asset('assets/app/icons/entypo_check.svg') }}" alt="check icon" />
+                                                <img src="{{ asset('assets/app/icons/entypo_check.svg') }}"
+                                                    alt="check icon" />
                                             </div>
                                             <h4>Real-time delivery reports</h4>
                                         </li>
                                         <li>
                                             <div class="icon">
-                                                <img src="{{ asset('assets/app/icons/entypo_check.svg') }}" alt="check icon" />
+                                                <img src="{{ asset('assets/app/icons/entypo_check.svg') }}"
+                                                    alt="check icon" />
                                             </div>
                                             <h4>Message templates</h4>
                                         </li>
                                         <li>
                                             <div class="icon">
-                                                <img src="{{ asset('assets/app/icons/entypo_check.svg') }}" alt="check icon" />
+                                                <img src="{{ asset('assets/app/icons/entypo_check.svg') }}"
+                                                    alt="check icon" />
                                             </div>
                                             <h4>Contact management</h4>
                                         </li>
                                         <li>
                                             <div class="icon">
-                                                <img src="{{ asset('assets/app/icons/entypo_check.svg') }}" alt="check icon" />
+                                                <img src="{{ asset('assets/app/icons/entypo_check.svg') }}"
+                                                    alt="check icon" />
                                             </div>
                                             <h4>Basic customer support</h4>
                                         </li>
                                         <li>
                                             <div class="icon">
-                                                <img src="{{ asset('assets/app/icons/entypo_check.svg') }}" alt="check icon" />
+                                                <img src="{{ asset('assets/app/icons/entypo_check.svg') }}"
+                                                    alt="check icon" />
                                             </div>
                                             <h4>1 sub-account</h4>
                                         </li>
                                     </ul>
                                     <h6 class="price">$49 <span>/month </span></h6>
-                                    <a href="#" class="choose_btn"> Choose Your Plan </a>
+                                    @if (getActiveSubscription()['name'] == 'standard')
+                                        <button class="choose_btn bg-success" disabled>
+                                            <svg xmlns="http://www.w3.org/2000/svg"
+                                                class="icon icon-tabler icon-tabler-checks" width="24"
+                                                height="24" viewBox="0 0 24 24" stroke-width="2.5" stroke="#ffffff"
+                                                fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                                <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                                <path d="M7 12l5 5l10 -10" />
+                                                <path d="M2 12l5 5m5 -5l5 -5" />
+                                            </svg>
+                                            Current Plan</button>
+                                    @else
+                                        <button wire:click="purchasePlan('own-gateway', 'standard')" class="choose_btn"
+                                            wire:loading.attr='disabled'>{!! loadingStateWithText("purchasePlan('own-gateway', 'standard')", 'Choose Your Plan') !!}</button>
+                                    @endif
                                 </div>
                             </div>
                             <div>
@@ -73,43 +94,50 @@
                                     <ul>
                                         <li>
                                             <div class="icon">
-                                                <img src="{{ asset('assets/app/icons/entypo_check-white.svg') }}" alt="check icon" />
+                                                <img src="{{ asset('assets/app/icons/entypo_check-white.svg') }}"
+                                                    alt="check icon" />
                                             </div>
                                             <h4>15,000 credits</h4>
                                         </li>
                                         <li>
                                             <div class="icon">
-                                                <img src="{{ asset('assets/app/icons/entypo_check-white.svg') }}" alt="check icon" />
+                                                <img src="{{ asset('assets/app/icons/entypo_check-white.svg') }}"
+                                                    alt="check icon" />
                                             </div>
                                             <h4>Everything in Standard and Additionally</h4>
                                         </li>
                                         <li>
                                             <div class="icon">
-                                                <img src="{{ asset('assets/app/icons/entypo_check-white.svg') }}" alt="check icon" />
+                                                <img src="{{ asset('assets/app/icons/entypo_check-white.svg') }}"
+                                                    alt="check icon" />
                                             </div>
                                             <h4>Advanced analytics and reporting</h4>
                                         </li>
                                         <li>
                                             <div class="icon">
-                                                <img src="{{ asset('assets/app/icons/entypo_check-white.svg') }}" alt="check icon" />
+                                                <img src="{{ asset('assets/app/icons/entypo_check-white.svg') }}"
+                                                    alt="check icon" />
                                             </div>
                                             <h4>Automated message scheduling</h4>
                                         </li>
                                         <li>
                                             <div class="icon">
-                                                <img src="{{ asset('assets/app/icons/entypo_check-white.svg') }}" alt="check icon" />
+                                                <img src="{{ asset('assets/app/icons/entypo_check-white.svg') }}"
+                                                    alt="check icon" />
                                             </div>
                                             <h4>Priority customer support</h4>
                                         </li>
                                         <li>
                                             <div class="icon">
-                                                <img src="{{ asset('assets/app/icons/entypo_check-white.svg') }}" alt="check icon" />
+                                                <img src="{{ asset('assets/app/icons/entypo_check-white.svg') }}"
+                                                    alt="check icon" />
                                             </div>
                                             <h4>3 sub-accounts</h4>
                                         </li>
                                         <li>
                                             <div class="icon">
-                                                <img src="{{ asset('assets/app/icons/entypo_check-white.svg') }}" alt="check icon" />
+                                                <img src="{{ asset('assets/app/icons/entypo_check-white.svg') }}"
+                                                    alt="check icon" />
                                             </div>
                                             <h4>
                                                 API access for seamless integration with your gateway
@@ -117,7 +145,21 @@
                                         </li>
                                     </ul>
                                     <h6 class="price">$99 <span>/month </span></h6>
-                                    <a href="#" class="choose_btn"> Choose Your Plan </a>
+                                    @if (getActiveSubscription()['name'] == 'premium')
+                                        <button class="choose_btn bg-success" disabled>
+                                            <svg xmlns="http://www.w3.org/2000/svg"
+                                                class="icon icon-tabler icon-tabler-checks" width="24"
+                                                height="24" viewBox="0 0 24 24" stroke-width="2.5" stroke="#ffffff"
+                                                fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                                <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                                <path d="M7 12l5 5l10 -10" />
+                                                <path d="M2 12l5 5m5 -5l5 -5" />
+                                            </svg>
+                                            Current Plan</button>
+                                    @else
+                                        <button wire:click="purchasePlan('own-gateway', 'premium')" class="choose_btn"
+                                            wire:loading.attr='disabled'>{!! loadingStateWithText("purchasePlan('own-gateway', 'premium')", 'Choose Your Plan') !!}</button>
+                                    @endif
                                 </div>
                             </div>
                             <div>
@@ -126,49 +168,72 @@
                                     <ul>
                                         <li>
                                             <div class="icon">
-                                                <img src="{{ asset('assets/app/icons/entypo_check.svg') }}" alt="check icon" />
+                                                <img src="{{ asset('assets/app/icons/entypo_check.svg') }}"
+                                                    alt="check icon" />
                                             </div>
                                             <h4>15,000 credits</h4>
                                         </li>
                                         <li>
                                             <div class="icon">
-                                                <img src="{{ asset('assets/app/icons/entypo_check.svg') }}" alt="check icon" />
+                                                <img src="{{ asset('assets/app/icons/entypo_check.svg') }}"
+                                                    alt="check icon" />
                                             </div>
                                             <h4>Everything in Premium and Additionally</h4>
                                         </li>
                                         <li>
                                             <div class="icon">
-                                                <img src="{{ asset('assets/app/icons/entypo_check.svg') }}" alt="check icon" />
+                                                <img src="{{ asset('assets/app/icons/entypo_check.svg') }}"
+                                                    alt="check icon" />
                                             </div>
                                             <h4>Unlimited contact segmentation</h4>
                                         </li>
                                         <li>
                                             <div class="icon">
-                                                <img src="{{ asset('assets/app/icons/entypo_check.svg') }}" alt="check icon" />
+                                                <img src="{{ asset('assets/app/icons/entypo_check.svg') }}"
+                                                    alt="check icon" />
                                             </div>
                                             <h4>Custom API integrations</h4>
                                         </li>
                                         <li>
                                             <div class="icon">
-                                                <img src="{{ asset('assets/app/icons/entypo_check.svg') }}" alt="check icon" />
+                                                <img src="{{ asset('assets/app/icons/entypo_check.svg') }}"
+                                                    alt="check icon" />
                                             </div>
                                             <h4>24/7 dedicated support</h4>
                                         </li>
                                         <li>
                                             <div class="icon">
-                                                <img src="{{ asset('assets/app/icons/entypo_check.svg') }}" alt="check icon" />
+                                                <img src="{{ asset('assets/app/icons/entypo_check.svg') }}"
+                                                    alt="check icon" />
                                             </div>
                                             <h4>Unlimited sub-accounts</h4>
                                         </li>
                                         <li>
                                             <div class="icon">
-                                                <img src="{{ asset('assets/app/icons/entypo_check.svg') }}" alt="check icon" />
+                                                <img src="{{ asset('assets/app/icons/entypo_check.svg') }}"
+                                                    alt="check icon" />
                                             </div>
                                             <h4>Advanced security and compliance features</h4>
                                         </li>
                                     </ul>
                                     <h6 class="price">$149 <span>/month </span></h6>
-                                    <a href="#" class="choose_btn"> Choose Your Plan </a>
+                                    @if (getActiveSubscription()['name'] == 'enterprise')
+                                        <button class="choose_btn bg-success" disabled>
+                                            <svg xmlns="http://www.w3.org/2000/svg"
+                                                class="icon icon-tabler icon-tabler-checks" width="24"
+                                                height="24" viewBox="0 0 24 24" stroke-width="2.5"
+                                                stroke="#ffffff" fill="none" stroke-linecap="round"
+                                                stroke-linejoin="round">
+                                                <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                                <path d="M7 12l5 5l10 -10" />
+                                                <path d="M2 12l5 5m5 -5l5 -5" />
+                                            </svg>
+                                            Current Plan</button>
+                                    @else
+                                        <button wire:click="purchasePlan('own-gateway', 'enterprise')"
+                                            class="choose_btn"
+                                            wire:loading.attr='disabled'>{!! loadingStateWithText("purchasePlan('own-gateway', 'enterprise')", 'Choose Your Plan') !!}</button>
+                                    @endif
                                 </div>
                             </div>
                         </div>
@@ -197,31 +262,51 @@
                                     <ul>
                                         <li>
                                             <div class="icon">
-                                                <img src="{{ asset('assets/app/icons/entypo_check.svg') }}" alt="check icon" />
+                                                <img src="{{ asset('assets/app/icons/entypo_check.svg') }}"
+                                                    alt="check icon" />
                                             </div>
                                             <h4>Access to essential SMS marketing features</h4>
                                         </li>
                                         <li>
                                             <div class="icon">
-                                                <img src="{{ asset('assets/app/icons/entypo_check.svg') }}" alt="check icon" />
+                                                <img src="{{ asset('assets/app/icons/entypo_check.svg') }}"
+                                                    alt="check icon" />
                                             </div>
                                             <h4>Real-time delivery reports</h4>
                                         </li>
                                         <li>
                                             <div class="icon">
-                                                <img src="{{ asset('assets/app/icons/entypo_check.svg') }}" alt="check icon" />
+                                                <img src="{{ asset('assets/app/icons/entypo_check.svg') }}"
+                                                    alt="check icon" />
                                             </div>
                                             <h4>Contact management</h4>
                                         </li>
                                         <li>
                                             <div class="icon">
-                                                <img src="{{ asset('assets/app/icons/entypo_check.svg') }}" alt="check icon" />
+                                                <img src="{{ asset('assets/app/icons/entypo_check.svg') }}"
+                                                    alt="check icon" />
                                             </div>
                                             <h4>Basic customer support</h4>
                                         </li>
                                     </ul>
                                     <h6 class="price">$625 <span>/25,000 messages </span></h6>
-                                    <a href="#" class="choose_btn"> Choose Your Plan </a>
+                                    @if (getActiveSubscription()['name'] == 'starter')
+                                        <button class="choose_btn bg-success" disabled>
+                                            <svg xmlns="http://www.w3.org/2000/svg"
+                                                class="icon icon-tabler icon-tabler-checks" width="24"
+                                                height="24" viewBox="0 0 24 24" stroke-width="2.5"
+                                                stroke="#ffffff" fill="none" stroke-linecap="round"
+                                                stroke-linejoin="round">
+                                                <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                                <path d="M7 12l5 5l10 -10" />
+                                                <path d="M2 12l5 5m5 -5l5 -5" />
+                                            </svg>
+                                            Current Plan</button>
+                                    @else
+                                        <button wire:click="purchasePlan('text-torrent', 'starter')"
+                                            class="choose_btn"
+                                            wire:loading.attr='disabled'>{!! loadingStateWithText("purchasePlan('text-torrent', 'starter')", 'Choose Your Plan') !!}</button>
+                                    @endif
                                 </div>
                             </div>
                             <div>
@@ -230,37 +315,57 @@
                                     <ul>
                                         <li>
                                             <div class="icon">
-                                                <img src="{{ asset('assets/app/icons/entypo_check-white.svg') }}" alt="check icon" />
+                                                <img src="{{ asset('assets/app/icons/entypo_check-white.svg') }}"
+                                                    alt="check icon" />
                                             </div>
                                             <h4>Everything in Starter and Additionally</h4>
                                         </li>
                                         <li>
                                             <div class="icon">
-                                                <img src="{{ asset('assets/app/icons/entypo_check-white.svg') }}" alt="check icon" />
+                                                <img src="{{ asset('assets/app/icons/entypo_check-white.svg') }}"
+                                                    alt="check icon" />
                                             </div>
                                             <h4>Advanced analytics and reporting</h4>
                                         </li>
                                         <li>
                                             <div class="icon">
-                                                <img src="{{ asset('assets/app/icons/entypo_check-white.svg') }}" alt="check icon" />
+                                                <img src="{{ asset('assets/app/icons/entypo_check-white.svg') }}"
+                                                    alt="check icon" />
                                             </div>
                                             <h4>Automated message scheduling</h4>
                                         </li>
                                         <li>
                                             <div class="icon">
-                                                <img src="{{ asset('assets/app/icons/entypo_check-white.svg') }}" alt="check icon" />
+                                                <img src="{{ asset('assets/app/icons/entypo_check-white.svg') }}"
+                                                    alt="check icon" />
                                             </div>
                                             <h4>Priority customer support</h4>
                                         </li>
                                         <li>
                                             <div class="icon">
-                                                <img src="{{ asset('assets/app/icons/entypo_check-white.svg') }}" alt="check icon" />
+                                                <img src="{{ asset('assets/app/icons/entypo_check-white.svg') }}"
+                                                    alt="check icon" />
                                             </div>
                                             <h4>Customizable message templates</h4>
                                         </li>
                                     </ul>
                                     <h6 class="price">$1,250 <span>/50,000 messages </span></h6>
-                                    <a href="#" class="choose_btn"> Choose Your Plan </a>
+                                    @if (getActiveSubscription()['name'] == 'growth')
+                                        <button class="choose_btn bg-success" disabled>
+                                            <svg xmlns="http://www.w3.org/2000/svg"
+                                                class="icon icon-tabler icon-tabler-checks" width="24"
+                                                height="24" viewBox="0 0 24 24" stroke-width="2.5"
+                                                stroke="#ffffff" fill="none" stroke-linecap="round"
+                                                stroke-linejoin="round">
+                                                <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                                <path d="M7 12l5 5l10 -10" />
+                                                <path d="M2 12l5 5m5 -5l5 -5" />
+                                            </svg>
+                                            Current Plan</button>
+                                    @else
+                                        <button wire:click="purchasePlan('text-torrent', 'growth')" class="choose_btn"
+                                            wire:loading.attr='disabled'>{!! loadingStateWithText("purchasePlan('text-torrent', 'growth')", 'Choose Your Plan') !!}</button>
+                                    @endif
                                 </div>
                             </div>
                             <div>
@@ -269,37 +374,57 @@
                                     <ul>
                                         <li>
                                             <div class="icon">
-                                                <img src="{{ asset('assets/app/icons/entypo_check.svg') }}" alt="check icon" />
+                                                <img src="{{ asset('assets/app/icons/entypo_check.svg') }}"
+                                                    alt="check icon" />
                                             </div>
                                             <h4>Everything in Growth and Additionally</h4>
                                         </li>
                                         <li>
                                             <div class="icon">
-                                                <img src="{{ asset('assets/app/icons/entypo_check.svg') }}" alt="check icon" />
+                                                <img src="{{ asset('assets/app/icons/entypo_check.svg') }}"
+                                                    alt="check icon" />
                                             </div>
                                             <h4>Unlimited contact segmentation</h4>
                                         </li>
                                         <li>
                                             <div class="icon">
-                                                <img src="{{ asset('assets/app/icons/entypo_check.svg') }}" alt="check icon" />
+                                                <img src="{{ asset('assets/app/icons/entypo_check.svg') }}"
+                                                    alt="check icon" />
                                             </div>
                                             <h4>Detailed campaign analytics</h4>
                                         </li>
                                         <li>
                                             <div class="icon">
-                                                <img src="{{ asset('assets/app/icons/entypo_check.svg') }}" alt="check icon" />
+                                                <img src="{{ asset('assets/app/icons/entypo_check.svg') }}"
+                                                    alt="check icon" />
                                             </div>
                                             <h4>24/7 dedicated support</h4>
                                         </li>
                                         <li>
                                             <div class="icon">
-                                                <img src="{{ asset('assets/app/icons/entypo_check.svg') }}" alt="check icon" />
+                                                <img src="{{ asset('assets/app/icons/entypo_check.svg') }}"
+                                                    alt="check icon" />
                                             </div>
                                             <h4>Advanced security and compliance features</h4>
                                         </li>
                                     </ul>
                                     <h6 class="price">$2,550 <span>/100,000 messages</span></h6>
-                                    <a href="#" class="choose_btn"> Choose Your Plan </a>
+                                    @if (getActiveSubscription()['name'] == 'pro')
+                                        <button class="choose_btn bg-success" disabled>
+                                            <svg xmlns="http://www.w3.org/2000/svg"
+                                                class="icon icon-tabler icon-tabler-checks" width="24"
+                                                height="24" viewBox="0 0 24 24" stroke-width="2.5"
+                                                stroke="#ffffff" fill="none" stroke-linecap="round"
+                                                stroke-linejoin="round">
+                                                <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                                <path d="M7 12l5 5l10 -10" />
+                                                <path d="M2 12l5 5m5 -5l5 -5" />
+                                            </svg>
+                                            Current Plan</button>
+                                    @else
+                                        <button wire:click="purchasePlan('text-torrent', 'pro')" class="choose_btn"
+                                            wire:loading.attr='disabled'>{!! loadingStateWithText("purchasePlan('text-torrent', 'pro')", 'Choose Your Plan') !!}</button>
+                                    @endif
                                 </div>
                             </div>
                         </div>
