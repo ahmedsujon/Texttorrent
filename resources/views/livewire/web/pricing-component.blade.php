@@ -105,14 +105,18 @@
                                     <h6 class="price">$49 <span>/month </span></h6>
                                     @if (getActiveSubscription()['name'] == 'standard')
                                         <button class="choose_btn bg-success" disabled>
-                                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-checks" width="24" height="24" viewBox="0 0 24 24" stroke-width="2.5" stroke="#ffffff" fill="none" stroke-linecap="round" stroke-linejoin="round">
-                                            <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
-                                            <path d="M7 12l5 5l10 -10" />
-                                            <path d="M2 12l5 5m5 -5l5 -5" />
-                                        </svg>
-                                        Current Plan</button>
+                                            <svg xmlns="http://www.w3.org/2000/svg"
+                                                class="icon icon-tabler icon-tabler-checks" width="24"
+                                                height="24" viewBox="0 0 24 24" stroke-width="2.5" stroke="#ffffff"
+                                                fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                                <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                                <path d="M7 12l5 5l10 -10" />
+                                                <path d="M2 12l5 5m5 -5l5 -5" />
+                                            </svg>
+                                            Current Plan</button>
                                     @else
-                                        <button wire:click="purchasePlan('own-gateway', 'standard')" class="choose_btn" wire:loading.attr='disabled'>{!! loadingStateWithText("purchasePlan('own-gateway', 'standard')", 'Choose Your Plan') !!}</button>
+                                        <button wire:click="purchasePlan('own-gateway', 'standard')" class="choose_btn"
+                                            wire:loading.attr='disabled'>{!! loadingStateWithText("purchasePlan('own-gateway', 'standard')", 'Choose Your Plan') !!}</button>
                                     @endif
                                 </div>
                             </div>
@@ -175,14 +179,18 @@
                                     <h6 class="price">$99 <span>/month </span></h6>
                                     @if (getActiveSubscription()['name'] == 'premium')
                                         <button class="choose_btn bg-success" disabled>
-                                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-checks" width="24" height="24" viewBox="0 0 24 24" stroke-width="2.5" stroke="#ffffff" fill="none" stroke-linecap="round" stroke-linejoin="round">
-                                            <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
-                                            <path d="M7 12l5 5l10 -10" />
-                                            <path d="M2 12l5 5m5 -5l5 -5" />
-                                        </svg>
-                                        Current Plan</button>
+                                            <svg xmlns="http://www.w3.org/2000/svg"
+                                                class="icon icon-tabler icon-tabler-checks" width="24"
+                                                height="24" viewBox="0 0 24 24" stroke-width="2.5" stroke="#ffffff"
+                                                fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                                <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                                <path d="M7 12l5 5l10 -10" />
+                                                <path d="M2 12l5 5m5 -5l5 -5" />
+                                            </svg>
+                                            Current Plan</button>
                                     @else
-                                        <button wire:click="purchasePlan('own-gateway', 'premium')" class="choose_btn" wire:loading.attr='disabled'>{!! loadingStateWithText("purchasePlan('own-gateway', 'premium')", 'Choose Your Plan') !!}</button>
+                                        <button wire:click="purchasePlan('own-gateway', 'premium')" class="choose_btn"
+                                            wire:loading.attr='disabled'>{!! loadingStateWithText("purchasePlan('own-gateway', 'premium')", 'Choose Your Plan') !!}</button>
                                     @endif
                                 </div>
                             </div>
@@ -243,14 +251,20 @@
                                     <h6 class="price">$149 <span>/month </span></h6>
                                     @if (getActiveSubscription()['name'] == 'enterprise')
                                         <button class="choose_btn bg-success" disabled>
-                                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-checks" width="24" height="24" viewBox="0 0 24 24" stroke-width="2.5" stroke="#ffffff" fill="none" stroke-linecap="round" stroke-linejoin="round">
-                                            <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
-                                            <path d="M7 12l5 5l10 -10" />
-                                            <path d="M2 12l5 5m5 -5l5 -5" />
-                                        </svg>
-                                        Current Plan</button>
+                                            <svg xmlns="http://www.w3.org/2000/svg"
+                                                class="icon icon-tabler icon-tabler-checks" width="24"
+                                                height="24" viewBox="0 0 24 24" stroke-width="2.5"
+                                                stroke="#ffffff" fill="none" stroke-linecap="round"
+                                                stroke-linejoin="round">
+                                                <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                                <path d="M7 12l5 5l10 -10" />
+                                                <path d="M2 12l5 5m5 -5l5 -5" />
+                                            </svg>
+                                            Current Plan</button>
                                     @else
-                                        <button wire:click="purchasePlan('own-gateway', 'enterprise')" class="choose_btn" wire:loading.attr='disabled'>{!! loadingStateWithText("purchasePlan('own-gateway', 'enterprise')", 'Choose Your Plan') !!}</button>
+                                        <button wire:click="purchasePlan('own-gateway', 'enterprise')"
+                                            class="choose_btn"
+                                            wire:loading.attr='disabled'>{!! loadingStateWithText("purchasePlan('own-gateway', 'enterprise')", 'Choose Your Plan') !!}</button>
                                     @endif
                                 </div>
                             </div>
@@ -310,14 +324,20 @@
                                     <h6 class="price">$625 <span>/25,000 messages </span></h6>
                                     @if (getActiveSubscription()['name'] == 'starter')
                                         <button class="choose_btn bg-success" disabled>
-                                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-checks" width="24" height="24" viewBox="0 0 24 24" stroke-width="2.5" stroke="#ffffff" fill="none" stroke-linecap="round" stroke-linejoin="round">
-                                            <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
-                                            <path d="M7 12l5 5l10 -10" />
-                                            <path d="M2 12l5 5m5 -5l5 -5" />
-                                        </svg>
-                                        Current Plan</button>
+                                            <svg xmlns="http://www.w3.org/2000/svg"
+                                                class="icon icon-tabler icon-tabler-checks" width="24"
+                                                height="24" viewBox="0 0 24 24" stroke-width="2.5"
+                                                stroke="#ffffff" fill="none" stroke-linecap="round"
+                                                stroke-linejoin="round">
+                                                <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                                <path d="M7 12l5 5l10 -10" />
+                                                <path d="M2 12l5 5m5 -5l5 -5" />
+                                            </svg>
+                                            Current Plan</button>
                                     @else
-                                        <button wire:click="purchasePlan('text-torrent', 'starter')" class="choose_btn" wire:loading.attr='disabled'>{!! loadingStateWithText("purchasePlan('text-torrent', 'starter')", 'Choose Your Plan') !!}</button>
+                                        <button wire:click="purchasePlan('text-torrent', 'starter')"
+                                            class="choose_btn"
+                                            wire:loading.attr='disabled'>{!! loadingStateWithText("purchasePlan('text-torrent', 'starter')", 'Choose Your Plan') !!}</button>
                                     @endif
                                 </div>
                             </div>
@@ -364,14 +384,19 @@
                                     <h6 class="price">$1,250 <span>/50,000 messages </span></h6>
                                     @if (getActiveSubscription()['name'] == 'growth')
                                         <button class="choose_btn bg-success" disabled>
-                                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-checks" width="24" height="24" viewBox="0 0 24 24" stroke-width="2.5" stroke="#ffffff" fill="none" stroke-linecap="round" stroke-linejoin="round">
-                                            <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
-                                            <path d="M7 12l5 5l10 -10" />
-                                            <path d="M2 12l5 5m5 -5l5 -5" />
-                                        </svg>
-                                        Current Plan</button>
+                                            <svg xmlns="http://www.w3.org/2000/svg"
+                                                class="icon icon-tabler icon-tabler-checks" width="24"
+                                                height="24" viewBox="0 0 24 24" stroke-width="2.5"
+                                                stroke="#ffffff" fill="none" stroke-linecap="round"
+                                                stroke-linejoin="round">
+                                                <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                                <path d="M7 12l5 5l10 -10" />
+                                                <path d="M2 12l5 5m5 -5l5 -5" />
+                                            </svg>
+                                            Current Plan</button>
                                     @else
-                                        <button wire:click="purchasePlan('text-torrent', 'growth')" class="choose_btn" wire:loading.attr='disabled'>{!! loadingStateWithText("purchasePlan('text-torrent', 'growth')", 'Choose Your Plan') !!}</button>
+                                        <button wire:click="purchasePlan('text-torrent', 'growth')" class="choose_btn"
+                                            wire:loading.attr='disabled'>{!! loadingStateWithText("purchasePlan('text-torrent', 'growth')", 'Choose Your Plan') !!}</button>
                                     @endif
                                 </div>
                             </div>
@@ -418,14 +443,19 @@
                                     <h6 class="price">$2,550 <span>/100,000 messages</span></h6>
                                     @if (getActiveSubscription()['name'] == 'pro')
                                         <button class="choose_btn bg-success" disabled>
-                                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-checks" width="24" height="24" viewBox="0 0 24 24" stroke-width="2.5" stroke="#ffffff" fill="none" stroke-linecap="round" stroke-linejoin="round">
-                                            <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
-                                            <path d="M7 12l5 5l10 -10" />
-                                            <path d="M2 12l5 5m5 -5l5 -5" />
-                                        </svg>
-                                        Current Plan</button>
+                                            <svg xmlns="http://www.w3.org/2000/svg"
+                                                class="icon icon-tabler icon-tabler-checks" width="24"
+                                                height="24" viewBox="0 0 24 24" stroke-width="2.5"
+                                                stroke="#ffffff" fill="none" stroke-linecap="round"
+                                                stroke-linejoin="round">
+                                                <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                                <path d="M7 12l5 5l10 -10" />
+                                                <path d="M2 12l5 5m5 -5l5 -5" />
+                                            </svg>
+                                            Current Plan</button>
                                     @else
-                                        <button wire:click="purchasePlan('text-torrent', 'pro')" class="choose_btn" wire:loading.attr='disabled'>{!! loadingStateWithText("purchasePlan('text-torrent', 'pro')", 'Choose Your Plan') !!}</button>
+                                        <button wire:click="purchasePlan('text-torrent', 'pro')" class="choose_btn"
+                                            wire:loading.attr='disabled'>{!! loadingStateWithText("purchasePlan('text-torrent', 'pro')", 'Choose Your Plan') !!}</button>
                                     @endif
                                 </div>
                             </div>
