@@ -37,7 +37,8 @@
                         <h4>
                             @if (count($numbers) > 0)
                                 @foreach ($numbers as $sNum)
-                                <span class="badge text-dark" style="border: 1px solid grey;">{{ $sNum }}</span>
+                                    <span class="badge text-dark"
+                                        style="border: 1px solid grey;">{{ $sNum }}</span>
                                 @endforeach
                             @else
                                 ---
@@ -135,8 +136,8 @@
 
                             <div class="custom_select_dropdown_area contact_custom_select_area" id="phoneNumberSelect">
                                 <div class="dropdown">
-                                    <button class="input_field dropdown-toggle" wire:ignore.self type="button" data-bs-toggle="dropdown"
-                                        data-bs-auto-close="outside" aria-expanded="false">
+                                    <button class="input_field dropdown-toggle" wire:ignore.self type="button"
+                                        data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false">
                                         <img src="{{ asset('assets/app/icons/arrow-down.svg') }}" alt="down arrow"
                                             class="arrow_down_icon" />
                                         <!-- <div class="placeholder_text">Select</div> -->
@@ -147,10 +148,11 @@
                                     </button>
                                     <div class="dropdown-menu" wire:ignore.self>
                                         <div class="search_input_form search_input_form_sm">
-                                            <input type="search" wire:model.live='selectNumberSearch' placeholder="Search senders"
-                                                class="input_search" />
+                                            <input type="search" wire:model.live='selectNumberSearch'
+                                                placeholder="Search senders" class="input_search" />
                                             <button type="submit" class="search_icon">
-                                                <img src="{{ asset('assets/app/icons/search-gray.svg') }}" alt="search icon" />
+                                                <img src="{{ asset('assets/app/icons/search-gray.svg') }}"
+                                                    alt="search icon" />
                                             </button>
                                         </div>
                                         <ul class="dropdown_list">
@@ -163,7 +165,9 @@
                                                         <div
                                                             class="checkbox_area d-flex align-items-center flex-wrap mb-0">
                                                             <div class="form-check">
-                                                                <input class="form-check-input" type="checkbox" wire:model.live='selectAllNumbers' value="1" id="fromPhone" />
+                                                                <input class="form-check-input" type="checkbox"
+                                                                    wire:model.live='selectAllNumbers' value="1"
+                                                                    id="fromPhone" />
                                                                 <label class="form-check-label mb-0" for="fromPhone">
                                                                     Select all
                                                                 </label>
@@ -175,9 +179,11 @@
 
                                             @foreach ($activeNumbers as $activeNumber)
                                                 <li>
-                                                    <button type="button" class="dropdown-item {{ in_array($activeNumber->number, $numbers) ? 'active_check' : '' }}" wire:click.prevent="selectPhoneNumbers({{ $activeNumber->number }})">
-                                                        <img src="{{ asset('assets/app/images/inbox/user_main.png') }}" alt="user icon"
-                                                            class="user_image" />
+                                                    <button type="button"
+                                                        class="dropdown-item {{ in_array($activeNumber->number, $numbers) ? 'active_check' : '' }}"
+                                                        wire:click.prevent="selectPhoneNumbers({{ $activeNumber->number }})">
+                                                        <img src="{{ asset('assets/app/images/inbox/user_main.png') }}"
+                                                            alt="user icon" class="user_image" />
                                                         <span>{{ $activeNumber->number }}</span>
                                                     </button>
                                                 </li>
@@ -187,6 +193,9 @@
                                     </div>
                                 </div>
                             </div>
+                            @error('numbers')
+                                <p class="text-danger" style="font-size: 12.5px;">{{ $message }}</p>
+                            @enderror
                         </div>
                         <div class="input_row">
                             <label for="">Appended (Opt-out) message</label>
@@ -201,7 +210,7 @@
                                 <div class="wire-ignore" wire:ignore>
                                     <label for="">Batch size</label>
                                     <select name="lang" wire:model.blur='batch_size'
-                                        class="js-searchBox batch_size">
+                                        class="input_field batch_size">
                                         <option value="">Select</option>
                                         <option value="20">20</option>
                                         <option value="50">50</option>
@@ -211,8 +220,6 @@
                                         <option value="1000">1000</option>
                                         <option value="2500">2500</option>
                                     </select>
-                                    <img src="{{ asset('assets/app/icons/arrow-down.svg') }}" alt="down arrow"
-                                        class="down_arrow" />
                                 </div>
                                 @error('batch_size')
                                     <p class="text-danger mb-0" style="font-size: 13px;">{{ $message }}</p>
@@ -222,7 +229,7 @@
                                 <div class="wire-ignore" wire:ignore>
                                     <label for="">Batch frequency</label>
                                     <select name="lang" wire:model.blur='batch_frequency'
-                                        class="js-searchBox batch_frequency">
+                                        class="input_field batch_frequency">
                                         <option value="">Select</option>
                                         <option value="2">2 minutes</option>
                                         <option value="5">5 minutes</option>
@@ -230,8 +237,6 @@
                                         <option value="30">30 minutes</option>
                                         <option value="60">60 minutes</option>
                                     </select>
-                                    <img src="{{ asset('assets/app/icons/arrow-down.svg') }}" alt="down arrow"
-                                        class="down_arrow" />
                                 </div>
                                 @error('batch_frequency')
                                     <p class="text-danger mb-0" style="font-size: 13px;">{{ $message }}</p>
@@ -247,14 +252,12 @@
                                     </span>
                                 </label>
                                 <select name="lang" wire:model.blur='sending_throttle'
-                                    class="js-searchBox sending_throttle">
+                                    class="input_field sending_throttle">
                                     <option value="">Select</option>
                                     <option value="1">Slow</option>
                                     <option value="2">Medium</option>
-                                    <option value="3">Slow</option>
+                                    <option value="3">Fast</option>
                                 </select>
-                                <img src="{{ asset('assets/app/icons/arrow-down.svg') }}" alt="down arrow"
-                                    class="down_arrow" />
                             </div>
                             @error('sending_throttle')
                                 <p class="text-danger mb-0" style="font-size: 13px;">{{ $message }}</p>
@@ -264,42 +267,57 @@
                     <div class="pick_list_area">
                         <h3>Pick list</h3>
                         <div class="two_grid mt-16">
-                            <div class="input_row searchable_select">
-                                <div class="wire-ignore" wire:ignore>
-                                    <label for="">Contact list</label>
-                                    <select name="lang" wire:model.blur='contact_list_id'
-                                        class="js-searchBox contact_list_id">
-                                        <option value="">Select list</option>
-                                        @foreach ($contactLists as $item)
-                                            <option value="{{ $item->id }}">
-                                                {{ getContactListByID($item->id)->name }}
-                                            </option>
-                                        @endforeach
-                                    </select>
-                                    <img src="{{ asset('assets/app/icons/arrow-down.svg') }}" alt="down arrow"
-                                        class="down_arrow" />
+                            <div class="input_row">
+                                <label for="">Contact list</label>
+                                <div class="custom_select_dropdown_area">
+                                    <div class="dropdown">
+                                        <button class="input_field dropdown-toggle" type="button"
+                                            data-bs-toggle="dropdown" aria-expanded="false">
+                                            <img src="{{ asset('assets/app/icons/arrow-down.svg') }}"
+                                                alt="down arrow" class="arrow_down_icon" />
+                                            <!-- <div class="placeholder_text">Select</div> -->
+                                            <div class="dropdown_grid">
+                                                <div class="icon">{{ Str::limit($contact_list_name, 1, '') }}</div>
+                                                <div class="title">
+                                                    {{ $contact_list_name ? $contact_list_name : 'Select' }}</div>
+                                            </div>
+                                        </button>
+                                        <div class="dropdown-menu">
+                                            <div class="search_input_form search_input_form_sm">
+                                                <input type="search" placeholder="Search contact list"
+                                                    wire:model.live='searchContactList' class="input_search" />
+                                                <button type="submit" class="search_icon">
+                                                    <img src="{{ asset('assets/app/icons/search-gray.svg') }}"
+                                                        alt="search icon" />
+                                                </button>
+                                            </div>
+                                            <ul class="dropdown_list">
+                                                <li>
+                                                    <h5>Select List</h5>
+                                                </li>
+                                                @foreach ($contactLists as $item)
+                                                    <li>
+                                                        <button type="button"
+                                                            wire:click.prevent='selectList({{ $item->id }}, "{{ $item->name }}")'
+                                                            class="dropdown-item">
+                                                            <span>{{ $item->name }}</span>
+                                                        </button>
+                                                    </li>
+                                                @endforeach
+                                            </ul>
+                                        </div>
+                                    </div>
                                 </div>
-                                @error('contact_list_id')
-                                    <p class="text-danger mb-0" style="font-size: 13px;">{{ $message }}</p>
-                                @enderror
                             </div>
                             <div class="input_row searchable_select">
-                                <div class="wire-ignore" wire:ignore>
-                                    <label for="">Message template</label>
-                                    <select name="lang" wire:model.blur='inbox_template_id'
-                                        class="js-searchBox inbox_template_id">
-                                        <option value="">Select</option>
-                                        @foreach ($messageTemplates as $item)
-                                            <option value="{{ $item->id }}">
-                                                {{ getSMSTempByID($item->id)->template_name }}</option>
-                                        @endforeach
-                                    </select>
-                                    <img src="{{ asset('assets/app/icons/arrow-down.svg') }}" alt="down arrow"
-                                        class="down_arrow" />
-                                </div>
-                                @error('inbox_template_id')
-                                    <p class="text-danger mb-0" style="font-size: 13px;">{{ $message }}</p>
-                                @enderror
+                                <label for="">Message template</label>
+                                <select class="bootstrap_select" id="templateSelect">
+                                    <option value="">Select</option>
+                                    @foreach ($messageTemplates as $item)
+                                        <option value="{{ $item->preview_message }}" data-id="{{ $item->id }}">
+                                            {{ getSMSTempByID($item->id)->template_name }}</option>
+                                    @endforeach
+                                </select>
                             </div>
                         </div>
                         <div class="sms_mms_contact_area mt-2">
@@ -326,7 +344,7 @@
                                     aria-labelledby="pills-home2-tab" tabindex="0">
                                     <div class="input_row">
                                         <label for="">Default message</label>
-                                        <div class="textarea_header_top">
+                                        <div class="textarea_header_top" wire:ignore>
                                             <div class="textarea_header">
                                                 <div class="table_dropdown_area">
                                                     <div class="dropdown">
@@ -339,30 +357,37 @@
                                                         </button>
                                                         <ul class="dropdown-menu">
                                                             <li>
-                                                                <h4>Select</h4>
-                                                            </li>
-                                                            <li>
-                                                                <button type="button" class="dropdown-item">
+                                                                <button type="button"
+                                                                    class="dropdown-item dropdown-item-template"
+                                                                    data-variable="[phone_number]">
                                                                     <span>Phone Number</span>
                                                                 </button>
                                                             </li>
                                                             <li>
-                                                                <button type="button" class="dropdown-item">
+                                                                <button type="button"
+                                                                    class="dropdown-item dropdown-item-template"
+                                                                    data-variable="[email_address]">
                                                                     <span>Email Address</span>
                                                                 </button>
                                                             </li>
                                                             <li>
-                                                                <button type="button" class="dropdown-item">
+                                                                <button type="button"
+                                                                    class="dropdown-item dropdown-item-template"
+                                                                    data-variable="[first_name]">
                                                                     <span>First Name</span>
                                                                 </button>
                                                             </li>
                                                             <li>
-                                                                <button type="button" class="dropdown-item">
+                                                                <button type="button"
+                                                                    class="dropdown-item dropdown-item-template"
+                                                                    data-variable="[last_name]">
                                                                     <span>Last Name</span>
                                                                 </button>
                                                             </li>
                                                             <li>
-                                                                <button type="button" class="dropdown-item">
+                                                                <button type="button"
+                                                                    class="dropdown-item dropdown-item-template"
+                                                                    data-variable="[company]">
                                                                     <span>Company</span>
                                                                 </button>
                                                             </li>
@@ -370,9 +395,11 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            <textarea name="" id="" rows="8" class="input_field textarea_field"
-                                                placeholder="[Hi|Hello|Hey] {customer_name}, how are you? The system will replace {customer_name} with the customer’s name and randomly choose a greeting. For instance, if the customer's name is John, the message could be: Hello John, how are you?"></textarea>
+                                            <textarea name="" id="template_preview" rows="6" class="input_field textarea_field" placeholder="Write a template..." value=""></textarea>
                                         </div>
+                                        @error('preview_message')
+                                            <p class="text-danger" style="font-size: 11.5px;">{{ $message }}</p>
+                                        @enderror
                                     </div>
                                 </div>
                                 <div class="tab-pane fade" id="pills-profile2" role="tabpanel"
@@ -413,8 +440,8 @@
                     <div>
                         <div class="input_row">
                             <label for="">Preview</label>
-                            <textarea name="" id="" class="input_field textarea_field" rows="8"
-                                placeholder="[Hi|Hello|Hey] {customer_name}, how are you? The system will replace {customer_name} with the customer’s name and randomly choose a greeting. For instance, if the customer's name is John, the message could be: Hello John, how are you?"></textarea>
+                            <textarea name="" id="" class="input_field textarea_field preview_textarea_field" rows="8"
+                                readonly></textarea>
                             <h5 class="mt-1">1000 of characters</h5>
                         </div>
                     </div>
@@ -423,7 +450,9 @@
                     <div class="bulk_btn_grid mt-16">
                         <button type="button" class="schedule_btn" data-bs-toggle="modal"
                             data-bs-target="#scheduleModal">
-                            Schedule
+                            @if ($selected_date && $selected_time)
+                            <svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-check"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M5 12l5 5l10 -10" /></svg>
+                            @endif Schedule
                         </button>
                         <button type="submit" class="msg_send_btn">{!! loadingStateWithText('storeData', 'Send Message') !!}</button>
                     </div>
@@ -432,8 +461,8 @@
         </section>
 
         <!-- Schedule Modal  -->
-        <div class="modal fade common_modal" id="scheduleModal" tabindex="-1" aria-labelledby="newEventModal"
-            aria-hidden="true">
+        <div wire:ignore.self class="modal fade common_modal" id="scheduleModal" tabindex="-1"
+            aria-labelledby="newEventModal" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -448,11 +477,19 @@
                             <div class="two_grid">
                                 <div class="input_row">
                                     <label for="">Choose Date</label>
-                                    <input type="date" placeholder="Type Name" class="input_field" />
+                                    <input type="date" placeholder="Type Name" wire:model.live='schedule_date'
+                                        class="input_field" />
+                                    @error('schedule_date')
+                                        <p class="text-danger" style="font-size: 12.5px;">{{ $message }}</p>
+                                    @enderror
                                 </div>
                                 <div class="input_row">
                                     <label for="">Choose Time</label>
-                                    <input type="time" placeholder="Type Subject" class="input_field" />
+                                    <input type="time" placeholder="Type Subject" wire:model.live='schedule_time'
+                                        class="input_field" />
+                                    @error('schedule_time')
+                                        <p class="text-danger" style="font-size: 12.5px;">{{ $message }}</p>
+                                    @enderror
                                 </div>
                             </div>
                         </form>
@@ -461,8 +498,8 @@
                         <button type="button" class="cancel_btn" data-bs-dismiss="modal">
                             Cancel
                         </button>
-                        <button type="button" class="create_event_btn">
-                            Choose Time
+                        <button type="button" wire:click.prevent='chooseTime' class="create_event_btn">
+                            {!! loadingStateWithText('chooseTime', 'Choose Time') !!}
                         </button>
                     </div>
                 </div>
@@ -471,6 +508,11 @@
     </main>
 </div>
 @push('scripts')
+    <script>
+        window.addEventListener('closeModal', event => {
+            $('#scheduleModal').modal('hide');
+        });
+    </script>
     <script>
         $(".contact_list_id").on('change', function() {
             @this.set('contact_list_id', $(this).val());
@@ -490,7 +532,42 @@
     </script>
 
     <script>
+        const dropdownItems = document.querySelectorAll('.dropdown-item-template');
+        dropdownItems.forEach(item => {
+            item.addEventListener('click', function() {
+                let variable = this.getAttribute('data-variable');
+                let textarea = document.getElementById('template_preview');
+                textarea.value += variable + " ";
+                @this.set('sms_body', textarea.value);
+                $('.preview_textarea_field').val(textarea.value);
+            });
+        });
+    </script>
+
+    <script>
         $(document).ready(function() {
+            $('#template_preview').on('change', function() {
+                var template = $(this).val();
+
+                @this.set('sms_body', template);
+                $('.preview_textarea_field').val(template);
+
+            });
+
+            $('#templateSelect').on('change', function(e) {
+                e.preventDefault();
+
+                const selectedOption = templateSelect.options[templateSelect.selectedIndex];
+                const selectedId = selectedOption.getAttribute('data-id');
+                const selectedPreviewMessage = selectedOption.value;
+
+                $('#template_preview').val(selectedPreviewMessage);
+                $('.preview_textarea_field').val(selectedPreviewMessage);
+                @this.set('selected_template_preview', selectedPreviewMessage);
+                @this.set('inbox_template_id', selectedId);
+
+            });
+
             $("#phoneNumberSelect .dropdown-item").on("click", function() {
                 // Toggle active class
                 $(this).toggleClass("active_check");

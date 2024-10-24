@@ -19,7 +19,7 @@
 
                     <div class="mt-4">
                         <button type="button" class="create_event_btn" wire:click.prevent='assignNumberToUser'>
-                            {!! loadingStateWithoutText('assignNumberToUser', '<img src="'. asset('assets/app/icons/users.svg') .'" alt="save icon" class="save_icon mr-5">') !!}  Assign User
+                            {!! loadingStateWithoutText('assignNumberToUser', '<img src="'. asset('assets/app/icons/user.svg') .'" class="save_icon mr-5">') !!}  Assign User
                         </button>
                     </div>
 

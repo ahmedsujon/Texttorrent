@@ -42,18 +42,18 @@ class UserContactsTableSeeder extends Seeder
         $contact->folder_id = 1;
         $contact->save();
 
-        // for ($i = 0; $i < 100; $i++) {
-        //     $faker = Faker::create();
+        for ($i = 0; $i < 50; $i++) {
+            $faker = Faker::create();
 
-        //     $contact = new Contact();
-        //     $contact->user_id = 1;
-        //     $contact->first_name = $faker->firstName;
-        //     $contact->last_name = $faker->lastName;
-        //     $contact->number = '+1 ' . $faker->numerify('###-###-####');
-        //     $contact->company = $faker->company();
-        //     $contact->list_id = $faker->numberBetween(1, 5);
-        //     $contact->folder_id = $faker->numberBetween(1, 5);
-        //     $contact->save();
-        // }
+            $contact = new Contact();
+            $contact->user_id = 1;
+            $contact->first_name = $faker->firstName;
+            $contact->last_name = $faker->lastName;
+            $contact->number = '+1' . $faker->numerify('##########');
+            $contact->company = $faker->company();
+            $contact->list_id = 2;
+            $contact->folder_id = 2;
+            $contact->save();
+        }
     }
 }
