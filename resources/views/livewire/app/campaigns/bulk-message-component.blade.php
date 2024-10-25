@@ -202,7 +202,7 @@
                             <input type="text" placeholder="STOP to opt out" wire:model.blur='appended_message'
                                 class="input_field" />
                             @error('appended_message')
-                                <p class="text-danger mb-0" style="font-size: 13px;">{{ $message }}</p>
+                                <p class="text-danger mb-0" style="font-size: 12.5px;">{{ $message }}</p>
                             @enderror
                         </div>
                         <div class="two_grid">
@@ -222,7 +222,7 @@
                                     </select>
                                 </div>
                                 @error('batch_size')
-                                    <p class="text-danger mb-0" style="font-size: 13px;">{{ $message }}</p>
+                                    <p class="text-danger mb-0" style="font-size: 12.5px;">{{ $message }}</p>
                                 @enderror
                             </div>
                             <div class="input_row searchable_select">
@@ -239,7 +239,7 @@
                                     </select>
                                 </div>
                                 @error('batch_frequency')
-                                    <p class="text-danger mb-0" style="font-size: 13px;">{{ $message }}</p>
+                                    <p class="text-danger mb-0" style="font-size: 12.5px;">{{ $message }}</p>
                                 @enderror
                             </div>
                         </div>
@@ -260,7 +260,7 @@
                                 </select>
                             </div>
                             @error('sending_throttle')
-                                <p class="text-danger mb-0" style="font-size: 13px;">{{ $message }}</p>
+                                <p class="text-danger mb-0" style="font-size: 12.5px;">{{ $message }}</p>
                             @enderror
                         </div>
                     </div>
@@ -308,6 +308,9 @@
                                         </div>
                                     </div>
                                 </div>
+                                @error('contact_list_id')
+                                    <p class="text-danger" style="font-size: 12.5px;">{{ $message }}</p>
+                                @enderror
                             </div>
                             <div class="input_row searchable_select">
                                 <label for="">Message template</label>
@@ -318,6 +321,9 @@
                                             {{ getSMSTempByID($item->id)->template_name }}</option>
                                     @endforeach
                                 </select>
+                                @error('inbox_template_id')
+                                    <p class="text-danger" style="font-size: 12.5px;">{{ $message }}</p>
+                                @enderror
                             </div>
                         </div>
                         <div class="sms_mms_contact_area mt-2">
@@ -511,6 +517,11 @@
     <script>
         window.addEventListener('closeModal', event => {
             $('#scheduleModal').modal('hide');
+        });
+
+        window.addEventListener('reset_form', event => {
+            $('#template_preview').val('');
+            $('.preview_textarea_field').val('');
         });
     </script>
     <script>

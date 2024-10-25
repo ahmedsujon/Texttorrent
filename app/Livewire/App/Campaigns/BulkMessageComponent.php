@@ -84,10 +84,18 @@ class BulkMessageComponent extends Component
             'numbers' => 'required',
             'contact_list_id' => 'required',
             'inbox_template_id' => 'required',
+            'batch_size' => 'required_if:batch_process,true',
+            'batch_frequency' => 'required_if:batch_process,true',
+            'sending_throttle' => 'required_if:batch_process,true',
+            'appended_message' => 'required_if:opt_out_link,true',
         ], [
-            'numbers.required' => 'Select at least one phone number',
+            'numbers.required' => 'Phone number field is required',
             'contact_list_id.required' => 'Select a contact list',
             'inbox_template_id.required' => 'Select a template',
+            'batch_size.*' => 'This field is required',
+            'batch_frequency.*' => 'This field is required',
+            'sending_throttle.*' => 'This field is required',
+            'appended_message.*' => 'This field is required',
         ]);
 
         $data = new BulkMessage();
@@ -170,7 +178,7 @@ class BulkMessageComponent extends Component
             }
         }
 
-        $this->dispatch('closeModal');
+        $this->dispatch('reset_form');
         $this->dispatch('success', ['message' => 'Bulk message send successfully!']);
         $this->resetForm();
     }
