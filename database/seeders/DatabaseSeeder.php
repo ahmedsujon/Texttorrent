@@ -23,5 +23,6 @@ class DatabaseSeeder extends Seeder
         $this->call(ChatTableSeeder::class);
         $this->call(InboxTemplateTableSeeder::class);
         $this->call(ApiTableSeeder::class);
+        $this->call(SubscriptionSeeder::class);
     }
 }
