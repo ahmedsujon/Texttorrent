@@ -11,17 +11,25 @@ use App\Models\Number;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
+use Livewire\Features\SupportFileUploads\WithFileUploads;
 
 class BulkMessageComponent extends Component
 {
-    public $contact_list_id, $contact_list_name, $inbox_template_id, $selected_template_preview, $number_pool = true, $batch_process = true, $opt_out_link = true, $round_robin_campaign = true, $phone_numbers, $sms_type, $sms_body, $appended_message, $batch_size, $batch_frequency, $sending_throttle;
+    use WithFileUploads;
+
+    public $contact_list_id, $contact_list_name, $inbox_template_id, $selected_template_preview, $number_pool = true, $batch_process = true, $opt_out_link = true, $round_robin_campaign = true, $phone_numbers, $sms_type = 'sms', $sms_body, $appended_message, $batch_size, $batch_frequency, $sending_throttle, $file, $type;
+
+    public function resetUpload()
+    {
+        $this->reset('file');
+    }
 
     public function useTemplate($contact_id)
     {
         $this->validate([
-            'inbox_template_id' => 'required',
+            'inbox_template_id' => 'required_if:sms_type,sms',
         ], [
-            'inbox_template_id.required' => 'Select a template',
+            'inbox_template_id.*' => 'Select a template',
         ]);
 
         $contact = Contact::find($contact_id);
@@ -83,19 +91,23 @@ class BulkMessageComponent extends Component
         $this->validate([
             'numbers' => 'required',
             'contact_list_id' => 'required',
-            'inbox_template_id' => 'required',
+            'inbox_template_id' => 'required_if:sms_type,sms',
             'batch_size' => 'required_if:batch_process,true',
             'batch_frequency' => 'required_if:batch_process,true',
             'sending_throttle' => 'required_if:batch_process,true',
             'appended_message' => 'required_if:opt_out_link,true',
+            'sms_body' => 'required_if:sms_type,sms',
+            'file' => 'required_if:sms_type,mms',
         ], [
             'numbers.required' => 'Phone number field is required',
             'contact_list_id.required' => 'Select a contact list',
-            'inbox_template_id.required' => 'Select a template',
+            'inbox_template_id.*' => 'Select a template',
             'batch_size.*' => 'This field is required',
             'batch_frequency.*' => 'This field is required',
             'sending_throttle.*' => 'This field is required',
             'appended_message.*' => 'This field is required',
+            'sms_body.*' => 'This field is required',
+            'file.*' => 'This field is required',
         ]);
 
         $data = new BulkMessage();
@@ -113,6 +125,13 @@ class BulkMessageComponent extends Component
         $data->batch_size = $this->batch_size;
         $data->batch_frequency = $this->batch_frequency;
         $data->sending_throttle = $this->sending_throttle;
+
+        if ($this->sms_type == 'mms' && $this->file) {
+            $fileName = 'mms-'. uniqid() .Carbon::now()->timestamp. '.' .$this->file->extension();
+            $this->file->storeAs('uploads/mms_files', $fileName);
+            $data->file = 'uploads/mms_files/' . $fileName;
+        }
+
         $data->save();
 
         // Check if schedule_date and schedule_time are provided
@@ -156,7 +175,9 @@ class BulkMessageComponent extends Component
             $sms->bulk_message_id = $data->id;
             $sms->send_from = $number;
             $sms->send_to = $cList->number;
-            $sms->message = $message;
+            $sms->message = $message ? $message : null;
+            $sms->file = $data->file;
+            $sms->type = $data->sms_type;
 
             if ($this->batch_process) {
                 // If batch_process is true, schedule the message with future execute_at time
@@ -180,6 +201,9 @@ class BulkMessageComponent extends Component
 
         $this->dispatch('reset_form');
         $this->dispatch('success', ['message' => 'Bulk message send successfully!']);
+        if ($this->sms_type == 'mms') {
+            $this->resetUpload();
+        }
         $this->resetForm();
     }
 

@@ -1192,11 +1192,6 @@
                 fileInput.dispatchEvent(event);
             }
         });
-
-        // Trigger file selection by clicking on the label
-        label.addEventListener('click', function () {
-            fileInput.click();
-        });
     });
 </script>
 

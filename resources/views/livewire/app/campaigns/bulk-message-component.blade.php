@@ -328,25 +328,26 @@
                         </div>
                         <div class="sms_mms_contact_area mt-2">
                             <div class="d-flex">
-                                <ul class="nav nav-pills" id="pills-tab" role="tablist">
+                                <ul class="nav nav-pills" wire:ignore id="pills-tab" role="tablist">
                                     <li class="nav-item" role="presentation">
-                                        <button class="nav-link active" id="pills-home2-tab" data-bs-toggle="pill"
+                                        <button class="nav-link active smsType" data-type="sms" id="pills-home2-tab" data-bs-toggle="pill"
                                             data-bs-target="#pills-home2" type="button" role="tab"
                                             aria-controls="pills-home2" aria-selected="true">
                                             SMS
                                         </button>
                                     </li>
                                     <li class="nav-item" role="presentation">
-                                        <button class="nav-link" id="pills-profile2-tab" data-bs-toggle="pill"
+                                        <button class="nav-link smsType" data-type="mms" id="pills-profile2-tab" data-bs-toggle="pill"
                                             data-bs-target="#pills-profile2" type="button" role="tab"
                                             aria-controls="pills-profile2" aria-selected="false">
                                             MMS
                                         </button>
                                     </li>
                                 </ul>
+                                {{ $sms_type }}
                             </div>
                             <div class="tab-content" id="pills-tabContent">
-                                <div class="tab-pane fade show active" id="pills-home2" role="tabpanel"
+                                <div class="tab-pane fade show active" wire:ignore.self id="pills-home2" role="tabpanel"
                                     aria-labelledby="pills-home2-tab" tabindex="0">
                                     <div class="input_row">
                                         <label for="">Default message</label>
@@ -403,40 +404,54 @@
                                             </div>
                                             <textarea name="" id="template_preview" rows="6" class="input_field textarea_field" placeholder="Write a template..." value=""></textarea>
                                         </div>
-                                        @error('preview_message')
+                                        @error('sms_body')
                                             <p class="text-danger" style="font-size: 11.5px;">{{ $message }}</p>
                                         @enderror
                                     </div>
                                 </div>
-                                <div class="tab-pane fade" id="pills-profile2" role="tabpanel"
+                                <div class="tab-pane fade" wire:ignore.self id="pills-profile2" role="tabpanel"
                                     aria-labelledby="pills-profile2-tab" tabindex="0">
-                                    <div class="file_upload_area mb-2">
+                                    <label for="contactUploadImage" class="d-flex file_upload_area w-100" id="fileUploadLabel">
                                         <div class="import_icon">
-                                            <img src="{{ asset('assets/app/icons/import.svg') }}"
-                                                alt="import icon" />
+                                            <img src="{{ asset('assets/app/icons/import.svg') }}" alt="import icon" />
                                         </div>
-                                        <h4><span>Click to upload</span> or drag and drop</h4>
-                                        <h5>JPEG, PNG, PDF, and MP4 formats, up to 50MB</h5>
+                                        <h4 id="dropText"><span>Click to upload</span> or drag and drop</h4>
+                                        <h5>JPG, JPEG, PNG, PDF, GIF, and MP4 formats, up to 50MB</h5>
+                                    </label>
+
+                                    <!-- File Input -->
+                                    <input type="file" id="contactUploadImage" accept="*" wire:model="file"
+                                        class="position-absolute opacity-0 visually-hidden" />
+
+                                    <!-- Error Message -->
+                                    @error('file')
+                                        <p class="text-danger" style="font-size: 12.5px;">{{ $message }}</p>
+                                    @enderror
+
+                                    <div wire:loading wire:target='file' wire:key='file' style="font-size: 15px;">
+                                        <i class="fa fa-spinner fa-spin"></i> Uploading...
                                     </div>
-                                    <div class="uploading_status_area">
-                                        <button type="button" class="close_btn">
-                                            <img src="{{ asset('assets/app/icons/close.svg') }}" alt="close icon" />
+
+                                    @if ($file)
+                                    <div class="uploading_status_area mb-5">
+                                        <button type="button" class="close_btn" wire:click.prevent='resetUpload'>
+                                            <img src="{{ asset('assets/app/icons/close.svg') }}" alt="delete icon" />
                                         </button>
                                         <div class="file_name_grid">
-                                            <img src="{{ asset('assets/app/icons/mp3.svg') }}" alt="mp3" />
+                                            <svg  xmlns="http://www.w3.org/2000/svg"  width="64"  height="64"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-file"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M14 3v4a1 1 0 0 0 1 1h4" /><path d="M17 21h-10a2 2 0 0 1 -2 -2v-14a2 2 0 0 1 2 -2h7l5 5v11a2 2 0 0 1 -2 2z" /></svg>
                                             <div>
-                                                <h4>Uploading...</h4>
-                                                <h5>7/16 MB</h5>
+                                                <h4>{{ $file->getClientOriginalName() }}</h4>
+                                                <div class="complete_status">
+                                                    <div class="circle">
+                                                        <img src="{{ asset('assets/app/icons/tick-circle.svg') }}"
+                                                            alt="track icon" />
+                                                    </div>
+                                                    <h5>Completed</h5>
+                                                </div>
                                             </div>
-                                        </div>
-                                        <div class="progress_grid">
-                                            <div class="progress" role="progressbar" aria-label="Basic example"
-                                                aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">
-                                                <div class="progress-bar" style="width: 40%"></div>
-                                            </div>
-                                            <div class="number">40%</div>
                                         </div>
                                     </div>
+                                    @endif
                                 </div>
                             </div>
                         </div>
@@ -515,6 +530,41 @@
 </div>
 @push('scripts')
     <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const fileInput = document.getElementById('contactUploadImage');
+            const label = document.getElementById('fileUploadLabel');
+            const uploadText = document.getElementById('dropText');
+
+            // Highlight label when dragging over it
+            label.addEventListener('dragover', function (e) {
+                e.preventDefault();
+                label.classList.add('border-success');
+                uploadText.textContent = 'Drop your file here';
+            });
+
+            label.addEventListener('dragleave', function (e) {
+                e.preventDefault();
+                label.classList.remove('border-success');
+                $('#dropText').html('<span>Click to upload</span> or drag and drop');
+            });
+
+            label.addEventListener('drop', function (e) {
+                e.preventDefault();
+                label.classList.remove('border-success');
+
+                // Assign the dropped file to the file input
+                if (e.dataTransfer.files.length > 0) {
+                    fileInput.files = e.dataTransfer.files;
+
+                    // Trigger the change event so Livewire can detect the file
+                    var event = new Event('change');
+                    fileInput.dispatchEvent(event);
+                }
+            });
+        });
+    </script>
+
+    <script>
         window.addEventListener('closeModal', event => {
             $('#scheduleModal').modal('hide');
         });
@@ -522,6 +572,10 @@
         window.addEventListener('reset_form', event => {
             $('#template_preview').val('');
             $('.preview_textarea_field').val('');
+        });
+
+        $(".smsType").on('click', function() {
+            @this.set('sms_type', $(this).data('type'));
         });
     </script>
     <script>
@@ -573,6 +627,7 @@
                 const selectedPreviewMessage = selectedOption.value;
 
                 $('#template_preview').val(selectedPreviewMessage);
+                @this.set('sms_body', selectedPreviewMessage);
                 $('.preview_textarea_field').val(selectedPreviewMessage);
                 @this.set('selected_template_preview', selectedPreviewMessage);
                 @this.set('inbox_template_id', selectedId);

@@ -27,6 +27,7 @@ return new class extends Migration
             $table->string('batch_size')->nullable();
             $table->string('batch_frequency')->nullable();
             $table->string('sending_throttle')->nullable();
+            $table->string('file', 2048)->nullable();
             $table->timestamps();
         });
     }
