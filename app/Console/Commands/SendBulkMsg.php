@@ -33,9 +33,6 @@ class SendBulkMsg extends Command
         $bulkMessages = BulkMessageItem::where('status', 0)->where('execute_at', '<=', Carbon::now())->get();
         foreach ($bulkMessages as $bulkMessage) {
             SendBulkSMS::dispatch($bulkMessage->send_by, $bulkMessage->id, $bulkMessage->send_from,$bulkMessage->send_to, $bulkMessage->message, $bulkMessage->file, $bulkMessage->type);
-
-            // $bulkMessage->status = 0;
-            // $bulkMessage->save();
         }
 
         $this->info('Bulk message sending completed - '.$bulkMessages->count().' ');
