@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('bulk_message_items', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('bulk_message_id')->nullable();
+            $table->unsignedBigInteger('send_by')->nullable();
             $table->string('send_from')->nullable();
             $table->string('send_to')->nullable();
             $table->longText('message')->nullable();

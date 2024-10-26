@@ -42,7 +42,7 @@ class UserContactsTableSeeder extends Seeder
         $contact->folder_id = 1;
         $contact->save();
 
-        for ($i = 0; $i < 50; $i++) {
+        for ($i = 0; $i < 10; $i++) {
             $faker = Faker::create();
 
             $contact = new Contact();

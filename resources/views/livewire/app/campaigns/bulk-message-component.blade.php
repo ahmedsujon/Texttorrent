@@ -344,7 +344,6 @@
                                         </button>
                                     </li>
                                 </ul>
-                                {{ $sms_type }}
                             </div>
                             <div class="tab-content" id="pills-tabContent">
                                 <div class="tab-pane fade show active" wire:ignore.self id="pills-home2" role="tabpanel"

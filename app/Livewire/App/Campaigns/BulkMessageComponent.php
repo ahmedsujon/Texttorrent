@@ -173,6 +173,7 @@ class BulkMessageComponent extends Component
             // Create the SMS object
             $sms = new BulkMessageItem();
             $sms->bulk_message_id = $data->id;
+            $sms->send_by = user()->id;
             $sms->send_from = $number;
             $sms->send_to = $cList->number;
             $sms->message = $message ? $message : null;
