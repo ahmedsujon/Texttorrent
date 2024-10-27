@@ -1,40 +1,8 @@
 <div>
-    <style>
-        .pricing_title {
-            font-size: 50px !important;
-        }
-
-        .ready_start_wrapper .ready_content_area h4 {
-            font-size: 25px !important;
-        }
-
-        .ready_start_wrapper .ready_btn_grid .ready_btn {
-            font-size: 27px !important;
-            height: 70px !important;
-        }
-
-        .ready_start_wrapper .ready_btn_grid h6 {
-            font-size: 25px !important;
-        }
-    </style>
-    <main>
-        <section class="hero_wrapper hero_wrapper_others"
-            style="background-image: url(assets/app/images/landing/BackgroundHero.png)">
-            <div class="container">
-                <div class="row">
-                    <div class="col-12">
-                        <div class="hero_content_area text-center">
-                            <h1>Flexible Pricing, Tailored to Your Needs</h1>
-                            <h4>
-                                Select the option that works best for your business. Choose
-                                between bringing your own SMS gateway or using our
-                                all-inclusive platform.
-                            </h4>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
+    <main class="main_content_wrapper setting_content_wrapper">
+        <button type="button" class="sidebar_open_btn" id="sidebarShowBtn">
+            <img src="{{ asset('assets/app/icons/back-double-arrow.svg') }}" alt="double arrow" />
+        </button>
         <!-- Pricing Section  -->
         <section class="pricing_wrapper">
             <div class="container container-custom">
@@ -48,8 +16,8 @@
                             </h5>
                         </div>
                         <div class="pricing_grid">
-                            <div data-aos="fade-up">
-                                <div class="pricing_item" wire:ignore>
+                            <div>
+                                <div class="pricing_item">
                                     <h3>Standard</h3>
                                     <ul>
                                         <li>
@@ -120,7 +88,7 @@
                                     @endif
                                 </div>
                             </div>
-                            <div data-aos="fade-up" data-aos-delay="100">
+                            <div>
                                 <div class="pricing_item premium_pricing_item">
                                     <h3>Premium</h3>
                                     <ul>
@@ -194,7 +162,7 @@
                                     @endif
                                 </div>
                             </div>
-                            <div data-aos="fade-up" data-aos-delay="150">
+                            <div>
                                 <div class="pricing_item">
                                     <h3>Enterprise</h3>
                                     <ul>
@@ -274,7 +242,7 @@
             </div>
         </section>
         <!-- Inclusive Pricing Section  -->
-        <section class="pricing_wrapper inclusive_pricing_wrapper">
+        <section class="pricing_wrapper inclusive_pricing_wrapper overflow-x-hidden">
             <div class="container container-custom">
                 <div class="row">
                     <div class="col-12">
@@ -288,7 +256,7 @@
                             </h5>
                         </div>
                         <div class="pricing_grid">
-                            <div data-aos="fade-right">
+                            <div>
                                 <div class="pricing_item">
                                     <h3>Starter</h3>
                                     <ul>
@@ -341,7 +309,7 @@
                                     @endif
                                 </div>
                             </div>
-                            <div data-aos="fade-right" data-aos-delay="150">
+                            <div>
                                 <div class="pricing_item premium_pricing_item">
                                     <h3>Growth</h3>
                                     <ul>
@@ -400,7 +368,7 @@
                                     @endif
                                 </div>
                             </div>
-                            <div data-aos="fade-right" data-aos-delay="150">
+                            <div>
                                 <div class="pricing_item">
                                     <h3>Pro</h3>
                                     <ul>
@@ -463,64 +431,6 @@
                     </div>
                 </div>
             </div>
-        </section>
-        <!-- Campaign Section  -->
-        <section class="campaign_wrapper">
-            <div class="container container-custom">
-                <div class="row">
-                    <div class="col-12">
-                        <div class="campaign_grid dynamic_item mt-0">
-                            <div class="content">
-                                <div class="icon">
-                                    <img src="{{ asset('assets/app/icons/campaings-icon6.svg') }}"
-                                        alt="campaigns icon" />
-                                </div>
-                                <h3>Why Our Platform?</h3>
-                                <h5>
-                                    A brief overview of key benefits like flexibility, powerful
-                                    features, and customer support. Reinforce the idea that
-                                    whichever option they choose, they’ll get access to a robust
-                                    and reliable platform.
-                                </h5>
-                            </div>
-                            <div class="campaign_image text-md-end">
-                                <img src="{{ asset('assets/app/images/landing/why-platform.png') }}" alt="dp image"
-                                    style="max-width: 314px; max-height: 421px" />
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-        <!-- Ready To Start Section  -->
-        <section class="ready_start_wrapper">
-            <div class="container container-custom">
-                <div class="row">
-                    <div class="col-12">
-                        <div class="ready_content_area">
-                            <h2 class="pricing_title">Ready to Get Started?</h2>
-                            <h4>
-                                Choose the plan that’s right for you and start reaching your
-                                audience today.
-                            </h4>
-                            <div class="ready_btn_grid">
-                                <div>
-                                    <h6>Bring Your Own Gateway</h6>
-                                    <button type="button" class="ready_btn">
-                                        Choose Package
-                                    </button>
-                                </div>
-                                <div>
-                                    <h6>All-Inclusive Platform</h6>
-                                    <button type="button" class="ready_btn">Select Plan</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <img src="{{ asset('assets/app/images/landing/Background-Integrations.png') }}" alt="ready start curve"
-                class="ready_start_curve" />
         </section>
     </main>
 </div>

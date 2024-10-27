@@ -108,7 +108,7 @@
                             </div>
                             <div>
                                 <h4>Bonus Credits</h4>
-                                <h5>10,000</h5>
+                                <h5>0</h5>
                             </div>
                         </div>
                         <div class="bonus_grid">
@@ -117,7 +117,7 @@
                             </div>
                             <div>
                                 <h4>Total Credits</h4>
-                                <h5>10,000</h5>
+                                <h5>{{ $total_credits }}</h5>
                             </div>
                         </div>
                     </div>

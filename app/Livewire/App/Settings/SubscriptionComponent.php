@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Livewire\Web;
+namespace App\Livewire\App\Settings;
 
 use Carbon\Carbon;
 use Stripe\Stripe;
@@ -10,10 +10,10 @@ use App\Models\Transaction;
 use App\Models\Subscription;
 use GuzzleHttp\Psr7\Request;
 use Stripe\Checkout\Session;
-use Illuminate\Support\Facades\Auth;
 
-class PricingComponent extends Component
+class SubscriptionComponent extends Component
 {
+
     public $user_id, $package_type, $package_name, $amount, $status;
 
     // Own Gateway plan
@@ -174,6 +174,6 @@ class PricingComponent extends Component
 
     public function render()
     {
-        return view('livewire.web.pricing-component')->layout('livewire.web.layouts.base');
+        return view('livewire.app.settings.subscription-component')->layout('livewire.app.layouts.base');
     }
 }

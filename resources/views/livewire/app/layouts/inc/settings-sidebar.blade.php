@@ -50,6 +50,24 @@
                         </div>
                         <div class="label">Change Password</div>
                     </a>
+                    <a href="{{ route('user.subscription') }}"
+                        class="{{ request()->is('settings/subscription') || request()->is('settings/subscription/*') ? 'menu_grid active_menu' : 'menu_grid' }}">
+                        <div class="icon">
+                            <svg width="20" height="16" viewBox="0 0 20 16" fill="none"
+                                xmlns="http://www.w3.org/2000/svg" currentColor="#696F8C">
+                                <path d="M11.6665 5.5H15.8332" stroke="currentColor" stroke-width="1.5"
+                                    stroke-linejoin="round" />
+                                <path d="M11.6665 8.41699H14.1665" stroke="currentColor" stroke-width="1.5"
+                                    stroke-linejoin="round" />
+                                <path d="M1.6665 0.916992H18.3332V15.0837H1.6665V0.916992Z" stroke="currentColor"
+                                    stroke-width="1.5" stroke-linejoin="round" />
+                                <path
+                                    d="M4.1665 11.75C5.17343 9.59911 8.92666 9.45758 9.99984 11.75M8.74984 5.91667C8.74984 6.83714 8.00365 7.58333 7.08317 7.58333C6.1627 7.58333 5.4165 6.83714 5.4165 5.91667C5.4165 4.99619 6.1627 4.25 7.08317 4.25C8.00365 4.25 8.74984 4.99619 8.74984 5.91667Z"
+                                    stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" />
+                            </svg>
+                        </div>
+                        <div class="label">Subscription</div>
+                    </a>
                     <a href="{{ route('user.subAccount') }}"
                         class="{{ request()->is('settings/sub-account') || request()->is('settings/sub-account/*') ? 'menu_grid active_menu' : 'menu_grid' }}">
                         <div class="icon">

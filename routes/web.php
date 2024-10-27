@@ -36,6 +36,9 @@ Route::get('/contact-us', ContactUsComponent::class)->name('app.contact-us');
 Route::get('/privacy-policy', PrivacyPolicyComponent::class)->name('app.privacy-policy');
 Route::get('/terms-conditions', TermsConditionsComponent::class)->name('app.terms-conditions');
 
+Route::get('/google/redirect', [App\Http\Controllers\GoogleLoginController::class, 'redirectToGoogle'])->name('google.redirect');
+Route::get('/google/callback', [App\Http\Controllers\GoogleLoginController::class, 'handleGoogleCallback'])->name('google.callback');
+
 
 //Call Route Files
 require __DIR__ . '/admin.php';

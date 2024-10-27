@@ -3,11 +3,13 @@
 namespace App\Livewire\App\User;
 
 use Livewire\Component;
+use App\Models\Transaction;
 
 class DashboardComponent extends Component
 {
     public function render()
     {
-        return view('livewire.app.user.dashboard-component')->layout('livewire.app.layouts.base');
+        $total_credits = Transaction::where('user_id', user()->id)->sum('credit');
+        return view('livewire.app.user.dashboard-component', ['total_credits'=>$total_credits])->layout('livewire.app.layouts.base');
     }
 }
