@@ -562,11 +562,21 @@
             calendar.render();
 
 
+            // Fetch and load events
+            function loadEvents() {
+                $.ajax({
+                    url: '/get-live-calender-events',
+                    method: 'GET',
+                    dataType: 'json',
+                    success: function(data) {
+                        calendar.removeAllEvents();
+                        calendar.addEventSource(data);
+                    }
+                });
+            }
 
             window.addEventListener('refreshCalendar', event => {
-                calendar.refetchEvents();
-                console.log('reloadDone');
-
+                loadEvents();
             });
         });
     </script>

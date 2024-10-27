@@ -73,6 +73,9 @@ Route::name('user.')->middleware('auth')->group(function () {
     Route::get('settings/apis', ApiComponent::class)->name('apis');
     Route::get('settings/dlc-registration', DLCRegistrationComponent::class)->name('dlcRegistration');
     Route::get('settings/trigger-notification', NotificationComponent::class)->name('triggerNotification');
+
+    // ajax
+    Route::get('get-live-calender-events', [CalendarComponent::class, 'getEventsProperty'])->name('getCalEvents');
 });
 
 // Forget Password
