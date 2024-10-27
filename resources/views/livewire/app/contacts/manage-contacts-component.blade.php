@@ -275,8 +275,7 @@
                                             value="{{ $contact->id }}" />
                                     </div>
                                     <div class="user_info_area">
-                                        <img src="{{ asset('assets/app/images/inbox/user_main.png') }}"
-                                            alt="user image" class="user_top_img" />
+                                        <div class="user_top_img chat-avatar">{{ Str::limit($contact->first_name, 1, '') }}{{ Str::limit($contact->last_name, 1, '') }}</div>
                                         <div>
                                             <h4>{{ $contact->first_name }} {{ $contact->last_name }}</h4>
                                             <div class="d-flex align-items-center flex-wrap gap-1">

@@ -18,6 +18,15 @@ class ManageContactsComponent extends Component
     public $file, $list_search_term, $folder_search_term, $contacts_search_term;
 
     public $list_name, $list_edit_id, $list_delete_id, $sort_list_id;
+
+    public function mount()
+    {
+        $firstList = ContactList::where('user_id', user()->id)->where('bookmarked', 1)->first();
+        if ($firstList) {
+            $this->sort_list_id = $firstList->id;
+        }
+    }
+
     public function addNewList()
     {
         $this->validate([
