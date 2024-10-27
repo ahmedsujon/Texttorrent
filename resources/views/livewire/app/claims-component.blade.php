@@ -12,8 +12,8 @@
             </div>
             <div class="template_filter_area d-flex-between">
                 <form action="" class="search_input_form">
-                    <input type="search" placeholder="Search folder" class="input_field" />
-                    <button type="submit" class="search_icon">
+                    <input type="search" placeholder="Search folder" wire:model.live='searchTerm' class="input_field" />
+                    <button type="button" class="search_icon">
                         <img src="{{ asset('assets/app/icons/search-gray.svg') }}" alt="search icon" />
                     </button>
                 </form>
@@ -49,7 +49,8 @@
                                         </div>
                                         <div class="column_area">
                                             <span>Number</span>
-                                            <img src="{{ asset('assets/app/icons/tp-down-table-arrow.svg') }}" alt="top down arrow" />
+                                            <img src="{{ asset('assets/app/icons/tp-down-table-arrow.svg') }}"
+                                                alt="top down arrow" />
                                         </div>
                                     </div>
                                 </th>
@@ -57,7 +58,8 @@
                                 <th scope="col">
                                     <div class="column_area">
                                         <span>Message</span>
-                                        <img src="{{ asset('assets/app/icons/tp-down-table-arrow.svg') }}" alt="top down arrow" />
+                                        <img src="{{ asset('assets/app/icons/tp-down-table-arrow.svg') }}"
+                                            alt="top down arrow" />
                                     </div>
                                 </th>
                                 <th scope="col">
@@ -68,364 +70,97 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td>
-                                    <div class="checkbox_name_cell_area">
-                                        <div class="form-check table_checkbox_area">
-                                            <input class="form-check-input" type="checkbox" value="" />
-                                        </div>
-                                        <p>+1 (566) 453-865</p>
-                                    </div>
-                                </td>
+                            @if ($claims->count() > 0)
+                                @foreach ($claims as $claim)
+                                    <tr>
+                                        <td>
+                                            <div class="checkbox_name_cell_area">
+                                                <div class="form-check table_checkbox_area">
+                                                    <input class="form-check-input" type="checkbox" value="" />
+                                                </div>
+                                                <p>{{ $claim->send_to }}</p>
+                                            </div>
+                                        </td>
 
-                                <td>
-                                    <p>Hey I am Tom Hardy. Nice to meet you</p>
-                                </td>
+                                        <td>
 
-                                <td>
-                                    <div class="table_dropdown_area d-flex align-items-center flex-wrap gap-2">
-                                        <button type="button" class="table_edit_btn">
-                                            <img src="{{ asset('assets/app/icons/cart.svg') }}" alt="cart icon" />
-                                            <span>Accept</span>
-                                        </button>
-                                        <button type="button" class="table_edit_btn">
-                                            <img src="{{ asset('assets/app/icons/user-block-04.svg') }}" alt="user block icon" />
-                                            <span>Blacklist</span>
-                                        </button>
-                                        <button type="button" class="table_edit_btn">
-                                            <img src="{{ asset('assets/app/icons/delete-03.svg') }}" alt="edit icon" />
-                                            <span>Delete</span>
-                                        </button>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <div class="checkbox_name_cell_area">
-                                        <div class="form-check table_checkbox_area">
-                                            <input class="form-check-input" type="checkbox" value="" />
-                                        </div>
-                                        <p>+1 (566) 453-865</p>
-                                    </div>
-                                </td>
+                                            @if ($claim->received_message)
+                                                <p>{{ $claim->received_message }}</p>
+                                            @else
+                                                <p class="text-danger">No message received yet!</p>
+                                            @endif
 
-                                <td>
-                                    <p>Hey I am Tom Hardy. Nice to meet you</p>
-                                </td>
+                                        </td>
 
-                                <td>
-                                    <div class="table_dropdown_area d-flex align-items-center flex-wrap gap-2">
-                                        <button type="button" class="table_edit_btn">
-                                            <img src="{{ asset('assets/app/icons/cart.svg') }}" alt="cart icon" />
-                                            <span>Accept</span>
-                                        </button>
-                                        <button type="button" class="table_edit_btn">
-                                            <img src="{{ asset('assets/app/icons/user-block-04.svg') }}" alt="user block icon" />
-                                            <span>Blacklist</span>
-                                        </button>
-                                        <button type="button" class="table_edit_btn">
-                                            <img src="{{ asset('assets/app/icons/delete-03.svg') }}" alt="edit icon" />
-                                            <span>Delete</span>
-                                        </button>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <div class="checkbox_name_cell_area">
-                                        <div class="form-check table_checkbox_area">
-                                            <input class="form-check-input" type="checkbox" value="" />
-                                        </div>
-                                        <p>+1 (566) 453-865</p>
-                                    </div>
-                                </td>
-
-                                <td>
-                                    <p>Hey I am Tom Hardy. Nice to meet you</p>
-                                </td>
-
-                                <td>
-                                    <div class="table_dropdown_area d-flex align-items-center flex-wrap gap-2">
-                                        <button type="button" class="table_edit_btn">
-                                            <img src="{{ asset('assets/app/icons/cart.svg') }}" alt="cart icon" />
-                                            <span>Accept</span>
-                                        </button>
-                                        <button type="button" class="table_edit_btn">
-                                            <img src="{{ asset('assets/app/icons/user-block-04.svg') }}" alt="user block icon" />
-                                            <span>Blacklist</span>
-                                        </button>
-                                        <button type="button" class="table_edit_btn">
-                                            <img src="{{ asset('assets/app/icons/delete-03.svg') }}" alt="edit icon" />
-                                            <span>Delete</span>
-                                        </button>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <div class="checkbox_name_cell_area">
-                                        <div class="form-check table_checkbox_area">
-                                            <input class="form-check-input" type="checkbox" value="" />
-                                        </div>
-                                        <p>+1 (566) 453-865</p>
-                                    </div>
-                                </td>
-
-                                <td>
-                                    <p>Hey I am Tom Hardy. Nice to meet you</p>
-                                </td>
-
-                                <td>
-                                    <div class="table_dropdown_area d-flex align-items-center flex-wrap gap-2">
-                                        <button type="button" class="table_edit_btn">
-                                            <img src="{{ asset('assets/app/icons/cart.svg') }}" alt="cart icon" />
-                                            <span>Accept</span>
-                                        </button>
-                                        <button type="button" class="table_edit_btn">
-                                            <img src="{{ asset('assets/app/icons/user-block-04.svg') }}" alt="user block icon" />
-                                            <span>Blacklist</span>
-                                        </button>
-                                        <button type="button" class="table_edit_btn">
-                                            <img src="{{ asset('assets/app/icons/delete-03.svg') }}" alt="edit icon" />
-                                            <span>Delete</span>
-                                        </button>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <div class="checkbox_name_cell_area">
-                                        <div class="form-check table_checkbox_area">
-                                            <input class="form-check-input" type="checkbox" value="" />
-                                        </div>
-                                        <p>+1 (566) 453-865</p>
-                                    </div>
-                                </td>
-
-                                <td>
-                                    <p>Hey I am Tom Hardy. Nice to meet you</p>
-                                </td>
-
-                                <td>
-                                    <div class="table_dropdown_area d-flex align-items-center flex-wrap gap-2">
-                                        <button type="button" class="table_edit_btn">
-                                            <img src="{{ asset('assets/app/icons/cart.svg') }}" alt="cart icon" />
-                                            <span>Accept</span>
-                                        </button>
-                                        <button type="button" class="table_edit_btn">
-                                            <img src="{{ asset('assets/app/icons/user-block-04.svg') }}" alt="user block icon" />
-                                            <span>Blacklist</span>
-                                        </button>
-                                        <button type="button" class="table_edit_btn">
-                                            <img src="{{ asset('assets/app/icons/delete-03.svg') }}" alt="edit icon" />
-                                            <span>Delete</span>
-                                        </button>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <div class="checkbox_name_cell_area">
-                                        <div class="form-check table_checkbox_area">
-                                            <input class="form-check-input" type="checkbox" value="" />
-                                        </div>
-                                        <p>+1 (566) 453-865</p>
-                                    </div>
-                                </td>
-
-                                <td>
-                                    <p>Hey I am Tom Hardy. Nice to meet you</p>
-                                </td>
-
-                                <td>
-                                    <div class="table_dropdown_area d-flex align-items-center flex-wrap gap-2">
-                                        <button type="button" class="table_edit_btn">
-                                            <img src="{{ asset('assets/app/icons/cart.svg') }}" alt="cart icon" />
-                                            <span>Accept</span>
-                                        </button>
-                                        <button type="button" class="table_edit_btn">
-                                            <img src="{{ asset('assets/app/icons/user-block-04.svg') }}" alt="user block icon" />
-                                            <span>Blacklist</span>
-                                        </button>
-                                        <button type="button" class="table_edit_btn">
-                                            <img src="{{ asset('assets/app/icons/delete-03.svg') }}" alt="edit icon" />
-                                            <span>Delete</span>
-                                        </button>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <div class="checkbox_name_cell_area">
-                                        <div class="form-check table_checkbox_area">
-                                            <input class="form-check-input" type="checkbox" value="" />
-                                        </div>
-                                        <p>+1 (566) 453-865</p>
-                                    </div>
-                                </td>
-
-                                <td>
-                                    <p>Hey I am Tom Hardy. Nice to meet you</p>
-                                </td>
-
-                                <td>
-                                    <div class="table_dropdown_area d-flex align-items-center flex-wrap gap-2">
-                                        <button type="button" class="table_edit_btn">
-                                            <img src="{{ asset('assets/app/icons/cart.svg') }}" alt="cart icon" />
-                                            <span>Accept</span>
-                                        </button>
-                                        <button type="button" class="table_edit_btn">
-                                            <img src="{{ asset('assets/app/icons/user-block-04.svg') }}" alt="user block icon" />
-                                            <span>Blacklist</span>
-                                        </button>
-                                        <button type="button" class="table_edit_btn">
-                                            <img src="{{ asset('assets/app/icons/delete-03.svg') }}" alt="edit icon" />
-                                            <span>Delete</span>
-                                        </button>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <div class="checkbox_name_cell_area">
-                                        <div class="form-check table_checkbox_area">
-                                            <input class="form-check-input" type="checkbox" value="" />
-                                        </div>
-                                        <p>+1 (566) 453-865</p>
-                                    </div>
-                                </td>
-
-                                <td>
-                                    <p>Hey I am Tom Hardy. Nice to meet you</p>
-                                </td>
-
-                                <td>
-                                    <div class="table_dropdown_area d-flex align-items-center flex-wrap gap-2">
-                                        <button type="button" class="table_edit_btn">
-                                            <img src="{{ asset('assets/app/icons/cart.svg') }}" alt="cart icon" />
-                                            <span>Accept</span>
-                                        </button>
-                                        <button type="button" class="table_edit_btn">
-                                            <img src="{{ asset('assets/app/icons/user-block-04.svg') }}" alt="user block icon" />
-                                            <span>Blacklist</span>
-                                        </button>
-                                        <button type="button" class="table_edit_btn">
-                                            <img src="{{ asset('assets/app/icons/delete-03.svg') }}" alt="edit icon" />
-                                            <span>Delete</span>
-                                        </button>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <div class="checkbox_name_cell_area">
-                                        <div class="form-check table_checkbox_area">
-                                            <input class="form-check-input" type="checkbox" value="" />
-                                        </div>
-                                        <p>+1 (566) 453-865</p>
-                                    </div>
-                                </td>
-
-                                <td>
-                                    <p>Hey I am Tom Hardy. Nice to meet you</p>
-                                </td>
-
-                                <td>
-                                    <div class="table_dropdown_area d-flex align-items-center flex-wrap gap-2">
-                                        <button type="button" class="table_edit_btn">
-                                            <img src="{{ asset('assets/app/icons/cart.svg') }}" alt="cart icon" />
-                                            <span>Accept</span>
-                                        </button>
-                                        <button type="button" class="table_edit_btn">
-                                            <img src="{{ asset('assets/app/icons/user-block-04.svg') }}" alt="user block icon" />
-                                            <span>Blacklist</span>
-                                        </button>
-                                        <button type="button" class="table_edit_btn">
-                                            <img src="{{ asset('assets/app/icons/delete-03.svg') }}" alt="edit icon" />
-                                            <span>Delete</span>
-                                        </button>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <div class="checkbox_name_cell_area">
-                                        <div class="form-check table_checkbox_area">
-                                            <input class="form-check-input" type="checkbox" value="" />
-                                        </div>
-                                        <p>+1 (566) 453-865</p>
-                                    </div>
-                                </td>
-
-                                <td>
-                                    <p>Hey I am Tom Hardy. Nice to meet you</p>
-                                </td>
-
-                                <td>
-                                    <div class="table_dropdown_area d-flex align-items-center flex-wrap gap-2">
-                                        <button type="button" class="table_edit_btn">
-                                            <img src="{{ asset('assets/app/icons/cart.svg') }}" alt="cart icon" />
-                                            <span>Accept</span>
-                                        </button>
-                                        <button type="button" class="table_edit_btn">
-                                            <img src="{{ asset('assets/app/icons/user-block-04.svg') }}" alt="user block icon" />
-                                            <span>Blacklist</span>
-                                        </button>
-                                        <button type="button" class="table_edit_btn">
-                                            <img src="{{ asset('assets/app/icons/delete-03.svg') }}" alt="edit icon" />
-                                            <span>Delete</span>
-                                        </button>
-                                    </div>
-                                </td>
-                            </tr>
+                                        <td>
+                                            <div class="table_dropdown_area d-flex align-items-center flex-wrap gap-2">
+                                                <button type="button" class="table_edit_btn">
+                                                    <img src="{{ asset('assets/app/icons/cart.svg') }}"
+                                                        alt="cart icon" />
+                                                    <span>Accept</span>
+                                                </button>
+                                                <button type="button" class="table_edit_btn">
+                                                    <img src="{{ asset('assets/app/icons/user-block-04.svg') }}"
+                                                        alt="user block icon" />
+                                                    <span>Blacklist</span>
+                                                </button>
+                                                <button type="button" class="table_edit_btn">
+                                                    <img src="{{ asset('assets/app/icons/delete-03.svg') }}"
+                                                        alt="edit icon" />
+                                                    <span>Delete</span>
+                                                </button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                @endforeach
+                            @else
+                            @endif
                         </tbody>
                     </table>
                 </div>
             </div>
-            <div class="pagination_area">
-                <div class="d-flex">
-                    <select class="niceSelect">
-                        <option data-display="10 Claims">10 Claims</option>
-                        <option value="1">20 Claims</option>
-                        <option value="2">30 Claims</option>
-                        <option value="3">50 Claims</option>
-                        <option value="4">100 Claims</option>
+            <div class="pagination_area pagination_top_border">
+                <div class="d-flex" wire:ignore>
+                    <select class="niceSelect sortingValue">
+                        <option value="10">10 Numbers</option>
+                        <option value="30">30 Numbers</option>
+                        <option value="50">50 Numbers</option>
+                        <option value="100">100 Numbers</option>
                     </select>
                 </div>
-                <ul class="number_list d-flex align-items-center justify-content-center flex-wrap">
-                    <li>
-                        <a href="#" class="pagination_active"> 1 </a>
-                    </li>
-                    <li>
-                        <a href="#"> 2 </a>
-                    </li>
-                    <li>
-                        <a href="#"> 3 </a>
-                    </li>
-                    <li>
-                        <div class="middle_dot">...</div>
-                    </li>
-                    <li>
-                        <a href="#"> 8 </a>
-                    </li>
-                    <li>
-                        <a href="#"> 9 </a>
-                    </li>
-                    <li>
-                        <a href="#"> 10 </a>
-                    </li>
-                </ul>
-                <div class="pagination_action_list d-flex align-items-center justify-content-end flex-wrap g-sm">
-                    <a href="#">
-                        <img src="{{ asset('assets/app/icons/back-arrow-black.svg') }}" alt="back arrow" />
-                        <span>Previous</span>
-                    </a>
-                    <a href="#">
-                        <span>Next</span>
-                        <img src="{{ asset('assets/app/icons//right-arrow-black.svg') }}" alt="right arrow" />
-                    </a>
-                </div>
+                {{ $claims->links('livewire.app-pagination') }}
             </div>
         </section>
     </main>
 </div>
+
+@push('scripts')
+    <script>
+        $(document).ready(function(){
+            $('.sortingValue').on('change', function(){
+                @this.set('sortingValue', this.value);
+            });
+        });
+
+        // window.addEventListener('showNumberAssignModal', event => {
+        //     $('#assignModal').modal('show');
+        // });
+
+        // window.addEventListener('show_release_modal', event => {
+        //     $('#releaseModal').modal('show');
+        // });
+
+        // window.addEventListener('closeModal', event => {
+        //     $('#assignModal').modal('hide');
+        // });
+
+        // window.addEventListener('number_deleted', event => {
+        //     $('#deleteDataModal').modal('hide');
+        //     Swal.fire(
+        //         "Deleted!",
+        //         "The number has been deleted.",
+        //         "success"
+        //     );
+        // });
+    </script>
+@endpush
