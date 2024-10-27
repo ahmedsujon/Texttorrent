@@ -18,21 +18,21 @@
                     </button>
                 </form>
                 <div class="filter_btn_area d-flex align-items-center justify-content-end flex-wrap g-xs">
-                    <button type="button" class="import_btn">
-                        <img src="{{ asset('assets/app/icons/cart.svg') }}" alt="column insert" />
+                    <button type="button" class="import_btn" wire:click.prevent="bulkConfirmation('accept')" wire:loading.attr='disabled'>
+                        {!! loadingStateWithoutText("bulkConfirmation('accept')", '<img src="'.asset('assets/app/icons/cart.svg').'" />') !!}
                         <span>Accept</span>
                     </button>
-                    <button type="button" class="import_btn">
-                        <img src="{{ asset('assets/app/icons/user-block-02.svg') }}" alt="column insert" />
+                    <button type="button" class="import_btn" wire:click.prevent="bulkConfirmation('blacklist')" wire:loading.attr='disabled'>
+                        {!! loadingStateWithoutText("bulkConfirmation('blacklist')", '<img src="'.asset('assets/app/icons/user-block-02.svg').'" />') !!}
                         <span>Blacklist</span>
                     </button>
-                    <button type="button" class="import_btn">
-                        <img src="{{ asset('assets/app/icons/delete-03.svg') }}" alt="column insert" />
+                    <button type="button" class="import_btn" wire:click.prevent="bulkConfirmation('delete')" wire:loading.attr='disabled'>
+                        {!! loadingStateWithoutText("bulkConfirmation('delete')", '<img src="'.asset('assets/app/icons/delete-03.svg').'" />') !!}
                         <span>Delete</span>
                     </button>
 
-                    <button type="button" class="import_btn">
-                        <img src="{{ asset('assets/app/icons/import.svg') }}" alt="column insert" />
+                    <button type="button" class="import_btn" wire:click.prevent="bulkExport" wire:loading.attr='disabled'>
+                        {!! loadingStateWithoutText("bulkExport", '<img src="'.asset('assets/app/icons/import.svg').'" />') !!}
                         <span>Export</span>
                     </button>
                 </div>
@@ -45,7 +45,7 @@
                                 <th scope="col">
                                     <div class="checkbox_name_area">
                                         <div class="form-check table_checkbox_area">
-                                            <input class="form-check-input" type="checkbox" value="" />
+                                            <input class="form-check-input" value="1" wire:model.live='select_all' type="checkbox" value="" />
                                         </div>
                                         <div class="column_area">
                                             <span>Number</span>
@@ -76,7 +76,7 @@
                                         <td>
                                             <div class="checkbox_name_cell_area">
                                                 <div class="form-check table_checkbox_area">
-                                                    <input class="form-check-input" type="checkbox" value="" />
+                                                    <input class="form-check-input" value="{{ $claim->id }}" wire:model.live='bulk_ids' type="checkbox" />
                                                 </div>
                                                 <p>{{ $claim->send_to }}</p>
                                             </div>
@@ -94,19 +94,16 @@
 
                                         <td>
                                             <div class="table_dropdown_area d-flex align-items-center flex-wrap gap-2">
-                                                <button type="button" class="table_edit_btn">
-                                                    <img src="{{ asset('assets/app/icons/cart.svg') }}"
-                                                        alt="cart icon" />
+                                                <button type="button" class="table_edit_btn" wire:click.prevent='acceptConfirmation({{ $claim->id }})' wire:loading.attr='disabled'>
+                                                    {!! loadingStateWithoutText('acceptConfirmation('.$claim->id.')', '<img src="'.asset('assets/app/icons/cart.svg').'" />') !!}
                                                     <span>Accept</span>
                                                 </button>
-                                                <button type="button" class="table_edit_btn">
-                                                    <img src="{{ asset('assets/app/icons/user-block-04.svg') }}"
-                                                        alt="user block icon" />
+                                                <button type="button" class="table_edit_btn" wire:click.prevent='blacklistConfirmation({{ $claim->id }})' wire:loading.attr='disabled'>
+                                                    {!! loadingStateWithoutText('blacklistConfirmation('.$claim->id.')', '<img src="'.asset('assets/app/icons/user-block-04.svg').'" />') !!}
                                                     <span>Blacklist</span>
                                                 </button>
-                                                <button type="button" class="table_edit_btn">
-                                                    <img src="{{ asset('assets/app/icons/delete-03.svg') }}"
-                                                        alt="edit icon" />
+                                                <button type="button" class="table_edit_btn" wire:click.prevent='deleteConfirmation({{ $claim->id }})' wire:loading.attr='disabled'>
+                                                    {!! loadingStateWithoutText('deleteConfirmation('.$claim->id.')', '<img src="'.asset('assets/app/icons/delete-03.svg').'" />') !!}
                                                     <span>Delete</span>
                                                 </button>
                                             </div>
@@ -132,6 +129,157 @@
             </div>
         </section>
     </main>
+
+    <!-- Claim Accept  Modal  -->
+    <div wire:ignore.self class="modal fade delete_modal" id="acceptClaimModal" tabindex="-1"
+    aria-labelledby="deleteModal" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <div class="content_area">
+                        <h2>Are you sure?</h2>
+                        <h4>You want to accept this claim?</h4>
+                        <div class="delete_action_area d-flex align-items-center flex-wrap">
+                            <button type="button" class="delete_cancel_btn" id="deleteModalCloseBtn"
+                                data-bs-dismiss="modal">
+                                Cancel
+                            </button>
+                            <button type="button" wire:click.prevent='acceptClaim' wire:loading.attr='disabled'
+                                class="delete_yes_btn">
+                                {!! loadingStateWithText('acceptClaim', 'Yes') !!}
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Claim Accept  Modal  -->
+    <div wire:ignore.self class="modal fade delete_modal" id="blacklistClaimModal" tabindex="-1"
+    aria-labelledby="deleteModal" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <div class="content_area">
+                        <h2>Are you sure?</h2>
+                        <h4>You want to blacklist this contact?</h4>
+                        <div class="delete_action_area d-flex align-items-center flex-wrap">
+                            <button type="button" class="delete_cancel_btn" id="deleteModalCloseBtn"
+                                data-bs-dismiss="modal">
+                                Cancel
+                            </button>
+                            <button type="button" wire:click.prevent='blacklistClaim' wire:loading.attr='disabled'
+                                class="delete_yes_btn">
+                                {!! loadingStateWithText('blacklistClaim', 'Yes') !!}
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Claim Accept  Modal  -->
+    <div wire:ignore.self class="modal fade delete_modal" id="deleteClaimModal" tabindex="-1"
+    aria-labelledby="deleteModal" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <div class="content_area">
+                        <h2>Are you sure?</h2>
+                        <h4>You want to delete this claim?</h4>
+                        <div class="delete_action_area d-flex align-items-center flex-wrap">
+                            <button type="button" class="delete_cancel_btn" id="deleteModalCloseBtn"
+                                data-bs-dismiss="modal">
+                                Cancel
+                            </button>
+                            <button type="button" wire:click.prevent='deleteClaim' wire:loading.attr='disabled'
+                                class="delete_yes_btn">
+                                {!! loadingStateWithText('deleteClaim', 'Yes') !!}
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Claim Accept  Modal  -->
+    <div wire:ignore.self class="modal fade delete_modal" id="acceptClaimBulkModal" tabindex="-1"
+    aria-labelledby="deleteModal" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <div class="content_area">
+                        <h2>Are you sure?</h2>
+                        <h4>You want to accept selected claims?</h4>
+                        <div class="delete_action_area d-flex align-items-center flex-wrap">
+                            <button type="button" class="delete_cancel_btn" id="deleteModalCloseBtn"
+                                data-bs-dismiss="modal">
+                                Cancel
+                            </button>
+                            <button type="button" wire:click.prevent='acceptClaimBulk' wire:loading.attr='disabled'
+                                class="delete_yes_btn">
+                                {!! loadingStateWithText('acceptClaimBulk', 'Yes') !!}
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Claim Accept  Modal  -->
+    <div wire:ignore.self class="modal fade delete_modal" id="blacklistClaimBulkModal" tabindex="-1"
+    aria-labelledby="deleteModal" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <div class="content_area">
+                        <h2>Are you sure?</h2>
+                        <h4>You want to blacklist selected contacts?</h4>
+                        <div class="delete_action_area d-flex align-items-center flex-wrap">
+                            <button type="button" class="delete_cancel_btn" id="deleteModalCloseBtn"
+                                data-bs-dismiss="modal">
+                                Cancel
+                            </button>
+                            <button type="button" wire:click.prevent='blacklistClaimBulk' wire:loading.attr='disabled'
+                                class="delete_yes_btn">
+                                {!! loadingStateWithText('blacklistClaimBulk', 'Yes') !!}
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Claim Accept  Modal  -->
+    <div wire:ignore.self class="modal fade delete_modal" id="deleteClaimBulkModal" tabindex="-1"
+    aria-labelledby="deleteModal" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <div class="content_area">
+                        <h2>Are you sure?</h2>
+                        <h4>You want to delete selected claims?</h4>
+                        <div class="delete_action_area d-flex align-items-center flex-wrap">
+                            <button type="button" class="delete_cancel_btn" id="deleteModalCloseBtn"
+                                data-bs-dismiss="modal">
+                                Cancel
+                            </button>
+                            <button type="button" wire:click.prevent='deleteClaimBulk' wire:loading.attr='disabled'
+                                class="delete_yes_btn">
+                                {!! loadingStateWithText('deleteClaimBulk', 'Yes') !!}
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
 </div>
 
 @push('scripts')
@@ -140,7 +288,37 @@
             $('.sortingValue').on('change', function(){
                 @this.set('sortingValue', this.value);
             });
+
+            window.addEventListener('showClaimAcceptConfirmation', event => {
+                $('#acceptClaimModal').modal('show');
+            });
+            window.addEventListener('showClaimBlacklistConfirmation', event => {
+                $('#blacklistClaimModal').modal('show');
+            });
+            window.addEventListener('showClaimDeleteConfirmation', event => {
+                $('#deleteClaimModal').modal('show');
+            });
+            window.addEventListener('showBulkAcceptConfirmation', event => {
+                $('#acceptClaimBulkModal').modal('show');
+            });
+            window.addEventListener('showBulkBlacklistConfirmation', event => {
+                $('#blacklistClaimBulkModal').modal('show');
+            });
+            window.addEventListener('showBulkDeleteConfirmation', event => {
+                $('#deleteClaimBulkModal').modal('show');
+            });
+
+            window.addEventListener('closeModal', event => {
+                $('#acceptClaimModal').modal('hide');
+                $('#blacklistClaimModal').modal('hide');
+                $('#deleteClaimModal').modal('hide');
+                $('#acceptClaimBulkModal').modal('hide');
+                $('#blacklistClaimBulkModal').modal('hide');
+                $('#deleteClaimBulkModal').modal('hide');
+            });
         });
+
+
 
         // window.addEventListener('showNumberAssignModal', event => {
         //     $('#assignModal').modal('show');
