@@ -37,7 +37,7 @@
                                 <div class="col-md-3">
                                     <div class="mb-3 row">
                                         <div class="col-md-10">
-                                            <select class="form-select">
+                                            <select class="form-select" wire:model.live="paymentStatusSearchTerm">
                                                 <option value="">All</option>
                                                 <option value="paid">Paid</option>
                                                 <option value="unpaid">Unpaid</option>
@@ -46,22 +46,22 @@
                                     </div>
                                 </div>
                                 <div style="position: absolute; text-align: center;" wire:loading
-                                    wire:target='searchTerm,sortingValue,previousPage,gotoPage,nextPage'>
+                                    wire:target='searchTerm,sortingValue,paymentStatusSearchTerm,dateFilter,previousPage,gotoPage,nextPage'>
                                     <span class="bg-light" style="padding: 5px 15px; border-radius: 2px;"><span
                                             class="spinner-border spinner-border-xs align-middle" role="status"
                                             aria-hidden="true"></span> Processing</span>
                                 </div>
+
                                 <div class="col-md-3">
                                     <div class="mb-3 row">
-                                        <label class="col-md-2 col-form-label">Select</label>
                                         <div class="col-md-10">
-                                            <select class="form-select">
-                                                <option>Select Date</option>
-                                                <option>Today</option>
-                                                <option>Last 7 Days</option>
-                                                <option>Last 30 Days</option>
-                                                <option>Last 6 Month</option>
-                                                <option>This Year</option>
+                                            <select class="form-select" wire:model.live="dateFilter">
+                                                <option value="">Select Date</option>
+                                                <option value="today">Today</option>
+                                                <option value="7days">Last 7 Days</option>
+                                                <option value="30days">Last 30 Days</option>
+                                                <option value="6months">Last 6 Months</option>
+                                                <option value="this_year">This Year</option>
                                             </select>
                                         </div>
                                     </div>
@@ -126,8 +126,7 @@
                                                 <tr>
                                                     <td class="align-middle">{{ $sl++ }}</td>
                                                     <td class="align-middle">
-                                                        {{ getUserByID($subscription->user_id)->first_name }}
-                                                        {{ getUserByID($subscription->user_id)->last_name }}
+                                                        {{ $subscription->user_id }}
                                                     </td>
                                                     <td class="align-middle">{{ $subscription->package_name }}</td>
                                                     <td class="align-middle">{{ $subscription->amount }}</td>
