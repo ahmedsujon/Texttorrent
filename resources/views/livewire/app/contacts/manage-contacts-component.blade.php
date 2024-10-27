@@ -313,7 +313,10 @@
                                             wire:loading.attr='disabled'>
                                             {!! loadingStateWithoutText(
                                                 'addFolderModal(' . $contact->id . ')',
-                                                '<img src="' . asset('assets/app/icons/folder-add-02.svg') . '" alt="folder icon" />',
+                                                '<img src="' .
+                                                    asset('assets/app/icons/folder-add-02.svg') .
+                                                    '"
+                                                                                    alt="folder icon" />',
                                             ) !!}
                                         </button>
                                         <div class="table_dropdown_area">
@@ -442,92 +445,19 @@
                             aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
-                        {{-- <form class="mb-5" wire:submit.prevent="uploadFile" x-data="{ progress: 0, uploadedSize: 0, totalSize: 0 }"
-                            x-on:livewire-upload-start="progress = 0"
-                            x-on:livewire-upload-progress="progress = $event.detail.progress; uploadedSize = (progress / 100 * totalSize).toFixed(2)"
-                            x-on:livewire-upload-finish="progress = 100" x-on:livewire-upload-error="progress = 0"
-                            x-on:livewire-upload-finish="uploadedSize = totalSize">
-
-                            <!-- File Upload Area -->
-                            <label for="contactUploadImage" class="d-flex file_upload_area mb-2 w-100">
-                                <div class="import_icon">
-                                    <img src="{{ asset('assets/app/icons/import.svg') }}" alt="import icon" />
-                                </div>
-                                <h4><span>Click to upload</span> or drag and drop</h4>
-                                <h5>Headers are mandatory (max. limit of contacts 10,000)</h5>
-                            </label>
-
-                            <!-- File Input -->
-                            <input type="file" id="contactUploadImage" wire:model="file"
-                                x-on:change="totalSize = ($event.target.files[0].size / 1024 / 1024).toFixed(2)"
-                                class="position-absolute opacity-0 visually-hidden" />
-
-                            <!-- Error Message -->
-                            @error('file')
-                                <p class="text-danger" style="font-size: 12.5px;">{{ $message }}</p>
-                            @enderror
-
-                            @if (!$file)
-                            <div class="uploading_status_area mb-2" x-show="progress > 0">
-                                <!-- File Name and Upload Info -->
-                                <div class="file_name_grid">
-                                    <img src="{{ asset('assets/app/icons/bi_filetype-csv.svg') }}" alt="csv" />
-                                    <div>
-                                        <h4 x-show="progress > 0">Uploading...</h4>
-                                        <h5 x-text="`${uploadedSize}/${totalSize} MB`"></h5>
-                                    </div>
-                                </div>
-
-                                <!-- Progress Bar -->
-                                <div class="progress_grid">
-                                    <div class="progress" style="height: 15px;">
-                                        <div class="progress-bar progress-bar-animated" role="progressbar"
-                                            :style="`width: ${progress}%`" aria-valuenow="progress" aria-valuemin="0"
-                                            aria-valuemax="100">
-                                        </div>
-                                    </div>
-                                    <div x-text="`${progress}%`" class="number"></div>
-                                </div>
-                            </div>
-                            @endif
-
-                            <div wire:loading wire:target='file' wire:key='file'>
-                                <i class="fa fa-spinner fa-spin"></i> Uploading...
-                            </div>
-
-                            @if ($file)
-                                <div class="uploading_status_area">
-                                    <button type="button" class="close_btn" wire:click.prevent='resetUpload'>
-                                        <img src="{{ asset('assets/app/icons/delete-01.svg') }}" alt="delete icon" />
-                                    </button>
-                                    <div class="file_name_grid">
-                                        <img src="{{ asset('assets/app/icons/bi_filetype-csv.svg') }}" alt="csv" />
-                                        <div>
-                                            <h4>{{ $file->getClientOriginalName() }}</h4>
-                                            <div class="complete_status">
-                                                <div class="circle">
-                                                    <img src="{{ asset('assets/app/icons/tick-circle.svg') }}" alt="track icon" />
-                                                </div>
-                                                <h5>Completed</h5>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            @endif
-                        </form> --}}
 
                         <form action="" class="event_form_area">
-                            <label for="contactUploadImage" class="d-flex file_upload_area w-100">
+                            <label for="contactUploadImage" class="d-flex file_upload_area w-100"
+                                id="fileUploadLabel">
                                 <div class="import_icon">
                                     <img src="{{ asset('assets/app/icons/import.svg') }}" alt="import icon" />
                                 </div>
-                                <h4><span>Click to upload</span> or drag and drop</h4>
+                                <h4 id="dropText"><span>Click to upload</span> or drag and drop</h4>
                                 <h5>Headers are mandatory (max. limit of contacts 10,000)</h5>
                             </label>
 
                             <!-- File Input -->
                             <input type="file" id="contactUploadImage" accept=".csv,.xlsx" wire:model="file"
-                                x-on:change="totalSize = ($event.target.files[0].size / 1024 / 1024).toFixed(2)"
                                 class="position-absolute opacity-0 visually-hidden" />
 
                             <!-- Error Message -->
@@ -568,7 +498,9 @@
                                     <select name="lang" class="form-control" wire:model.blur='first_name_column'>
                                         <option value="">Select Column</option>
                                         @foreach ($columns as $key => $column)
-                                            <option value="{{ $column }}" {{ $key == 0 ? 'selected' : '' }}>{{ $column }}</option>
+                                            <option value="{{ $column }}" {{ $key == 0 ? 'selected' : '' }}>
+                                                {{ $column }}
+                                            </option>
                                         @endforeach
                                     </select>
                                     <img src="{{ asset('assets/app/icons/arrow-down.svg') }}" alt="down arrow"
@@ -580,7 +512,9 @@
                                     <select name="lang" class="form-control" wire:model.blur='last_name_column'>
                                         <option value="">Select Column</option>
                                         @foreach ($columns as $key => $column)
-                                            <option value="{{ $column }}" {{ $key == 1 ? 'selected' : '' }}>{{ $column }}</option>
+                                            <option value="{{ $column }}" {{ $key == 1 ? 'selected' : '' }}>
+                                                {{ $column }}
+                                            </option>
                                         @endforeach
                                     </select>
                                     <img src="{{ asset('assets/app/icons/arrow-down.svg') }}" alt="down arrow"
@@ -595,7 +529,9 @@
                                         wire:model.blur='email_address_column'>
                                         <option value="">Select Column</option>
                                         @foreach ($columns as $key => $column)
-                                            <option value="{{ $column }}" {{ $key == 2 ? 'selected' : '' }}>{{ $column }}</option>
+                                            <option value="{{ $column }}" {{ $key == 2 ? 'selected' : '' }}>
+                                                {{ $column }}
+                                            </option>
                                         @endforeach
                                     </select>
                                     <img src="{{ asset('assets/app/icons/arrow-down.svg') }}" alt="down arrow"
@@ -607,7 +543,9 @@
                                     <select name="lang" class="form-control" wire:model.blur='company_column'>
                                         <option value="">Select Column</option>
                                         @foreach ($columns as $key => $column)
-                                            <option value="{{ $column }}" {{ $key == 3 ? 'selected' : '' }}>{{ $column }}</option>
+                                            <option value="{{ $column }}" {{ $key == 3 ? 'selected' : '' }}>
+                                                {{ $column }}
+                                            </option>
                                         @endforeach
                                     </select>
                                     <img src="{{ asset('assets/app/icons/arrow-down.svg') }}" alt="down arrow"
@@ -620,7 +558,8 @@
                                 <select name="lang" class="form-control" wire:model.blur='phone_number_column'>
                                     <option value="">Select Column</option>
                                     @foreach ($columns as $key => $column)
-                                        <option value="{{ $column }}" {{ $key == 4 ? 'selected' : '' }}>{{ $column }}</option>
+                                        <option value="{{ $column }}" {{ $key == 4 ? 'selected' : '' }}>
+                                            {{ $column }}</option>
                                     @endforeach
                                 </select>
                                 <img src="{{ asset('assets/app/icons/arrow-down.svg') }}" alt="down arrow"
@@ -635,7 +574,9 @@
                                         wire:model.blur='additional_1_column'>
                                         <option value="">Select Column</option>
                                         @foreach ($columns as $key => $column)
-                                            <option value="{{ $column }}" {{ $key == 5 ? 'selected' : '' }}>{{ $column }}</option>
+                                            <option value="{{ $column }}" {{ $key == 5 ? 'selected' : '' }}>
+                                                {{ $column }}
+                                            </option>
                                         @endforeach
                                     </select>
                                     <img src="{{ asset('assets/app/icons/arrow-down.svg') }}" alt="down arrow"
@@ -648,7 +589,9 @@
                                         wire:model.blur='additional_2_column'>
                                         <option value="">Select Column</option>
                                         @foreach ($columns as $key => $column)
-                                            <option value="{{ $column }}" {{ $key == 6 ? 'selected' : '' }}>{{ $column }}</option>
+                                            <option value="{{ $column }}" {{ $key == 6 ? 'selected' : '' }}>
+                                                {{ $column }}
+                                            </option>
                                         @endforeach
                                     </select>
                                     <img src="{{ asset('assets/app/icons/arrow-down.svg') }}" alt="down arrow"
@@ -661,7 +604,9 @@
                                         wire:model.blur='additional_3_column'>
                                         <option value="">Select Column</option>
                                         @foreach ($columns as $key => $column)
-                                            <option value="{{ $column }}" {{ $key == 7 ? 'selected' : '' }}>{{ $column }}</option>
+                                            <option value="{{ $column }}" {{ $key == 7 ? 'selected' : '' }}>
+                                                {{ $column }}
+                                            </option>
                                         @endforeach
                                     </select>
                                     <img src="{{ asset('assets/app/icons/arrow-down.svg') }}" alt="down arrow"
@@ -728,7 +673,8 @@
                                 <label for="">Mobile number</label>
                                 <div class="input-group">
                                     <span class="input-group-text" id="basic-addon1">+1</span>
-                                    <input id="tel-input" type="tel" class="form-control" wire:model.blur='mobile_number' placeholder="xxxxxxxxxx" maxlength="10" />
+                                    <input id="tel-input" type="tel" class="form-control"
+                                        wire:model.blur='mobile_number' placeholder="xxxxxxxxxx" maxlength="10" />
                                 </div>
                                 @error('mobile_number')
                                     <p class="text-danger" style="font-size: 12.5px;">{{ $message }}</p>
@@ -737,14 +683,16 @@
                             <div class="two_grid">
                                 <div class="input_row">
                                     <label for="">Email</label>
-                                    <input type="email" placeholder="Type email" wire:model.blur='email' class="input_field" />
+                                    <input type="email" placeholder="Type email" wire:model.blur='email'
+                                        class="input_field" />
                                     @error('email')
                                         <p class="text-danger" style="font-size: 12.5px;">{{ $message }}</p>
                                     @enderror
                                 </div>
                                 <div class="input_row">
                                     <label for="">Company</label>
-                                    <input type="text" placeholder="Type Company Name" wire:model.blur='company_name' class="input_field" />
+                                    <input type="text" placeholder="Type Company Name"
+                                        wire:model.blur='company_name' class="input_field" />
                                     @error('company_name')
                                         <p class="text-danger" style="font-size: 12.5px;">{{ $message }}</p>
                                     @enderror
@@ -811,14 +759,16 @@
                             <div class="two_grid">
                                 <div class="input_row">
                                     <label for="">Email</label>
-                                    <input type="email" placeholder="Type email" wire:model.blur='email' class="input_field" />
+                                    <input type="email" placeholder="Type email" wire:model.blur='email'
+                                        class="input_field" />
                                     @error('email')
                                         <p class="text-danger" style="font-size: 12.5px;">{{ $message }}</p>
                                     @enderror
                                 </div>
                                 <div class="input_row">
                                     <label for="">Company</label>
-                                    <input type="text" placeholder="Type Company Name" wire:model.blur='company_name' class="input_field" />
+                                    <input type="text" placeholder="Type Company Name"
+                                        wire:model.blur='company_name' class="input_field" />
                                     @error('company_name')
                                         <p class="text-danger" style="font-size: 12.5px;">{{ $message }}</p>
                                     @enderror
@@ -897,7 +847,9 @@
                                         </div>
                                         <div>
                                             <h4>Contact list</h4>
-                                            <h5>{{ $numberDetails->list_id && isset(getListByID($numberDetails->list_id)->name) ? getListByID($numberDetails->list_id)->name : '---' }}
+                                            <h5>{{ $numberDetails->list_id && isset(getListByID($numberDetails->list_id)->name)
+                                                ? getListByID($numberDetails->list_id)->name
+                                                : '---' }}
                                             </h5>
                                         </div>
                                     </div>
@@ -933,7 +885,8 @@
                                     </div>
                                     <div class="user_info_grid">
                                         <div class="icon">
-                                            <img src="{{ asset('assets/app/icons/note-02.svg') }}" alt="note icon" />
+                                            <img src="{{ asset('assets/app/icons/note-02.svg') }}"
+                                                alt="note icon" />
                                         </div>
                                         <div>
                                             <h4>Notes</h4>
@@ -1079,7 +1032,10 @@
                             class="create_event_btn d-flex align-items-center justify-content-center flex-wrap gap-1">
                             {!! loadingStateWithoutText(
                                 'addToFolder',
-                                '<img src="' . asset('assets/app/icons/save.svg') . '" alt="save icon" class="save_icon" />',
+                                '<img src="' .
+                                    asset('assets/app/icons/save.svg') .
+                                    '" alt="save icon"
+                                                            class="save_icon" />',
                             ) !!} Save
                         </button>
                     </div>
@@ -1246,6 +1202,43 @@
         //     });
         // });
     </script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const fileInput = document.getElementById('contactUploadImage');
+            const label = document.getElementById('fileUploadLabel');
+            const uploadText = document.getElementById('dropText');
+
+            // Highlight label when dragging over it
+            label.addEventListener('dragover', function(e) {
+                e.preventDefault();
+                label.classList.add('border-success');
+                uploadText.textContent = 'Drop your file here';
+            });
+
+            label.addEventListener('dragleave', function(e) {
+                e.preventDefault();
+                label.classList.remove('border-success');
+                $('#dropText').html('<span>Click to upload</span> or drag and drop');
+            });
+
+            label.addEventListener('drop', function(e) {
+                e.preventDefault();
+                label.classList.remove('border-success');
+
+                // Assign the dropped file to the file input
+                if (e.dataTransfer.files.length > 0) {
+                    fileInput.files = e.dataTransfer.files;
+
+                    // Trigger the change event so Livewire can detect the file
+                    var event = new Event('change');
+                    fileInput.dispatchEvent(event);
+                }
+            });
+        });
+    </script>
+
+
     <script>
         $(document).ready(function() {
             // document.getElementById('formCheckAll').addEventListener('click', function() {

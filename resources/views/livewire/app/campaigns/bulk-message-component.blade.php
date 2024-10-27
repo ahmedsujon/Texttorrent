@@ -34,16 +34,16 @@
                     </div>
                     <div>
                         <h3>Send from</h3>
-                        <h4>+1 (556) 232-1912</h4>
-                        <!-- <div class="select_area">
-                  <select class="niceSelect niceSelect_area">
-                    <option data-display="+1 (556) 232-1912">
-                      +1 (556) 232-1912
-                    </option>
-                    <option value="1">+1 (556) 232-1915</option>
-                    <option value="2">+1 (556) 232-1913</option>
-                  </select>
-                </div> -->
+                        <h4>
+                            @if (count($numbers) > 0)
+                                @foreach ($numbers as $sNum)
+                                    <span class="badge text-dark"
+                                        style="border: 1px solid grey;">{{ $sNum }}</span>
+                                @endforeach
+                            @else
+                                ---
+                            @endif
+                        </h4>
                     </div>
                 </div>
                 <div class="bulk_item send_form_item">
@@ -61,7 +61,7 @@
                     </div>
                     <div wire:ignore>
                         <h3>Local time</h3>
-                        <h4 id="currentTime">{{ \Carbon\Carbon::now()->format('d F, Y h:i:s A') }}</h4>
+                        <h4 id="currentTime">{{ \Carbon\Carbon::now()->timezone('America/New_York')->format('d F, Y h:i:s A') }}</h4>
                     </div>
                 </div>
             </div>
@@ -133,20 +133,23 @@
                         </div>
                         <div class="input_row">
                             <label for="">Phone number</label>
-                            <div class="custom_select_dropdown_area contact_custom_select_area">
+
+                            <div class="custom_select_dropdown_area contact_custom_select_area" id="phoneNumberSelect">
                                 <div class="dropdown">
-                                    <button class="input_field dropdown-toggle" type="button" data-bs-toggle="dropdown"
-                                        aria-expanded="false">
+                                    <button class="input_field dropdown-toggle" wire:ignore.self type="button"
+                                        data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false">
                                         <img src="{{ asset('assets/app/icons/arrow-down.svg') }}" alt="down arrow"
                                             class="arrow_down_icon" />
                                         <!-- <div class="placeholder_text">Select</div> -->
 
-                                        <div class="title">4 items selected</div>
+                                        <div class="title" id="userSelectTitle">
+                                            {{ count($numbers) }} items selected
+                                        </div>
                                     </button>
-                                    <div class="dropdown-menu">
+                                    <div class="dropdown-menu" wire:ignore.self>
                                         <div class="search_input_form search_input_form_sm">
-                                            <input type="search" placeholder="Search senders"
-                                                class="input_search" />
+                                            <input type="search" wire:model.live='selectNumberSearch'
+                                                placeholder="Search senders" class="input_search" />
                                             <button type="submit" class="search_icon">
                                                 <img src="{{ asset('assets/app/icons/search-gray.svg') }}"
                                                     alt="search icon" />
@@ -156,73 +159,50 @@
                                             <li>
                                                 <h5>Select List</h5>
                                             </li>
-                                            <li>
-                                                <div class="input_row mb-0 mt-2">
-                                                    <div
-                                                        class="checkbox_area d-flex align-items-center flex-wrap mb-0">
-                                                        <div class="form-check">
-                                                            <input class="form-check-input" type="checkbox"
-                                                                value="" id="fromPhone" />
-                                                            <label class="form-check-label mb-0" for="fromPhone">
-                                                                Select all
-                                                            </label>
+                                            @if ($number_pool)
+                                                <li>
+                                                    <div class="input_row mb-0 mt-2">
+                                                        <div
+                                                            class="checkbox_area d-flex align-items-center flex-wrap mb-0">
+                                                            <div class="form-check">
+                                                                <input class="form-check-input" type="checkbox"
+                                                                    wire:model.live='selectAllNumbers' value="1"
+                                                                    id="fromPhone" />
+                                                                <label class="form-check-label mb-0" for="fromPhone">
+                                                                    Select all
+                                                                </label>
+                                                            </div>
                                                         </div>
                                                     </div>
-                                                </div>
-                                            </li>
-                                            <li>
-                                                <button type="button" class="dropdown-item">
-                                                    <img src="{{ asset('assets/app/images/inbox/user_main.png') }}"
-                                                        alt="user icon" class="user_image" />
-                                                    <span>+1 (566) 456-344</span>
-                                                </button>
-                                            </li>
-                                            <li>
-                                                <button type="button" class="dropdown-item active_check">
-                                                    <img src="{{ asset('assets/app/images/inbox/user_main.png') }}"
-                                                        alt="user icon" class="user_image" />
-                                                    <span>+1 (566) 456-344</span>
-                                                </button>
-                                            </li>
-                                            <li>
-                                                <button type="button" class="dropdown-item active_check">
-                                                    <img src="{{ asset('assets/app/images/inbox/user_main.png') }}"
-                                                        alt="user icon" class="user_image" />
-                                                    <span>+1 (566) 456-344</span>
-                                                </button>
-                                            </li>
-                                            <li>
-                                                <button type="button" class="dropdown-item active_check">
-                                                    <img src="{{ asset('assets/app/images/inbox/user_main.png') }}"
-                                                        alt="user icon" class="user_image" />
-                                                    <span>+1 (566) 456-344</span>
-                                                </button>
-                                            </li>
-                                            <li>
-                                                <button type="button" class="dropdown-item active_check">
-                                                    <img src="{{ asset('assets/app/images/inbox/user_main.png') }}"
-                                                        alt="user icon" class="user_image" />
-                                                    <span>+1 (566) 456-344</span>
-                                                </button>
-                                            </li>
-                                            <li>
-                                                <button type="button" class="dropdown-item">
-                                                    <img src="{{ asset('assets/app/images/inbox/user_main.png') }}"
-                                                        alt="user icon" class="user_image" />
-                                                    <span>+1 (566) 456-344</span>
-                                                </button>
-                                            </li>
+                                                </li>
+                                            @endif
+
+                                            @foreach ($activeNumbers as $activeNumber)
+                                                <li>
+                                                    <button type="button"
+                                                        class="dropdown-item {{ in_array($activeNumber->number, $numbers) ? 'active_check' : '' }}"
+                                                        wire:click.prevent="selectPhoneNumbers({{ $activeNumber->number }})">
+                                                        <img src="{{ asset('assets/app/images/inbox/user_main.png') }}"
+                                                            alt="user icon" class="user_image" />
+                                                        <span>{{ $activeNumber->number }}</span>
+                                                    </button>
+                                                </li>
+                                            @endforeach
+
                                         </ul>
                                     </div>
                                 </div>
                             </div>
+                            @error('numbers')
+                                <p class="text-danger" style="font-size: 12.5px;">{{ $message }}</p>
+                            @enderror
                         </div>
                         <div class="input_row">
                             <label for="">Appended (Opt-out) message</label>
                             <input type="text" placeholder="STOP to opt out" wire:model.blur='appended_message'
                                 class="input_field" />
                             @error('appended_message')
-                                <p class="text-danger mb-0" style="font-size: 13px;">{{ $message }}</p>
+                                <p class="text-danger mb-0" style="font-size: 12.5px;">{{ $message }}</p>
                             @enderror
                         </div>
                         <div class="two_grid">
@@ -230,7 +210,7 @@
                                 <div class="wire-ignore" wire:ignore>
                                     <label for="">Batch size</label>
                                     <select name="lang" wire:model.blur='batch_size'
-                                        class="js-searchBox batch_size">
+                                        class="input_field batch_size">
                                         <option value="">Select</option>
                                         <option value="20">20</option>
                                         <option value="50">50</option>
@@ -240,18 +220,16 @@
                                         <option value="1000">1000</option>
                                         <option value="2500">2500</option>
                                     </select>
-                                    <img src="{{ asset('assets/app/icons/arrow-down.svg') }}" alt="down arrow"
-                                        class="down_arrow" />
                                 </div>
                                 @error('batch_size')
-                                    <p class="text-danger mb-0" style="font-size: 13px;">{{ $message }}</p>
+                                    <p class="text-danger mb-0" style="font-size: 12.5px;">{{ $message }}</p>
                                 @enderror
                             </div>
                             <div class="input_row searchable_select">
                                 <div class="wire-ignore" wire:ignore>
                                     <label for="">Batch frequency</label>
                                     <select name="lang" wire:model.blur='batch_frequency'
-                                        class="js-searchBox batch_frequency">
+                                        class="input_field batch_frequency">
                                         <option value="">Select</option>
                                         <option value="2">2 minutes</option>
                                         <option value="5">5 minutes</option>
@@ -259,11 +237,9 @@
                                         <option value="30">30 minutes</option>
                                         <option value="60">60 minutes</option>
                                     </select>
-                                    <img src="{{ asset('assets/app/icons/arrow-down.svg') }}" alt="down arrow"
-                                        class="down_arrow" />
                                 </div>
                                 @error('batch_frequency')
-                                    <p class="text-danger mb-0" style="font-size: 13px;">{{ $message }}</p>
+                                    <p class="text-danger mb-0" style="font-size: 12.5px;">{{ $message }}</p>
                                 @enderror
                             </div>
                         </div>
@@ -276,73 +252,92 @@
                                     </span>
                                 </label>
                                 <select name="lang" wire:model.blur='sending_throttle'
-                                    class="js-searchBox sending_throttle">
+                                    class="input_field sending_throttle">
                                     <option value="">Select</option>
                                     <option value="1">Slow</option>
                                     <option value="2">Medium</option>
-                                    <option value="3">Slow</option>
+                                    <option value="3">Fast</option>
                                 </select>
-                                <img src="{{ asset('assets/app/icons/arrow-down.svg') }}" alt="down arrow"
-                                    class="down_arrow" />
                             </div>
                             @error('sending_throttle')
-                                <p class="text-danger mb-0" style="font-size: 13px;">{{ $message }}</p>
+                                <p class="text-danger mb-0" style="font-size: 12.5px;">{{ $message }}</p>
                             @enderror
                         </div>
                     </div>
                     <div class="pick_list_area">
                         <h3>Pick list</h3>
                         <div class="two_grid mt-16">
-                            <div class="input_row searchable_select">
-                                <div class="wire-ignore" wire:ignore>
-                                    <label for="">Contact list</label>
-                                    <select name="lang" wire:model.blur='contact_list_id'
-                                        class="js-searchBox contact_list_id">
-                                        <option value="">Select list</option>
-                                        @foreach ($contactLists as $item)
-                                            <option value="{{ $item->id }}">
-                                                {{ getContactListByID($item->id)->name }}
-                                            </option>
-                                        @endforeach
-                                    </select>
-                                    <img src="{{ asset('assets/app/icons/arrow-down.svg') }}" alt="down arrow"
-                                        class="down_arrow" />
+                            <div class="input_row">
+                                <label for="">Contact list</label>
+                                <div class="custom_select_dropdown_area">
+                                    <div class="dropdown">
+                                        <button class="input_field dropdown-toggle" type="button"
+                                            data-bs-toggle="dropdown" aria-expanded="false">
+                                            <img src="{{ asset('assets/app/icons/arrow-down.svg') }}"
+                                                alt="down arrow" class="arrow_down_icon" />
+                                            <!-- <div class="placeholder_text">Select</div> -->
+                                            <div class="dropdown_grid">
+                                                <div class="icon">{{ Str::limit($contact_list_name, 1, '') }}</div>
+                                                <div class="title">
+                                                    {{ $contact_list_name ? $contact_list_name : 'Select' }}</div>
+                                            </div>
+                                        </button>
+                                        <div class="dropdown-menu">
+                                            <div class="search_input_form search_input_form_sm">
+                                                <input type="search" placeholder="Search contact list"
+                                                    wire:model.live='searchContactList' class="input_search" />
+                                                <button type="submit" class="search_icon">
+                                                    <img src="{{ asset('assets/app/icons/search-gray.svg') }}"
+                                                        alt="search icon" />
+                                                </button>
+                                            </div>
+                                            <ul class="dropdown_list">
+                                                <li>
+                                                    <h5>Select List</h5>
+                                                </li>
+                                                @foreach ($contactLists as $item)
+                                                    <li>
+                                                        <button type="button"
+                                                            wire:click.prevent='selectList({{ $item->id }}, "{{ $item->name }}")'
+                                                            class="dropdown-item">
+                                                            <span>{{ $item->name }}</span>
+                                                        </button>
+                                                    </li>
+                                                @endforeach
+                                            </ul>
+                                        </div>
+                                    </div>
                                 </div>
                                 @error('contact_list_id')
-                                    <p class="text-danger mb-0" style="font-size: 13px;">{{ $message }}</p>
+                                    <p class="text-danger" style="font-size: 12.5px;">{{ $message }}</p>
                                 @enderror
                             </div>
                             <div class="input_row searchable_select">
-                                <div class="wire-ignore" wire:ignore>
-                                    <label for="">Message template</label>
-                                    <select name="lang" wire:model.blur='inbox_template_id'
-                                        class="js-searchBox inbox_template_id">
-                                        <option value="">Select</option>
-                                        @foreach ($messageTemplates as $item)
-                                            <option value="{{ $item->id }}">
-                                                {{ getSMSTempByID($item->id)->template_name }}</option>
-                                        @endforeach
-                                    </select>
-                                    <img src="{{ asset('assets/app/icons/arrow-down.svg') }}" alt="down arrow"
-                                        class="down_arrow" />
-                                </div>
+                                <label for="">Message template</label>
+                                <select class="bootstrap_select" id="templateSelect">
+                                    <option value="">Select</option>
+                                    @foreach ($messageTemplates as $item)
+                                        <option value="{{ $item->preview_message }}" data-id="{{ $item->id }}">
+                                            {{ getSMSTempByID($item->id)->template_name }}</option>
+                                    @endforeach
+                                </select>
                                 @error('inbox_template_id')
-                                    <p class="text-danger mb-0" style="font-size: 13px;">{{ $message }}</p>
+                                    <p class="text-danger" style="font-size: 12.5px;">{{ $message }}</p>
                                 @enderror
                             </div>
                         </div>
                         <div class="sms_mms_contact_area mt-2">
                             <div class="d-flex">
-                                <ul class="nav nav-pills" id="pills-tab" role="tablist">
+                                <ul class="nav nav-pills" wire:ignore id="pills-tab" role="tablist">
                                     <li class="nav-item" role="presentation">
-                                        <button class="nav-link active" id="pills-home2-tab" data-bs-toggle="pill"
+                                        <button class="nav-link active smsType" data-type="sms" id="pills-home2-tab" data-bs-toggle="pill"
                                             data-bs-target="#pills-home2" type="button" role="tab"
                                             aria-controls="pills-home2" aria-selected="true">
                                             SMS
                                         </button>
                                     </li>
                                     <li class="nav-item" role="presentation">
-                                        <button class="nav-link" id="pills-profile2-tab" data-bs-toggle="pill"
+                                        <button class="nav-link smsType" data-type="mms" id="pills-profile2-tab" data-bs-toggle="pill"
                                             data-bs-target="#pills-profile2" type="button" role="tab"
                                             aria-controls="pills-profile2" aria-selected="false">
                                             MMS
@@ -351,11 +346,11 @@
                                 </ul>
                             </div>
                             <div class="tab-content" id="pills-tabContent">
-                                <div class="tab-pane fade show active" id="pills-home2" role="tabpanel"
+                                <div class="tab-pane fade show active" wire:ignore.self id="pills-home2" role="tabpanel"
                                     aria-labelledby="pills-home2-tab" tabindex="0">
                                     <div class="input_row">
                                         <label for="">Default message</label>
-                                        <div class="textarea_header_top">
+                                        <div class="textarea_header_top" wire:ignore>
                                             <div class="textarea_header">
                                                 <div class="table_dropdown_area">
                                                     <div class="dropdown">
@@ -368,30 +363,37 @@
                                                         </button>
                                                         <ul class="dropdown-menu">
                                                             <li>
-                                                                <h4>Select</h4>
-                                                            </li>
-                                                            <li>
-                                                                <button type="button" class="dropdown-item">
+                                                                <button type="button"
+                                                                    class="dropdown-item dropdown-item-template"
+                                                                    data-variable="[phone_number]">
                                                                     <span>Phone Number</span>
                                                                 </button>
                                                             </li>
                                                             <li>
-                                                                <button type="button" class="dropdown-item">
+                                                                <button type="button"
+                                                                    class="dropdown-item dropdown-item-template"
+                                                                    data-variable="[email_address]">
                                                                     <span>Email Address</span>
                                                                 </button>
                                                             </li>
                                                             <li>
-                                                                <button type="button" class="dropdown-item">
+                                                                <button type="button"
+                                                                    class="dropdown-item dropdown-item-template"
+                                                                    data-variable="[first_name]">
                                                                     <span>First Name</span>
                                                                 </button>
                                                             </li>
                                                             <li>
-                                                                <button type="button" class="dropdown-item">
+                                                                <button type="button"
+                                                                    class="dropdown-item dropdown-item-template"
+                                                                    data-variable="[last_name]">
                                                                     <span>Last Name</span>
                                                                 </button>
                                                             </li>
                                                             <li>
-                                                                <button type="button" class="dropdown-item">
+                                                                <button type="button"
+                                                                    class="dropdown-item dropdown-item-template"
+                                                                    data-variable="[company]">
                                                                     <span>Company</span>
                                                                 </button>
                                                             </li>
@@ -399,40 +401,56 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            <textarea name="" id="" rows="8" class="input_field textarea_field"
-                                                placeholder="[Hi|Hello|Hey] {customer_name}, how are you? The system will replace {customer_name} with the customer’s name and randomly choose a greeting. For instance, if the customer's name is John, the message could be: Hello John, how are you?"></textarea>
+                                            <textarea name="" id="template_preview" rows="6" class="input_field textarea_field" placeholder="Write a template..." value=""></textarea>
                                         </div>
+                                        @error('sms_body')
+                                            <p class="text-danger" style="font-size: 11.5px;">{{ $message }}</p>
+                                        @enderror
                                     </div>
                                 </div>
-                                <div class="tab-pane fade" id="pills-profile2" role="tabpanel"
+                                <div class="tab-pane fade" wire:ignore.self id="pills-profile2" role="tabpanel"
                                     aria-labelledby="pills-profile2-tab" tabindex="0">
-                                    <div class="file_upload_area mb-2">
+                                    <label for="contactUploadImage" class="d-flex file_upload_area w-100" id="fileUploadLabel">
                                         <div class="import_icon">
-                                            <img src="{{ asset('assets/app/icons/import.svg') }}"
-                                                alt="import icon" />
+                                            <img src="{{ asset('assets/app/icons/import.svg') }}" alt="import icon" />
                                         </div>
-                                        <h4><span>Click to upload</span> or drag and drop</h4>
-                                        <h5>JPEG, PNG, PDF, and MP4 formats, up to 50MB</h5>
+                                        <h4 id="dropText"><span>Click to upload</span> or drag and drop</h4>
+                                        <h5>JPG, JPEG, PNG, PDF, GIF, and MP4 formats, up to 50MB</h5>
+                                    </label>
+
+                                    <!-- File Input -->
+                                    <input type="file" id="contactUploadImage" accept="*" wire:model="file"
+                                        class="position-absolute opacity-0 visually-hidden" />
+
+                                    <!-- Error Message -->
+                                    @error('file')
+                                        <p class="text-danger" style="font-size: 12.5px;">{{ $message }}</p>
+                                    @enderror
+
+                                    <div wire:loading wire:target='file' wire:key='file' style="font-size: 15px;">
+                                        <i class="fa fa-spinner fa-spin"></i> Uploading...
                                     </div>
-                                    <div class="uploading_status_area">
-                                        <button type="button" class="close_btn">
-                                            <img src="{{ asset('assets/app/icons/close.svg') }}" alt="close icon" />
+
+                                    @if ($file)
+                                    <div class="uploading_status_area mb-5">
+                                        <button type="button" class="close_btn" wire:click.prevent='resetUpload'>
+                                            <img src="{{ asset('assets/app/icons/close.svg') }}" alt="delete icon" />
                                         </button>
                                         <div class="file_name_grid">
-                                            <img src="{{ asset('assets/app/icons/mp3.svg') }}" alt="mp3" />
+                                            <svg  xmlns="http://www.w3.org/2000/svg"  width="64"  height="64"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-file"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M14 3v4a1 1 0 0 0 1 1h4" /><path d="M17 21h-10a2 2 0 0 1 -2 -2v-14a2 2 0 0 1 2 -2h7l5 5v11a2 2 0 0 1 -2 2z" /></svg>
                                             <div>
-                                                <h4>Uploading...</h4>
-                                                <h5>7/16 MB</h5>
+                                                <h4>{{ $file->getClientOriginalName() }}</h4>
+                                                <div class="complete_status">
+                                                    <div class="circle">
+                                                        <img src="{{ asset('assets/app/icons/tick-circle.svg') }}"
+                                                            alt="track icon" />
+                                                    </div>
+                                                    <h5>Completed</h5>
+                                                </div>
                                             </div>
-                                        </div>
-                                        <div class="progress_grid">
-                                            <div class="progress" role="progressbar" aria-label="Basic example"
-                                                aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">
-                                                <div class="progress-bar" style="width: 40%"></div>
-                                            </div>
-                                            <div class="number">40%</div>
                                         </div>
                                     </div>
+                                    @endif
                                 </div>
                             </div>
                         </div>
@@ -442,8 +460,8 @@
                     <div>
                         <div class="input_row">
                             <label for="">Preview</label>
-                            <textarea name="" id="" class="input_field textarea_field" rows="8"
-                                placeholder="[Hi|Hello|Hey] {customer_name}, how are you? The system will replace {customer_name} with the customer’s name and randomly choose a greeting. For instance, if the customer's name is John, the message could be: Hello John, how are you?"></textarea>
+                            <textarea name="" id="" class="input_field textarea_field preview_textarea_field" rows="8"
+                                readonly></textarea>
                             <h5 class="mt-1">1000 of characters</h5>
                         </div>
                     </div>
@@ -452,7 +470,9 @@
                     <div class="bulk_btn_grid mt-16">
                         <button type="button" class="schedule_btn" data-bs-toggle="modal"
                             data-bs-target="#scheduleModal">
-                            Schedule
+                            @if ($selected_date && $selected_time)
+                            <svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-check"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M5 12l5 5l10 -10" /></svg>
+                            @endif Schedule
                         </button>
                         <button type="submit" class="msg_send_btn">{!! loadingStateWithText('storeData', 'Send Message') !!}</button>
                     </div>
@@ -461,8 +481,8 @@
         </section>
 
         <!-- Schedule Modal  -->
-        <div class="modal fade common_modal" id="scheduleModal" tabindex="-1" aria-labelledby="newEventModal"
-            aria-hidden="true">
+        <div wire:ignore.self class="modal fade common_modal" id="scheduleModal" tabindex="-1"
+            aria-labelledby="newEventModal" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -477,11 +497,19 @@
                             <div class="two_grid">
                                 <div class="input_row">
                                     <label for="">Choose Date</label>
-                                    <input type="date" placeholder="Type Name" class="input_field" />
+                                    <input type="date" placeholder="Type Name" wire:model.live='schedule_date'
+                                        class="input_field" />
+                                    @error('schedule_date')
+                                        <p class="text-danger" style="font-size: 12.5px;">{{ $message }}</p>
+                                    @enderror
                                 </div>
                                 <div class="input_row">
                                     <label for="">Choose Time</label>
-                                    <input type="time" placeholder="Type Subject" class="input_field" />
+                                    <input type="time" placeholder="Type Subject" wire:model.live='schedule_time'
+                                        class="input_field" />
+                                    @error('schedule_time')
+                                        <p class="text-danger" style="font-size: 12.5px;">{{ $message }}</p>
+                                    @enderror
                                 </div>
                             </div>
                         </form>
@@ -490,8 +518,8 @@
                         <button type="button" class="cancel_btn" data-bs-dismiss="modal">
                             Cancel
                         </button>
-                        <button type="button" class="create_event_btn">
-                            Choose Time
+                        <button type="button" wire:click.prevent='chooseTime' class="create_event_btn">
+                            {!! loadingStateWithText('chooseTime', 'Choose Time') !!}
                         </button>
                     </div>
                 </div>
@@ -500,6 +528,55 @@
     </main>
 </div>
 @push('scripts')
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const fileInput = document.getElementById('contactUploadImage');
+            const label = document.getElementById('fileUploadLabel');
+            const uploadText = document.getElementById('dropText');
+
+            // Highlight label when dragging over it
+            label.addEventListener('dragover', function (e) {
+                e.preventDefault();
+                label.classList.add('border-success');
+                uploadText.textContent = 'Drop your file here';
+            });
+
+            label.addEventListener('dragleave', function (e) {
+                e.preventDefault();
+                label.classList.remove('border-success');
+                $('#dropText').html('<span>Click to upload</span> or drag and drop');
+            });
+
+            label.addEventListener('drop', function (e) {
+                e.preventDefault();
+                label.classList.remove('border-success');
+
+                // Assign the dropped file to the file input
+                if (e.dataTransfer.files.length > 0) {
+                    fileInput.files = e.dataTransfer.files;
+
+                    // Trigger the change event so Livewire can detect the file
+                    var event = new Event('change');
+                    fileInput.dispatchEvent(event);
+                }
+            });
+        });
+    </script>
+
+    <script>
+        window.addEventListener('closeModal', event => {
+            $('#scheduleModal').modal('hide');
+        });
+
+        window.addEventListener('reset_form', event => {
+            $('#template_preview').val('');
+            $('.preview_textarea_field').val('');
+        });
+
+        $(".smsType").on('click', function() {
+            @this.set('sms_type', $(this).data('type'));
+        });
+    </script>
     <script>
         $(".contact_list_id").on('change', function() {
             @this.set('contact_list_id', $(this).val());
@@ -517,6 +594,67 @@
             @this.set('sending_throttle', $(this).val());
         });
     </script>
+
+    <script>
+        const dropdownItems = document.querySelectorAll('.dropdown-item-template');
+        dropdownItems.forEach(item => {
+            item.addEventListener('click', function() {
+                let variable = this.getAttribute('data-variable');
+                let textarea = document.getElementById('template_preview');
+                textarea.value += variable + " ";
+                @this.set('sms_body', textarea.value);
+                $('.preview_textarea_field').val(textarea.value);
+            });
+        });
+    </script>
+
+    <script>
+        $(document).ready(function() {
+            $('#template_preview').on('change', function() {
+                var template = $(this).val();
+
+                @this.set('sms_body', template);
+                $('.preview_textarea_field').val(template);
+
+            });
+
+            $('#templateSelect').on('change', function(e) {
+                e.preventDefault();
+
+                const selectedOption = templateSelect.options[templateSelect.selectedIndex];
+                const selectedId = selectedOption.getAttribute('data-id');
+                const selectedPreviewMessage = selectedOption.value;
+
+                $('#template_preview').val(selectedPreviewMessage);
+                @this.set('sms_body', selectedPreviewMessage);
+                $('.preview_textarea_field').val(selectedPreviewMessage);
+                @this.set('selected_template_preview', selectedPreviewMessage);
+                @this.set('inbox_template_id', selectedId);
+
+            });
+
+            $("#phoneNumberSelect .dropdown-item").on("click", function() {
+                // Toggle active class
+                $(this).toggleClass("active_check");
+
+                // Get all active items
+                let selectedValues = $("#phoneNumberSelect .active_check")
+                    .map(function() {
+                        return $(this).data("value");
+                    })
+                    .get();
+
+                // Update the title with the selected item count
+                let selectedCount = selectedValues.length;
+                $("#userSelectTitle").text(`${selectedCount} items selected`);
+
+                // Log selected value
+                console.log("Selected values:", selectedValues);
+                s;
+            });
+        });
+    </script>
+
     <script>
         $(document).ready(function() {
             //Show split content
@@ -536,6 +674,7 @@
         function updateTime() {
             const now = new Date();
             const options = {
+                timeZone: 'America/New_York',
                 year: 'numeric',
                 month: 'long',
                 day: 'numeric',
