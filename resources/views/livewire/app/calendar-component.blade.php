@@ -536,6 +536,7 @@
                 selectable: true,
                 selectMirror: false,
                 select: function(arg) {
+                    @this.setDateTime(arg.startStr);
                     const myModal = new bootstrap.Modal("#eventModal", {
                         backdrop: "static",
                     });

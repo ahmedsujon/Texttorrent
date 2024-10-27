@@ -157,6 +157,12 @@ class CalendarComponent extends Component
         echo json_encode($formattedEvents);
     }
 
+    public function setDateTime($date)
+    {
+        $this->date = Carbon::parse($date)->format('Y-m-d');
+        $this->time = Carbon::parse($date)->format('H:i');
+    }
+
     public function render()
     {
         $active_numbers = Number::where('id', Auth::user()->id)->get();
