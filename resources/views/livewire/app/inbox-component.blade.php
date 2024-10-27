@@ -1006,6 +1006,29 @@
 
 @push('scripts')
     <script>
+        document.querySelectorAll('input[type="radio"]').forEach(radio => {
+            radio.addEventListener('mousedown', function(e) {
+                if (this.checked) {
+                    this.wasChecked = true;
+                } else {
+                    this.wasChecked = false;
+                }
+            });
+
+            radio.addEventListener('click', function(e) {
+                if (this.wasChecked) {
+                    this.checked = false;
+                    this.wasChecked = false;
+
+                    @this.set('folder_id', null);
+                } else {
+                    this.checked = true;
+                }
+            });
+        });
+    </script>
+
+    <script>
         document.addEventListener("DOMContentLoaded", () => {
             const input = document.querySelector("#tel-input");
             input.addEventListener('input', (e) => {

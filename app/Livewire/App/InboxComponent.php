@@ -293,20 +293,20 @@ class InboxComponent extends Component
 
     public function addToFolder()
     {
-        $this->validate([
-            'folder_id' => 'required',
-        ], [
-            'folder_id.required' => 'Select a folder',
-        ]);
-
         $contact = Contact::find($this->contact_id);
         $contact->folder_id = $this->folder_id;
         $contact->save();
 
+        if ($this->folder_id) {
+            $msg = 'Contact added to folder successfully';
+        } else {
+            $msg = 'Contact removed from folder successfully';
+        }
+
         $this->folder_id = '';
 
         $this->dispatch('closeModal');
-        $this->dispatch('success', ['message' => 'Contact added to folder successfully']);
+        $this->dispatch('success', ['message' => $msg]);
     }
 
     public $folder_name, $folder_edit_id, $folder_delete_id;
