@@ -137,6 +137,7 @@ class CalendarComponent extends Component
         $data->delete();
 
         $this->dispatch('event_deleted');
+        $this->dispatch('refreshCalendar');
         $this->delete_id = '';
     }
 
