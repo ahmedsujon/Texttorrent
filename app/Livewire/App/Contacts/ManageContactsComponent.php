@@ -24,6 +24,9 @@ class ManageContactsComponent extends Component
         $firstList = ContactList::where('user_id', user()->id)->where('bookmarked', 1)->first();
         if ($firstList) {
             $this->sort_list_id = $firstList->id;
+        } else {
+            $firstListO = ContactList::where('user_id', user()->id)->first();
+            $this->sort_list_id = $firstListO ? $firstListO->id : null;
         }
     }
 
