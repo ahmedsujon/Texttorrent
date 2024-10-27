@@ -159,7 +159,7 @@
                                                             <h4>Select</h4>
                                                         </li>
                                                         <li>
-                                                            @if ($number->status == 0)
+                                                            @if ($number->status == 1)
                                                                 <button type="button" class="dropdown-item"
                                                                     wire:click.prevent='changeStatus({{ $number->id }}, {{ $number->status }})'>
                                                                     <img src="{{ asset('assets/app/icons/copy-02.svg') }}"
