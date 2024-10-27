@@ -182,9 +182,7 @@
                                                     <button type="button"
                                                         class="dropdown-item {{ in_array($activeNumber->number, $numbers) ? 'active_check' : '' }}"
                                                         wire:click.prevent="selectPhoneNumbers({{ $activeNumber->number }})">
-                                                        <img src="{{ asset('assets/app/images/inbox/user_main.png') }}"
-                                                            alt="user icon" class="user_image" />
-                                                        <span>{{ $activeNumber->number }}</span>
+                                                        <p class="mb-0">{{ $activeNumber->number }}</p>
                                                     </button>
                                                 </li>
                                             @endforeach
