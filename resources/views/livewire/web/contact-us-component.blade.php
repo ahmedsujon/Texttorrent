@@ -1,4 +1,38 @@
 <div>
+    <style>
+        .form-container {
+            width: 300px;
+            margin: 50px auto;
+            text-align: left;
+        }
+
+        .checkbox-label {
+            display: block;
+            margin-bottom: 15px;
+            font-size: 14px;
+        }
+
+        .checkbox-label a {
+            color: #000;
+            text-decoration: underline;
+        }
+
+        .button {
+            background-color: #b30000;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        .button:hover {
+            background-color: #990000;
+        }
+        .form-check {
+    padding-left: 0px !important;
+}
+    </style>
     <main>
         <!-- Hero Section  -->
         <section class="hero_wrapper hero_wrapper_others"
@@ -104,6 +138,16 @@
                                         @error('descriptions')
                                             <p class="text-danger" style="font-size: 11.5px;">{{ $message }}</p>
                                         @enderror
+                                    </div>
+                                    <div class="form-check">
+                                        <label class="checkbox-label">
+                                            <input type="checkbox" checked name="sms_opt_in">
+                                            I would like to receive text messages, and agree to the
+                                            <a href="{{ route('app.terms-conditions') }}">Terms of Service</a> & <a href="{{ route('app.privacy-policy') }}">Privacy
+                                                Policy</a>.
+                                            Reply STOP to cancel, HELP for help. Msg & data rates may apply.
+                                            Message frequency may vary.
+                                        </label>
                                     </div>
                                     <div class="text-end">
                                         <button type="submit" class="submit_btn ms-auto">
