@@ -144,8 +144,8 @@
                                         <label class="checkbox-label">
                                             <input type="checkbox" name="sms_opt_in">
                                             I would like to receive text messages, and agree to the
-                                            <a href="{{ route('app.privacy-policy') }}">Terms of Service</a> & <a
-                                                href="{{ route('app.terms-conditions') }}">Privacy
+                                            <a href="{{ route('app.terms-conditions') }}">Terms of Service</a> & <a
+                                                href="{{ route('app.privacy-policy') }}">Privacy
                                                 Policy</a>.
                                             Reply STOP to cancel, HELP for help. Msg & data rates may apply.
                                             Message frequency may vary.

@@ -6,7 +6,7 @@
                 <div class="row">
                     <div class="col-12">
                         <div class="hero_content_area text-center">
-                            <h1>Privacy Policy</h1>
+                            <h1>Terms of Service</h1>
                         </div>
                     </div>
                 </div>
