@@ -29,9 +29,10 @@
         .button:hover {
             background-color: #990000;
         }
+
         .form-check {
-    padding-left: 0px !important;
-}
+            padding-left: 0px !important;
+        }
     </style>
     <main>
         <!-- Hero Section  -->
@@ -141,9 +142,10 @@
                                     </div>
                                     <div class="form-check">
                                         <label class="checkbox-label">
-                                            <input type="checkbox" checked name="sms_opt_in">
+                                            <input type="checkbox" name="sms_opt_in">
                                             I would like to receive text messages, and agree to the
-                                            <a href="{{ route('app.terms-conditions') }}">Terms of Service</a> & <a href="{{ route('app.privacy-policy') }}">Privacy
+                                            <a href="{{ route('app.privacy-policy') }}">Terms of Service</a> & <a
+                                                href="{{ route('app.terms-conditions') }}">Privacy
                                                 Policy</a>.
                                             Reply STOP to cancel, HELP for help. Msg & data rates may apply.
                                             Message frequency may vary.
