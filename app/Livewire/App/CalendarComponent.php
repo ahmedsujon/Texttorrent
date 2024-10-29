@@ -97,6 +97,7 @@ class CalendarComponent extends Component
         $event->participant_email = $this->participant_email;
         $event->save();
 
+        $this->dispatch('refreshCalendar');
         $this->dispatch('closeModal');
         $this->dispatch('success', ['message' => 'Event updated successfully']);
         $this->resetForm();
@@ -136,7 +137,31 @@ class CalendarComponent extends Component
         $data->delete();
 
         $this->dispatch('event_deleted');
+        $this->dispatch('refreshCalendar');
         $this->delete_id = '';
+    }
+
+    public function getEventsProperty()
+    {
+        $formattedEvents = Event::where('user_id', Auth::user()->id)
+            ->get()
+            ->map(function ($event) {
+                return [
+                    'id' => $event->id,
+                    'title' => $event->name,
+                    'start' => Carbon::parse($event->date)->format('Y-m-d') . 'T' . Carbon::parse($event->time)->format('h:i:s'),
+                    'classNames' => ['sms_event'],
+                ];
+            })
+            ->toArray();
+
+        echo json_encode($formattedEvents);
+    }
+
+    public function setDateTime($date)
+    {
+        $this->date = Carbon::parse($date)->format('Y-m-d');
+        $this->time = Carbon::parse($date)->format('H:i');
     }
 
     public function render()

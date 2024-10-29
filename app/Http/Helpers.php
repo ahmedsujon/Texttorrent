@@ -1,13 +1,12 @@
 <?php
 
-use Carbon\Carbon;
-use App\Models\User;
 use App\Models\Admin;
 use App\Models\ContactList;
 use App\Models\InboxTemplate;
-use Twilio\Rest\Client;
-use Illuminate\Support\Facades\DB;
+use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Intervention\Image\ImageManagerStatic as Image;
 
@@ -117,20 +116,28 @@ function getListByID($list_id)
 
 function getActiveSubscription()
 {
-    $subscription = DB::table('subscriptions')->select('package_type as type', 'package_name as name', 'end_date')->where('user_id', user()->id)->where('payment_status', 'paid')->latest()->first();
+    if (Auth::user()) {
+        $subscription = DB::table('subscriptions')->select('package_type as type', 'package_name as name', 'end_date')->where('user_id', user()->id)->where('payment_status', 'paid')->latest()->first();
 
-    $status = '';
-    if ($subscription && $subscription->end_date < now()) {
-        $status = 'Expired';
+        $status = '';
+        if ($subscription && $subscription->end_date < now()) {
+            $status = 'Expired';
+        } else {
+            $status = 'Active';
+        }
+
+        $details = [
+            'type' => $subscription->type ?? '',
+            'name' => $subscription->name ?? '',
+            'status' => $subscription->status ?? '',
+        ];
     } else {
-        $status = 'Active';
+        $details = [
+            'type' => '',
+            'name' => '',
+            'status' => '',
+        ];
     }
-
-    $details = [
-        'type' => $subscription->type ?? '',
-        'name' => $subscription->name ?? '',
-        'status' => $subscription->status ?? ''
-    ];
 
     return $details;
 
@@ -201,4 +208,3 @@ function showErrorMessage($message, $file, $line)
         return dd($error_array);
     }
 }
-

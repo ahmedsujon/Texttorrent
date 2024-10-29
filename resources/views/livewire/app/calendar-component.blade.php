@@ -536,6 +536,7 @@
                 selectable: true,
                 selectMirror: false,
                 select: function(arg) {
+                    @this.setDateTime(arg.startStr);
                     const myModal = new bootstrap.Modal("#eventModal", {
                         backdrop: "static",
                     });
@@ -562,11 +563,21 @@
             calendar.render();
 
 
+            // Fetch and load events
+            function loadEvents() {
+                $.ajax({
+                    url: '/get-live-calender-events',
+                    method: 'GET',
+                    dataType: 'json',
+                    success: function(data) {
+                        calendar.removeAllEvents();
+                        calendar.addEventSource(data);
+                    }
+                });
+            }
 
             window.addEventListener('refreshCalendar', event => {
-                calendar.refetchEvents();
-                console.log('reloadDone');
-
+                loadEvents();
             });
         });
     </script>
