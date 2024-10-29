@@ -37,16 +37,16 @@
                                             <img src="{{ asset('assets/app/icons/bxs_phone-call.svg') }}"
                                                 alt="phone icon" />
                                         </div>
-                                        <a href="tel:+10123456789">+1012 3456 789</a>
+                                        <a href="tel:+17867467133">786-746-7133</a>
                                     </li>
                                     <li>
                                         <div class="icon">
                                             <img src="{{ asset('assets/app/icons/ic_sharp-email.svg') }}"
                                                 alt="email icon" />
                                         </div>
-                                        <a href="mailto:demo@gmail.com">demo@gmail.com</a>
+                                        <a href="mailto:Info@texttorrent.com">Info@texttorrent.com</a>
                                     </li>
-                                    <li>
+                                    {{-- <li>
                                         <div class="icon">
                                             <img src="{{ asset('assets/app/icons/carbon_location-filled.svg') }}"
                                                 alt="location icon" />
@@ -55,7 +55,7 @@
                                             132 Dartmouth Street Boston, Massachusetts 02156 United
                                             States
                                         </h6>
-                                    </li>
+                                    </li> --}}
                                 </ul>
                             </div>
                             <div class="contact_form_area">
@@ -159,7 +159,7 @@
             </div>
         </section>
         <!-- Visit Map Section  -->
-        <section class="how_works_wrapper visit_map_wrapper">
+        {{-- <section class="how_works_wrapper visit_map_wrapper">
             <div class="container container-custom">
                 <div class="row">
                     <div class="col-12">
@@ -184,7 +184,7 @@
                     </div>
                 </div>
             </div>
-        </section>
+        </section> --}}
         <!-- Ready To Start Section  -->
         <section class="ready_start_wrapper">
             <div class="container container-custom">
