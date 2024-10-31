@@ -157,8 +157,9 @@ class InboxComponent extends Component
         $msg->message = $this->new_chat_message;
         $msg->save();
 
+        $contact = Contact::find($this->receiver_id);
         // send msg
-        $result = sendSMSviaTwilio($this->selected_chat->number, $chat->from_number, $this->new_chat_message);
+        $result = sendSMSviaTwilio($contact->number, $chat->from_number, $this->new_chat_message);
 
         if ($result['result'] == false) {
             $msgSt = ChatMessage::find($msg->id);
