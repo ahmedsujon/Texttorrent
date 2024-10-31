@@ -1269,16 +1269,16 @@
                 return `${formattedHours}:${minutes} ${ampm}`;
             }
 
-            // $('#sendMessageForm').on('submit', function(e) {
-            //     e.preventDefault();
+            $('#sendMessageForm').on('submit', function(e) {
+                e.preventDefault();
 
-            //     var message = $(".msg_input").val();
-            //     if (message != '') {
-            //         @this.sendMessage(message);
+                var message = $(".msg_input").val();
+                if (message != '') {
+                    @this.sendMessage(message);
 
-            //         $(".msg_input").val('');
-            //     }
-            // });
+                    $(".msg_input").val('');
+                }
+            });
 
             $('#templateSelect').on('change', function(e) {
                 e.preventDefault();
@@ -1297,6 +1297,10 @@
                 $('#smsTemplateModal').modal('hide');
                 $('#templatePreview').val('');
                 $('#templateSelect').val('');
+
+                setTimeout(() => {
+                    $('#messageWriteArea').focus();
+                }, 350);
             });
 
             $('#filter_time').on('change', function() {
