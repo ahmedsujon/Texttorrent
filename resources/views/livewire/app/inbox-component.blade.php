@@ -179,16 +179,16 @@
                                 </div>
                             </div>
                             <div class="header_action_area d-flex align-items-center justify-content-end flex-wrap">
-                                <button type="button" wire:click.prevent='addFolderModal({{ $selected_chat->id }})'>
+                                <button type="button" wire:click.prevent='addFolderModal({{ $selected_chat_id }})'>
                                     {!! loadingStateWithoutText(
-                                        'addFolderModal(' . $selected_chat->id . ')',
+                                        'addFolderModal(' . $selected_chat_id . ')',
                                         '<img src="' . asset('assets/app/icons/folder-add.svg') . '" alt="folder add icon" />',
                                     ) !!}
                                 </button>
                                 <button type="button"
-                                    wire:click.prevent='deleteConfirmation({{ $selected_chat->id }}, "chat")'>
+                                    wire:click.prevent='deleteConfirmation({{ $selected_chat_id }}, "chat")'>
                                     {!! loadingStateWithoutText(
-                                        'deleteConfirmation(' . $selected_chat->id . ", 'chat')",
+                                        'deleteConfirmation(' . $selected_chat_id . ", 'chat')",
                                         '<img src="' . asset('assets/app/icons/delete-01.svg') . '" alt="folder add icon" />',
                                     ) !!}
                                 </button>
@@ -323,7 +323,7 @@
                                     <div class="d-flex-between">
                                         <h3>About</h3>
                                         <button type="button" class="edit_btn"
-                                            wire:click.prevent='editInfo({{ $selected_chat->id }})'>
+                                            wire:click.prevent='editInfo({{ $selected_chat_id }})'>
                                             <img src="{{ asset('assets/app/icons/edit-02.svg') }}" alt="edit icon" />
                                             <span>Edit</span>
                                         </button>

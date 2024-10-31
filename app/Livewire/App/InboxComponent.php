@@ -378,6 +378,8 @@ class InboxComponent extends Component
             $data = Chat::where('id', $this->delete_id)->first();
             $data->delete();
 
+            $this->mount();
+
             $message = 'Chat deleted successfully';
         }
 
