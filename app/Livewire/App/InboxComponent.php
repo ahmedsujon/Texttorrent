@@ -55,9 +55,19 @@ class InboxComponent extends Component
         $selected_chat->notes = DB::table('contact_notes')->where('contact_id', $selected_chat->id)->get();
         $this->selected_chat = $selected_chat;
 
-        $this->messages = DB::table('chat_messages')->where('chat_id', $chat_id)->get();
+        $messages = DB::table('chat_messages')->where('chat_id', $chat_id)->get();
+
+        $SMessages = DB::table('chat_messages')->where('chat_id', $chat_id)->where('status', 0)->get();
+        foreach ($SMessages as $msg) {
+            $msgS = ChatMessage::find($msg->id);
+            $msgS->status = 1;
+            $msgS->save();
+        }
+
+        $this->messages = $messages;
 
         $this->dispatch('scrollToBottom');
+        $this->dispatch('selectedChat', ['chat_id' => $chat_id]);
     }
 
     public function sendMessage($message)
@@ -422,6 +432,11 @@ class InboxComponent extends Component
         $this->reset(['name', 'subject', 'date', 'time', 'sender_number', 'alert_before', 'participant_number', 'participant_email']);
     }
 
+    public function reFreshOnMessageReceived()
+    {
+        $this->render();
+    }
+
     public $filter_time, $searchTerm;
     public function render()
     {
@@ -462,6 +477,9 @@ class InboxComponent extends Component
 
         foreach ($chats as $key => $chat) {
             $chat->avatar_ltr = substr($chat->first_name, 0, 1) . substr($chat->last_name, 0, 1);
+            $unreadCount = DB::table('chat_messages')->where('chat_id', $chat->id)->where('direction', 'inbound')->where('status', 0)->count();
+            $chat->unread = $unreadCount > 0 ? true : false;
+            $chat->unread_count = $unreadCount;
         }
 
         $this->dispatch('reload_scripts');
