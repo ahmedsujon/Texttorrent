@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('send_to')->nullable();
             $table->longText('message')->nullable();
             $table->longText('received_message')->nullable();
+            $table->string('received_message_sid', 2048)->nullable();
             $table->string('file', 2048)->nullable();
             $table->string('type')->nullable();
             $table->timestamp('execute_at')->nullable();

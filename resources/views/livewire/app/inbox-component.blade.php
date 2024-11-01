@@ -1387,7 +1387,6 @@
     </script>
 
     <script>
-        var messageDiv = document.getElementById("conversations");
         document.addEventListener('DOMContentLoaded', function() {
             // Initialize socket.io connection if it hasn't been initialized
             if (!window.socket) {

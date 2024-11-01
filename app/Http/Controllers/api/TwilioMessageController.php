@@ -60,7 +60,7 @@ class TwilioMessageController extends Controller
                 $content = [
                     "type" => 'claim',
                     "claim_id" => $claim->id,
-                    "user_id" => $claim->user_id
+                    "user_id" => $claim->send_by
                 ];
 
                 $socket_server = env('SOCKET_SERVER');

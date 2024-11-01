@@ -207,6 +207,11 @@ class ClaimsComponent extends Component
         }
     }
 
+    public function refreshComponents()
+    {
+        $this->render();
+    }
+
     public function render()
     {
         $claims = BulkMessageItem::where('status', 1)->where(function ($q) {
