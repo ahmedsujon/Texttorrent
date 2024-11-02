@@ -177,11 +177,68 @@ class GetNumberComponent extends Component
             $number->webhook = $this->setWebhook($data['number']);
             $number->save();
 
+            $serviceSID = $this->setServices($number->twilio_number_sid);
+
+            if ($serviceSID) {
+                $number->twilio_service_sid = $serviceSID;
+                $number->save();
+            }
+
             return true;
         } else {
             return false;
         }
     }
+
+    public function setServices($number_sid)
+    {
+        $client = new Client($this->TWILIO_SID, $this->TWILIO_AUTH_TOKEN);
+        $serviceName = "TextTorrent Messaging Service";
+        $phoneNumberSid = $number_sid;
+
+        // Check if the phone number is associated with any service
+        $services = $client->messaging->v1->services->read();
+        $isNumberInAnotherService = false;
+        $serviceSid = null;
+
+        foreach ($services as $service) {
+            $phoneNumbers = $client->messaging->v1->services($service->sid)->phoneNumbers->read();
+
+            foreach ($phoneNumbers as $number) {
+                if ($number->sid === $phoneNumberSid) {
+                    $isNumberInAnotherService = true;
+                    $serviceSid = $service->sid;
+                    break 2;
+                }
+            }
+        }
+
+        if (!$isNumberInAnotherService) {
+            // Check if "TextTorrent Messaging Service" exists or create a new one
+            $targetService = null;
+            foreach ($services as $service) {
+                if ($service->friendlyName === $serviceName) {
+                    $targetService = $service;
+                    $serviceSid = $service->sid;
+                    break;
+                }
+            }
+
+            // If the "TextTorrent Messaging Service" does not exist, create it
+            if (!$targetService) {
+                $targetService = $client->messaging->v1->services->create($serviceName);
+                $serviceSid = $targetService->sid;
+            }
+
+            // Add the phone number to the "TextTorrent Messaging Service"
+            $client->messaging->v1->services($serviceSid)
+                ->phoneNumbers
+                ->create($phoneNumberSid);
+        }
+
+        return $serviceSid;
+    }
+
     public function setWebhook($number)
     {
         $twilio = new Client($this->TWILIO_SID, $this->TWILIO_AUTH_TOKEN);

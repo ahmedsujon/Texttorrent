@@ -61,6 +61,8 @@ class BulkMessageComponent extends Component
     public $numbers = [], $all_numbers, $selectAllNumbers = false, $selectNumberSearch;
     public function selectPhoneNumbers($number)
     {
+        $number = '+'.$number;
+
         if ($this->number_pool) {
             if (($key = array_search($number, $this->numbers)) !== false) {
                 unset($this->numbers[$key]);

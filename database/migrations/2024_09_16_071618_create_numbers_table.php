@@ -23,7 +23,8 @@ return new class extends Migration
             $table->string('longitude')->nullable();
             $table->string('postal_code')->nullable();
             $table->text('capabilities')->nullable();
-            $table->string('twilio_number_sid')->nullable();
+            $table->string('twilio_number_sid', 1024)->nullable();
+            $table->string('twilio_service_sid', 1024)->nullable();
             $table->timestamp('purchased_at')->nullable();
             $table->enum('type', ['local', 'tollfree'])->default('local');
             $table->integer('webhook')->default(0);

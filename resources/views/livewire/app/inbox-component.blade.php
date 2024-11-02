@@ -137,13 +137,17 @@
                                                 <div class="short_message_are">
                                                     <h6>{{ $chat->first_name }} {{ $chat->last_name }}</h6>
                                                     <p style="font-size: 11.5px;">{{ $chat->number }}</p>
-                                                    <p>
+                                                    <p style="{{ $chat->unread ? 'font-weight: 700;' : '' }}">
                                                         {{ $chat->last_message }}
                                                     </p>
                                                 </div>
                                                 <div class="time_area">
                                                     <h5>{{ Carbon\Carbon::parse($chat->updated_at)->format('H:i A') }}
                                                     </h5>
+                                                    @if ($chat->unread)
+                                                        <span class="badge bg-danger rounded-circle" style="font-size: 10px !important;">{{ $chat->unread_count }}</span>
+                                                    @endif
+                                                    {{-- <span class="text-danger" style="font-size: 35px;">•</span> --}}
                                                     {{-- <div class="d-flex justify-content-end">
                                                         <div class="number">1</div>
                                                     </div> --}}
@@ -179,16 +183,16 @@
                                 </div>
                             </div>
                             <div class="header_action_area d-flex align-items-center justify-content-end flex-wrap">
-                                <button type="button" wire:click.prevent='addFolderModal({{ $selected_chat->id }})'>
+                                <button type="button" wire:click.prevent='addFolderModal({{ $selected_chat_id }})'>
                                     {!! loadingStateWithoutText(
-                                        'addFolderModal(' . $selected_chat->id . ')',
+                                        'addFolderModal(' . $selected_chat_id . ')',
                                         '<img src="' . asset('assets/app/icons/folder-add.svg') . '" alt="folder add icon" />',
                                     ) !!}
                                 </button>
                                 <button type="button"
-                                    wire:click.prevent='deleteConfirmation({{ $selected_chat->id }}, "chat")'>
+                                    wire:click.prevent='deleteConfirmation({{ $selected_chat_id }}, "chat")'>
                                     {!! loadingStateWithoutText(
-                                        'deleteConfirmation(' . $selected_chat->id . ", 'chat')",
+                                        'deleteConfirmation(' . $selected_chat_id . ", 'chat')",
                                         '<img src="' . asset('assets/app/icons/delete-01.svg') . '" alt="folder add icon" />',
                                     ) !!}
                                 </button>
@@ -298,6 +302,8 @@
                     @endif
                 </div>
                 <div class="contact_info_warapper" id="contactInfoArea">
+                    <input type="hidden" value="{{ $selected_chat_id }}" id="selected_chat_id">
+
                     @if ($selected_chat)
                         <div class="contact_info_area">
                             <div class="contact_header_area d-flex align-items-center flex-wrap gap-1">
@@ -323,7 +329,7 @@
                                     <div class="d-flex-between">
                                         <h3>About</h3>
                                         <button type="button" class="edit_btn"
-                                            wire:click.prevent='editInfo({{ $selected_chat->id }})'>
+                                            wire:click.prevent='editInfo({{ $selected_chat_id }})'>
                                             <img src="{{ asset('assets/app/icons/edit-02.svg') }}" alt="edit icon" />
                                             <span>Edit</span>
                                         </button>
@@ -1002,9 +1008,12 @@
         <div class="overlay" id="contactInfoOverlay"></div>
         <div class="overlay" id="chatListOverlay"></div>
     </main>
+
 </div>
 
 @push('scripts')
+    <script src="https://cdn.socket.io/4.0.0/socket.io.min.js"></script>
+
     <script>
         document.querySelectorAll('input[type="radio"]').forEach(radio => {
             radio.addEventListener('mousedown', function(e) {
@@ -1039,49 +1048,6 @@
             });
         });
     </script>
-
-    {{-- <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            import("https://unpkg.com/@joeattardi/emoji-button@4.6.0/dist/index.js").then(({
-                EmojiButton
-            }) => {
-                const picker = new EmojiButton({
-                    showPreview: true,
-                    position: "bottom-start", // Position below the button
-                    emojiVersion: "11.0",
-                    emojiSize: "1.5em",
-                    emojisPerRow: 9,
-                    rows: 7,
-                    zIndex: 1000,
-                    autoHide: false
-                });
-
-                const emojiButton = document.querySelector("#emoji_btn");
-                const emojiContainer = document.querySelector("#emoji-picker-container");
-                const messageArea = document.querySelector("#messageWriteArea");
-
-                // Toggle the picker display
-                emojiButton.addEventListener("click", () => {
-                    picker.togglePicker(emojiButton);
-                });
-
-                // Append emoji to textarea
-                picker.on("emoji", (selection) => {
-                    messageArea.value += selection.emoji;
-                });
-
-                // Show and hide picker within the specified container
-                picker.on("show", () => {
-                    emojiContainer.appendChild(picker.picker);
-                    emojiContainer.style.display = 'block';
-                });
-
-                picker.on("hide", () => {
-                    emojiContainer.style.display = 'none';
-                });
-            });
-        });
-    </script> --}}
 
     <script>
         document.addEventListener("DOMContentLoaded", function() {
@@ -1223,7 +1189,13 @@
             $('#folderToggleModal').modal('hide');
             $('#editInfoModal').modal('hide');
             $('#eventModal').modal('hide');
+            $('#newChartModal').modal('hide');
         });
+
+        window.addEventListener('newChatMessage', event => {
+            $('#messageWriteArea').val(event.detail[0].message);
+        });
+
         window.addEventListener('data_deleted', event => {
             $('#deleteDataModal').modal('hide');
             Swal.fire(
@@ -1269,16 +1241,16 @@
                 return `${formattedHours}:${minutes} ${ampm}`;
             }
 
-            // $('#sendMessageForm').on('submit', function(e) {
-            //     e.preventDefault();
+            $('#sendMessageForm').on('submit', function(e) {
+                e.preventDefault();
 
-            //     var message = $(".msg_input").val();
-            //     if (message != '') {
-            //         @this.sendMessage(message);
+                var message = $(".msg_input").val();
+                if (message != '') {
+                    @this.sendMessage(message);
 
-            //         $(".msg_input").val('');
-            //     }
-            // });
+                    $(".msg_input").val('');
+                }
+            });
 
             $('#templateSelect').on('change', function(e) {
                 e.preventDefault();
@@ -1297,6 +1269,10 @@
                 $('#smsTemplateModal').modal('hide');
                 $('#templatePreview').val('');
                 $('#templateSelect').val('');
+
+                setTimeout(() => {
+                    $('#messageWriteArea').focus();
+                }, 350);
             });
 
             $('#filter_time').on('change', function() {
@@ -1413,6 +1389,29 @@
                 tempTextarea.remove();
                 successMsg('Number copied successfully');
             });
+        });
+    </script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Initialize socket.io connection if it hasn't been initialized
+            if (!window.socket) {
+                window.socket = io('{{ env('SOCKET_SERVER') }}'); // Change to your server URL
+
+                // Remove any previous listener to avoid duplication
+                window.socket.off('receive_message');
+
+                window.socket.on('receive_message', function(data) {
+                    var chat_id = $('#selected_chat_id').val();
+
+                    if (data.content.user_id == {{ user()->id }} && data.content.chat_id == chat_id && data.content.type == 'chat') {
+                        @this.selectChat(chat_id);
+                    } else if (data.content.user_id == {{ user()->id }} && data.content.type == 'chat') {
+                        @this.reFreshOnMessageReceived();
+                    }
+
+                });
+            }
         });
     </script>
 @endpush

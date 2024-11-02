@@ -648,7 +648,6 @@
 
                 // Log selected value
                 console.log("Selected values:", selectedValues);
-                s;
             });
         });
     </script>

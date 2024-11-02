@@ -55,9 +55,19 @@ class InboxComponent extends Component
         $selected_chat->notes = DB::table('contact_notes')->where('contact_id', $selected_chat->id)->get();
         $this->selected_chat = $selected_chat;
 
-        $this->messages = DB::table('chat_messages')->where('chat_id', $chat_id)->get();
+        $messages = DB::table('chat_messages')->where('chat_id', $chat_id)->get();
+
+        $SMessages = DB::table('chat_messages')->where('chat_id', $chat_id)->where('status', 0)->get();
+        foreach ($SMessages as $msg) {
+            $msgS = ChatMessage::find($msg->id);
+            $msgS->status = 1;
+            $msgS->save();
+        }
+
+        $this->messages = $messages;
 
         $this->dispatch('scrollToBottom');
+        $this->dispatch('selectedChat', ['chat_id' => $chat_id]);
     }
 
     public function sendMessage($message)
@@ -151,34 +161,40 @@ class InboxComponent extends Component
         $chat->from_number = $this->sender_id;
         $chat->save();
 
-        $msg = new ChatMessage();
-        $msg->chat_id = $chat->id;
-        $msg->direction = 'outbound';
-        $msg->message = $this->new_chat_message;
-        $msg->save();
+        $this->selectChat($chat->id);
+        $this->dispatch('closeModal');
+        $this->dispatch('newChatMessage', ['message' => $this->new_chat_message]);
+        $this->dispatch('success', ['message' => 'New chat started successfully']);
 
-        // send msg
-        $result = sendSMSviaTwilio($this->selected_chat->number, $chat->from_number, $this->new_chat_message);
+        // $msg = new ChatMessage();
+        // $msg->chat_id = $chat->id;
+        // $msg->direction = 'outbound';
+        // $msg->message = $this->new_chat_message;
+        // $msg->save();
 
-        if ($result['result'] == false) {
-            $msgSt = ChatMessage::find($msg->id);
-            $msgSt->api_send_status = 'failed';
-            $msgSt->save();
+        // $contact = Contact::find($this->receiver_id);
+        // // send msg
+        // $result = sendSMSviaTwilio($contact->number, $chat->from_number, $this->new_chat_message);
 
-            $msg->api_send_status = 'failed';
-        } else {
-            $msgSt = ChatMessage::find($msg->id);
-            $msgSt->api = 'Twilio';
-            $msgSt->api_send_status = 'success';
-            $msgSt->api_send_response = $result['twilio_response'];
-            $msgSt->msg_sid = $result['sid'];
-            $msgSt->save();
+        // if ($result['result'] == false) {
+        //     $msgSt = ChatMessage::find($msg->id);
+        //     $msgSt->api_send_status = 'failed';
+        //     $msgSt->save();
 
-            $msg->api_send_status = 'success';
-        }
+        //     $msg->api_send_status = 'failed';
+        // } else {
+        //     $msgSt = ChatMessage::find($msg->id);
+        //     $msgSt->api = 'Twilio';
+        //     $msgSt->api_send_status = 'success';
+        //     $msgSt->api_send_response = $result['twilio_response'];
+        //     $msgSt->msg_sid = $result['sid'];
+        //     $msgSt->save();
 
-        session()->flash('success', 'New chat started successfully');
-        return redirect()->route('user.inbox');
+        //     $msg->api_send_status = 'success';
+        // }
+
+        // session()->flash('success', 'New chat started successfully');
+        // return redirect()->route('user.inbox');
     }
 
     public $selected_template_preview, $selected_template_id;
@@ -377,6 +393,8 @@ class InboxComponent extends Component
             $data = Chat::where('id', $this->delete_id)->first();
             $data->delete();
 
+            $this->mount();
+
             $message = 'Chat deleted successfully';
         }
 
@@ -419,6 +437,11 @@ class InboxComponent extends Component
         $this->reset(['name', 'subject', 'date', 'time', 'sender_number', 'alert_before', 'participant_number', 'participant_email']);
     }
 
+    public function reFreshOnMessageReceived()
+    {
+        $this->render();
+    }
+
     public $filter_time, $searchTerm;
     public function render()
     {
@@ -459,6 +482,9 @@ class InboxComponent extends Component
 
         foreach ($chats as $key => $chat) {
             $chat->avatar_ltr = substr($chat->first_name, 0, 1) . substr($chat->last_name, 0, 1);
+            $unreadCount = DB::table('chat_messages')->where('chat_id', $chat->id)->where('direction', 'inbound')->where('status', 0)->count();
+            $chat->unread = $unreadCount > 0 ? true : false;
+            $chat->unread_count = $unreadCount;
         }
 
         $this->dispatch('reload_scripts');
