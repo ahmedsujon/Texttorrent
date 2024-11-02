@@ -1189,7 +1189,13 @@
             $('#folderToggleModal').modal('hide');
             $('#editInfoModal').modal('hide');
             $('#eventModal').modal('hide');
+            $('#newChartModal').modal('hide');
         });
+
+        window.addEventListener('newChatMessage', event => {
+            $('#messageWriteArea').val(event.detail[0].message);
+        });
+
         window.addEventListener('data_deleted', event => {
             $('#deleteDataModal').modal('hide');
             Swal.fire(

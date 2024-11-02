@@ -161,35 +161,40 @@ class InboxComponent extends Component
         $chat->from_number = $this->sender_id;
         $chat->save();
 
-        $msg = new ChatMessage();
-        $msg->chat_id = $chat->id;
-        $msg->direction = 'outbound';
-        $msg->message = $this->new_chat_message;
-        $msg->save();
+        $this->selectChat($chat->id);
+        $this->dispatch('closeModal');
+        $this->dispatch('newChatMessage', ['message' => $this->new_chat_message]);
+        $this->dispatch('success', ['message' => 'New chat started successfully']);
 
-        $contact = Contact::find($this->receiver_id);
-        // send msg
-        $result = sendSMSviaTwilio($contact->number, $chat->from_number, $this->new_chat_message);
+        // $msg = new ChatMessage();
+        // $msg->chat_id = $chat->id;
+        // $msg->direction = 'outbound';
+        // $msg->message = $this->new_chat_message;
+        // $msg->save();
 
-        if ($result['result'] == false) {
-            $msgSt = ChatMessage::find($msg->id);
-            $msgSt->api_send_status = 'failed';
-            $msgSt->save();
+        // $contact = Contact::find($this->receiver_id);
+        // // send msg
+        // $result = sendSMSviaTwilio($contact->number, $chat->from_number, $this->new_chat_message);
 
-            $msg->api_send_status = 'failed';
-        } else {
-            $msgSt = ChatMessage::find($msg->id);
-            $msgSt->api = 'Twilio';
-            $msgSt->api_send_status = 'success';
-            $msgSt->api_send_response = $result['twilio_response'];
-            $msgSt->msg_sid = $result['sid'];
-            $msgSt->save();
+        // if ($result['result'] == false) {
+        //     $msgSt = ChatMessage::find($msg->id);
+        //     $msgSt->api_send_status = 'failed';
+        //     $msgSt->save();
 
-            $msg->api_send_status = 'success';
-        }
+        //     $msg->api_send_status = 'failed';
+        // } else {
+        //     $msgSt = ChatMessage::find($msg->id);
+        //     $msgSt->api = 'Twilio';
+        //     $msgSt->api_send_status = 'success';
+        //     $msgSt->api_send_response = $result['twilio_response'];
+        //     $msgSt->msg_sid = $result['sid'];
+        //     $msgSt->save();
 
-        session()->flash('success', 'New chat started successfully');
-        return redirect()->route('user.inbox');
+        //     $msg->api_send_status = 'success';
+        // }
+
+        // session()->flash('success', 'New chat started successfully');
+        // return redirect()->route('user.inbox');
     }
 
     public $selected_template_preview, $selected_template_id;
