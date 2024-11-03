@@ -19,7 +19,7 @@ class InboxComponent extends Component
     public function mount()
     {
         $this->folders = DB::table('contact_folders')->where('user_id', user()->id)->get();
-        $last_chat = DB::table('chats')->select('id')->where('user_id', user()->id)->orderBy('updated_at', 'DESC')->first();
+        $last_chat = DB::table('chats')->select('chats.id')->join('contacts', 'contacts.id', 'chats.contact_id')->where('chats.user_id', user()->id)->where('contacts.blacklisted', 0)->orderBy('chats.updated_at', 'DESC')->first();
 
         if ($last_chat) {
             $this->selectChat($last_chat->id);
@@ -444,10 +444,29 @@ class InboxComponent extends Component
         $this->render();
     }
 
+    public $blacklist_contact_id;
+    public function blacklistConfirmation($contact_id)
+    {
+        $this->blacklist_contact_id = $contact_id;
+        $this->dispatch('showBlackListConfirmation');
+    }
+
+    public function blacklistContact()
+    {
+        $contact = Contact::find($this->blacklist_contact_id);
+        $contact->blacklisted = 1;
+        $contact->save();
+
+        $this->blacklist_contact_id = '';
+        $this->dispatch('blackListedSuccess');
+        $this->mount();
+        $this->render();
+    }
+
     public $filter_time, $searchTerm;
     public function render()
     {
-        $chats = DB::table('chats')->select('chats.*', 'contacts.first_name', 'contacts.last_name', 'contacts.number')->join('contacts', 'contacts.id', 'chats.contact_id')->where(function ($q) {
+        $chats = DB::table('chats')->select('chats.*', 'contacts.first_name', 'contacts.last_name', 'contacts.number')->join('contacts', 'contacts.id', 'chats.contact_id')->where('contacts.blacklisted', 0)->where(function ($q) {
             $q->where('contacts.number', 'like', '%' . $this->searchTerm . '%')
                 ->orWhere('contacts.first_name', 'like', '%' . $this->searchTerm . '%')
                 ->orWhere('contacts.last_name', 'like', '%' . $this->searchTerm . '%')

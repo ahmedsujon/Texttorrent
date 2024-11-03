@@ -318,9 +318,8 @@
                                 </h4>
                                 <div
                                     class="user_action_btn_list d-flex align-items-center justify-content-center flex-wrap">
-                                    <button type="button" class="btn">
-                                        <img src="{{ asset('assets/app/icons/user-block-02.svg') }}"
-                                            alt="user block" />
+                                    <button type="button" wire:click.prevent='blacklistConfirmation({{ $selected_chat->id }})' class="btn">
+                                        {!! loadingStateWithoutText('blacklistConfirmation('.$selected_chat->id.')', '<img src="'.asset('assets/app/icons/user-block-02.svg').'" alt="" />') !!}
                                     </button>
                                 </div>
                             </div>
@@ -1005,6 +1004,31 @@
             </div>
         </div>
 
+        <!-- Blacklist  Modal  -->
+        <div wire:ignore.self class="modal fade delete_modal" id="blacklistModal" tabindex="-1"
+            aria-labelledby="deleteModal" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+                <div class="modal-content">
+                    <div class="modal-body">
+                        <div class="content_area">
+                            <h2>Are you sure?</h2>
+                            <h4>Would you like to blacklist this contact?</h4>
+                            <div class="delete_action_area d-flex align-items-center flex-wrap">
+                                <button type="button" class="delete_cancel_btn" id="deleteModalCloseBtn"
+                                    data-bs-dismiss="modal">
+                                    Cancel
+                                </button>
+                                <button type="button" wire:click.prevent='blacklistContact' wire:loading.attr='disabled'
+                                    class="delete_yes_btn">
+                                    {!! loadingStateWithText('blacklistContact', 'Yes') !!}
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <div class="overlay" id="contactInfoOverlay"></div>
         <div class="overlay" id="chatListOverlay"></div>
     </main>
@@ -1156,6 +1180,18 @@
     </script>
 
     <script>
+        window.addEventListener('showBlackListConfirmation', event => {
+            $('#blacklistModal').modal('show');
+        });
+        window.addEventListener('blackListedSuccess', event => {
+            $('#blacklistModal').modal('hide');
+            Swal.fire(
+                "Success!",
+                "Contact successfully blacklisted",
+                "success"
+            );
+        });
+
         window.addEventListener('showInfoUpdateModal', event => {
             $('#editInfoModal').modal('show');
         });
