@@ -166,7 +166,7 @@ class CalendarComponent extends Component
 
     public function render()
     {
-        $participant_numbers = Contact::select('number')->where('user_id', Auth::user()->id)->get();
+        $participant_numbers = Contact::select('number')->where('blacklisted', 0)->where('user_id', Auth::user()->id)->get();
         $active_numbers = Number::where('user_id', Auth::user()->id)->get();
 
         $formattedEvents = Event::where('user_id', Auth::user()->id)
