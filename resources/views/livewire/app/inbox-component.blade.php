@@ -781,10 +781,10 @@
                                         <label for="">Phone Number</label>
                                         <select name="lang" wire:model.blur='participant_number'
                                             class="js-searchBox participant_number">
-                                            <option value="">Select Phone Number</option>
-                                            @foreach ($active_numbers as $active_number)
-                                                <option value="{{ $active_number->number }}">
-                                                    {{ $active_number->number }}</option>
+                                            <option value="">Choose Number</option>
+                                            @foreach ($participant_numbers as $participant_number)
+                                                <option value="{{ $participant_number->number }}">{{ $participant_number->number }}
+                                                </option>
                                             @endforeach
                                         </select>
                                         <img src="{{ asset('assets/app/icons/arrow-down.svg') }}" alt="down arrow"

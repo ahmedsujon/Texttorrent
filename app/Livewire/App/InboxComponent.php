@@ -11,10 +11,11 @@ use App\Models\ContactNote;
 use App\Models\ContactFolder;
 use App\Services\TwilioService;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
 
 class InboxComponent extends Component
 {
-    public $folders, $folder_search_term, $templates, $active_numbers, $receiver_numbers;
+    public $folders, $folder_search_term, $templates, $active_numbers, $receiver_numbers, $participant_numbers;
     public function mount()
     {
         $this->folders = DB::table('contact_folders')->where('user_id', user()->id)->get();
@@ -26,6 +27,7 @@ class InboxComponent extends Component
 
         $this->templates = DB::table('inbox_templates')->where('user_id', user()->id)->get();
         $this->active_numbers = DB::table('numbers')->where('user_id', user()->id)->get();
+        $this->participant_numbers = Contact::select('number')->where('user_id', user()->id)->get();
 
         $extContacts = DB::table('chats')->select('contact_id')->where('user_id', user()->id)->pluck('contact_id')->toArray();
         $this->receiver_numbers = DB::table('contacts')->where('user_id', user()->id)->whereNotIn('id', $extContacts)->get();
