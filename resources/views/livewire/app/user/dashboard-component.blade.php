@@ -86,6 +86,9 @@
                 <div class="credit_area">
                     <div class="d-flex-between">
                         <h3 class="credit_title">Buy Credits</h3>
+                        <button type="button" class="amount_btn" style="color: black; background-color: #e5f9fe;">
+                            Credits left: {{ $total_credits }}
+                        </button>
                         <button type="button" class="amount_btn">Pay $1000</button>
                     </div>
                     <div class="amount_area mt-24">

@@ -1,4 +1,39 @@
 <div>
+    <style>
+        .form-container {
+            width: 300px;
+            margin: 50px auto;
+            text-align: left;
+        }
+
+        .checkbox-label {
+            display: block;
+            margin-bottom: 15px;
+            font-size: 14px;
+        }
+
+        .checkbox-label a {
+            color: #000;
+            text-decoration: underline;
+        }
+
+        .button {
+            background-color: #b30000;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        .button:hover {
+            background-color: #990000;
+        }
+
+        .form-check {
+            padding-left: 0px !important;
+        }
+    </style>
     <main>
         <!-- Hero Section  -->
         <section class="hero_wrapper hero_wrapper_others"
@@ -37,16 +72,16 @@
                                             <img src="{{ asset('assets/app/icons/bxs_phone-call.svg') }}"
                                                 alt="phone icon" />
                                         </div>
-                                        <a href="tel:+10123456789">+1012 3456 789</a>
+                                        <a href="tel:+17867467133">786-746-7133</a>
                                     </li>
                                     <li>
                                         <div class="icon">
                                             <img src="{{ asset('assets/app/icons/ic_sharp-email.svg') }}"
                                                 alt="email icon" />
                                         </div>
-                                        <a href="mailto:demo@gmail.com">demo@gmail.com</a>
+                                        <a href="mailto:Info@texttorrent.com">Info@texttorrent.com</a>
                                     </li>
-                                    <li>
+                                    {{-- <li>
                                         <div class="icon">
                                             <img src="{{ asset('assets/app/icons/carbon_location-filled.svg') }}"
                                                 alt="location icon" />
@@ -55,7 +90,7 @@
                                             132 Dartmouth Street Boston, Massachusetts 02156 United
                                             States
                                         </h6>
-                                    </li>
+                                    </li> --}}
                                 </ul>
                             </div>
                             <div class="contact_form_area">
@@ -104,6 +139,17 @@
                                         @error('descriptions')
                                             <p class="text-danger" style="font-size: 11.5px;">{{ $message }}</p>
                                         @enderror
+                                    </div>
+                                    <div class="form-check">
+                                        <label class="checkbox-label">
+                                            <input type="checkbox" name="sms_opt_in">
+                                            I would like to receive text messages, and agree to the
+                                            <a href="{{ route('app.terms-conditions') }}">Terms of Service</a> & <a
+                                                href="{{ route('app.privacy-policy') }}">Privacy
+                                                Policy</a>.
+                                            Reply STOP to cancel, HELP for help. Msg & data rates may apply.
+                                            Message frequency may vary.
+                                        </label>
                                     </div>
                                     <div class="text-end">
                                         <button type="submit" class="submit_btn ms-auto">
@@ -159,7 +205,7 @@
             </div>
         </section>
         <!-- Visit Map Section  -->
-        <section class="how_works_wrapper visit_map_wrapper">
+        {{-- <section class="how_works_wrapper visit_map_wrapper">
             <div class="container container-custom">
                 <div class="row">
                     <div class="col-12">
@@ -184,7 +230,7 @@
                     </div>
                 </div>
             </div>
-        </section>
+        </section> --}}
         <!-- Ready To Start Section  -->
         <section class="ready_start_wrapper">
             <div class="container container-custom">
