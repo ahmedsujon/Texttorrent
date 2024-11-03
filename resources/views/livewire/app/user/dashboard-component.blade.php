@@ -1,5 +1,5 @@
 <div>
-    <main class="main_content_wrapper">
+    <main class="main_content_wrapper" wire:ignore>
         <!-- Dashboard Section  -->
         <section class="dashboard_overview_wrapper">
             <div class="d-flex align-items-center flex-wrap gap-1">
@@ -229,79 +229,60 @@
                 <div class="modal-body">
                     <div class="event_edit_grid">
                         <div class="dot"></div>
-                        <div class="content_area">
-                            <h2>Meeting with Cameron Williamson for wecraft logo</h2>
-                            <h3>
-                                Subject:
-                                <span> Lorem ipsum dolor sit amet, consectetur lodo</span>
-                            </h3>
-                            <div class="icon_grid">
-                                <div class="icon">
-                                    <img src="{{ asset('assets/app/icons/clock-01.svg') }}" alt="clock icon" />
-                                </div>
-                                <h6>Friday, Mar 10 - 11:15 AM - 11:45 PM</h6>
-                            </div>
-                            <div class="two_grid">
+                        @if ($selectedEvent)
+                            <div class="content_area">
+                                <h2>{{ $selectedEvent->name }}</h2>
+                                <h3>
+                                    Subject:
+                                    <span> {{ $selectedEvent->subject }}</span>
+                                </h3>
                                 <div class="icon_grid">
                                     <div class="icon">
-                                        <img src="{{ asset('assets/app/icons/user.svg') }}" alt="user icon" />
+                                        <img src="{{ asset('assets/app/icons/clock-01.svg') }}" alt="clock icon" />
                                     </div>
-                                    <h6>Royal Parvej</h6>
+                                    <h6>{{ Carbon\Carbon::parse($selectedEvent->date)->format('l, M j') }} -
+                                        {{ Carbon\Carbon::parse($selectedEvent->time)->format('h:i A') }}</h6>
+                                </div>
+                                <div class="two_grid">
+                                    <div class="icon_grid">
+                                        <div class="icon">
+                                            <img src="{{ asset('assets/app/icons/user.svg') }}" alt="user icon" />
+                                        </div>
+                                        <h6>{{ user()->first_name }} {{ user()->last_name }}</h6>
+                                    </div>
+                                    <div class="icon_grid">
+                                        <div class="icon">
+                                            <img src="{{ asset('assets/app/icons/mail-02.svg') }}" alt="mail icon" />
+                                        </div>
+                                        <h6 class="email">{{ user()->email }}</h6>
+                                    </div>
                                 </div>
                                 <div class="icon_grid">
                                     <div class="icon">
-                                        <img src="{{ asset('assets/app/icons/mail-02.svg') }}" alt="mail icon" />
+                                        <img src="{{ asset('assets/app/icons/notification-02.svg') }}"
+                                            alt="notification icon" />
                                     </div>
-                                    <h6 class="email">hi.rooyal@gmail.com</h6>
+                                    <h6>{{ $selectedEvent->alert_before }} minutes before</h6>
                                 </div>
-                            </div>
-                            <div class="icon_grid">
-                                <div class="icon">
-                                    <img src="{{ asset('assets/app/icons/notification-02.svg') }}"
-                                        alt="notification icon" />
-                                </div>
-                                <h6>30 minutes before</h6>
-                            </div>
-                            <div class="participant_area" id="participantListArea">
-                                <h4>Participants</h4>
-                                <div class="participant_user_grid">
-                                    <div class="user_icon">
-                                        <img src="{{ asset('assets/app/icons/user-multiple.svg') }}"
-                                            alt="user icon" />
-                                    </div>
-                                    <div>
-                                        <h5>hi.geto@gmail.com</h5>
-                                        <h6>(480) 555-0103</h6>
-                                    </div>
-                                    <div class="delete_icon">
-                                        <button type="button">
-                                            <img src="{{ asset('assets/app/icons/elements.svg') }}"
-                                                alt="cross icon" />
-                                        </button>
-                                    </div>
-                                </div>
-                                <div class="participant_user_grid">
-                                    <div class="user_icon">
-                                        <img src="{{ asset('assets/app/icons/user-multiple.svg') }}"
-                                            alt="user icon" />
-                                    </div>
-                                    <div>
-                                        <h5>hi.geto@gmail.com</h5>
-                                        <h6>(480) 555-0103</h6>
-                                    </div>
-                                    <div class="delete_icon">
-                                        <button type="button">
-                                            <img src="{{ asset('assets/app/icons/elements.svg') }}"
-                                                alt="cross icon" />
-                                        </button>
+                                <div class="participant_area" id="participantListArea">
+                                    <h4>Participants</h4>
+                                    <div class="participant_user_grid">
+                                        <div class="user_icon">
+                                            <img src="{{ asset('assets/app/icons/user-multiple.svg') }}"
+                                                alt="user icon" />
+                                        </div>
+                                        <div>
+                                            <h5>{{ $selectedEvent->participant_email }}</h5>
+                                            <h6>{{ $selectedEvent->participant_number }}</h6>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="action_area d-flex align-items-center justify-content-end flex-wrap gap-1">
-                            <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                aria-label="Close"></button>
-                        </div>
+                            <div class="action_area d-flex align-items-center justify-content-end flex-wrap gap-1">
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                    aria-label="Close"></button>
+                            </div>
+                        @endif
                     </div>
                 </div>
             </div>
@@ -384,80 +365,37 @@
         chart.render();
     </script>
 
+    <script>
+        window.addEventListener('viewEventDetails', event => {
+            const myModal = new bootstrap.Modal("#editEventModalBtn", {
+                backdrop: "static",
+            });
+            myModal.show();
+        });
+    </script>
+
     <!-- Calender Month View  -->
     <script>
         document.addEventListener("DOMContentLoaded", function() {
             var calendarEl = document.getElementById("calendar");
 
+            const jsonData = @json($events);
+
+            const today = new Date();
+            const initDate = today.toISOString().split('T')[0];
+
             var calendar = new FullCalendar.Calendar(calendarEl, {
-                initialDate: "2024-01-12",
+                initialDate: initDate,
                 eventClick: function(arg) {
-                    const myModal = new bootstrap.Modal("#editEventModalBtn", {
-                        backdrop: "static",
-                    });
-                    myModal.show();
+                    const eventId = arg.event.id;
+                    @this.viewData(eventId);
                 },
                 editable: false,
                 selectable: false,
                 businessHours: false,
                 dayMaxEvents: 2, // allow "more" link when too many events
                 height: "650px",
-                events: [
-                    // {
-                    //   title: "All Day Event",
-                    //   start: "2024-01-01",
-                    // },
-                    {
-                        title: "Long Event",
-                        start: "2024-01-17",
-                        end: "2024-01-17",
-                    },
-                    // {
-                    //   groupId: 999,
-                    //   title: "Repeating Event",
-                    //   start: "2024-01-09T16:00:00",
-                    // },
-                    // {
-                    //   groupId: 999,
-                    //   title: "Repeating Event",
-                    //   start: "2024-01-16T16:00:00",
-                    // },
-                    {
-                        title: "Conference",
-                        start: "2024-01-11",
-                        end: "2024-01-11",
-                    },
-                    // {
-                    //   title: "Meeting",
-                    //   start: "2024-01-12T10:30:00",
-                    //   end: "2024-01-12T12:30:00",
-                    // },
-                    // {
-                    //   title: "Lunch",
-                    //   start: "2024-01-12T12:00:00",
-                    // },
-                    // {
-                    //   title: "Meeting",
-                    //   start: "2024-01-12T14:30:00",
-                    // },
-                    // {
-                    //   title: "Happy Hour",
-                    //   start: "2024-01-12T17:30:00",
-                    // },
-                    // {
-                    //   title: "Dinner",
-                    //   start: "2024-01-12T20:00:00",
-                    // },
-                    // {
-                    //   title: "Birthday Party",
-                    //   start: "2024-01-13T07:00:00",
-                    // },
-                    {
-                        title: "Click for Google",
-                        url: "http://google.com/",
-                        start: "2024-01-28",
-                    },
-                ],
+                events: JSON.parse(jsonData)
             });
 
             calendar.render();
