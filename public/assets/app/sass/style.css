@@ -1699,6 +1699,12 @@ input[type=number] {
   -o-border-radius: 8px;
 }
 
+.searchable_input_area .search_input_form {
+  margin-bottom: 20px;
+}
+.searchable_input_area .search_input_form .input_field {
+  padding-left: 38px !important;
+}
 .searchable_input_area.active .suggestion_list_area {
   top: 45px;
   opacity: 1;
@@ -1714,8 +1720,6 @@ input[type=number] {
   opacity: 0;
   visibility: hidden;
   pointer-events: none;
-  max-height: 300px;
-  min-height: 200px;
   width: 100%;
   padding: 8px;
   border-radius: 8px;
@@ -1727,49 +1731,48 @@ input[type=number] {
   -moz-transition: all 0.5s ease-in-out;
   -ms-transition: all 0.5s ease-in-out;
   -o-transition: all 0.5s ease-in-out;
+}
+.suggestion_list_area .list {
+  max-height: 200px;
+  min-height: 35px;
   overflow-y: auto;
   /* width */
   /* Track */
   /* Handle */
   /* Handle on hover */
 }
-.suggestion_list_area::-webkit-scrollbar {
+.suggestion_list_area .list::-webkit-scrollbar {
   width: 5px;
   height: 5px;
 }
-.suggestion_list_area::-webkit-scrollbar-track {
+.suggestion_list_area .list::-webkit-scrollbar-track {
   background: rgba(153, 153, 153, 0.2);
   border-radius: 5px;
 }
-.suggestion_list_area::-webkit-scrollbar-thumb {
+.suggestion_list_area .list::-webkit-scrollbar-thumb {
   background: #999999;
   border-radius: 5px;
 }
-.suggestion_list_area::-webkit-scrollbar-thumb:hover {
+.suggestion_list_area .list::-webkit-scrollbar-thumb:hover {
   background: #f84f4f;
   cursor: grab;
 }
-.suggestion_list_area button {
+.suggestion_list_area li button {
   text-align: start;
+  font-family: SFMediumFont;
+  cursor: pointer;
+  padding: 6px 8px;
   color: #0b1234;
-  font-size: 16px;
+  font-size: 14px;
   font-style: normal;
   font-weight: 500;
-  line-height: 24px;
-  padding: 8px 16px;
   width: 100%;
-  border-radius: 4px;
-  -webkit-border-radius: 4px;
-  -moz-border-radius: 4px;
-  -ms-border-radius: 4px;
-  -o-border-radius: 4px;
 }
-.suggestion_list_area button:hover {
-  background-color: rgba(178, 174, 174, 0.2);
+.suggestion_list_area li button:hover {
+  background-color: #f5f6f8;
 }
-.suggestion_list_area button.selected {
-  color: white;
-  background-color: #235de4;
+.suggestion_list_area li button.selected {
+  background-color: rgba(224, 224, 228, 0.5);
 }
 
 .login_form_area .input_row {

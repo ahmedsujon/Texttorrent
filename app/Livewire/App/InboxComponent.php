@@ -3,15 +3,13 @@
 namespace App\Livewire\App;
 
 use App\Models\Chat;
-use App\Models\Event;
-use App\Models\Contact;
-use Livewire\Component;
 use App\Models\ChatMessage;
-use App\Models\ContactNote;
+use App\Models\Contact;
 use App\Models\ContactFolder;
-use App\Services\TwilioService;
+use App\Models\ContactNote;
+use App\Models\Event;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Auth;
+use Livewire\Component;
 
 class InboxComponent extends Component
 {
@@ -115,9 +113,40 @@ class InboxComponent extends Component
         dd($output);
     }
 
-    public $selected_template_preview_new_chat, $selected_template_id_new_chat, $receiver_id, $sender_id, $new_chat_message;
+    public $selected_template_preview_new_chat, $selected_template_id_new_chat, $receiver_id, $receiver_number, $sender_id, $new_chat_message;
+
+    public function receiverSelect($number)
+    {
+        $this->receiver_number = str_replace('+1', '', $number);
+    }
+
+    public function updatedReceiverNumber()
+    {
+        $extContacts = DB::table('chats')->select('contact_id')->where('user_id', user()->id)->pluck('contact_id')->toArray();
+        $this->receiver_numbers = DB::table('contacts')->where('number', 'like', '%'.$this->receiver_number.'%')->where('user_id', user()->id)->whereNotIn('id', $extContacts)->get();
+    }
+
     public function useTemplateNewChat()
     {
+        if ($this->receiver_number) {
+            $rec_number = '+1' . $this->receiver_number;
+
+            $getContact = Contact::where('number', $rec_number)->where('user_id', user()->id)->first();
+            if ($getContact) {
+                $this->receiver_id = $getContact->id;
+            } else {
+                // $unlisted_count = Contact::where('user_id', user()->id)->where('list_id', NULL)->count();
+
+                $contact = new Contact();
+                $contact->user_id = user()->id;
+                // $contact->first_name = 'Unlisted';
+                // $contact->last_name = $unlisted_count + 1;
+                $contact->number = $rec_number;
+                $contact->save();
+                $this->receiver_id = $contact->id;
+            }
+        }
+
         if ($this->receiver_id) {
             $contact = Contact::find($this->receiver_id);
             $output = $this->selected_template_preview_new_chat; // Start with the template preview
@@ -419,7 +448,7 @@ class InboxComponent extends Component
             'sender_number' => 'required',
             'alert_before' => 'required',
         ], [
-            '*' => 'This field is required'
+            '*' => 'This field is required',
         ]);
 
         $event = new Event();

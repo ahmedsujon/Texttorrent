@@ -851,7 +851,7 @@
                                 </p>
                             @enderror
 
-                            <div class="input_row searchable_select" wire:ignore>
+                            {{-- <div class="input_row searchable_select" wire:ignore>
                                 <label for="">Receiver</label>
                                 <select name="lang" class="js-searchBox new_chat_select_receiver">
                                     <option value="">Select Receiver</option>
@@ -862,50 +862,32 @@
                                 </select>
                                 <img src="{{ asset('assets/app/icons/arrow-down.svg') }}" alt="down arrow"
                                     class="down_arrow" />
-                            </div>
-
-                            {{-- <div class="input_row" wire:ignore>
-                                <label for="">Receiver</label>
-                                <div class="searchable_input_area position-relative" id="searchableList">
-                                    <input type="text" placeholder="Type receiver number" class="input_field"
-                                        id="searchInput" />
-                                    <ul class="suggestion_list_area" id="suggestionListArea">
-                                        <li>
-                                            <button type="button">Option 1</button>
-                                        </li>
-                                        <li>
-                                            <button type="button" class="selected">Option 2</button>
-                                        </li>
-                                        <li>
-                                            <button type="button">Option 3</button>
-                                        </li>
-                                        <li>
-                                            <button type="button">Option 4</button>
-                                        </li>
-                                        <li>
-                                            <button type="button">Option 5</button>
-                                        </li>
-                                        <li>
-                                            <button type="button">Option 6</button>
-                                        </li>
-                                        <li>
-                                            <button type="button">Option 7</button>
-                                        </li>
-                                        <li>
-                                            <button type="button">Option 4</button>
-                                        </li>
-                                        <li>
-                                            <button type="button">Option 5</button>
-                                        </li>
-                                        <li>
-                                            <button type="button">Option 6</button>
-                                        </li>
-                                        <li>
-                                            <button type="button">Option 7</button>
-                                        </li>
-                                    </ul>
-                                </div>
                             </div> --}}
+
+                            <div class="input_row">
+                                <label for="">Receiver</label>
+                                <div wire:ignore.self class="searchable_input_area position-relative" id="searchableList">
+                                    <div class="input-group">
+                                        <span class="input-group-text" id="basic-addon1">+1</span>
+                                        <input type="tel" class="form-control" wire:model.live='receiver_number' id="searchInput" placeholder="xxxxxxxxxx" autocomplete="off" maxlength="10" />
+                                    </div>
+                                    <div class="suggestion_list_area">
+                                        <ul class="list" id="suggestionListArea" wire:ignore.self>
+                                            @if ($receiver_numbers->count() > 0)
+                                                @foreach ($receiver_numbers as $receiverNumber)
+                                                    <li>
+                                                        <button type="button" wire:click.prevent="receiverSelect('{{ $receiverNumber->number }}')">{{ $receiverNumber->number }}</button>
+                                                    </li>
+                                                @endforeach
+                                            @else
+                                                <li class="text-center">
+                                                    <small class="text-muted">No data available!</small>
+                                                </li>
+                                            @endif
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
 
                             @error('receiver_id')
                                 <p class="text-danger" style="font-size: 12.5px; margin-top: -15px;">{{ $message }}
@@ -1113,6 +1095,15 @@
             item.addEventListener("click", () => {
                 searchableList.classList.remove("active");
             });
+        });
+
+        $(document).on('keyup', '#searchInput', function() {
+            var val = $('#searchInput').val();
+            if (val.length == 10) {
+                searchableList.classList.remove("active");
+            } else {
+                searchableList.classList.add("active");
+            }
         });
     </script>
 
@@ -1399,11 +1390,17 @@
                 @this.set('searchTerm', data);
             });
 
-            $('.new_chat_select_receiver').on('change', function(e) {
-                e.preventDefault();
-                var value = $(this).val();
-                @this.set('receiver_id', value);
+            // $('.new_chat_select_receiver').on('change', function(e) {
+            //     e.preventDefault();
+            //     var value = $(this).val();
+            //     @this.set('receiver_id', value);
+            // });
+
+            $('.receiverSelect').on('click', function(e) {
+                var value = $(this).data('number');
+                @this.receiverSelect(value);
             });
+
             $('.new_chat_select_sender').on('change', function(e) {
                 e.preventDefault();
                 var value = $(this).val();

@@ -172,10 +172,31 @@
                                 </a>
                             </li>
                             @endforeach
-                            @else
+
+                            <li>
+                                <a href="#" wire:click.prevent='selectList("unlisted")'
+                                    class="list_btn {{ $sort_list_id == "unlisted" ? 'active_list_btn' : '' }}">
+                                    <span class="list_title">Unlisted</span>
+                                    <div
+                                        class="list_action_area d-flex align-items-center justify-content-end flex-wrap">
+                                        <div class="user_number_area d-flex align-items-center">
+                                            <img src="{{ asset('assets/app/icons/user.svg') }}" alt="user icon" />
+                                            <span>{{ listContactsCount("unlisted") }}</span>
+                                        </div>
+                                        <div class="table_dropdown_area">
+                                            <div class="dropdown">
+                                                <button class="dot_icon" type="button" onclick="event.stopPropagation();">
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </a>
+                            </li>
+
+                            {{-- @else
                             <li class="mt-3 text-center">
                                 <small class="text-muted">No lists found.</small>
-                            </li>
+                            </li> --}}
                             @endif
                         </ul>
                     </div>
@@ -786,8 +807,10 @@
                         @if ($numberDetails)
                         <div class="user_details_modal_area">
                             <div class="user_info_area">
-                                <img src="{{ asset('assets/app/images/inbox/user_main.png') }}" alt="user image"
-                                    class="user_top_img" />
+                                <div class="user_top_img chat-avatar">
+                                    {{ Str::limit($numberDetails->first_name, 1, '') }}{{ Str::limit($numberDetails->last_name, 1,
+                                    '') }}
+                                </div>
                                 <div>
                                     <h4>{{ $numberDetails->first_name ? $numberDetails->first_name : '---' }}
                                         {{ $numberDetails->last_name ? $numberDetails->last_name : '' }}</h4>
