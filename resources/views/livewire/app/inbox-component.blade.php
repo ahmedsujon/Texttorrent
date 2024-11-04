@@ -223,7 +223,7 @@
                                                             {{ ucfirst($msg->api_send_status) }}
                                                         @endif
 
-                                                        {{-- <a href="" wire:click.prevent='getMsgStatus("{{ $msg->msg_sid }}")'>{!! loadingStateWithText('getMsgStatus', 'GetStatus') !!}</a> --}}
+                                                        <a href="" wire:click.prevent='getMsgStatus("{{ $msg->msg_sid }}")'>{!! loadingStateWithText('getMsgStatus', 'GetStatus') !!}</a>
                                                     </h6>
                                                 </div>
                                             </div>
