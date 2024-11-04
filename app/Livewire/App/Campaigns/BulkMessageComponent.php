@@ -144,7 +144,7 @@ class BulkMessageComponent extends Component
             $scheduleDateTime = now(); // If no schedule provided, use current time
         }
 
-        $contactList = Contact::where('list_id', $this->contact_list_id)->get();
+        $contactList = Contact::where('list_id', $this->contact_list_id)->where('blacklisted', 0)->get();
         $totalContacts = $contactList->count();
         $batchSize = $this->batch_size ?? 100; // Default batch size
         $batchFrequency = $this->batch_frequency ?? 60; // Frequency in seconds (default to 60s between batches)

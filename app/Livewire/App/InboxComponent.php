@@ -11,14 +11,15 @@ use App\Models\ContactNote;
 use App\Models\ContactFolder;
 use App\Services\TwilioService;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
 
 class InboxComponent extends Component
 {
-    public $folders, $folder_search_term, $templates, $active_numbers, $receiver_numbers;
+    public $folders, $folder_search_term, $templates, $active_numbers, $receiver_numbers, $participant_numbers;
     public function mount()
     {
         $this->folders = DB::table('contact_folders')->where('user_id', user()->id)->get();
-        $last_chat = DB::table('chats')->select('id')->where('user_id', user()->id)->orderBy('updated_at', 'DESC')->first();
+        $last_chat = DB::table('chats')->select('chats.id')->join('contacts', 'contacts.id', 'chats.contact_id')->where('chats.user_id', user()->id)->where('contacts.blacklisted', 0)->orderBy('chats.updated_at', 'DESC')->first();
 
         if ($last_chat) {
             $this->selectChat($last_chat->id);
@@ -26,6 +27,7 @@ class InboxComponent extends Component
 
         $this->templates = DB::table('inbox_templates')->where('user_id', user()->id)->get();
         $this->active_numbers = DB::table('numbers')->where('user_id', user()->id)->get();
+        $this->participant_numbers = Contact::select('number')->where('blacklisted', 0)->where('user_id', user()->id)->get();
 
         $extContacts = DB::table('chats')->select('contact_id')->where('user_id', user()->id)->pluck('contact_id')->toArray();
         $this->receiver_numbers = DB::table('contacts')->where('user_id', user()->id)->whereNotIn('id', $extContacts)->get();
@@ -442,10 +444,29 @@ class InboxComponent extends Component
         $this->render();
     }
 
+    public $blacklist_contact_id;
+    public function blacklistConfirmation($contact_id)
+    {
+        $this->blacklist_contact_id = $contact_id;
+        $this->dispatch('showBlackListConfirmation');
+    }
+
+    public function blacklistContact()
+    {
+        $contact = Contact::find($this->blacklist_contact_id);
+        $contact->blacklisted = 1;
+        $contact->save();
+
+        $this->blacklist_contact_id = '';
+        $this->dispatch('blackListedSuccess');
+        $this->mount();
+        $this->render();
+    }
+
     public $filter_time, $searchTerm;
     public function render()
     {
-        $chats = DB::table('chats')->select('chats.*', 'contacts.first_name', 'contacts.last_name', 'contacts.number')->join('contacts', 'contacts.id', 'chats.contact_id')->where(function ($q) {
+        $chats = DB::table('chats')->select('chats.*', 'contacts.first_name', 'contacts.last_name', 'contacts.number')->join('contacts', 'contacts.id', 'chats.contact_id')->where('contacts.blacklisted', 0)->where(function ($q) {
             $q->where('contacts.number', 'like', '%' . $this->searchTerm . '%')
                 ->orWhere('contacts.first_name', 'like', '%' . $this->searchTerm . '%')
                 ->orWhere('contacts.last_name', 'like', '%' . $this->searchTerm . '%')
@@ -457,7 +478,8 @@ class InboxComponent extends Component
         }
 
         if ($this->unread_filter) {
-            $chats = $chats->where('chats.status', 0);
+            $chat_msgs = ChatMessage::where('direction', 'inbound')->where('status', 0)->distinct()->pluck('chat_id')->toArray();
+            $chats = $chats->whereIn('chats.id', $chat_msgs);
         }
 
         // Apply time filter if set

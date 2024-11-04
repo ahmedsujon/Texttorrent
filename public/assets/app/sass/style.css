@@ -1629,7 +1629,8 @@ input[type=number] {
   font-weight: 400;
   line-height: 20px;
 }
-.search_input_form .input_field, .search_input_form .input_search {
+.search_input_form .input_field,
+.search_input_form .input_search {
   position: absolute;
   top: 0;
   left: 0;
@@ -1644,12 +1645,14 @@ input[type=number] {
   padding-left: 38px;
   padding-right: 12px;
 }
-.search_input_form .input_field:focus, .search_input_form .input_search:focus {
+.search_input_form .input_field:focus,
+.search_input_form .input_search:focus {
   border: none !important;
   outline: none !important;
 }
 @media all and (max-width: 767px) {
-  .search_input_form .input_field, .search_input_form .input_search {
+  .search_input_form .input_field,
+  .search_input_form .input_search {
     transition: 0.5s;
     font-size: 14px;
   }
@@ -1694,6 +1697,79 @@ input[type=number] {
   -moz-border-radius: 8px;
   -ms-border-radius: 8px;
   -o-border-radius: 8px;
+}
+
+.searchable_input_area.active .suggestion_list_area {
+  top: 45px;
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+}
+
+.suggestion_list_area {
+  position: absolute;
+  top: 55px;
+  left: 0;
+  z-index: 10;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  max-height: 300px;
+  min-height: 200px;
+  width: 100%;
+  padding: 8px;
+  border-radius: 8px;
+  border: 1px solid #eaeaee;
+  background: #fff;
+  box-shadow: 0px 5px 31px -2px rgba(6, 8, 16, 0.17);
+  transition: all 0.5s ease-in-out;
+  -webkit-transition: all 0.5s ease-in-out;
+  -moz-transition: all 0.5s ease-in-out;
+  -ms-transition: all 0.5s ease-in-out;
+  -o-transition: all 0.5s ease-in-out;
+  overflow-y: auto;
+  /* width */
+  /* Track */
+  /* Handle */
+  /* Handle on hover */
+}
+.suggestion_list_area::-webkit-scrollbar {
+  width: 5px;
+  height: 5px;
+}
+.suggestion_list_area::-webkit-scrollbar-track {
+  background: rgba(153, 153, 153, 0.2);
+  border-radius: 5px;
+}
+.suggestion_list_area::-webkit-scrollbar-thumb {
+  background: #999999;
+  border-radius: 5px;
+}
+.suggestion_list_area::-webkit-scrollbar-thumb:hover {
+  background: #f84f4f;
+  cursor: grab;
+}
+.suggestion_list_area button {
+  text-align: start;
+  color: #0b1234;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 24px;
+  padding: 8px 16px;
+  width: 100%;
+  border-radius: 4px;
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  -ms-border-radius: 4px;
+  -o-border-radius: 4px;
+}
+.suggestion_list_area button:hover {
+  background-color: rgba(178, 174, 174, 0.2);
+}
+.suggestion_list_area button.selected {
+  color: white;
+  background-color: #235de4;
 }
 
 .login_form_area .input_row {

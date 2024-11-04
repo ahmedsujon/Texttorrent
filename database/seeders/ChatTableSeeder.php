@@ -17,7 +17,7 @@ class ChatTableSeeder extends Seeder
      */
     public function run(): void
     {
-        $contact_numbers = DB::table('contacts')->where('user_id', 1)->take(1)->get();
+        $contact_numbers = DB::table('contacts')->where('user_id', 1)->take(7)->get();
 
         $faker = Faker::create();
 
