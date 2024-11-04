@@ -95,12 +95,12 @@ class InboxComponent extends Component
         } else {
             $msgSt = ChatMessage::find($msg->id);
             $msgSt->api = 'Twilio';
-            $msgSt->api_send_status = 'Pending';
+            // $msgSt->api_send_status = 'Pending';
             $msgSt->api_send_response = $result['twilio_response'];
             $msgSt->msg_sid = $result['sid'];
             $msgSt->save();
 
-            $msg->api_send_status = 'Pending';
+            $msg->api_send_status = $msgSt->api_send_status;
         }
 
         $this->messages->push($msg);
