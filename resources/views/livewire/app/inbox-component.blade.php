@@ -145,7 +145,8 @@
                                                     <h5>{{ Carbon\Carbon::parse($chat->updated_at)->format('H:i A') }}
                                                     </h5>
                                                     @if ($chat->unread)
-                                                        <span class="badge bg-danger rounded-circle" style="font-size: 10px !important;">{{ $chat->unread_count }}</span>
+                                                        <span class="badge bg-danger rounded-circle"
+                                                            style="font-size: 10px !important;">{{ $chat->unread_count }}</span>
                                                     @endif
                                                     {{-- <span class="text-danger" style="font-size: 35px;">•</span> --}}
                                                     {{-- <div class="d-flex justify-content-end">
@@ -318,8 +319,13 @@
                                 </h4>
                                 <div
                                     class="user_action_btn_list d-flex align-items-center justify-content-center flex-wrap">
-                                    <button type="button" wire:click.prevent='blacklistConfirmation({{ $selected_chat->id }})' class="btn">
-                                        {!! loadingStateWithoutText('blacklistConfirmation('.$selected_chat->id.')', '<img src="'.asset('assets/app/icons/user-block-02.svg').'" alt="" />') !!}
+                                    <button type="button"
+                                        wire:click.prevent='blacklistConfirmation({{ $selected_chat->id }})'
+                                        class="btn">
+                                        {!! loadingStateWithoutText(
+                                            'blacklistConfirmation(' . $selected_chat->id . ')',
+                                            '<img src="' . asset('assets/app/icons/user-block-02.svg') . '" alt="" />',
+                                        ) !!}
                                     </button>
                                 </div>
                             </div>
@@ -782,7 +788,8 @@
                                             class="js-searchBox participant_number">
                                             <option value="">Choose Number</option>
                                             @foreach ($participant_numbers as $participant_number)
-                                                <option value="{{ $participant_number->number }}">{{ $participant_number->number }}
+                                                <option value="{{ $participant_number->number }}">
+                                                    {{ $participant_number->number }}
                                                 </option>
                                             @endforeach
                                         </select>
@@ -856,6 +863,50 @@
                                 <img src="{{ asset('assets/app/icons/arrow-down.svg') }}" alt="down arrow"
                                     class="down_arrow" />
                             </div>
+
+                            {{-- <div class="input_row" wire:ignore>
+                                <label for="">Receiver</label>
+                                <div class="searchable_input_area position-relative" id="searchableList">
+                                    <input type="text" placeholder="Type receiver number" class="input_field"
+                                        id="searchInput" />
+                                    <ul class="suggestion_list_area" id="suggestionListArea">
+                                        <li>
+                                            <button type="button">Option 1</button>
+                                        </li>
+                                        <li>
+                                            <button type="button" class="selected">Option 2</button>
+                                        </li>
+                                        <li>
+                                            <button type="button">Option 3</button>
+                                        </li>
+                                        <li>
+                                            <button type="button">Option 4</button>
+                                        </li>
+                                        <li>
+                                            <button type="button">Option 5</button>
+                                        </li>
+                                        <li>
+                                            <button type="button">Option 6</button>
+                                        </li>
+                                        <li>
+                                            <button type="button">Option 7</button>
+                                        </li>
+                                        <li>
+                                            <button type="button">Option 4</button>
+                                        </li>
+                                        <li>
+                                            <button type="button">Option 5</button>
+                                        </li>
+                                        <li>
+                                            <button type="button">Option 6</button>
+                                        </li>
+                                        <li>
+                                            <button type="button">Option 7</button>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div> --}}
+
                             @error('receiver_id')
                                 <p class="text-danger" style="font-size: 12.5px; margin-top: -15px;">{{ $message }}
                                 </p>
@@ -1018,8 +1069,8 @@
                                     data-bs-dismiss="modal">
                                     Cancel
                                 </button>
-                                <button type="button" wire:click.prevent='blacklistContact' wire:loading.attr='disabled'
-                                    class="delete_yes_btn">
+                                <button type="button" wire:click.prevent='blacklistContact'
+                                    wire:loading.attr='disabled' class="delete_yes_btn">
                                     {!! loadingStateWithText('blacklistContact', 'Yes') !!}
                                 </button>
                             </div>
@@ -1037,6 +1088,33 @@
 
 @push('scripts')
     <script src="https://cdn.socket.io/4.0.0/socket.io.min.js"></script>
+
+    <script>
+        const searchInput = document.getElementById("searchInput");
+        const searchableList = document.getElementById("searchableList");
+        const suggestionList = document.querySelectorAll(
+            "#suggestionListArea button"
+        );
+
+        // Add  class on input focus
+        searchInput.addEventListener("focus", () => {
+            searchableList.classList.add("active");
+        });
+
+        // Remove class on clicking outside
+        document.addEventListener("click", (event) => {
+            if (!searchableList.contains(event.target)) {
+                searchableList.classList.remove("active");
+            }
+        });
+
+        // Remove class on clicking list
+        suggestionList?.forEach((item) => {
+            item.addEventListener("click", () => {
+                searchableList.classList.remove("active");
+            });
+        });
+    </script>
 
     <script>
         document.querySelectorAll('input[type="radio"]').forEach(radio => {
@@ -1440,9 +1518,11 @@
                 window.socket.on('receive_message', function(data) {
                     var chat_id = $('#selected_chat_id').val();
 
-                    if (data.content.user_id == {{ user()->id }} && data.content.chat_id == chat_id && data.content.type == 'chat') {
+                    if (data.content.user_id == {{ user()->id }} && data.content.chat_id == chat_id &&
+                        data.content.type == 'chat') {
                         @this.selectChat(chat_id);
-                    } else if (data.content.user_id == {{ user()->id }} && data.content.type == 'chat') {
+                    } else if (data.content.user_id == {{ user()->id }} && data.content.type ==
+                        'chat') {
                         @this.reFreshOnMessageReceived();
                     }
 

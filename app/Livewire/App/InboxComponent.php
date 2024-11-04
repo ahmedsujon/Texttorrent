@@ -478,7 +478,8 @@ class InboxComponent extends Component
         }
 
         if ($this->unread_filter) {
-            $chats = $chats->where('chats.status', 0);
+            $chat_msgs = ChatMessage::where('direction', 'inbound')->where('status', 0)->distinct()->pluck('chat_id')->toArray();
+            $chats = $chats->whereIn('chats.id', $chat_msgs);
         }
 
         // Apply time filter if set
