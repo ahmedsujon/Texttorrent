@@ -22,7 +22,7 @@ return new class extends Migration
             $table->tinyInteger('seen')->default(0);
             $table->string('msg_sid', 2048)->nullable();
             $table->string('api')->nullable();
-            $table->enum('api_send_status', ['success', 'failed'])->default('success');
+            $table->string('api_send_status')->default('pending');
             $table->longText('api_send_response')->nullable();
             $table->enum('api_receive_status', ['success', 'failed'])->default('success');
             $table->longText('api_receive_response')->nullable();

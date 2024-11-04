@@ -8,6 +8,7 @@ use App\Models\Contact;
 use App\Models\ContactFolder;
 use App\Models\ContactNote;
 use App\Models\Event;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Livewire\Component;
 
@@ -87,23 +88,37 @@ class InboxComponent extends Component
 
         if ($result['result'] == false) {
             $msgSt = ChatMessage::find($msg->id);
-            $msgSt->api_send_status = 'failed';
+            $msgSt->api_send_status = 'Failed';
             $msgSt->save();
 
-            $msg->api_send_status = 'failed';
+            $msg->api_send_status = 'Failed';
         } else {
             $msgSt = ChatMessage::find($msg->id);
             $msgSt->api = 'Twilio';
-            $msgSt->api_send_status = 'success';
+            $msgSt->api_send_status = 'Pending';
             $msgSt->api_send_response = $result['twilio_response'];
             $msgSt->msg_sid = $result['sid'];
             $msgSt->save();
 
-            $msg->api_send_status = 'success';
+            $msg->api_send_status = 'Pending';
         }
 
         $this->messages->push($msg);
         $this->dispatch('scrollToBottom');
+    }
+
+    public function twilioStatusCallback(Request $request)
+    {
+        // Twilio sends status updates in the request payload
+        $messageSid = $request->input('MessageSid');
+        $messageStatus = $request->input('MessageStatus');
+
+        // You could also save this information to the database for further tracking
+        $msg = DB::table('chat_messages')->where('msg_sid', $messageSid)->first();
+        if ($msg) {
+            $msg->api_send_status = $messageStatus;
+            $msg->save();
+        }
     }
 
     public function getMsgStatus($sid)
