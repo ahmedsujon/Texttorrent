@@ -432,7 +432,11 @@ class ManageContactsComponent extends Component
                 ->orWhere('number', 'like', '%' . $this->contacts_search_term . '%');
         })->where('user_id', user()->id)->orderBy('id', 'DESC');
         if ($this->sort_list_id) {
-            $contacts = $contacts->where('list_id', $this->sort_list_id);
+            if ($this->sort_list_id == 'unlisted') {
+                $contacts = $contacts->where('list_id', NULL);
+            } else {
+                $contacts = $contacts->where('list_id', $this->sort_list_id);
+            }
         }
         $contacts = $contacts->get();
 

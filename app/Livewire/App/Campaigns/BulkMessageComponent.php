@@ -61,6 +61,8 @@ class BulkMessageComponent extends Component
     public $numbers = [], $all_numbers, $selectAllNumbers = false, $selectNumberSearch;
     public function selectPhoneNumbers($number)
     {
+        $number = '+'.$number;
+
         if ($this->number_pool) {
             if (($key = array_search($number, $this->numbers)) !== false) {
                 unset($this->numbers[$key]);
@@ -142,7 +144,7 @@ class BulkMessageComponent extends Component
             $scheduleDateTime = now(); // If no schedule provided, use current time
         }
 
-        $contactList = Contact::where('list_id', $this->contact_list_id)->get();
+        $contactList = Contact::where('list_id', $this->contact_list_id)->where('blacklisted', 0)->get();
         $totalContacts = $contactList->count();
         $batchSize = $this->batch_size ?? 100; // Default batch size
         $batchFrequency = $this->batch_frequency ?? 60; // Frequency in seconds (default to 60s between batches)

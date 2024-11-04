@@ -17,7 +17,7 @@ class InboxTemplateTableSeeder extends Seeder
             [
                 'user_id' => 1,
                 'template_name' => 'Default Template',
-                'preview_message' => 'Hello, [first_name] [last_name], This is a default sms template for testing.',
+                'preview_message' => 'Hey [first_name] [last_name], This is a default sms template for testing.',
                 'status' => 1,
             ],
             [

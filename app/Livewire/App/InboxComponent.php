@@ -3,22 +3,21 @@
 namespace App\Livewire\App;
 
 use App\Models\Chat;
-use App\Models\Event;
-use App\Models\Contact;
-use Livewire\Component;
 use App\Models\ChatMessage;
-use App\Models\ContactNote;
+use App\Models\Contact;
 use App\Models\ContactFolder;
-use App\Services\TwilioService;
+use App\Models\ContactNote;
+use App\Models\Event;
 use Illuminate\Support\Facades\DB;
+use Livewire\Component;
 
 class InboxComponent extends Component
 {
-    public $folders, $folder_search_term, $templates, $active_numbers, $receiver_numbers;
+    public $folders, $folder_search_term, $templates, $active_numbers, $receiver_numbers, $participant_numbers;
     public function mount()
     {
         $this->folders = DB::table('contact_folders')->where('user_id', user()->id)->get();
-        $last_chat = DB::table('chats')->select('id')->where('user_id', user()->id)->orderBy('updated_at', 'DESC')->first();
+        $last_chat = DB::table('chats')->select('chats.id')->join('contacts', 'contacts.id', 'chats.contact_id')->where('chats.user_id', user()->id)->where('contacts.blacklisted', 0)->orderBy('chats.updated_at', 'DESC')->first();
 
         if ($last_chat) {
             $this->selectChat($last_chat->id);
@@ -26,6 +25,7 @@ class InboxComponent extends Component
 
         $this->templates = DB::table('inbox_templates')->where('user_id', user()->id)->get();
         $this->active_numbers = DB::table('numbers')->where('user_id', user()->id)->get();
+        $this->participant_numbers = Contact::select('number')->where('blacklisted', 0)->where('user_id', user()->id)->get();
 
         $extContacts = DB::table('chats')->select('contact_id')->where('user_id', user()->id)->pluck('contact_id')->toArray();
         $this->receiver_numbers = DB::table('contacts')->where('user_id', user()->id)->whereNotIn('id', $extContacts)->get();
@@ -55,9 +55,19 @@ class InboxComponent extends Component
         $selected_chat->notes = DB::table('contact_notes')->where('contact_id', $selected_chat->id)->get();
         $this->selected_chat = $selected_chat;
 
-        $this->messages = DB::table('chat_messages')->where('chat_id', $chat_id)->get();
+        $messages = DB::table('chat_messages')->where('chat_id', $chat_id)->get();
+
+        $SMessages = DB::table('chat_messages')->where('chat_id', $chat_id)->where('status', 0)->get();
+        foreach ($SMessages as $msg) {
+            $msgS = ChatMessage::find($msg->id);
+            $msgS->status = 1;
+            $msgS->save();
+        }
+
+        $this->messages = $messages;
 
         $this->dispatch('scrollToBottom');
+        $this->dispatch('selectedChat', ['chat_id' => $chat_id]);
     }
 
     public function sendMessage($message)
@@ -103,9 +113,40 @@ class InboxComponent extends Component
         dd($output);
     }
 
-    public $selected_template_preview_new_chat, $selected_template_id_new_chat, $receiver_id, $sender_id, $new_chat_message;
+    public $selected_template_preview_new_chat, $selected_template_id_new_chat, $receiver_id, $receiver_number, $sender_id, $new_chat_message;
+
+    public function receiverSelect($number)
+    {
+        $this->receiver_number = str_replace('+1', '', $number);
+    }
+
+    public function updatedReceiverNumber()
+    {
+        $extContacts = DB::table('chats')->select('contact_id')->where('user_id', user()->id)->pluck('contact_id')->toArray();
+        $this->receiver_numbers = DB::table('contacts')->where('number', 'like', '%'.$this->receiver_number.'%')->where('user_id', user()->id)->whereNotIn('id', $extContacts)->get();
+    }
+
     public function useTemplateNewChat()
     {
+        if ($this->receiver_number) {
+            $rec_number = '+1' . $this->receiver_number;
+
+            $getContact = Contact::where('number', $rec_number)->where('user_id', user()->id)->first();
+            if ($getContact) {
+                $this->receiver_id = $getContact->id;
+            } else {
+                // $unlisted_count = Contact::where('user_id', user()->id)->where('list_id', NULL)->count();
+
+                $contact = new Contact();
+                $contact->user_id = user()->id;
+                // $contact->first_name = 'Unlisted';
+                // $contact->last_name = $unlisted_count + 1;
+                $contact->number = $rec_number;
+                $contact->save();
+                $this->receiver_id = $contact->id;
+            }
+        }
+
         if ($this->receiver_id) {
             $contact = Contact::find($this->receiver_id);
             $output = $this->selected_template_preview_new_chat; // Start with the template preview
@@ -151,34 +192,40 @@ class InboxComponent extends Component
         $chat->from_number = $this->sender_id;
         $chat->save();
 
-        $msg = new ChatMessage();
-        $msg->chat_id = $chat->id;
-        $msg->direction = 'outbound';
-        $msg->message = $this->new_chat_message;
-        $msg->save();
+        $this->selectChat($chat->id);
+        $this->dispatch('closeModal');
+        $this->dispatch('newChatMessage', ['message' => $this->new_chat_message]);
+        $this->dispatch('success', ['message' => 'New chat started successfully']);
 
-        // send msg
-        $result = sendSMSviaTwilio($this->selected_chat->number, $chat->from_number, $this->new_chat_message);
+        // $msg = new ChatMessage();
+        // $msg->chat_id = $chat->id;
+        // $msg->direction = 'outbound';
+        // $msg->message = $this->new_chat_message;
+        // $msg->save();
 
-        if ($result['result'] == false) {
-            $msgSt = ChatMessage::find($msg->id);
-            $msgSt->api_send_status = 'failed';
-            $msgSt->save();
+        // $contact = Contact::find($this->receiver_id);
+        // // send msg
+        // $result = sendSMSviaTwilio($contact->number, $chat->from_number, $this->new_chat_message);
 
-            $msg->api_send_status = 'failed';
-        } else {
-            $msgSt = ChatMessage::find($msg->id);
-            $msgSt->api = 'Twilio';
-            $msgSt->api_send_status = 'success';
-            $msgSt->api_send_response = $result['twilio_response'];
-            $msgSt->msg_sid = $result['sid'];
-            $msgSt->save();
+        // if ($result['result'] == false) {
+        //     $msgSt = ChatMessage::find($msg->id);
+        //     $msgSt->api_send_status = 'failed';
+        //     $msgSt->save();
 
-            $msg->api_send_status = 'success';
-        }
+        //     $msg->api_send_status = 'failed';
+        // } else {
+        //     $msgSt = ChatMessage::find($msg->id);
+        //     $msgSt->api = 'Twilio';
+        //     $msgSt->api_send_status = 'success';
+        //     $msgSt->api_send_response = $result['twilio_response'];
+        //     $msgSt->msg_sid = $result['sid'];
+        //     $msgSt->save();
 
-        session()->flash('success', 'New chat started successfully');
-        return redirect()->route('user.inbox');
+        //     $msg->api_send_status = 'success';
+        // }
+
+        // session()->flash('success', 'New chat started successfully');
+        // return redirect()->route('user.inbox');
     }
 
     public $selected_template_preview, $selected_template_id;
@@ -377,6 +424,8 @@ class InboxComponent extends Component
             $data = Chat::where('id', $this->delete_id)->first();
             $data->delete();
 
+            $this->mount();
+
             $message = 'Chat deleted successfully';
         }
 
@@ -399,7 +448,7 @@ class InboxComponent extends Component
             'sender_number' => 'required',
             'alert_before' => 'required',
         ], [
-            '*' => 'This field is required'
+            '*' => 'This field is required',
         ]);
 
         $event = new Event();
@@ -419,10 +468,34 @@ class InboxComponent extends Component
         $this->reset(['name', 'subject', 'date', 'time', 'sender_number', 'alert_before', 'participant_number', 'participant_email']);
     }
 
+    public function reFreshOnMessageReceived()
+    {
+        $this->render();
+    }
+
+    public $blacklist_contact_id;
+    public function blacklistConfirmation($contact_id)
+    {
+        $this->blacklist_contact_id = $contact_id;
+        $this->dispatch('showBlackListConfirmation');
+    }
+
+    public function blacklistContact()
+    {
+        $contact = Contact::find($this->blacklist_contact_id);
+        $contact->blacklisted = 1;
+        $contact->save();
+
+        $this->blacklist_contact_id = '';
+        $this->dispatch('blackListedSuccess');
+        $this->mount();
+        $this->render();
+    }
+
     public $filter_time, $searchTerm;
     public function render()
     {
-        $chats = DB::table('chats')->select('chats.*', 'contacts.first_name', 'contacts.last_name', 'contacts.number')->join('contacts', 'contacts.id', 'chats.contact_id')->where(function ($q) {
+        $chats = DB::table('chats')->select('chats.*', 'contacts.first_name', 'contacts.last_name', 'contacts.number')->join('contacts', 'contacts.id', 'chats.contact_id')->where('contacts.blacklisted', 0)->where(function ($q) {
             $q->where('contacts.number', 'like', '%' . $this->searchTerm . '%')
                 ->orWhere('contacts.first_name', 'like', '%' . $this->searchTerm . '%')
                 ->orWhere('contacts.last_name', 'like', '%' . $this->searchTerm . '%')
@@ -434,7 +507,8 @@ class InboxComponent extends Component
         }
 
         if ($this->unread_filter) {
-            $chats = $chats->where('chats.status', 0);
+            $chat_msgs = ChatMessage::where('direction', 'inbound')->where('status', 0)->distinct()->pluck('chat_id')->toArray();
+            $chats = $chats->whereIn('chats.id', $chat_msgs);
         }
 
         // Apply time filter if set
@@ -459,6 +533,9 @@ class InboxComponent extends Component
 
         foreach ($chats as $key => $chat) {
             $chat->avatar_ltr = substr($chat->first_name, 0, 1) . substr($chat->last_name, 0, 1);
+            $unreadCount = DB::table('chat_messages')->where('chat_id', $chat->id)->where('direction', 'inbound')->where('status', 0)->count();
+            $chat->unread = $unreadCount > 0 ? true : false;
+            $chat->unread_count = $unreadCount;
         }
 
         $this->dispatch('reload_scripts');

@@ -2,12 +2,13 @@
 
 namespace App\Livewire\App;
 
-use Carbon\Carbon;
+use App\Models\Contact;
 use App\Models\Event;
 use App\Models\Number;
+use Carbon\Carbon;
+use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
 use Livewire\WithPagination;
-use Illuminate\Support\Facades\Auth;
 
 class CalendarComponent extends Component
 {
@@ -49,7 +50,6 @@ class CalendarComponent extends Component
     public function viewData($id)
     {
         $event = Event::findOrFail($id);
-
 
         $this->selectedEvent = $event;
         $this->selected_event_id = $event->id;
@@ -117,7 +117,7 @@ class CalendarComponent extends Component
     public function setSortBy($sortByField)
     {
         if ($this->sortBy === $sortByField) {
-            $this->sortDirection = ($this->sortDirection ==  "ASC") ? 'DESC' : "ASC";
+            $this->sortDirection = ($this->sortDirection == "ASC") ? 'DESC' : "ASC";
             return;
         }
         $this->sortBy = $sortByField;
@@ -166,7 +166,8 @@ class CalendarComponent extends Component
 
     public function render()
     {
-        $active_numbers = Number::where('id', Auth::user()->id)->get();
+        $participant_numbers = Contact::select('number')->where('blacklisted', 0)->where('user_id', Auth::user()->id)->get();
+        $active_numbers = Number::where('user_id', Auth::user()->id)->get();
 
         $formattedEvents = Event::where('user_id', Auth::user()->id)
             ->get()
@@ -181,6 +182,6 @@ class CalendarComponent extends Component
             ->toArray();
 
         $formattedEvents = json_encode($formattedEvents);
-        return view('livewire.app.calendar-component', ['active_numbers' => $active_numbers, 'events' => $formattedEvents])->layout('livewire.app.layouts.base');
+        return view('livewire.app.calendar-component', ['active_numbers' => $active_numbers, 'events' => $formattedEvents, 'participant_numbers' => $participant_numbers])->layout('livewire.app.layouts.base');
     }
 }

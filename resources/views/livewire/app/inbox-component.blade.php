@@ -137,13 +137,18 @@
                                                 <div class="short_message_are">
                                                     <h6>{{ $chat->first_name }} {{ $chat->last_name }}</h6>
                                                     <p style="font-size: 11.5px;">{{ $chat->number }}</p>
-                                                    <p>
+                                                    <p style="{{ $chat->unread ? 'font-weight: 700;' : '' }}">
                                                         {{ $chat->last_message }}
                                                     </p>
                                                 </div>
                                                 <div class="time_area">
                                                     <h5>{{ Carbon\Carbon::parse($chat->updated_at)->format('H:i A') }}
                                                     </h5>
+                                                    @if ($chat->unread)
+                                                        <span class="badge bg-danger rounded-circle"
+                                                            style="font-size: 10px !important;">{{ $chat->unread_count }}</span>
+                                                    @endif
+                                                    {{-- <span class="text-danger" style="font-size: 35px;">•</span> --}}
                                                     {{-- <div class="d-flex justify-content-end">
                                                         <div class="number">1</div>
                                                     </div> --}}
@@ -179,16 +184,16 @@
                                 </div>
                             </div>
                             <div class="header_action_area d-flex align-items-center justify-content-end flex-wrap">
-                                <button type="button" wire:click.prevent='addFolderModal({{ $selected_chat->id }})'>
+                                <button type="button" wire:click.prevent='addFolderModal({{ $selected_chat_id }})'>
                                     {!! loadingStateWithoutText(
-                                        'addFolderModal(' . $selected_chat->id . ')',
+                                        'addFolderModal(' . $selected_chat_id . ')',
                                         '<img src="' . asset('assets/app/icons/folder-add.svg') . '" alt="folder add icon" />',
                                     ) !!}
                                 </button>
                                 <button type="button"
-                                    wire:click.prevent='deleteConfirmation({{ $selected_chat->id }}, "chat")'>
+                                    wire:click.prevent='deleteConfirmation({{ $selected_chat_id }}, "chat")'>
                                     {!! loadingStateWithoutText(
-                                        'deleteConfirmation(' . $selected_chat->id . ", 'chat')",
+                                        'deleteConfirmation(' . $selected_chat_id . ", 'chat')",
                                         '<img src="' . asset('assets/app/icons/delete-01.svg') . '" alt="folder add icon" />',
                                     ) !!}
                                 </button>
@@ -298,6 +303,8 @@
                     @endif
                 </div>
                 <div class="contact_info_warapper" id="contactInfoArea">
+                    <input type="hidden" value="{{ $selected_chat_id }}" id="selected_chat_id">
+
                     @if ($selected_chat)
                         <div class="contact_info_area">
                             <div class="contact_header_area d-flex align-items-center flex-wrap gap-1">
@@ -312,9 +319,13 @@
                                 </h4>
                                 <div
                                     class="user_action_btn_list d-flex align-items-center justify-content-center flex-wrap">
-                                    <button type="button" class="btn">
-                                        <img src="{{ asset('assets/app/icons/user-block-02.svg') }}"
-                                            alt="user block" />
+                                    <button type="button"
+                                        wire:click.prevent='blacklistConfirmation({{ $selected_chat->id }})'
+                                        class="btn">
+                                        {!! loadingStateWithoutText(
+                                            'blacklistConfirmation(' . $selected_chat->id . ')',
+                                            '<img src="' . asset('assets/app/icons/user-block-02.svg') . '" alt="" />',
+                                        ) !!}
                                     </button>
                                 </div>
                             </div>
@@ -323,7 +334,7 @@
                                     <div class="d-flex-between">
                                         <h3>About</h3>
                                         <button type="button" class="edit_btn"
-                                            wire:click.prevent='editInfo({{ $selected_chat->id }})'>
+                                            wire:click.prevent='editInfo({{ $selected_chat_id }})'>
                                             <img src="{{ asset('assets/app/icons/edit-02.svg') }}" alt="edit icon" />
                                             <span>Edit</span>
                                         </button>
@@ -775,10 +786,11 @@
                                         <label for="">Phone Number</label>
                                         <select name="lang" wire:model.blur='participant_number'
                                             class="js-searchBox participant_number">
-                                            <option value="">Select Phone Number</option>
-                                            @foreach ($active_numbers as $active_number)
-                                                <option value="{{ $active_number->number }}">
-                                                    {{ $active_number->number }}</option>
+                                            <option value="">Choose Number</option>
+                                            @foreach ($participant_numbers as $participant_number)
+                                                <option value="{{ $participant_number->number }}">
+                                                    {{ $participant_number->number }}
+                                                </option>
                                             @endforeach
                                         </select>
                                         <img src="{{ asset('assets/app/icons/arrow-down.svg') }}" alt="down arrow"
@@ -839,7 +851,7 @@
                                 </p>
                             @enderror
 
-                            <div class="input_row searchable_select" wire:ignore>
+                            {{-- <div class="input_row searchable_select" wire:ignore>
                                 <label for="">Receiver</label>
                                 <select name="lang" class="js-searchBox new_chat_select_receiver">
                                     <option value="">Select Receiver</option>
@@ -850,7 +862,33 @@
                                 </select>
                                 <img src="{{ asset('assets/app/icons/arrow-down.svg') }}" alt="down arrow"
                                     class="down_arrow" />
+                            </div> --}}
+
+                            <div class="input_row">
+                                <label for="">Receiver</label>
+                                <div wire:ignore.self class="searchable_input_area position-relative" id="searchableList">
+                                    <div class="input-group">
+                                        <span class="input-group-text" id="basic-addon1">+1</span>
+                                        <input type="tel" class="form-control" wire:model.live='receiver_number' id="searchInput" placeholder="xxxxxxxxxx" autocomplete="off" maxlength="10" />
+                                    </div>
+                                    <div class="suggestion_list_area">
+                                        <ul class="list" id="suggestionListArea" wire:ignore.self>
+                                            @if ($receiver_numbers->count() > 0)
+                                                @foreach ($receiver_numbers as $receiverNumber)
+                                                    <li>
+                                                        <button type="button" wire:click.prevent="receiverSelect('{{ $receiverNumber->number }}')">{{ $receiverNumber->number }}</button>
+                                                    </li>
+                                                @endforeach
+                                            @else
+                                                <li class="text-center">
+                                                    <small class="text-muted">No data available!</small>
+                                                </li>
+                                            @endif
+                                        </ul>
+                                    </div>
+                                </div>
                             </div>
+
                             @error('receiver_id')
                                 <p class="text-danger" style="font-size: 12.5px; margin-top: -15px;">{{ $message }}
                                 </p>
@@ -999,12 +1037,76 @@
             </div>
         </div>
 
+        <!-- Blacklist  Modal  -->
+        <div wire:ignore.self class="modal fade delete_modal" id="blacklistModal" tabindex="-1"
+            aria-labelledby="deleteModal" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+                <div class="modal-content">
+                    <div class="modal-body">
+                        <div class="content_area">
+                            <h2>Are you sure?</h2>
+                            <h4>Would you like to blacklist this contact?</h4>
+                            <div class="delete_action_area d-flex align-items-center flex-wrap">
+                                <button type="button" class="delete_cancel_btn" id="deleteModalCloseBtn"
+                                    data-bs-dismiss="modal">
+                                    Cancel
+                                </button>
+                                <button type="button" wire:click.prevent='blacklistContact'
+                                    wire:loading.attr='disabled' class="delete_yes_btn">
+                                    {!! loadingStateWithText('blacklistContact', 'Yes') !!}
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <div class="overlay" id="contactInfoOverlay"></div>
         <div class="overlay" id="chatListOverlay"></div>
     </main>
+
 </div>
 
 @push('scripts')
+    <script src="https://cdn.socket.io/4.0.0/socket.io.min.js"></script>
+
+    <script>
+        const searchInput = document.getElementById("searchInput");
+        const searchableList = document.getElementById("searchableList");
+        const suggestionList = document.querySelectorAll(
+            "#suggestionListArea button"
+        );
+
+        // Add  class on input focus
+        searchInput.addEventListener("focus", () => {
+            searchableList.classList.add("active");
+        });
+
+        // Remove class on clicking outside
+        document.addEventListener("click", (event) => {
+            if (!searchableList.contains(event.target)) {
+                searchableList.classList.remove("active");
+            }
+        });
+
+        // Remove class on clicking list
+        suggestionList?.forEach((item) => {
+            item.addEventListener("click", () => {
+                searchableList.classList.remove("active");
+            });
+        });
+
+        $(document).on('keyup', '#searchInput', function() {
+            var val = $('#searchInput').val();
+            if (val.length == 10) {
+                searchableList.classList.remove("active");
+            } else {
+                searchableList.classList.add("active");
+            }
+        });
+    </script>
+
     <script>
         document.querySelectorAll('input[type="radio"]').forEach(radio => {
             radio.addEventListener('mousedown', function(e) {
@@ -1039,49 +1141,6 @@
             });
         });
     </script>
-
-    {{-- <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            import("https://unpkg.com/@joeattardi/emoji-button@4.6.0/dist/index.js").then(({
-                EmojiButton
-            }) => {
-                const picker = new EmojiButton({
-                    showPreview: true,
-                    position: "bottom-start", // Position below the button
-                    emojiVersion: "11.0",
-                    emojiSize: "1.5em",
-                    emojisPerRow: 9,
-                    rows: 7,
-                    zIndex: 1000,
-                    autoHide: false
-                });
-
-                const emojiButton = document.querySelector("#emoji_btn");
-                const emojiContainer = document.querySelector("#emoji-picker-container");
-                const messageArea = document.querySelector("#messageWriteArea");
-
-                // Toggle the picker display
-                emojiButton.addEventListener("click", () => {
-                    picker.togglePicker(emojiButton);
-                });
-
-                // Append emoji to textarea
-                picker.on("emoji", (selection) => {
-                    messageArea.value += selection.emoji;
-                });
-
-                // Show and hide picker within the specified container
-                picker.on("show", () => {
-                    emojiContainer.appendChild(picker.picker);
-                    emojiContainer.style.display = 'block';
-                });
-
-                picker.on("hide", () => {
-                    emojiContainer.style.display = 'none';
-                });
-            });
-        });
-    </script> --}}
 
     <script>
         document.addEventListener("DOMContentLoaded", function() {
@@ -1190,6 +1249,18 @@
     </script>
 
     <script>
+        window.addEventListener('showBlackListConfirmation', event => {
+            $('#blacklistModal').modal('show');
+        });
+        window.addEventListener('blackListedSuccess', event => {
+            $('#blacklistModal').modal('hide');
+            Swal.fire(
+                "Success!",
+                "Contact successfully blacklisted",
+                "success"
+            );
+        });
+
         window.addEventListener('showInfoUpdateModal', event => {
             $('#editInfoModal').modal('show');
         });
@@ -1223,7 +1294,13 @@
             $('#folderToggleModal').modal('hide');
             $('#editInfoModal').modal('hide');
             $('#eventModal').modal('hide');
+            $('#newChartModal').modal('hide');
         });
+
+        window.addEventListener('newChatMessage', event => {
+            $('#messageWriteArea').val(event.detail[0].message);
+        });
+
         window.addEventListener('data_deleted', event => {
             $('#deleteDataModal').modal('hide');
             Swal.fire(
@@ -1269,16 +1346,16 @@
                 return `${formattedHours}:${minutes} ${ampm}`;
             }
 
-            // $('#sendMessageForm').on('submit', function(e) {
-            //     e.preventDefault();
+            $('#sendMessageForm').on('submit', function(e) {
+                e.preventDefault();
 
-            //     var message = $(".msg_input").val();
-            //     if (message != '') {
-            //         @this.sendMessage(message);
+                var message = $(".msg_input").val();
+                if (message != '') {
+                    @this.sendMessage(message);
 
-            //         $(".msg_input").val('');
-            //     }
-            // });
+                    $(".msg_input").val('');
+                }
+            });
 
             $('#templateSelect').on('change', function(e) {
                 e.preventDefault();
@@ -1297,6 +1374,10 @@
                 $('#smsTemplateModal').modal('hide');
                 $('#templatePreview').val('');
                 $('#templateSelect').val('');
+
+                setTimeout(() => {
+                    $('#messageWriteArea').focus();
+                }, 350);
             });
 
             $('#filter_time').on('change', function() {
@@ -1309,11 +1390,17 @@
                 @this.set('searchTerm', data);
             });
 
-            $('.new_chat_select_receiver').on('change', function(e) {
-                e.preventDefault();
-                var value = $(this).val();
-                @this.set('receiver_id', value);
+            // $('.new_chat_select_receiver').on('change', function(e) {
+            //     e.preventDefault();
+            //     var value = $(this).val();
+            //     @this.set('receiver_id', value);
+            // });
+
+            $('.receiverSelect').on('click', function(e) {
+                var value = $(this).data('number');
+                @this.receiverSelect(value);
             });
+
             $('.new_chat_select_sender').on('change', function(e) {
                 e.preventDefault();
                 var value = $(this).val();
@@ -1413,6 +1500,31 @@
                 tempTextarea.remove();
                 successMsg('Number copied successfully');
             });
+        });
+    </script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Initialize socket.io connection if it hasn't been initialized
+            if (!window.socket) {
+                window.socket = io('{{ env('SOCKET_SERVER') }}'); // Change to your server URL
+
+                // Remove any previous listener to avoid duplication
+                window.socket.off('receive_message');
+
+                window.socket.on('receive_message', function(data) {
+                    var chat_id = $('#selected_chat_id').val();
+
+                    if (data.content.user_id == {{ user()->id }} && data.content.chat_id == chat_id &&
+                        data.content.type == 'chat') {
+                        @this.selectChat(chat_id);
+                    } else if (data.content.user_id == {{ user()->id }} && data.content.type ==
+                        'chat') {
+                        @this.reFreshOnMessageReceived();
+                    }
+
+                });
+            }
         });
     </script>
 @endpush

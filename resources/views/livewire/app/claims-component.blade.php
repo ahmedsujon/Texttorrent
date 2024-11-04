@@ -283,6 +283,26 @@
 </div>
 
 @push('scripts')
+    <script src="https://cdn.socket.io/4.0.0/socket.io.min.js"></script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Initialize socket.io connection if it hasn't been initialized
+            if (!window.socket) {
+                window.socket = io('{{ env('SOCKET_SERVER') }}'); // Change to your server URL
+
+                // Remove any previous listener to avoid duplication
+                window.socket.off('receive_message');
+
+                window.socket.on('receive_message', function(data) {
+                    if (data.content.user_id == {{ user()->id }} && data.content.type == 'claim') {
+                        @this.refreshComponents();
+                    }
+                });
+            }
+        });
+    </script>
+
     <script>
         $(document).ready(function(){
             $('.sortingValue').on('change', function(){
