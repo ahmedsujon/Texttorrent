@@ -104,7 +104,12 @@ function deleteFile($file)
 
 function listContactsCount($list_id)
 {
-    $count = DB::table('contacts')->where('list_id', $list_id)->where('user_id', user()->id)->count();
+    if ($list_id == 'unlisted') {
+        $count = DB::table('contacts')->where('list_id', NULL)->where('user_id', user()->id)->count();
+    } else {
+        $count = DB::table('contacts')->where('list_id', $list_id)->where('user_id', user()->id)->count();
+    }
+
     return $count;
 }
 
