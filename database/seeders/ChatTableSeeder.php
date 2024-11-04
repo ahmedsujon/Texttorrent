@@ -35,7 +35,7 @@ class ChatTableSeeder extends Seeder
             $msg->chat_id = $chat->id;
             $msg->direction = 'outbound';
             $msg->message = 'Hello, TextTorrent Owner, This is a default sms template for testing.';
-            $msg->api_send_status = 'success';
+            $msg->api_send_status = 'Sent';
             $msg->api_send_response = '[Twilio.Api.V2010.MessageInstance accountSid=AC80f658d1006561368eceb8f14813fa45 sid=SMab2c9e5ddd74dffd5c645453d793ee1a]';
             $msg->api = 'Twilio';
             $msg->msg_sid = 'SMab2c9e5ddd74dffd5c645453d793ee1a';

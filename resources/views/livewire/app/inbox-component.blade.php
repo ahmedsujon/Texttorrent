@@ -216,15 +216,15 @@
                                                     <img src="{{ asset('assets/app/icons/sender_shape.svg') }}"
                                                         alt="sender shape" class="msg_shape" />
                                                     <h6 class="time">
-                                                        @if ($msg->api_send_status == 'failed')
-                                                            <small class="text-danger"
-                                                                style="font-size: 11px;">Message sending failed</small>
+                                                        {{ Carbon\Carbon::parse($msg->updated_at)->format('H:i A') }} •
+                                                        @if ($msg->api_send_status == 'Failed')
+                                                            <span class="text-danger">{{ $msg->api_send_status }}</span>
                                                         @else
-                                                            {{ Carbon\Carbon::parse($msg->updated_at)->format('H:i A') }}
+                                                            {{ $msg->api_send_status }}
                                                         @endif
 
-                                                        <a href=""
-                                                            wire:click.prevent='getMsgStatus("{{ $msg->msg_sid }}")'>{!! loadingStateWithText('getMsgStatus', 'GetStatus') !!}</a>
+                                                        {{-- <a href=""
+                                                            wire:click.prevent='getMsgStatus("{{ $msg->msg_sid }}")'>{!! loadingStateWithText('getMsgStatus', 'GetStatus') !!}</a> --}}
                                                     </h6>
                                                 </div>
                                             </div>
