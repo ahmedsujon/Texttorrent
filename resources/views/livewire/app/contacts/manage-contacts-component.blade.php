@@ -807,8 +807,10 @@
                         @if ($numberDetails)
                         <div class="user_details_modal_area">
                             <div class="user_info_area">
-                                <img src="{{ asset('assets/app/images/inbox/user_main.png') }}" alt="user image"
-                                    class="user_top_img" />
+                                <div class="user_top_img chat-avatar">
+                                    {{ Str::limit($numberDetails->first_name, 1, '') }}{{ Str::limit($numberDetails->last_name, 1,
+                                    '') }}
+                                </div>
                                 <div>
                                     <h4>{{ $numberDetails->first_name ? $numberDetails->first_name : '---' }}
                                         {{ $numberDetails->last_name ? $numberDetails->last_name : '' }}</h4>
