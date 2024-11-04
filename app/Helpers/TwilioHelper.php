@@ -1,10 +1,11 @@
 <?php
 
-use Illuminate\Support\Facades\DB;
 use Twilio\Rest\Client;
+use App\Models\ChatMessage;
+use Illuminate\Support\Facades\DB;
 
 // twilio send sms
-function sendSMSviaTwilio($receiverNumber, $fromNumber, $message)
+function sendSMSviaTwilio($receiverNumber, $fromNumber, $message, $msg_id)
 {
     $getCredentials = DB::table('apis')->where('user_id', user()->id)->where('gateway', 'Twilio')->first();
 
@@ -19,18 +20,17 @@ function sendSMSviaTwilio($receiverNumber, $fromNumber, $message)
                 'body' => $message,
                 'statusCallback' => route('twilioStatusCallback')
             ]);
-            return [
-                'result' => true,
-                'message' => 'Message sent successfully',
-                'twilio_response' => $output,
-                'sid' => $output->sid,
-            ];
+
+            $msgSt = ChatMessage::find($msg_id);
+            $msgSt->api = 'Twilio';
+            $msgSt->api_send_response = $output;
+            $msgSt->msg_sid = $output->sid;
+            $msgSt->save();
         } catch (Exception $e) {
-            return [
-                'result' => false,
-                'message' => 'Failed to send message. Please try again later.',
-                'error' => $e->getMessage(),
-            ];
+            $msgSt = ChatMessage::find($msg_id);
+            $msgSt->api_send_status = 'Failed';
+            $msgSt->api_send_response = $e->getMessage();
+            $msgSt->save();
         }
     } else {
         return [

@@ -218,13 +218,12 @@
                                                     <h6 class="time">
                                                         {{ Carbon\Carbon::parse($msg->updated_at)->format('H:i A') }} •
                                                         @if ($msg->api_send_status == 'Failed')
-                                                            <span class="text-danger">{{ $msg->api_send_status }}</span>
+                                                            <span class="text-danger">{{ ucfirst($msg->api_send_status) }}</span>
                                                         @else
-                                                            {{ $msg->api_send_status }}
+                                                            {{ ucfirst($msg->api_send_status) }}
                                                         @endif
 
-                                                        {{-- <a href=""
-                                                            wire:click.prevent='getMsgStatus("{{ $msg->msg_sid }}")'>{!! loadingStateWithText('getMsgStatus', 'GetStatus') !!}</a> --}}
+                                                        {{-- <a href="" wire:click.prevent='getMsgStatus("{{ $msg->msg_sid }}")'>{!! loadingStateWithText('getMsgStatus', 'GetStatus') !!}</a> --}}
                                                     </h6>
                                                 </div>
                                             </div>
