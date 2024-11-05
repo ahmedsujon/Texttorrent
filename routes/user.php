@@ -27,6 +27,7 @@ use App\Livewire\App\Contacts\ValidatorCreditsComponent;
 use App\Livewire\App\Campaigns\ContactMessageQueueComponent;
 use App\Livewire\App\HomeComponent;
 use App\Livewire\App\Settings\ActiveNumberComponent;
+use App\Livewire\App\Settings\DLCCampaignPaymentComponent;
 use App\Livewire\App\Settings\SubscriptionComponent;
 
 /*
@@ -63,6 +64,10 @@ Route::name('user.')->middleware('auth')->group(function () {
     Route::get('campaigns/inbox-template', InboxTemplateComponent::class)->name('campaigns.inboxTemplate');
 
     Route::get('calendar', CalendarComponent::class)->name('calendar');
+
+    // DCL Campaign Registration Payment
+    Route::get('campaign/registration/payment', DLCCampaignPaymentComponent::class)->name('campaignRegistrationPayment');
+
 
     // Settings Routes
     Route::get('settings/my-account', MyAccountComponent::class)->name('myAccount');

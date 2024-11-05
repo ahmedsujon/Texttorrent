@@ -71,6 +71,11 @@
                                 </th>
                                 <th scope="col">
                                     <div class="column_area">
+                                        <span>Type</span>
+                                    </div>
+                                </th>
+                                <th scope="col">
+                                    <div class="column_area">
                                         <span>Location</span>
                                     </div>
                                 </th>
@@ -108,10 +113,16 @@
                                                 <input class="form-check-input contact-checkbox" type="checkbox" name="selectedNumbers" wire:model.live="selectedNumbers" value="{{ $number->id }}">
                                             </div>
                                         </td>
+
                                         <td>
                                             <div class="phone_number_area d-flex align-items-center gap-2">
                                                 <img src="{{ asset('assets/app/icons/phone.svg') }}" alt="phone icon" />
                                                 <h4 class="timezone">{{ $number->number }}</h4>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="phone_number_area d-flex align-items-center gap-2">
+                                                <h4 class="timezone">{{ $number->type }}</h4>
                                             </div>
                                         </td>
                                         <td>
@@ -182,13 +193,13 @@
                                                                 <span>Release</span>
                                                             </button>
 
-                                                            <button type="button" class="dropdown-item"
+                                                            {{-- <button type="button" class="dropdown-item"
                                                                 wire:click.prevent='deleteConfirmation({{ $number->id }})'
                                                                 wire:loading.attr='disabled'>
                                                                 <img src="{{ asset('assets/app/icons/copy-02.svg') }}"
                                                                     alt="copy icon" />
                                                                 <span>Delete</span>
-                                                            </button>
+                                                            </button> --}}
                                                         </li>
                                                     </ul>
                                                 </div>

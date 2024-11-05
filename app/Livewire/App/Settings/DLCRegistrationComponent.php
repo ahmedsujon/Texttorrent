@@ -106,6 +106,7 @@ class DLCRegistrationComponent extends Component
         $data->save();
         $this->mount();
         $this->dispatch('success', ['message' => 'Brand Registration updated successfully']);
+        return redirect()->route('user.campaignRegistrationPayment');
     }
 
     public function render()
