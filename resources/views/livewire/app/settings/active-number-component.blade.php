@@ -193,13 +193,13 @@
                                                                 <span>Release</span>
                                                             </button>
 
-                                                            <button type="button" class="dropdown-item"
+                                                            {{-- <button type="button" class="dropdown-item"
                                                                 wire:click.prevent='deleteConfirmation({{ $number->id }})'
                                                                 wire:loading.attr='disabled'>
                                                                 <img src="{{ asset('assets/app/icons/copy-02.svg') }}"
                                                                     alt="copy icon" />
                                                                 <span>Delete</span>
-                                                            </button>
+                                                            </button> --}}
                                                         </li>
                                                     </ul>
                                                 </div>

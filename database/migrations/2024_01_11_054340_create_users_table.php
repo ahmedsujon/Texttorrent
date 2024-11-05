@@ -61,6 +61,7 @@ return new class extends Migration
             $table->string('age_gated_content')->nullable();
             $table->string('additional_recipients')->nullable();
             $table->boolean('terms_aggre')->default(0);
+            $table->boolean('campaign_payment_status')->default(0);
             $table->timestamps();
         });
     }
