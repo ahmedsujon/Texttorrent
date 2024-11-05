@@ -36,8 +36,8 @@
                     </div>
                     <div class="input_row">
                         <label for="">New Password</label>
-                        <input type="password" placeholder="Type New Password" class="input_field password_input_filed" wire:model.blur='new_password'
-                            id="password_input2" />
+                        <input type="password" placeholder="Type New Password" class="input_field password_input_filed"
+                            wire:model.blur='new_password' id="password_input2" />
                         <div class="eye_icon_area" id="password_eye_icon_area2">
                             <button type="button" class="eye_open_btn" id="eyeOpen2">
                                 <i class="fa-regular fa-eye"></i>
