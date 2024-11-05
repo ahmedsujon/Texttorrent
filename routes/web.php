@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\TwilioController;
+use App\Livewire\App\InboxComponent;
 use App\Livewire\Web\AboutComponent;
 use App\Livewire\Web\ContactUsComponent;
 use App\Livewire\Web\FeatureComponent;
@@ -38,6 +40,8 @@ Route::get('/terms-conditions', TermsConditionsComponent::class)->name('app.term
 
 Route::get('/google/redirect', [App\Http\Controllers\GoogleLoginController::class, 'redirectToGoogle'])->name('google.redirect');
 Route::get('/google/callback', [App\Http\Controllers\GoogleLoginController::class, 'handleGoogleCallback'])->name('google.callback');
+
+Route::post('/twilio/callback', [TwilioController::class, 'twilioStatusCallback'])->name('twilioStatusCallback');
 
 
 //Call Route Files

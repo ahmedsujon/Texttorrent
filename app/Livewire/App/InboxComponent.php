@@ -2,14 +2,17 @@
 
 namespace App\Livewire\App;
 
+use App\Models\Api;
 use App\Models\Chat;
-use App\Models\ChatMessage;
-use App\Models\Contact;
-use App\Models\ContactFolder;
-use App\Models\ContactNote;
 use App\Models\Event;
-use Illuminate\Support\Facades\DB;
+use App\Models\Contact;
 use Livewire\Component;
+use App\Models\ChatMessage;
+use App\Models\ContactNote;
+use Illuminate\Http\Request;
+use App\Models\ContactFolder;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 class InboxComponent extends Component
 {
@@ -83,24 +86,20 @@ class InboxComponent extends Component
         $chat->save();
 
         // send msg
-        $result = sendSMSviaTwilio($this->selected_chat->number, $chat->from_number, $message);
+        // $result =
+        sendSMSviaTwilio($this->selected_chat->number, $chat->from_number, $message, $msg->id);
 
-        if ($result['result'] == false) {
-            $msgSt = ChatMessage::find($msg->id);
-            $msgSt->api_send_status = 'failed';
-            $msgSt->save();
+        // if ($result['result'] == false) {
+        //     $msgSt = ChatMessage::find($msg->id);
+        //     $msgSt->api_send_status = 'Failed';
+        //     $msgSt->save();
 
-            $msg->api_send_status = 'failed';
-        } else {
-            $msgSt = ChatMessage::find($msg->id);
-            $msgSt->api = 'Twilio';
-            $msgSt->api_send_status = 'success';
-            $msgSt->api_send_response = $result['twilio_response'];
-            $msgSt->msg_sid = $result['sid'];
-            $msgSt->save();
+        //     $msg->api_send_status = 'Failed';
+        // } else {
 
-            $msg->api_send_status = 'success';
-        }
+        $msgSt = ChatMessage::find($msg->id);
+        $msg->api_send_status = $msgSt->api_send_status;
+        // }
 
         $this->messages->push($msg);
         $this->dispatch('scrollToBottom');
