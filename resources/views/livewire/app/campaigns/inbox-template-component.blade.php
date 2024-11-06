@@ -315,38 +315,38 @@
                                                 </button>
                                                 <ul class="dropdown-menu">
                                                     <li>
-                                                        <button type="button" class="dropdown-item"
-                                                            data-variable="[Hi|Hey|Hello]">
+                                                        <button type="button" class="dropdown-item dropdown-item-edit"
+                                                            data-variable_edit="[Hi|Hey|Hello]">
                                                             <span>[Hi|Hey|Hello]</span>
                                                         </button>
                                                     </li>
                                                     <li>
                                                         <button type="button" class="dropdown-item dropdown-item-edit"
-                                                            data-variable="[phone_number]">
+                                                            data-variable_edit="[phone_number]">
                                                             <span>Phone Number</span>
                                                         </button>
                                                     </li>
                                                     <li>
                                                         <button type="button" class="dropdown-item dropdown-item-edit"
-                                                            data-variable="[email_address]">
+                                                            data-variable_edit="[email_address]">
                                                             <span>Email Address</span>
                                                         </button>
                                                     </li>
                                                     <li>
                                                         <button type="button" class="dropdown-item dropdown-item-edit"
-                                                            data-variable="[first_name]">
+                                                            data-variable_edit="[first_name]">
                                                             <span>First Name</span>
                                                         </button>
                                                     </li>
                                                     <li>
                                                         <button type="button" class="dropdown-item dropdown-item-edit"
-                                                            data-variable="[last_name]">
+                                                            data-variable_edit="[last_name]">
                                                             <span>Last Name</span>
                                                         </button>
                                                     </li>
                                                     <li>
                                                         <button type="button" class="dropdown-item dropdown-item-edit"
-                                                            data-variable="[company]">
+                                                            data-variable_edit="[company]">
                                                             <span>Company</span>
                                                         </button>
                                                     </li>
@@ -431,8 +431,23 @@
             item.addEventListener('click', function() {
                 let variable = this.getAttribute('data-variable');
                 let textarea = document.getElementById('template_preview');
-                textarea.value += variable + " ";
+
+                // Get the cursor position in the textarea
+                const cursorPosition = textarea.selectionStart;
+
+                // Insert the variable at the cursor position
+                const textBeforeCursor = textarea.value.substring(0, cursorPosition);
+                const textAfterCursor = textarea.value.substring(cursorPosition);
+                textarea.value = textBeforeCursor + variable + " " + textAfterCursor;
+
+                // Move the cursor to the end of the inserted variable
+                textarea.selectionStart = textarea.selectionEnd = cursorPosition + variable.length + 1;
+
+                // Update Livewire and jQuery field
                 @this.set('preview_message', textarea.value);
+
+                // Refocus the textarea
+                textarea.focus();
             });
         });
     </script>
@@ -440,10 +455,25 @@
         const dropdownItemsEdit = document.querySelectorAll('.dropdown-item-edit');
         dropdownItemsEdit.forEach(item => {
             item.addEventListener('click', function() {
-                let variable = this.getAttribute('data-variable');
+                let variable = this.getAttribute('data-variable_edit');
                 let textarea = document.getElementById('template_preview_edit');
-                textarea.value += variable + " ";
+
+                // Get the cursor position in the textarea
+                const cursorPosition = textarea.selectionStart;
+
+                // Insert the variable at the cursor position
+                const textBeforeCursor = textarea.value.substring(0, cursorPosition);
+                const textAfterCursor = textarea.value.substring(cursorPosition);
+                textarea.value = textBeforeCursor + variable + " " + textAfterCursor;
+
+                // Move the cursor to the end of the inserted variable
+                textarea.selectionStart = textarea.selectionEnd = cursorPosition + variable.length + 1;
+
+                // Update Livewire and jQuery field
                 @this.set('preview_message', textarea.value);
+
+                // Refocus the textarea
+                textarea.focus();
             });
         });
     </script>
