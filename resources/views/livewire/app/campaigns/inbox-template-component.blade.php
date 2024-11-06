@@ -208,6 +208,12 @@
                                                 <ul class="dropdown-menu">
                                                     <li>
                                                         <button type="button" class="dropdown-item"
+                                                            data-variable="[Hi|Hey|Hello]">
+                                                            <span>[Hi|Hey|Hello]</span>
+                                                        </button>
+                                                    </li>
+                                                    <li>
+                                                        <button type="button" class="dropdown-item"
                                                             data-variable="[phone_number]">
                                                             <span>Phone Number</span>
                                                         </button>
@@ -308,6 +314,12 @@
                                                         alt="down arrow" />
                                                 </button>
                                                 <ul class="dropdown-menu">
+                                                    <li>
+                                                        <button type="button" class="dropdown-item"
+                                                            data-variable="[Hi|Hey|Hello]">
+                                                            <span>[Hi|Hey|Hello]</span>
+                                                        </button>
+                                                    </li>
                                                     <li>
                                                         <button type="button" class="dropdown-item dropdown-item-edit"
                                                             data-variable="[phone_number]">

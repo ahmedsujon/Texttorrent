@@ -32,8 +32,12 @@ class BulkMessageComponent extends Component
             'inbox_template_id.*' => 'Select a template',
         ]);
 
+        $greetings = ['Hi', 'Hey', 'Hello'];
+        $randomGreeting = $greetings[array_rand($greetings)];
+
         $contact = Contact::find($contact_id);
         $output = $this->selected_template_preview; // Start with the template preview
+        $output = str_replace('[Hi|Hey|Hello]', $randomGreeting, $output);
         $output = str_replace('[phone_number]', $contact->number, $output);
         $output = str_replace('[email_address]', $contact->email, $output);
         $output = str_replace('[first_name]', $contact->first_name, $output);
@@ -105,7 +109,7 @@ class BulkMessageComponent extends Component
             'inbox_template_id' => 'required_if:sms_type,sms',
             'batch_size' => 'required_if:batch_process,true',
             'batch_frequency' => 'required_if:batch_process,true',
-            'sending_throttle' => 'required_if:batch_process,true',
+            // 'sending_throttle' => 'required_if:batch_process,true',
             'appended_message' => 'required_if:opt_out_link,true',
             'sms_body' => 'required_if:sms_type,sms',
             'file' => 'required_if:sms_type,mms',
@@ -115,7 +119,7 @@ class BulkMessageComponent extends Component
             'inbox_template_id.*' => 'Select a template',
             'batch_size.*' => 'This field is required',
             'batch_frequency.*' => 'This field is required',
-            'sending_throttle.*' => 'This field is required',
+            // 'sending_throttle.*' => 'This field is required',
             'appended_message.*' => 'This field is required',
             'sms_body.*' => 'This field is required',
             'file.*' => 'This field is required',
@@ -135,7 +139,7 @@ class BulkMessageComponent extends Component
         $data->appended_message = $this->appended_message;
         $data->batch_size = $this->batch_size;
         $data->batch_frequency = $this->batch_frequency;
-        $data->sending_throttle = $this->sending_throttle;
+        // $data->sending_throttle = $this->sending_throttle;
 
         if ($this->sms_type == 'mms' && $this->file) {
             $fileName = 'mms-'. uniqid() .Carbon::now()->timestamp. '.' .$this->file->extension();
@@ -236,7 +240,7 @@ class BulkMessageComponent extends Component
             'appended_message',
             'batch_size',
             'batch_frequency',
-            'sending_throttle',
+            // 'sending_throttle',
             'schedule_date',
             'schedule_time',
             'selected_date',

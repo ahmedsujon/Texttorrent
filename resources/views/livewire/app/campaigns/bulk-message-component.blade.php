@@ -240,7 +240,7 @@
                                 @enderror
                             </div>
                         </div>
-                        <div class="input_row searchable_select">
+                        {{-- <div class="input_row searchable_select">
                             <div class="wire-ignore" wire:ignore>
                                 <label for="">Sending Throttle
                                     <span data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Some Text">
@@ -259,7 +259,7 @@
                             @error('sending_throttle')
                                 <p class="text-danger mb-0" style="font-size: 12.5px;">{{ $message }}</p>
                             @enderror
-                        </div>
+                        </div> --}}
                     </div>
                     <div class="pick_list_area">
                         <h3>Pick list</h3>
