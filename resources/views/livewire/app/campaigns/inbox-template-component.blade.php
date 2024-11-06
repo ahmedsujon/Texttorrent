@@ -24,8 +24,8 @@
                     </button>
                 </form>
                 <div class="filter_btn_area d-flex align-items-center justify-content-end flex-wrap g-xs">
-                    <button type="button" class="import_btn">
-                        <img src="{{ asset('assets/app/icons/import.svg') }}" alt="column insert" />
+                    <button type="button" wire:click.prevent='bulkExport' class="import_btn">
+                        {!! loadingStateWithoutText("bulkExport", '<img src="'.asset('assets/app/icons/import.svg').'" />') !!}
                         <span>Export</span>
                     </button>
                 </div>
@@ -40,6 +40,11 @@
                     <table class="table table-hover">
                         <thead>
                             <tr>
+                                <th scope="col">
+                                    <div class="form-check table_checkbox_area">
+                                        <input class="form-check-input" value="1" wire:model.live='select_all' type="checkbox" value="" />
+                                    </div>
+                                </th>
                                 @include('livewire.app.datatable.app-datatable-th-sorting', [
                                     'id' => 'template_name',
                                     'thDisplayName' => 'Name',
@@ -72,12 +77,12 @@
                                 @foreach ($templates as $template)
                                     <tr>
                                         <td>
-                                            <div class="checkbox_name_cell_area">
-                                                <div class="form-check table_checkbox_area">
-                                                    <input class="form-check-input" type="checkbox" value="" />
-                                                </div>
-                                                <p>{{ $template->template_name }}</p>
+                                            <div class="form-check table_checkbox_area">
+                                                <input class="form-check-input" wire:model.live='selectedTemplates' type="checkbox" value="{{ $template->id }}" />
                                             </div>
+                                        </td>
+                                        <td>
+                                            <p>{{ $template->template_name }}</p>
                                         </td>
                                         <td>
                                             <p>{{ $template->preview_message }}</p>

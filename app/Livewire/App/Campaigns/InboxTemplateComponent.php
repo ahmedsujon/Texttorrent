@@ -2,9 +2,11 @@
 
 namespace App\Livewire\App\Campaigns;
 
-use App\Models\InboxTemplate;
 use Livewire\Component;
 use Livewire\WithPagination;
+use App\Models\InboxTemplate;
+use App\Exports\InboxTemplateExport;
+use Maatwebsite\Excel\Facades\Excel;
 
 class InboxTemplateComponent extends Component
 {
@@ -125,12 +127,34 @@ class InboxTemplateComponent extends Component
         $this->dispatch('template_deleted');
         $this->delete_id = '';
     }
+
+    public $select_all, $temp_ids, $selectedTemplates = [];
+    public function updatedSelectAll()
+    {
+        if ($this->select_all) {
+            $this->selectedTemplates = $this->temp_ids;
+        } else {
+            $this->selectedTemplates = [];
+        }
+    }
+
+    public function bulkExport()
+    {
+        if (!$this->selectedTemplates) {
+            $this->dispatch('error', ['message' => 'Please select templates to perform this action.']);
+        } else {
+            return Excel::download(new InboxTemplateExport(['bulk_ids'=>$this->selectedTemplates]), 'inbox-templates.csv');
+        }
+    }
+
     public function render()
     {
         $templates = InboxTemplate::where('template_name', 'like', '%' . $this->searchTerm . '%')
             ->where('user_id', user()->id)
             ->orderBy($this->sortBy, $this->sortDirection)
             ->paginate($this->sortingValue);
+
+        $this->temp_ids = $templates->pluck('id')->toArray();
 
         $this->dispatch('reload_scripts');
         return view('livewire.app.campaigns.inbox-template-component', ['templates' => $templates])->layout('livewire.app.layouts.base');
