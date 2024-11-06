@@ -73,6 +73,7 @@ Route::name('user.')->middleware('auth')->group(function () {
     Route::get('settings/my-account', MyAccountComponent::class)->name('myAccount');
     Route::get('settings/change-password', ChangePasswordComponent::class)->name('changePassword');
     Route::get('settings/subscription', SubscriptionComponent::class)->name('subscription');
+
     Route::get('settings/sub-account', SubAccountComponent::class)->name('subAccount');
     Route::get('settings/get-number', GetNumberComponent::class)->name('getNumber');
     Route::get('settings/active-numbers', ActiveNumberComponent::class)->name('activeNumber');
