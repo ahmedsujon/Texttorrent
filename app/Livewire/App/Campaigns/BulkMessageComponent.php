@@ -168,7 +168,11 @@ class BulkMessageComponent extends Component
         $availableNumbers = count($this->numbers); // Total available numbers
 
         foreach ($contactList as $key => $cList) {
-            $message = $this->useTemplate($cList->id);
+            if ($this->opt_out_link) {
+                $message = $this->useTemplate($cList->id) . "\n" . $this->appended_message;
+            } else {
+                $message = $this->useTemplate($cList->id);
+            }
 
             // Reuse numbers even if there are fewer numbers than contacts
             if ($this->number_pool) {
@@ -222,6 +226,24 @@ class BulkMessageComponent extends Component
         }
         $this->resetForm();
     }
+
+    // public function updatedOptOutLink()
+    // {
+    //     if ($this->opt_out_link) {
+    //         $this->dispatch('addOptOutLink', ['appended_message' => ""."\n"."" . $this->appended_message . ""."\n".""]);
+    //     } else {
+    //         $this->dispatch('addOptOutLink', ['appended_message' => '']);
+    //     }
+    // }
+
+    // public function updatedAppendedMessage()
+    // {
+    //     if ($this->opt_out_link) {
+    //         $this->dispatch('addOptOutLink', ['appended_message' => ""."\n"."" . $this->appended_message . ""."\n".""]);
+    //     } else {
+    //         $this->dispatch('addOptOutLink', ['appended_message' => '']);
+    //     }
+    // }
 
     public function resetForm()
     {
