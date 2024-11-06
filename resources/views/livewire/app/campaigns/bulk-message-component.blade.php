@@ -476,8 +476,7 @@
                     <div>
                         <div class="input_row">
                             <label for="">Preview</label>
-                            <textarea name="" id="" class="input_field textarea_field" rows="8"
-                                readonly>{{ $sms_body }} {{ $opt_out_link ? ""."\n"."" . $appended_message : '' }}</textarea>
+                            <textarea name="" id="" class="input_field textarea_field" rows="8" readonly>{{ $sms_body }} {{ $opt_out_link ? '' . "\n" . '' . $appended_message : '' }}</textarea>
                             <h5 class="mt-1">1000 of characters</h5>
                         </div>
                     </div>
@@ -623,9 +622,24 @@
             item.addEventListener('click', function() {
                 let variable = this.getAttribute('data-variable');
                 let textarea = document.getElementById('template_preview');
-                textarea.value += variable + " ";
+
+                // Get the cursor position in the textarea
+                const cursorPosition = textarea.selectionStart;
+
+                // Insert the variable at the cursor position
+                const textBeforeCursor = textarea.value.substring(0, cursorPosition);
+                const textAfterCursor = textarea.value.substring(cursorPosition);
+                textarea.value = textBeforeCursor + variable + " " + textAfterCursor;
+
+                // Move the cursor to the end of the inserted variable
+                textarea.selectionStart = textarea.selectionEnd = cursorPosition + variable.length + 1;
+
+                // Update Livewire and jQuery field
                 @this.set('sms_body', textarea.value);
                 $('.preview_textarea_field').val(textarea.value);
+
+                // Refocus the textarea
+                textarea.focus();
             });
         });
     </script>
