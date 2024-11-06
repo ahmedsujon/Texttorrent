@@ -14,8 +14,15 @@
             <form wire:submit.prevent='saveData' class="event_form_area">
                 <div class="user_change_image_area position-relative">
                     <div class="user_img_area">
-                        <img src="{{ $uploaded_avatar ? asset($uploaded_avatar) : asset('assets/images/placeholder.jpg') }}"
-                            alt="user image" class="user_img" />
+                        @if ($uploaded_avatar)
+                            <img src="{{ asset($uploaded_avatar) }}" class="user_img" />
+                        @else
+                            <div class="user_img chat-avatar">
+                                {{ Str::limit(user()->first_name, 1, '') }}{{ Str::limit(user()->last_name, 1,
+                                '') }}
+                            </div>
+                        @endif
+
                         <div wire:loading wire:target='avatar' wire:key='avatar'>
                             <div class="spinner-container">
                                 <button type="button" class="spinner-btn">
@@ -23,9 +30,6 @@
                                 </button>
                             </div>
                         </div>
-                        <button type="button" class="remove_img_btn" id="removeBtn">
-                            <img src="{{ asset('assets/app/icons/close-02.svg') }}" alt="" />
-                        </button>
                     </div>
                     <div class="d-flex">
                         <label for="userUploadImage" id="replaceImage">

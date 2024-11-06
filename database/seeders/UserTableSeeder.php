@@ -25,7 +25,6 @@ class UserTableSeeder extends Seeder
                 $user->email = $email;
                 $user->phone = '0170000000' . $key;
                 $user->password = Hash::make('12345678');
-                $user->avatar = 'assets/images/avatar.png';
                 $user->save();
             }
         }
