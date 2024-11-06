@@ -73,6 +73,15 @@ class BulkMessageComponent extends Component
             $this->numbers = [$number];
         }
     }
+
+    public function updatedNumberPool()
+    {
+        if (!$this->number_pool) {
+            $this->numbers = [];
+            $this->selectAllNumbers = false;
+        }
+    }
+
     public function updatedSelectAllNumbers()
     {
         if ($this->selectAllNumbers) {

@@ -37,8 +37,7 @@
                         <h4>
                             @if (count($numbers) > 0)
                                 @foreach ($numbers as $sNum)
-                                    <span class="badge text-dark"
-                                        style="border: 1px solid grey;">{{ $sNum }}</span>
+                                    <span class="badge text-dark mb-1" style="border: 1px solid grey;">{{ $sNum }}</span>
                                 @endforeach
                             @else
                                 ---
