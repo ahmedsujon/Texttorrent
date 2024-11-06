@@ -18,12 +18,12 @@
                         <div wire:ignore>
                             <select class="niceSelect niceSelect_area" id="gateway">
                                 <option value="Twilio" {{ $gateway == 'Twilio' ? 'selected' : '' }}>Twilio</option>
-                                <option value="Telnyx" {{ $gateway == 'Telnyx' ? 'selected' : '' }}>Telnyx</option>
+                                {{-- <option value="Telnyx" {{ $gateway == 'Telnyx' ? 'selected' : '' }}>Telnyx</option>
                                 <option value="Nexmo" {{ $gateway == 'Nexmo' ? 'selected' : '' }}>Nexmo</option>
                                 <option value="Signalwire" {{ $gateway == 'Signalwire' ? 'selected' : '' }}>Signalwire
                                 </option>
                                 <option value="Bandwidth" {{ $gateway == 'Bandwidth' ? 'selected' : '' }}>Bandwidth
-                                </option>
+                                </option> --}}
                             </select>
                         </div>
                         @error('gateway')

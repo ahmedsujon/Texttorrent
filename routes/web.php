@@ -29,7 +29,7 @@ Route::get('/', HomeComponent::class)->name('app.home');
 Route::get('/features', FeatureComponent::class)->name('app.feature');
 
 Route::get('/pricing', PricingComponent::class)->name('app.pricing');
-Route::get('/payment-success', [PricingComponent::class, 'stripePaymentSuccess'])->name('app.stripePaymentSuccess');
+Route::get('/payment-success', [PricingComponent::class, 'stripePaymentSuccess'])->name('stripePaymentSuccess');
 Route::get('/subscription-successful', SubscriptionSuccessComponent::class)->name('app.subscriptionSuccess');
 
 

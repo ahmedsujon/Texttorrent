@@ -11,6 +11,7 @@ use App\Models\ChatMessage;
 use App\Models\ContactNote;
 use Illuminate\Http\Request;
 use App\Models\ContactFolder;
+use App\Models\User;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 
@@ -75,34 +76,37 @@ class InboxComponent extends Component
 
     public function sendMessage($message)
     {
-        $msg = new ChatMessage();
-        $msg->chat_id = $this->selected_chat_id;
-        $msg->direction = 'outbound';
-        $msg->message = $message;
-        $msg->save();
+        if (getActiveSubscription()['status'] == 'Active') {
+            $credit_needed = msgCreditCalculation('sms', 'outgoing');
+            if (user()->credits >= $credit_needed) {
+                $msg = new ChatMessage();
+                $msg->chat_id = $this->selected_chat_id;
+                $msg->direction = 'outbound';
+                $msg->message = $message;
+                $msg->save();
 
-        $chat = Chat::where('id', $this->selected_chat_id)->first();
-        $chat->last_message = $message;
-        $chat->save();
+                $chat = Chat::where('id', $this->selected_chat_id)->first();
+                $chat->last_message = $message;
+                $chat->save();
 
-        // send msg
-        // $result =
-        sendSMSviaTwilio($this->selected_chat->number, $chat->from_number, $message, $msg->id);
+                sendSMSviaTwilio($this->selected_chat->number, $chat->from_number, $message, $msg->id);
 
-        // if ($result['result'] == false) {
-        //     $msgSt = ChatMessage::find($msg->id);
-        //     $msgSt->api_send_status = 'Failed';
-        //     $msgSt->save();
+                // credit deduction
+                $user = User::find(user()->id);
+                $user->credits -= $credit_needed;
+                $user->save();
 
-        //     $msg->api_send_status = 'Failed';
-        // } else {
+                $msgSt = ChatMessage::find($msg->id);
+                $msg->api_send_status = $msgSt->api_send_status;
 
-        $msgSt = ChatMessage::find($msg->id);
-        $msg->api_send_status = $msgSt->api_send_status;
-        // }
-
-        $this->messages->push($msg);
-        $this->dispatch('scrollToBottom');
+                $this->messages->push($msg);
+                $this->dispatch('scrollToBottom');
+            } else {
+                $this->dispatch('error', ['message'=> 'Not enough credit for this message!']);
+            }
+        } else {
+            $this->dispatch('error', ['message'=> 'No active subscription found!']);
+        }
     }
 
     public function getMsgStatus($sid)

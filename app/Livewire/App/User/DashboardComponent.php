@@ -38,7 +38,7 @@ class DashboardComponent extends Component
 
         $formattedEvents = json_encode($formattedEvents);
 
-        $total_credits = Transaction::where('user_id', user()->id)->sum('credit');
+        $total_credits = user()->credits;
         return view('livewire.app.user.dashboard-component', ['total_credits'=>$total_credits, 'events'=>$formattedEvents])->layout('livewire.app.layouts.base');
     }
 }
