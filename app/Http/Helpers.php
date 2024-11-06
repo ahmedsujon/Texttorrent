@@ -122,19 +122,19 @@ function getListByID($list_id)
 function getActiveSubscription()
 {
     if (Auth::user()) {
-        $subscription = DB::table('subscriptions')->select('package_type as type', 'package_name as name', 'end_date')->where('user_id', user()->id)->where('payment_status', 'paid')->latest()->first();
+        $subscription = DB::table('subscriptions')->select('package_type as type', 'package_name as name', 'end_date')->where('user_id', user()->id)->where('payment_status', 'paid')->orderBy('id', 'DESC')->first();
 
         $status = '';
-        if ($subscription && $subscription->end_date < now()) {
-            $status = 'Expired';
-        } else {
+        if ($subscription && $subscription->end_date && $subscription->end_date > now()) {
             $status = 'Active';
+        } else {
+            $status = 'Expired';
         }
 
         $details = [
             'type' => $subscription->type ?? '',
             'name' => $subscription->name ?? '',
-            'status' => $subscription->status ?? '',
+            'status' => $status,
         ];
     } else {
         $details = [
@@ -147,6 +147,86 @@ function getActiveSubscription()
     return $details;
 
 }
+
+function msgCreditCalculation($msg_type = 'sms', $dir = 'outgoing')
+{
+    $deducted_credits = 0;
+
+    if (getActiveSubscription()['status'] == 'Active') {
+        if(getActiveSubscription()['type'] == 'own-gateway'){
+            if ($dir == 'outgoing') {
+                if ($msg_type =='sms') {
+                    $deducted_credits = 1;
+                } else if($msg_type =='mms') {
+                    $deducted_credits = 2;
+                }
+            } else if ($dir == 'incoming') {
+                if ($msg_type =='sms') {
+                    $deducted_credits = 1;
+                } else if($msg_type =='mms') {
+                    $deducted_credits = 2;
+                }
+            }
+
+        } else if (getActiveSubscription()['type'] == 'text-torrent') {
+            if ($dir == 'outgoing') {
+                if ($msg_type =='sms') {
+                    $deducted_credits = 7;
+                } else if($msg_type =='mms') {
+                    $deducted_credits = 9;
+                }
+            } else if ($dir == 'incoming') {
+                if ($msg_type =='sms') {
+                    $deducted_credits = 4;
+                } else if($msg_type =='mms') {
+                    $deducted_credits = 5;
+                }
+            }
+        }
+    }
+
+    return $deducted_credits;
+}
+
+// function deductSMSCredit($msg_type = 'sms', $dir = 'outgoing')
+// {
+//     if (getActiveSubscription()['status'] == 'Active') {
+//         $credit = DB::table('users')->where('id', user()->id)->first()->credits;
+
+//         if(getActiveSubscription()['type'] == 'own-gateway'){
+//             if ($dir == 'outgoing') {
+//                 if ($msg_type =='sms') {
+//                     $deducted_credits = $credit - 1;
+//                 } else if($msg_type =='mms') {
+//                     $deducted_credits = $credit - 2;
+//                 }
+//             } else if ($dir == 'incoming') {
+//                 if ($msg_type =='sms') {
+//                     $deducted_credits = $credit - 1;
+//                 } else if($msg_type =='mms') {
+//                     $deducted_credits = $credit - 2;
+//                 }
+//             }
+
+//         } else if (getActiveSubscription()['type'] == 'text-torrent') {
+//             if ($dir == 'outgoing') {
+//                 if ($msg_type =='sms') {
+//                     $deducted_credits = $credit - 7;
+//                 } else if($msg_type =='mms') {
+//                     $deducted_credits = $credit - 9;
+//                 }
+//             } else if ($dir == 'incoming') {
+//                 if ($msg_type =='sms') {
+//                     $deducted_credits = $credit - 4;
+//                 } else if($msg_type =='mms') {
+//                     $deducted_credits = $credit - 5;
+//                 }
+//             }
+//         }
+
+//         DB::table('users')->where('id', user()->id)->update(['credits' => $deducted_credits]);
+//     }
+// }
 
 function loadingStateSm($key, $title)
 {
