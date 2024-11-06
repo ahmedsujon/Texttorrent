@@ -100,8 +100,7 @@
                                             </div>
                                         </td>
                                         <td>
-                                            <h4 class="phone_number">{{ $number['region'] }},
-                                                {{ $number['isoCountry'] }}</h4>
+                                            <h4 class="phone_number">{{ $number['region'] ? $number['region'] . ', ' : '' }}{{ $number['isoCountry'] }}</h4>
                                         </td>
 
                                         <td>
