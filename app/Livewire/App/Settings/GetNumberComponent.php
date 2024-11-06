@@ -97,7 +97,7 @@ class GetNumberComponent extends Component
                 'capabilities' => $caps,
             ];
 
-            $this->numbers_array[] = $number->phoneNumber;
+            // $this->numbers_array[] = $number->phoneNumber;
             $this->numbers_info_array[] = [
                 'friendly_name' => $number->friendlyName,
                 'number' => $number->phoneNumber, // '+14154750306'
@@ -382,8 +382,9 @@ class GetNumberComponent extends Component
         $numbers = collect($this->all_numbers)->filter(function ($item) {
             return false !== stripos($item['phoneNumber'], $this->searchTerm);
         })->paginate($this->sortingValue);
-        $purchasedNumbers = collect($this->purchasedNumbers)->paginate($this->sortingValue);
 
-        return view('livewire.app.settings.get-number-component', ['numbers' => $numbers, 'purchasedNumbers' => $purchasedNumbers])->layout('livewire.app.layouts.base');
+        $this->numbers_array = $numbers->pluck('phoneNumber')->toArray();
+
+        return view('livewire.app.settings.get-number-component', ['numbers' => $numbers])->layout('livewire.app.layouts.base');
     }
 }
