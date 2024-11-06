@@ -211,7 +211,7 @@
                                 <h4>Contact Lists</h4>
                             </div>
                             <div class="d-flex align-items-center justify-content-end flex-wrap g-xs">
-                                <button type="button" class="create_template_btn" data-bs-toggle="modal"
+                                <button type="button" class="create_template_btn" wire:click.prevent='resetEditModal' data-bs-toggle="modal"
                                     data-bs-target="#contactModal">
                                     <img src="{{ asset('assets/app/icons/plus-sign-white.svg') }}" alt="plus icon" />
                                     <span>Add contact</span>
@@ -660,7 +660,7 @@
                         <div class="modal-body">
                             <div class="two_grid">
                                 <div class="input_row">
-                                    <label for="">First name</label>
+                                    <label for="">First name *</label>
                                     <input type="text" placeholder="Type First name" wire:model.blur='first_name'
                                         class="input_field" />
                                     @error('first_name')
@@ -677,7 +677,7 @@
                                 </div>
                             </div>
                             <div class="input_row">
-                                <label for="">Mobile number</label>
+                                <label for="">Mobile number *</label>
                                 <div class="input-group">
                                     <span class="input-group-text" id="basic-addon1">+1</span>
                                     <input id="tel-input" type="tel" class="form-control"
@@ -697,7 +697,7 @@
                                     @enderror
                                 </div>
                                 <div class="input_row">
-                                    <label for="">Company</label>
+                                    <label for="">Company *</label>
                                     <input type="text" placeholder="Type Company Name" wire:model.blur='company_name'
                                         class="input_field" />
                                     @error('company_name')
@@ -729,13 +729,13 @@
                         <h1 class="modal-title fs-5" id="editContactModal">
                             Edit contact
                         </h1>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        <button type="button" class="btn-close" wire:click.prevent='resetEditModal' data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <form wire:submit.prevent='updateContact' class="event_form_area">
                         <div class="modal-body">
                             <div class="two_grid">
                                 <div class="input_row">
-                                    <label for="">First name</label>
+                                    <label for="">First name *</label>
                                     <input type="text" placeholder="Type First name" wire:model.blur='first_name'
                                         class="input_field" />
                                     @error('first_name')
@@ -752,7 +752,7 @@
                                 </div>
                             </div>
                             <div class="input_row">
-                                <label for="">Mobile number</label>
+                                <label for="">Mobile number *</label>
                                 <div class="input-group">
                                     <span class="input-group-text" id="basic-addon1">+1</span>
                                     <input id="tel-input-edit" type="tel" class="form-control"
@@ -772,7 +772,7 @@
                                     @enderror
                                 </div>
                                 <div class="input_row">
-                                    <label for="">Company</label>
+                                    <label for="">Company *</label>
                                     <input type="text" placeholder="Type Company Name" wire:model.blur='company_name'
                                         class="input_field" />
                                     @error('company_name')
@@ -782,7 +782,7 @@
                             </div>
                         </div>
                         <div class="modal-footer event_modal_footer">
-                            <button type="button" class="cancel_btn" data-bs-dismiss="modal">
+                            <button type="button" class="cancel_btn" wire:click.prevent='resetEditModal' data-bs-dismiss="modal">
                                 Cancel
                             </button>
                             <button type="submit" class="create_event_btn">

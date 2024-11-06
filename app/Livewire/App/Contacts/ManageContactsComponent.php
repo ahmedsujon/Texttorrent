@@ -151,6 +151,15 @@ class ManageContactsComponent extends Component
         $this->dispatch('success', ['message' => 'Contact updated successfully']);
     }
 
+    public function resetEditModal()
+    {
+        $this->first_name = '';
+        $this->last_name = '';
+        $this->mobile_number = '';
+        $this->company_name = '';
+        $this->email = '';
+    }
+
     // details
     public $numberDetails;
     public function showDetails($id)
