@@ -51,8 +51,8 @@
                         <img src="{{ asset('assets/app/icons/calculator.svg') }}" alt="calculator icon" />
                     </div>
                     <div>
-                        <h3>Send from</h3>
-                        <h4>32</h4>
+                        <h3>Total Credit</h3>
+                        <h4>{{ $total_credit }}</h4>
                     </div>
                 </div>
                 <div class="bulk_item local_time_item">
