@@ -75,11 +75,11 @@ Route::name('user.')->middleware('auth')->group(function () {
     Route::get('settings/subscription', SubscriptionComponent::class)->name('subscription');
 
     Route::get('settings/sub-account', SubAccountComponent::class)->name('subAccount');
-    Route::get('settings/get-number', GetNumberComponent::class)->name('getNumber');
+    Route::get('settings/get-number', GetNumberComponent::class)->name('getNumber')->middleware('subscription');
     Route::get('settings/active-numbers', ActiveNumberComponent::class)->name('activeNumber');
     Route::get('settings/logs', LogsComponent::class)->name('logs');
-    Route::get('settings/apis', ApiComponent::class)->name('apis');
-    Route::get('settings/dlc-registration', DLCRegistrationComponent::class)->name('dlcRegistration');
+    Route::get('settings/apis', ApiComponent::class)->name('apis')->middleware('subscription');
+    Route::get('settings/dlc-registration', DLCRegistrationComponent::class)->name('dlcRegistration')->middleware('subscription');
     Route::get('settings/trigger-notification', NotificationComponent::class)->name('triggerNotification');
 
     // ajax
