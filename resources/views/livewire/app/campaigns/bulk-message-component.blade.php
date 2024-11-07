@@ -61,8 +61,7 @@
                     </div>
                     <div wire:ignore>
                         <h3>Local time</h3>
-                        <h4 id="currentTime">
-                            {{ \Carbon\Carbon::now()->timezone('America/New_York')->format('d F, Y h:i:s A') }}</h4>
+                        <h4 id="currentTime">{{ \Carbon\Carbon::now()->format('d F, Y h:i:s A') }}</h4>
                     </div>
                 </div>
             </div>
@@ -709,7 +708,7 @@
         function updateTime() {
             const now = new Date();
             const options = {
-                timeZone: 'America/New_York',
+                timeZone: '{{ config('app.timezone') }}',
                 year: 'numeric',
                 month: 'long',
                 day: 'numeric',
