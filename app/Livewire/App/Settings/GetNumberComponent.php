@@ -24,8 +24,8 @@ class GetNumberComponent extends Component
         $this->TWILIO_SID = $twilioCredentials->account_sid;
         $this->TWILIO_AUTH_TOKEN = $twilioCredentials->auth_token;
 
-        $this->getNumbers();
-        // $this->fetchPurchasedNumbers();
+        // $this->getNumbers();
+        $this->fetchPurchasedNumbers();
     }
 
     public function areaCodeSearch()
@@ -175,6 +175,7 @@ class GetNumberComponent extends Component
             $number->purchased_at = Carbon::parse(now());
             $number->type = $this->numberType;
             $number->webhook = $this->setWebhook($data['number']);
+            $number->next_renew_date = Carbon::parse(now())->addMonth(1);
             $number->save();
 
             $serviceSID = $this->setServices($number->twilio_number_sid);
