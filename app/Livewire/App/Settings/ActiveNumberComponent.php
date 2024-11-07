@@ -250,26 +250,26 @@ class ActiveNumberComponent extends Component
                 // // Return or print the output
                 // dd($output);
 
-                // // Fetch all Messaging Services
-                // $services = $client->messaging->v1->services->read();
-                // $result = [];
-                // foreach ($services as $service) {
-                //     $phoneNumbers = $client->messaging->v1
-                //         ->services($service->sid)
-                //         ->phoneNumbers
-                //         ->read();
-                //     $result[] = [
-                //         'serviceSid' => $service->sid,
-                //         'friendlyName' => $service->friendlyName,
-                //         'phoneNumbers' => array_map(function ($number) {
-                //             return [
-                //                 'phoneNumber' => $number->phoneNumber,
-                //                 'sid' => $number->sid,
-                //             ];
-                //         }, $phoneNumbers),
-                //     ];
-                // }
-                // dd($result);
+                // Fetch all Messaging Services
+                $services = $client->messaging->v1->services->read();
+                $result = [];
+                foreach ($services as $service) {
+                    $phoneNumbers = $client->messaging->v1
+                        ->services($service->sid)
+                        ->phoneNumbers
+                        ->read();
+                    $result[] = [
+                        'serviceSid' => $service->sid,
+                        'friendlyName' => $service->friendlyName,
+                        'phoneNumbers' => array_map(function ($number) {
+                            return [
+                                'phoneNumber' => $number->phoneNumber,
+                                'sid' => $number->sid,
+                            ];
+                        }, $phoneNumbers),
+                    ];
+                }
+                dd($result);
 
                 // $result = [];
                 // $numbers = Number::where('user_id', 1)->pluck('number')->toArray();

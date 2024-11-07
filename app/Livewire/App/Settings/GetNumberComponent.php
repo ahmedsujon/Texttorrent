@@ -24,8 +24,8 @@ class GetNumberComponent extends Component
         $this->TWILIO_SID = $twilioCredentials->account_sid;
         $this->TWILIO_AUTH_TOKEN = $twilioCredentials->auth_token;
 
-        // $this->getNumbers();
-        $this->fetchPurchasedNumbers();
+        $this->getNumbers();
+        // $this->fetchPurchasedNumbers();
     }
 
     public function areaCodeSearch()

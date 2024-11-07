@@ -86,7 +86,7 @@
                                 </th>
                                 <th scope="col">
                                     <div class="column_area">
-                                        <span>Assigned</span>
+                                        <span>Assigned To</span>
                                     </div>
                                 </th>
                                 <th scope="col">
