@@ -51,8 +51,8 @@
                         <img src="{{ asset('assets/app/icons/calculator.svg') }}" alt="calculator icon" />
                     </div>
                     <div>
-                        <h3>Send from</h3>
-                        <h4>32</h4>
+                        <h3>Total Credit</h3>
+                        <h4>{{ $total_credit }}</h4>
                     </div>
                 </div>
                 <div class="bulk_item local_time_item">
@@ -61,8 +61,7 @@
                     </div>
                     <div wire:ignore>
                         <h3>Local time</h3>
-                        <h4 id="currentTime">
-                            {{ \Carbon\Carbon::now()->timezone('America/New_York')->format('d F, Y h:i:s A') }}</h4>
+                        <h4 id="currentTime">{{ \Carbon\Carbon::now()->format('d F, Y h:i:s A') }}</h4>
                     </div>
                 </div>
             </div>
@@ -709,7 +708,7 @@
         function updateTime() {
             const now = new Date();
             const options = {
-                timeZone: 'America/New_York',
+                timeZone: '{{ config('app.timezone') }}',
                 year: 'numeric',
                 month: 'long',
                 day: 'numeric',

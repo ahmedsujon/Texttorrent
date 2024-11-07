@@ -2,18 +2,15 @@
 
 namespace App\Livewire\App;
 
-use App\Models\Api;
 use App\Models\Chat;
-use App\Models\Event;
-use App\Models\Contact;
-use Livewire\Component;
 use App\Models\ChatMessage;
-use App\Models\ContactNote;
-use Illuminate\Http\Request;
+use App\Models\Contact;
 use App\Models\ContactFolder;
+use App\Models\ContactNote;
+use App\Models\Event;
 use App\Models\User;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Log;
+use Livewire\Component;
 
 class InboxComponent extends Component
 {
@@ -98,21 +95,49 @@ class InboxComponent extends Component
 
                 $msgSt = ChatMessage::find($msg->id);
                 $msg->api_send_status = $msgSt->api_send_status;
+                $msg->msg_sid = $msgSt->msg_sid;
 
                 $this->messages->push($msg);
                 $this->dispatch('scrollToBottom');
             } else {
-                $this->dispatch('error', ['message'=> 'Not enough credit for this message!']);
+                $this->dispatch('error', ['message' => 'Not enough credit for this message!']);
             }
         } else {
-            $this->dispatch('error', ['message'=> 'No active subscription found!']);
+            $this->dispatch('error', ['message' => 'No active subscription found!']);
+        }
+    }
+
+    public function pollMessageStatuses()
+    {
+        $chat_messages = DB::table('chat_messages')
+            ->select('msg_sid', 'api_send_status')
+            ->where('chat_id', $this->selected_chat_id)
+            ->where(function ($q) {
+                $q->where('api_send_status', 'pending')
+                    ->orWhere('api_send_status', 'sent');
+            })
+            ->whereNotNull('msg_sid')
+            ->get();
+
+        $updates = [];
+
+        foreach ($chat_messages as $msg) {
+            if ($msg->api_send_status == 'pending' || $msg->api_send_status == 'sent') { // Case-insensitive check for 'pending'
+                $output = twilioMsgStatus($msg->msg_sid);
+
+                if (!empty($output['status'])) { // Ensure status is not null or empty
+                    DB::table('chat_messages')
+                        ->where('msg_sid', $msg->msg_sid)
+                        ->update(['api_send_status' => $output['status']]);
+                    $this->dispatch('msgStatusUpdated', ['msg_sid'=>$msg->msg_sid, 'status'=>ucfirst($output['status'])]);
+                }
+            }
         }
     }
 
     public function getMsgStatus($sid)
     {
         $output = twilioMsgStatus($sid);
-
         dd($output);
     }
 
@@ -126,7 +151,7 @@ class InboxComponent extends Component
     public function updatedReceiverNumber()
     {
         $extContacts = DB::table('chats')->select('contact_id')->where('user_id', user()->id)->pluck('contact_id')->toArray();
-        $this->receiver_numbers = DB::table('contacts')->where('number', 'like', '%'.$this->receiver_number.'%')->where('user_id', user()->id)->whereNotIn('id', $extContacts)->get();
+        $this->receiver_numbers = DB::table('contacts')->where('number', 'like', '%' . $this->receiver_number . '%')->where('user_id', user()->id)->whereNotIn('id', $extContacts)->get();
     }
 
     public function useTemplateNewChat()
@@ -243,7 +268,6 @@ class InboxComponent extends Component
         ], [
             'selected_template_id.required' => 'Select a template',
         ]);
-
 
         $greetings = ['Hi', 'Hey', 'Hello'];
         $randomGreeting = $greetings[array_rand($greetings)];

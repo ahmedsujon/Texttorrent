@@ -86,7 +86,7 @@
                                 </th>
                                 <th scope="col">
                                     <div class="column_area">
-                                        <span>Assigned</span>
+                                        <span>Assigned To</span>
                                     </div>
                                 </th>
                                 <th scope="col">
@@ -126,8 +126,7 @@
                                             </div>
                                         </td>
                                         <td>
-                                            <h4 class="phone_number">{{ $number['region'] }},
-                                                {{ $number['isoCountry'] }}</h4>
+                                            <h4 class="phone_number">{{ $number['region'] ? $number['region'] . ', ':'' }}{{ $number['country'] }}</h4>
                                         </td>
 
                                         <td>

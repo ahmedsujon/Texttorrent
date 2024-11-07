@@ -27,7 +27,7 @@ return new class extends Migration
             $table->integer('sub_accounts')->default(0);
 
             $table->string('company_name')->nullable();
-            $table->string('timezone')->nullable();
+            $table->string('timezone')->default('America/New_York');
             $table->rememberToken();
             $table->tinyInteger('status')->default(0);
             $table->text('permissions')->nullable();

@@ -175,6 +175,7 @@ class GetNumberComponent extends Component
             $number->purchased_at = Carbon::parse(now());
             $number->type = $this->numberType;
             $number->webhook = $this->setWebhook($data['number']);
+            $number->next_renew_date = Carbon::parse(now())->addMonth(1);
             $number->save();
 
             $serviceSID = $this->setServices($number->twilio_number_sid);

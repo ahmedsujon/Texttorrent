@@ -17,7 +17,7 @@ class ChatTableSeeder extends Seeder
      */
     public function run(): void
     {
-        $contact_numbers = DB::table('contacts')->where('user_id', 1)->take(7)->get();
+        $contact_numbers = DB::table('contacts')->where('user_id', 1)->take(1)->get();
 
         $faker = Faker::create();
 
@@ -35,11 +35,21 @@ class ChatTableSeeder extends Seeder
             $msg->chat_id = $chat->id;
             $msg->direction = 'outbound';
             $msg->message = 'Hello, TextTorrent Owner, This is a default sms template for testing.';
-            $msg->api_send_status = 'Sent';
+            $msg->api_send_status = 'pending';
             $msg->api_send_response = '[Twilio.Api.V2010.MessageInstance accountSid=AC80f658d1006561368eceb8f14813fa45 sid=SMab2c9e5ddd74dffd5c645453d793ee1a]';
             $msg->api = 'Twilio';
-            $msg->msg_sid = 'SMab2c9e5ddd74dffd5c645453d793ee1a';
+            $msg->msg_sid = $key == 0 ? 'SMab2c9e5ddd74dffd5c645453d793ee1a' : '';
             $msg->save();
+
+            $msg2 = new ChatMessage();
+            $msg2->chat_id = $chat->id;
+            $msg2->direction = 'outbound';
+            $msg2->message = 'Test Message to Check Live Status Update';
+            $msg2->api_send_status = 'pending';
+            $msg2->api_send_response = '[Twilio.Api.V2010.MessageInstance accountSid=AC80f658d1006561368eceb8f14813fa45 sid=SM921ef96c19674279cd4b906fc2548b79]';
+            $msg2->api = 'Twilio';
+            $msg2->msg_sid = $key == 0 ? 'SM921ef96c19674279cd4b906fc2548b79' : '';
+            $msg2->save();
 
             // if ($chat->id == 7) {
             //     for ($i = 1; $i <= 20; $i++) {

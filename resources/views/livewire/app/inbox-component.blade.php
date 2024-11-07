@@ -218,12 +218,14 @@
                                                     <h6 class="time">
                                                         {{ Carbon\Carbon::parse($msg->updated_at)->format('H:i A') }} •
                                                         @if ($msg->api_send_status == 'Failed')
-                                                            <span class="text-danger">{{ ucfirst($msg->api_send_status) }}</span>
+                                                            <span
+                                                                class="text-danger">{{ ucfirst($msg->api_send_status) }}</span>
                                                         @else
-                                                            {{ ucfirst($msg->api_send_status) }}
+                                                            <span class="msg_item_{{ $msg->msg_sid }}" wire:ignore>
+                                                                {{ ucfirst($msg->api_send_status) }}
+                                                            </span>
                                                         @endif
-
-                                                        <a href="" wire:click.prevent='getMsgStatus("{{ $msg->msg_sid }}")'>{!! loadingStateWithText('getMsgStatus', 'GetStatus') !!}</a>
+                                                        {{-- <span wire:click.prevent='getMsgStatus("{{ $msg->msg_sid }}")'>Status</span> --}}
                                                     </h6>
                                                 </div>
                                             </div>
@@ -865,17 +867,21 @@
 
                             <div class="input_row">
                                 <label for="">Receiver</label>
-                                <div wire:ignore.self class="searchable_input_area position-relative" id="searchableList">
+                                <div wire:ignore.self class="searchable_input_area position-relative"
+                                    id="searchableList">
                                     <div class="input-group">
                                         <span class="input-group-text" id="basic-addon1">+1</span>
-                                        <input type="tel" class="form-control" wire:model.live='receiver_number' id="searchInput" placeholder="xxxxxxxxxx" autocomplete="off" maxlength="10" />
+                                        <input type="tel" class="form-control" wire:model.live='receiver_number'
+                                            id="searchInput" placeholder="xxxxxxxxxx" autocomplete="off"
+                                            maxlength="10" />
                                     </div>
                                     <div class="suggestion_list_area">
                                         <ul class="list" id="suggestionListArea" wire:ignore.self>
                                             @if ($receiver_numbers->count() > 0)
                                                 @foreach ($receiver_numbers as $receiverNumber)
                                                     <li>
-                                                        <button type="button" wire:click.prevent="receiverSelect('{{ $receiverNumber->number }}')">{{ $receiverNumber->number }}</button>
+                                                        <button type="button"
+                                                            wire:click.prevent="receiverSelect('{{ $receiverNumber->number }}')">{{ $receiverNumber->number }}</button>
                                                     </li>
                                                 @endforeach
                                             @else
@@ -1248,6 +1254,28 @@
     </script>
 
     <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Poll every 5 seconds
+            setInterval(() => {
+                @this.pollMessageStatuses();
+            }, 5000);
+
+
+        });
+        window.addEventListener('msgStatusUpdated', event => {
+            const status = event.detail[0].status;
+            const sid = event.detail[0].msg_sid;
+
+            // Update HTML based on SID
+            setTimeout(() => {
+                const element = document.querySelector('.msg_item_' + sid);
+                if (element) {
+                    element.innerHTML = status;
+                }
+            }, 500);
+
+        });
+
         window.addEventListener('showBlackListConfirmation', event => {
             $('#blacklistModal').modal('show');
         });

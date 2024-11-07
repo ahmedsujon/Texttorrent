@@ -175,111 +175,121 @@ class ActiveNumberComponent extends Component
     }
 
     // Don't delete this
-    // public function numberServices($number_id)
-    // {
-    //     $number = Number::find($number_id);
-    //     $twilioCredentials = DB::table('apis')
-    //         ->where('user_id', auth()->id())
-    //         ->where('gateway', 'Twilio')
-    //         ->first();
+    public function numberServices($number_id = null)
+    {
+        $number = Number::find($number_id);
+        $twilioCredentials = DB::table('apis')
+            ->where('user_id', auth()->id())
+            ->where('gateway', 'Twilio')
+            ->first();
 
-    //     if ($twilioCredentials) {
+        if ($twilioCredentials) {
 
-    //         $sid = $twilioCredentials->account_sid;
-    //         $token = $twilioCredentials->auth_token;
+            $sid = $twilioCredentials->account_sid;
+            $token = $twilioCredentials->auth_token;
 
-    //         try {
-    //             // Initialize the Twilio Client
-    //             $client = new Client($sid, $token);
+            try {
+                // Initialize the Twilio Client
+                $client = new Client($sid, $token);
 
-    //             // // Define the name of the Messaging Service you want to use or create
-    //             // $serviceName = "TextTorrent Messaging Service";
+                // // Define the name of the Messaging Service you want to use or create
+                // $serviceName = "TextTorrent Messaging Service";
 
-    //             // // Get the Phone Number SID from your database or request
-    //             // $phoneNumberSid = $number->twilio_number_sid; // Replace with your Phone Number SID
+                // // Get the Phone Number SID from your database or request
+                // $phoneNumberSid = $number->twilio_number_sid; // Replace with your Phone Number SID
 
-    //             // // Check if the phone number is associated with any service
-    //             // $services = $client->messaging->v1->services->read();
-    //             // $isNumberInAnotherService = false;
-    //             // $existingServiceSid = null;
+                // // Check if the phone number is associated with any service
+                // $services = $client->messaging->v1->services->read();
+                // $isNumberInAnotherService = false;
+                // $existingServiceSid = null;
 
-    //             // foreach ($services as $service) {
-    //             //     $phoneNumbers = $client->messaging->v1->services($service->sid)->phoneNumbers->read();
+                // foreach ($services as $service) {
+                //     $phoneNumbers = $client->messaging->v1->services($service->sid)->phoneNumbers->read();
 
-    //             //     foreach ($phoneNumbers as $number) {
-    //             //         if ($number->sid === $phoneNumberSid) {
-    //             //             $isNumberInAnotherService = true;
-    //             //             $existingServiceSid = $service->sid;
-    //             //             break 2; // Exit both loops if the number is found in any service
-    //             //         }
-    //             //     }
-    //             // }
+                //     foreach ($phoneNumbers as $number) {
+                //         if ($number->sid === $phoneNumberSid) {
+                //             $isNumberInAnotherService = true;
+                //             $existingServiceSid = $service->sid;
+                //             break 2; // Exit both loops if the number is found in any service
+                //         }
+                //     }
+                // }
 
-    //             // // If the phone number is already associated with another service, skip adding
-    //             // if ($isNumberInAnotherService) {
-    //             //     $output = [
-    //             //         'message' => 'Phone number is already associated with another service.',
-    //             //         'existingServiceSid' => $existingServiceSid,
-    //             //     ];
-    //             // } else {
-    //             //     // Check if "TextTorrent Messaging Service" exists or create a new one
-    //             //     $targetService = null;
-    //             //     foreach ($services as $service) {
-    //             //         if ($service->friendlyName === $serviceName) {
-    //             //             $targetService = $service;
-    //             //             break;
-    //             //         }
-    //             //     }
+                // // If the phone number is already associated with another service, skip adding
+                // if ($isNumberInAnotherService) {
+                //     $output = [
+                //         'message' => 'Phone number is already associated with another service.',
+                //         'existingServiceSid' => $existingServiceSid,
+                //     ];
+                // } else {
+                //     // Check if "TextTorrent Messaging Service" exists or create a new one
+                //     $targetService = null;
+                //     foreach ($services as $service) {
+                //         if ($service->friendlyName === $serviceName) {
+                //             $targetService = $service;
+                //             break;
+                //         }
+                //     }
 
-    //             //     // If the "TextTorrent Messaging Service" does not exist, create it
-    //             //     if (!$targetService) {
-    //             //         $targetService = $client->messaging->v1->services->create($serviceName);
-    //             //     }
+                //     // If the "TextTorrent Messaging Service" does not exist, create it
+                //     if (!$targetService) {
+                //         $targetService = $client->messaging->v1->services->create($serviceName);
+                //     }
 
-    //             //     // Add the phone number to the "TextTorrent Messaging Service"
-    //             //     $client->messaging->v1->services($targetService->sid)
-    //             //         ->phoneNumbers
-    //             //         ->create($phoneNumberSid);
+                //     // Add the phone number to the "TextTorrent Messaging Service"
+                //     $client->messaging->v1->services($targetService->sid)
+                //         ->phoneNumbers
+                //         ->create($phoneNumberSid);
 
-    //             //     $output = [
-    //             //         'message' => 'Phone number added to "TextTorrent Messaging Service".',
-    //             //         'serviceSid' => $targetService->sid,
-    //             //     ];
-    //             // }
+                //     $output = [
+                //         'message' => 'Phone number added to "TextTorrent Messaging Service".',
+                //         'serviceSid' => $targetService->sid,
+                //     ];
+                // }
 
-    //             // // Return or print the output
-    //             // dd($output);
+                // // Return or print the output
+                // dd($output);
 
-    //             // Fetch all Messaging Services
-    //             $services = $client->messaging->v1->services->read();
-    //             $result = [];
-    //             foreach ($services as $service) {
-    //                 $phoneNumbers = $client->messaging->v1
-    //                     ->services($service->sid)
-    //                     ->phoneNumbers
-    //                     ->read();
-    //                 $result[] = [
-    //                     'serviceSid' => $service->sid,
-    //                     'friendlyName' => $service->friendlyName,
-    //                     'phoneNumbers' => array_map(function ($number) {
-    //                         return [
-    //                             'phoneNumber' => $number->phoneNumber,
-    //                             'sid' => $number->sid,
-    //                         ];
-    //                     }, $phoneNumbers),
-    //                 ];
-    //             }
-    //             dd($result);
+                // Fetch all Messaging Services
+                $services = $client->messaging->v1->services->read();
+                $result = [];
+                foreach ($services as $service) {
+                    $phoneNumbers = $client->messaging->v1
+                        ->services($service->sid)
+                        ->phoneNumbers
+                        ->read();
+                    $result[] = [
+                        'serviceSid' => $service->sid,
+                        'friendlyName' => $service->friendlyName,
+                        'phoneNumbers' => array_map(function ($number) {
+                            return [
+                                'phoneNumber' => $number->phoneNumber,
+                                'sid' => $number->sid,
+                            ];
+                        }, $phoneNumbers),
+                    ];
+                }
+                dd($result);
 
-    //             // $client->messaging->v1->services($sid)->delete();
-    //             // $this->dispatch('success', ['message' => 'Service Deleted']);
+                // $result = [];
+                // $numbers = Number::where('user_id', 1)->pluck('number')->toArray();
+                // foreach ($numbers as $key => $number) {
+                //     $numberDetails = $client->lookups->v1->phoneNumbers($number)
+                //                      ->fetch(["type" => ["caller-name"]]);
 
-    //         } catch (\Exception $e) {
-    //             dd($e->getMessage());
-    //             // $this->dispatch('error', ['message' => 'Failed' . $e->getMessage()]);
-    //         }
-    //     }
-    // }
+                //     $result[] = $numberDetails;
+                // }
+                // dd($result);
+
+                // $client->messaging->v1->services($sid)->delete();
+                // $this->dispatch('success', ['message' => 'Service Deleted']);
+
+            } catch (\Exception $e) {
+                dd($e->getMessage());
+                // $this->dispatch('error', ['message' => 'Failed' . $e->getMessage()]);
+            }
+        }
+    }
 
     public $sort_type = 'all', $sort_status = 'all';
     public function render()

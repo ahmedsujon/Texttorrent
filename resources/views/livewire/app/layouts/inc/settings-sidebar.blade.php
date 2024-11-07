@@ -150,18 +150,20 @@
                             </div>
                             <div class="label">API</div>
                         </a>
-                        <a href="{{ route('user.dlcRegistration') }}"
-                            class="{{ request()->is('settings/dlc-registration') || request()->is('settings/dlc-registration/*') ? 'menu_grid active_menu' : 'menu_grid' }}">
-                            <div class="icon">
-                                <svg width="20" height="20" viewBox="0 0 20 20" fill="none"
-                                    xmlns="http://www.w3.org/2000/svg" currentColor="#696F8C">
-                                    <path fill-rule="evenodd" clip-rule="evenodd"
-                                        d="M2 10C2 9.58579 2.33579 9.25 2.75 9.25L9.53701 9.25L7.6989 7.25871C7.41794 6.95434 7.43692 6.47985 7.74129 6.1989C8.04566 5.91794 8.52015 5.93692 8.8011 6.24129L11.8011 9.49129C12.0663 9.77859 12.0663 10.2214 11.8011 10.5087L8.8011 13.7587C8.52015 14.0631 8.04566 14.0821 7.74129 13.8011C7.43692 13.5201 7.41794 13.0457 7.6989 12.7413L9.53701 10.75L2.75 10.75C2.33579 10.75 2 10.4142 2 10ZM10 18.25C10 17.8358 10.3358 17.5 10.75 17.5L15.25 17.5C15.9404 17.5 16.5 16.9404 16.5 16.25L16.5 3.75C16.5 3.05964 15.9404 2.5 15.25 2.5L10.75 2.5C10.3358 2.5 10 2.16421 10 1.75C10 1.33579 10.3358 1 10.75 1L15.25 1C16.7688 1 18 2.23122 18 3.75L18 16.25C18 17.7688 16.7688 19 15.25 19L10.75 19C10.3358 19 10 18.6642 10 18.25Z"
-                                        fill="currentColor" />
-                                </svg>
-                            </div>
-                            <div class="label">10 DLC Registration</div>
-                        </a>
+                        @if (getActiveSubscription()['type'] == 'text-torrent')
+                            <a href="{{ route('user.dlcRegistration') }}"
+                                class="{{ request()->is('settings/dlc-registration') || request()->is('settings/dlc-registration/*') ? 'menu_grid active_menu' : 'menu_grid' }}">
+                                <div class="icon">
+                                    <svg width="20" height="20" viewBox="0 0 20 20" fill="none"
+                                        xmlns="http://www.w3.org/2000/svg" currentColor="#696F8C">
+                                        <path fill-rule="evenodd" clip-rule="evenodd"
+                                            d="M2 10C2 9.58579 2.33579 9.25 2.75 9.25L9.53701 9.25L7.6989 7.25871C7.41794 6.95434 7.43692 6.47985 7.74129 6.1989C8.04566 5.91794 8.52015 5.93692 8.8011 6.24129L11.8011 9.49129C12.0663 9.77859 12.0663 10.2214 11.8011 10.5087L8.8011 13.7587C8.52015 14.0631 8.04566 14.0821 7.74129 13.8011C7.43692 13.5201 7.41794 13.0457 7.6989 12.7413L9.53701 10.75L2.75 10.75C2.33579 10.75 2 10.4142 2 10ZM10 18.25C10 17.8358 10.3358 17.5 10.75 17.5L15.25 17.5C15.9404 17.5 16.5 16.9404 16.5 16.25L16.5 3.75C16.5 3.05964 15.9404 2.5 15.25 2.5L10.75 2.5C10.3358 2.5 10 2.16421 10 1.75C10 1.33579 10.3358 1 10.75 1L15.25 1C16.7688 1 18 2.23122 18 3.75L18 16.25C18 17.7688 16.7688 19 15.25 19L10.75 19C10.3358 19 10 18.6642 10 18.25Z"
+                                            fill="currentColor" />
+                                    </svg>
+                                </div>
+                                <div class="label">10 DLC Registration</div>
+                            </a>
+                        @endif
                         <a href="{{ route('user.triggerNotification') }}"
                             class="{{ request()->is('settings/trigger-notification') || request()->is('settings/trigger-notification/*') ? 'menu_grid active_menu' : 'menu_grid' }}">
                             <div class="icon">
