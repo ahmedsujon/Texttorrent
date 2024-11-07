@@ -44,8 +44,7 @@ use App\Livewire\App\Settings\SubscriptionComponent;
 Route::get('/login', LoginComponent::class)->name('login')->middleware('guest');
 Route::get('/register', RegistrationComponent::class)->name('register')->middleware('guest');
 
-// Route::get('user', DashboardComponent::class)->middleware('auth:user');
-
+Route::get('buy-credit-for-text-torrent-sms-mms-secret-gateway-wxd-uft-8uga-qqw-sop-999', [DashboardComponent::class, 'buyCreditSuccess'])->name('user.buyCreditSuccess');
 Route::name('user.')->middleware('auth')->group(function () {
     Route::post('logout', [LogoutController::class, 'userLogout'])->name('logout');
 

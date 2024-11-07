@@ -137,6 +137,7 @@ class PricingComponent extends Component
             $trx->transaction_type = 'subscription';
             $trx->description = 'Payment for subscription';
             $trx->amount = $subscription->amount;
+            $trx->stripe_trx_id = $stripe_trx_id;
             $trx->save();
 
             $trx2 = new Transaction();
@@ -145,6 +146,7 @@ class PricingComponent extends Component
             $trx2->transaction_type = 'credit_recharge';
             $trx2->description = 'Added ' . $subscription->credits . ' credits';
             $trx2->credit = $subscription->credits;
+            $trx->stripe_trx_id = $stripe_trx_id;
             $trx2->save();
 
             session()->flash('success', 'Subscription successful');
