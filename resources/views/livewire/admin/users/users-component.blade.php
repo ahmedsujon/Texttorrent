@@ -367,8 +367,8 @@
                                             <div class="d-flex">
                                                 <i class='bx bx-calendar font-size-18 text-primary'></i>
                                                 <div class="ms-3">
-                                                    <h6 class="mb-1 fw-semibold">Experience:</h6>
-                                                    <span class="text-muted">2+ Years</span>
+                                                    <h6 class="mb-1 fw-semibold">Subscription Type:</h6>
+                                                    <span class="text-muted">{{ $package_type }}</span>
                                                 </div>
                                             </div>
                                         </li>
@@ -386,7 +386,7 @@
                                                 <i class='bx bx-money font-size-18 text-primary'></i>
                                                 <div class="ms-3">
                                                     <h6 class="mb-1 fw-semibold">Current Credit:</h6>
-                                                    <span class="text-muted">$ 4000+</span>
+                                                    <span class="text-muted">{{ $credit_balance }}</span>
                                                 </div>
                                             </div>
                                         </li>
@@ -408,17 +408,11 @@
                                                 </div>
                                             </div>
                                         </li>
-                                        <li>
-                                            <div class="d-flex">
-                                                <i class='mdi mdi-google-translate font-size-18 text-primary'></i>
-                                                <div class="ms-3">
-                                                    <h6 class="mb-1 fw-semibold">Languages:</h6>
-                                                    <span class="text-muted">English, France</span>
-                                                </div>
-                                            </div>
-                                        </li>
                                         <li class="hstack gap-2 mt-3">
                                             <a href="#!" class="btn btn-soft-danger w-100">Diactive Account</a>
+                                        </li>
+                                        <li class="hstack gap-2 mt-3">
+                                            <a href="#!" class="btn btn-soft-success w-100">Active Account</a>
                                         </li>
                                     </ul>
                                 </div>
@@ -748,9 +742,11 @@
         window.addEventListener('showAPIModal', event => {
             $('#editAPIDataModal').modal('show');
         });
+        
         window.addEventListener('closeModal', event => {
             $('#addDataModal').modal('hide');
             $('#editDataModal').modal('hide');
+            $('#editAPIDataModal').modal('hide');
         });
 
         window.addEventListener('user_deleted', event => {

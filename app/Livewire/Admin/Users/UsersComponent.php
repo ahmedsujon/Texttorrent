@@ -5,6 +5,7 @@ namespace App\Livewire\Admin\Users;
 use App\Models\Api;
 use App\Models\User;
 use Livewire\Component;
+use App\Models\Subscription;
 use Livewire\Attributes\Url;
 use Livewire\WithPagination;
 use Livewire\WithFileUploads;
@@ -16,8 +17,8 @@ class UsersComponent extends Component
     public $sortingValue = 10, $searchTerm;
     public $sortBy = 'created_at', $sortDirection = 'DESC';
     public $edit_id, $delete_id;
-    public $first_name, $last_name, $username, $email, $phone, $password, $avatar, $uploadedAvatar,
-        $gateway, $account_sid, $auth_token;
+    public $first_name, $last_name, $username, $credit_balance, $email, $phone, $password, $avatar, $uploadedAvatar,
+        $gateway, $account_sid, $auth_token, $package_type, $package_name, $amount;
 
     #[Url('history:true')]
     public function mount() {}
@@ -70,16 +71,44 @@ class UsersComponent extends Component
 
     public function editData($id)
     {
-        $data = User::find($id);
-        $this->first_name = $data->first_name;
-        $this->last_name = $data->last_name;
-        $this->username = $data->username;
-        $this->email = $data->email;
-        $this->phone = $data->phone;
-        $this->uploadedAvatar = $data->avatar;
-        $this->edit_id = $data->id;
-        $this->dispatch('showEditModal');
+        // Load user data
+        $user = User::find($id);
+
+        // Check if user exists
+        if ($user) {
+            // Set user data
+            $this->first_name = $user->first_name;
+            $this->last_name = $user->last_name;
+            $this->username = $user->username;
+            $this->email = $user->email;
+            $this->phone = $user->phone;
+            $this->credit_balance = $user->credit_balance;
+            $this->uploadedAvatar = $user->avatar;
+            $this->edit_id = $user->id;
+
+            // Load subscription data separately
+            $subscription = Subscription::where('user_id', $id)->latest()->first();
+
+            if ($subscription) {
+                $this->package_type = $subscription->package_type;
+                $this->package_name = $subscription->package_name;
+                $this->amount = $subscription->amount;
+            } else {
+                // Handle case where there are no subscriptions
+                $this->package_type = null;
+                $this->package_name = null;
+                $this->amount = null;
+            }
+
+            // Show the edit modal
+            $this->dispatch('showEditModal');
+        } else {
+            // Handle case where the user is not found
+            session()->flash('error', 'User not found.');
+        }
     }
+
+
 
     public function updateData()
     {
@@ -147,6 +176,7 @@ class UsersComponent extends Component
         $this->phone = '';
         $this->password = '';
         $this->avatar = '';
+        $this->credit_balance = '';
         $this->uploadedAvatar = '';
         $this->delete_id = '';
         $this->edit_id = '';
