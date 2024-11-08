@@ -20,45 +20,35 @@ class SubscriptionComponent extends Component
     public function purchasePlan($type, $name)
     {
         if (user()) {
-            $conditions = [];
             $price = 0;
             if ($type == 'own-gateway') {
                 if ($name == 'standard') {
                     $price = 49;
-                    $conditions = [
-                        'credits' => 7000,
-                        'sub-account' => 1
-                    ];
+                    $credits = 7000;
+                    $sub_account = 1;
                 } else if ($name == 'premium') {
                     $price = 99;
-                    $conditions = [
-                        'credits' => 15000,
-                        'sub-account' => 3
-                    ];
+                    $credits = 15000;
+                    $sub_account = 3;
                 } else if ($name == 'enterprise') {
                     $price = 149;
-                    $conditions = [
-                        'credits' => 15000,
-                        'sub-account' => 'unlimited'
-                    ];
+                    $credits = 7000;
+                    $sub_account = 9999999999;
                 }
                 $duration = 1; // months
             } else if ($type == 'text-torrent') {
                 if ($name == 'starter') {
                     $price = 625;
-                    $conditions = [
-                        'message-count' => 25000
-                    ];
+                    $credits = 25000;
+                    $sub_account = 0;
                 } else if ($name == 'growth') {
                     $price = 1250;
-                    $conditions = [
-                        'message-count' => 50000
-                    ];
+                    $credits = 50000;
+                    $sub_account = 0;
                 } else if ($name == 'pro') {
                     $price = 2550;
-                    $conditions = [
-                        'message-count' => 100000
-                    ];
+                    $credits = 100000;
+                    $sub_account = 0;
                 }
                 $duration = '';
             }
@@ -76,7 +66,8 @@ class SubscriptionComponent extends Component
             $subscription->amount = $price;
             $subscription->payment_status = 'unpaid';
             $subscription->duration = $duration;
-            $subscription->features = $conditions;
+            $subscription->credits = $credits;
+            $subscription->sub_accounts = $sub_account;
             $subscription->save();
 
             $this->payWithStripe($subscription->id);
@@ -110,66 +101,11 @@ class SubscriptionComponent extends Component
                 ],
             ],
             'mode'        => 'payment',
-            'success_url' => route('app.stripePaymentSuccess') . '?subscription_id=' . $subscription->id . '&session_id={CHECKOUT_SESSION_ID}',
-            'cancel_url'  => route('app.pricing'),
+            'success_url' => route('stripePaymentSuccess') . '?subscription_id=' . $subscription->id . '&session_id={CHECKOUT_SESSION_ID}',
+            'cancel_url'  => route('user.subscription'),
         ]);
 
         return redirect()->away($session->url);
-    }
-
-    public function stripePaymentSuccess()
-    {
-        \Stripe\Stripe::setApiKey(config('services.stripe.secret'));
-        $session_id = request()->get('session_id');
-
-        try {
-            $session = Session::retrieve($session_id);
-            $stripe_trx_id = $session->payment_intent; // Get the Payment Intent ID (transaction ID)
-            $subscription = Subscription::find(request()->get('subscription_id'));
-            $subscription->payment_status = 'paid';
-            $subscription->stripe_transaction_id = $stripe_trx_id;
-            $subscription->start_date = Carbon::parse(now());
-            if ($subscription->package_type == 'own-gateway') {
-                $subscription->end_date = Carbon::parse(now())->addMonths(1);
-            }
-            $subscription->save();
-
-            $user_id = $subscription->user_id;
-            $user = User::find($user_id);
-            $user->credit_balance += isset($subscription->features['credits']) ? $subscription->features['credits'] : 0;
-            $user->sub_account_count = isset($subscription->features['sub-account']) ? $subscription->features['sub-account'] : 0;
-            $user->message_balance += isset($subscription->features['message-count']) ? $subscription->features['message-count'] : 0;
-            $user->save();
-
-            $credit = isset($subscription->features['credits']) ? $subscription->features['credits'] : 0;
-            $message = isset($subscription->features['message-count']) ? $subscription->features['message-count'] : 0;
-
-            // transactions
-            $trx = new Transaction();
-            $trx->user_id = $user_id;
-            $trx->transaction_type = 'subscription';
-            $trx->description = 'Payment for subscription';
-            $trx->amount = $subscription->amount;
-            $trx->save();
-
-            $trx2 = new Transaction();
-            $trx2->user_id = $user_id;
-            $trx2->amount = $subscription->amount;
-            if ($subscription->package_type == 'own-gateway') {
-                $trx2->transaction_type = 'credit_recharge';
-                $trx2->description = 'Added ' . $credit . ' credits';
-                $trx2->credit = $credit;
-            } else {
-                $trx2->transaction_type = 'message_recharge';
-                $trx2->description = 'Added ' . $message . ' messages';
-                $trx2->message = $message;
-            }
-            $trx2->save();
-
-            return redirect()->route('user.dashboard');
-        } catch (\Exception $e) {
-            return "Error: " . $e->getMessage();
-        }
     }
 
     public function render()

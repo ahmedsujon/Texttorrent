@@ -17,8 +17,7 @@ function sendSMSviaTwilio($receiverNumber, $fromNumber, $message, $msg_id)
             $client = new Client($sid, $token);
             $output = $client->messages->create($receiverNumber, [
                 'from' => $fromNumber,
-                'body' => $message,
-                'statusCallback' => route('twilioStatusCallback')
+                'body' => $message
             ]);
 
             $msgSt = ChatMessage::find($msg_id);

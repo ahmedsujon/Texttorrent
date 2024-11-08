@@ -290,7 +290,7 @@
                                         </li>
                                     </ul>
                                     <h6 class="price">$625 <span>/25,000 messages </span></h6>
-                                    @if (getActiveSubscription()['name'] == 'starter')
+                                    {{-- @if (getActiveSubscription()['name'] == 'starter')
                                         <button class="choose_btn bg-success" disabled>
                                             <svg xmlns="http://www.w3.org/2000/svg"
                                                 class="icon icon-tabler icon-tabler-checks" width="24"
@@ -306,7 +306,9 @@
                                         <button wire:click="purchasePlan('text-torrent', 'starter')"
                                             class="choose_btn"
                                             wire:loading.attr='disabled'>{!! loadingStateWithText("purchasePlan('text-torrent', 'starter')", 'Choose Your Plan') !!}</button>
-                                    @endif
+                                    @endif --}}
+
+                                    <button class="choose_btn">Comming Soon</button>
                                 </div>
                             </div>
                             <div>
@@ -350,7 +352,7 @@
                                         </li>
                                     </ul>
                                     <h6 class="price">$1,250 <span>/50,000 messages </span></h6>
-                                    @if (getActiveSubscription()['name'] == 'growth')
+                                    {{-- @if (getActiveSubscription()['name'] == 'growth')
                                         <button class="choose_btn bg-success" disabled>
                                             <svg xmlns="http://www.w3.org/2000/svg"
                                                 class="icon icon-tabler icon-tabler-checks" width="24"
@@ -365,7 +367,9 @@
                                     @else
                                         <button wire:click="purchasePlan('text-torrent', 'growth')" class="choose_btn"
                                             wire:loading.attr='disabled'>{!! loadingStateWithText("purchasePlan('text-torrent', 'growth')", 'Choose Your Plan') !!}</button>
-                                    @endif
+                                    @endif --}}
+
+                                    <button class="choose_btn">Comming Soon</button>
                                 </div>
                             </div>
                             <div>
@@ -409,7 +413,7 @@
                                         </li>
                                     </ul>
                                     <h6 class="price">$2,550 <span>/100,000 messages</span></h6>
-                                    @if (getActiveSubscription()['name'] == 'pro')
+                                    {{-- @if (getActiveSubscription()['name'] == 'pro')
                                         <button class="choose_btn bg-success" disabled>
                                             <svg xmlns="http://www.w3.org/2000/svg"
                                                 class="icon icon-tabler icon-tabler-checks" width="24"
@@ -424,7 +428,9 @@
                                     @else
                                         <button wire:click="purchasePlan('text-torrent', 'pro')" class="choose_btn"
                                             wire:loading.attr='disabled'>{!! loadingStateWithText("purchasePlan('text-torrent', 'pro')", 'Choose Your Plan') !!}</button>
-                                    @endif
+                                    @endif --}}
+
+                                    <button class="choose_btn">Comming Soon</button>
                                 </div>
                             </div>
                         </div>

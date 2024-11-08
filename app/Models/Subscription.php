@@ -10,8 +10,4 @@ class Subscription extends Model
     use HasFactory;
 
     protected $table = 'subscriptions';
-
-    protected $casts = [
-        'features' => 'array',
-    ];
 }

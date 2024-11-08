@@ -2,15 +2,16 @@
 
 namespace App\Livewire\App\Campaigns;
 
-use App\Models\BulkMessage;
-use App\Models\BulkMessageItem;
+use Carbon\Carbon;
+use App\Models\User;
+use App\Models\Number;
 use App\Models\Contact;
+use Livewire\Component;
+use App\Models\BulkMessage;
 use App\Models\ContactList;
 use App\Models\InboxTemplate;
-use App\Models\Number;
-use Carbon\Carbon;
+use App\Models\BulkMessageItem;
 use Illuminate\Support\Facades\Auth;
-use Livewire\Component;
 use Livewire\Features\SupportFileUploads\WithFileUploads;
 
 class BulkMessageComponent extends Component
@@ -32,8 +33,12 @@ class BulkMessageComponent extends Component
             'inbox_template_id.*' => 'Select a template',
         ]);
 
+        $greetings = ['Hi', 'Hey', 'Hello'];
+        $randomGreeting = $greetings[array_rand($greetings)];
+
         $contact = Contact::find($contact_id);
         $output = $this->selected_template_preview; // Start with the template preview
+        $output = str_replace('[Hi|Hey|Hello]', $randomGreeting, $output);
         $output = str_replace('[phone_number]', $contact->number, $output);
         $output = str_replace('[email_address]', $contact->email, $output);
         $output = str_replace('[first_name]', $contact->first_name, $output);
@@ -73,6 +78,15 @@ class BulkMessageComponent extends Component
             $this->numbers = [$number];
         }
     }
+
+    public function updatedNumberPool()
+    {
+        if (!$this->number_pool) {
+            $this->numbers = [];
+            $this->selectAllNumbers = false;
+        }
+    }
+
     public function updatedSelectAllNumbers()
     {
         if ($this->selectAllNumbers) {
@@ -88,127 +102,165 @@ class BulkMessageComponent extends Component
         $this->contact_list_name = $name;
     }
 
+    public $total_credit;
     public function storeData()
     {
-        $this->validate([
-            'numbers' => 'required',
-            'contact_list_id' => 'required',
-            'inbox_template_id' => 'required_if:sms_type,sms',
-            'batch_size' => 'required_if:batch_process,true',
-            'batch_frequency' => 'required_if:batch_process,true',
-            'sending_throttle' => 'required_if:batch_process,true',
-            'appended_message' => 'required_if:opt_out_link,true',
-            'sms_body' => 'required_if:sms_type,sms',
-            'file' => 'required_if:sms_type,mms',
-        ], [
-            'numbers.required' => 'Phone number field is required',
-            'contact_list_id.required' => 'Select a contact list',
-            'inbox_template_id.*' => 'Select a template',
-            'batch_size.*' => 'This field is required',
-            'batch_frequency.*' => 'This field is required',
-            'sending_throttle.*' => 'This field is required',
-            'appended_message.*' => 'This field is required',
-            'sms_body.*' => 'This field is required',
-            'file.*' => 'This field is required',
-        ]);
+        if (getActiveSubscription()['status'] == 'Active') {
 
-        $data = new BulkMessage();
-        $data->user_id = user()->id;
-        $data->contact_list_id = $this->contact_list_id;
-        $data->inbox_template_id = $this->inbox_template_id;
-        $data->number_pool = $this->number_pool;
-        $data->batch_process = $this->batch_process;
-        $data->opt_out_link = $this->opt_out_link;
-        $data->round_robin_campaign = $this->round_robin_campaign;
-        $data->phone_numbers = $this->phone_numbers;
-        $data->sms_type = $this->sms_type;
-        $data->sms_body = $this->sms_body;
-        $data->appended_message = $this->appended_message;
-        $data->batch_size = $this->batch_size;
-        $data->batch_frequency = $this->batch_frequency;
-        $data->sending_throttle = $this->sending_throttle;
+            if (user()->credits >= $this->total_credit) {
 
-        if ($this->sms_type == 'mms' && $this->file) {
-            $fileName = 'mms-'. uniqid() .Carbon::now()->timestamp. '.' .$this->file->extension();
-            $this->file->storeAs('uploads/mms_files', $fileName);
-            $data->file = 'uploads/mms_files/' . $fileName;
-        }
+                $this->validate([
+                    'numbers' => 'required',
+                    'contact_list_id' => 'required',
+                    'inbox_template_id' => 'required_if:sms_type,sms',
+                    'batch_size' => 'required_if:batch_process,true',
+                    'batch_frequency' => 'required_if:batch_process,true',
+                    // 'sending_throttle' => 'required_if:batch_process,true',
+                    'appended_message' => 'required_if:opt_out_link,true',
+                    'sms_body' => 'required_if:sms_type,sms',
+                    'file' => 'required_if:sms_type,mms',
+                ], [
+                    'numbers.required' => 'Phone number field is required',
+                    'contact_list_id.required' => 'Select a contact list',
+                    'inbox_template_id.*' => 'Select a template',
+                    'batch_size.*' => 'This field is required',
+                    'batch_frequency.*' => 'This field is required',
+                    // 'sending_throttle.*' => 'This field is required',
+                    'appended_message.*' => 'This field is required',
+                    'sms_body.*' => 'This field is required',
+                    'file.*' => 'This field is required',
+                ]);
 
-        $data->save();
+                $data = new BulkMessage();
+                $data->user_id = user()->id;
+                $data->contact_list_id = $this->contact_list_id;
+                $data->inbox_template_id = $this->inbox_template_id;
+                $data->number_pool = $this->number_pool;
+                $data->batch_process = $this->batch_process;
+                $data->opt_out_link = $this->opt_out_link;
+                $data->round_robin_campaign = $this->round_robin_campaign;
+                $data->phone_numbers = $this->phone_numbers;
+                $data->sms_type = $this->sms_type;
+                $data->sms_body = $this->sms_body;
+                $data->appended_message = $this->appended_message;
+                $data->batch_size = $this->batch_size;
+                $data->batch_frequency = $this->batch_frequency;
+                // $data->sending_throttle = $this->sending_throttle;
 
-        // Check if schedule_date and schedule_time are provided
-        if (!empty($this->selected_date) && !empty($this->selected_time)) {
-            $f_date = $this->selected_date . ' ' . $this->selected_time;
-            $scheduleDateTime = Carbon::parse($f_date);
-        } else {
-            $scheduleDateTime = now(); // If no schedule provided, use current time
-        }
-
-        $contactList = Contact::where('list_id', $this->contact_list_id)->where('blacklisted', 0)->get();
-        $totalContacts = $contactList->count();
-        $batchSize = $this->batch_size ?? 100; // Default batch size
-        $batchFrequency = $this->batch_frequency ?? 60; // Frequency in seconds (default to 60s between batches)
-
-        $numberIndex = 0; // To keep track of the round-robin index
-        $contactsProcessed = 0;
-        $batchCount = 0;
-        $availableNumbers = count($this->numbers); // Total available numbers
-
-        foreach ($contactList as $key => $cList) {
-            $message = $this->useTemplate($cList->id);
-
-            // Reuse numbers even if there are fewer numbers than contacts
-            if ($this->number_pool) {
-                if ($this->round_robin_campaign) {
-                    // Round-robin process
-                    $number = $this->numbers[$numberIndex];
-                    $numberIndex = ($numberIndex + 1) % $availableNumbers; // Rotate through numbers
-                } else {
-                    // Random process
-                    $number = $this->numbers[array_rand($this->numbers)];
+                if ($this->sms_type == 'mms' && $this->file) {
+                    $fileName = 'mms-'. uniqid() .Carbon::now()->timestamp. '.' .$this->file->extension();
+                    $this->file->storeAs('uploads/mms_files', $fileName);
+                    $data->file = 'uploads/mms_files/' . $fileName;
                 }
+
+                $data->save();
+
+                // Check if schedule_date and schedule_time are provided
+                if (!empty($this->selected_date) && !empty($this->selected_time)) {
+                    $f_date = $this->selected_date . ' ' . $this->selected_time;
+                    $scheduleDateTime = Carbon::parse($f_date);
+                } else {
+                    $scheduleDateTime = now(); // If no schedule provided, use current time
+                }
+
+                $contactList = Contact::where('list_id', $this->contact_list_id)->where('blacklisted', 0)->get();
+                $totalContacts = $contactList->count();
+                $batchSize = $this->batch_size ?? 100; // Default batch size
+                $batchFrequency = $this->batch_frequency ?? 60; // Frequency in seconds (default to 60s between batches)
+
+                $numberIndex = 0; // To keep track of the round-robin index
+                $contactsProcessed = 0;
+                $batchCount = 0;
+                $availableNumbers = count($this->numbers); // Total available numbers
+
+                foreach ($contactList as $key => $cList) {
+                    if ($this->opt_out_link) {
+                        $message = $this->useTemplate($cList->id) . "\n" . $this->appended_message;
+                    } else {
+                        $message = $this->useTemplate($cList->id);
+                    }
+
+                    // Reuse numbers even if there are fewer numbers than contacts
+                    if ($this->number_pool) {
+                        if ($this->round_robin_campaign) {
+                            // Round-robin process
+                            $number = $this->numbers[$numberIndex];
+                            $numberIndex = ($numberIndex + 1) % $availableNumbers; // Rotate through numbers
+                        } else {
+                            // Random process
+                            $number = $this->numbers[array_rand($this->numbers)];
+                        }
+                    } else {
+                        // Default to the first number
+                        $number = $this->numbers[0];
+                    }
+
+                    // Create the SMS object
+                    $sms = new BulkMessageItem();
+                    $sms->bulk_message_id = $data->id;
+                    $sms->send_by = user()->id;
+                    $sms->send_from = $number;
+                    $sms->send_to = $cList->number;
+                    $sms->message = $message ? $message : null;
+                    $sms->file = $data->file;
+                    $sms->type = $data->sms_type;
+
+                    if ($this->batch_process) {
+                        // If batch_process is true, schedule the message with future execute_at time
+                        $executeAt = $scheduleDateTime->copy()->addMinutes($batchCount * $batchFrequency);
+                        $sms->execute_at = $executeAt;
+                    } else {
+                        // If batch_process is false, schedule all messages at the selected time (or now if schedule is empty)
+                        $sms->execute_at = $scheduleDateTime;
+                    }
+
+                    $sms->status = 0; // Message is scheduled but not yet sent
+                    $sms->save();
+
+                    $contactsProcessed++;
+
+                    // Increment the batch count for scheduling if batch processing is enabled
+                    if ($this->batch_process && $contactsProcessed % $batchSize == 0) {
+                        $batchCount++;
+                    }
+                }
+
+                // credit deduction
+                $user = User::find(user()->id);
+                $user->credits -= $this->total_credit;
+                $user->save();
+
+                $this->dispatch('reset_form');
+                $this->dispatch('success', ['message' => 'Bulk message send successfully!']);
+                if ($this->sms_type == 'mms') {
+                    $this->resetUpload();
+                }
+                $this->resetForm();
             } else {
-                // Default to the first number
-                $number = $this->numbers[0];
+                $this->dispatch('error', ['message'=> 'Not enough credit for this message!']);
             }
-
-            // Create the SMS object
-            $sms = new BulkMessageItem();
-            $sms->bulk_message_id = $data->id;
-            $sms->send_by = user()->id;
-            $sms->send_from = $number;
-            $sms->send_to = $cList->number;
-            $sms->message = $message ? $message : null;
-            $sms->file = $data->file;
-            $sms->type = $data->sms_type;
-
-            if ($this->batch_process) {
-                // If batch_process is true, schedule the message with future execute_at time
-                $executeAt = $scheduleDateTime->copy()->addMinutes($batchCount * $batchFrequency);
-                $sms->execute_at = $executeAt;
-            } else {
-                // If batch_process is false, schedule all messages at the selected time (or now if schedule is empty)
-                $sms->execute_at = $scheduleDateTime;
-            }
-
-            $sms->status = 0; // Message is scheduled but not yet sent
-            $sms->save();
-
-            $contactsProcessed++;
-
-            // Increment the batch count for scheduling if batch processing is enabled
-            if ($this->batch_process && $contactsProcessed % $batchSize == 0) {
-                $batchCount++;
-            }
+        } else {
+            $this->dispatch('error', ['message'=> 'No active subscription found!']);
         }
-
-        $this->dispatch('reset_form');
-        $this->dispatch('success', ['message' => 'Bulk message send successfully!']);
-        if ($this->sms_type == 'mms') {
-            $this->resetUpload();
-        }
-        $this->resetForm();
     }
+
+    // public function updatedOptOutLink()
+    // {
+    //     if ($this->opt_out_link) {
+    //         $this->dispatch('addOptOutLink', ['appended_message' => ""."\n"."" . $this->appended_message . ""."\n".""]);
+    //     } else {
+    //         $this->dispatch('addOptOutLink', ['appended_message' => '']);
+    //     }
+    // }
+
+    // public function updatedAppendedMessage()
+    // {
+    //     if ($this->opt_out_link) {
+    //         $this->dispatch('addOptOutLink', ['appended_message' => ""."\n"."" . $this->appended_message . ""."\n".""]);
+    //     } else {
+    //         $this->dispatch('addOptOutLink', ['appended_message' => '']);
+    //     }
+    // }
 
     public function resetForm()
     {
@@ -227,12 +279,13 @@ class BulkMessageComponent extends Component
             'appended_message',
             'batch_size',
             'batch_frequency',
-            'sending_throttle',
+            // 'sending_throttle',
             'schedule_date',
             'schedule_time',
             'selected_date',
             'selected_time',
             'numbers',
+            'total_credit',
             'selectAllNumbers',
         ]);
     }
@@ -245,6 +298,12 @@ class BulkMessageComponent extends Component
         $activeNumbers = Number::where('user_id', Auth::user()->id)->where('number', 'like', '%' . $this->selectNumberSearch . '%')->orderBy('id', 'DESC')->get();
 
         $this->all_numbers = $activeNumbers->pluck('number')->toArray();
+
+        $contactList = Contact::where('list_id', $this->contact_list_id)->where('blacklisted', 0)->get();
+        $totalContacts = $contactList->count();
+
+        $creditNeeded = msgCreditCalculation($this->sms_type, 'outgoing');
+        $this->total_credit = $creditNeeded * $totalContacts;
 
         return view(
             'livewire.app.campaigns.bulk-message-component',

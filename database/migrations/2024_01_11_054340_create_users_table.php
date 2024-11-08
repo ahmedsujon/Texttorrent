@@ -23,12 +23,11 @@ return new class extends Migration
             $table->string('password');
             $table->string('avatar', 2048)->nullable();
 
-            $table->integer('credit_balance')->default(0);
-            $table->integer('message_balance')->nullable();
-            $table->string('sub_account_count')->default(0);
+            $table->integer('credits')->default(0);
+            $table->integer('sub_accounts')->default(0);
 
             $table->string('company_name')->nullable();
-            $table->string('timezone')->nullable();
+            $table->string('timezone')->default('America/New_York');
             $table->rememberToken();
             $table->tinyInteger('status')->default(0);
             $table->text('permissions')->nullable();

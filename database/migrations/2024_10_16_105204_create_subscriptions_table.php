@@ -21,7 +21,8 @@ return new class extends Migration
             $table->string('stripe_transaction_id', 2048)->nullable();
             $table->timestamp('start_date')->nullable();
             $table->timestamp('end_date')->nullable();
-            $table->longText('features')->nullable();
+            $table->integer('credits')->default(0);
+            $table->integer('sub_accounts')->default(0);
             $table->string('duration')->nullable();
             $table->timestamps();
         });

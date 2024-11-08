@@ -2,17 +2,15 @@
 
 namespace App\Livewire\App;
 
-use App\Models\Api;
 use App\Models\Chat;
-use App\Models\Event;
-use App\Models\Contact;
-use Livewire\Component;
 use App\Models\ChatMessage;
-use App\Models\ContactNote;
-use Illuminate\Http\Request;
+use App\Models\Contact;
 use App\Models\ContactFolder;
+use App\Models\ContactNote;
+use App\Models\Event;
+use App\Models\User;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Log;
+use Livewire\Component;
 
 class InboxComponent extends Component
 {
@@ -75,40 +73,71 @@ class InboxComponent extends Component
 
     public function sendMessage($message)
     {
-        $msg = new ChatMessage();
-        $msg->chat_id = $this->selected_chat_id;
-        $msg->direction = 'outbound';
-        $msg->message = $message;
-        $msg->save();
+        if (getActiveSubscription()['status'] == 'Active') {
+            $credit_needed = msgCreditCalculation('sms', 'outgoing');
+            if (user()->credits >= $credit_needed) {
+                $msg = new ChatMessage();
+                $msg->chat_id = $this->selected_chat_id;
+                $msg->direction = 'outbound';
+                $msg->message = $message;
+                $msg->save();
 
-        $chat = Chat::where('id', $this->selected_chat_id)->first();
-        $chat->last_message = $message;
-        $chat->save();
+                $chat = Chat::where('id', $this->selected_chat_id)->first();
+                $chat->last_message = $message;
+                $chat->save();
 
-        // send msg
-        // $result =
-        sendSMSviaTwilio($this->selected_chat->number, $chat->from_number, $message, $msg->id);
+                sendSMSviaTwilio($this->selected_chat->number, $chat->from_number, $message, $msg->id);
 
-        // if ($result['result'] == false) {
-        //     $msgSt = ChatMessage::find($msg->id);
-        //     $msgSt->api_send_status = 'Failed';
-        //     $msgSt->save();
+                // credit deduction
+                $user = User::find(user()->id);
+                $user->credits -= $credit_needed;
+                $user->save();
 
-        //     $msg->api_send_status = 'Failed';
-        // } else {
+                $msgSt = ChatMessage::find($msg->id);
+                $msg->api_send_status = $msgSt->api_send_status;
+                $msg->msg_sid = $msgSt->msg_sid;
 
-        $msgSt = ChatMessage::find($msg->id);
-        $msg->api_send_status = $msgSt->api_send_status;
-        // }
+                $this->messages->push($msg);
+                $this->dispatch('scrollToBottom');
+            } else {
+                $this->dispatch('error', ['message' => 'Not enough credit for this message!']);
+            }
+        } else {
+            $this->dispatch('error', ['message' => 'No active subscription found!']);
+        }
+    }
 
-        $this->messages->push($msg);
-        $this->dispatch('scrollToBottom');
+    public function pollMessageStatuses()
+    {
+        $chat_messages = DB::table('chat_messages')
+            ->select('msg_sid', 'api_send_status')
+            ->where('chat_id', $this->selected_chat_id)
+            ->where(function ($q) {
+                $q->where('api_send_status', 'pending')
+                    ->orWhere('api_send_status', 'sent');
+            })
+            ->whereNotNull('msg_sid')
+            ->get();
+
+        $updates = [];
+
+        foreach ($chat_messages as $msg) {
+            if ($msg->api_send_status == 'pending' || $msg->api_send_status == 'sent') { // Case-insensitive check for 'pending'
+                $output = twilioMsgStatus($msg->msg_sid);
+
+                if (!empty($output['status'])) { // Ensure status is not null or empty
+                    DB::table('chat_messages')
+                        ->where('msg_sid', $msg->msg_sid)
+                        ->update(['api_send_status' => $output['status']]);
+                    $this->dispatch('msgStatusUpdated', ['msg_sid'=>$msg->msg_sid, 'status'=>ucfirst($output['status'])]);
+                }
+            }
+        }
     }
 
     public function getMsgStatus($sid)
     {
         $output = twilioMsgStatus($sid);
-
         dd($output);
     }
 
@@ -122,7 +151,7 @@ class InboxComponent extends Component
     public function updatedReceiverNumber()
     {
         $extContacts = DB::table('chats')->select('contact_id')->where('user_id', user()->id)->pluck('contact_id')->toArray();
-        $this->receiver_numbers = DB::table('contacts')->where('number', 'like', '%'.$this->receiver_number.'%')->where('user_id', user()->id)->whereNotIn('id', $extContacts)->get();
+        $this->receiver_numbers = DB::table('contacts')->where('number', 'like', '%' . $this->receiver_number . '%')->where('user_id', user()->id)->whereNotIn('id', $extContacts)->get();
     }
 
     public function useTemplateNewChat()
@@ -147,8 +176,12 @@ class InboxComponent extends Component
         }
 
         if ($this->receiver_id) {
+            $greetings = ['Hi', 'Hey', 'Hello'];
+            $randomGreeting = $greetings[array_rand($greetings)];
+
             $contact = Contact::find($this->receiver_id);
             $output = $this->selected_template_preview_new_chat; // Start with the template preview
+            $output = str_replace('[Hi|Hey|Hello]', $randomGreeting, $output);
             $output = str_replace('[phone_number]', $contact->number, $output);
             $output = str_replace('[email_address]', $contact->email, $output);
             $output = str_replace('[first_name]', $contact->first_name, $output);
@@ -187,7 +220,7 @@ class InboxComponent extends Component
         $chat = new Chat();
         $chat->user_id = user()->id;
         $chat->contact_id = $this->receiver_id;
-        $chat->last_message = $this->new_chat_message;
+        // $chat->last_message = $this->new_chat_message;
         $chat->from_number = $this->sender_id;
         $chat->save();
 
@@ -236,8 +269,12 @@ class InboxComponent extends Component
             'selected_template_id.required' => 'Select a template',
         ]);
 
+        $greetings = ['Hi', 'Hey', 'Hello'];
+        $randomGreeting = $greetings[array_rand($greetings)];
+
         $contact = Contact::find($this->selected_chat->id);
         $output = $this->selected_template_preview; // Start with the template preview
+        $output = str_replace('[Hi|Hey|Hello]', $randomGreeting, $output);
         $output = str_replace('[phone_number]', $contact->number, $output);
         $output = str_replace('[email_address]', $contact->email, $output);
         $output = str_replace('[first_name]', $contact->first_name, $output);

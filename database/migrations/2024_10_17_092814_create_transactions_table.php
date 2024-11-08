@@ -19,6 +19,7 @@ return new class extends Migration
             $table->double('amount', 20,2)->default(0);
             $table->integer('credit')->default(0);
             $table->integer('message')->default(0);
+            $table->string('stripe_trx_id', 2048)->nullable();
             $table->timestamps();
         });
     }
