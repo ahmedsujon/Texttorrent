@@ -173,8 +173,13 @@
                                                                 <button type="button" class="dropdown-item"
                                                                     wire:click.prevent='editData({{ $user->id }})'
                                                                     wire:loading.attr='disabled'>View Details</button>
-                                                                <a class="dropdown-item" href="#">10DLC
-                                                                    Registration</a>
+                                                                <button type="button" class="dropdown-item"
+                                                                    href="#">10DLC
+                                                                    Registration</button>
+                                                                <button type="button" class="dropdown-item"
+                                                                    wire:click.prevent='apiIntrigation({{ $user->id }})'
+                                                                    wire:loading.attr='disabled'>API
+                                                                    Integration</button>
                                                                 <a class="dropdown-item" href="#">Toll-Free
                                                                     Registration</a>
                                                                 <a class="dropdown-item" href="#">Change
@@ -530,6 +535,75 @@
     </div>
     <!-- End Edit Data Modal -->
 
+    <!-- API Data Modal -->
+    <div wire:ignore.self class="modal fade" id="editAPIDataModal" tabindex="-1" role="dialog"
+        data-bs-backdrop="static" data-bs-keyboard="false" aria-labelledby="modelTitleId">
+        <div class="modal-dialog modal-dialog-centered modal-dialog-zoom modal-xl" role="document">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <div class="row justify-content-center">
+                        <div class="col-lg-12">
+                            <div class="card bg-info-subtle">
+                                <div class="card-body">
+                                    <button style="float: right;" type="button" class="btn-close"
+                                        data-bs-dismiss="modal" aria-label="Close"
+                                        wire:click.prevent='close'></button>
+                                    <div class="text-center mb-4">
+                                        <h3 class="mb-3">API INTRIGATION</h3>
+                                        <p class="text-muted mb-3">Gateway: {{ $gateway }}</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-lg-2"></div>
+                        <div class="col-lg-8">
+                            <div class="card">
+                                <div class="card-body">
+                                    <form wire:submit.prevent='updateAPIData'>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <label for="account_sid" class="col-form-label">Account Sid</label>
+                                                <input class="form-control" type="text"
+                                                    wire:model.blur="account_sid" placeholder="Enter account sid">
+                                                @error('account_sid')
+                                                    <p class="text-danger" style="font-size: 11.5px;">{{ $message }}
+                                                    </p>
+                                                @enderror
+                                            </div>
+
+                                            <div class="col-md-6">
+                                                <label for="auth_token" class="col-form-label">Auth Token</label>
+                                                <input class="form-control" type="text"
+                                                    wire:model.blur="auth_token" placeholder="Enter auth token">
+                                                @error('auth_token')
+                                                    <p class="text-danger" style="font-size: 11.5px;">{{ $message }}
+                                                    </p>
+                                                @enderror
+                                            </div>
+                                        </div>
+                                        <div class="mb-3 row mt-4" style="float: right;">
+                                            <div class="col-12">
+                                                <button type="submit"
+                                                    class="btn btn-primary waves-effect waves-light w-30">
+                                                    {!! loadingStateWithText('updateAPIData', 'Update') !!}
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-2"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- End API Data Modal -->
+
     <!-- View Data Modal -->
     {{-- <div wire:ignore.self class="modal fade" id="viewDataModal" tabindex="-1" role="dialog"
         data-bs-backdrop="static" data-bs-keyboard="false" aria-labelledby="modelTitleId">
@@ -670,6 +744,9 @@
     <script>
         window.addEventListener('showEditModal', event => {
             $('#editDataModal').modal('show');
+        });
+        window.addEventListener('showAPIModal', event => {
+            $('#editAPIDataModal').modal('show');
         });
         window.addEventListener('closeModal', event => {
             $('#addDataModal').modal('hide');

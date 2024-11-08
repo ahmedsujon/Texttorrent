@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Admin\Users;
 
+use App\Models\Api;
 use App\Models\User;
 use Livewire\Component;
 use Livewire\Attributes\Url;
@@ -15,7 +16,9 @@ class UsersComponent extends Component
     public $sortingValue = 10, $searchTerm;
     public $sortBy = 'created_at', $sortDirection = 'DESC';
     public $edit_id, $delete_id;
-    public $first_name, $last_name, $username, $email, $phone, $password, $avatar, $uploadedAvatar;
+    public $first_name, $last_name, $username, $email, $phone, $password, $avatar, $uploadedAvatar,
+        $gateway, $account_sid, $auth_token;
+
     #[Url('history:true')]
     public function mount() {}
 
@@ -75,7 +78,6 @@ class UsersComponent extends Component
         $this->phone = $data->phone;
         $this->uploadedAvatar = $data->avatar;
         $this->edit_id = $data->id;
-
         $this->dispatch('showEditModal');
     }
 
@@ -115,13 +117,26 @@ class UsersComponent extends Component
             $file = uploadFile('image', 40, 'profile-images/', 'admin', $this->avatar);
             $user->avatar = $file;
         }
-
         $user->save();
-
         $this->dispatch('closeModal');
         $this->resetInputs();
         $this->dispatch('success', ['message' => 'User updated successfully']);
     }
+
+    public function apiIntrigation($userId)
+    {
+        $data = Api::where('user_id', $userId)->first();
+        if ($data) {
+            $this->gateway = $data->gateway;
+            $this->account_sid = $data->account_sid;
+            $this->auth_token = $data->auth_token;
+            $this->edit_id = $data->id;
+            $this->dispatch('showAPIModal');
+        } else {
+            session()->flash('error', 'No API data found for this user.');
+        }
+    }
+
 
     public function resetInputs()
     {
