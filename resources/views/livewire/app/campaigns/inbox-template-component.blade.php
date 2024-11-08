@@ -24,8 +24,8 @@
                     </button>
                 </form>
                 <div class="filter_btn_area d-flex align-items-center justify-content-end flex-wrap g-xs">
-                    <button type="button" class="import_btn">
-                        <img src="{{ asset('assets/app/icons/import.svg') }}" alt="column insert" />
+                    <button type="button" wire:click.prevent='bulkExport' class="import_btn">
+                        {!! loadingStateWithoutText("bulkExport", '<img src="'.asset('assets/app/icons/import.svg').'" />') !!}
                         <span>Export</span>
                     </button>
                 </div>
@@ -40,6 +40,11 @@
                     <table class="table table-hover">
                         <thead>
                             <tr>
+                                <th scope="col">
+                                    <div class="form-check table_checkbox_area">
+                                        <input class="form-check-input" value="1" wire:model.live='select_all' type="checkbox" value="" />
+                                    </div>
+                                </th>
                                 @include('livewire.app.datatable.app-datatable-th-sorting', [
                                     'id' => 'template_name',
                                     'thDisplayName' => 'Name',
@@ -72,12 +77,12 @@
                                 @foreach ($templates as $template)
                                     <tr>
                                         <td>
-                                            <div class="checkbox_name_cell_area">
-                                                <div class="form-check table_checkbox_area">
-                                                    <input class="form-check-input" type="checkbox" value="" />
-                                                </div>
-                                                <p>{{ $template->template_name }}</p>
+                                            <div class="form-check table_checkbox_area">
+                                                <input class="form-check-input" wire:model.live='selectedTemplates' type="checkbox" value="{{ $template->id }}" />
                                             </div>
+                                        </td>
+                                        <td>
+                                            <p>{{ $template->template_name }}</p>
                                         </td>
                                         <td>
                                             <p>{{ $template->preview_message }}</p>
@@ -208,6 +213,12 @@
                                                 <ul class="dropdown-menu">
                                                     <li>
                                                         <button type="button" class="dropdown-item"
+                                                            data-variable="[Hi|Hey|Hello]">
+                                                            <span>[Hi|Hey|Hello]</span>
+                                                        </button>
+                                                    </li>
+                                                    <li>
+                                                        <button type="button" class="dropdown-item"
                                                             data-variable="[phone_number]">
                                                             <span>Phone Number</span>
                                                         </button>
@@ -310,31 +321,37 @@
                                                 <ul class="dropdown-menu">
                                                     <li>
                                                         <button type="button" class="dropdown-item dropdown-item-edit"
-                                                            data-variable="[phone_number]">
+                                                            data-variable_edit="[Hi|Hey|Hello]">
+                                                            <span>[Hi|Hey|Hello]</span>
+                                                        </button>
+                                                    </li>
+                                                    <li>
+                                                        <button type="button" class="dropdown-item dropdown-item-edit"
+                                                            data-variable_edit="[phone_number]">
                                                             <span>Phone Number</span>
                                                         </button>
                                                     </li>
                                                     <li>
                                                         <button type="button" class="dropdown-item dropdown-item-edit"
-                                                            data-variable="[email_address]">
+                                                            data-variable_edit="[email_address]">
                                                             <span>Email Address</span>
                                                         </button>
                                                     </li>
                                                     <li>
                                                         <button type="button" class="dropdown-item dropdown-item-edit"
-                                                            data-variable="[first_name]">
+                                                            data-variable_edit="[first_name]">
                                                             <span>First Name</span>
                                                         </button>
                                                     </li>
                                                     <li>
                                                         <button type="button" class="dropdown-item dropdown-item-edit"
-                                                            data-variable="[last_name]">
+                                                            data-variable_edit="[last_name]">
                                                             <span>Last Name</span>
                                                         </button>
                                                     </li>
                                                     <li>
                                                         <button type="button" class="dropdown-item dropdown-item-edit"
-                                                            data-variable="[company]">
+                                                            data-variable_edit="[company]">
                                                             <span>Company</span>
                                                         </button>
                                                     </li>
@@ -419,8 +436,23 @@
             item.addEventListener('click', function() {
                 let variable = this.getAttribute('data-variable');
                 let textarea = document.getElementById('template_preview');
-                textarea.value += variable + " ";
+
+                // Get the cursor position in the textarea
+                const cursorPosition = textarea.selectionStart;
+
+                // Insert the variable at the cursor position
+                const textBeforeCursor = textarea.value.substring(0, cursorPosition);
+                const textAfterCursor = textarea.value.substring(cursorPosition);
+                textarea.value = textBeforeCursor + variable + " " + textAfterCursor;
+
+                // Move the cursor to the end of the inserted variable
+                textarea.selectionStart = textarea.selectionEnd = cursorPosition + variable.length + 1;
+
+                // Update Livewire and jQuery field
                 @this.set('preview_message', textarea.value);
+
+                // Refocus the textarea
+                textarea.focus();
             });
         });
     </script>
@@ -428,10 +460,25 @@
         const dropdownItemsEdit = document.querySelectorAll('.dropdown-item-edit');
         dropdownItemsEdit.forEach(item => {
             item.addEventListener('click', function() {
-                let variable = this.getAttribute('data-variable');
+                let variable = this.getAttribute('data-variable_edit');
                 let textarea = document.getElementById('template_preview_edit');
-                textarea.value += variable + " ";
+
+                // Get the cursor position in the textarea
+                const cursorPosition = textarea.selectionStart;
+
+                // Insert the variable at the cursor position
+                const textBeforeCursor = textarea.value.substring(0, cursorPosition);
+                const textAfterCursor = textarea.value.substring(cursorPosition);
+                textarea.value = textBeforeCursor + variable + " " + textAfterCursor;
+
+                // Move the cursor to the end of the inserted variable
+                textarea.selectionStart = textarea.selectionEnd = cursorPosition + variable.length + 1;
+
+                // Update Livewire and jQuery field
                 @this.set('preview_message', textarea.value);
+
+                // Refocus the textarea
+                textarea.focus();
             });
         });
     </script>

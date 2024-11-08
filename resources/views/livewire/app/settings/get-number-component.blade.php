@@ -100,8 +100,7 @@
                                             </div>
                                         </td>
                                         <td>
-                                            <h4 class="phone_number">{{ $number['region'] }},
-                                                {{ $number['isoCountry'] }}</h4>
+                                            <h4 class="phone_number">{{ $number['region'] ? $number['region'] . ', ' : '' }}{{ $number['isoCountry'] }}</h4>
                                         </td>
 
                                         <td>
@@ -188,7 +187,7 @@
                             <img class="cart_purchase_icon"
                                 src="{{ asset('assets/app/images/others/shopping-cart-02.png') }}" alt="cart icon" />
                             <h3>
-                                Buying a phone number will cost you 295 credits per month
+                                Buying a phone number will cost you 300 credits per month
                             </h3>
                         </div>
                     </div>
@@ -229,7 +228,7 @@
                                 @endif
                             </div>
                             <small class="mt-3">
-                                Buying a phone number will cost you 295 credits per month
+                                Buying a phone number will cost you 300 credits per month
                             </small>
                         </div>
                     </div>

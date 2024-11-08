@@ -37,7 +37,7 @@
                         <h4>
                             @if (count($numbers) > 0)
                                 @foreach ($numbers as $sNum)
-                                    <span class="badge text-dark"
+                                    <span class="badge text-dark mb-1"
                                         style="border: 1px solid grey;">{{ $sNum }}</span>
                                 @endforeach
                             @else
@@ -51,8 +51,8 @@
                         <img src="{{ asset('assets/app/icons/calculator.svg') }}" alt="calculator icon" />
                     </div>
                     <div>
-                        <h3>Send from</h3>
-                        <h4>32</h4>
+                        <h3>Total Credit</h3>
+                        <h4>{{ $total_credit }}</h4>
                     </div>
                 </div>
                 <div class="bulk_item local_time_item">
@@ -61,7 +61,7 @@
                     </div>
                     <div wire:ignore>
                         <h3>Local time</h3>
-                        <h4 id="currentTime">{{ \Carbon\Carbon::now()->timezone('America/New_York')->format('d F, Y h:i:s A') }}</h4>
+                        <h4 id="currentTime">{{ \Carbon\Carbon::now()->format('d F, Y h:i:s A') }}</h4>
                     </div>
                 </div>
             </div>
@@ -102,7 +102,7 @@
                             </div>
                             <div class="custom_switch_area">
                                 <label class="switch">
-                                    <input type="checkbox" wire:model.blur='opt_out_link' />
+                                    <input type="checkbox" id="opt_out_link" wire:model.live='opt_out_link' />
                                     <span class="slider round"></span>
                                     @error('opt_out_link')
                                         <p class="text-danger mb-0" style="font-size: 13px;">{{ $message }}</p>
@@ -195,53 +195,57 @@
                                 <p class="text-danger" style="font-size: 12.5px;">{{ $message }}</p>
                             @enderror
                         </div>
-                        <div class="input_row">
-                            <label for="">Appended (Opt-out) message</label>
-                            <input type="text" placeholder="STOP to opt out" wire:model.blur='appended_message'
-                                class="input_field" />
-                            @error('appended_message')
-                                <p class="text-danger mb-0" style="font-size: 12.5px;">{{ $message }}</p>
-                            @enderror
-                        </div>
-                        <div class="two_grid">
-                            <div class="input_row searchable_select">
-                                <div class="wire-ignore" wire:ignore>
-                                    <label for="">Batch size</label>
-                                    <select name="lang" wire:model.blur='batch_size'
-                                        class="input_field batch_size">
-                                        <option value="">Select</option>
-                                        <option value="20">20</option>
-                                        <option value="50">50</option>
-                                        <option value="100">100</option>
-                                        <option value="250">250</option>
-                                        <option value="500">500</option>
-                                        <option value="1000">1000</option>
-                                        <option value="2500">2500</option>
-                                    </select>
-                                </div>
-                                @error('batch_size')
+                        @if ($opt_out_link)
+                            <div class="input_row">
+                                <label for="">Appended (Opt-out) message</label>
+                                <input type="text" placeholder="STOP to opt out" id="appended_message"
+                                    wire:model.blur='appended_message' class="input_field" />
+                                @error('appended_message')
                                     <p class="text-danger mb-0" style="font-size: 12.5px;">{{ $message }}</p>
                                 @enderror
                             </div>
-                            <div class="input_row searchable_select">
-                                <div class="wire-ignore" wire:ignore>
-                                    <label for="">Batch frequency</label>
-                                    <select name="lang" wire:model.blur='batch_frequency'
-                                        class="input_field batch_frequency">
-                                        <option value="">Select</option>
-                                        <option value="2">2 minutes</option>
-                                        <option value="5">5 minutes</option>
-                                        <option value="10">10 minutes</option>
-                                        <option value="30">30 minutes</option>
-                                        <option value="60">60 minutes</option>
-                                    </select>
+                        @endif
+                        @if ($batch_process)
+                            <div class="two_grid">
+                                <div class="input_row searchable_select">
+                                    <div class="wire-ignore" wire:ignore>
+                                        <label for="">Batch size</label>
+                                        <select name="lang" wire:model.blur='batch_size'
+                                            class="input_field batch_size">
+                                            <option value="">Select</option>
+                                            <option value="20">20</option>
+                                            <option value="50">50</option>
+                                            <option value="100">100</option>
+                                            <option value="250">250</option>
+                                            <option value="500">500</option>
+                                            <option value="1000">1000</option>
+                                            <option value="2500">2500</option>
+                                        </select>
+                                    </div>
+                                    @error('batch_size')
+                                        <p class="text-danger mb-0" style="font-size: 12.5px;">{{ $message }}</p>
+                                    @enderror
                                 </div>
-                                @error('batch_frequency')
-                                    <p class="text-danger mb-0" style="font-size: 12.5px;">{{ $message }}</p>
-                                @enderror
+                                <div class="input_row searchable_select">
+                                    <div class="wire-ignore" wire:ignore>
+                                        <label for="">Batch frequency</label>
+                                        <select name="lang" wire:model.blur='batch_frequency'
+                                            class="input_field batch_frequency">
+                                            <option value="">Select</option>
+                                            <option value="2">2 minutes</option>
+                                            <option value="5">5 minutes</option>
+                                            <option value="10">10 minutes</option>
+                                            <option value="30">30 minutes</option>
+                                            <option value="60">60 minutes</option>
+                                        </select>
+                                    </div>
+                                    @error('batch_frequency')
+                                        <p class="text-danger mb-0" style="font-size: 12.5px;">{{ $message }}</p>
+                                    @enderror
+                                </div>
                             </div>
-                        </div>
-                        <div class="input_row searchable_select">
+                        @endif
+                        {{-- <div class="input_row searchable_select">
                             <div class="wire-ignore" wire:ignore>
                                 <label for="">Sending Throttle
                                     <span data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Some Text">
@@ -260,7 +264,7 @@
                             @error('sending_throttle')
                                 <p class="text-danger mb-0" style="font-size: 12.5px;">{{ $message }}</p>
                             @enderror
-                        </div>
+                        </div> --}}
                     </div>
                     <div class="pick_list_area">
                         <h3>Pick list</h3>
@@ -328,24 +332,24 @@
                             <div class="d-flex">
                                 <ul class="nav nav-pills" wire:ignore id="pills-tab" role="tablist">
                                     <li class="nav-item" role="presentation">
-                                        <button class="nav-link active smsType" data-type="sms" id="pills-home2-tab" data-bs-toggle="pill"
-                                            data-bs-target="#pills-home2" type="button" role="tab"
-                                            aria-controls="pills-home2" aria-selected="true">
+                                        <button class="nav-link active smsType" data-type="sms" id="pills-home2-tab"
+                                            data-bs-toggle="pill" data-bs-target="#pills-home2" type="button"
+                                            role="tab" aria-controls="pills-home2" aria-selected="true">
                                             SMS
                                         </button>
                                     </li>
                                     <li class="nav-item" role="presentation">
-                                        <button class="nav-link smsType" data-type="mms" id="pills-profile2-tab" data-bs-toggle="pill"
-                                            data-bs-target="#pills-profile2" type="button" role="tab"
-                                            aria-controls="pills-profile2" aria-selected="false">
+                                        <button class="nav-link smsType" data-type="mms" id="pills-profile2-tab"
+                                            data-bs-toggle="pill" data-bs-target="#pills-profile2" type="button"
+                                            role="tab" aria-controls="pills-profile2" aria-selected="false">
                                             MMS
                                         </button>
                                     </li>
                                 </ul>
                             </div>
                             <div class="tab-content" id="pills-tabContent">
-                                <div class="tab-pane fade show active" wire:ignore.self id="pills-home2" role="tabpanel"
-                                    aria-labelledby="pills-home2-tab" tabindex="0">
+                                <div class="tab-pane fade show active" wire:ignore.self id="pills-home2"
+                                    role="tabpanel" aria-labelledby="pills-home2-tab" tabindex="0">
                                     <div class="input_row">
                                         <label for="">Default message</label>
                                         <div class="textarea_header_top" wire:ignore>
@@ -399,7 +403,8 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            <textarea name="" id="template_preview" rows="6" class="input_field textarea_field" placeholder="Write a template..." value=""></textarea>
+                                            <textarea name="" id="template_preview" rows="6" class="input_field textarea_field"
+                                                placeholder="Write a template..." value=""></textarea>
                                         </div>
                                         @error('sms_body')
                                             <p class="text-danger" style="font-size: 11.5px;">{{ $message }}</p>
@@ -408,9 +413,11 @@
                                 </div>
                                 <div class="tab-pane fade" wire:ignore.self id="pills-profile2" role="tabpanel"
                                     aria-labelledby="pills-profile2-tab" tabindex="0">
-                                    <label for="contactUploadImage" class="d-flex file_upload_area w-100" id="fileUploadLabel">
+                                    <label for="contactUploadImage" class="d-flex file_upload_area w-100"
+                                        id="fileUploadLabel">
                                         <div class="import_icon">
-                                            <img src="{{ asset('assets/app/icons/import.svg') }}" alt="import icon" />
+                                            <img src="{{ asset('assets/app/icons/import.svg') }}"
+                                                alt="import icon" />
                                         </div>
                                         <h4 id="dropText"><span>Click to upload</span> or drag and drop</h4>
                                         <h5>JPG, JPEG, PNG, PDF, GIF, and MP4 formats, up to 50MB</h5>
@@ -430,24 +437,34 @@
                                     </div>
 
                                     @if ($file)
-                                    <div class="uploading_status_area mb-5">
-                                        <button type="button" class="close_btn" wire:click.prevent='resetUpload'>
-                                            <img src="{{ asset('assets/app/icons/close.svg') }}" alt="delete icon" />
-                                        </button>
-                                        <div class="file_name_grid">
-                                            <svg  xmlns="http://www.w3.org/2000/svg"  width="64"  height="64"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-file"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M14 3v4a1 1 0 0 0 1 1h4" /><path d="M17 21h-10a2 2 0 0 1 -2 -2v-14a2 2 0 0 1 2 -2h7l5 5v11a2 2 0 0 1 -2 2z" /></svg>
-                                            <div>
-                                                <h4>{{ $file->getClientOriginalName() }}</h4>
-                                                <div class="complete_status">
-                                                    <div class="circle">
-                                                        <img src="{{ asset('assets/app/icons/tick-circle.svg') }}"
-                                                            alt="track icon" />
+                                        <div class="uploading_status_area mb-5">
+                                            <button type="button" class="close_btn"
+                                                wire:click.prevent='resetUpload'>
+                                                <img src="{{ asset('assets/app/icons/close.svg') }}"
+                                                    alt="delete icon" />
+                                            </button>
+                                            <div class="file_name_grid">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64"
+                                                    viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                                    class="icon icon-tabler icons-tabler-outline icon-tabler-file">
+                                                    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                                    <path d="M14 3v4a1 1 0 0 0 1 1h4" />
+                                                    <path
+                                                        d="M17 21h-10a2 2 0 0 1 -2 -2v-14a2 2 0 0 1 2 -2h7l5 5v11a2 2 0 0 1 -2 2z" />
+                                                </svg>
+                                                <div>
+                                                    <h4>{{ $file->getClientOriginalName() }}</h4>
+                                                    <div class="complete_status">
+                                                        <div class="circle">
+                                                            <img src="{{ asset('assets/app/icons/tick-circle.svg') }}"
+                                                                alt="track icon" />
+                                                        </div>
+                                                        <h5>Completed</h5>
                                                     </div>
-                                                    <h5>Completed</h5>
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
                                     @endif
                                 </div>
                             </div>
@@ -458,8 +475,7 @@
                     <div>
                         <div class="input_row">
                             <label for="">Preview</label>
-                            <textarea name="" id="" class="input_field textarea_field preview_textarea_field" rows="8"
-                                readonly></textarea>
+                            <textarea name="" id="" class="input_field textarea_field" rows="8" readonly>{{ $sms_body }} {{ $opt_out_link ? '' . "\n" . '' . $appended_message : '' }}</textarea>
                             <h5 class="mt-1">1000 of characters</h5>
                         </div>
                     </div>
@@ -469,7 +485,13 @@
                         <button type="button" class="schedule_btn" data-bs-toggle="modal"
                             data-bs-target="#scheduleModal">
                             @if ($selected_date && $selected_time)
-                            <svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-check"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M5 12l5 5l10 -10" /></svg>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                    viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                    stroke-linecap="round" stroke-linejoin="round"
+                                    class="icon icon-tabler icons-tabler-outline icon-tabler-check">
+                                    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                    <path d="M5 12l5 5l10 -10" />
+                                </svg>
                             @endif Schedule
                         </button>
                         <button type="submit" class="msg_send_btn">{!! loadingStateWithText('storeData', 'Send Message') !!}</button>
@@ -527,25 +549,25 @@
 </div>
 @push('scripts')
     <script>
-        document.addEventListener('DOMContentLoaded', function () {
+        document.addEventListener('DOMContentLoaded', function() {
             const fileInput = document.getElementById('contactUploadImage');
             const label = document.getElementById('fileUploadLabel');
             const uploadText = document.getElementById('dropText');
 
             // Highlight label when dragging over it
-            label.addEventListener('dragover', function (e) {
+            label.addEventListener('dragover', function(e) {
                 e.preventDefault();
                 label.classList.add('border-success');
                 uploadText.textContent = 'Drop your file here';
             });
 
-            label.addEventListener('dragleave', function (e) {
+            label.addEventListener('dragleave', function(e) {
                 e.preventDefault();
                 label.classList.remove('border-success');
                 $('#dropText').html('<span>Click to upload</span> or drag and drop');
             });
 
-            label.addEventListener('drop', function (e) {
+            label.addEventListener('drop', function(e) {
                 e.preventDefault();
                 label.classList.remove('border-success');
 
@@ -599,9 +621,24 @@
             item.addEventListener('click', function() {
                 let variable = this.getAttribute('data-variable');
                 let textarea = document.getElementById('template_preview');
-                textarea.value += variable + " ";
+
+                // Get the cursor position in the textarea
+                const cursorPosition = textarea.selectionStart;
+
+                // Insert the variable at the cursor position
+                const textBeforeCursor = textarea.value.substring(0, cursorPosition);
+                const textAfterCursor = textarea.value.substring(cursorPosition);
+                textarea.value = textBeforeCursor + variable + " " + textAfterCursor;
+
+                // Move the cursor to the end of the inserted variable
+                textarea.selectionStart = textarea.selectionEnd = cursorPosition + variable.length + 1;
+
+                // Update Livewire and jQuery field
                 @this.set('sms_body', textarea.value);
                 $('.preview_textarea_field').val(textarea.value);
+
+                // Refocus the textarea
+                textarea.focus();
             });
         });
     </script>
@@ -671,7 +708,7 @@
         function updateTime() {
             const now = new Date();
             const options = {
-                timeZone: 'America/New_York',
+                timeZone: '{{ config('app.timezone') }}',
                 year: 'numeric',
                 month: 'long',
                 day: 'numeric',

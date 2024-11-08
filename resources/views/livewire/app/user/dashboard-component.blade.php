@@ -1,4 +1,17 @@
 <div>
+    <style>
+        .bonus-percentage-labels {
+            display: flex;
+            justify-content: space-between;
+            /* padding: 0 10px; */
+            font-weight: normal;
+            font-size: 12px;
+            color: #333;
+            margin-bottom: 8px; /* Adjust for spacing above the slider */
+        }
+
+    </style>
+
     <main class="main_content_wrapper" wire:ignore>
         <!-- Dashboard Section  -->
         <section class="dashboard_overview_wrapper">
@@ -83,7 +96,7 @@
         <!-- Credit And Activity Section  -->
         <section class="credit_activity_wrapper mt-24">
             <div class="credit_outer_grid">
-                <div class="credit_area">
+                {{-- <div class="credit_area" wire:ignore>
                     <div class="d-flex-between">
                         <h3 class="credit_title">Buy Credits</h3>
                         <button type="button" class="amount_btn" style="color: black; background-color: #e5f9fe;">
@@ -124,7 +137,58 @@
                             </div>
                         </div>
                     </div>
+                </div> --}}
+
+                <div class="credit_area">
+                    <div class="d-flex-between">
+                        <h3 class="credit_title">Buy Credits</h3>
+                        <button type="button" class="amount_btn" style="color: black; background-color: #e5f9fe;">
+                            Credits left: {{ $credits_left }}
+                        </button>
+                        <button type="button" class="amount_btn amount_btn_pay" wire:click.prevent='buyCredit'>Pay $1000</button>
+                    </div>
+                    <div class="amount_area mt-24">
+                        <h4>Amount</h4>
+                        <div class="number">$1000.00</div>
+                    </div>
+                    <div class="range_area mt-24">
+                        <!-- Bonus percentage labels -->
+                        <div class="bonus-percentage-labels">
+                            <span> <img src="{{ asset('assets/app/icons/bonus2.svg') }}"> 0%</span><span> <img src="{{ asset('assets/app/icons/bonus2.svg') }}"> 5%</span><span> <img src="{{ asset('assets/app/icons/bonus2.svg') }}"> 10%</span><span> <img src="{{ asset('assets/app/icons/bonus2.svg') }}"> 15%</span><span> <img src="{{ asset('assets/app/icons/bonus2.svg') }}"> 20%</span>
+                        </div>
+                        <div class="container_container">
+                            <div id="slider"></div>
+                        </div>
+                    </div>
+
+                    <div class="added_amount">
+                        Credits Added: <span class="credit_title">200,000</span>
+                    </div>
+                    <div class="bonus_outer_grid">
+                        <div class="bonus_grid">
+                            <div class="icon">
+                                <img src="{{ asset('assets/app/icons/bonus.svg') }}" alt="bonus" />
+                            </div>
+                            <div>
+                                <h4>Bonus Credits</h4>
+                                <h5>0</h5>
+                            </div>
+                        </div>
+                        <div class="bonus_grid">
+                            <div class="icon">
+                                <img src="{{ asset('assets/app/icons/bonus.svg') }}" alt="bonus" />
+                            </div>
+                            <div>
+                                <h4>Total Credits</h4>
+                                <h5>{{ $totalCredits }}</h5>
+                            </div>
+                        </div>
+                    </div>
                 </div>
+
+
+
+
                 <div class="activity_area">
                     <h3 class="credit_title">Activity</h3>
                     <div class="activity_item_area">
@@ -404,7 +468,109 @@
             calendar.render();
         });
     </script>
+
     <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const MAXIMUMVALUE = 4000; // Maximum slider value for 4K
+
+            // Function to format label (e.g., 1000 -> 1K)
+            function formatLabel(value) {
+                return value >= 1000 ? (value / 1000) + "K" : value;
+            }
+
+            // Function to determine credit cost based on amount
+            function getCreditCost(amount) {
+                if (amount <= 999) return 0.0050;
+                if (amount <= 2000) return 0.0045;
+                if (amount <= 3000) return 0.0043;
+                return 0.0041;
+            }
+
+            // Function to determine bonus percentage based on amount
+            function getBonusPercentage(amount) {
+                if (amount < 1000) return 0;
+                if (amount < 2000) return 5;
+                if (amount < 3000) return 10;
+                if (amount < 4000) return 15;
+                return 20;
+            }
+
+            // Create the slider
+            const slider = document.getElementById("slider");
+            noUiSlider.create(slider, {
+                range: {
+                    min: 0,
+                    max: MAXIMUMVALUE,
+                },
+                start: [20],
+                step: 20, // Set step increment to 100
+                connect: "lower",
+                pips: {
+                    mode: "positions",
+                    values: [0, 25, 50, 75, 100], // Positions for 0, 1K, 2K, 3K, 4K
+                    density: 2,
+                    format: {
+                        to: function(value) {
+                            return formatLabel(value);
+                        },
+                        from: function(value) {
+                            return value.replace("K", "000");
+                        },
+                    },
+                },
+            });
+
+            // Create bonus percentage label element
+            const bonusPercentageLabel = document.createElement("div");
+            bonusPercentageLabel.className = "bonus-percentage-label";
+            bonusPercentageLabel.style.position = "absolute";
+            bonusPercentageLabel.style.top = "-30px";
+            bonusPercentageLabel.style.left = "50%";
+            bonusPercentageLabel.style.transform = "translateX(-50%)";
+            bonusPercentageLabel.style.fontSize = "14px";
+            bonusPercentageLabel.style.fontWeight = "bold";
+            document.querySelector(".container_container").appendChild(bonusPercentageLabel);
+
+            // Update display and calculations when slider value changes
+            slider.noUiSlider.on("update", (values, handle) => {
+                const amountValue = parseInt(values[handle], 10);
+
+                // Display selected amount
+                document.querySelector(".number").textContent = `$${amountValue.toFixed(0)}`;
+                document.querySelector(".amount_btn_pay").textContent = `Pay $${amountValue.toFixed(0)}`;
+
+                // Calculate credits based on cost per range
+                const creditCost = getCreditCost(amountValue);
+                const creditsAdded = Math.floor(amountValue / creditCost);
+
+                // Calculate bonus based on amount range
+                const bonusPercentage = getBonusPercentage(amountValue);
+                const bonusCredits = Math.floor(creditsAdded * (bonusPercentage / 100));
+
+                // Total credits including bonus
+                const totalCredits = creditsAdded + bonusCredits;
+
+                // Update the "Credits Added" section with calculated credits
+                document.querySelector(".added_amount .credit_title").textContent = creditsAdded
+                    .toLocaleString();
+
+                // Update displayed values for bonus and total credits
+                document.querySelector(".bonus_outer_grid .bonus_grid:nth-child(1) h5").textContent =
+                    bonusCredits.toLocaleString();
+                document.querySelector(".bonus_outer_grid .bonus_grid:nth-child(2) h5").textContent =
+                    totalCredits.toLocaleString();
+
+                // Update bonus percentage label
+                bonusPercentageLabel.textContent = `Bonus: ${bonusPercentage}%`;
+
+                @this.set('creditCost', amountValue.toFixed(0));
+                @this.set('bonusCredits', bonusCredits);
+                @this.set('totalCredits', totalCredits);
+            });
+        });
+    </script>
+
+    {{-- <script>
         document.addEventListener("DOMContentLoaded", () => {
             const MAXIMUMVALUE = 4000;
 
@@ -454,5 +620,5 @@
             // Disable the slider
             // slider.setAttribute("disabled", true);
         });
-    </script>
+    </script> --}}
 @endpush

@@ -44,8 +44,7 @@ use App\Livewire\App\Settings\SubscriptionComponent;
 Route::get('/login', LoginComponent::class)->name('login')->middleware('guest');
 Route::get('/register', RegistrationComponent::class)->name('register')->middleware('guest');
 
-// Route::get('user', DashboardComponent::class)->middleware('auth:user');
-
+Route::get('buy-credit-for-text-torrent-sms-mms-secret-gateway-wxd-uft-8uga-qqw-sop-999', [DashboardComponent::class, 'buyCreditSuccess'])->name('user.buyCreditSuccess');
 Route::name('user.')->middleware('auth')->group(function () {
     Route::post('logout', [LogoutController::class, 'userLogout'])->name('logout');
 
@@ -73,12 +72,13 @@ Route::name('user.')->middleware('auth')->group(function () {
     Route::get('settings/my-account', MyAccountComponent::class)->name('myAccount');
     Route::get('settings/change-password', ChangePasswordComponent::class)->name('changePassword');
     Route::get('settings/subscription', SubscriptionComponent::class)->name('subscription');
+
     Route::get('settings/sub-account', SubAccountComponent::class)->name('subAccount');
-    Route::get('settings/get-number', GetNumberComponent::class)->name('getNumber');
+    Route::get('settings/get-number', GetNumberComponent::class)->name('getNumber')->middleware('subscription');
     Route::get('settings/active-numbers', ActiveNumberComponent::class)->name('activeNumber');
     Route::get('settings/logs', LogsComponent::class)->name('logs');
-    Route::get('settings/apis', ApiComponent::class)->name('apis');
-    Route::get('settings/dlc-registration', DLCRegistrationComponent::class)->name('dlcRegistration');
+    Route::get('settings/apis', ApiComponent::class)->name('apis')->middleware('subscription');
+    Route::get('settings/dlc-registration', DLCRegistrationComponent::class)->name('dlcRegistration')->middleware('subscription');
     Route::get('settings/trigger-notification', NotificationComponent::class)->name('triggerNotification');
 
     // ajax
