@@ -228,6 +228,11 @@ function msgCreditCalculation($msg_type = 'sms', $dir = 'outgoing')
 //     }
 // }
 
+function getContactNumberName($id)
+{
+    return DB::table('contacts')->select('first_name', 'last_name', 'number')->find($id);
+}
+
 function loadingStateSm($key, $title)
 {
     $loadingSpinner = '
