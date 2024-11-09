@@ -72,400 +72,88 @@
                     <table class="table table-hover">
                         <thead>
                             <tr>
-                                <th scope="col">
-                                    <div class="column_area">
-                                        <span>Read</span>
-                                        <img src="{{ asset('assets/app/icons/tp-down-table-arrow.svg') }}" alt="top down arrow" />
-                                    </div>
-                                </th>
-                                <th scope="col">
-                                    <div class="column_area">
-                                        <span>From number</span>
-                                        <img src="{{ asset('assets/app/icons/tp-down-table-arrow.svg') }}" alt="top down arrow" />
-                                    </div>
-                                </th>
-                                <th scope="col">
-                                    <div class="column_area">
-                                        <span>To number</span>
-                                        <img src="{{ asset('assets/app/icons/tp-down-table-arrow.svg') }}" alt="top down arrow" />
-                                    </div>
-                                </th>
-                                <th scope="col">
-                                    <div class="column_area">
-                                        <span>Name</span>
-                                        <img src="{{ asset('assets/app/icons/tp-down-table-arrow.svg') }}" alt="top down arrow" />
-                                    </div>
-                                </th>
-                                <th scope="col">
-                                    <div class="column_area">
-                                        <span>Message</span>
-                                        <img src="{{ asset('assets/app/icons/tp-down-table-arrow.svg') }}" alt="top down arrow" />
-                                    </div>
-                                </th>
-                                <th scope="col">
-                                    <div class="column_area">
-                                        <span>Created</span>
-                                        <img src="{{ asset('assets/app/icons/tp-down-table-arrow.svg') }}" alt="top down arrow" />
-                                    </div>
-                                </th>
-                                <th scope="col">
-                                    <div class="column_area">
-                                        <span>Status</span>
-                                        <img src="{{ asset('assets/app/icons/tp-down-table-arrow.svg') }}" alt="top down arrow" />
-                                    </div>
-                                </th>
-
+                                @include('livewire.app.datatable.app-datatable-th-sorting', [
+                                    'id' => 'id',
+                                    'thDisplayName' => 'Read',
+                                ])
+                                @include('livewire.app.datatable.app-datatable-th-sorting', [
+                                    'id' => 'id',
+                                    'thDisplayName' => 'From number',
+                                ])
+                                @include('livewire.app.datatable.app-datatable-th-sorting', [
+                                    'id' => 'id',
+                                    'thDisplayName' => 'To number',
+                                ])
+                                @include('livewire.app.datatable.app-datatable-th-sorting', [
+                                    'id' => 'id',
+                                    'thDisplayName' => 'Name',
+                                ])
+                                @include('livewire.app.datatable.app-datatable-th-sorting', [
+                                    'id' => 'id',
+                                    'thDisplayName' => 'Message',
+                                ])
+                                @include('livewire.app.datatable.app-datatable-th-sorting', [
+                                    'id' => 'created_at',
+                                    'thDisplayName' => 'Created',
+                                ])
+                                @include('livewire.app.datatable.app-datatable-th-sorting', [
+                                    'id' => 'id',
+                                    'thDisplayName' => 'Status',
+                                ])
                                 <th scope="col">
                                     <div class="column_area">
                                         <span>Action</span>
-                                        <img src="{{ asset('assets/app/icons/tp-down-table-arrow.svg') }}" alt="top down arrow" />
+                                        <img src="{{ asset('assets/app/icons/tp-down-table-arrow.svg') }}"
+                                            alt="top down arrow" />
                                     </div>
                                 </th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td>
-                                    <h4 class="timezone">Read</h4>
-                                </td>
-                                <td>
-                                    <h4 class="phone_number">+1 (566) 432-342</h4>
-                                </td>
-                                <td>
-                                    <h4 class="phone_number">+1 (566) 432-342</h4>
-                                </td>
-                                <td>
-                                    <h4 class="timezone">Test 1</h4>
-                                </td>
-                                <td>
-                                    <h4 class="message_text">Who is this?</h4>
-                                </td>
-                                <td>
-                                    <h4 class="send_number">Today, 9:43 AM</h4>
-                                </td>
-                                <td>
-                                    <div class="d-flex">
-                                        <div class="log_status">Received</div>
-                                    </div>
-                                </td>
+                            @foreach ($logs as $log)
+                                <tr>
+                                    <td>
+                                        <h4 class="timezone">Read</h4>
+                                    </td>
+                                    <td>
+                                        <h4 class="phone_number">+1 (566) 432-342</h4>
+                                    </td>
+                                    <td>
+                                        <h4 class="phone_number">+1 (566) 432-342</h4>
+                                    </td>
+                                    <td>
+                                        <h4 class="timezone">Test 1</h4>
+                                    </td>
+                                    <td>
+                                        <h4 class="message_text">Who is this?</h4>
+                                    </td>
+                                    <td>
+                                        <h4 class="send_number">
+                                            {{ \Carbon\Carbon::parse($created_at)->isToday() ? 'Today, ' . \Carbon\Carbon::parse($created_at)->format('g:i A') : \Carbon\Carbon::parse($created_at)->format('F j, Y, g:i A') }}
+                                        </h4>
+                                    </td>
+                                    <td>
+                                        <div class="d-flex">
+                                            <div class="log_status">Received</div>
+                                        </div>
+                                    </td>
 
-                                <td>
-                                    <div class="table_dropdown_area d-flex align-items-center flex-wrap gap-1">
-                                        <button type="button" class="table_edit_btn" data-bs-toggle="modal"
-                                            data-bs-target="#chatLogModal">
-                                            <img src="{{ asset('assets/app/icons/message-03.svg') }}" alt="message icon" />
-                                            <span>Chat</span>
-                                        </button>
-                                        <button type="button" class="table_delete_btn">
-                                            <img src="{{ asset('assets/app/icons/delete-04.svg') }}" alt="delete icon" />
-                                        </button>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <h4 class="timezone">Read</h4>
-                                </td>
-                                <td>
-                                    <h4 class="phone_number">+1 (566) 432-342</h4>
-                                </td>
-                                <td>
-                                    <h4 class="phone_number">+1 (566) 432-342</h4>
-                                </td>
-                                <td>
-                                    <h4 class="timezone">Test 1</h4>
-                                </td>
-                                <td>
-                                    <h4 class="message_text">Who is this?</h4>
-                                </td>
-                                <td>
-                                    <h4 class="send_number">Today, 9:43 AM</h4>
-                                </td>
-                                <td>
-                                    <div class="d-flex">
-                                        <div class="log_status">Received</div>
-                                    </div>
-                                </td>
-
-                                <td>
-                                    <div class="table_dropdown_area d-flex align-items-center flex-wrap gap-1">
-                                        <button type="button" class="table_edit_btn" data-bs-toggle="modal"
-                                            data-bs-target="#chatLogModal">
-                                            <img src="{{ asset('assets/app/icons/message-03.svg') }}" alt="message icon" />
-                                            <span>Chat</span>
-                                        </button>
-                                        <button type="button" class="table_delete_btn">
-                                            <img src="{{ asset('assets/app/icons/delete-04.svg') }}" alt="delete icon" />
-                                        </button>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <h4 class="timezone">Read</h4>
-                                </td>
-                                <td>
-                                    <h4 class="phone_number">+1 (566) 432-342</h4>
-                                </td>
-                                <td>
-                                    <h4 class="phone_number">+1 (566) 432-342</h4>
-                                </td>
-                                <td>
-                                    <h4 class="timezone">Test 1</h4>
-                                </td>
-                                <td>
-                                    <h4 class="message_text">Who is this?</h4>
-                                </td>
-                                <td>
-                                    <h4 class="send_number">Today, 9:43 AM</h4>
-                                </td>
-                                <td>
-                                    <div class="d-flex">
-                                        <div class="log_status">Received</div>
-                                    </div>
-                                </td>
-
-                                <td>
-                                    <div class="table_dropdown_area d-flex align-items-center flex-wrap gap-1">
-                                        <button type="button" class="table_edit_btn" data-bs-toggle="modal"
-                                            data-bs-target="#chatLogModal">
-                                            <img src="{{ asset('assets/app/icons/message-03.svg') }}" alt="message icon" />
-                                            <span>Chat</span>
-                                        </button>
-                                        <button type="button" class="table_delete_btn">
-                                            <img src="{{ asset('assets/app/icons/delete-04.svg') }}" alt="delete icon" />
-                                        </button>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <h4 class="timezone">Read</h4>
-                                </td>
-                                <td>
-                                    <h4 class="phone_number">+1 (566) 432-342</h4>
-                                </td>
-                                <td>
-                                    <h4 class="phone_number">+1 (566) 432-342</h4>
-                                </td>
-                                <td>
-                                    <h4 class="timezone">Test 1</h4>
-                                </td>
-                                <td>
-                                    <h4 class="message_text">Who is this?</h4>
-                                </td>
-                                <td>
-                                    <h4 class="send_number">Today, 9:43 AM</h4>
-                                </td>
-                                <td>
-                                    <div class="d-flex">
-                                        <div class="log_status">Received</div>
-                                    </div>
-                                </td>
-
-                                <td>
-                                    <div class="table_dropdown_area d-flex align-items-center flex-wrap gap-1">
-                                        <button type="button" class="table_edit_btn" data-bs-toggle="modal"
-                                            data-bs-target="#chatLogModal">
-                                            <img src="{{ asset('assets/app/icons/message-03.svg') }}" alt="message icon" />
-                                            <span>Chat</span>
-                                        </button>
-                                        <button type="button" class="table_delete_btn">
-                                            <img src="{{ asset('assets/app/icons/delete-04.svg') }}" alt="delete icon" />
-                                        </button>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <h4 class="timezone">Read</h4>
-                                </td>
-                                <td>
-                                    <h4 class="phone_number">+1 (566) 432-342</h4>
-                                </td>
-                                <td>
-                                    <h4 class="phone_number">+1 (566) 432-342</h4>
-                                </td>
-                                <td>
-                                    <h4 class="timezone">Test 1</h4>
-                                </td>
-                                <td>
-                                    <h4 class="message_text">Who is this?</h4>
-                                </td>
-                                <td>
-                                    <h4 class="send_number">Today, 9:43 AM</h4>
-                                </td>
-                                <td>
-                                    <div class="d-flex">
-                                        <div class="log_status">Received</div>
-                                    </div>
-                                </td>
-
-                                <td>
-                                    <div class="table_dropdown_area d-flex align-items-center flex-wrap gap-1">
-                                        <button type="button" class="table_edit_btn" data-bs-toggle="modal"
-                                            data-bs-target="#chatLogModal">
-                                            <img src="{{ asset('assets/app/icons/message-03.svg') }}" alt="message icon" />
-                                            <span>Chat</span>
-                                        </button>
-                                        <button type="button" class="table_delete_btn">
-                                            <img src="{{ asset('assets/app/icons/delete-04.svg') }}" alt="delete icon" />
-                                        </button>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <h4 class="timezone">Read</h4>
-                                </td>
-                                <td>
-                                    <h4 class="phone_number">+1 (566) 432-342</h4>
-                                </td>
-                                <td>
-                                    <h4 class="phone_number">+1 (566) 432-342</h4>
-                                </td>
-                                <td>
-                                    <h4 class="timezone">Test 1</h4>
-                                </td>
-                                <td>
-                                    <h4 class="message_text">Who is this?</h4>
-                                </td>
-                                <td>
-                                    <h4 class="send_number">Today, 9:43 AM</h4>
-                                </td>
-                                <td>
-                                    <div class="d-flex">
-                                        <div class="log_status">Received</div>
-                                    </div>
-                                </td>
-
-                                <td>
-                                    <div class="table_dropdown_area d-flex align-items-center flex-wrap gap-1">
-                                        <button type="button" class="table_edit_btn" data-bs-toggle="modal"
-                                            data-bs-target="#chatLogModal">
-                                            <img src="{{ asset('assets/app/icons/message-03.svg') }}" alt="message icon" />
-                                            <span>Chat</span>
-                                        </button>
-                                        <button type="button" class="table_delete_btn">
-                                            <img src="{{ asset('assets/app/icons/delete-04.svg') }}" alt="delete icon" />
-                                        </button>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <h4 class="timezone">Read</h4>
-                                </td>
-                                <td>
-                                    <h4 class="phone_number">+1 (566) 432-342</h4>
-                                </td>
-                                <td>
-                                    <h4 class="phone_number">+1 (566) 432-342</h4>
-                                </td>
-                                <td>
-                                    <h4 class="timezone">Test 1</h4>
-                                </td>
-                                <td>
-                                    <h4 class="message_text">Who is this?</h4>
-                                </td>
-                                <td>
-                                    <h4 class="send_number">Today, 9:43 AM</h4>
-                                </td>
-                                <td>
-                                    <div class="d-flex">
-                                        <div class="log_status">Received</div>
-                                    </div>
-                                </td>
-
-                                <td>
-                                    <div class="table_dropdown_area d-flex align-items-center flex-wrap gap-1">
-                                        <button type="button" class="table_edit_btn" data-bs-toggle="modal"
-                                            data-bs-target="#chatLogModal">
-                                            <img src="{{ asset('assets/app/icons/message-03.svg') }}" alt="message icon" />
-                                            <span>Chat</span>
-                                        </button>
-                                        <button type="button" class="table_delete_btn">
-                                            <img src="{{ asset('assets/app/icons/delete-04.svg') }}" alt="delete icon" />
-                                        </button>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <h4 class="timezone">Read</h4>
-                                </td>
-                                <td>
-                                    <h4 class="phone_number">+1 (566) 432-342</h4>
-                                </td>
-                                <td>
-                                    <h4 class="phone_number">+1 (566) 432-342</h4>
-                                </td>
-                                <td>
-                                    <h4 class="timezone">Test 1</h4>
-                                </td>
-                                <td>
-                                    <h4 class="message_text">Who is this?</h4>
-                                </td>
-                                <td>
-                                    <h4 class="send_number">Today, 9:43 AM</h4>
-                                </td>
-                                <td>
-                                    <div class="d-flex">
-                                        <div class="log_status">Received</div>
-                                    </div>
-                                </td>
-
-                                <td>
-                                    <div class="table_dropdown_area d-flex align-items-center flex-wrap gap-1">
-                                        <button type="button" class="table_edit_btn" data-bs-toggle="modal"
-                                            data-bs-target="#chatLogModal">
-                                            <img src="{{ asset('assets/app/icons/message-03.svg') }}" alt="message icon" />
-                                            <span>Chat</span>
-                                        </button>
-                                        <button type="button" class="table_delete_btn">
-                                            <img src="{{ asset('assets/app/icons/delete-04.svg') }}" alt="delete icon" />
-                                        </button>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <h4 class="timezone">Read</h4>
-                                </td>
-                                <td>
-                                    <h4 class="phone_number">+1 (566) 432-342</h4>
-                                </td>
-                                <td>
-                                    <h4 class="phone_number">+1 (566) 432-342</h4>
-                                </td>
-                                <td>
-                                    <h4 class="timezone">Test 1</h4>
-                                </td>
-                                <td>
-                                    <h4 class="message_text">Who is this?</h4>
-                                </td>
-                                <td>
-                                    <h4 class="send_number">Today, 9:43 AM</h4>
-                                </td>
-                                <td>
-                                    <div class="d-flex">
-                                        <div class="log_status">Received</div>
-                                    </div>
-                                </td>
-
-                                <td>
-                                    <div class="table_dropdown_area d-flex align-items-center flex-wrap gap-1">
-                                        <button type="button" class="table_edit_btn" data-bs-toggle="modal"
-                                            data-bs-target="#chatLogModal">
-                                            <img src="{{ asset('assets/app/icons/message-03.svg') }}" alt="message icon" />
-                                            <span>Chat</span>
-                                        </button>
-                                        <button type="button" class="table_delete_btn">
-                                            <img src="{{ asset('assets/app/icons/delete-04.svg') }}" alt="delete icon" />
-                                        </button>
-                                    </div>
-                                </td>
-                            </tr>
+                                    <td>
+                                        <div class="table_dropdown_area d-flex align-items-center flex-wrap gap-1">
+                                            <button type="button" class="table_edit_btn" data-bs-toggle="modal"
+                                                data-bs-target="#chatLogModal">
+                                                <img src="{{ asset('assets/app/icons/message-03.svg') }}"
+                                                    alt="message icon" />
+                                                <span>Chat</span>
+                                            </button>
+                                            <button type="button" class="table_delete_btn">
+                                                <img src="{{ asset('assets/app/icons/delete-04.svg') }}"
+                                                    alt="delete icon" />
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+                            @endforeach
                         </tbody>
                     </table>
                 </div>
@@ -540,7 +228,8 @@
                                         <option value="3">+1 (332) 262-788</option>
                                         <option value="4">+1 (332) 262-789</option>
                                     </select>
-                                    <img src="{{ asset('assets/app/icons/arrow-down.svg') }}" alt="down arrow" class="down_arrow" />
+                                    <img src="{{ asset('assets/app/icons/arrow-down.svg') }}" alt="down arrow"
+                                        class="down_arrow" />
                                 </div>
                                 <div class="input_row">
                                     <label for="">Receiver</label>
