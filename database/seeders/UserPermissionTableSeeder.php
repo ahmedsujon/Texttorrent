@@ -20,14 +20,19 @@ class UserPermissionTableSeeder extends Seeder
                 'position' => 'left',
             ],
             [
-                'name' => 'Send SMS',
-                'permission' => 'send-sms',
-                'position' => 'middle'
+                'name' => 'Current Plan',
+                'permission' => 'current-plan',
+                'position' => 'left',
             ],
             [
-                'name' => 'Groups',
-                'permission' => 'groups',
-                'position' => 'right'
+                'name' => 'My Numbers',
+                'permission' => 'my-numbers',
+                'position' => 'left',
+            ],
+            [
+                'name' => 'Campaign',
+                'permission' => 'campaign',
+                'position' => 'left',
             ],
             [
                 'name' => 'Contact List',
@@ -35,19 +40,14 @@ class UserPermissionTableSeeder extends Seeder
                 'position' => 'middle'
             ],
             [
-                'name' => 'Import Contacts',
-                'permission' => 'import-contacts',
+                'name' => 'Inbox',
+                'permission' => 'inbox',
                 'position' => 'right'
             ],
             [
-                'name' => '2-way SMS Chat',
-                'permission' => '2-way-sms-chat',
+                'name' => 'Number Validator',
+                'permission' => 'number-validator',
                 'position' => 'middle'
-            ],
-            [
-                'name' => 'Scheduler',
-                'permission' => 'scheduler',
-                'position' => 'right'
             ],
             [
                 'name' => 'Logs',
@@ -55,49 +55,29 @@ class UserPermissionTableSeeder extends Seeder
                 'position' => 'middle'
             ],
             [
-                'name' => 'Your Current Plan',
-                'permission' => 'your-current-plan',
-                'position' => 'left',
-            ],
-            [
-                'name' => 'Secondary Number Assigned',
-                'permission' => 'secondary-number-assigned',
-                'position' => 'left',
-            ],
-            [
-                'name' => 'Past Receipts',
-                'permission' => 'past-receipts',
-                'position' => 'left',
-            ],
-            [
-                'name' => 'Reports',
-                'permission' => 'reports',
-                'position' => 'right'
-            ],
-            [
                 'name' => 'Number Pool',
                 'permission' => 'number-pool',
                 'position' => 'middle'
             ],
             [
-                'name' => 'Voice Credits',
-                'permission' => 'voice-credits',
-                'position' => 'right'
-            ],
-            [
                 'name' => 'SMS Credits',
                 'permission' => 'sms-credits',
-                'position' => 'middle'
-            ],
-            [
-                'name' => 'Current Credit Package',
-                'permission' => 'current-credit-package',
                 'position' => 'right'
             ],
             [
-                'name' => 'Messages # of Messages',
-                'permission' => 'messages-number-of-messages',
-                'position' => 'middle'
+                'name' => 'Import Contacts',
+                'permission' => 'import-contacts',
+                'position' => 'right'
+            ],
+            [
+                'name' => 'Calendar',
+                'permission' => 'calendar',
+                'position' => 'right'
+            ],
+            [
+                'name' => 'API',
+                'permission' => 'api',
+                'position' => 'right'
             ],
         ];
 
