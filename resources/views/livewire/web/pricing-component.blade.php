@@ -99,7 +99,7 @@
                                                 <img src="{{ asset('assets/app/icons/entypo_check.svg') }}"
                                                     alt="check icon" />
                                             </div>
-                                            <h4>1 sub-account</h4>
+                                            <h4>5 sub-account</h4>
                                         </li>
                                     </ul>
                                     <h6 class="price">$49 <span>/month </span></h6>
@@ -164,7 +164,7 @@
                                                 <img src="{{ asset('assets/app/icons/entypo_check-white.svg') }}"
                                                     alt="check icon" />
                                             </div>
-                                            <h4>3 sub-accounts</h4>
+                                            <h4>10 sub-accounts</h4>
                                         </li>
                                         <li>
                                             <div class="icon">
@@ -203,7 +203,7 @@
                                                 <img src="{{ asset('assets/app/icons/entypo_check.svg') }}"
                                                     alt="check icon" />
                                             </div>
-                                            <h4>15,000 credits</h4>
+                                            <h4>30,000 credits</h4>
                                         </li>
                                         <li>
                                             <div class="icon">
