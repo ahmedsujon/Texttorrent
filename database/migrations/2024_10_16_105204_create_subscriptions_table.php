@@ -16,7 +16,7 @@ return new class extends Migration
             $table->unsignedBigInteger('user_id')->nullable();
             $table->enum('package_type', ['text-torrent', 'own-gateway'])->nullable();
             $table->string('package_name')->nullable();
-            $table->double('amount', 20,2)->default(0);
+            $table->double('amount', 20, 2)->default(0);
             $table->enum('payment_status', ['paid', 'unpaid'])->default('unpaid');
             $table->string('stripe_transaction_id', 2048)->nullable();
             $table->timestamp('start_date')->nullable();
