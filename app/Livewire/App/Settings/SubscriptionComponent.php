@@ -25,14 +25,14 @@ class SubscriptionComponent extends Component
                 if ($name == 'standard') {
                     $price = 49;
                     $credits = 7000;
-                    $sub_account = 1;
+                    $sub_account = 5;
                 } else if ($name == 'premium') {
                     $price = 99;
                     $credits = 15000;
-                    $sub_account = 3;
+                    $sub_account = 10;
                 } else if ($name == 'enterprise') {
                     $price = 149;
-                    $credits = 7000;
+                    $credits = 30000;
                     $sub_account = 9999999999;
                 }
                 $duration = 1; // months
