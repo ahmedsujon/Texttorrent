@@ -119,8 +119,8 @@ class UsersComponent extends Component
             // Retrieve chat IDs for the user and count delivered messages
             $user_chats = DB::table('chats')->where('user_id', $user->id)->pluck('id')->toArray();
             $this->delivered_message = DB::table('chat_messages')->whereIn('chat_id', $user_chats)
-                                        ->where('api_send_status', 'delivered')
-                                        ->count();
+                ->where('api_send_status', 'delivered')
+                ->count();
 
             // Calculate the total credit from the transactions table
             $this->totalCredit = DB::table('transactions')->where('user_id', $user->id)->sum('credit');
@@ -173,6 +173,21 @@ class UsersComponent extends Component
         $this->resetInputs();
         $this->dispatch('success', ['message' => 'User updated successfully']);
     }
+
+    public function tenDLCEditData($id)
+    {
+        // Load user data
+        $user = User::find($id);
+
+        // Check if user exists
+        if ($user) {
+            // Dispatch event to show the modal (you can add any logic to show a modal here)
+            $this->dispatch('showTenDLCEditModal');
+        } else {
+            session()->flash('error', 'User not found.');
+        }
+    }
+
 
     public function apiIntrigation($userId)
     {

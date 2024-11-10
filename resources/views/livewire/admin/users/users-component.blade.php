@@ -149,14 +149,13 @@
                                                                     wire:click.prevent='editData({{ $user->id }})'
                                                                     wire:loading.attr='disabled'>View Details</button>
                                                                 <button type="button" class="dropdown-item"
-                                                                    href="#">10DLC
+                                                                    wire:click.prevent='tenDLCEditData({{ $user->id }})'
+                                                                    wire:loading.attr='disabled'>10DLC
                                                                     Registration</button>
                                                                 <button type="button" class="dropdown-item"
                                                                     wire:click.prevent='apiIntrigation({{ $user->id }})'
                                                                     wire:loading.attr='disabled'>API
                                                                     Integration</button>
-                                                                <a class="dropdown-item" href="#">Toll-Free
-                                                                    Registration</a>
                                                                 <a class="dropdown-item" href="#">Change
                                                                     Password</a>
                                                                 <button type="button" class="dropdown-item"
@@ -187,7 +186,7 @@
         </div>
     </div>
 
-    <!-- Add Data Modal -->
+    <!-- User Edit Data Modal -->
     <div wire:ignore.self class="modal fade" id="addDataModal" tabindex="-1" role="dialog"
         data-bs-backdrop="static" data-bs-keyboard="false" aria-labelledby="modelTitleId">
         <div class="modal-dialog modal-dialog-centered modal-dialog-zoom modal-lg" role="document">
@@ -577,112 +576,73 @@
     </div>
     <!-- End API Data Modal -->
 
-    <!-- View Data Modal -->
-    {{-- <div wire:ignore.self class="modal fade" id="viewDataModal" tabindex="-1" role="dialog"
+    <!-- 10 DLC Data Modal -->
+    <div wire:ignore.self class="modal fade" id="tenDLCEditData" tabindex="-1" role="dialog"
         data-bs-backdrop="static" data-bs-keyboard="false" aria-labelledby="modelTitleId">
         <div class="modal-dialog modal-dialog-centered modal-dialog-zoom modal-xl" role="document">
             <div class="modal-content">
-                <div class="modal-header" style="background: white;">
-                    <h5 class="modal-title m-0" id="mySmallModalLabel">Edit User</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
-                        wire:click.prevent='close'></button>
-                </div>
                 <div class="modal-body">
                     <div class="row justify-content-center">
-                        <div class="col-md-11">
-
-                            <form wire:submit.prevent='updateData' enctype="multipart/form-data">
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <label for="example-number-input" class="col-form-label">First Name</label>
-                                        <input class="form-control" type="text" wire:model.blur="first_name"
-                                            placeholder="Enter first name">
-                                        @error('first_name')
-                                            <p class="text-danger" style="font-size: 11.5px;">{{ $message }}</p>
-                                        @enderror
-                                    </div>
-
-                                    <div class="col-md-6">
-                                        <label for="example-number-input" class="col-form-label">Last Name</label>
-                                        <input class="form-control" type="text" wire:model.blur="last_name"
-                                            placeholder="Enter last name">
-                                        @error('last_name')
-                                            <p class="text-danger" style="font-size: 11.5px;">{{ $message }}</p>
-                                        @enderror
-                                    </div>
-
-                                    <div class="col-md-6">
-                                        <label for="example-number-input" class="col-form-label">Username</label>
-                                        <input class="form-control" type="text" wire:model.blur="username"
-                                            placeholder="Enter username">
-                                        @error('username')
-                                            <p class="text-danger" style="font-size: 11.5px;">{{ $message }}</p>
-                                        @enderror
-                                    </div>
-
-                                    <div class="col-md-6">
-                                        <label for="example-number-input" class="col-form-label">Email</label>
-                                        <input class="form-control" type="email" wire:model.blur="email"
-                                            placeholder="Enter email">
-                                        @error('email')
-                                            <p class="text-danger" style="font-size: 11.5px;">{{ $message }}</p>
-                                        @enderror
-                                    </div>
-
-                                    <div class="col-md-6">
-                                        <label for="example-number-input" class="col-form-label">Phone</label>
-                                        <input class="form-control" type="number" wire:model.blur="phone"
-                                            placeholder="Enter phone">
-                                        @error('phone')
-                                            <p class="text-danger" style="font-size: 11.5px;">{{ $message }}</p>
-                                        @enderror
-                                    </div>
-
-                                    <div class="col-md-6">
-                                        <label for="example-number-input" class="col-form-label">Password</label>
-                                        <input class="form-control" type="password" wire:model.blur="password"
-                                            placeholder="Enter new password">
-                                        @error('password')
-                                            <p class="text-danger" style="font-size: 11.5px;">{{ $message }}</p>
-                                        @enderror
-                                    </div>
-
-                                    <div class="col-md-12">
-                                        <label for="example-number-input" class="col-form-label">Image</label>
-                                        <input type="file" class="form-control" wire:model.blur='avatar' />
-                                        @error('avatar')
-                                            <p class="text-danger" style="font-size: 11.5px;">{{ $message }}</p>
-                                        @enderror
-
-                                        <div wire:loading wire:target='avatar' wire:key='avatar'>
-                                            <span class="spinner-border spinner-border-xs" role="status"
-                                                aria-hidden="true"></span> <small>Uploading</small>
-                                        </div>
-                                        @if ($avatar)
-                                            <img src="{{ $avatar->temporaryUrl() }}" class="img-fluid mt-2"
-                                                style="height: 55px; width: 55px;" />
-                                        @elseif ($uploadedAvatar)
-                                            <img src="{{ asset($uploadedAvatar) }}" class="img-fluid mt-2"
-                                                style="height: 55px; width: 55px;" />
-                                        @endif
+                        <div class="col-lg-12">
+                            <div class="card bg-info-subtle">
+                                <div class="card-body">
+                                    <button style="float: right;" type="button" class="btn-close"
+                                        data-bs-dismiss="modal" aria-label="Close"
+                                        wire:click.prevent='close'></button>
+                                    <div class="text-center mb-4">
+                                        <h3 class="mb-3">10 DLC REGISTRATION</h3>
                                     </div>
                                 </div>
-                                <div class="mb-3 row mt-4">
-                                    <div class="col-12 text-center">
-                                        <button type="submit" class="btn btn-primary waves-effect waves-light w-50">
-                                            {!! loadingStateWithText('updateData', 'Update User') !!}
-                                        </button>
-                                    </div>
-                                </div>
-                            </form>
-
+                            </div>
                         </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-lg-2"></div>
+                        <div class="col-lg-8">
+                            <div class="card">
+                                <div class="card-body">
+                                    <form wire:submit.prevent='updateAPIData'>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <label for="account_sid" class="col-form-label">Account Sid</label>
+                                                <input class="form-control" type="text"
+                                                    wire:model.blur="account_sid" placeholder="Enter account sid">
+                                                @error('account_sid')
+                                                    <p class="text-danger" style="font-size: 11.5px;">{{ $message }}
+                                                    </p>
+                                                @enderror
+                                            </div>
+
+                                            <div class="col-md-6">
+                                                <label for="auth_token" class="col-form-label">Auth Token</label>
+                                                <input class="form-control" type="text"
+                                                    wire:model.blur="auth_token" placeholder="Enter auth token">
+                                                @error('auth_token')
+                                                    <p class="text-danger" style="font-size: 11.5px;">{{ $message }}
+                                                    </p>
+                                                @enderror
+                                            </div>
+                                        </div>
+                                        <div class="mb-3 row mt-4" style="float: right;">
+                                            <div class="col-12">
+                                                <button type="submit"
+                                                    class="btn btn-primary waves-effect waves-light w-30">
+                                                    {!! loadingStateWithText('updateAPIData', 'Update') !!}
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-2"></div>
                     </div>
                 </div>
             </div>
         </div>
-    </div> --}}
-    <!-- End Edit Data Modal -->
+    </div>
+    <!-- End 10 DLC Data Modal -->
 
     <!-- Delete Modal -->
     <div wire:ignore.self class="modal fade" id="deleteDataModal" tabindex="-1" role="dialog"
@@ -751,6 +711,10 @@
         });
         window.addEventListener('showAPIModal', event => {
             $('#editAPIDataModal').modal('show');
+        });
+
+        window.addEventListener('showTenDLCEditModal', event => {
+            $('#tenDLCEditData').modal('show');
         });
 
         window.addEventListener('closeModal', event => {
