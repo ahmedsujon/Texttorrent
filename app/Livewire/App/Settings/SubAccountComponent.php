@@ -2,6 +2,7 @@
 
 namespace App\Livewire\App\Settings;
 
+use App\Models\Api;
 use App\Models\User;
 use Livewire\Component;
 use Livewire\WithPagination;
@@ -44,6 +45,14 @@ class SubAccountComponent extends Component
         $user->type = 'sub';
         $user->parent_id = user()->id;
         $user->save();
+
+        $twilio_credentials = Api::where('user_id', user()->id)->first();
+        $cred = new Api();
+        $cred->user_id = $user->id;
+        $cred->gateway = $twilio_credentials->gateway;
+        $cred->account_sid = $twilio_credentials->account_sid;
+        $cred->auth_token = $twilio_credentials->auth_token;
+        $cred->save();
 
         $data['first_name'] = $this->first_name;
         $data['last_name'] = $this->last_name;
