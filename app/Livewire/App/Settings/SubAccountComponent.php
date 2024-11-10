@@ -3,10 +3,11 @@
 namespace App\Livewire\App\Settings;
 
 use App\Models\User;
-use App\Models\UserPermission;
-use Illuminate\Support\Facades\Hash;
 use Livewire\Component;
 use Livewire\WithPagination;
+use App\Models\UserPermission;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
 
 class SubAccountComponent extends Component
 {
@@ -43,6 +44,16 @@ class SubAccountComponent extends Component
         $user->type = 'sub';
         $user->parent_id = user()->id;
         $user->save();
+
+        $data['first_name'] = $this->first_name;
+        $data['last_name'] = $this->last_name;
+        $data['email'] = $this->email;
+        $data['password'] = $this->password;
+        $data['url'] = 'https://www.texttorrent.com/login';
+        Mail::send('emails.sub-account-created', $data, function ($message) use ($data) {
+            $message->to($data['email'])
+                ->subject('Account Created');
+        });
 
         $this->dispatch('closeModal');
         $this->dispatch('success', ['message' => 'New sub user added successfully']);
