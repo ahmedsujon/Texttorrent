@@ -281,10 +281,12 @@
                                         class="fa fa-spinner fa-spin"></i> Processing...</span>
                             </div>
                         </div>
+                        @if (isUserPermitted('number-validator'))
                         <a href="#" class="import_btn">
                             <img src="{{ asset('assets/app/icons/call-disabled.svg') }}" alt="call disabled" />
                             <span>Mobile verification & DNC check </span>
                         </a>
+                        @endif
                     </div>
                     <div class="details_list_area">
                         @if ($contacts->count() > 0)
