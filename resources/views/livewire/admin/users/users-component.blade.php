@@ -74,21 +74,14 @@
                                                 'livewire.admin.datatable.admin-datatable-th-sorting',
                                                 [
                                                     'id' => 'username',
-                                                    'thDisplayName' => 'Username',
+                                                    'thDisplayName' => 'Active Plan',
                                                 ]
                                             )
                                             @include(
                                                 'livewire.admin.datatable.admin-datatable-th-sorting',
                                                 [
                                                     'id' => 'username',
-                                                    'thDisplayName' => 'SMS Getway',
-                                                ]
-                                            )
-                                            @include(
-                                                'livewire.admin.datatable.admin-datatable-th-sorting',
-                                                [
-                                                    'id' => 'username',
-                                                    'thDisplayName' => 'SMS Credits',
+                                                    'thDisplayName' => 'Current Credits',
                                                 ]
                                             )
                                             @include(
@@ -103,13 +96,6 @@
                                                 [
                                                     'id' => 'phone',
                                                     'thDisplayName' => 'Phone',
-                                                ]
-                                            )
-                                            @include(
-                                                'livewire.admin.datatable.admin-datatable-th-sorting',
-                                                [
-                                                    'id' => 'status',
-                                                    'thDisplayName' => 'Status',
                                                 ]
                                             )
                                             @include(
@@ -143,22 +129,11 @@
                                                         @endif
                                                         {{ $user->first_name }} {{ $user->last_name }}
                                                     </td>
-                                                    <td class="align-middle">{{ $user->username }}</td>
-                                                    <td class="align-middle">{{ $user->username }}</td>
-                                                    <td class="align-middle">{{ $user->username }}</td>
+                                                    <td class="align-middle">
+                                                        {{ $user->latestSubscription->package_name ?? 'No Plan' }}</td>
+                                                    <td class="align-middle">{{ $user->credits }}</td>
                                                     <td class="align-middle">{{ $user->email }}</td>
                                                     <td class="align-middle">{{ $user->phone }}</td>
-                                                    <td class="align-middle text-center">
-                                                        @if ($user->status == 0)
-                                                            <button class="btn btn-xs btn-danger"
-                                                                wire:click.prevent='changeStatus({{ $user->id }}, {{ $user->status }})'
-                                                                style="font-weight: normal; font-size: 11px; padding: 1px 7px;">{!! loadingStateStatus('changeStatus(' . $user->id . ', ' . $user->status . ')', 'In-Active') !!}</button>
-                                                        @else
-                                                            <button class="btn btn-xs btn-success"
-                                                                wire:click.prevent='changeStatus({{ $user->id }}, {{ $user->status }})'
-                                                                style="font-weight: normal; font-size: 11px; padding: 1px 7px;">{!! loadingStateStatus('changeStatus(' . $user->id . ', ' . $user->status . ')', 'Active') !!}</button>
-                                                        @endif
-                                                    </td>
                                                     <td class="align-middle">{{ $user->created_at }}</td>
                                                     <td style="text-align: center;">
                                                         <div class="btn-group" role="group">
@@ -328,17 +303,9 @@
                                         data-bs-dismiss="modal" aria-label="Close"
                                         wire:click.prevent='close'></button>
                                     <div class="text-center mb-4">
-                                        <img src="{{ asset($user->avatar) }}" alt="avatar"
-                                            class="avatar-md rounded-circle mx-auto d-block" />
+                                        <img src="{{ asset($user->avatar ? $user->avatar : 'assets/images/placeholder.jpg') }}"
+                                            alt="avatar" class="avatar-md rounded-circle mx-auto d-block" />
                                         <h5 class="mt-3 mb-1">{{ $user->first_name }} {{ $user->last_name }}</h5>
-                                        <p class="text-muted mb-3">UI/UX Designer</p>
-                                        <div class="mx-auto">
-                                            <span class="badge text-bg-info">Freelance</span>
-                                            <span class="badge text-bg-success">Active</span>
-                                            <span class="badge text-bg-warning">Adobe XD</span>
-                                            <span class="badge text-bg-warning">Figma</span>
-                                            <span class="badge text-bg-warning">Sketch</span>
-                                        </div>
                                     </div>
                                     <div class="d-flex align-items-center">
                                         <ul class="list-unstyled hstack gap-3 mb-0 flex-grow-1">
@@ -367,8 +334,8 @@
                                             <div class="d-flex">
                                                 <i class='bx bx-calendar font-size-18 text-primary'></i>
                                                 <div class="ms-3">
-                                                    <h6 class="mb-1 fw-semibold">Subscription Type:</h6>
-                                                    <span class="text-muted">{{ $package_type }}</span>
+                                                    <h6 class="mb-1 fw-semibold">Subscription:</h6>
+                                                    <span class="text-muted">{{ $package_name ?? 'No Plan' }}</span>
                                                 </div>
                                             </div>
                                         </li>
@@ -377,7 +344,7 @@
                                                 <i class='bx bx-money font-size-18 text-primary'></i>
                                                 <div class="ms-3">
                                                     <h6 class="mb-1 fw-semibold">Total Credit Spent:</h6>
-                                                    <span class="text-muted">$ 3451</span>
+                                                    <span class="text-muted">{{ $totalCredit }}</span>
                                                 </div>
                                             </div>
                                         </li>
@@ -386,7 +353,7 @@
                                                 <i class='bx bx-money font-size-18 text-primary'></i>
                                                 <div class="ms-3">
                                                     <h6 class="mb-1 fw-semibold">Current Credit:</h6>
-                                                    <span class="text-muted">{{ $credit_balance }}</span>
+                                                    <span class="text-muted">{{ $credits }}</span>
                                                 </div>
                                             </div>
                                         </li>
@@ -395,7 +362,7 @@
                                                 <i class='bx bx-user font-size-18 text-primary'></i>
                                                 <div class="ms-3">
                                                     <h6 class="mb-1 fw-semibold">Sub Accounts:</h6>
-                                                    Male
+                                                    {{ $totalChildUsers }}
                                                 </div>
                                             </div>
                                         </li>
@@ -404,16 +371,28 @@
                                                 <i class='mdi mdi-book-education font-size-18 text-primary'></i>
                                                 <div class="ms-3">
                                                     <h6 class="mb-1 fw-semibold">Total Message Sent:</h6>
-                                                    <span class="text-muted">Master Degree</span>
+                                                    <span class="text-muted">{{ $delivered_message }}</span>
                                                 </div>
                                             </div>
                                         </li>
-                                        <li class="hstack gap-2 mt-3">
-                                            <a href="#!" class="btn btn-soft-danger w-100">Diactive Account</a>
-                                        </li>
-                                        <li class="hstack gap-2 mt-3">
-                                            <a href="#!" class="btn btn-soft-success w-100">Active Account</a>
-                                        </li>
+
+                                        @if ($user->status == 0)
+                                            <li class="hstack gap-2 mt-3">
+                                                <a href="#!" class="btn btn-soft-success w-100"
+                                                    wire:click.prevent="setUserForStatusChange({{ $user->id }}, {{ $user->status }})"
+                                                    data-bs-toggle="modal" data-bs-target="#statusModal">
+                                                    {!! loadingStateStatus('changeStatus', 'Active Account') !!}
+                                                </a>
+                                            </li>
+                                        @else
+                                            <li class="hstack gap-2 mt-3">
+                                                <a href="#!" class="btn btn-soft-danger w-100"
+                                                    wire:click.prevent="setUserForStatusChange({{ $user->id }}, {{ $user->status }})"
+                                                    data-bs-toggle="modal" data-bs-target="#statusModal">
+                                                    {!! loadingStateStatus('changeStatus', 'Deactivate Account') !!}
+                                                </a>
+                                            </li>
+                                        @endif
                                     </ul>
                                 </div>
                             </div>
@@ -732,6 +711,37 @@
         </div>
     </div>
     <!-- End Delete Modal -->
+
+    <!-- Change Status Modal -->
+    <div wire:ignore.self class="modal fade" id="statusModal" tabindex="-1" aria-labelledby="statusModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-dialog-zoom modal-md" role="document">
+            <div class="modal-content p-5 bg-transparent border-0">
+                <div class="modal-body pt-4 pb-4 bg-white" style="border-radius: 10px;">
+                    <div class="row justify-content-center mb-2">
+                        <div class="col-md-11 text-center">
+                            <div class="swal2-icon swal2-warning swal2-icon-show" style="display: flex;">
+                                <div class="swal2-icon-content">!</div>
+                            </div>
+                            <h2>Are you sure?</h2>
+                            <p class="mb-4">
+                                You are about to {{ $status == 1 ? 'deactivate' : 'activate' }} this account. This
+                                action cannot be undone!
+                            </p>
+
+                            <button type="button" class="btn btn-sm btn-success waves-effect waves-light"
+                                wire:click.prevent="changeStatus" wire:loading.attr="disabled">
+                                {!! loadingStateWithText('changeStatus', $status == 1 ? 'Yes, Activate.' : 'Yes, Deactivate.') !!}
+                            </button>
+                            <button type="button" class="btn btn-sm btn-danger waves-effect waves-light"
+                                data-bs-dismiss="modal">No, Cancel</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
 </div>
 
 @push('scripts')
@@ -742,11 +752,12 @@
         window.addEventListener('showAPIModal', event => {
             $('#editAPIDataModal').modal('show');
         });
-        
+
         window.addEventListener('closeModal', event => {
             $('#addDataModal').modal('hide');
             $('#editDataModal').modal('hide');
             $('#editAPIDataModal').modal('hide');
+            $('#statusModal').modal('hide');
         });
 
         window.addEventListener('user_deleted', event => {
