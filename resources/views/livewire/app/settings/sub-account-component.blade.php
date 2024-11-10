@@ -24,7 +24,7 @@
                         </button>
                     </form>
 
-                    <button type="button" class="create_template_btn sub_account_btn" data-bs-toggle="modal"
+                    <button type="button" class="create_template_btn sub_account_btn" wire:click.prevent='resetForm' data-bs-toggle="modal"
                         data-bs-target="#newSubAccountModal">
                         <img src="{{ asset('assets/app/icons/plus-sign-white.svg') }}" alt="plus icon" />
                         <span>Add Sub Account</span>
@@ -99,41 +99,14 @@
                                             <div class="table_dropdown_area d-flex align-items-center flex-wrap gap-1">
                                                 <button type="button" class="table_edit_btn"
                                                     wire:click.prevent='editData({{ $sAccount->id }})'>
-                                                    <img src="{{ asset('assets/app/icons/edit-03.svg') }}"
-                                                        alt="edit icon" />
+                                                    {!! loadingStateWithoutText("editData($sAccount->id)", '<img src="'.asset('assets/app/icons/edit-03.svg').'" />') !!}
                                                     <span>Edit</span>
                                                 </button>
                                                 <button type="button" class="table_delete_btn"
                                                     wire:click.prevent='deleteConfirmation({{ $sAccount->id }})'
                                                     wire:loading.attr='disabled'>
-                                                    <img src="{{ asset('assets/app/icons/delete-04.svg') }}"
-                                                        alt="delete icon" />
+                                                    {!! loadingStateWithoutText("deleteConfirmation($sAccount->id)", '<img src="'.asset('assets/app/icons/delete-04.svg').'" />') !!}
                                                 </button>
-
-                                                {{-- <div class="dropdown">
-                                                <button class="table_dot_btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                                    <img src="{{ asset('assets/app/icons/dot-horizontal.svg') }}" alt="dot icon" />
-                                                </button>
-                                                <ul class="dropdown-menu">
-                                                    <li><h4>Select</h4></li>
-                                                    <li>
-                                                        <button type="button" class="dropdown-item d-block">
-                                                            <span>Active User</span>
-                                                        </button>
-                                                    </li>
-                                                    <li>
-                                                        <button type="button" class="dropdown-item d-block">
-                                                            <span>Inactive User</span>
-                                                        </button>
-                                                    </li>
-                                                    <li>
-                                                        <button type="button" class="dropdown-item">
-                                                            <img src="{{ asset('assets/app/icons/delete-03.svg') }}" alt="delete icon" />
-                                                            <span>Delete User</span>
-                                                        </button>
-                                                    </li>
-                                                </ul>
-                                            </div> --}}
                                             </div>
                                         </td>
                                     </tr>
