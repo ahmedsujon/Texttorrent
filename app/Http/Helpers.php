@@ -233,6 +233,23 @@ function getContactNumberName($id)
     return DB::table('contacts')->select('first_name', 'last_name', 'number')->find($id);
 }
 
+//user Permissions
+function userPermissions()
+{
+    $permissions = DB::table('users')->where('id', user()->id)->first()->permissions;
+    return $permissions != NULL ? json_decode($permissions) : [];
+}
+
+function isUserPermitted($permission)
+{
+    $permission = DB::table('user_permissions')->where('permission', $permission)->first();
+    if (in_array($permission->id, userPermissions())) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
 function loadingStateSm($key, $title)
 {
     $loadingSpinner = '

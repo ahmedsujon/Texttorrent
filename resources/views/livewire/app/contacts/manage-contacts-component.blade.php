@@ -9,6 +9,7 @@
                     </button>
                     <h2 class="inbox_template_title">Manage Contacts</h2>
                 </div>
+                @if (isUserPermitted('import-contacts'))
                 <div class="d-flex align-items-center flex-wrap g-sm">
                     <a href="{{ asset('files/Sample Contact File.csv') }}" download type="button" class="import_btn">
                         <img src="{{ asset('assets/app/icons/import.svg') }}" alt="import icon" />
@@ -19,6 +20,7 @@
                         <span>Import contacts</span>
                     </button>
                 </div>
+                @endif
             </div>
             <div class="contact_grid">
                 <div class="contact_list_wrapper" id="contactListArea">

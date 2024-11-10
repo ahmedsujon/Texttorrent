@@ -96,49 +96,7 @@
         <!-- Credit And Activity Section  -->
         <section class="credit_activity_wrapper mt-24">
             <div class="credit_outer_grid">
-                {{-- <div class="credit_area" wire:ignore>
-                    <div class="d-flex-between">
-                        <h3 class="credit_title">Buy Credits</h3>
-                        <button type="button" class="amount_btn" style="color: black; background-color: #e5f9fe;">
-                            Credits left: {{ $total_credits }}
-                        </button>
-                        <button type="button" class="amount_btn">Pay $1000</button>
-                    </div>
-                    <div class="amount_area mt-24">
-                        <h4>Amount</h4>
-                        <div class="number">$1000.00</div>
-                    </div>
-                    <div class="range_area mt-24">
-                        <div class="container_container">
-                            <div id="slider"></div>
-                        </div>
-                    </div>
-
-                    <div class="added_amount">
-                        Credits Added: <span class="credit_title"> 200,000</span>
-                    </div>
-                    <div class="bonus_outer_grid">
-                        <div class="bonus_grid">
-                            <div class="icon">
-                                <img src="{{ asset('assets/app/icons/bonus.svg') }}" alt="bonus" />
-                            </div>
-                            <div>
-                                <h4>Bonus Credits</h4>
-                                <h5>0</h5>
-                            </div>
-                        </div>
-                        <div class="bonus_grid">
-                            <div class="icon">
-                                <img src="{{ asset('assets/app/icons/bonus.svg') }}" alt="bonus" />
-                            </div>
-                            <div>
-                                <h4>Total Credits</h4>
-                                <h5>{{ $total_credits }}</h5>
-                            </div>
-                        </div>
-                    </div>
-                </div> --}}
-
+                @if (isUserPermitted('sms-credits'))
                 <div class="credit_area">
                     <div class="d-flex-between">
                         <h3 class="credit_title">Buy Credits</h3>
@@ -185,10 +143,7 @@
                         </div>
                     </div>
                 </div>
-
-
-
-
+                @endif
                 <div class="activity_area">
                     <h3 class="credit_title">Activity</h3>
                     <div class="activity_item_area">
@@ -281,11 +236,13 @@
             </div>
         </section>
         <!-- Calender Section  -->
+        @if (isUserPermitted('calendar'))
         <section class="dashboard_calender_wrapper mt-24">
             <div class="calender_full_area">
                 <div id="calendar"></div>
             </div>
         </section>
+        @endif
     </main>
 
     <!-- Edit Event Content Modal  -->

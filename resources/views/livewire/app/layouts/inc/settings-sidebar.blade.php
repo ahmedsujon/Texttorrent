@@ -50,6 +50,7 @@
                         </div>
                         <div class="label">Change Password</div>
                     </a>
+                    @if (isUserPermitted('current-plan'))
                     <a href="{{ route('user.subscription') }}"
                         class="{{ request()->is('settings/subscription') || request()->is('settings/subscription/*') ? 'menu_grid active_menu' : 'menu_grid' }}">
                         <div class="icon">
@@ -68,6 +69,8 @@
                         </div>
                         <div class="label">Subscription</div>
                     </a>
+                    @endif
+                    @if (user()->type != 'sub')
                     <a href="{{ route('user.subAccount') }}"
                         class="{{ request()->is('settings/sub-account') || request()->is('settings/sub-account/*') ? 'menu_grid active_menu' : 'menu_grid' }}">
                         <div class="icon">
@@ -86,10 +89,12 @@
                         </div>
                         <div class="label">Sub- Account</div>
                     </a>
+                    @endif
                 </div>
                 <div class="main_menu_area">
                     <h4>WORKSPACE</h4>
                     <div class="inner_main_menu">
+                        @if (isUserPermitted('get-numbers'))
                         <a href="{{ route('user.getNumber') }}"
                             class="{{ request()->is('settings/get-number') || request()->is('settings/get-number/*') ? 'menu_grid active_menu' : 'menu_grid' }}">
                             <div class="icon">
@@ -109,6 +114,8 @@
                             </div>
                             <div class="label">Get Number</div>
                         </a>
+                        @endif
+                        @if (isUserPermitted('my-numbers'))
                         <a href="{{ route('user.activeNumber') }}"
                             class="{{ request()->is('settings/active-numbers') || request()->is('settings/active-numbers/*') ? 'menu_grid active_menu' : 'menu_grid' }}">
                             <div class="icon">
@@ -121,6 +128,8 @@
                             </div>
                             <div class="label">My Numbers</div>
                         </a>
+                        @endif
+                        @if (isUserPermitted('logs'))
                         <a href="{{ route('user.logs') }}"
                             class="{{ request()->is('settings/logs') || request()->is('settings/logs/*') ? 'menu_grid active_menu' : 'menu_grid' }}">
                             <div class="icon">
@@ -136,6 +145,8 @@
                             </div>
                             <div class="label">Logs</div>
                         </a>
+                        @endif
+                        @if (isUserPermitted('api'))
                         <a href="{{ route('user.apis') }}"
                             class="{{ request()->is('settings/apis') || request()->is('settings/apis/*') ? 'menu_grid active_menu' : 'menu_grid' }}">
                             <div class="icon">
@@ -150,6 +161,7 @@
                             </div>
                             <div class="label">API</div>
                         </a>
+                        @endif
                         @if (getActiveSubscription()['type'] == 'text-torrent')
                             <a href="{{ route('user.dlcRegistration') }}"
                                 class="{{ request()->is('settings/dlc-registration') || request()->is('settings/dlc-registration/*') ? 'menu_grid active_menu' : 'menu_grid' }}">
