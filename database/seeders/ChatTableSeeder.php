@@ -39,6 +39,8 @@ class ChatTableSeeder extends Seeder
             $msg->api_send_response = '[Twilio.Api.V2010.MessageInstance accountSid=AC80f658d1006561368eceb8f14813fa45 sid=SMab2c9e5ddd74dffd5c645453d793ee1a]';
             $msg->api = 'Twilio';
             $msg->msg_sid = $key == 0 ? 'SMab2c9e5ddd74dffd5c645453d793ee1a' : '';
+            $msg->created_at = Carbon::parse(now())->subDays(1);
+            $msg->updated_at = Carbon::parse(now())->subDays(1);
             $msg->save();
 
             $msg2 = new ChatMessage();
@@ -49,6 +51,8 @@ class ChatTableSeeder extends Seeder
             $msg2->api_send_response = '[Twilio.Api.V2010.MessageInstance accountSid=AC80f658d1006561368eceb8f14813fa45 sid=SM921ef96c19674279cd4b906fc2548b79]';
             $msg2->api = 'Twilio';
             $msg2->msg_sid = $key == 0 ? 'SM921ef96c19674279cd4b906fc2548b79' : '';
+            $msg2->created_at = Carbon::parse(now())->subDays(1);
+            $msg2->updated_at = Carbon::parse(now())->subDays(1);
             $msg2->save();
 
             // if ($chat->id == 7) {
