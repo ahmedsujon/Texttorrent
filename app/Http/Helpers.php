@@ -189,6 +189,67 @@ function msgCreditCalculation($msg_type = 'sms', $dir = 'outgoing')
     return $deducted_credits;
 }
 
+function getUserActiveSubscription($user_id)
+{
+    $subscription = DB::table('subscriptions')->select('package_type as type', 'package_name as name', 'end_date')->where('user_id', $user_id)->where('payment_status', 'paid')->orderBy('id', 'DESC')->first();
+
+    $status = '';
+    if ($subscription && $subscription->end_date && $subscription->end_date > now()) {
+        $status = 'Active';
+    } else {
+        $status = 'Expired';
+    }
+
+    $details = [
+        'type' => $subscription->type ?? '',
+        'name' => $subscription->name ?? '',
+        'status' => $status,
+    ];
+
+    return $details;
+
+}
+
+function userMsgCreditCalculation($user_id, $msg_type = 'sms', $dir = 'outgoing')
+{
+    $deducted_credits = 0;
+
+    if (getUserActiveSubscription($user_id)['status'] == 'Active') {
+        if(getUserActiveSubscription($user_id)['type'] == 'own-gateway'){
+            if ($dir == 'outgoing') {
+                if ($msg_type =='sms') {
+                    $deducted_credits = 1;
+                } else if($msg_type =='mms') {
+                    $deducted_credits = 2;
+                }
+            } else if ($dir == 'incoming') {
+                if ($msg_type =='sms') {
+                    $deducted_credits = 1;
+                } else if($msg_type =='mms') {
+                    $deducted_credits = 2;
+                }
+            }
+
+        } else if (getUserActiveSubscription($user_id)['type'] == 'text-torrent') {
+            if ($dir == 'outgoing') {
+                if ($msg_type =='sms') {
+                    $deducted_credits = 7;
+                } else if($msg_type =='mms') {
+                    $deducted_credits = 9;
+                }
+            } else if ($dir == 'incoming') {
+                if ($msg_type =='sms') {
+                    $deducted_credits = 4;
+                } else if($msg_type =='mms') {
+                    $deducted_credits = 5;
+                }
+            }
+        }
+    }
+
+    return $deducted_credits;
+}
+
 // function deductSMSCredit($msg_type = 'sms', $dir = 'outgoing')
 // {
 //     if (getActiveSubscription()['status'] == 'Active') {
@@ -256,6 +317,18 @@ function creditLog($details, $credit_amount)
     $credit = new CreditLog();
     $credit->user_id = user()->id;
     $credit->parent_user = user()->type == 'sub' ? user()->parent_id : NULL;
+    $credit->details = $details;
+    $credit->credit = $credit_amount;
+    $credit->save();
+}
+
+function creditLogIncoming($user_id, $details, $credit_amount)
+{
+    $user = User::find($user_id);
+
+    $credit = new CreditLog();
+    $credit->user_id = $user_id;
+    $credit->parent_user = $user->type == 'sub' ? $user->parent_id : NULL;
     $credit->details = $details;
     $credit->credit = $credit_amount;
     $credit->save();

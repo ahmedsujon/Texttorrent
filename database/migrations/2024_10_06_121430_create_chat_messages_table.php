@@ -26,6 +26,7 @@ return new class extends Migration
             $table->longText('api_send_response')->nullable();
             $table->enum('api_receive_status', ['success', 'failed'])->default('success');
             $table->longText('api_receive_response')->nullable();
+            $table->tinyInteger('credit_clear')->default(0);
             $table->tinyInteger('status')->default(0);
             $table->timestamps();
         });
