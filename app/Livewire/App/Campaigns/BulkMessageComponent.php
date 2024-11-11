@@ -110,9 +110,15 @@ class BulkMessageComponent extends Component
     {
         $this->contact_list_id = $id;
         $this->contact_list_name = $name;
+
+        $contactList = Contact::where('list_id', $this->contact_list_id)->where('blacklisted', 0)->get();
+        $totalContacts = $contactList->count();
+
+        $creditNeeded = msgCreditCalculation($this->sms_type, 'outgoing');
+        $this->total_credit = $creditNeeded * $totalContacts;
     }
 
-    public $total_credit;
+    public $total_credit = 0;
     public function storeData()
     {
         if (getActiveSubscription()['status'] == 'Active') {
@@ -312,6 +318,15 @@ class BulkMessageComponent extends Component
         ]);
     }
 
+    public function updatedSmsType()
+    {
+        $contactList = Contact::where('list_id', $this->contact_list_id)->where('blacklisted', 0)->get();
+        $totalContacts = $contactList->count();
+
+        $creditNeeded = msgCreditCalculation($this->sms_type, 'outgoing');
+        $this->total_credit = $creditNeeded * $totalContacts;
+    }
+
     public $searchContactList;
     public function render()
     {
@@ -320,12 +335,6 @@ class BulkMessageComponent extends Component
         $activeNumbers = Number::where('user_id', Auth::user()->id)->where('number', 'like', '%' . $this->selectNumberSearch . '%')->orderBy('id', 'DESC')->get();
 
         $this->all_numbers = $activeNumbers->pluck('number')->toArray();
-
-        $contactList = Contact::where('list_id', $this->contact_list_id)->where('blacklisted', 0)->get();
-        $totalContacts = $contactList->count();
-
-        $creditNeeded = msgCreditCalculation($this->sms_type, 'outgoing');
-        $this->total_credit = $creditNeeded * $totalContacts;
 
         return view(
             'livewire.app.campaigns.bulk-message-component',

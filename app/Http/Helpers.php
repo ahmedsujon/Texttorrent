@@ -251,13 +251,13 @@ function isUserPermitted($permission)
     }
 }
 
-function creditLog($details, $credit)
+function creditLog($details, $credit_amount)
 {
     $credit = new CreditLog();
     $credit->user_id = user()->id;
     $credit->parent_user = user()->type == 'sub' ? user()->parent_id : NULL;
     $credit->details = $details;
-    $credit->credit = $credit;
+    $credit->credit = $credit_amount;
     $credit->save();
 }
 
