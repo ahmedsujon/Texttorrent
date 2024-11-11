@@ -2,21 +2,92 @@
 
 namespace App\Livewire\App\User;
 
-use Carbon\Carbon;
-use App\Models\User;
 use App\Models\Event;
-use Livewire\Component;
 use App\Models\Transaction;
-use Stripe\Checkout\Session;
+use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+use Livewire\Component;
+use Stripe\Checkout\Session;
 
 class DashboardComponent extends Component
 {
-    public $selected_event_id, $selectedEvent, $creditCost = 20, $bonusCredits = 0, $totalCredits = 4000;
+    public $selected_event_id, $selectedEvent, $creditCost = 20, $bonusCredits = 0, $totalCredits = 4000, $delivered_message = 0, $un_delivered_message = 0, $responded_message = 0, $stopped_message = 0;
+    public $dateFilter = '12months'; // Default filter
+    public $chartData = [
+        'delivered_messages' => [],
+        'responded_messages' => [],
+        'undelivered' => [],
+        'stopped' => [],
+    ];
+
+    public function mount()
+    {
+        $user_chats = DB::table('chats')->where('user_id', user()->id)->pluck('id')->toArray();
+
+        $this->delivered_message = DB::table('chat_messages')->whereIn('chat_id', $user_chats)->where('api_send_status', 'delivered')->count();
+        $this->un_delivered_message = DB::table('chat_messages')->whereIn('chat_id', $user_chats)->where('api_send_status', 'undelivered')->count();
+        $this->responded_message = DB::table('chat_messages')->whereIn('chat_id', $user_chats)->where('direction', 'inbound')->count();
+        $this->stopped_message = DB::table('chat_messages')->whereIn('chat_id', $user_chats)->where('api_send_status', 'failed')->count();
+
+        $this->updateChartData();
+
+    }
+
+    public function updateChartData()
+    {
+        $user_chats = DB::table('chats')->where('user_id', auth()->id())->pluck('id')->toArray();
+
+        $query = DB::table('chat_messages')->whereIn('chat_id', $user_chats);
+
+        if ($this->dateFilter == '7days') {
+            $query->where('created_at', '>=', now()->subDays(7));
+        } elseif ($this->dateFilter == '30days') {
+            $query->where('created_at', '>=', now()->subDays(30));
+        } elseif ($this->dateFilter == '12months') {
+            $query->where('created_at', '>=', now()->subMonths(12));
+        }
+
+        // Assign monthly data to chartData, using cloned queries for each type
+        $this->chartData = [
+            'delivered_messages' => $this->countMessagesByMonth((clone $query)->where('api_send_status', 'delivered')),
+            'responded_messages' => $this->countMessagesByMonth((clone $query)->where('direction', 'inbound')),
+            'undelivered' => $this->countMessagesByMonth((clone $query)->where('api_send_status', 'undelivered')),
+            'stopped' => $this->countMessagesByMonth((clone $query)->where('api_send_status', 'failed')),
+        ];
+
+    }
+
+    private function countMessagesByMonth($query)
+    {
+        // Initialize an array with 12 zeros (for each month, Jan to Dec)
+        $monthlyData = array_fill(0, 12, 0);
+
+        // Retrieve the counts grouped by month
+        $data = $query->select(DB::raw('MONTH(created_at) as month'), DB::raw('count(*) as count'))
+            ->groupBy('month')
+            ->orderBy('month')
+            ->pluck('count', 'month');
+
+        // Map the counts into the monthlyData array
+        foreach ($data as $month => $count) {
+            $monthlyData[$month - 1] = $count; // Month is 1-indexed (1 = Jan), so adjust to 0-indexed array
+        }
+
+        return $monthlyData;
+    }
+
+    public function setDateFilter($filter)
+    {
+        $this->dateFilter = $filter;
+        $this->updateChartData();
+        $this->dispatch('updateChart', $this->chartData);
+    }
+
     public function viewData($id)
     {
         $event = Event::findOrFail($id);
-
 
         $this->selectedEvent = $event;
         $this->selected_event_id = $event->id;
@@ -32,22 +103,22 @@ class DashboardComponent extends Component
 
         \Stripe\Stripe::setApiKey(config('services.stripe.secret'));
         $session = \Stripe\Checkout\Session::create([
-            'line_items'  => [
+            'line_items' => [
                 [
                     'price_data' => [
-                        'currency'     => 'usd',
+                        'currency' => 'usd',
                         'product_data' => [
                             'name' => 'Buy TextTorrent Credits',
                             'description' => 'Credit Amount: ' . $this->totalCredits,
                         ],
-                        'unit_amount'  => str_replace([',', '.'], ['', ''], $this->creditCost . '00'),
+                        'unit_amount' => str_replace([',', '.'], ['', ''], $this->creditCost . '00'),
                     ],
-                    'quantity'   => 1,
+                    'quantity' => 1,
                 ],
             ],
-            'mode'        => 'payment',
+            'mode' => 'payment',
             'success_url' => route('user.buyCreditSuccess') . '?session_id={CHECKOUT_SESSION_ID}',
-            'cancel_url'  => route('user.dashboard'),
+            'cancel_url' => route('user.dashboard'),
             'metadata' => [
                 'user_id' => user()->id,
                 'credit' => $this->totalCredits,
@@ -109,6 +180,6 @@ class DashboardComponent extends Component
         $formattedEvents = json_encode($formattedEvents);
 
         $total_credits = user()->credits;
-        return view('livewire.app.user.dashboard-component', ['credits_left'=>$total_credits, 'events'=>$formattedEvents])->layout('livewire.app.layouts.base');
+        return view('livewire.app.user.dashboard-component', ['credits_left' => $total_credits, 'events' => $formattedEvents])->layout('livewire.app.layouts.base');
     }
 }

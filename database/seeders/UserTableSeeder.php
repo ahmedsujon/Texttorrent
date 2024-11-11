@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\User;
+use App\Models\UserPermission;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
 
@@ -25,6 +26,7 @@ class UserTableSeeder extends Seeder
                 $user->email = $email;
                 $user->phone = '0170000000' . $key;
                 $user->password = Hash::make('12345678');
+                $user->permissions = UserPermission::pluck('id')->toArray();
                 $user->save();
             }
         }

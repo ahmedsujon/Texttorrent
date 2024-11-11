@@ -116,16 +116,16 @@
                                         <h4 class="timezone">Read</h4>
                                     </td>
                                     <td>
-                                        <h4 class="phone_number">+1 (566) 432-342</h4>
+                                        <h4 class="phone_number">{{ $log->from }}</h4>
                                     </td>
                                     <td>
-                                        <h4 class="phone_number">+1 (566) 432-342</h4>
+                                        <h4 class="phone_number">{{ getContactNumberName($log->contact_id) ? getContactNumberName($log->contact_id)->number : '---' }}</h4>
                                     </td>
                                     <td>
-                                        <h4 class="timezone">Test 1</h4>
+                                        <h4 class="timezone">{{ getContactNumberName($log->contact_id) ? getContactNumberName($log->contact_id)->first_name . ' ' . getContactNumberName($log->contact_id)->last_name : '' }}</h4>
                                     </td>
                                     <td>
-                                        <h4 class="message_text">Who is this?</h4>
+                                        <h4 class="message_text">{{ $log->message }}</h4>
                                     </td>
                                     <td>
                                         <h4 class="send_number">
@@ -134,7 +134,13 @@
                                     </td>
                                     <td>
                                         <div class="d-flex">
-                                            <div class="log_status">Received</div>
+                                            <div class="log_status">
+                                                @if ($log->direction == 'inbound')
+                                                    Received
+                                                @else
+                                                    {{ ucfirst($log->api_send_status) }}
+                                                @endif
+                                            </div>
                                         </div>
                                     </td>
 
