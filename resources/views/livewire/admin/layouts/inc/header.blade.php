@@ -83,9 +83,9 @@
                                     </a>
                                 </div>
                                 <div class="col">
-                                    <a class="dropdown-icon-item" href="#">
+                                    <a class="dropdown-icon-item" href="{{ route('app.home') }}" target="_blank">
                                         <img src="{{ asset('assets/admin/images/brands/dribbble.png') }}" alt="dribbble">
-                                        <span>Dribbble</span>
+                                        <span>Visit Website</span>
                                     </a>
                                 </div>
                             </div>

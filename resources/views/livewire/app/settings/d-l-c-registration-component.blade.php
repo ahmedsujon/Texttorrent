@@ -92,7 +92,7 @@
                                     <div wire:ignore>
                                         <label for="industry">Industry</label>
                                         <select name="lang" wire:model.blur='industry' class="js-searchBox industry">
-                                            <option value="">Select Vertical</option>
+                                            <option value="">Select Industry</option>
                                             <option value="AGRICULTURE">Agriculture</option>
                                             <option value="COMMUNICATION">Communication</option>
                                             <option value="CONSTRUCTION">Construction</option>
