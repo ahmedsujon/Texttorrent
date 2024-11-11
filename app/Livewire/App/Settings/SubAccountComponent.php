@@ -2,11 +2,13 @@
 
 namespace App\Livewire\App\Settings;
 
+use App\Models\Api;
 use App\Models\User;
-use App\Models\UserPermission;
-use Illuminate\Support\Facades\Hash;
 use Livewire\Component;
 use Livewire\WithPagination;
+use App\Models\UserPermission;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
 
 class SubAccountComponent extends Component
 {
@@ -20,6 +22,21 @@ class SubAccountComponent extends Component
         $this->lPermissions = UserPermission::where('position', 'left')->get();
         $this->mPermissions = UserPermission::where('position', 'middle')->get();
         $this->rPermissions = UserPermission::where('position', 'right')->get();
+    }
+
+    public function addSubAccount()
+    {
+        if (getActiveSubscription()['status'] == 'Active') {
+            if (user()->sub_accounts > 0) {
+                $this->dispatch('showAddAccountModal');
+            } else {
+                $this->dispatch('error', ['message' => 'You have reached your limit of sub accounts. Please upgrade your plan.']);
+            }
+        } else {
+            $this->dispatch('error', ['message' => 'You have no active subscription. Please upgrade your plan.']);
+        }
+
+        $this->resetForm();
     }
 
     public function storeData()
@@ -42,7 +59,30 @@ class SubAccountComponent extends Component
         $user->permissions = $this->permissions;
         $user->type = 'sub';
         $user->parent_id = user()->id;
+        $user->status = 1;
         $user->save();
+
+        $twilio_credentials = Api::where('user_id', user()->id)->first();
+        $cred = new Api();
+        $cred->user_id = $user->id;
+        $cred->gateway = $twilio_credentials->gateway;
+        $cred->account_sid = $twilio_credentials->account_sid;
+        $cred->auth_token = $twilio_credentials->auth_token;
+        $cred->save();
+
+        $data['first_name'] = $this->first_name;
+        $data['last_name'] = $this->last_name;
+        $data['email'] = $this->email;
+        $data['password'] = $this->password;
+        $data['url'] = 'https://www.texttorrent.com/login';
+        Mail::send('emails.sub-account-created', $data, function ($message) use ($data) {
+            $message->to($data['email'])
+                ->subject('Account Created');
+        });
+
+        $mUser = User::find(user()->id);
+        $mUser->sub_accounts -= 1;
+        $mUser->save();
 
         $this->dispatch('closeModal');
         $this->dispatch('success', ['message' => 'New sub user added successfully']);

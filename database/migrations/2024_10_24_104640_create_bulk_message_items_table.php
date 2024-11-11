@@ -23,6 +23,7 @@ return new class extends Migration
             $table->string('file', 2048)->nullable();
             $table->string('type')->nullable();
             $table->timestamp('execute_at')->nullable();
+            $table->tinyInteger('credit_clear')->default(0);
             $table->tinyInteger('status')->default(0);
             $table->timestamps();
         });

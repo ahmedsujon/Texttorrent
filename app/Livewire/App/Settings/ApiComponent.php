@@ -4,6 +4,7 @@ namespace App\Livewire\App\Settings;
 
 use App\Models\Api;
 use Livewire\Component;
+use Illuminate\Support\Facades\DB;
 
 class ApiComponent extends Component
 {
@@ -48,6 +49,16 @@ class ApiComponent extends Component
         $data->account_sid = $this->account_sid;
         $data->auth_token = $this->auth_token;
         $data->save();
+
+        $subUsers = DB::table('users')->where('parent_id', user()->id)->get();
+        foreach ($subUsers as $user) {
+            $cred = Api::where('user_id', $user->id)->first();
+            $cred->user_id = $user->id;
+            $cred->gateway = $this->gateway;
+            $cred->account_sid = $this->account_sid;
+            $cred->auth_token = $this->auth_token;
+            $cred->save();
+        }
 
         $this->mount();
         $this->dispatch('success', ['message' => 'API details updated successfully']);

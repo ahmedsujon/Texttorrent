@@ -11,6 +11,7 @@ use App\Models\BulkMessage;
 use App\Models\ContactList;
 use App\Models\InboxTemplate;
 use App\Models\BulkMessageItem;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Features\SupportFileUploads\WithFileUploads;
 
@@ -19,6 +20,15 @@ class BulkMessageComponent extends Component
     use WithFileUploads;
 
     public $contact_list_id, $contact_list_name, $inbox_template_id, $selected_template_preview, $number_pool = true, $batch_process = true, $opt_out_link = true, $round_robin_campaign = true, $phone_numbers, $sms_type = 'sms', $sms_body, $appended_message, $batch_size, $batch_frequency, $sending_throttle, $file, $type;
+
+    public function mount()
+    {
+        if (isUserPermitted('number-pool')) {
+            $this->number_pool = true;
+        } else {
+            $this->number_pool = false;
+        }
+    }
 
     public function resetUpload()
     {
@@ -100,14 +110,29 @@ class BulkMessageComponent extends Component
     {
         $this->contact_list_id = $id;
         $this->contact_list_name = $name;
+
+        $contactList = Contact::where('list_id', $this->contact_list_id)->where('blacklisted', 0)->get();
+        $totalContacts = $contactList->count();
+
+        $creditNeeded = msgCreditCalculation($this->sms_type, 'outgoing');
+        $this->total_credit = $creditNeeded * $totalContacts;
     }
 
-    public $total_credit;
+    public $total_credit = 0;
     public function storeData()
     {
         if (getActiveSubscription()['status'] == 'Active') {
 
-            if (user()->credits >= $this->total_credit) {
+            if (user()->type == 'sub') {
+                $au_user = DB::table('users')->select('id', 'credits')->where('id', user()->parent_id)->first();
+                $credit_has = $au_user->credits;
+                $user_id = $au_user->id;
+            } else {
+                $credit_has = user()->credits;
+                $user_id = user()->id;
+            }
+
+            if ($credit_has >= $this->total_credit) {
 
                 $this->validate([
                     'numbers' => 'required',
@@ -226,9 +251,12 @@ class BulkMessageComponent extends Component
                 }
 
                 // credit deduction
-                $user = User::find(user()->id);
+                $user = User::find($user_id);
                 $user->credits -= $this->total_credit;
                 $user->save();
+
+                // log
+                creditLog('Send bulk messages', $this->total_credit);
 
                 $this->dispatch('reset_form');
                 $this->dispatch('success', ['message' => 'Bulk message send successfully!']);
@@ -290,6 +318,15 @@ class BulkMessageComponent extends Component
         ]);
     }
 
+    public function updatedSmsType()
+    {
+        $contactList = Contact::where('list_id', $this->contact_list_id)->where('blacklisted', 0)->get();
+        $totalContacts = $contactList->count();
+
+        $creditNeeded = msgCreditCalculation($this->sms_type, 'outgoing');
+        $this->total_credit = $creditNeeded * $totalContacts;
+    }
+
     public $searchContactList;
     public function render()
     {
@@ -298,12 +335,6 @@ class BulkMessageComponent extends Component
         $activeNumbers = Number::where('user_id', Auth::user()->id)->where('number', 'like', '%' . $this->selectNumberSearch . '%')->orderBy('id', 'DESC')->get();
 
         $this->all_numbers = $activeNumbers->pluck('number')->toArray();
-
-        $contactList = Contact::where('list_id', $this->contact_list_id)->where('blacklisted', 0)->get();
-        $totalContacts = $contactList->count();
-
-        $creditNeeded = msgCreditCalculation($this->sms_type, 'outgoing');
-        $this->total_credit = $creditNeeded * $totalContacts;
 
         return view(
             'livewire.app.campaigns.bulk-message-component',

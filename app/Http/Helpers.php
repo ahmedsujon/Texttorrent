@@ -2,6 +2,7 @@
 
 use App\Models\Admin;
 use App\Models\ContactList;
+use App\Models\CreditLog;
 use App\Models\InboxTemplate;
 use App\Models\User;
 use Carbon\Carbon;
@@ -188,6 +189,67 @@ function msgCreditCalculation($msg_type = 'sms', $dir = 'outgoing')
     return $deducted_credits;
 }
 
+function getUserActiveSubscription($user_id)
+{
+    $subscription = DB::table('subscriptions')->select('package_type as type', 'package_name as name', 'end_date')->where('user_id', $user_id)->where('payment_status', 'paid')->orderBy('id', 'DESC')->first();
+
+    $status = '';
+    if ($subscription && $subscription->end_date && $subscription->end_date > now()) {
+        $status = 'Active';
+    } else {
+        $status = 'Expired';
+    }
+
+    $details = [
+        'type' => $subscription->type ?? '',
+        'name' => $subscription->name ?? '',
+        'status' => $status,
+    ];
+
+    return $details;
+
+}
+
+function userMsgCreditCalculation($user_id, $msg_type = 'sms', $dir = 'outgoing')
+{
+    $deducted_credits = 0;
+
+    if (getUserActiveSubscription($user_id)['status'] == 'Active') {
+        if(getUserActiveSubscription($user_id)['type'] == 'own-gateway'){
+            if ($dir == 'outgoing') {
+                if ($msg_type =='sms') {
+                    $deducted_credits = 1;
+                } else if($msg_type =='mms') {
+                    $deducted_credits = 2;
+                }
+            } else if ($dir == 'incoming') {
+                if ($msg_type =='sms') {
+                    $deducted_credits = 1;
+                } else if($msg_type =='mms') {
+                    $deducted_credits = 2;
+                }
+            }
+
+        } else if (getUserActiveSubscription($user_id)['type'] == 'text-torrent') {
+            if ($dir == 'outgoing') {
+                if ($msg_type =='sms') {
+                    $deducted_credits = 7;
+                } else if($msg_type =='mms') {
+                    $deducted_credits = 9;
+                }
+            } else if ($dir == 'incoming') {
+                if ($msg_type =='sms') {
+                    $deducted_credits = 4;
+                } else if($msg_type =='mms') {
+                    $deducted_credits = 5;
+                }
+            }
+        }
+    }
+
+    return $deducted_credits;
+}
+
 // function deductSMSCredit($msg_type = 'sms', $dir = 'outgoing')
 // {
 //     if (getActiveSubscription()['status'] == 'Active') {
@@ -227,6 +289,50 @@ function msgCreditCalculation($msg_type = 'sms', $dir = 'outgoing')
 //         DB::table('users')->where('id', user()->id)->update(['credits' => $deducted_credits]);
 //     }
 // }
+
+function getContactNumberName($id)
+{
+    return DB::table('contacts')->select('first_name', 'last_name', 'number')->find($id);
+}
+
+//user Permissions
+function userPermissions()
+{
+    $permissions = DB::table('users')->where('id', user()->id)->first()->permissions;
+    return $permissions != NULL ? json_decode($permissions) : [];
+}
+
+function isUserPermitted($permission)
+{
+    $permission = DB::table('user_permissions')->where('permission', $permission)->first();
+    if (in_array($permission->id, userPermissions())) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
+function creditLog($details, $credit_amount)
+{
+    $credit = new CreditLog();
+    $credit->user_id = user()->id;
+    $credit->parent_user = user()->type == 'sub' ? user()->parent_id : NULL;
+    $credit->details = $details;
+    $credit->credit = $credit_amount;
+    $credit->save();
+}
+
+function creditLogIncoming($user_id, $details, $credit_amount)
+{
+    $user = User::find($user_id);
+
+    $credit = new CreditLog();
+    $credit->user_id = $user_id;
+    $credit->parent_user = $user->type == 'sub' ? $user->parent_id : NULL;
+    $credit->details = $details;
+    $credit->credit = $credit_amount;
+    $credit->save();
+}
 
 function loadingStateSm($key, $title)
 {
@@ -276,7 +382,7 @@ function loadingStateWithTextXs($key, $title)
 function loadingStateWithoutText($key, $title)
 {
     $loadingSpinner = '
-        <div wire:loading wire:target="' . $key . '" wire:key="' . $key . '"><span class="spinner-border spinner-border-sm align-middle" role="status" aria-hidden="true"></span> </div> <span wire:loading.remove wire:target="' . $key . '" wire:key="' . $key . '">' . $title . '</span>
+        <div style="color: white !important;" wire:loading wire:target="' . $key . '" wire:key="' . $key . '"><span class="spinner-border spinner-border-sm align-middle" role="status" aria-hidden="true"></span> </div> <span wire:loading.remove wire:target="' . $key . '" wire:key="' . $key . '">' . $title . '</span>
     ';
 
     return $loadingSpinner;
