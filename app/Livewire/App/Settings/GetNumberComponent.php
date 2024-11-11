@@ -2,12 +2,13 @@
 
 namespace App\Livewire\App\Settings;
 
-use App\Models\Number;
 use Carbon\Carbon;
-use Illuminate\Support\Facades\DB;
+use App\Models\User;
+use App\Models\Number;
 use Livewire\Component;
-use Livewire\WithPagination;
 use Twilio\Rest\Client;
+use Livewire\WithPagination;
+use Illuminate\Support\Facades\DB;
 
 class GetNumberComponent extends Component
 {
@@ -156,6 +157,22 @@ class GetNumberComponent extends Component
             $twilio->incomingPhoneNumbers->create([
                 'phoneNumber' => $this->numberToPurchase,
             ]);
+
+            $credit_needed = 300;
+            if (user()->type == 'sub') {
+                $au_user = DB::table('users')->select('id', 'credits')->where('id', user()->parent_id)->first();
+                $user_id = $au_user->id;
+            } else {
+                $user_id = user()->id;
+            }
+
+            // credit deduction
+            $user = User::find($user_id);
+            $user->credits -= $credit_needed;
+            $user->save();
+
+            // log
+            creditLog('Number purchase: '. $this->numberToPurchase, $credit_needed);
 
             $saveData = $this->savePurchase($this->numberToPurchaseInfo);
             if ($saveData) {
@@ -313,6 +330,22 @@ class GetNumberComponent extends Component
                 $twilio->incomingPhoneNumbers->create([
                     'phoneNumber' => $number['number'],
                 ]);
+
+                $credit_needed = 300;
+                if (user()->type == 'sub') {
+                    $au_user = DB::table('users')->select('id', 'credits')->where('id', user()->parent_id)->first();
+                    $user_id = $au_user->id;
+                } else {
+                    $user_id = user()->id;
+                }
+
+                // credit deduction
+                $user = User::find($user_id);
+                $user->credits -= $credit_needed;
+                $user->save();
+
+                // log
+                creditLog('Number purchase: '. $number, $credit_needed);
 
                 $saveData = $this->savePurchase($number);
                 if ($saveData) {
