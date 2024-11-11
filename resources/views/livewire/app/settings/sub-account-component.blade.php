@@ -24,9 +24,8 @@
                         </button>
                     </form>
 
-                    <button type="button" class="create_template_btn sub_account_btn" wire:click.prevent='resetForm' data-bs-toggle="modal"
-                        data-bs-target="#newSubAccountModal">
-                        <img src="{{ asset('assets/app/icons/plus-sign-white.svg') }}" alt="plus icon" />
+                    <button type="button" class="create_template_btn sub_account_btn" wire:click.prevent='addSubAccount'>
+                        {!! loadingStateWithoutText("addSubAccount", '<img src="'.asset('assets/app/icons/plus-sign-white.svg').'" />') !!}
                         <span>Add Sub Account</span>
                     </button>
                 </div>
@@ -455,6 +454,9 @@
         });
     </script>
     <script>
+        window.addEventListener('showAddAccountModal', event => {
+            $('#newSubAccountModal').modal('show');
+        });
         window.addEventListener('showEditModal', event => {
             $('#editSubAccountModal').modal('show');
         });
