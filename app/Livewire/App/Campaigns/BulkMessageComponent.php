@@ -20,6 +20,15 @@ class BulkMessageComponent extends Component
 
     public $contact_list_id, $contact_list_name, $inbox_template_id, $selected_template_preview, $number_pool = true, $batch_process = true, $opt_out_link = true, $round_robin_campaign = true, $phone_numbers, $sms_type = 'sms', $sms_body, $appended_message, $batch_size, $batch_frequency, $sending_throttle, $file, $type;
 
+    public function mount()
+    {
+        if (isUserPermitted('number-pool')) {
+            $this->number_pool = true;
+        } else {
+            $this->number_pool = false;
+        }
+    }
+
     public function resetUpload()
     {
         $this->reset('file');

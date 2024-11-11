@@ -70,6 +70,7 @@
                     <div class="setup_bulk_area">
                         <h3>Set up</h3>
                         <div class="setup_checkbox_grid mt-16">
+                            @if (isUserPermitted('number-pool'))
                             <div class="custom_switch_area">
                                 <label class="switch">
                                     <input type="checkbox" wire:model.live='number_pool' />
@@ -85,6 +86,8 @@
                                     </span>
                                 </h6>
                             </div>
+                            @endif
+
                             <div class="custom_switch_area">
                                 <label class="switch">
                                     <input type="checkbox" wire:model.live='batch_process' />

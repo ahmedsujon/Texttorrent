@@ -7,9 +7,9 @@
             font-weight: normal;
             font-size: 12px;
             color: #333;
-            margin-bottom: 8px; /* Adjust for spacing above the slider */
+            margin-bottom: 8px;
+            /* Adjust for spacing above the slider */
         }
-
     </style>
 
     <main class="main_content_wrapper" wire:ignore>
@@ -29,7 +29,7 @@
                     </div>
                     <div>
                         <h3>Delivered messages</h3>
-                        <h4>443</h4>
+                        <h4>{{ $delivered_message }}</h4>
                     </div>
                 </div>
                 <div class="item_grid responded_item">
@@ -38,7 +38,7 @@
                     </div>
                     <div>
                         <h3>Responded messages</h3>
-                        <h4>32</h4>
+                        <h4>{{ $responded_message }}</h4>
                     </div>
                 </div>
                 <div class="item_grid undelivered_item">
@@ -47,7 +47,7 @@
                     </div>
                     <div>
                         <h3>Undelivered</h3>
-                        <h4>0</h4>
+                        <h4>{{ $un_delivered_message }}</h4>
                     </div>
                 </div>
                 <div class="item_grid stopped_item">
@@ -56,13 +56,13 @@
                     </div>
                     <div>
                         <h3>Stopped</h3>
-                        <h4>0</h4>
+                        <h4>{{ $stopped_message }}</h4>
                     </div>
                 </div>
             </div>
         </section>
         <!-- Analytics Chart Section  -->
-        <section class="analytics_chart_section">
+        <section class="analytics_chart_section" wire:ignore>
             <div class="d-flex-between gap-3">
                 <div class="title_area d-flex align-items-center flex-wrap gap-3">
                     <h2>Analytics</h2>
@@ -93,102 +93,63 @@
             </div>
             <div class="chart_area" id="analyticsChart"></div>
         </section>
+
         <!-- Credit And Activity Section  -->
         <section class="credit_activity_wrapper mt-24">
             <div class="credit_outer_grid">
-                {{-- <div class="credit_area" wire:ignore>
-                    <div class="d-flex-between">
-                        <h3 class="credit_title">Buy Credits</h3>
-                        <button type="button" class="amount_btn" style="color: black; background-color: #e5f9fe;">
-                            Credits left: {{ $total_credits }}
-                        </button>
-                        <button type="button" class="amount_btn">Pay $1000</button>
-                    </div>
-                    <div class="amount_area mt-24">
-                        <h4>Amount</h4>
-                        <div class="number">$1000.00</div>
-                    </div>
-                    <div class="range_area mt-24">
-                        <div class="container_container">
-                            <div id="slider"></div>
+                @if (isUserPermitted('sms-credits'))
+                    <div class="credit_area">
+                        <div class="d-flex-between">
+                            <h3 class="credit_title">Buy Credits</h3>
+                            <button type="button" class="amount_btn" style="color: black; background-color: #e5f9fe;">
+                                Credits left: {{ $credits_left }}
+                            </button>
+                            <button type="button" class="amount_btn amount_btn_pay" wire:click.prevent='buyCredit'>Pay
+                                $1000</button>
                         </div>
-                    </div>
+                        <div class="amount_area mt-24">
+                            <h4>Amount</h4>
+                            <div class="number">$1000.00</div>
+                        </div>
+                        <div class="range_area mt-24">
+                            <!-- Bonus percentage labels -->
+                            <div class="bonus-percentage-labels">
+                                <span> <img src="{{ asset('assets/app/icons/bonus2.svg') }}"> 0%</span><span> <img
+                                        src="{{ asset('assets/app/icons/bonus2.svg') }}"> 5%</span><span> <img
+                                        src="{{ asset('assets/app/icons/bonus2.svg') }}"> 10%</span><span> <img
+                                        src="{{ asset('assets/app/icons/bonus2.svg') }}"> 15%</span><span> <img
+                                        src="{{ asset('assets/app/icons/bonus2.svg') }}"> 20%</span>
+                            </div>
+                            <div class="container_container">
+                                <div id="slider"></div>
+                            </div>
+                        </div>
 
-                    <div class="added_amount">
-                        Credits Added: <span class="credit_title"> 200,000</span>
-                    </div>
-                    <div class="bonus_outer_grid">
-                        <div class="bonus_grid">
-                            <div class="icon">
-                                <img src="{{ asset('assets/app/icons/bonus.svg') }}" alt="bonus" />
-                            </div>
-                            <div>
-                                <h4>Bonus Credits</h4>
-                                <h5>0</h5>
-                            </div>
+                        <div class="added_amount">
+                            Credits Added: <span class="credit_title">200,000</span>
                         </div>
-                        <div class="bonus_grid">
-                            <div class="icon">
-                                <img src="{{ asset('assets/app/icons/bonus.svg') }}" alt="bonus" />
+                        <div class="bonus_outer_grid">
+                            <div class="bonus_grid">
+                                <div class="icon">
+                                    <img src="{{ asset('assets/app/icons/bonus.svg') }}" alt="bonus" />
+                                </div>
+                                <div>
+                                    <h4>Bonus Credits</h4>
+                                    <h5>0</h5>
+                                </div>
                             </div>
-                            <div>
-                                <h4>Total Credits</h4>
-                                <h5>{{ $total_credits }}</h5>
-                            </div>
-                        </div>
-                    </div>
-                </div> --}}
-
-                <div class="credit_area">
-                    <div class="d-flex-between">
-                        <h3 class="credit_title">Buy Credits</h3>
-                        <button type="button" class="amount_btn" style="color: black; background-color: #e5f9fe;">
-                            Credits left: {{ $credits_left }}
-                        </button>
-                        <button type="button" class="amount_btn amount_btn_pay" wire:click.prevent='buyCredit'>Pay $1000</button>
-                    </div>
-                    <div class="amount_area mt-24">
-                        <h4>Amount</h4>
-                        <div class="number">$1000.00</div>
-                    </div>
-                    <div class="range_area mt-24">
-                        <!-- Bonus percentage labels -->
-                        <div class="bonus-percentage-labels">
-                            <span> <img src="{{ asset('assets/app/icons/bonus2.svg') }}"> 0%</span><span> <img src="{{ asset('assets/app/icons/bonus2.svg') }}"> 5%</span><span> <img src="{{ asset('assets/app/icons/bonus2.svg') }}"> 10%</span><span> <img src="{{ asset('assets/app/icons/bonus2.svg') }}"> 15%</span><span> <img src="{{ asset('assets/app/icons/bonus2.svg') }}"> 20%</span>
-                        </div>
-                        <div class="container_container">
-                            <div id="slider"></div>
-                        </div>
-                    </div>
-
-                    <div class="added_amount">
-                        Credits Added: <span class="credit_title">200,000</span>
-                    </div>
-                    <div class="bonus_outer_grid">
-                        <div class="bonus_grid">
-                            <div class="icon">
-                                <img src="{{ asset('assets/app/icons/bonus.svg') }}" alt="bonus" />
-                            </div>
-                            <div>
-                                <h4>Bonus Credits</h4>
-                                <h5>0</h5>
-                            </div>
-                        </div>
-                        <div class="bonus_grid">
-                            <div class="icon">
-                                <img src="{{ asset('assets/app/icons/bonus.svg') }}" alt="bonus" />
-                            </div>
-                            <div>
-                                <h4>Total Credits</h4>
-                                <h5>{{ $totalCredits }}</h5>
+                            <div class="bonus_grid">
+                                <div class="icon">
+                                    <img src="{{ asset('assets/app/icons/bonus.svg') }}" alt="bonus" />
+                                </div>
+                                <div>
+                                    <h4>Total Credits</h4>
+                                    <h5>{{ $totalCredits }}</h5>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
-
-
-
-
+                @endif
                 <div class="activity_area">
                     <h3 class="credit_title">Activity</h3>
                     <div class="activity_item_area">
@@ -281,11 +242,13 @@
             </div>
         </section>
         <!-- Calender Section  -->
-        <section class="dashboard_calender_wrapper mt-24">
-            <div class="calender_full_area">
-                <div id="calendar"></div>
-            </div>
-        </section>
+        @if (isUserPermitted('calendar'))
+            <section class="dashboard_calender_wrapper mt-24">
+                <div class="calender_full_area">
+                    <div id="calendar"></div>
+                </div>
+            </section>
+        @endif
     </main>
 
     <!-- Edit Event Content Modal  -->
@@ -362,19 +325,19 @@
         var options = {
             series: [{
                     name: "Delivered messages",
-                    data: [10, 41, 35, 51, 49, 62, 69, 91, 148, 160, 170, 180],
+                    data: @json($chartData['delivered_messages']),
                 },
                 {
                     name: "Responded messages",
-                    data: [30, 41, 45, 80, 90, 80, 120, 160, 148, 49, 62, 69],
+                    data: @json($chartData['responded_messages']),
                 },
                 {
                     name: "Undelivered",
-                    data: [50, 141, 235, 351, 449, 262, 369, 291, 148, 160, 170, 180],
+                    data: @json($chartData['undelivered']),
                 },
                 {
                     name: "Stopped",
-                    data: [0, 20, 100, 80, 70, 60, 220, 185, 168, 149, 162, 169],
+                    data: @json($chartData['stopped']),
                 },
             ],
             chart: {
