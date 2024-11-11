@@ -11,6 +11,7 @@ use App\Models\BulkMessage;
 use App\Models\ContactList;
 use App\Models\InboxTemplate;
 use App\Models\BulkMessageItem;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Features\SupportFileUploads\WithFileUploads;
 
@@ -116,7 +117,16 @@ class BulkMessageComponent extends Component
     {
         if (getActiveSubscription()['status'] == 'Active') {
 
-            if (user()->credits >= $this->total_credit) {
+            if (user()->type == 'sub') {
+                $au_user = DB::table('users')->select('id', 'credits')->where('id', user()->parent_id)->first();
+                $credit_has = $au_user->credits;
+                $user_id = $au_user->id;
+            } else {
+                $credit_has = user()->credits;
+                $user_id = user()->id;
+            }
+
+            if ($credit_has >= $this->total_credit) {
 
                 $this->validate([
                     'numbers' => 'required',
@@ -235,9 +245,12 @@ class BulkMessageComponent extends Component
                 }
 
                 // credit deduction
-                $user = User::find(user()->id);
+                $user = User::find($user_id);
                 $user->credits -= $this->total_credit;
                 $user->save();
+
+                // log
+                creditLog('Send bulk messages', $this->total_credit);
 
                 $this->dispatch('reset_form');
                 $this->dispatch('success', ['message' => 'Bulk message send successfully!']);

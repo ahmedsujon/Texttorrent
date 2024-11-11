@@ -2,6 +2,7 @@
 
 use App\Models\Admin;
 use App\Models\ContactList;
+use App\Models\CreditLog;
 use App\Models\InboxTemplate;
 use App\Models\User;
 use Carbon\Carbon;
@@ -248,6 +249,16 @@ function isUserPermitted($permission)
     } else {
         return false;
     }
+}
+
+function creditLog($details, $credit)
+{
+    $credit = new CreditLog();
+    $credit->user_id = user()->id;
+    $credit->parent_user = user()->type == 'sub' ? user()->parent_id : NULL;
+    $credit->details = $details;
+    $credit->credit = $credit;
+    $credit->save();
 }
 
 function loadingStateSm($key, $title)
