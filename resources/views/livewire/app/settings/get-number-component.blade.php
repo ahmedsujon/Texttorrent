@@ -120,10 +120,9 @@
                                         <td>
                                             <div class="table_dropdown_area d-flex align-items-center flex-wrap gap-1">
                                                 <button type="button" class="icon_btn"
-                                                    wire:click.prevent='purchaseNumberConfirmation("{{ $number['phoneNumber'] }}", "{{ $number['friendlyName'] }}", "{{ $number['region'] }}", "{{ $number['isoCountry'] }}", "{{ $number['latitude'] }}", "{{ $number['longitude'] }}", "{{ $number['postalCode'] }}")'>
-                                                    {{-- data-bs-toggle="modal" data-bs-target="#confirmPurchaseModal" --}}
-                                                    <img src="{{ asset('assets/app/icons/shopping-cart.svg') }}"
-                                                        alt="" />
+                                                    wire:click.prevent='purchaseNumberConfirmation("{{ $number['phoneNumber'] }}", "{{ $number['friendlyName'] }}", "{{ $number['region'] }}", "{{ $number['isoCountry'] }}", "{{ $number['latitude'] }}", "{{ $number['longitude'] }}", "{{ $number['postalCode'] }}")' wire:loading.attr='disabled'>
+
+                                                    {!! loadingStateWithoutText("purchaseNumberConfirmation('".$number['phoneNumber']."', '".$number['friendlyName']."', '".$number['region']."', '".$number['isoCountry']."', '".$number['latitude']."', '".$number['longitude']."', '".$number['postalCode']."')", '<img src="'.asset('assets/app/icons/shopping-cart.svg').'" />') !!}
                                                 </button>
                                                 {{-- <div class="dropdown">
                                                 <button class="table_dot_btn dropdown-toggle" type="button"
@@ -228,6 +227,7 @@
                                 @endif
                             </div>
                             <small class="mt-3">
+                                <strong>Credits Needed: {{ $qty * 300 }}</strong> <br>
                                 Buying a phone number will cost you 300 credits per month
                             </small>
                         </div>

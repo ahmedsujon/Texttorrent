@@ -2,12 +2,12 @@
 
 namespace App\Livewire\App\Settings;
 
-use Carbon\Carbon;
 use App\Models\Number;
-use Livewire\Component;
-use Twilio\Rest\Client;
-use Livewire\WithPagination;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
+use Livewire\Component;
+use Livewire\WithPagination;
+use Twilio\Rest\Client;
 
 class GetNumberComponent extends Component
 {
@@ -17,9 +17,9 @@ class GetNumberComponent extends Component
     public function mount()
     {
         $twilioCredentials = DB::table('apis')
-        ->where('user_id', auth()->id())
-        ->where('gateway', 'Twilio')
-        ->first();
+            ->where('user_id', auth()->id())
+            ->where('gateway', 'Twilio')
+            ->first();
 
         $this->TWILIO_SID = $twilioCredentials->account_sid;
         $this->TWILIO_AUTH_TOKEN = $twilioCredentials->auth_token;
@@ -115,18 +115,37 @@ class GetNumberComponent extends Component
     public $numberToPurchase, $numberToPurchaseInfo = [];
     public function purchaseNumberConfirmation($number, $friendlyName, $region, $isoCountry, $latitude, $longitude, $postalCode)
     {
-        $this->numberToPurchase = $number;
-        $this->numberToPurchaseInfo = [
-            'friendly_name' => $friendlyName,
-            'number' => $number, // '+14154750306'
-            'region' => $region,
-            'country' => $isoCountry,
-            'latitude' => $latitude,
-            'longitude' => $longitude,
-            'postal_code' => $postalCode,
-        ];
+        if (getActiveSubscription()['status'] == 'Active') {
+            $credit_needed = 300;
+            if (user()->type == 'sub') {
+                $au_user = DB::table('users')->select('id', 'credits')->where('id', user()->parent_id)->first();
+                $credit_has = $au_user->credits;
+                $user_id = $au_user->id;
+            } else {
+                $credit_has = user()->credits;
+                $user_id = user()->id;
+            }
 
-        $this->dispatch('showPurchaseModal');
+            if ($credit_has >= $credit_needed) {
+                $this->numberToPurchase = $number;
+                $this->numberToPurchaseInfo = [
+                    'friendly_name' => $friendlyName,
+                    'number' => $number, // '+14154750306'
+                    'region' => $region,
+                    'country' => $isoCountry,
+                    'latitude' => $latitude,
+                    'longitude' => $longitude,
+                    'postal_code' => $postalCode,
+                ];
+
+                $this->dispatch('showPurchaseModal');
+            } else {
+                $this->dispatch('error', ['message' => 'You do not have enough credits to purchase this number.']);
+            }
+        } else {
+            $this->dispatch('error', ['message' => 'No active subscription. Please upgrade your subscription.']);
+        }
+
     }
 
     public function purchaseNumber()
@@ -256,13 +275,31 @@ class GetNumberComponent extends Component
     public $selected_numbers, $selected_numbers_info;
     public function bulkPurchaseConfirmation()
     {
-        $selected_numbers = array_slice($this->numbers_array, 0, $this->qty);
-        $this->selected_numbers = $selected_numbers;
+        if (getActiveSubscription()['status'] == 'Active') {
+            $credit_needed = 300 * $this->qty;
+            if (user()->type == 'sub') {
+                $au_user = DB::table('users')->select('id', 'credits')->where('id', user()->parent_id)->first();
+                $credit_has = $au_user->credits;
+                $user_id = $au_user->id;
+            } else {
+                $credit_has = user()->credits;
+                $user_id = user()->id;
+            }
 
-        $selected_numbers_info = array_slice($this->numbers_info_array, 0, $this->qty);
-        $this->selected_numbers_info = $selected_numbers_info;
+            if ($credit_has >= $credit_needed) {
+                $selected_numbers = array_slice($this->numbers_array, 0, $this->qty);
+                $this->selected_numbers = $selected_numbers;
 
-        $this->dispatch('showBulkPurchaseModal');
+                $selected_numbers_info = array_slice($this->numbers_info_array, 0, $this->qty);
+                $this->selected_numbers_info = $selected_numbers_info;
+
+                $this->dispatch('showBulkPurchaseModal');
+            } else {
+                $this->dispatch('error', ['message' => 'You do not have enough credits to purchase numbers.']);
+            }
+        } else {
+            $this->dispatch('error', ['message' => 'No active subscription. Please upgrade your subscription.']);
+        }
     }
 
     public function bulkPurchaseNumber()

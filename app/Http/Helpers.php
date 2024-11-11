@@ -382,7 +382,7 @@ function loadingStateWithTextXs($key, $title)
 function loadingStateWithoutText($key, $title)
 {
     $loadingSpinner = '
-        <div wire:loading wire:target="' . $key . '" wire:key="' . $key . '"><span class="spinner-border spinner-border-sm align-middle" role="status" aria-hidden="true"></span> </div> <span wire:loading.remove wire:target="' . $key . '" wire:key="' . $key . '">' . $title . '</span>
+        <div style="color: white !important;" wire:loading wire:target="' . $key . '" wire:key="' . $key . '"><span class="spinner-border spinner-border-sm align-middle" role="status" aria-hidden="true"></span> </div> <span wire:loading.remove wire:target="' . $key . '" wire:key="' . $key . '">' . $title . '</span>
     ';
 
     return $loadingSpinner;
