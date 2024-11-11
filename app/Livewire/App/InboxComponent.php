@@ -75,7 +75,15 @@ class InboxComponent extends Component
     {
         if (getActiveSubscription()['status'] == 'Active') {
             $credit_needed = msgCreditCalculation('sms', 'outgoing');
-            if (user()->credits >= $credit_needed) {
+            if (user()->type == 'sub') {
+                $au_user = DB::table('users')->select('id', 'credits')->where('id', user()->parent_id)->first();
+                $credit_has = $au_user->credits;
+                $user_id = $au_user->id;
+            } else {
+                $credit_has = user()->credits;
+                $user_id = user()->id;
+            }
+            if ($credit_has >= $credit_needed) {
                 $msg = new ChatMessage();
                 $msg->chat_id = $this->selected_chat_id;
                 $msg->direction = 'outbound';
@@ -89,9 +97,12 @@ class InboxComponent extends Component
                 sendSMSviaTwilio($this->selected_chat->number, $chat->from_number, $message, $msg->id);
 
                 // credit deduction
-                $user = User::find(user()->id);
+                $user = User::find($user_id);
                 $user->credits -= $credit_needed;
                 $user->save();
+
+                // log
+                creditLog('Send message to '. $this->selected_chat->first_name.''. $this->selected_chat->last_name, $credit_needed);
 
                 $msgSt = ChatMessage::find($msg->id);
                 $msg->api_send_status = $msgSt->api_send_status;

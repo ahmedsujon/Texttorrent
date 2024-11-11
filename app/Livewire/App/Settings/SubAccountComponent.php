@@ -24,6 +24,21 @@ class SubAccountComponent extends Component
         $this->rPermissions = UserPermission::where('position', 'right')->get();
     }
 
+    public function addSubAccount()
+    {
+        if (getActiveSubscription()['status'] == 'Active') {
+            if (user()->sub_accounts > 0) {
+                $this->dispatch('showAddAccountModal');
+            } else {
+                $this->dispatch('error', ['message' => 'You have reached your limit of sub accounts. Please upgrade your plan.']);
+            }
+        } else {
+            $this->dispatch('error', ['message' => 'You have no active subscription. Please upgrade your plan.']);
+        }
+
+        $this->resetForm();
+    }
+
     public function storeData()
     {
         $this->validate([
@@ -44,6 +59,7 @@ class SubAccountComponent extends Component
         $user->permissions = $this->permissions;
         $user->type = 'sub';
         $user->parent_id = user()->id;
+        $user->status = 1;
         $user->save();
 
         $twilio_credentials = Api::where('user_id', user()->id)->first();
@@ -63,6 +79,10 @@ class SubAccountComponent extends Component
             $message->to($data['email'])
                 ->subject('Account Created');
         });
+
+        $mUser = User::find(user()->id);
+        $mUser->sub_accounts -= 1;
+        $mUser->save();
 
         $this->dispatch('closeModal');
         $this->dispatch('success', ['message' => 'New sub user added successfully']);
