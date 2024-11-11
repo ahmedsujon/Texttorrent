@@ -263,6 +263,31 @@ class NumbersTableSeeder extends Seeder
                 'next_renew_date' => '2030-10-07',
                 'created_at' => '2024-10-07 10:15:24',
                 'updated_at' => '2024-10-07 10:15:24',
+            ],
+            [
+                'id' => 11,
+                'user_id' => 1,
+                'purchased_by' => 1,
+                'friendly_name' => '(619) 494-2715',
+                'number' => '+16194942715',
+                'region' => 'CA',
+                'country' => 'US',
+                'latitude' => '37.645600',
+                'longitude' => '-84.772200',
+                'postal_code' => '40422',
+                'capabilities' => json_encode([
+                    'mms' => true,
+                    'sms' => true,
+                    'voice' => true,
+                    'fax' => false
+                ]),
+                'type' => 'local',
+                'twilio_number_sid' => 'PN47cb1e8182dcbb4bf5504f616eac098f',
+                'twilio_service_sid' => 'MG3ce3523adb139c9a4bed631480155c1e',
+                'purchased_at' => '2024-11-01',
+                'next_renew_date' => '2030-12-11',
+                'created_at' => '2024-10-07 10:15:24',
+                'updated_at' => '2024-10-07 10:15:24',
             ]
         ]);
     }
