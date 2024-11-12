@@ -12,7 +12,7 @@
                 </div>
                 <div class="account_right_area d-flex align-items-center justify-content-end flex-wrap">
                     <form action="" class="search_input_form search_input_form_sm">
-                        <input type="search" placeholder="Search" class="input_field" />
+                        <input type="search" placeholder="Search" wire:model.live='searchTerm' class="input_field" />
                         <button type="submit" class="search_icon">
                             <img src="{{ asset('assets/app/icons/search-gray.svg') }}" alt="search icon" />
                         </button>
