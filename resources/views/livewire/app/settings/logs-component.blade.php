@@ -27,39 +27,20 @@
                                     <h5>Select</h5>
                                 </li>
                                 <li>
-                                    <button type="button" class="dropdown-item active_check">
-                                        <span>Received</span>
-                                    </button>
-                                </li>
-                                <li>
-                                    <button type="button" class="dropdown-item">
-                                        <span>SMS Inbox</span>
-                                    </button>
-                                </li>
-                                <li>
-                                    <button type="button" class="dropdown-item">
-                                        <span>Single SMS Outbox</span>
-                                    </button>
-                                </li>
-                                <li>
-                                    <button type="button" class="dropdown-item">
-                                        <span>Bulk SMS Outbox</span>
-                                    </button>
-                                </li>
-                                <li>
-                                    <button type="button" class="dropdown-item">
-                                        <span>Voicemail</span>
+                                    <button type="button" wire:click.prevent='filterMessage("received")' class="dropdown-item"> <!-- active_check -->
+                                        <span>Received Messages</span>
                                     </button>
                                 </li>
 
                                 <li>
-                                    <button type="button" class="dropdown-item border_top">
-                                        <span>Delete All SMS Inbox (Prior Years Only)</span>
+                                    <button type="button" wire:click.prevent='filterMessage("sent")' class="dropdown-item"> <!-- active_check -->
+                                        <span>Sent Messages</span>
                                     </button>
                                 </li>
+
                                 <li>
-                                    <button type="button" class="dropdown-item">
-                                        <span>Export All SMS Inbox</span>
+                                    <button type="button" wire:click.prevent='exportAll' class="dropdown-item">
+                                        <span>Export All</span>
                                     </button>
                                 </li>
                             </ul>
@@ -103,14 +84,12 @@
                                 <th scope="col">
                                     <div class="column_area">
                                         <span>Action</span>
-                                        <img src="{{ asset('assets/app/icons/tp-down-table-arrow.svg') }}"
-                                            alt="top down arrow" />
                                     </div>
                                 </th>
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach ($logs as $log)
+                            @foreach ($logs as $key => $log)
                                 <tr>
                                     <td>
                                         <h4 class="timezone">Read</h4>
@@ -146,16 +125,10 @@
 
                                     <td>
                                         <div class="table_dropdown_area d-flex align-items-center flex-wrap gap-1">
-                                            <button type="button" class="table_edit_btn" data-bs-toggle="modal"
-                                                data-bs-target="#chatLogModal">
-                                                <img src="{{ asset('assets/app/icons/message-03.svg') }}"
-                                                    alt="message icon" />
+                                            <a type="button" class="table_edit_btn" wire:click.prevent='viewChat({{ $log->chat_id }}, {{ $key }})'>
+                                                {!! loadingStateWithoutText("viewChat($log->chat_id, $key)", '<img src="'.asset('assets/app/icons/message-03.svg').'" />') !!}
                                                 <span>Chat</span>
-                                            </button>
-                                            <button type="button" class="table_delete_btn">
-                                                <img src="{{ asset('assets/app/icons/delete-04.svg') }}"
-                                                    alt="delete icon" />
-                                            </button>
+                                            </a>
                                         </div>
                                     </td>
                                 </tr>
