@@ -643,9 +643,47 @@
                         <button type="button" class="cancel_btn" data-bs-dismiss="modal">
                             Cancel
                         </button>
-                        <button type="button" class="create_event_btn" wire:click.prevent='import'>
-                            {!! loadingStateWithText('import', 'Submit') !!}
+                        <button type="button" class="create_event_btn" wire:click.prevent='importConfirmation'>
+                            {!! loadingStateWithText('importConfirmation', 'Submit') !!}
                         </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Delete  Modal  -->
+        <div wire:ignore.self class="modal fade delete_modal" id="importConfirmationModal" tabindex="-1"
+            aria-labelledby="deleteModal" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+                <div class="modal-content">
+                    <div class="modal-body">
+                        <form wire:submit.prevent='import' >
+                            <div class="content_area text-center">
+                                <h5 class="mb-3">Confirm Opt-In Consent</h5>
+
+                                <div class="text-start">
+                                    <p class="text-muted mb-3">
+                                        Please confirm that all the contacts you are importing have agreed to receive SMS messages
+                                        from you. Ensuring your recipients have opted in helps maintain compliance and ensures a
+                                        positive experience for everyone.
+                                        By checking this box, you confirm that all imported contacts have provided their consent to
+                                        receive messages.
+                                    </p>
+                                </div>
+
+                                <input type="checkbox" id="confirm_chk" required> <label for="confirm_chk"> I confirm that all contacts have opted in.</label>
+                                <div class="text-center mt-4">
+                                    <button type="button" class="delete_cancel_btn" id="deleteModalCloseBtn"
+                                        data-bs-dismiss="modal">
+                                        Cancel
+                                    </button>
+                                    <button type="submit" wire:loading.attr='disabled'
+                                        class="delete_yes_btn">
+                                        {!! loadingStateWithText('import', 'Import Data') !!}
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
                     </div>
                 </div>
             </div>
@@ -1282,6 +1320,11 @@
                 $('#editListModal').modal('show');
             });
 
+            window.addEventListener('showImportConfirmation', event => {
+                $('#importModal').modal('hide');
+                $('#importConfirmationModal').modal('show');
+            });
+
             window.addEventListener('showContactEditModal', event => {
                 $('#contactEditModal').modal('show');
             });
@@ -1330,6 +1373,7 @@
                 $('#contactEditModal').modal('hide');
                 $('#folderToggleModal').modal('hide');
                 $('#importModal').modal('hide');
+                $('#importConfirmationModal').modal('hide');
             });
 
             window.addEventListener('data_deleted', event => {
