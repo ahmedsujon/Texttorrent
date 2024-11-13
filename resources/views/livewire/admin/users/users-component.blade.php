@@ -152,12 +152,21 @@
                                                                     wire:click.prevent='tenDLCEditData({{ $user->id }})'
                                                                     wire:loading.attr='disabled'>10DLC
                                                                     Registration</button>
+
                                                                 <button type="button" class="dropdown-item"
                                                                     wire:click.prevent='apiIntrigation({{ $user->id }})'
                                                                     wire:loading.attr='disabled'>API
                                                                     Integration</button>
-                                                                <a class="dropdown-item" href="#">Change
-                                                                    Password</a>
+
+                                                                <button type="button" class="dropdown-item"
+                                                                    wire:click.prevent='creditsEditData({{ $user->id }})'
+                                                                    wire:loading.attr='disabled'>Credits</button>
+
+                                                                <button type="button" class="dropdown-item"
+                                                                    wire:click.prevent='changePasswordData({{ $user->id }})'
+                                                                    wire:loading.attr='disabled'>Change
+                                                                    Password</button>
+
                                                                 <button type="button" class="dropdown-item"
                                                                     wire:click.prevent='deleteConfirmation({{ $user->id }})'
                                                                     wire:loading.attr='disabled'>Delete
@@ -314,13 +323,17 @@
                                         </ul>
                                         <div class="hstack gap-2">
                                             <a href="javascript:void(0)" type="button" target="_blank"
-                                            onclick="event.preventDefault(); document.getElementById('login-form_{{ $edit_id }}').submit();" class="btn btn-primary">Login Account <i
+                                                onclick="event.preventDefault(); document.getElementById('login-form_{{ $edit_id }}').submit();"
+                                                class="btn btn-primary">Login Account <i
                                                     class='bx bx-download align-baseline ms-1'></i></a>
 
-                                            <form id="login-form_{{ $edit_id }}" style="display: none;" method="POST" action="{{ route('loginAsUser') }}">
+                                            <form id="login-form_{{ $edit_id }}" style="display: none;"
+                                                method="POST" action="{{ route('loginAsUser') }}">
                                                 @csrf
-                                                <input type="text" name="email" value="{{ $email }}" id="email">
-                                                <input type="text" name="password" value="{{ $password }}" id="password">
+                                                <input type="text" name="email" value="{{ $email }}"
+                                                    id="email">
+                                                <input type="text" name="password" value="{{ $password }}"
+                                                    id="password">
                                             </form>
                                         </div>
                                     </div>
@@ -1285,7 +1298,8 @@
                                                                 onchange="optInValue(this)"
                                                                 @if ($embedded_phone) checked @endif>
                                                             <label class="form-check-label"
-                                                                for="SubscriberEmbeddedPhone">Embedded Phone Number</label>
+                                                                for="SubscriberEmbeddedPhone">Embedded Phone
+                                                                Number</label>
                                                         </div>
                                                         @error('embedded_phone')
                                                             <p class="text-danger" style="font-size: 11.5px;">
@@ -1378,7 +1392,126 @@
     </div>
     <!-- End 10 DLC Data Modal -->
 
+    <!-- Change Passsword Data Modal -->
+    <div wire:ignore.self class="modal fade" id="changePasswordModal" tabindex="-1" role="dialog"
+        data-bs-backdrop="static" data-bs-keyboard="false" aria-labelledby="modelTitleId">
+        <div class="modal-dialog modal-dialog-centered modal-dialog-zoom modal-xl" role="document">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <div class="row justify-content-center">
+                        <div class="col-lg-12">
+                            <div class="card bg-info-subtle">
+                                <div class="card-body">
+                                    <button style="float: right;" type="button" class="btn-close"
+                                        data-bs-dismiss="modal" aria-label="Close"
+                                        wire:click.prevent='close'></button>
+                                    <div class="text-center mb-4">
+                                        <h3 class="mb-3">Change Passsword</h3>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-lg-2"></div>
+                        <div class="col-lg-8">
+                            <div class="card">
+                                <div class="card-body">
+                                    <form wire:submit.prevent='changePassword'>
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <label for="password" class="col-form-label">Password</label>
+                                                <input class="form-control" type="password"
+                                                    wire:model.blur="password" placeholder="Enter password">
+                                                @error('password')
+                                                    <p class="text-danger" style="font-size: 11.5px;">
+                                                        {{ $message }}
+                                                    </p>
+                                                @enderror
+                                            </div>
+                                        </div>
+                                        <div class="mb-3 row mt-4" style="float: right;">
+                                            <div class="col-12">
+                                                <button type="submit"
+                                                    class="btn btn-primary waves-effect waves-light w-30">
+                                                    {!! loadingStateWithText('changePassword', 'Update Password') !!}
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-2"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- End Change Passsword Data Modal -->
+
+    <!-- Credit Update Data Modal -->
+    <div wire:ignore.self class="modal fade" id="creditChangeModal" tabindex="-1" role="dialog"
+        data-bs-backdrop="static" data-bs-keyboard="false" aria-labelledby="modelTitleId">
+        <div class="modal-dialog modal-dialog-centered modal-dialog-zoom modal-xl" role="document">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <div class="row justify-content-center">
+                        <div class="col-lg-12">
+                            <div class="card bg-info-subtle">
+                                <div class="card-body">
+                                    <button style="float: right;" type="button" class="btn-close"
+                                        data-bs-dismiss="modal" aria-label="Close"
+                                        wire:click.prevent='close'></button>
+                                    <div class="text-center mb-4">
+                                        <h3 class="mb-3">Credit Update</h3>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-lg-2"></div>
+                        <div class="col-lg-8">
+                            <div class="card">
+                                <div class="card-body">
+                                    <form wire:submit.prevent='creditsUpdateData'>
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <label for="credits" class="col-form-label">Credits</label>
+                                                <input class="form-control" type="text"
+                                                    wire:model.blur="credits" placeholder="Enter credits">
+                                                @error('credits')
+                                                    <p class="text-danger" style="font-size: 11.5px;">
+                                                        {{ $message }}
+                                                    </p>
+                                                @enderror
+                                            </div>
+                                        </div>
+                                        <div class="mb-3 row mt-4" style="float: right;">
+                                            <div class="col-12">
+                                                <button type="submit"
+                                                    class="btn btn-primary waves-effect waves-light w-30">
+                                                    {!! loadingStateWithText('creditsUpdateData', 'Update Credit') !!}
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-2"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- End Credit Update Data Modal -->
+
     <!-- Delete Modal -->
+
     <div wire:ignore.self class="modal fade" id="deleteDataModal" tabindex="-1" role="dialog"
         aria-labelledby="modelTitleId">
         <div class="modal-dialog modal-dialog-centered modal-dialog-zoom modal-md" role="document">
@@ -1451,11 +1584,21 @@
             $('#tenDLCEditData').modal('show');
         });
 
+        window.addEventListener('showPasswordEditModal', event => {
+            $('#changePasswordModal').modal('show');
+        });
+
+        window.addEventListener('showCreditsEditModal', event => {
+            $('#creditChangeModal').modal('show');
+        });
+
         window.addEventListener('closeModal', event => {
             $('#addDataModal').modal('hide');
             $('#editDataModal').modal('hide');
             $('#editAPIDataModal').modal('hide');
             $('#statusModal').modal('hide');
+            $('#changePasswordModal').modal('hide');
+            $('#creditChangeModal').modal('hide');
         });
 
         window.addEventListener('user_deleted', event => {
