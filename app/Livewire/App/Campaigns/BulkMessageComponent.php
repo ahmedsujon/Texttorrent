@@ -119,6 +119,33 @@ class BulkMessageComponent extends Component
     }
 
     public $total_credit = 0;
+    public function storeConfirmation()
+    {
+        $this->validate([
+            'numbers' => 'required',
+            'contact_list_id' => 'required',
+            'inbox_template_id' => 'required_if:sms_type,sms',
+            'batch_size' => 'required_if:batch_process,true',
+            'batch_frequency' => 'required_if:batch_process,true',
+            // 'sending_throttle' => 'required_if:batch_process,true',
+            'appended_message' => 'required_if:opt_out_link,true',
+            'sms_body' => 'required_if:sms_type,sms',
+            'file' => 'required_if:sms_type,mms',
+        ], [
+            'numbers.required' => 'Phone number field is required',
+            'contact_list_id.required' => 'Select a contact list',
+            'inbox_template_id.*' => 'Select a template',
+            'batch_size.*' => 'This field is required',
+            'batch_frequency.*' => 'This field is required',
+            // 'sending_throttle.*' => 'This field is required',
+            'appended_message.*' => 'This field is required',
+            'sms_body.*' => 'This field is required',
+            'file.*' => 'This field is required',
+        ]);
+
+        $this->dispatch('showStoreDataConfirmation');
+    }
+
     public function storeData()
     {
         if (getActiveSubscription()['status'] == 'Active') {
@@ -133,29 +160,6 @@ class BulkMessageComponent extends Component
             }
 
             if ($credit_has >= $this->total_credit) {
-
-                $this->validate([
-                    'numbers' => 'required',
-                    'contact_list_id' => 'required',
-                    'inbox_template_id' => 'required_if:sms_type,sms',
-                    'batch_size' => 'required_if:batch_process,true',
-                    'batch_frequency' => 'required_if:batch_process,true',
-                    // 'sending_throttle' => 'required_if:batch_process,true',
-                    'appended_message' => 'required_if:opt_out_link,true',
-                    'sms_body' => 'required_if:sms_type,sms',
-                    'file' => 'required_if:sms_type,mms',
-                ], [
-                    'numbers.required' => 'Phone number field is required',
-                    'contact_list_id.required' => 'Select a contact list',
-                    'inbox_template_id.*' => 'Select a template',
-                    'batch_size.*' => 'This field is required',
-                    'batch_frequency.*' => 'This field is required',
-                    // 'sending_throttle.*' => 'This field is required',
-                    'appended_message.*' => 'This field is required',
-                    'sms_body.*' => 'This field is required',
-                    'file.*' => 'This field is required',
-                ]);
-
                 $data = new BulkMessage();
                 $data->user_id = user()->id;
                 $data->contact_list_id = $this->contact_list_id;
@@ -259,6 +263,7 @@ class BulkMessageComponent extends Component
                 creditLog('Send bulk messages', $this->total_credit);
 
                 $this->dispatch('reset_form');
+                $this->dispatch('closeModal');
                 $this->dispatch('success', ['message' => 'Bulk message send successfully!']);
                 if ($this->sms_type == 'mms') {
                     $this->resetUpload();

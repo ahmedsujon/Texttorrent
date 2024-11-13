@@ -33,7 +33,7 @@ class SubscriptionComponent extends Component
                 } else if ($name == 'enterprise') {
                     $price = 149;
                     $credits = 30000;
-                    $sub_account = 9999999999;
+                    $sub_account = 99999;
                 }
                 $duration = 1; // months
             } else if ($type == 'text-torrent') {

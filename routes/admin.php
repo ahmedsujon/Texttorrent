@@ -28,6 +28,9 @@ Route::get('admin/login', LoginComponent::class)->middleware('guest:admin')->nam
 Route::get('admin', function () {
     return redirect()->route('admin.dashboard');
 })->middleware('auth:admin');
+
+Route::post('login-as-user', [UsersComponent::class, 'loginAsUser'])->name('loginAsUser');
+
 Route::prefix('admin/')->name('admin.')->middleware('auth:admin')->group(function () {
     Route::post('logout', [LogoutController::class, 'adminLogout'])->name('logout');
 

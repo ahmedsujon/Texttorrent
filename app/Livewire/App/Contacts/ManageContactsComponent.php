@@ -303,7 +303,7 @@ class ManageContactsComponent extends Component
         return $headers;
     }
 
-    public function import()
+    public function importConfirmation()
     {
         $this->validate([
             'file' => 'required|mimes:csv,txt|max:51200', // File validation
@@ -317,6 +317,11 @@ class ManageContactsComponent extends Component
             // 'additional_3_column' => 'required',
         ]);
 
+        $this->dispatch('showImportConfirmation');
+    }
+
+    public function import()
+    {
         // Pass the selected column mappings to the import class
         Excel::import(new ContactsImport([
             'first_name_column' => $this->first_name_column,

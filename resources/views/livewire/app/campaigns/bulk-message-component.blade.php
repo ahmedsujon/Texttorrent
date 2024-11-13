@@ -65,7 +65,7 @@
                     </div>
                 </div>
             </div>
-            <form class="event_form_area" wire:submit.prevent='storeData'>
+            <form class="event_form_area" wire:submit.prevent='storeConfirmation'>
                 <div class="message_grid">
                     <div class="setup_bulk_area">
                         <h3>Set up</h3>
@@ -497,11 +497,53 @@
                                 </svg>
                             @endif Schedule
                         </button>
-                        <button type="submit" class="msg_send_btn">{!! loadingStateWithText('storeData', 'Send Message') !!}</button>
+                        <button type="submit" class="msg_send_btn">{!! loadingStateWithText('storeConfirmation', 'Send Message') !!}</button>
                     </div>
                 </div>
             </form>
         </section>
+
+        <!-- Confirmation  Modal  -->
+        <div wire:ignore.self class="modal fade delete_modal" id="storeConfirmationModal" tabindex="-1"
+            aria-labelledby="deleteModal" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+                <div class="modal-content">
+                    <div class="modal-body">
+                        <form wire:submit.prevent='storeData' >
+                            <div class="content_area text-center">
+                                <h5 class="mb-3">Confirm Campaign Compliance</h5>
+
+                                <div class="text-start">
+                                    <p class="text-muted mb-3">
+                                        Before sending your campaign, please confirm that your message complies with all applicable
+                                        laws and regulations, including ensuring that:
+                                        <br>
+                                            ● All recipients have opted in to receive SMS messages.
+                                        <br>
+                                            ● The content of your message adheres to our platform’s guidelines and applicable laws
+                                        (e.g., no prohibited content).
+                                        By checking this box, you acknowledge that you are responsible for the compliance of this
+                                        campaign.
+                                    </p>
+                                </div>
+
+                                <label for="confirm_chk"><input type="checkbox" id="confirm_chk" required> I confirm that this campaign complies with all legal and regulatory requirements.</label>
+                                <div class="text-center mt-4">
+                                    <button type="button" class="delete_cancel_btn" id="deleteModalCloseBtn"
+                                        data-bs-dismiss="modal">
+                                        Cancel
+                                    </button>
+                                    <button type="submit" wire:loading.attr='disabled'
+                                        class="delete_yes_btn">
+                                        {!! loadingStateWithText('storeData', 'Send Message') !!}
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
 
         <!-- Schedule Modal  -->
         <div wire:ignore.self class="modal fade common_modal" id="scheduleModal" tabindex="-1"
@@ -587,8 +629,13 @@
     </script>
 
     <script>
+        window.addEventListener('showStoreDataConfirmation', event => {
+            $('#storeConfirmationModal').modal('show');
+        });
+
         window.addEventListener('closeModal', event => {
             $('#scheduleModal').modal('hide');
+            $('#storeConfirmationModal').modal('hide');
         });
 
         window.addEventListener('reset_form', event => {
