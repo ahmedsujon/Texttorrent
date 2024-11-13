@@ -74,7 +74,7 @@ class ActiveNumberComponent extends Component
             DB::table('numbers')->where('id', $id)->update(['status' => $newStatus]);
 
             // Initialize Twilio Client
-            $twilio = new Client(env('TWILIO_SID'), env('TWILIO_AUTH_TOKEN'));
+            $twilio = new Client(env('TWILIO_SID'), env('TWILIO_TOKEN'));
 
             try {
                 if ($number->twilio_number_sid) {
