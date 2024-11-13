@@ -302,9 +302,9 @@
                                         data-bs-dismiss="modal" aria-label="Close"
                                         wire:click.prevent='close'></button>
                                     <div class="text-center mb-4">
-                                        <img src="{{ asset($user->avatar ? $user->avatar : 'assets/images/placeholder.jpg') }}"
+                                        <img src="{{ asset($avatar ? $avatar : 'assets/images/placeholder.jpg') }}"
                                             alt="avatar" class="avatar-md rounded-circle mx-auto d-block" />
-                                        <h5 class="mt-3 mb-1">{{ $user->first_name }} {{ $user->last_name }}</h5>
+                                        <h5 class="mt-3 mb-1">{{ $first_name }} {{ $last_name }}</h5>
                                     </div>
                                     <div class="d-flex align-items-center">
                                         <ul class="list-unstyled hstack gap-3 mb-0 flex-grow-1">
@@ -313,10 +313,15 @@
                                             </li>
                                         </ul>
                                         <div class="hstack gap-2">
-                                            <button type="button" class="btn btn-primary">Login Account <i
-                                                    class='bx bx-download align-baseline ms-1'></i></button>
-                                            {{-- <button type="button" class="btn btn-light"><i
-                                                    class='bx bx-bookmark align-baseline'></i></button> --}}
+                                            <a href="javascript:void(0)" type="button" target="_blank"
+                                            onclick="event.preventDefault(); document.getElementById('login-form_{{ $edit_id }}').submit();" class="btn btn-primary">Login Account <i
+                                                    class='bx bx-download align-baseline ms-1'></i></a>
+
+                                            <form id="login-form_{{ $edit_id }}" style="display: none;" method="POST" action="{{ route('loginAsUser') }}">
+                                                @csrf
+                                                <input type="text" name="email" value="{{ $email }}" id="email">
+                                                <input type="text" name="password" value="{{ $password }}" id="password">
+                                            </form>
                                         </div>
                                     </div>
                                 </div>
@@ -375,10 +380,10 @@
                                             </div>
                                         </li>
 
-                                        @if ($user->status == 0)
+                                        @if ($status == 0)
                                             <li class="hstack gap-2 mt-3">
                                                 <a href="#!" class="btn btn-soft-success w-100"
-                                                    wire:click.prevent="setUserForStatusChange({{ $user->id }}, {{ $user->status }})"
+                                                    wire:click.prevent="setUserForStatusChange({{ $edit_id }}, {{ $status }})"
                                                     data-bs-toggle="modal" data-bs-target="#statusModal">
                                                     {!! loadingStateStatus('changeStatus', 'Active Account') !!}
                                                 </a>
@@ -386,7 +391,7 @@
                                         @else
                                             <li class="hstack gap-2 mt-3">
                                                 <a href="#!" class="btn btn-soft-danger w-100"
-                                                    wire:click.prevent="setUserForStatusChange({{ $user->id }}, {{ $user->status }})"
+                                                    wire:click.prevent="setUserForStatusChange({{ $edit_id }}, {{ $status }})"
                                                     data-bs-toggle="modal" data-bs-target="#statusModal">
                                                     {!! loadingStateStatus('changeStatus', 'Deactivate Account') !!}
                                                 </a>

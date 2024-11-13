@@ -6,10 +6,12 @@ use App\Models\Api;
 use App\Models\User;
 use Livewire\Component;
 use App\Models\Subscription;
+use Illuminate\Http\Request;
 use Livewire\Attributes\Url;
 use Livewire\WithPagination;
 use Livewire\WithFileUploads;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
 class UsersComponent extends Component
@@ -293,10 +295,11 @@ class UsersComponent extends Component
             $this->account_sid = $data->account_sid;
             $this->auth_token = $data->auth_token;
             $this->edit_id = $data->id;
-            $this->dispatch('showAPIModal');
         } else {
             session()->flash('error', 'No API data found for this user.');
         }
+
+        $this->dispatch('showAPIModal');
     }
 
 
@@ -359,6 +362,16 @@ class UsersComponent extends Component
     public function updateSearch()
     {
         $this->resetPage();
+    }
+
+    public function loginAsUser(Request $request)
+    {
+        $seller = User::where('email', $request->email)->first();
+
+        Auth::guard('web')->login($seller);
+
+        session()->flash('success', 'Login Successful!');
+        return redirect()->route('user.dashboard');
     }
 
     public function render()
