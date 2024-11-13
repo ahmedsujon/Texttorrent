@@ -26,11 +26,14 @@ class UsersComponent extends Component
     public $delivered_message = 0;
     public $totalCredit = 0;
 
-    public $company_name, $company_phone, $company_website, $industry, $organization_type, $country_of_registration,
-        $tax_number, $share_legal_doc, $city, $street_address, $state, $postal_code;
+    public bool $share_legal_doc = false;
+    public bool $opt_in = false, $opt_out = false, $direct_lending = false, $embedded_link = false, $embedded_phone = false,
+        $affiliate_marketing = false, $age_gated_content = false, $terms_aggre = false;
 
-    public $campaign_name, $campaign_type, $campaign_description, $sample_message_one, $sample_message_two, $opt_in,
-        $opt_out, $direct_lending, $embedded_link, $embedded_phone, $affiliate_marketing, $age_gated_content, $terms_aggre, $additional_recipients;
+    public $company_name, $company_phone, $company_website, $industry, $organization_type, $country_of_registration,
+        $tax_number, $city, $street_address, $state, $postal_code;
+
+    public $campaign_name, $campaign_type, $campaign_description, $sample_message_one, $sample_message_two, $additional_recipients;
 
     #[Url('history:true')]
     public function setUserForStatusChange($id, $status)
@@ -287,9 +290,9 @@ class UsersComponent extends Component
         $this->dispatch('success', ['message' => 'Campaign Registration updated successfully']);
     }
 
-    public function apiIntrigation($userId)
+    public function apiIntrigation($id)
     {
-        $data = Api::where('user_id', $userId)->first();
+        $data = Api::where('user_id', $id)->first();
         if ($data) {
             $this->gateway = $data->gateway;
             $this->account_sid = $data->account_sid;
