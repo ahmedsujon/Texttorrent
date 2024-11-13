@@ -651,7 +651,7 @@
             </div>
         </div>
 
-        <!-- Delete  Modal  -->
+        <!-- Confirmation  Modal  -->
         <div wire:ignore.self class="modal fade delete_modal" id="importConfirmationModal" tabindex="-1"
             aria-labelledby="deleteModal" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
