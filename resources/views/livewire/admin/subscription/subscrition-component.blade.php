@@ -126,12 +126,11 @@
                                                 <tr>
                                                     <td class="align-middle">{{ $sl++ }}</td>
                                                     <td class="align-middle">
-                                                        {{ $subscription->user_id }}
+                                                        {{ getUserByID($subscription->user_id)->first_name }} {{ getUserByID($subscription->user_id)->last_name }}
                                                     </td>
                                                     <td class="align-middle">{{ $subscription->package_name }}</td>
                                                     <td class="align-middle">{{ $subscription->amount }}</td>
-                                                    <td class="align-middle text-center">
-                                                        {{ $subscription->payment_status }}</td>
+                                                    <td class="align-middle text-center">{{ $subscription->payment_status }}</td>
                                                 </tr>
                                             @endforeach
                                         @else
