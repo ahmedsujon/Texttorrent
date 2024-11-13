@@ -306,6 +306,61 @@ class UsersComponent extends Component
     }
 
 
+    public function changePasswordData($id)
+    {
+        $user = User::find($id);
+
+        if ($user) {
+            $this->password = $user->password;
+            $this->edit_id = $id;
+            $this->dispatch('showPasswordEditModal');
+        } else {
+            session()->flash('error', 'User not found.');
+        }
+    }
+
+    public function changePassword()
+    {
+        $this->validate([
+            'password' => 'sometimes:required',
+        ]);
+
+        $data = User::where('id', $this->edit_id)->first();
+        $data->password = Hash::make($this->password);
+        $data->save();
+        $this->dispatch('closeModal');
+        $this->resetInputs();
+        $this->dispatch('success', ['message' => 'Password changed successfully!']);
+    }
+
+
+    public function creditsEditData($id)
+    {
+        $user = User::find($id);
+
+        if ($user) {
+            $this->credits = $user->credits;
+            $this->edit_id = $id;
+            $this->dispatch('showCreditsEditModal');
+        } else {
+            session()->flash('error', 'User not found.');
+        }
+    }
+
+    public function creditsUpdateData()
+    {
+        $this->validate([
+            'credits' => 'sometimes:required',
+        ]);
+
+        $data = User::where('id', $this->edit_id)->first();
+        $data->credits = $this->credits;
+        $data->save();
+        $this->dispatch('closeModal');
+        $this->resetInputs();
+        $this->dispatch('success', ['message' => 'Credits updated successfully!']);
+    }
+
     public function resetInputs()
     {
         $this->first_name = '';
