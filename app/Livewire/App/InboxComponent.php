@@ -20,7 +20,9 @@ class InboxComponent extends Component
         $this->folders = DB::table('contact_folders')->where('user_id', user()->id)->get();
         $last_chat = DB::table('chats')->select('chats.id')->join('contacts', 'contacts.id', 'chats.contact_id')->where('chats.user_id', user()->id)->where('contacts.blacklisted', 0)->orderBy('chats.updated_at', 'DESC')->first();
 
-        if ($last_chat) {
+        if (session()->has('chat_id') && session('chat_id')!= null) {
+            $this->selectChat(session('chat_id'));
+        } else if ($last_chat) {
             $this->selectChat($last_chat->id);
         }
 

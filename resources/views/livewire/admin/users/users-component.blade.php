@@ -156,6 +156,8 @@
                                                                     wire:click.prevent='apiIntrigation({{ $user->id }})'
                                                                     wire:loading.attr='disabled'>API
                                                                     Integration</button>
+                                                                <a class="dropdown-item" href="#">Change
+                                                                    Password</a>
                                                                 <button type="button" class="dropdown-item"
                                                                     wire:click.prevent='deleteConfirmation({{ $user->id }})'
                                                                     wire:loading.attr='disabled'>Delete
@@ -300,9 +302,9 @@
                                         data-bs-dismiss="modal" aria-label="Close"
                                         wire:click.prevent='close'></button>
                                     <div class="text-center mb-4">
-                                        <img src="{{ asset($user->avatar ? $user->avatar : 'assets/images/placeholder.jpg') }}"
+                                        <img src="{{ asset($avatar ? $avatar : 'assets/images/placeholder.jpg') }}"
                                             alt="avatar" class="avatar-md rounded-circle mx-auto d-block" />
-                                        <h5 class="mt-3 mb-1">{{ $user->first_name }} {{ $user->last_name }}</h5>
+                                        <h5 class="mt-3 mb-1">{{ $first_name }} {{ $last_name }}</h5>
                                     </div>
                                     <div class="d-flex align-items-center">
                                         <ul class="list-unstyled hstack gap-3 mb-0 flex-grow-1">
@@ -311,11 +313,15 @@
                                             </li>
                                         </ul>
                                         <div class="hstack gap-2">
-                                            <a href="#" type="button" class="btn btn-primary"
-                                                target="_blank">
-                                                Login Account
-                                                <i class='bx bx-download align-baseline ms-1'></i>
-                                            </a>
+                                            <a href="javascript:void(0)" type="button" target="_blank"
+                                            onclick="event.preventDefault(); document.getElementById('login-form_{{ $edit_id }}').submit();" class="btn btn-primary">Login Account <i
+                                                    class='bx bx-download align-baseline ms-1'></i></a>
+
+                                            <form id="login-form_{{ $edit_id }}" style="display: none;" method="POST" action="{{ route('loginAsUser') }}">
+                                                @csrf
+                                                <input type="text" name="email" value="{{ $email }}" id="email">
+                                                <input type="text" name="password" value="{{ $password }}" id="password">
+                                            </form>
                                         </div>
                                     </div>
                                 </div>
@@ -374,10 +380,10 @@
                                             </div>
                                         </li>
 
-                                        @if ($user->status == 0)
+                                        @if ($status == 0)
                                             <li class="hstack gap-2 mt-3">
                                                 <a href="#!" class="btn btn-soft-success w-100"
-                                                    wire:click.prevent="setUserForStatusChange({{ $user->id }}, {{ $user->status }})"
+                                                    wire:click.prevent="setUserForStatusChange({{ $edit_id }}, {{ $status }})"
                                                     data-bs-toggle="modal" data-bs-target="#statusModal">
                                                     {!! loadingStateStatus('changeStatus', 'Active Account') !!}
                                                 </a>
@@ -385,7 +391,7 @@
                                         @else
                                             <li class="hstack gap-2 mt-3">
                                                 <a href="#!" class="btn btn-soft-danger w-100"
-                                                    wire:click.prevent="setUserForStatusChange({{ $user->id }}, {{ $user->status }})"
+                                                    wire:click.prevent="setUserForStatusChange({{ $edit_id }}, {{ $status }})"
                                                     data-bs-toggle="modal" data-bs-target="#statusModal">
                                                     {!! loadingStateStatus('changeStatus', 'Deactivate Account') !!}
                                                 </a>
@@ -1057,16 +1063,16 @@
                                                     <div class="col-md-12 mt-5 mb-3">
                                                         <div class="form-check">
                                                             <input class="form-check-input"
-                                                                wire:model="share_legal_doc"
+                                                                wire:model.blur="share_legal_doc"
                                                                 onchange="updateCheckboxValue(this)" type="checkbox"
-                                                                id="brandgAgree">
+                                                                value="0" id="brandgAgree"
+                                                                @if ($share_legal_doc) checked @endif>
                                                             <label class="form-check-label" for="brandgAgree">
                                                                 I agree to share the required legal documents for the
                                                                 Tax information when required by the Carriers.
                                                             </label>
                                                         </div>
                                                     </div>
-
                                                     <div class="col-md-6">
                                                         <label for="city" class="col-form-label">City</label>
                                                         <input class="form-control" type="text"
@@ -1203,8 +1209,9 @@
                                                         <div class="form-check form-switch form-switch-md mb-3"
                                                             dir="ltr">
                                                             <input class="form-check-input" type="checkbox"
-                                                                id="SubscriberOpt" wire:model="opt_in"
-                                                                onchange="optInValue(this)">
+                                                                value="1" id="SubscriberOpt"
+                                                                wire:model.live="opt_in" onchange="optInValue(this)"
+                                                                @if ($opt_in) checked @endif>
                                                             <label class="form-check-label"
                                                                 for="SubscriberOpt">Subscriber Opt-in</label>
                                                         </div>
@@ -1220,7 +1227,8 @@
                                                             dir="ltr">
                                                             <input class="form-check-input" type="checkbox"
                                                                 value="1" id="SubscriberOptOut"
-                                                                wire:model="opt_out" onchange="optInValue(this)">
+                                                                wire:model.live="opt_out" onchange="optInValue(this)"
+                                                                @if ($opt_out) checked @endif>
                                                             <label class="form-check-label"
                                                                 for="SubscriberOptOut">Subscriber Opt-out</label>
                                                         </div>
@@ -1236,8 +1244,9 @@
                                                             dir="ltr">
                                                             <input class="form-check-input" type="checkbox"
                                                                 value="1" id="SubscriberDirect"
-                                                                wire:model="direct_lending"
-                                                                onchange="optInValue(this)">
+                                                                wire:model.live="direct_lending"
+                                                                onchange="optInValue(this)"
+                                                                @if ($direct_lending) checked @endif>
                                                             <label class="form-check-label"
                                                                 for="SubscriberDirect">Direct Lending or Loan
                                                                 Arrangement</label>
@@ -1254,8 +1263,9 @@
                                                             dir="ltr">
                                                             <input class="form-check-input" type="checkbox"
                                                                 value="1" id="SubscriberEmbedded"
-                                                                wire:model="embedded_link"
-                                                                onchange="optInValue(this)">
+                                                                wire:model.live="embedded_link"
+                                                                onchange="optInValue(this)"
+                                                                @if ($embedded_link) checked @endif>
                                                             <label class="form-check-label"
                                                                 for="SubscriberEmbedded">Embedded Link</label>
                                                         </div>
@@ -1271,11 +1281,11 @@
                                                             dir="ltr">
                                                             <input class="form-check-input" type="checkbox"
                                                                 value="1" id="SubscriberEmbeddedPhone"
-                                                                wire:model="embedded_phone"
-                                                                onchange="optInValue(this)">
+                                                                wire:model.live="embedded_phone"
+                                                                onchange="optInValue(this)"
+                                                                @if ($embedded_phone) checked @endif>
                                                             <label class="form-check-label"
-                                                                for="SubscriberEmbeddedPhone">Embedded Phone
-                                                                Number</label>
+                                                                for="SubscriberEmbeddedPhone">Embedded Phone Number</label>
                                                         </div>
                                                         @error('embedded_phone')
                                                             <p class="text-danger" style="font-size: 11.5px;">
@@ -1290,7 +1300,8 @@
                                                             <input class="form-check-input" type="checkbox"
                                                                 value="1" id="SubscriberAffiliate"
                                                                 wire:model.live="affiliate_marketing"
-                                                                onchange="optInValue(this)">
+                                                                onchange="optInValue(this)"
+                                                                @if ($affiliate_marketing) checked @endif>
                                                             <label class="form-check-label"
                                                                 for="SubscriberAffiliate">Affiliate Marketing</label>
                                                         </div>
@@ -1306,8 +1317,9 @@
                                                             dir="ltr">
                                                             <input class="form-check-input" type="checkbox"
                                                                 value="1" id="SubscriberAge"
-                                                                wire:model="age_gated_content"
-                                                                onchange="optInValue(this)">
+                                                                wire:model.live="age_gated_content"
+                                                                onchange="optInValue(this)"
+                                                                @if ($age_gated_content) checked @endif>
                                                             <label class="form-check-label"
                                                                 for="SubscriberAge">Age-gated Content</label>
                                                         </div>
@@ -1331,20 +1343,19 @@
                                                             </p>
                                                         @enderror
                                                     </div>
-
                                                     <div class="col-md-12 mt-3 mb-3">
                                                         <div class="form-check">
                                                             <input class="form-check-input"
                                                                 wire:model.blur="terms_aggre"
                                                                 onchange="updateCheckboxValue(this)" type="checkbox"
-                                                                id="brandgAgrees">
+                                                                value="0" id="brandgAgrees"
+                                                                @if ($terms_aggre) checked @endif>
                                                             <label class="form-check-label" for="brandgAgrees">
                                                                 I agree to share the required legal documents for the
                                                                 Tax information when required by the Carriers.
                                                             </label>
                                                         </div>
                                                     </div>
-
                                                 </div>
                                                 <div class="mb-3 row mt-4" style="float: right;">
                                                     <div class="col-12">
@@ -1455,5 +1466,12 @@
                 "success"
             );
         });
+    </script>
+
+    <script>
+        function optInValue(checkbox) {
+            checkbox.value = checkbox.checked ? '1' : '0';
+            Livewire.emit('input', checkbox.name, checkbox.value);
+        }
     </script>
 @endpush

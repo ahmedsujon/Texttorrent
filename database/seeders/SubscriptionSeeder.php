@@ -2,10 +2,10 @@
 
 namespace Database\Seeders;
 
+use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
 class SubscriptionSeeder extends Seeder
 {
@@ -14,25 +14,25 @@ class SubscriptionSeeder extends Seeder
      */
     public function run(): void
     {
-        // $subscriptions = [];
+        DB::table('subscriptions')->insert([
+            [
+                'id' => 1,
+                'user_id' => 1,
+                'package_type' => 'own-gateway',
+                'package_name' => 'enterprise',
+                'amount' => 149.00,
+                'payment_status' => 'paid',
+                'stripe_transaction_id' => 'pi_3QKKY1Fbd1SX9jGu1SGxFpSD',
+                'start_date' => Carbon::parse('2024-11-12 08:54:29'),
+                'end_date' => Carbon::parse('2024-12-12 08:54:29'),
+                'credits' => 30000,
+                'sub_accounts' => 99999,
+                'duration' => 1,
+                'created_at' => Carbon::parse('2024-11-12 08:53:02'),
+                'updated_at' => Carbon::parse('2024-11-12 08:54:29'),
+            ],
+        ]);
 
-        // for ($i = 1; $i <= 10; $i++) {
-        //     $subscriptions[] = [
-        //         'user_id' => $i,
-        //         'package_type' => $i % 2 == 0 ? 'own-gateway' : 'text-torrent',
-        //         'package_name' => $i % 2 == 0 ? 'Pro Plan' : 'Starter Plan',
-        //         'amount' => $i % 2 == 0 ? 49.99 : 19.99,
-        //         'payment_status' => $i % 3 == 0 ? 'unpaid' : 'paid',
-        //         'stripe_transaction_id' => $i % 3 == 0 ? null : 'txn_1Example' . $i,
-        //         'start_date' => Carbon::now(),
-        //         'end_date' => Carbon::now()->addMonths($i),
-        //         'features' => json_encode(["feature1", "feature$i"]),
-        //         'duration' => "{$i} months",
-        //         'created_at' => Carbon::now(),
-        //         'updated_at' => Carbon::now(),
-        //     ];
-        // }
-
-        // DB::table('subscriptions')->insert($subscriptions);
+        User::where('id', 1)->update(['credits' => 30000, 'sub_accounts' => 99999]);
     }
 }

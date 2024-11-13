@@ -516,7 +516,14 @@
             </div>
         </div>
         <a href="{{ route('user.myAccount') }}" class="user_profile_grid">
-            <img class="user_image" src="{{ asset(user()->avatar) }}" alt="user image" />
+            @if (user()->avatar)
+                <img src="{{ asset(user()->avatar) }}" class="user_img" />
+            @else
+                <div class="user_img chat-avatar">
+                    {{ Str::limit(user()->first_name, 1, '') }}{{ Str::limit(user()->last_name, 1,
+                    '') }}
+                </div>
+            @endif
             <div>
                 <h3>{{ user()->first_name }} {{ user()->last_name }}</h3>
                 <h4>{{ user()->email }}</h4>
