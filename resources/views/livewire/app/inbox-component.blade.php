@@ -230,6 +230,7 @@
                                                 </div>
                                             </div>
                                         @else
+                                            @if ($msg->credit_clear == 1)
                                             <div class="receive_msg">
                                                 <div class="recevier_user chat-avatar"
                                                     style="height: 50px; width: 50px;">
@@ -245,6 +246,7 @@
                                                     </h6>
                                                 </div>
                                             </div>
+                                            @endif
                                         @endif
                                     @endforeach
                                 @else
