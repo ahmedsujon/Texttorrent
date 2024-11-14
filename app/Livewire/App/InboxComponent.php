@@ -20,7 +20,7 @@ class InboxComponent extends Component
         $this->folders = DB::table('contact_folders')->where('user_id', user()->id)->get();
         $last_chat = DB::table('chats')->select('chats.id')->join('contacts', 'contacts.id', 'chats.contact_id')->where('chats.user_id', user()->id)->where('contacts.blacklisted', 0)->orderBy('chats.updated_at', 'DESC')->first();
 
-        if (session()->has('chat_id') && session('chat_id')!= null) {
+        if (session()->has('chat_id') && session('chat_id') != null) {
             $this->selectChat(session('chat_id'));
         } else if ($last_chat) {
             $this->selectChat($last_chat->id);
@@ -104,7 +104,7 @@ class InboxComponent extends Component
                 $user->save();
 
                 // log
-                creditLog('Send message to '. $this->selected_chat->first_name.''. $this->selected_chat->last_name, $credit_needed);
+                creditLog('Send message to ' . $this->selected_chat->first_name . '' . $this->selected_chat->last_name, $credit_needed);
 
                 $msgSt = ChatMessage::find($msg->id);
                 $msg->api_send_status = $msgSt->api_send_status;
@@ -142,7 +142,7 @@ class InboxComponent extends Component
                     DB::table('chat_messages')
                         ->where('msg_sid', $msg->msg_sid)
                         ->update(['api_send_status' => $output['status']]);
-                    $this->dispatch('msgStatusUpdated', ['msg_sid'=>$msg->msg_sid, 'status'=>ucfirst($output['status'])]);
+                    $this->dispatch('msgStatusUpdated', ['msg_sid' => $msg->msg_sid, 'status' => ucfirst($output['status'])]);
                 }
             }
         }
@@ -208,7 +208,6 @@ class InboxComponent extends Component
         } else {
             $this->dispatch('error', ['message' => 'No receiver selected']);
         }
-
     }
 
     public function updatedReceiverId()
@@ -563,6 +562,9 @@ class InboxComponent extends Component
         // Apply time filter if set
         if ($this->filter_time) {
             switch ($this->filter_time) {
+                case 'today':
+                    $chats = $chats->whereDate('chats.updated_at', '=', now()->toDateString());
+                    break;
                 case 'last_week':
                     $chats = $chats->where('chats.updated_at', '>=', now()->subWeek());
                     break;
@@ -573,10 +575,10 @@ class InboxComponent extends Component
                     $chats = $chats->where('chats.updated_at', '>=', now()->subYear());
                     break;
                 default:
-                    // If 'all' or no filter is applied, no additional filtering is necessary
                     break;
             }
         }
+
 
         $chats = $chats->get();
 
