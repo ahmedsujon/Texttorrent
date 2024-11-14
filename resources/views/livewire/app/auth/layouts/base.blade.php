@@ -4,8 +4,9 @@
 <head>
     <meta charset="utf-8" />
     <meta http-equiv="x-ua-compatible" content="ie=edge" />
-    <title>Text Torrent - Login</title>
+    <title>Text Torrent : Your Perfect Communication Partner</title>
     <meta name="description" content="" />
+    <link rel="shortcut icon" href="{{ asset('assets/app/images/header/favicon.png') }}" type="image/x-icon" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="shortcut icon" href="assets/images/header/favicon.png" type="image/x-icon" />
     <link rel="stylesheet" href="{{ asset('assets/app/plugins/css/bootstrap.min.css') }}" />
