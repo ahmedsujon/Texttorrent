@@ -17,9 +17,17 @@
                         <label for="">Please enter Area code to search for number</label>
                         <form wire:submit.prevent='areaCodeSearch'>
                             <div class="input-group mb-3">
-                                <input type="text" class="form-control" wire:model='areaCode' placeholder="Type Area Code" style="color: #0b1234;font-size: 14px;font-style: normal;font-weight: 400;border: 1px solid #fff;padding: 9px 12px;border-radius: 8px 0px 0px 8px;background: #fff;box-shadow: 0px 1px 2px 0px rgba(11, 18, 52, 0.15), 0px 0px 0px 1px rgba(11, 18, 52, 0.1);">
-                                <button type="submit" class="input-group-text" style="color: #0b1234;font-size: 14px;font-style: normal; display: flex; justify-content: center; align-items: center; font-weight: 400;width: 15%;border: 1px solid #fff;padding: 9px 12px;border-radius: 0px 8px 8px 0px;background: #fff; cursor: pointer; box-shadow: 0px 1px 2px 0px rgba(11, 18, 52, 0.15), 0px 0px 0px 1px rgba(11, 18, 52, 0.1);">
-                                    {!! loadingStateWithoutText('areaCodeSearch', '<img src="'.asset('assets/app/icons/search-gray.svg').'" alt="search icon" style="height: 15px; width: 15px;">') !!}
+                                <input type="text" class="form-control" wire:model='areaCode'
+                                    placeholder="Type Area Code"
+                                    style="color: #0b1234;font-size: 14px;font-style: normal;font-weight: 400;border: 1px solid #fff;padding: 9px 12px;border-radius: 8px 0px 0px 8px;background: #fff;box-shadow: 0px 1px 2px 0px rgba(11, 18, 52, 0.15), 0px 0px 0px 1px rgba(11, 18, 52, 0.1);">
+                                <button type="submit" class="input-group-text"
+                                    style="color: #0b1234;font-size: 14px;font-style: normal; display: flex; justify-content: center; align-items: center; font-weight: 400;width: 15%;border: 1px solid #fff;padding: 9px 12px;border-radius: 0px 8px 8px 0px;background: #fff; cursor: pointer; box-shadow: 0px 1px 2px 0px rgba(11, 18, 52, 0.15), 0px 0px 0px 1px rgba(11, 18, 52, 0.1);">
+                                    {!! loadingStateWithoutText(
+                                        'areaCodeSearch',
+                                        '<img src="' .
+                                            asset('assets/app/icons/search-gray.svg') .
+                                            '" alt="search icon" style="height: 15px; width: 15px;">',
+                                    ) !!}
                                 </button>
                             </div>
                         </form>
@@ -35,15 +43,20 @@
                                 <img src="{{ asset('assets/app/icons/plus-gray.svg') }}" alt="plus icon" />
                             </button>
                         </div>
-                        <button type="button" class="create_template_btn" wire:click.prevent='bulkPurchaseConfirmation'>
-                            {!! loadingStateWithoutText('bulkPurchaseConfirmation', '<img src="'.asset('assets/app/icons/shopping-cart.svg').'" alt="cart icon white" />') !!}
+                        <button type="button" class="create_template_btn"
+                            wire:click.prevent='bulkPurchaseConfirmation'>
+                            {!! loadingStateWithoutText(
+                                'bulkPurchaseConfirmation',
+                                '<img src="' . asset('assets/app/icons/shopping-cart.svg') . '" alt="cart icon white" />',
+                            ) !!}
                             <span>Buy in bulk</span>
                         </button>
                     </div>
                 </div>
                 <div class="account_right_area d-flex align-items-center justify-content-end flex-wrap">
                     <form action="" class="search_input_form">
-                        <input type="search" placeholder="Search number" wire:model.live='searchTerm' class="input_field" />
+                        <input type="search" placeholder="Search number" wire:model.live='searchTerm'
+                            class="input_field" />
                         <button type="submit" class="search_icon">
                             <img src="{{ asset('assets/app/icons/search-gray.svg') }}" alt="search icon" />
                         </button>
@@ -59,7 +72,8 @@
             </div>
             <div class="row">
                 <div class="col-md-12 text-center">
-                    <span wire:loading wire:target='numberType'><i class="fa fa-spinner fa-spin"></i> Processing...</span>
+                    <span wire:loading wire:target='numberType'><i class="fa fa-spinner fa-spin"></i>
+                        Processing...</span>
                 </div>
             </div>
             <div class="inbox_template_table_area">
@@ -100,29 +114,43 @@
                                             </div>
                                         </td>
                                         <td>
-                                            <h4 class="phone_number">{{ $number['region'] ? $number['region'] . ', ' : '' }}{{ $number['isoCountry'] }}</h4>
+                                            <h4 class="phone_number">
+                                                {{ $number['region'] ? $number['region'] . ', ' : '' }}{{ $number['isoCountry'] }}
+                                            </h4>
                                         </td>
 
                                         <td>
                                             <div class="capability_status_area">
-                                                @if ($number['capabilities']['voice'] == 1)
-                                                    <div class="capability_status">Voice</div>
-                                                @endif
-                                                @if ($number['capabilities']['sms'] == 1)
-                                                    <div class="capability_status sms">SMS</div>
-                                                @endif
-                                                @if ($number['capabilities']['mms'] == 1)
-                                                    <div class="capability_status mms">MMS</div>
-                                                @endif
+                                                <div class="capability_status">Voice</div>
+                                                <div class="capability_status sms">SMS</div>
+                                                <div class="capability_status mms">MMS</div>
                                             </div>
                                         </td>
 
                                         <td>
                                             <div class="table_dropdown_area d-flex align-items-center flex-wrap gap-1">
                                                 <button type="button" class="icon_btn"
-                                                    wire:click.prevent='purchaseNumberConfirmation("{{ $number['phoneNumber'] }}", "{{ $number['friendlyName'] }}", "{{ $number['region'] }}", "{{ $number['isoCountry'] }}", "{{ $number['latitude'] }}", "{{ $number['longitude'] }}", "{{ $number['postalCode'] }}")' wire:loading.attr='disabled'>
+                                                    wire:click.prevent='purchaseNumberConfirmation("{{ $number['phoneNumber'] }}", "{{ $number['friendlyName'] }}", "{{ $number['region'] }}", "{{ $number['isoCountry'] }}", "{{ $number['latitude'] }}", "{{ $number['longitude'] }}", "{{ $number['postalCode'] }}")'
+                                                    wire:loading.attr='disabled'>
 
-                                                    {!! loadingStateWithoutText("purchaseNumberConfirmation('".$number['phoneNumber']."', '".$number['friendlyName']."', '".$number['region']."', '".$number['isoCountry']."', '".$number['latitude']."', '".$number['longitude']."', '".$number['postalCode']."')", '<img src="'.asset('assets/app/icons/shopping-cart.svg').'" />') !!}
+                                                    {!! loadingStateWithoutText(
+                                                        "purchaseNumberConfirmation('" .
+                                                            $number['phoneNumber'] .
+                                                            "', '" .
+                                                            $number['friendlyName'] .
+                                                            "', '" .
+                                                            $number['region'] .
+                                                            "', '" .
+                                                            $number['isoCountry'] .
+                                                            "', '" .
+                                                            $number['latitude'] .
+                                                            "', '" .
+                                                            $number['longitude'] .
+                                                            "', '" .
+                                                            $number['postalCode'] .
+                                                            "')",
+                                                        '<img src="' . asset('assets/app/icons/shopping-cart.svg') . '" />',
+                                                    ) !!}
                                                 </button>
                                                 {{-- <div class="dropdown">
                                                 <button class="table_dot_btn dropdown-toggle" type="button"
@@ -157,10 +185,10 @@
             <div class="pagination_area pagination_top_border">
                 <div class="d-flex" wire:ignore>
                     <select class="niceSelect sortingValue">
-                        <option value="10">10 Accounts</option>
-                        <option value="30">30 Accounts</option>
-                        <option value="50">50 Accounts</option>
-                        <option value="100">100 Accounts</option>
+                        <option value="10">10 Numbers</option>
+                        <option value="30">30 Numbers</option>
+                        <option value="50">50 Numbers</option>
+                        <option value="100">100 Numbers</option>
                     </select>
                 </div>
                 {{ $numbers->links('livewire.app-pagination') }}
@@ -170,8 +198,8 @@
 
 
         <!-- Confirm Modal  -->
-        <div wire:ignore.self class="modal fade common_modal confirm_purchase_modal" id="confirmPurchaseModal" tabindex="-1"
-            aria-labelledby="newEventModal" aria-hidden="true">
+        <div wire:ignore.self class="modal fade common_modal confirm_purchase_modal" id="confirmPurchaseModal"
+            tabindex="-1" aria-labelledby="newEventModal" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -194,7 +222,8 @@
                         <button type="button" class="cancel_btn" data-bs-dismiss="modal">
                             Cancel
                         </button>
-                        <button type="button" wire:click.prevent='purchaseNumber' wire:loading.attr="disabled" class="create_event_btn">
+                        <button type="button" wire:click.prevent='purchaseNumber' wire:loading.attr="disabled"
+                            class="create_event_btn">
                             {!! loadingStateWithText('purchaseNumber', 'Purchase') !!}
                         </button>
                     </div>
@@ -202,8 +231,8 @@
             </div>
         </div>
 
-        <div wire:ignore.self class="modal fade common_modal confirm_purchase_modal" id="confirmBulkPurchaseModal" tabindex="-1"
-            aria-labelledby="newEventModal" aria-hidden="true">
+        <div wire:ignore.self class="modal fade common_modal confirm_purchase_modal" id="confirmBulkPurchaseModal"
+            tabindex="-1" aria-labelledby="newEventModal" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -236,7 +265,8 @@
                         <button type="button" class="cancel_btn" data-bs-dismiss="modal">
                             Cancel
                         </button>
-                        <button type="button" wire:click.prevent='bulkPurchaseNumber' wire:loading.attr="disabled" class="create_event_btn">
+                        <button type="button" wire:click.prevent='bulkPurchaseNumber' wire:loading.attr="disabled"
+                            class="create_event_btn">
                             {!! loadingStateWithText('bulkPurchaseNumber', 'Purchase') !!}
                         </button>
                     </div>
@@ -244,8 +274,9 @@
             </div>
         </div>
 
-        <div wire:ignore.self class="modal fade common_modal confirm_purchase_modal" id="purchaseResultModal" tabindex="-1" data-bs-keyboard="false" data-bs-backdrop="static"
-            aria-labelledby="newEventModal" aria-hidden="true">
+        <div wire:ignore.self class="modal fade common_modal confirm_purchase_modal" id="purchaseResultModal"
+            tabindex="-1" data-bs-keyboard="false" data-bs-backdrop="static" aria-labelledby="newEventModal"
+            aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -279,12 +310,12 @@
 
 @push('scripts')
     <script>
-        $(document).ready(function(){
-            $('.sortingValue').on('change', function(){
+        $(document).ready(function() {
+            $('.sortingValue').on('change', function() {
                 @this.set('sortingValue', this.value);
             });
 
-            $('.numberType').on('change', function(){
+            $('.numberType').on('change', function() {
                 @this.set('numberType', this.value);
             });
         });
