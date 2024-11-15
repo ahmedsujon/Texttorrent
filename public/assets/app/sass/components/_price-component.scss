@@ -1,153 +1,152 @@
-
-
 .landing_inner_title {
-    color: #14358a;
-    font-size: 48px;
-    font-style: normal;
-    font-weight: 700;
-    line-height: 50.4px;
-    letter-spacing: -1.44px;
-    @include media-break-width(992, 1199) {
-      font-size: 40px;
-      line-height: 42.4px;
-    }
-    @include media-break-width(768, 991) {
-      font-size: 32px;
-      line-height: 44.4px;
-    }
-    @include max-media-width(767) {
-      font-size: 28px;
-      line-height: 30.4px;
-    }
+  color: #14358a;
+  font-size: 48px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 50.4px;
+  letter-spacing: -1.44px;
+  @include media-break-width(992, 1199) {
+    font-size: 40px;
+    line-height: 42.4px;
   }
-  .pricing_title {
-    color: #14358a;
-    font-family: $inter-font;
-    font-size: 64px;
-    font-style: normal;
-    font-weight: 700;
-    line-height: normal;
-    @include media-break-width(992, 1199) {
-      font-size: 50px;
-    }
-    @include media-break-width(768, 991) {
-      font-size: 40px;
-    }
-    @include max-media-width(767) {
-      font-size: 34px;
-    }
+  @include media-break-width(768, 991) {
+    font-size: 32px;
+    line-height: 44.4px;
   }
-  .business_btn {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: #14348a;
-    font-size: 16px;
-    font-style: normal;
-    font-weight: 700;
-    padding: 18px 40px;
-    border-radius: 10px;
-    -webkit-border-radius: 10px;
-    -moz-border-radius: 10px;
-    -ms-border-radius: 10px;
-    -o-border-radius: 10px;
-    border: 1px solid #14348a;
-    background: #e5f9fe;
-    @include media-break-width(992, 1199) {
-      padding: 18px 30px;
-    }
-    @include media-break-width(768, 991) {
-      padding: 14px 24px;
-    }
-    @include max-media-width(767) {
-      font-size: 14px;
-      padding: 12px 20px;
-    }
-    &:hover {
-      background: #dfedf0;
-    }
+  @include max-media-width(767) {
+    font-size: 28px;
+    line-height: 30.4px;
   }
-  .choose_btn {
-    display: flex;
-    align-items: center;
-    justify-content: center;
+}
+.pricing_title {
+  color: #14358a;
+  font-family: $inter-font;
+  font-size: 64px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
+  @include media-break-width(992, 1199) {
+    font-size: 50px;
+  }
+  @include media-break-width(768, 991) {
+    font-size: 40px;
+  }
+  @include max-media-width(767) {
+    font-size: 34px;
+  }
+}
+.business_btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #14348a;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 700;
+  padding: 18px 40px;
+  border-radius: 10px;
+  -webkit-border-radius: 10px;
+  -moz-border-radius: 10px;
+  -ms-border-radius: 10px;
+  -o-border-radius: 10px;
+  border: 1px solid #14348a;
+  background: #e5f9fe;
+  @include media-break-width(992, 1199) {
+    padding: 18px 30px;
+  }
+  @include media-break-width(768, 991) {
+    padding: 14px 24px;
+  }
+  @include max-media-width(767) {
+    font-size: 14px;
+    padding: 12px 20px;
+  }
+  &:hover {
+    background: #dfedf0;
+  }
+}
+.choose_btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  text-align: center;
+  font-family: $inter-font;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
+  width: 100%;
+  height: 51px;
+  border-radius: 10px;
+  background: linear-gradient(52deg, #0097fe -5.7%, #14358a 94.69%);
+  @include max-media-width(767) {
+    font-size: 14px;
+  }
+  &:hover {
     color: #fff;
-    text-align: center;
-    font-family: $inter-font;
-    font-size: 16px;
-    font-style: normal;
-    font-weight: 700;
-    line-height: normal;
-    width: 100%;
-    height: 51px;
-    border-radius: 10px;
-    background: linear-gradient(52deg, #0097fe -5.7%, #14358a 94.69%);
-    @include max-media-width(767) {
-      font-size: 14px;
-    }
-    &:hover {
-      color: #fff;
-      background: linear-gradient(52deg, #1c8dd9 -5.7%, #2858d0 94.69%);
-    }
+    background: linear-gradient(52deg, #1c8dd9 -5.7%, #2858d0 94.69%);
   }
-  .submit_btn {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: #fff;
-    text-align: center;
-    font-family: $inter-font;
-    font-size: 16px;
-    font-style: normal;
-    font-weight: 500;
-    line-height: normal;
-    width: 196.823px;
-    height: 50.823px;
-    padding: 12px;
-    border-radius: 5px;
-    background: linear-gradient(86deg, #038aef 0%, #124097 100%);
-  
-    @include max-media-width(991) {
-      font-size: 14px;
-      width: 160px;
-      height: 44px;
-    }
-    &:hover {
-      background: linear-gradient(45deg, #1a92ed 0%, #1d5dd4 100%);
-    }
+}
+.submit_btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  text-align: center;
+  font-family: $inter-font;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+  width: 196.823px;
+  height: 50.823px;
+  padding: 12px;
+  border-radius: 5px;
+  background: linear-gradient(86deg, #038aef 0%, #124097 100%);
+
+  @include max-media-width(991) {
+    font-size: 14px;
+    width: 160px;
+    height: 44px;
   }
-  .contact_sale_btn {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: #1b2f9b;
-    text-align: center;
-    font-family: $inter-font;
-    font-size: 16px;
-    font-style: normal;
-    font-weight: 500;
-    line-height: normal;
-    width: 234px;
-    height: 55px;
-    border-radius: 5px;
-    background: #fff;
-    &:hover {
-      opacity: 0.9;
-    }
-  
-    @include media-break-width(768, 991) {
-      height: 48px;
-    }
-    @include max-media-width(767) {
-      font-size: 14px;
-      height: 44px;
-    }
+  &:hover {
+    background: linear-gradient(45deg, #1a92ed 0%, #1d5dd4 100%);
   }
+}
+.contact_sale_btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #1b2f9b;
+  text-align: center;
+  font-family: $inter-font;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+  width: 234px;
+  height: 55px;
+  border-radius: 5px;
+  background: #fff;
+  &:hover {
+    opacity: 0.9;
+  }
+
+  @include media-break-width(768, 991) {
+    height: 48px;
+  }
+  @include max-media-width(767) {
+    font-size: 14px;
+    height: 44px;
+  }
+}
 /* Pricing Section */
 
 .pricing_wrapper {
   margin-top: 147px;
-overflow: hidden;
+  padding-bottom: 20px;
+  overflow: hidden;
   @include media-break-width(768, 991) {
     margin-top: 100px;
   }
@@ -296,7 +295,7 @@ overflow: hidden;
 
 /* Inclusive Section */
 .inclusive_pricing_wrapper {
-    overflow: hidden;
+  overflow: hidden;
   margin-top: 218px;
   @include media-break-width(992, 1199) {
     margin-top: 180px;
