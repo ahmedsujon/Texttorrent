@@ -1250,9 +1250,6 @@ input[type=number] {
     font-size: 14px;
   }
 }
-.pricing_wrapper .pricing_item .price {
-  text-align: start;
-}
 .pricing_wrapper .pricing_item ul {
   margin-top: 22px;
 }
@@ -2730,7 +2727,6 @@ h5 {
 .unique_wrapper .unique_item {
   padding: 40px 24px;
   max-width: 732.438px;
-  min-height: 220px;
   width: 100%;
   border-radius: 20px;
   margin-left: auto;

@@ -5351,9 +5351,6 @@ input[type=number] {
     font-size: 14px;
   }
 }
-.pricing_wrapper .pricing_item .price {
-  text-align: start;
-}
 .pricing_wrapper .pricing_item ul {
   margin-top: 22px;
 }
