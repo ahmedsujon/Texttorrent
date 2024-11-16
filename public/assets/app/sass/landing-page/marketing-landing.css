@@ -441,7 +441,6 @@ body {
   background-color: white;
   font-family: SFRegularFont;
   font-size: 16px;
-  min-height: 100vh;
   padding-right: 0px !important;
   overflow-y: auto;
   /* width */
@@ -1114,6 +1113,7 @@ input[type=number] {
 /* Pricing Section */
 .pricing_wrapper {
   margin-top: 147px;
+  padding-bottom: 20px;
   overflow: hidden;
 }
 @media (min-width: 768px) and (max-width: 991px) {
@@ -1249,9 +1249,6 @@ input[type=number] {
     transition: 0.5s;
     font-size: 14px;
   }
-}
-.pricing_wrapper .pricing_item .price {
-  text-align: start;
 }
 .pricing_wrapper .pricing_item ul {
   margin-top: 22px;
@@ -1831,6 +1828,7 @@ h5 {
 .campaign_wrapper {
   position: relative;
   margin-top: 227px;
+  overflow-y: clip;
 }
 @media (min-width: 992px) and (max-width: 1199px) {
   .campaign_wrapper {
@@ -2015,7 +2013,7 @@ h5 {
   width: 100%;
 }
 @media all and (min-width: 768px) {
-  .campaign_wrapper .dynamic_item .content {
+  .campaign_wrapper .dynamic_item .content h5 {
     transition: 0.5s;
     -webkit-transition: 0.5s;
     -moz-transition: 0.5s;
@@ -2026,8 +2024,9 @@ h5 {
   }
 }
 .campaign_wrapper .dynamic_item .campaign_image img {
-  max-width: 380px;
-  max-height: 236px;
+  max-width: 563px;
+  width: 100%;
+  max-height: 283px;
 }
 @media all and (min-width: 768px) {
   .campaign_wrapper .compliance_item .content {
@@ -2041,8 +2040,9 @@ h5 {
   }
 }
 .campaign_wrapper .compliance_item .campaign_image img {
-  max-width: 514px;
-  max-height: 351px;
+  max-width: 569px;
+  width: 100%;
+  max-height: 348px;
 }
 @media all and (min-width: 768px) {
   .campaign_wrapper .message_item .content h5 {
@@ -2056,8 +2056,9 @@ h5 {
   }
 }
 .campaign_wrapper .message_item .campaign_image img {
-  max-width: 525px;
-  max-height: 360px;
+  max-width: 532px;
+  width: 100%;
+  max-height: 307px;
 }
 @media all and (min-width: 768px) {
   .campaign_wrapper .real_time_item .content {
@@ -2074,8 +2075,9 @@ h5 {
   }
 }
 .campaign_wrapper .real_time_item .campaign_image img {
-  max-width: 499px;
-  max-height: 315px;
+  max-width: 536px;
+  width: 100%;
+  max-height: 313px;
 }
 @media all and (min-width: 768px) {
   .campaign_wrapper .automated_item .content {
@@ -2092,6 +2094,7 @@ h5 {
 }
 .campaign_wrapper .automated_item .campaign_image img {
   max-width: 450px;
+  width: 100%;
   max-height: 435px;
 }
 @media all and (min-width: 768px) {
@@ -2118,8 +2121,9 @@ h5 {
   }
 }
 .campaign_wrapper .api_time_item .campaign_image img {
-  max-width: 538px;
-  max-height: 435px;
+  max-width: 567px;
+  width: 100%;
+  max-height: 287px;
 }
 .campaign_wrapper .campaign_shape {
   position: absolute;
@@ -2656,6 +2660,16 @@ h5 {
   justify-content: center;
   width: 100%;
   height: 51px;
+  color: #68718b;
+  font-family: "Inter", sans-serif;
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  width: 100%;
   border-radius: 20px;
   background: #e5f9fe;
   filter: drop-shadow(-2px -2px 4px rgba(0, 0, 0, 0.25)) drop-shadow(2px 2px 1px rgba(0, 0, 0, 0.25));
@@ -2665,6 +2679,13 @@ h5 {
   -moz-transition: all 0.5s ease-in-out;
   -ms-transition: all 0.5s ease-in-out;
   -o-transition: all 0.5s ease-in-out;
+}
+@media (min-width: 768px) and (max-width: 1199px) {
+  .unique_wrapper .menu_list a,
+  .unique_wrapper .menu_list button {
+    transition: 0.5s;
+    font-size: 16px;
+  }
 }
 @media (min-width: 768px) and (max-width: 991px) {
   .unique_wrapper .menu_list a,
@@ -2682,6 +2703,7 @@ h5 {
   .unique_wrapper .menu_list a,
   .unique_wrapper .menu_list button {
     transition: 0.5s;
+    font-size: 14px;
     height: 40px;
     border-radius: 12px;
     -webkit-border-radius: 12px;
@@ -2703,11 +2725,7 @@ h5 {
   -webkit-filter: none;
 }
 .unique_wrapper .unique_item {
-  display: grid;
-  grid-template-columns: minmax(0, 201px) repeat(1, minmax(0, 1fr));
-  align-items: center;
-  gap: 20px 50px;
-  padding: 32px 24px;
+  padding: 40px 24px;
   max-width: 732.438px;
   width: 100%;
   border-radius: 20px;
@@ -2716,26 +2734,16 @@ h5 {
   background: #005fe7;
   box-shadow: 0px 4px 30px 0px rgba(0, 0, 0, 0.25);
 }
-@media (min-width: 992px) and (max-width: 1199px) {
-  .unique_wrapper .unique_item {
-    transition: 0.5s;
-    grid-template-columns: minmax(0, 180px) repeat(1, minmax(0, 1fr));
-    gap: 20px 30px;
-  }
-}
 @media (min-width: 768px) and (max-width: 991px) {
   .unique_wrapper .unique_item {
     transition: 0.5s;
-    gap: 20px 30px;
-    padding: 24px 16px;
+    padding: 30px 16px;
     margin-bottom: 30px;
   }
 }
 @media all and (max-width: 767px) {
   .unique_wrapper .unique_item {
     transition: 0.5s;
-    grid-template-columns: repeat(1, minmax(0, 1fr));
-    gap: 20px 10px;
     padding: 20px 12px;
     margin-bottom: 24px;
     border-radius: 10px;
@@ -2745,39 +2753,10 @@ h5 {
     -o-border-radius: 10px;
   }
 }
-@media all and (min-width: 768px) {
-  .unique_wrapper .unique_item:nth-child(even) {
-    transition: 0.5s;
-    -webkit-transition: 0.5s;
-    -moz-transition: 0.5s;
-    -ms-transition: 0.5s;
-    -o-transition: 0.5s;
-    grid-template-columns: repeat(1, minmax(0, 1fr)) minmax(0, 201px);
-  }
-  .unique_wrapper .unique_item:nth-child(even) .unique_img {
-    order: 2;
-  }
-}
-@media (min-width: 768px) and (min-width: 992px) and (max-width: 1199px) {
-  .unique_wrapper .unique_item:nth-child(even) {
-    transition: 0.5s;
-    grid-template-columns: repeat(1, minmax(0, 1fr)) minmax(0, 180px);
-  }
-}
-@media all and (max-width: 767px) {
-  .unique_wrapper .unique_item .unique_img {
-    transition: 0.5s;
-    text-align: center;
-  }
-}
-.unique_wrapper .unique_item .unique_img img {
-  max-height: 220px;
-  height: 100%;
-}
 .unique_wrapper .unique_item .content h3 {
   color: #fff;
   font-family: "Inter", sans-serif;
-  font-size: 20px;
+  font-size: 24px;
   font-style: normal;
   font-weight: 700;
   line-height: normal;
@@ -2790,7 +2769,7 @@ h5 {
 }
 .unique_wrapper .unique_item .content ul {
   padding-left: 20px;
-  margin-top: 8px;
+  margin-top: 16px;
 }
 .unique_wrapper .unique_item .content ul li {
   color: #fff;
