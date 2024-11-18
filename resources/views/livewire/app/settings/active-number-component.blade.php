@@ -377,6 +377,7 @@
 
         window.addEventListener('closeModal', event => {
             $('#assignModal').modal('hide');
+            $('#releaseModal').modal('hide');
         });
 
         window.addEventListener('number_deleted', event => {
