@@ -340,6 +340,28 @@ class BulkMessageComponent extends Component
         $this->total_credit = $creditNeeded * $totalContacts;
     }
 
+    public $charCount = 0;
+    public $segments = 0;
+    public function countSmsContent()
+    {
+        $smsBody = $this->sms_body . $this->appended_message;
+
+        // Update character count
+        $this->charCount = strlen($smsBody);
+
+        // Calculate segments (GSM-7 encoding, 160 characters per segment)
+        $this->segments = ceil($this->charCount / 160);
+    }
+
+    public function updatedSmsBody()
+    {
+        $this->countSmsContent();
+    }
+    public function updatedAppendedMessage()
+    {
+        $this->countSmsContent();
+    }
+
     public $searchContactList;
     public function render()
     {
