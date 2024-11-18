@@ -128,6 +128,7 @@
                                 <span class="spinner-border spinner-border-sm align-middle" role="status"
                                     aria-hidden="true"></span> <small>Processing...</small>
                             </div>
+
                             <ul>
                                 @if ($chats->count() > 0)
                                     @foreach ($chats as $chat)
@@ -231,6 +232,7 @@
                                                 </div>
                                             </div>
                                         @else
+                                            @if ($msg->credit_clear == 1)
                                             <div class="receive_msg">
                                                 <div class="recevier_user chat-avatar"
                                                     style="height: 50px; width: 50px;">
@@ -246,6 +248,7 @@
                                                     </h6>
                                                 </div>
                                             </div>
+                                            @endif
                                         @endif
                                     @endforeach
                                 @else
@@ -782,7 +785,7 @@
                                     </button> --}}
                                 </div>
                             </div>
-                            <div class="participants_user_area" id="participantsArea">
+                            {{-- <div class="participants_user_area" id="participantsArea">
                                 <div class="two_grid">
                                     <div class="input_row searchable_select" wire:ignore>
                                         <label for="">Phone Number</label>
@@ -792,6 +795,34 @@
                                             @foreach ($participant_numbers as $participant_number)
                                                 <option value="{{ $participant_number->number }}">
                                                     {{ $participant_number->number }}
+                                                </option>
+                                            @endforeach
+                                        </select>
+                                        <img src="{{ asset('assets/app/icons/arrow-down.svg') }}" alt="down arrow"
+                                            class="down_arrow" />
+                                        @error('participant_number')
+                                            <p class="text-danger mb-0" style="font-size: 13px;">{{ $message }}</p>
+                                        @enderror
+                                    </div>
+                                    <div class="input_row">
+                                        <label for="">Participant Email</label>
+                                        <input type="email" wire:model.blur='participant_email'
+                                            placeholder="Type Participant Email" class="input_field" />
+                                        @error('participant_email')
+                                            <p class="text-danger mb-0" style="font-size: 13px;">{{ $message }}</p>
+                                        @enderror
+                                    </div>
+                                </div>
+                            </div> --}}
+                            <div class="participants_user_area" id="participantsArea">
+                                <div class="two_grid">
+                                    <div class="input_row searchable_select" wire:ignore>
+                                        <label for="">Phone Number</label>
+                                        <select name="lang" wire:model.blur='participant_number'
+                                            class="js-searchBox participant_number">
+                                            <option value="">Choose Number</option>
+                                            @foreach ($participant_numbers as $participant_number)
+                                                <option value="{{ $participant_number->number }}">{{ $participant_number->number }}
                                                 </option>
                                             @endforeach
                                         </select>
