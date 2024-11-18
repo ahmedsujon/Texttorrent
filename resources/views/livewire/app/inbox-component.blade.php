@@ -128,6 +128,7 @@
                                 <span class="spinner-border spinner-border-sm align-middle" role="status"
                                     aria-hidden="true"></span> <small>Processing...</small>
                             </div>
+
                             <ul>
                                 @if ($chats->count() > 0)
                                     @foreach ($chats as $chat)

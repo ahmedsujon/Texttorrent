@@ -378,11 +378,12 @@ class InboxComponent extends Component
     public $folder_id, $contact_id;
     public function addFolderModal($id)
     {
-        $cont = Contact::find($id);
+        $chat = Chat::find($id);
+        $cont = Contact::find($chat->contact_id);
 
         $this->folder_id = $cont->folder_id;
 
-        $this->contact_id = $id;
+        $this->contact_id = $cont->id;
         $this->dispatch('showFolderModal');
     }
 
@@ -543,7 +544,7 @@ class InboxComponent extends Component
     public $filter_time, $searchTerm;
     public function render()
     {
-        $chats = DB::table('chats')->select('chats.*', 'contacts.first_name', 'contacts.last_name', 'contacts.number')->join('contacts', 'contacts.id', 'chats.contact_id')->where('contacts.blacklisted', 0)->where(function ($q) {
+        $chats = DB::table('chats')->select('chats.*', 'contacts.first_name', 'contacts.last_name', 'contacts.number', 'contacts.folder_id')->join('contacts', 'contacts.id', 'chats.contact_id')->where('contacts.blacklisted', 0)->where(function ($q) {
             $q->where('contacts.number', 'like', '%' . $this->searchTerm . '%')
                 ->orWhere('contacts.first_name', 'like', '%' . $this->searchTerm . '%')
                 ->orWhere('contacts.last_name', 'like', '%' . $this->searchTerm . '%')
