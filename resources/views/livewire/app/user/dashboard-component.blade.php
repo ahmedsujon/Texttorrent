@@ -114,11 +114,17 @@
                         <div class="range_area mt-24">
                             <!-- Bonus percentage labels -->
                             <div class="bonus-percentage-labels">
-                                <span> <img src="{{ asset('assets/app/icons/bonus2.svg') }}"> 0%</span><span> <img
-                                        src="{{ asset('assets/app/icons/bonus2.svg') }}"> 5%</span><span> <img
-                                        src="{{ asset('assets/app/icons/bonus2.svg') }}"> 10%</span><span> <img
-                                        src="{{ asset('assets/app/icons/bonus2.svg') }}"> 15%</span><span> <img
-                                        src="{{ asset('assets/app/icons/bonus2.svg') }}"> 20%</span>
+                                <span><img src="{{ asset('assets/app/icons/bonus2.svg') }}"> 0%</span>
+                                <span><img src="{{ asset('assets/app/icons/bonus2.svg') }}"> 5%</span>
+                                <span><img src="{{ asset('assets/app/icons/bonus2.svg') }}"> 10%</span>
+                                <span><img src="{{ asset('assets/app/icons/bonus2.svg') }}"> 15%</span>
+                                <span><img src="{{ asset('assets/app/icons/bonus2.svg') }}"> 20%</span>
+                                <span><img src="{{ asset('assets/app/icons/bonus2.svg') }}"> 25%</span>
+                                <span><img src="{{ asset('assets/app/icons/bonus2.svg') }}"> 30%</span>
+                                <span><img src="{{ asset('assets/app/icons/bonus2.svg') }}"> 35%</span>
+                                <span><img src="{{ asset('assets/app/icons/bonus2.svg') }}"> 40%</span>
+                                <span><img src="{{ asset('assets/app/icons/bonus2.svg') }}"> 45%</span>
+                                <span><img src="{{ asset('assets/app/icons/bonus2.svg') }}"> 50%</span>
                             </div>
                             <div class="container_container">
                                 <div id="slider"></div>
@@ -434,7 +440,7 @@
 
     <script>
         document.addEventListener("DOMContentLoaded", () => {
-            const MAXIMUMVALUE = 4000; // Maximum slider value for 4K
+            const MAXIMUMVALUE = 10000; // Maximum slider value for 4K
 
             // Function to format label (e.g., 1000 -> 1K)
             function formatLabel(value) {
@@ -443,10 +449,11 @@
 
             // Function to determine credit cost based on amount
             function getCreditCost(amount) {
-                if (amount <= 999) return 0.0050;
-                if (amount <= 2000) return 0.0045;
-                if (amount <= 3000) return 0.0043;
-                return 0.0041;
+                // if (amount <= 1000) return 0.0050;
+                // if (amount <= 2000) return 0.0045;
+                // if (amount <= 3000) return 0.0043;
+                // return 0.0041;
+                return 0.005;
             }
 
             // Function to determine bonus percentage based on amount
@@ -455,7 +462,13 @@
                 if (amount < 2000) return 5;
                 if (amount < 3000) return 10;
                 if (amount < 4000) return 15;
-                return 20;
+                if (amount < 5000) return 20;
+                if (amount < 6000) return 25;
+                if (amount < 7000) return 30;
+                if (amount < 8000) return 35;
+                if (amount < 9000) return 40;
+                if (amount < 10000) return 45;
+                return 50;
             }
 
             // Create the slider
@@ -465,13 +478,13 @@
                     min: 0,
                     max: MAXIMUMVALUE,
                 },
-                start: [20],
-                step: 20, // Set step increment to 100
+                start: [0],
+                step: 100, // Set step increment to 100
                 connect: "lower",
                 pips: {
                     mode: "positions",
-                    values: [0, 25, 50, 75, 100], // Positions for 0, 1K, 2K, 3K, 4K
-                    density: 2,
+                    values: [0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100], // Positions for 0, 1K, 2K, 3K, 4K ...
+                    density: 1,
                     format: {
                         to: function(value) {
                             return formatLabel(value);
