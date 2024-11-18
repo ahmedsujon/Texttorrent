@@ -2,17 +2,17 @@
 
 namespace App\Livewire\App\Campaigns;
 
-use Carbon\Carbon;
-use App\Models\User;
-use App\Models\Number;
-use App\Models\Contact;
-use Livewire\Component;
 use App\Models\BulkMessage;
+use App\Models\BulkMessageItem;
+use App\Models\Contact;
 use App\Models\ContactList;
 use App\Models\InboxTemplate;
-use App\Models\BulkMessageItem;
-use Illuminate\Support\Facades\DB;
+use App\Models\Number;
+use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+use Livewire\Component;
 use Livewire\Features\SupportFileUploads\WithFileUploads;
 
 class BulkMessageComponent extends Component
@@ -37,11 +37,11 @@ class BulkMessageComponent extends Component
 
     public function useTemplate($contact_id)
     {
-        $this->validate([
-            'inbox_template_id' => 'required_if:sms_type,sms',
-        ], [
-            'inbox_template_id.*' => 'Select a template',
-        ]);
+        // $this->validate([
+        //     'inbox_template_id' => 'required_if:sms_type,sms',
+        // ], [
+        //     'inbox_template_id.*' => 'Select a template',
+        // ]);
 
         $greetings = ['Hi', 'Hey', 'Hello'];
         $randomGreeting = $greetings[array_rand($greetings)];
@@ -76,7 +76,7 @@ class BulkMessageComponent extends Component
     public $numbers = [], $all_numbers, $selectAllNumbers = false, $selectNumberSearch;
     public function selectPhoneNumbers($number)
     {
-        $number = '+'.$number;
+        $number = '+' . $number;
 
         if ($this->number_pool) {
             if (($key = array_search($number, $this->numbers)) !== false) {
@@ -124,7 +124,7 @@ class BulkMessageComponent extends Component
         $this->validate([
             'numbers' => 'required',
             'contact_list_id' => 'required',
-            'inbox_template_id' => 'required_if:sms_type,sms',
+            // 'inbox_template_id' => 'required_if:sms_type,sms',
             'batch_size' => 'required_if:batch_process,true',
             'batch_frequency' => 'required_if:batch_process,true',
             // 'sending_throttle' => 'required_if:batch_process,true',
@@ -134,7 +134,7 @@ class BulkMessageComponent extends Component
         ], [
             'numbers.required' => 'Phone number field is required',
             'contact_list_id.required' => 'Select a contact list',
-            'inbox_template_id.*' => 'Select a template',
+            // 'inbox_template_id.*' => 'Select a template',
             'batch_size.*' => 'This field is required',
             'batch_frequency.*' => 'This field is required',
             // 'sending_throttle.*' => 'This field is required',
@@ -177,7 +177,7 @@ class BulkMessageComponent extends Component
                 // $data->sending_throttle = $this->sending_throttle;
 
                 if ($this->sms_type == 'mms' && $this->file) {
-                    $fileName = 'mms-'. uniqid() .Carbon::now()->timestamp. '.' .$this->file->extension();
+                    $fileName = 'mms-' . uniqid() . Carbon::now()->timestamp . '.' . $this->file->extension();
                     $this->file->storeAs('uploads/mms_files', $fileName);
                     $data->file = 'uploads/mms_files/' . $fileName;
                 }
@@ -203,10 +203,18 @@ class BulkMessageComponent extends Component
                 $availableNumbers = count($this->numbers); // Total available numbers
 
                 foreach ($contactList as $key => $cList) {
-                    if ($this->opt_out_link) {
-                        $message = $this->useTemplate($cList->id) . "\n" . $this->appended_message;
+                    if ($this->inbox_template_id) {
+                        if ($this->opt_out_link) {
+                            $message = $this->useTemplate($cList->id) . "\n" . $this->appended_message;
+                        } else {
+                            $message = $this->useTemplate($cList->id);
+                        }
                     } else {
-                        $message = $this->useTemplate($cList->id);
+                        if ($this->opt_out_link) {
+                            $message = $this->sms_body . "\n" . $this->appended_message;
+                        } else {
+                            $message = $this->sms_body;
+                        }
                     }
 
                     // Reuse numbers even if there are fewer numbers than contacts
@@ -270,10 +278,10 @@ class BulkMessageComponent extends Component
                 }
                 $this->resetForm();
             } else {
-                $this->dispatch('error', ['message'=> 'Not enough credit for this message!']);
+                $this->dispatch('error', ['message' => 'Not enough credit for this message!']);
             }
         } else {
-            $this->dispatch('error', ['message'=> 'No active subscription found!']);
+            $this->dispatch('error', ['message' => 'No active subscription found!']);
         }
     }
 
