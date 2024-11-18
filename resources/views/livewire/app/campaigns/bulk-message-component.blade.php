@@ -71,21 +71,23 @@
                         <h3>Set up</h3>
                         <div class="setup_checkbox_grid mt-16">
                             @if (isUserPermitted('number-pool'))
-                            <div class="custom_switch_area">
-                                <label class="switch">
-                                    <input type="checkbox" wire:model.live='number_pool' />
-                                    <span class="slider round"></span>
-                                    @error('number_pool')
-                                        <p class="text-danger mb-0" style="font-size: 13px;">{{ $message }}</p>
-                                    @enderror
-                                </label>
-                                <h6 class="switch_title">
-                                    Number pool
-                                    <span data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Some Text">
-                                        <img src="{{ asset('assets/app/icons/info-circle.svg') }}" alt="info circle" />
-                                    </span>
-                                </h6>
-                            </div>
+                                <div class="custom_switch_area">
+                                    <label class="switch">
+                                        <input type="checkbox" wire:model.live='number_pool' />
+                                        <span class="slider round"></span>
+                                        @error('number_pool')
+                                            <p class="text-danger mb-0" style="font-size: 13px;">{{ $message }}</p>
+                                        @enderror
+                                    </label>
+                                    <h6 class="switch_title">
+                                        Number pool
+                                        <span data-bs-toggle="tooltip" data-bs-placement="top"
+                                            data-bs-title="Some Text">
+                                            <img src="{{ asset('assets/app/icons/info-circle.svg') }}"
+                                                alt="info circle" />
+                                        </span>
+                                    </h6>
+                                </div>
                             @endif
 
                             <div class="custom_switch_area">
@@ -406,8 +408,7 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            <textarea name="" id="template_preview" rows="6" class="input_field textarea_field"
-                                                placeholder="Write a template..." value=""></textarea>
+                                            <textarea name="" id="template_preview" rows="6" class="input_field textarea_field" value=""></textarea>
                                         </div>
                                         @error('sms_body')
                                             <p class="text-danger" style="font-size: 11.5px;">{{ $message }}</p>
@@ -509,32 +510,35 @@
             <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
                 <div class="modal-content">
                     <div class="modal-body">
-                        <form wire:submit.prevent='storeData' >
+                        <form wire:submit.prevent='storeData'>
                             <div class="content_area text-center">
                                 <h5 class="mb-3">Confirm Campaign Compliance</h5>
 
                                 <div class="text-start">
                                     <p class="text-muted mb-3">
-                                        Before sending your campaign, please confirm that your message complies with all applicable
+                                        Before sending your campaign, please confirm that your message complies with all
+                                        applicable
                                         laws and regulations, including ensuring that:
                                         <br>
-                                            ● All recipients have opted in to receive SMS messages.
+                                        ● All recipients have opted in to receive SMS messages.
                                         <br>
-                                            ● The content of your message adheres to our platform’s guidelines and applicable laws
+                                        ● The content of your message adheres to our platform’s guidelines and
+                                        applicable laws
                                         (e.g., no prohibited content).
-                                        By checking this box, you acknowledge that you are responsible for the compliance of this
+                                        By checking this box, you acknowledge that you are responsible for the
+                                        compliance of this
                                         campaign.
                                     </p>
                                 </div>
 
-                                <label for="confirm_chk"><input type="checkbox" id="confirm_chk" required> I confirm that this campaign complies with all legal and regulatory requirements.</label>
+                                <label for="confirm_chk"><input type="checkbox" id="confirm_chk" required> I confirm
+                                    that this campaign complies with all legal and regulatory requirements.</label>
                                 <div class="text-center mt-4">
                                     <button type="button" class="delete_cancel_btn" id="deleteModalCloseBtn"
                                         data-bs-dismiss="modal">
                                         Cancel
                                     </button>
-                                    <button type="submit" wire:loading.attr='disabled'
-                                        class="delete_yes_btn">
+                                    <button type="submit" wire:loading.attr='disabled' class="delete_yes_btn">
                                         {!! loadingStateWithText('storeData', 'Send Message') !!}
                                     </button>
                                 </div>
@@ -772,5 +776,11 @@
         }
         updateTime();
         setInterval(updateTime, 1000);
+    </script>
+
+    <script>
+        const placeholderText =
+            `[Hi|Hello|Hey] {customer_name}, how are you? The system will replace {customer_name} with the customer’s name and randomly choose a greeting. \n\nFor instance, if the customer's name is John, the message could be: "Hello John, how are you?"`;
+        document.getElementById("template_preview").placeholder = placeholderText;
     </script>
 @endpush

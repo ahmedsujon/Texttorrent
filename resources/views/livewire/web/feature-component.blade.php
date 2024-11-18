@@ -2,7 +2,7 @@
     <main>
         <!-- Hero Section  -->
         <section class="hero_wrapper hero_wrapper_others"
-            style="background-image: url(assets/app/images/landing/BackgroundHero.png)">
+            style="background-image: url({{ asset('assets/app/images/landing/BackgroundHero.png') }})">
             <div class="container">
                 <div class="row">
                     <div class="col-12">
@@ -44,7 +44,7 @@
                                     <a href="#blackListWords"> Blacklist Words </a>
                                 </li>
                                 <li>
-                                    <a href="#numberLookup"> Number Lookup </a>
+                                    <a href="#numberLookup"> Number Validator </a>
                                 </li>
                                 <li>
                                     <a href="#batchProcessing"> Batch Processing </a>
@@ -94,87 +94,72 @@
                             </ul>
                             <div class="unique_item_area">
                                 <div class="unique_item" id="peerToPeer">
-                                    <div class="unique_img">
-                                        <img src="{{ asset('assets/app/images/landing/unique-edge1.png') }}" alt="Peer to Peer Texting" />
-                                    </div>
+
                                     <div class="content">
                                         <h3>Peer to Peer Texting</h3>
                                         <ul>
-                                            <li>Send 2-way texts at scale</li>
-                                            <li>
-                                                Ideal for political campaigns, fundraising, and
-                                                non-profits
+                                            <li>Effortlessly manage large-scale 2-way text communication.
+
                                             </li>
-                                            <li>Quickly send individual texts to large groups</li>
                                             <li>
-                                                Enable 2-way conversations by accepting incoming
-                                                responses
+                                                Perfect for political campaigns, fundraising, and non-profits.
                                             </li>
+                                            <li>Send personalized messages to groups and engage in real-time
+                                                conversations with recipients.</li>
+
                                         </ul>
                                     </div>
                                 </div>
                                 <div class="unique_item" id="tollFree">
-                                    <div class="unique_img">
-                                        <img src="{{ asset('assets/app/images/landing/unique-edge2.png') }}"
-                                            alt="Toll-Free Number Registration" />
-                                    </div>
+
                                     <div class="content">
                                         <h3>Toll-Free Number Registration</h3>
                                         <ul>
                                             <li>
-                                                Integrated with Telnyx and Twilio for easy toll-free
-                                                number registration
+                                                Simplify toll-free number registration with Twilio integrations.
+
+
                                             </li>
                                             <li>
-                                                Automate toll-free number verification through the
-                                                user dashboard
+                                                Automate number verification directly from your dashboard.
                                             </li>
-                                            <li>A strong alternative to 10DLC in the USA</li>
+                                            <li> An efficient alternative to 10DLC for U.S. businesses.</li>
                                         </ul>
                                     </div>
                                 </div>
                                 <div class="unique_item" id="blackListWords">
-                                    <div class="unique_img">
-                                        <img src="{{ asset('assets/app/images/landing/unique-edge3.png') }}" alt="Blacklist Words" />
-                                    </div>
+
                                     <div class="content">
                                         <h3>Blacklist Words</h3>
                                         <ul>
                                             <li>
-                                                Prevent users from sending messages with blacklisted
-                                                words
+                                                Automatically block messages containing blacklisted words.
+
                                             </li>
                                             <li>
-                                                Automatically blocks messages containing restricted
-                                                terms
+                                                Ensures compliance and protects your reputation.
                                             </li>
                                         </ul>
                                     </div>
                                 </div>
                                 <div class="unique_item" id="numberLookup">
-                                    <div class="unique_img">
-                                        <img src="{{ asset('assets/app/images/landing/unique-edge4.png') }}" alt="Number Validator" />
-                                    </div>
+
                                     <div class="content">
-                                        <h3>Number Validator</h3>
+                                        <h3> Number Validator</h3>
                                         <ul>
                                             <li>
-                                                Ensure message delivery by performing number lookups.
+                                                Guarantee successful message delivery by validating phone numbers.
                                             </li>
                                             <li>
-                                                Automatically categorize numbers as landline or
-                                                mobile.
+                                                Categorize numbers as mobile or landline.
                                             </li>
                                             <li>
-                                                Export categorized lists for targeted messaging.
+                                                Export segmented lists for more precise targeting.
                                             </li>
                                         </ul>
                                     </div>
                                 </div>
                                 <div class="unique_item" id="batchProcessing">
-                                    <div class="unique_img">
-                                        <img src="{{ asset('assets/app/images/landing/unique-edge5.png') }}" alt="Batch Processing" />
-                                    </div>
                                     <div class="content">
                                         <h3>Batch Processing</h3>
                                         <ul>
@@ -188,10 +173,6 @@
                                     </div>
                                 </div>
                                 <div class="unique_item" id="builtInCtia">
-                                    <div class="unique_img">
-                                        <img src="{{ asset('assets/app/images/landing/unique-edge6.png') }}"
-                                            alt="Built-in CTIA Compliance" />
-                                    </div>
                                     <div class="content">
                                         <h3>Built-in CTIA Compliance</h3>
                                         <ul>
@@ -205,9 +186,6 @@
                                     </div>
                                 </div>
                                 <div class="unique_item" id="bulkSms">
-                                    <div class="unique_img">
-                                        <img src="{{ asset('assets/app/images/landing/unique-edge7.png') }}" alt="Bulk SMS" />
-                                    </div>
                                     <div class="content">
                                         <h3>Bulk SMS</h3>
                                         <ul>
@@ -220,9 +198,6 @@
                                     </div>
                                 </div>
                                 <div class="unique_item" id="smsSchedule">
-                                    <div class="unique_img">
-                                        <img src="{{ asset('assets/app/images/landing/unique-edge8.png') }}" alt="Bulk SMS Scheduling" />
-                                    </div>
                                     <div class="content">
                                         <h3>Bulk SMS Scheduling</h3>
                                         <ul>
@@ -235,9 +210,6 @@
                                     </div>
                                 </div>
                                 <div class="unique_item" id="twoWaySmsChat">
-                                    <div class="unique_img">
-                                        <img src="{{ asset('assets/app/images/landing/unique-edge9.png') }}" alt="2-Way SMS Chat" />
-                                    </div>
                                     <div class="content">
                                         <h3>2-Way SMS Chat</h3>
                                         <ul>
@@ -249,9 +221,6 @@
                                     </div>
                                 </div>
                                 <div class="unique_item" id="subAccount">
-                                    <div class="unique_img">
-                                        <img src="{{ asset('assets/app/images/landing/unique-edge10.png') }}" alt="Sub-Accounts" />
-                                    </div>
                                     <div class="content">
                                         <h3>Sub-Accounts</h3>
                                         <ul>
@@ -267,10 +236,6 @@
                                     </div>
                                 </div>
                                 <div class="unique_item" id="mmsMessaging">
-                                    <div class="unique_img">
-                                        <img src="{{ asset('assets/app/images/landing/unique-edge11.png') }}"
-                                            alt="MMS / Picture Messaging" />
-                                    </div>
                                     <div class="content">
                                         <h3>MMS / Picture Messaging</h3>
                                         <ul>
@@ -284,10 +249,6 @@
                                     </div>
                                 </div>
                                 <div class="unique_item" id="bulkSmsDelivery">
-                                    <div class="unique_img">
-                                        <img src="{{ asset('assets/app/images/landing/unique-edge12.png') }}"
-                                            alt="Bulk SMS Delivery Stats" />
-                                    </div>
                                     <div class="content">
                                         <h3>Bulk SMS Delivery Stats</h3>
                                         <ul>
@@ -301,9 +262,6 @@
                                     </div>
                                 </div>
                                 <div class="unique_item" id="localNumber">
-                                    <div class="unique_img">
-                                        <img src="{{ asset('assets/app/images/landing/unique-edge13.png') }}" alt="Local Numbers" />
-                                    </div>
                                     <div class="content">
                                         <h3>Local Numbers</h3>
                                         <ul>
@@ -319,9 +277,6 @@
                                     </div>
                                 </div>
                                 <div class="unique_item" id="messageTemplate">
-                                    <div class="unique_img">
-                                        <img src="{{ asset('assets/app/images/landing/unique-edge14.png') }}" alt="Message Templates" />
-                                    </div>
                                     <div class="content">
                                         <h3>Message Templates</h3>
                                         <ul>
@@ -333,10 +288,6 @@
                                     </div>
                                 </div>
                                 <div class="unique_item" id="voiceMail">
-                                    <div class="unique_img">
-                                        <img src="{{ asset('assets/app/images/landing/unique-edge15.png') }}"
-                                            alt="Voicemail / Call Forwarding" />
-                                    </div>
                                     <div class="content">
                                         <h3>Voicemail / Call Forwarding</h3>
                                         <ul>
@@ -349,9 +300,6 @@
                                     </div>
                                 </div>
                                 <div class="unique_item" id="contentManagement">
-                                    <div class="unique_img">
-                                        <img src="{{ asset('assets/app/images/landing/unique-edge15.png') }}" alt="Contact Management" />
-                                    </div>
                                     <div class="content">
                                         <h3>Contact Management</h3>
                                         <ul>
@@ -363,10 +311,6 @@
                                     </div>
                                 </div>
                                 <div class="unique_item" id="detailsCampaign">
-                                    <div class="unique_img">
-                                        <img src="{{ asset('assets/app/images/landing/unique-edge17.png') }}"
-                                            alt="Detailed Campaign Analytics" />
-                                    </div>
                                     <div class="content">
                                         <h3>Detailed Campaign Analytics</h3>
                                         <ul>

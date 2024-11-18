@@ -109,7 +109,8 @@
                                 <div class="chat_time_area" wire:ignore>
                                     <select class="niceSelect" id="filter_time">
                                         <option value="all" selected>All Chats</option>
-                                        <option value="last_week">Last 7Days</option>
+                                        <option value="today">Today</option>
+                                        <option value="last_week">Last 7 Days</option>
                                         <option value="last_month">Last Month</option>
                                         <option value="last_year">Last 12 Month</option>
                                     </select>

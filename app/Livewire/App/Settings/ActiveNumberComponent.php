@@ -74,7 +74,7 @@ class ActiveNumberComponent extends Component
             DB::table('numbers')->where('id', $id)->update(['status' => $newStatus]);
 
             // Initialize Twilio Client
-            $twilio = new Client(env('TWILIO_SID'), env('TWILIO_AUTH_TOKEN'));
+            $twilio = new Client(env('TWILIO_SID'), env('TWILIO_TOKEN'));
 
             try {
                 if ($number->twilio_number_sid) {
@@ -82,11 +82,12 @@ class ActiveNumberComponent extends Component
                     $twilio->incomingPhoneNumbers($number->twilio_number_sid)->delete();
 
                     // Dispatch success message
+                    $this->dispatch('closeModal');
                     $this->dispatch('success', ['message' => 'Number released successfully.']);
                 } else {
+                    $this->dispatch('closeModal');
                     $this->dispatch('error', ['message' => 'Failed to release the number.']);
                 }
-
             } catch (\Exception $e) {
                 // Dispatch error message if Twilio release fails
                 $this->dispatch('error', ['message' => 'Failed to release the number.']);

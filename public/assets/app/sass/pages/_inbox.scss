@@ -689,16 +689,18 @@
       font-style: normal;
       font-weight: 400;
       line-height: 22px;
-      padding: 20px 15px;
+      padding: 12px 15px;
       border-radius: 20px;
-      min-height: 72px;
+      // min-height: 72px;
+      min-width: 38px;
       text-align: start;
       background: $gray-color-f45;
       @include max-media-width(767) {
         font-size: 14px;
         line-height: 20px;
-        padding: 10px 6px;
-        min-height: 50px;
+        padding: 8px 10px;
+        // min-height: 50px;
+        min-width: 28px;
         border-radius: 12px;
         -webkit-border-radius: 12px;
         -moz-border-radius: 12px;
@@ -711,6 +713,12 @@
       left: -7px;
       bottom: 28px;
       z-index: -1;
+      max-width: 44px;
+      @include max-media-width(767) {
+        left: -5px;
+        bottom: 28px;
+        max-width: 26px;
+      }
     }
     .time {
       color: $gray-color-7b;
@@ -728,20 +736,24 @@
       margin-left: auto;
       text-align: end;
       .msg {
-        padding: 15px 12px 17px 17px;
+        // padding: 12px 12px 12px 17px;
         color: $white-color-ff;
         background-color: $primary-color;
-        @include max-media-width(767) {
-          padding: 12px 10px;
-        }
+        // @include max-media-width(767) {
+        //   padding: 10px 6px;
+        // }
       }
       .msg_shape {
         position: absolute;
         left: auto;
         bottom: 33px;
-        right: -7px;
+        right: -6px;
         z-index: -1;
         transform: scaleX(-1);
+        @include max-media-width(767) {
+          bottom: 30px;
+          right: -4px;
+        }
       }
     }
     .time {

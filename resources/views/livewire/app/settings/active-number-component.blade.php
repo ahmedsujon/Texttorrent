@@ -19,7 +19,10 @@
 
                     <div class="mt-4">
                         <button type="button" class="create_event_btn" wire:click.prevent='assignNumberToUser'>
-                            {!! loadingStateWithoutText('assignNumberToUser', '<img src="'. asset('assets/app/icons/user.svg') .'" class="save_icon mr-5">') !!}  Assign User
+                            {!! loadingStateWithoutText(
+                                'assignNumberToUser',
+                                '<img src="' . asset('assets/app/icons/user.svg') . '" class="save_icon mr-5">',
+                            ) !!} Assign User
                         </button>
                     </div>
 
@@ -49,7 +52,8 @@
             </div>
             <div class="row">
                 <div class="col-md-12 text-center">
-                    <span wire:loading wire:target='numberType,sort_type,sort_status'><i class="fa fa-spinner fa-spin"></i>
+                    <span wire:loading wire:target='numberType,sort_type,sort_status'><i
+                            class="fa fa-spinner fa-spin"></i>
                         Processing...</span>
                 </div>
             </div>
@@ -110,7 +114,9 @@
                                     <tr>
                                         <td>
                                             <div class="form-check">
-                                                <input class="form-check-input contact-checkbox" type="checkbox" name="selectedNumbers" wire:model.live="selectedNumbers" value="{{ $number->id }}">
+                                                <input class="form-check-input contact-checkbox" type="checkbox"
+                                                    name="selectedNumbers" wire:model.live="selectedNumbers"
+                                                    value="{{ $number->id }}">
                                             </div>
                                         </td>
 
@@ -126,7 +132,9 @@
                                             </div>
                                         </td>
                                         <td>
-                                            <h4 class="phone_number">{{ $number['region'] ? $number['region'] . ', ':'' }}{{ $number['country'] }}</h4>
+                                            <h4 class="phone_number">
+                                                {{ $number['region'] ? $number['region'] . ', ' : '' }}{{ $number['country'] }}
+                                            </h4>
                                         </td>
 
                                         <td>
@@ -154,7 +162,8 @@
                                             @endif
                                         </td>
                                         <td class="text-center">
-                                            <button class="btn btn-sm btn-primary" wire:click.prevent='setWebhook("{{ $number->number }}")'>{!! loadingStateWithText("setWebhook('".$number->number."')", 'Set WebHook') !!}</button>
+                                            <button class="btn btn-sm btn-primary"
+                                                wire:click.prevent='setWebhook("{{ $number->number }}")'>{!! loadingStateWithText("setWebhook('" . $number->number . "')", 'Set WebHook') !!}</button>
                                         </td>
                                         <td>
                                             <div class="table_dropdown_area d-flex align-items-center flex-wrap gap-1">
@@ -216,8 +225,8 @@
                 </div>
             </div>
             <div class="pagination_area pagination_top_border">
-                <div class="d-flex" wire:ignore>
-                    <select class="niceSelect sortingValue">
+                <div class="d-flex">
+                    <select class="niceSelect sortingValue" wire:model.blur="sortingValue" wire:change='resetPage'>
                         <option value="10">10 Numbers</option>
                         <option value="30">30 Numbers</option>
                         <option value="50">50 Numbers</option>
@@ -261,7 +270,8 @@
                                 <select name="lang" class="js-searchBox user_to_assign">
                                     <option value="">Choose User</option>
                                     @foreach ($sub_accounts as $sub_account)
-                                        <option value="{{ $sub_account->id }}">{{ $sub_account->first_name }} {{ $sub_account->first_name }}</option>
+                                        <option value="{{ $sub_account->id }}">{{ $sub_account->first_name }}
+                                            {{ $sub_account->first_name }}</option>
                                     @endforeach
                                 </select>
                                 <img src="{{ asset('assets/app/icons/arrow-down.svg') }}" alt="down arrow"
@@ -298,8 +308,8 @@
                                     data-bs-dismiss="modal">
                                     Cancel
                                 </button>
-                                <button type="button" wire:click.prevent='releaseNumber' wire:loading.attr='disabled'
-                                    class="delete_yes_btn">
+                                <button type="button" wire:click.prevent='releaseNumber'
+                                    wire:loading.attr='disabled' class="delete_yes_btn">
                                     {!! loadingStateWithText('releaseNumber', 'Yes') !!}
                                 </button>
                             </div>
@@ -337,16 +347,16 @@
 </div>
 @push('scripts')
     <script>
-        $(document).ready(function(){
-            $('.sort_status').on('change', function(){
+        $(document).ready(function() {
+            $('.sort_status').on('change', function() {
                 @this.set('sort_status', this.value);
             });
 
-            $('.sort_type').on('change', function(){
+            $('.sort_type').on('change', function() {
                 @this.set('sort_type', this.value);
             });
 
-            $('.user_to_assign').on('change', function(){
+            $('.user_to_assign').on('change', function() {
                 @this.set('user_to_assign', this.value);
             });
         });
