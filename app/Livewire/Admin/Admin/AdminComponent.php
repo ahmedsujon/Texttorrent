@@ -104,12 +104,13 @@ class AdminComponent extends Component
         $admin->email = $this->email;
         $admin->phone = $this->phone;
         $admin->password = Hash::make($this->password);
+
         if ($this->avatar) {
             deleteFile($admin->avatar);
-
             $file = uploadFile('image', 40, 'profile-images/', 'admin', $this->avatar);
             $admin->avatar = $file;
         }
+        
         $admin->save();
 
         $this->dispatch('closeModal');
