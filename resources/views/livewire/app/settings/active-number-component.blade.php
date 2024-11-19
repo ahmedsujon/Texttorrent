@@ -225,8 +225,8 @@
                 </div>
             </div>
             <div class="pagination_area pagination_top_border">
-                <div class="d-flex">
-                    <select class="niceSelect sortingValue" wire:model.blur="sortingValue" wire:change='resetPage'>
+                <div class="d-flex" wire:ignore>
+                    <select class="niceSelect sortingValue">
                         <option value="10">10 Numbers</option>
                         <option value="30">30 Numbers</option>
                         <option value="50">50 Numbers</option>
@@ -348,6 +348,12 @@
 @push('scripts')
     <script>
         $(document).ready(function() {
+            $('.sortingValue').on('change', function() {
+                @this.set('sortingValue', this.value);
+            });
+        });
+
+        $(document).ready(function() {
             $('.sort_status').on('change', function() {
                 @this.set('sort_status', this.value);
             });
@@ -371,6 +377,7 @@
 
         window.addEventListener('closeModal', event => {
             $('#assignModal').modal('hide');
+            $('#releaseModal').modal('hide');
         });
 
         window.addEventListener('number_deleted', event => {

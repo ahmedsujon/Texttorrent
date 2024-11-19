@@ -186,9 +186,9 @@
                 <div class="d-flex" wire:ignore>
                     <select class="niceSelect sortingValue">
                         <option value="10">10 Numbers</option>
+                        <option value="15">15 Numbers</option>
+                        <option value="20">20 Numbers</option>
                         <option value="30">30 Numbers</option>
-                        <option value="50">50 Numbers</option>
-                        <option value="100">100 Numbers</option>
                     </select>
                 </div>
                 {{ $numbers->links('livewire.app-pagination') }}

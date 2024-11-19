@@ -242,13 +242,13 @@
                                 Let's start growing your business
                             </h2>
                             <h4 data-aos="fade-up">
-                                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Diam
-                                ut id nisl tellus rhoncus, imperdiet
+                                Ready to grow your business? Text Torrent helps you reach your audience instantly and
+                                boost sales with powerful SMS marketing.
                             </h4>
                             <div class="business_btn_area d-flex align-items-center justify-content-center flex-wrap"
                                 data-aos="fade-right">
-                                <a href="#" class="business_btn">Register Now</a>
-                                <a href="#" class="business_btn">Contact Us</a>
+                                <a href="{{ route('register') }}" class="business_btn">Register Now</a>
+                                <a href="{{ route('app.contact-us') }}" class="business_btn">Contact Us</a>
                             </div>
                         </div>
                     </div>

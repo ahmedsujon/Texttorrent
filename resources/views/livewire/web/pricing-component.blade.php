@@ -101,6 +101,15 @@
                                             </div>
                                             <h4>5 sub-account</h4>
                                         </li>
+                                        <li>
+                                            <div class="icon">
+                                                <img src="{{ asset('assets/app/icons/entypo_check.svg') }}"
+                                                    alt="check icon" />
+                                            </div>
+                                            <h4>
+                                                API access for seamless integration with your gateway
+                                            </h4>
+                                        </li>
                                     </ul>
                                     <h6 class="price">$49 <span>/month </span></h6>
                                     @if (getActiveSubscription()['name'] == 'standard')
@@ -240,13 +249,7 @@
                                             </div>
                                             <h4>Unlimited sub-accounts</h4>
                                         </li>
-                                        <li>
-                                            <div class="icon">
-                                                <img src="{{ asset('assets/app/icons/entypo_check.svg') }}"
-                                                    alt="check icon" />
-                                            </div>
-                                            <h4>Advanced security and compliance features</h4>
-                                        </li>
+                                      
                                     </ul>
                                     <h6 class="price">$149 <span>/month </span></h6>
                                     @if (getActiveSubscription()['name'] == 'enterprise')
@@ -485,7 +488,7 @@
                             </div>
                             <div class="campaign_image text-md-end">
                                 <img src="{{ asset('assets/app/images/landing/why-platform.png') }}" alt="dp image"
-                                    style="max-width: 314px; max-height: 421px" />
+                                style="max-width: 100%; max-height: 100%" />
                             </div>
                         </div>
                     </div>

@@ -81,6 +81,8 @@ class ActiveNumberComponent extends Component
                     // Release the number from Twilio
                     $twilio->incomingPhoneNumbers($number->twilio_number_sid)->delete();
 
+                    DB::table('numbers')->where('id', $id)->delete();
+
                     // Dispatch success message
                     $this->dispatch('closeModal');
                     $this->dispatch('success', ['message' => 'Number released successfully.']);

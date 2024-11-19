@@ -480,7 +480,7 @@
                         <div class="input_row">
                             <label for="">Preview</label>
                             <textarea name="" id="" class="input_field textarea_field" rows="8" readonly>{{ $sms_body }} {{ $opt_out_link ? '' . "\n" . '' . $appended_message : '' }}</textarea>
-                            <h5 class="mt-1">1000 of characters</h5>
+                            <h5 class="mt-1">{{ $charCount }} characters, {{ $segments }} segment{{ $segments > 1 ? 's' : '' }}</h5>
                         </div>
                     </div>
                 </div>
