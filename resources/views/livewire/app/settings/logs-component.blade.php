@@ -137,100 +137,28 @@
                     </table>
                 </div>
             </div>
-            <div class="pagination_area">
-                <div class="d-flex">
-                    <select class="niceSelect">
-                        <option data-display="10">10</option>
-                        <option value="1">10</option>
-                        <option value="2">30</option>
-                        <option value="3">50</option>
-                        <option value="4">100</option>
+            <div class="pagination_area pagination_top_border">
+                <div class="d-flex" wire:ignore>
+                    <select class="niceSelect sortingValue">
+                        <option value="10">10</option>
+                        <option value="30">30</option>
+                        <option value="50">50</option>
+                        <option value="100">100</option>
                     </select>
                 </div>
-                <ul class="number_list d-flex align-items-center justify-content-center flex-wrap">
-                    <li>
-                        <a href="#" class="pagination_active"> 1 </a>
-                    </li>
-                    <li>
-                        <a href="#"> 2 </a>
-                    </li>
-                    <li>
-                        <a href="#"> 3 </a>
-                    </li>
-                    <li>
-                        <div class="middle_dot">...</div>
-                    </li>
-                    <li>
-                        <a href="#"> 8 </a>
-                    </li>
-                    <li>
-                        <a href="#"> 9 </a>
-                    </li>
-                    <li>
-                        <a href="#"> 10 </a>
-                    </li>
-                </ul>
-                <div class="pagination_action_list d-flex align-items-center justify-content-end flex-wrap g-sm">
-                    <a href="#">
-                        <img src="{{ asset('assets/app/icons/back-arrow-black.svg') }}" alt="back arrow" />
-                        <span>Previous</span>
-                    </a>
-                    <a href="#">
-                        <span>Next</span>
-                        <img src="{{ asset('assets/app/icons//right-arrow-black.svg') }}" alt="right arrow" />
-                    </a>
-                </div>
+                {{ $logs->links('livewire.app-pagination') }}
             </div>
         </section>
 
-        <!-- Log Chat Modal  -->
-        <div class="modal fade common_modal" id="chatLogModal" tabindex="-1" aria-labelledby="newEventModal"
-            aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h1 class="modal-title fs-5" id="newEventModal">
-                            Start new chat
-                        </h1>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal"
-                            aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
-                        <form action="" class="event_form_area">
-                            <div class="two_grid">
-                                <div class="input_row searchable_select">
-                                    <label for="">Sender</label>
-                                    <select name="lang" class="js-searchBox">
-                                        <option value="" disabled>Choose Number</option>
-                                        <option value="1">+1 (332) 262-786</option>
-                                        <option value="2">+1 (332) 262-784</option>
-                                        <option value="3">+1 (332) 262-788</option>
-                                        <option value="4">+1 (332) 262-789</option>
-                                    </select>
-                                    <img src="{{ asset('assets/app/icons/arrow-down.svg') }}" alt="down arrow"
-                                        class="down_arrow" />
-                                </div>
-                                <div class="input_row">
-                                    <label for="">Receiver</label>
-                                    <input type="text" placeholder="Type Receiver Number" class="input_field"
-                                        value="(566) 445-893" disabled />
-                                </div>
-                            </div>
-                            <div class="input_row">
-                                <label for="">Message</label>
-                                <textarea name="" id="" rows="5" class="input_field textarea_field"
-                                    placeholder="Write here..."></textarea>
-                            </div>
-                        </form>
-                    </div>
-                    <div class="modal-footer event_modal_footer">
-                        <button type="button" class="cancel_btn" data-bs-dismiss="modal">
-                            Cancel
-                        </button>
-                        <button type="button" class="create_event_btn">Start chat</button>
-                    </div>
-                </div>
-            </div>
-        </div>
     </main>
 </div>
+
+@push('scripts')
+    <script>
+        $(document).ready(function() {
+            $('.sortingValue').on('change', function() {
+                @this.set('sortingValue', this.value);
+            });
+        });
+    </script>
+@endpush
