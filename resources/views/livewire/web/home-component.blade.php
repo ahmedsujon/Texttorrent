@@ -180,7 +180,7 @@
                                         <div class="testimonial_item">
                                             <div class="content">
                                                 <h3>Mike Johnson</h3>
-                                                <h6>Founder at StartupXYZ</h6>
+                                                <h6>Founder at Flowserve</h6>
                                                 <p>
                                                     The real-time analytics and easy-to-use interface
                                                     have revolutionized how we connect with our clients.
