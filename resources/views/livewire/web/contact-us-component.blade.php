@@ -164,7 +164,7 @@
             </div>
         </section>
         <!-- How Works Section  -->
-        <section class="how_works_wrapper">
+        {{-- <section class="how_works_wrapper">
             <div class="container container-custom">
                 <div class="row">
                     <div class="col-12">
@@ -203,7 +203,7 @@
                     </div>
                 </div>
             </div>
-        </section>
+        </section> --}}
         <!-- Visit Map Section  -->
         {{-- <section class="how_works_wrapper visit_map_wrapper">
             <div class="container container-custom">
