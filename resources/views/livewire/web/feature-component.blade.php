@@ -333,3 +333,50 @@
         <div class="overlay" id="uniqueMenuOverlay"></div>
     </main>
 </div>
+@push('scripts')
+    <script>
+        $(document).ready(function() {
+            // Activate ScrollSpy
+            $("body").scrollspy({
+                target: "#uniqueListArea",
+                offset: 250
+            });
+
+            // Smooth scroll
+            $('a[href^="#"]').on("click", function(event) {
+                var target = this.hash;
+                $("html, body").animate({
+                        scrollTop: $(target).offset().top - 90, // Adjust offset for fixed navigation
+                    },
+                    500
+                ); // 500ms for smooth scrolling
+
+                //Remove menu class for mobile devices
+                if (window.innerWidth < 992) {
+                    $("#uniqueListArea").removeClass("active_menu ");
+                    $("#uniqueMenuOverlay").hide();
+                    $("html").css("overflow", "auto");
+                }
+
+                return false;
+            });
+        });
+
+        $(window).on("scroll", function() {
+            var scrollPosition = $(window).scrollTop();
+
+            $(".unique_item").each(function() {
+                var sectionOffset = $(this).offset().top - 100; // Adjust based on your header height
+                var sectionId = $(this).attr("id");
+
+                if (
+                    scrollPosition >= sectionOffset &&
+                    scrollPosition < sectionOffset + $(this).outerHeight()
+                ) {
+                    $("#uniqueListArea li a").removeClass("active_list ");
+                    $('a[href="#' + sectionId + '"]').addClass("active_list ");
+                }
+            });
+        });
+    </script>
+@endpush
