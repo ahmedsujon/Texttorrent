@@ -31,7 +31,13 @@ class ClaimsComponent extends Component
         $claim = BulkMessageItem::find($id);
         $contact = DB::table('contacts')->where('number', $claim->send_to)->where('user_id', user()->id)->first();
 
-        $chat = new Chat();
+        $getChat = Chat::where('user_id', user()->id)->where('contact_id', $contact->id)->first();
+
+        if ($getChat) {
+            $chat = $getChat;
+        } else {
+            $chat = new Chat();
+        }
         $chat->user_id = user()->id;
         $chat->contact_id = $contact->id;
         $chat->last_message = $claim->received_message ? $claim->received_message : $claim->message;
