@@ -47,7 +47,7 @@ class ClaimsComponent extends Component
         $msg1 = new ChatMessage();
         $msg1->chat_id = $chat->id;
         $msg1->direction = 'outbound';
-        $msg1->api_send_status = 'success';
+        $msg1->api_send_status = 'delivered';
         $msg1->message = $claim->message;
         $msg1->save();
 
@@ -56,7 +56,7 @@ class ClaimsComponent extends Component
             $msg2->chat_id = $chat->id;
             $msg2->direction = 'inbound';
             $msg2->message = $claim->received_message;
-            $msg1->api_receive_status = 'success';
+            $msg1->api_receive_status = 'received';
             $msg2->save();
         }
 
@@ -156,7 +156,7 @@ class ClaimsComponent extends Component
             $msg1 = new ChatMessage();
             $msg1->chat_id = $chat->id;
             $msg1->direction = 'outbound';
-            $msg1->api_send_status = 'success';
+            $msg1->api_send_status = 'delivered';
             $msg1->message = $claim->message;
             $msg1->save();
 
@@ -165,7 +165,7 @@ class ClaimsComponent extends Component
                 $msg2->chat_id = $chat->id;
                 $msg2->direction = 'inbound';
                 $msg2->message = $claim->received_message;
-                $msg1->api_receive_status = 'success';
+                $msg1->api_receive_status = 'received';
                 $msg2->save();
             }
 
