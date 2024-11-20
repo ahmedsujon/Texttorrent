@@ -17,8 +17,15 @@ class GetNumberComponent extends Component
 
     public function mount()
     {
+        if (user()->type == 'sub') {
+            $au_user = DB::table('users')->select('id', 'credits')->where('id', user()->parent_id)->first();
+            $user_id = $au_user->id;
+        } else {
+            $user_id = user()->id;
+        }
+
         $twilioCredentials = DB::table('apis')
-            ->where('user_id', auth()->id())
+            ->where('user_id', $user_id)
             ->where('gateway', 'Twilio')
             ->first();
 

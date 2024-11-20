@@ -17,6 +17,7 @@
                         <h2>My Numbers</h2>
                     </div>
 
+                    @if (user()->type != 'sub')
                     <div class="mt-4">
                         <button type="button" class="create_event_btn" wire:click.prevent='assignNumberToUser'>
                             {!! loadingStateWithoutText(
@@ -25,6 +26,7 @@
                             ) !!} Assign User
                         </button>
                     </div>
+                    @endif
 
                 </div>
                 <div class="account_right_area d-flex align-items-center justify-content-end flex-wrap">
@@ -271,7 +273,7 @@
                                     <option value="">Choose User</option>
                                     @foreach ($sub_accounts as $sub_account)
                                         <option value="{{ $sub_account->id }}">{{ $sub_account->first_name }}
-                                            {{ $sub_account->first_name }}</option>
+                                            {{ $sub_account->last_name }}</option>
                                     @endforeach
                                 </select>
                                 <img src="{{ asset('assets/app/icons/arrow-down.svg') }}" alt="down arrow"

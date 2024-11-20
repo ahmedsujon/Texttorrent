@@ -428,10 +428,33 @@ class ManageContactsComponent extends Component
         if (!$this->contact_checkbox) {
             $this->dispatch('error', ['message' => 'Select contacts first']);
         } else {
-            return Excel::download(new ContactsExport(['selectedContacts'=>$this->contact_checkbox]), 'contacts.csv');
+            return Excel::download(new ContactsExport(['selectedContacts' => $this->contact_checkbox]), 'contacts.csv');
         }
     }
 
+    public function removeBlacklistConfirmation()
+    {
+        if (!$this->contact_checkbox) {
+            $this->dispatch('error', ['message' => 'Select contacts first']);
+        } else {
+            $this->dispatch('showBlacklistRemoveConfirmation');
+        }
+    }
+
+    public function removeBlacklist()
+    {
+        foreach ($this->contact_checkbox as $key => $chkId) {
+            $data = Contact::where('id', $chkId)->first();
+            $data->blacklisted = 0;
+            $data->save();
+        }
+
+        $message = 'Contacts removed from blacklist';
+        $this->contact_checkbox = [];
+        $this->check_all = false;
+
+        $this->dispatch('removed_blacklist', ['message' => $message]);
+    }
 
     public function render()
     {
@@ -440,16 +463,18 @@ class ManageContactsComponent extends Component
 
         $folders = ContactFolder::where('name', 'like', '%' . $this->folder_search_term . '%')->where('user_id', user()->id)->get();
 
-        $contacts = Contact::where(function($q){
+        $contacts = Contact::where(function ($q) {
             $q->where('first_name', 'like', '%' . $this->contacts_search_term . '%')
                 ->orWhere('last_name', 'like', '%' . $this->contacts_search_term . '%')
                 ->orWhere('number', 'like', '%' . $this->contacts_search_term . '%');
         })->where('user_id', user()->id)->orderBy('id', 'DESC');
         if ($this->sort_list_id) {
             if ($this->sort_list_id == 'unlisted') {
-                $contacts = $contacts->where('list_id', NULL);
+                $contacts = $contacts->where('blacklisted', 0)->where('list_id', null);
+            } else if ($this->sort_list_id == 'blacklisted') {
+                $contacts = $contacts->where('blacklisted', 1);
             } else {
-                $contacts = $contacts->where('list_id', $this->sort_list_id);
+                $contacts = $contacts->where('blacklisted', 0)->where('list_id', $this->sort_list_id);
             }
         }
         $contacts = $contacts->get();

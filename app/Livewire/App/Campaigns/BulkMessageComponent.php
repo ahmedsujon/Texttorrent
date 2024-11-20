@@ -47,7 +47,7 @@ class BulkMessageComponent extends Component
         $randomGreeting = $greetings[array_rand($greetings)];
 
         $contact = Contact::find($contact_id);
-        $output = $this->selected_template_preview; // Start with the template preview
+        $output = $this->sms_body; // Start with the template preview
         $output = str_replace('[Hi|Hey|Hello]', $randomGreeting, $output);
         $output = str_replace('[phone_number]', $contact->number, $output);
         $output = str_replace('[email_address]', $contact->email, $output);

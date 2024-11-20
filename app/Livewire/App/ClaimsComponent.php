@@ -3,13 +3,13 @@
 namespace App\Livewire\App;
 
 use App\Exports\ClaimsExport;
-use App\Models\Chat;
-use App\Models\Contact;
-use Livewire\Component;
-use App\Models\ChatMessage;
-use Livewire\WithPagination;
 use App\Models\BulkMessageItem;
+use App\Models\Chat;
+use App\Models\ChatMessage;
+use App\Models\Contact;
 use Illuminate\Support\Facades\DB;
+use Livewire\Component;
+use Livewire\WithPagination;
 use Maatwebsite\Excel\Facades\Excel;
 
 class ClaimsComponent extends Component
@@ -37,11 +37,11 @@ class ClaimsComponent extends Component
             $chat = $getChat;
         } else {
             $chat = new Chat();
+            $chat->user_id = user()->id;
+            $chat->contact_id = $contact->id;
+            $chat->from_number = $claim->send_from;
         }
-        $chat->user_id = user()->id;
-        $chat->contact_id = $contact->id;
         $chat->last_message = $claim->received_message ? $claim->received_message : $claim->message;
-        $chat->from_number = $claim->send_from;
         $chat->save();
 
         $msg1 = new ChatMessage();
@@ -56,7 +56,10 @@ class ClaimsComponent extends Component
             $msg2->chat_id = $chat->id;
             $msg2->direction = 'inbound';
             $msg2->message = $claim->received_message;
-            $msg1->api_receive_status = 'received';
+            $msg2->api_send_status = 'success';
+            $msg2->api_receive_status = 'success';
+            $msg2->credit_clear = 1;
+            $msg2->msg_sid = $claim->received_message_sid;
             $msg2->save();
         }
 
@@ -146,11 +149,11 @@ class ClaimsComponent extends Component
                 $chat = $getChat;
             } else {
                 $chat = new Chat();
+                $chat->user_id = user()->id;
+                $chat->contact_id = $contact->id;
+                $chat->from_number = $claim->send_from;
             }
-            $chat->user_id = user()->id;
-            $chat->contact_id = $contact->id;
             $chat->last_message = $claim->received_message ? $claim->received_message : $claim->message;
-            $chat->from_number = $claim->send_from;
             $chat->save();
 
             $msg1 = new ChatMessage();
@@ -165,7 +168,10 @@ class ClaimsComponent extends Component
                 $msg2->chat_id = $chat->id;
                 $msg2->direction = 'inbound';
                 $msg2->message = $claim->received_message;
-                $msg1->api_receive_status = 'received';
+                $msg2->api_send_status = 'success';
+                $msg2->api_receive_status = 'success';
+                $msg2->credit_clear = 1;
+                $msg2->msg_sid = $claim->received_message_sid;
                 $msg2->save();
             }
 
@@ -215,7 +221,7 @@ class ClaimsComponent extends Component
         if (!$this->bulk_ids) {
             $this->dispatch('error', ['message' => 'Please select claims to perform this action.']);
         } else {
-            return Excel::download(new ClaimsExport(['bulk_ids'=>$this->bulk_ids]), 'claims.csv');
+            return Excel::download(new ClaimsExport(['bulk_ids' => $this->bulk_ids]), 'claims.csv');
         }
     }
 
