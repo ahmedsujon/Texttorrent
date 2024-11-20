@@ -30,5 +30,18 @@ class UserTableSeeder extends Seeder
                 $user->save();
             }
         }
+
+        $subUser = new User();
+        $subUser->first_name = 'Sub';
+        $subUser->last_name = 'User';
+        $subUser->username = 'sub_user';
+        $subUser->email = 'subuser@example.com';
+        $subUser->phone = '01600000000';
+        $subUser->password = Hash::make('12345678');
+        $subUser->permissions = UserPermission::pluck('id')->toArray();
+        $subUser->type = 'sub';
+        $subUser->parent_id = 1;
+        $subUser->status = 1;
+        $subUser->save();
     }
 }

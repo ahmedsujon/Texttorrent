@@ -4,6 +4,7 @@ namespace App\Livewire\App\Auth;
 
 use App\Models\User;
 use Livewire\Component;
+use App\Models\UserPermission;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
@@ -34,6 +35,7 @@ class RegistrationComponent extends Component
         $user->email = $this->email;
         $user->phone = $this->phone;
         $user->password = Hash::make($this->password);
+        $user->permissions = UserPermission::pluck('id')->toArray();
         $user->save();
 
         Auth::guard('web')->attempt(['email' => $this->email, 'password' => $this->password]);

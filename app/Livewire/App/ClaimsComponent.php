@@ -31,7 +31,13 @@ class ClaimsComponent extends Component
         $claim = BulkMessageItem::find($id);
         $contact = DB::table('contacts')->where('number', $claim->send_to)->where('user_id', user()->id)->first();
 
-        $chat = new Chat();
+        $getChat = Chat::where('user_id', user()->id)->where('contact_id', $contact->id)->first();
+
+        if ($getChat) {
+            $chat = $getChat;
+        } else {
+            $chat = new Chat();
+        }
         $chat->user_id = user()->id;
         $chat->contact_id = $contact->id;
         $chat->last_message = $claim->received_message ? $claim->received_message : $claim->message;
@@ -41,7 +47,7 @@ class ClaimsComponent extends Component
         $msg1 = new ChatMessage();
         $msg1->chat_id = $chat->id;
         $msg1->direction = 'outbound';
-        $msg1->api_send_status = 'success';
+        $msg1->api_send_status = 'delivered';
         $msg1->message = $claim->message;
         $msg1->save();
 
@@ -50,7 +56,7 @@ class ClaimsComponent extends Component
             $msg2->chat_id = $chat->id;
             $msg2->direction = 'inbound';
             $msg2->message = $claim->received_message;
-            $msg1->api_receive_status = 'success';
+            $msg1->api_receive_status = 'received';
             $msg2->save();
         }
 
@@ -134,7 +140,13 @@ class ClaimsComponent extends Component
             $claim = BulkMessageItem::find($id);
             $contact = DB::table('contacts')->where('number', $claim->send_to)->where('user_id', user()->id)->first();
 
-            $chat = new Chat();
+            $getChat = Chat::where('user_id', user()->id)->where('contact_id', $contact->id)->first();
+
+            if ($getChat) {
+                $chat = $getChat;
+            } else {
+                $chat = new Chat();
+            }
             $chat->user_id = user()->id;
             $chat->contact_id = $contact->id;
             $chat->last_message = $claim->received_message ? $claim->received_message : $claim->message;
@@ -144,7 +156,7 @@ class ClaimsComponent extends Component
             $msg1 = new ChatMessage();
             $msg1->chat_id = $chat->id;
             $msg1->direction = 'outbound';
-            $msg1->api_send_status = 'success';
+            $msg1->api_send_status = 'delivered';
             $msg1->message = $claim->message;
             $msg1->save();
 
@@ -153,7 +165,7 @@ class ClaimsComponent extends Component
                 $msg2->chat_id = $chat->id;
                 $msg2->direction = 'inbound';
                 $msg2->message = $claim->received_message;
-                $msg1->api_receive_status = 'success';
+                $msg1->api_receive_status = 'received';
                 $msg2->save();
             }
 
