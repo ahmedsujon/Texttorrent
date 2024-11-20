@@ -195,6 +195,26 @@
                                 </a>
                             </li>
 
+                            <li>
+                                <a href="#" wire:click.prevent='selectList("blacklisted")'
+                                    class="list_btn {{ $sort_list_id == "blacklisted" ? 'active_list_btn' : '' }}">
+                                    <span class="list_title">Blacklisted</span>
+                                    <div
+                                        class="list_action_area d-flex align-items-center justify-content-end flex-wrap">
+                                        <div class="user_number_area d-flex align-items-center">
+                                            <img src="{{ asset('assets/app/icons/user.svg') }}" alt="user icon" />
+                                            <span>{{ listContactsCount("blacklisted") }}</span>
+                                        </div>
+                                        <div class="table_dropdown_area">
+                                            <div class="dropdown">
+                                                <button class="dot_icon" type="button" onclick="event.stopPropagation();">
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </a>
+                            </li>
+
                             {{-- @else
                             <li class="mt-3 text-center">
                                 <small class="text-muted">No lists found.</small>
@@ -231,7 +251,8 @@
                                                 <h5>Select</h5>
                                             </li>
                                             <li>
-                                                <button type="button" class="dropdown-item">
+                                                <button type="button" class="dropdown-item"
+                                                    wire:click.prevent='removeBlacklistConfirmation'>
                                                     <img src="{{ asset('assets/app/icons/user-block-02.svg') }}"
                                                         alt="block user icon" />
                                                     <span>Remove blacklists</span>
@@ -277,7 +298,7 @@
                         <div class="row">
                             <div class="col-md-12 text-center">
                                 <span wire:loading
-                                    wire:target='editContact,deleteConfirmation,editList,addRemoveBookmark,list_search_term,contacts_search_term,selectList,deleteAllContacts,exportContacts'><i
+                                    wire:target='editContact,deleteConfirmation,editList,addRemoveBookmark,list_search_term,contacts_search_term,selectList,deleteAllContacts,exportContacts,removeBlacklist'><i
                                         class="fa fa-spinner fa-spin"></i> Processing...</span>
                             </div>
                         </div>
@@ -1193,6 +1214,31 @@
                 </div>
             </div>
         </div>
+
+        <!-- Blacklist data  Modal  -->
+        <div wire:ignore.self class="modal fade delete_modal" id="blacklistDataModal" tabindex="-1"
+            aria-labelledby="deleteModal" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+                <div class="modal-content">
+                    <div class="modal-body">
+                        <div class="content_area">
+                            <h2>Are you sure?</h2>
+                            <h4>Would you like remove this contacts from blacklist?</h4>
+                            <div class="delete_action_area d-flex align-items-center flex-wrap">
+                                <button type="button" class="delete_cancel_btn" id="deleteModalCloseBtn"
+                                    data-bs-dismiss="modal">
+                                    Cancel
+                                </button>
+                                <button type="button" wire:click.prevent='removeBlacklist' wire:loading.attr='disabled'
+                                    class="delete_yes_btn">
+                                    {!! loadingStateWithText('removeBlacklist', 'Yes') !!}
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </main>
 </div>
 @push('scripts')
@@ -1380,6 +1426,19 @@
                 $('#deleteDataModal').modal('hide');
                 Swal.fire(
                     "Deleted!",
+                    "" + event.detail[0].message + "",
+                    "success"
+                );
+            });
+
+            window.addEventListener('showBlacklistRemoveConfirmation', event => {
+                $('#blacklistDataModal').modal('show');
+            });
+
+            window.addEventListener('removed_blacklist', event => {
+                $('#blacklistDataModal').modal('hide');
+                Swal.fire(
+                    "Removed!",
                     "" + event.detail[0].message + "",
                     "success"
                 );

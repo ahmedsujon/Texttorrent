@@ -5,6 +5,7 @@ namespace App\Livewire\App\Settings;
 use App\Exports\LogExport;
 use Livewire\Component;
 use App\Models\ChatMessage;
+use App\Models\User;
 use Livewire\WithPagination;
 use Illuminate\Support\Facades\DB;
 use Maatwebsite\Excel\Facades\Excel;
@@ -49,7 +50,11 @@ class LogsComponent extends Component
 
     public function render()
     {
-        $logs = DB::table('chat_messages')->select('chat_messages.*', 'chats.from_number as from', 'chats.contact_id')->join('chats', 'chats.id', 'chat_messages.chat_id')->where('chat_messages.message', 'like', '%' . $this->searchTerm . '%')->orderBy('chat_messages.'.$this->sortBy, $this->sortDirection);
+        $user_ids = [user()->id];
+        $sub_users = DB::table('users')->where('parent_id', user()->id)->pluck('id')->toArray();
+        $user_ids = array_merge($user_ids, $sub_users);
+
+        $logs = DB::table('chat_messages')->select('chat_messages.*', 'chats.from_number as from', 'chats.contact_id')->join('chats', 'chats.id', 'chat_messages.chat_id')->where('chat_messages.message', 'like', '%' . $this->searchTerm . '%')->whereIn('chats.user_id', $user_ids)->orderBy('chat_messages.'.$this->sortBy, $this->sortDirection);
         if ($this->filter == 'received') {
             $logs = $logs->where('chat_messages.direction', 'inbound');
         }

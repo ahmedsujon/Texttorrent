@@ -133,7 +133,8 @@
                                 @if ($chats->count() > 0)
                                     @foreach ($chats as $chat)
                                         <li>
-                                            <button type="button" wire:click.prevent='selectChat({{ $chat->id }})'
+                                            <button type="button"
+                                                wire:click.prevent='selectChat({{ $chat->id }})'
                                                 class="list_item {{ $selected_chat_id == $chat->id ? 'active_chat' : '' }}">
                                                 <div class="user_image chat-avatar">{{ $chat->avatar_ltr }}</div>
                                                 <div class="short_message_are">
@@ -233,21 +234,21 @@
                                             </div>
                                         @else
                                             @if ($msg->credit_clear == 1)
-                                            <div class="receive_msg">
-                                                <div class="recevier_user chat-avatar"
-                                                    style="height: 50px; width: 50px;">
-                                                    {{ $selected_chat->avatar_ltr }}</div>
-                                                <div class="text_area">
-                                                    <p class="msg">
-                                                        {!! $msg->message !!}
-                                                    </p>
-                                                    <img src="{{ asset('assets/app/icons/receive_shape.svg') }}"
-                                                        alt="receive shape" class="msg_shape" />
-                                                    <h6 class="time">
-                                                        {{ Carbon\Carbon::parse($msg->updated_at)->format('H:i A') }}
-                                                    </h6>
+                                                <div class="receive_msg">
+                                                    <div class="recevier_user chat-avatar"
+                                                        style="height: 50px; width: 50px;">
+                                                        {{ $selected_chat->avatar_ltr }}</div>
+                                                    <div class="text_area">
+                                                        <p class="msg">
+                                                            {!! $msg->message !!}
+                                                        </p>
+                                                        <img src="{{ asset('assets/app/icons/receive_shape.svg') }}"
+                                                            alt="receive shape" class="msg_shape" />
+                                                        <h6 class="time">
+                                                            {{ Carbon\Carbon::parse($msg->updated_at)->format('H:i A') }}
+                                                        </h6>
+                                                    </div>
                                                 </div>
-                                            </div>
                                             @endif
                                         @endif
                                     @endforeach
@@ -822,7 +823,8 @@
                                             class="js-searchBox participant_number">
                                             <option value="">Choose Number</option>
                                             @foreach ($participant_numbers as $participant_number)
-                                                <option value="{{ $participant_number->number }}">{{ $participant_number->number }}
+                                                <option value="{{ $participant_number->number }}">
+                                                    {{ $participant_number->number }}
                                                 </option>
                                             @endforeach
                                         </select>
@@ -1357,7 +1359,9 @@
         });
 
         window.addEventListener('newChatMessage', event => {
-            $('#messageWriteArea').val(event.detail[0].message);
+            setTimeout(() => {
+                $('#messageWriteArea').val(event.detail[0].message);
+            }, 300);
         });
 
         window.addEventListener('data_deleted', event => {
@@ -1381,10 +1385,12 @@
 
             function scrollToBottom() {
                 const messageArea = document.getElementById('messageArea');
-                messageArea.scrollTo({
-                    top: messageArea.scrollHeight,
-                    behavior: 'smooth'
-                });
+                if (messageArea) {
+                    messageArea.scrollTo({
+                        top: messageArea.scrollHeight,
+                        behavior: 'smooth'
+                    });
+                }
             }
             scrollToBottom();
             window.addEventListener('scrollToBottom', event => {

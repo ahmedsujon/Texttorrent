@@ -8,7 +8,7 @@
                         <img src="{{ asset('assets/app/icons/back-double-arrow.svg') }}" alt="double arrow" />
                     </button>
                     <img src="{{ asset('assets/app/icons/log-02.svg') }}" alt="logs icon" class="user_icon" />
-                    <h2>Log</h2>
+                    <h2>Logs</h2>
                 </div>
                 <div class="account_right_area d-flex align-items-center justify-content-end flex-wrap">
                     <form action="" class="search_input_form search_input_form_sm">
@@ -89,50 +89,58 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach ($logs as $key => $log)
-                                <tr>
-                                    <td>
-                                        <h4 class="timezone">Read</h4>
-                                    </td>
-                                    <td>
-                                        <h4 class="phone_number">{{ $log->from }}</h4>
-                                    </td>
-                                    <td>
-                                        <h4 class="phone_number">{{ getContactNumberName($log->contact_id) ? getContactNumberName($log->contact_id)->number : '---' }}</h4>
-                                    </td>
-                                    <td>
-                                        <h4 class="timezone">{{ getContactNumberName($log->contact_id) ? getContactNumberName($log->contact_id)->first_name . ' ' . getContactNumberName($log->contact_id)->last_name : '' }}</h4>
-                                    </td>
-                                    <td>
-                                        <h4 class="message_text">{{ $log->message }}</h4>
-                                    </td>
-                                    <td>
-                                        <h4 class="send_number">
-                                            {{ \Carbon\Carbon::parse($created_at)->isToday() ? 'Today, ' . \Carbon\Carbon::parse($created_at)->format('g:i A') : \Carbon\Carbon::parse($created_at)->format('F j, Y, g:i A') }}
-                                        </h4>
-                                    </td>
-                                    <td>
-                                        <div class="d-flex">
-                                            <div class="log_status">
-                                                @if ($log->direction == 'inbound')
-                                                    Received
-                                                @else
-                                                    {{ ucfirst($log->api_send_status) }}
-                                                @endif
+                            @if ($logs->count() > 0)
+                                @foreach ($logs as $key => $log)
+                                    <tr>
+                                        <td>
+                                            <h4 class="timezone">Read</h4>
+                                        </td>
+                                        <td>
+                                            <h4 class="phone_number">{{ $log->from }}</h4>
+                                        </td>
+                                        <td>
+                                            <h4 class="phone_number">{{ getContactNumberName($log->contact_id) ? getContactNumberName($log->contact_id)->number : '---' }}</h4>
+                                        </td>
+                                        <td>
+                                            <h4 class="timezone">{{ getContactNumberName($log->contact_id) ? getContactNumberName($log->contact_id)->first_name . ' ' . getContactNumberName($log->contact_id)->last_name : '' }}</h4>
+                                        </td>
+                                        <td>
+                                            <h4 class="message_text">{{ $log->message }}</h4>
+                                        </td>
+                                        <td>
+                                            <h4 class="send_number">
+                                                {{ \Carbon\Carbon::parse($created_at)->isToday() ? 'Today, ' . \Carbon\Carbon::parse($created_at)->format('g:i A') : \Carbon\Carbon::parse($created_at)->format('F j, Y, g:i A') }}
+                                            </h4>
+                                        </td>
+                                        <td>
+                                            <div class="d-flex">
+                                                <div class="log_status">
+                                                    @if ($log->direction == 'inbound')
+                                                        Received
+                                                    @else
+                                                        {{ ucfirst($log->api_send_status) }}
+                                                    @endif
+                                                </div>
                                             </div>
-                                        </div>
-                                    </td>
+                                        </td>
 
-                                    <td>
-                                        <div class="table_dropdown_area d-flex align-items-center flex-wrap gap-1">
-                                            <a type="button" class="table_edit_btn" wire:click.prevent='viewChat({{ $log->chat_id }}, {{ $key }})'>
-                                                {!! loadingStateWithoutText("viewChat($log->chat_id, $key)", '<img src="'.asset('assets/app/icons/message-03.svg').'" />') !!}
-                                                <span>Chat</span>
-                                            </a>
-                                        </div>
+                                        <td>
+                                            <div class="table_dropdown_area d-flex align-items-center flex-wrap gap-1">
+                                                <a type="button" class="table_edit_btn" wire:click.prevent='viewChat({{ $log->chat_id }}, {{ $key }})'>
+                                                    {!! loadingStateWithoutText("viewChat($log->chat_id, $key)", '<img src="'.asset('assets/app/icons/message-03.svg').'" />') !!}
+                                                    <span>Chat</span>
+                                                </a>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                @endforeach
+                            @else
+                                <tr>
+                                    <td colspan="8" class="text-center pt-5">
+                                        <h4>No data available!</h4>
                                     </td>
                                 </tr>
-                            @endforeach
+                            @endif
                         </tbody>
                     </table>
                 </div>

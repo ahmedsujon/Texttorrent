@@ -47,7 +47,7 @@ class BulkMessageComponent extends Component
         $randomGreeting = $greetings[array_rand($greetings)];
 
         $contact = Contact::find($contact_id);
-        $output = $this->selected_template_preview; // Start with the template preview
+        $output = $this->sms_body; // Start with the template preview
         $output = str_replace('[Hi|Hey|Hello]', $randomGreeting, $output);
         $output = str_replace('[phone_number]', $contact->number, $output);
         $output = str_replace('[email_address]', $contact->email, $output);
@@ -115,10 +115,10 @@ class BulkMessageComponent extends Component
         $totalContacts = $contactList->count();
 
         $creditNeeded = msgCreditCalculation($this->sms_type, 'outgoing');
-        $this->total_credit = $creditNeeded * $totalContacts;
+        $this->total_credit_without_seg = $creditNeeded * $totalContacts;
     }
 
-    public $total_credit = 0;
+    public $total_credit = 0, $total_credit_without_seg = 0;
     public function storeConfirmation()
     {
         $this->validate([
@@ -337,7 +337,7 @@ class BulkMessageComponent extends Component
         $totalContacts = $contactList->count();
 
         $creditNeeded = msgCreditCalculation($this->sms_type, 'outgoing');
-        $this->total_credit = $creditNeeded * $totalContacts;
+        $this->total_credit_without_seg = $creditNeeded * $totalContacts;
     }
 
     public $charCount = 0;
@@ -365,11 +365,17 @@ class BulkMessageComponent extends Component
     public $searchContactList;
     public function render()
     {
-        $contactLists = ContactList::where('name', 'like', '%' . $this->searchContactList . '%')->orderBy('id', 'DESC')->get();
-        $messageTemplates = InboxTemplate::orderBy('id', 'DESC')->get();
+        $contactLists = ContactList::where('name', 'like', '%' . $this->searchContactList . '%')->where('user_id', user()->id)->orderBy('id', 'DESC')->get();
+        $messageTemplates = InboxTemplate::where('user_id', user()->id)->orderBy('id', 'DESC')->get();
         $activeNumbers = Number::where('user_id', Auth::user()->id)->where('number', 'like', '%' . $this->selectNumberSearch . '%')->orderBy('id', 'DESC')->get();
 
         $this->all_numbers = $activeNumbers->pluck('number')->toArray();
+
+        if ($this->segments > 0) {
+            $this->total_credit = $this->total_credit_without_seg * $this->segments;
+        } else {
+            $this->total_credit = $this->total_credit_without_seg;
+        }
 
         return view(
             'livewire.app.campaigns.bulk-message-component',
