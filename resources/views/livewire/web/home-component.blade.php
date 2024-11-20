@@ -15,7 +15,7 @@
                             </h4>
                             <div class="hero_btn_area d-flex justify-content-center align-items-center flex-wrap"
                                 data-aos="fade-up" data-aos-delay="100">
-                                <a href="#" class="hero_btn bg_btn">
+                                <a href="{{ route('register') }}" class="hero_btn bg_btn">
                                     <span>Start Now</span>
                                 </a>
                                 <a href="#" class="hero_btn border_btn">
