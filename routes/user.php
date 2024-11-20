@@ -1,5 +1,6 @@
 <?php
 
+use App\Livewire\App\HomeComponent;
 use App\Livewire\App\InboxComponent;
 use App\Livewire\App\ClaimsComponent;
 use Illuminate\Support\Facades\Route;
@@ -9,26 +10,26 @@ use App\Http\Controllers\LogoutController;
 use App\Livewire\App\Settings\ApiComponent;
 use App\Livewire\App\Settings\LogsComponent;
 use App\Livewire\App\User\DashboardComponent;
+use App\Livewire\App\Auth\NewPasswordComponent;
 use App\Livewire\App\Auth\RegistrationComponent;
 use App\Livewire\App\Settings\GetNumberComponent;
 use App\Livewire\App\Settings\MyAccountComponent;
 use App\Livewire\App\Auth\ForgetPasswordComponent;
-use App\Livewire\App\Auth\NewPasswordComponent;
 use App\Livewire\App\Settings\SubAccountComponent;
 use App\Livewire\App\Campaigns\BatchQueueComponent;
 use App\Livewire\App\Campaigns\GroupQueueComponent;
 use App\Livewire\App\Campaigns\BulkMessageComponent;
+use App\Livewire\App\Settings\ActiveNumberComponent;
 use App\Livewire\App\Settings\NotificationComponent;
+use App\Livewire\App\Settings\SubscriptionComponent;
 use App\Livewire\App\Campaigns\InboxTemplateComponent;
 use App\Livewire\App\Contacts\ManageContactsComponent;
 use App\Livewire\App\Settings\ChangePasswordComponent;
 use App\Livewire\App\Settings\DLCRegistrationComponent;
 use App\Livewire\App\Contacts\ValidatorCreditsComponent;
-use App\Livewire\App\Campaigns\ContactMessageQueueComponent;
-use App\Livewire\App\HomeComponent;
-use App\Livewire\App\Settings\ActiveNumberComponent;
+use App\Livewire\App\Settings\SubscriptionAlertComponent;
 use App\Livewire\App\Settings\DLCCampaignPaymentComponent;
-use App\Livewire\App\Settings\SubscriptionComponent;
+use App\Livewire\App\Campaigns\ContactMessageQueueComponent;
 
 /*
 |--------------------------------------------------------------------------
@@ -72,6 +73,7 @@ Route::name('user.')->middleware('auth')->group(function () {
     Route::get('settings/my-account', MyAccountComponent::class)->name('myAccount');
     Route::get('settings/change-password', ChangePasswordComponent::class)->name('changePassword');
     Route::get('settings/subscription', SubscriptionComponent::class)->name('subscription');
+    Route::get('settings/subscription/alert', SubscriptionAlertComponent::class)->name('subscriptionAlertSubAccount');
 
     Route::get('settings/sub-account', SubAccountComponent::class)->name('subAccount');
     Route::get('settings/get-number', GetNumberComponent::class)->name('getNumber')->middleware('subscription');

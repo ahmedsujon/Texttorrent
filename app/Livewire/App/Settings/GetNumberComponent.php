@@ -2,13 +2,13 @@
 
 namespace App\Livewire\App\Settings;
 
-use Carbon\Carbon;
-use App\Models\User;
 use App\Models\Number;
-use Livewire\Component;
-use Twilio\Rest\Client;
-use Livewire\WithPagination;
+use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
+use Livewire\Component;
+use Livewire\WithPagination;
+use Twilio\Rest\Client;
 
 class GetNumberComponent extends Component
 {
@@ -17,13 +17,25 @@ class GetNumberComponent extends Component
 
     public function mount()
     {
+        if (user()->type == 'sub') {
+            $au_user = DB::table('users')->select('id', 'credits')->where('id', user()->parent_id)->first();
+            $user_id = $au_user->id;
+        } else {
+            $user_id = user()->id;
+        }
+
         $twilioCredentials = DB::table('apis')
-            ->where('user_id', auth()->id())
+            ->where('user_id', $user_id)
             ->where('gateway', 'Twilio')
             ->first();
 
-        $this->TWILIO_SID = $twilioCredentials->account_sid;
-        $this->TWILIO_AUTH_TOKEN = $twilioCredentials->auth_token;
+        if ($twilioCredentials) {
+            $this->TWILIO_SID = $twilioCredentials->account_sid;
+            $this->TWILIO_AUTH_TOKEN = $twilioCredentials->auth_token;
+        } else {
+            session()->flash('error', 'Please add your Twilio API.');
+            return redirect()->route('user.apis');
+        }
 
         $this->getNumbers();
         // $this->fetchPurchasedNumbers();
@@ -172,7 +184,7 @@ class GetNumberComponent extends Component
             $user->save();
 
             // log
-            creditLog('Number purchase: '. $this->numberToPurchase, $credit_needed);
+            creditLog('Number purchase: ' . $this->numberToPurchase, $credit_needed);
 
             $saveData = $this->savePurchase($this->numberToPurchaseInfo);
             if ($saveData) {
@@ -345,7 +357,7 @@ class GetNumberComponent extends Component
                 $user->save();
 
                 // log
-                creditLog('Number purchase: '. $number, $credit_needed);
+                creditLog('Number purchase: ' . $number, $credit_needed);
 
                 $saveData = $this->savePurchase($number);
                 if ($saveData) {
