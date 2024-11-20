@@ -74,7 +74,7 @@
                     fantastic. It increases my revenue.
                 </h1>
                 <h3>Mike Johnson</h3>
-                <a href="#" class="user_tag">@founderatstartupxyz</a>
+                <a href="#" class="user_tag">@Flowserve</a>
                 <div class="login_img_area">
                     <img src="{{ asset('assets/app/images/landing/hero_image.png') }}" alt="login image" />
                 </div>
