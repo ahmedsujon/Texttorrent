@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    
+
 
     <link rel="shortcut icon" href="{{ asset('assets/app/images/header/favicon.png') }}" type="image/x-icon" />
     <link rel="shortcut icon" href="{{ asset('assets/app/images/header/favicon.png') }}" type="image/x-icon" />
@@ -128,7 +128,7 @@
     <script src="{{ asset('assets/admin/js/custom-toast.js') }}"></script>
     <script src="{{ asset('assets/admin/libs/sweetalert2/sweetalert2.min.js') }}"></script>
 
-    <script src="https://kit.fontawesome.com/46f35fbc02.js" crossorigin="anonymous"></script>
+    <script src="https://kit.fontawesome.com/64f2c0e60c.js" crossorigin="anonymous"></script>
     <script src="{{ asset('assets/app/js/main.js') }}"></script>
 
     <script>
