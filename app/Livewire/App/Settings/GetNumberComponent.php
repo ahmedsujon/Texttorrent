@@ -2,13 +2,13 @@
 
 namespace App\Livewire\App\Settings;
 
-use Carbon\Carbon;
-use App\Models\User;
 use App\Models\Number;
-use Livewire\Component;
-use Twilio\Rest\Client;
-use Livewire\WithPagination;
+use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
+use Livewire\Component;
+use Livewire\WithPagination;
+use Twilio\Rest\Client;
 
 class GetNumberComponent extends Component
 {
@@ -29,8 +29,13 @@ class GetNumberComponent extends Component
             ->where('gateway', 'Twilio')
             ->first();
 
-        $this->TWILIO_SID = $twilioCredentials->account_sid;
-        $this->TWILIO_AUTH_TOKEN = $twilioCredentials->auth_token;
+        if ($twilioCredentials) {
+            $this->TWILIO_SID = $twilioCredentials->account_sid;
+            $this->TWILIO_AUTH_TOKEN = $twilioCredentials->auth_token;
+        } else {
+            session()->flash('error', 'Please add your Twilio API.');
+            return redirect()->route('user.apis');
+        }
 
         $this->getNumbers();
         // $this->fetchPurchasedNumbers();
@@ -179,7 +184,7 @@ class GetNumberComponent extends Component
             $user->save();
 
             // log
-            creditLog('Number purchase: '. $this->numberToPurchase, $credit_needed);
+            creditLog('Number purchase: ' . $this->numberToPurchase, $credit_needed);
 
             $saveData = $this->savePurchase($this->numberToPurchaseInfo);
             if ($saveData) {
@@ -352,7 +357,7 @@ class GetNumberComponent extends Component
                 $user->save();
 
                 // log
-                creditLog('Number purchase: '. $number, $credit_needed);
+                creditLog('Number purchase: ' . $number, $credit_needed);
 
                 $saveData = $this->savePurchase($number);
                 if ($saveData) {
