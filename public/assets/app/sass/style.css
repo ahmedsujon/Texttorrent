@@ -6529,6 +6529,7 @@ input[type=number] {
 }
 .inbox_wrapper .friends_chat_list_area {
   position: relative;
+  padding-top: 1px;
 }
 .inbox_wrapper .friends_chat_list_area::after {
   content: "";
@@ -7597,6 +7598,9 @@ input[type=number] {
   -ms-border-radius: 4px;
   -o-border-radius: 4px;
 }
+.inbox_wrapper .contact_info_warapper {
+  height: 100%;
+}
 @media all and (max-width: 1199px) {
   .inbox_wrapper .contact_info_warapper {
     transition: 0.5s;
@@ -7619,6 +7623,7 @@ input[type=number] {
 .inbox_wrapper .contact_info_area {
   position: relative;
   margin-right: 10px;
+  height: 100%;
 }
 .inbox_wrapper .contact_info_area::after {
   content: "";

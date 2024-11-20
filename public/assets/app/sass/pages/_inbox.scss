@@ -102,6 +102,7 @@
   }
   .friends_chat_list_area {
     position: relative;
+    padding-top: 1px;
     &::after {
       content: "";
       position: absolute;
@@ -923,6 +924,7 @@
     }
   }
   .contact_info_warapper {
+    height: 100%;
     @include max-media-width(1199) {
       position: fixed;
       right: -100%;
@@ -943,6 +945,7 @@
   .contact_info_area {
     position: relative;
     margin-right: 10px;
+    height: 100%;
     &::after {
       content: "";
       position: absolute;
