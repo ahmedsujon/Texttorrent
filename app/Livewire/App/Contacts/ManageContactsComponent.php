@@ -432,6 +432,30 @@ class ManageContactsComponent extends Component
         }
     }
 
+    public function removeBlacklistConfirmation()
+    {
+        if (!$this->contact_checkbox) {
+            $this->dispatch('error', ['message' => 'Select contacts first']);
+        } else {
+            $this->dispatch('showBlacklistRemoveConfirmation');
+        }
+    }
+
+    public function removeBlacklist()
+    {
+        foreach ($this->contact_checkbox as $key => $chkId) {
+            $data = Contact::where('id', $chkId)->first();
+            $data->blacklisted = 0;
+            $data->save();
+        }
+
+        $message = 'Contacts removed from blacklist';
+        $this->contact_checkbox = [];
+        $this->check_all = false;
+
+        $this->dispatch('removed_blacklist', ['message' => $message]);
+    }
+
     public function render()
     {
         $bookmarked_lists = ContactList::where('name', 'like', '%' . $this->list_search_term . '%')->where('user_id', user()->id)->where('bookmarked', 1)->get();
