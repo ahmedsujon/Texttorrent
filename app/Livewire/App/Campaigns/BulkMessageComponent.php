@@ -366,7 +366,7 @@ class BulkMessageComponent extends Component
     public function render()
     {
         $contactLists = ContactList::where('name', 'like', '%' . $this->searchContactList . '%')->orderBy('id', 'DESC')->get();
-        $messageTemplates = InboxTemplate::orderBy('id', 'DESC')->get();
+        $messageTemplates = InboxTemplate::where('user_id', user()->id)->orderBy('id', 'DESC')->get();
         $activeNumbers = Number::where('user_id', Auth::user()->id)->where('number', 'like', '%' . $this->selectNumberSearch . '%')->orderBy('id', 'DESC')->get();
 
         $this->all_numbers = $activeNumbers->pluck('number')->toArray();
