@@ -125,7 +125,14 @@ function getListByID($list_id)
 function getActiveSubscription()
 {
     if (Auth::user()) {
-        $subscription = DB::table('subscriptions')->select('package_type as type', 'package_name as name', 'end_date')->where('user_id', user()->id)->where('payment_status', 'paid')->orderBy('id', 'DESC')->first();
+        if (user()->type == 'sub') {
+            $au_user = DB::table('users')->select('id', 'credits')->where('id', user()->parent_id)->first();
+            $user_id = $au_user->id;
+        } else {
+            $user_id = user()->id;
+        }
+
+        $subscription = DB::table('subscriptions')->select('package_type as type', 'package_name as name', 'end_date')->where('user_id', $user_id)->where('payment_status', 'paid')->orderBy('id', 'DESC')->first();
 
         $status = '';
         if ($subscription && $subscription->end_date && $subscription->end_date > now()) {

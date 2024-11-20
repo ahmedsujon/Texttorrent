@@ -18,7 +18,11 @@ class SubscriptionMiddleware
         if (user() && getActiveSubscription()['status'] == 'Active') {
             return $next($request);
         } else {
-            return redirect()->route('user.subscription');
+            if (user()->type == 'sub') {
+                return redirect()->route('user.subscriptionAlertSubAccount');
+            } else {
+                return redirect()->route('user.subscription');
+            }
         }
 
         return $next($request);
