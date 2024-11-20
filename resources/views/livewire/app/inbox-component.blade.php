@@ -1359,15 +1359,9 @@
         });
 
         window.addEventListener('newChatMessage', event => {
-            const messageWriteArea = document.getElementById('messageWriteArea');
-            if (messageWriteArea) {
-                messageArea.scrollTo({
-                    top: messageArea.scrollHeight,
-                    behavior: 'smooth'
-                });
-            }
-
-            $('#messageWriteArea').val(event.detail[0].message);
+            setTimeout(() => {
+                $('#messageWriteArea').val(event.detail[0].message);
+            }, 300);
         });
 
         window.addEventListener('data_deleted', event => {

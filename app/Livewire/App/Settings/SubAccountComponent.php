@@ -62,13 +62,13 @@ class SubAccountComponent extends Component
         $user->status = 1;
         $user->save();
 
-        $twilio_credentials = Api::where('user_id', user()->id)->first();
-        $cred = new Api();
-        $cred->user_id = $user->id;
-        $cred->gateway = $twilio_credentials->gateway;
-        $cred->account_sid = $twilio_credentials->account_sid;
-        $cred->auth_token = $twilio_credentials->auth_token;
-        $cred->save();
+        // $twilio_credentials = Api::where('user_id', user()->id)->first();
+        // $cred = new Api();
+        // $cred->user_id = $user->id;
+        // $cred->gateway = $twilio_credentials->gateway;
+        // $cred->account_sid = $twilio_credentials->account_sid;
+        // $cred->auth_token = $twilio_credentials->auth_token;
+        // $cred->save();
 
         $data['first_name'] = $this->first_name;
         $data['last_name'] = $this->last_name;
