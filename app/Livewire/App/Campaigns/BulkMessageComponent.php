@@ -327,6 +327,7 @@ class BulkMessageComponent extends Component
             'selected_time',
             'numbers',
             'total_credit',
+            'total_credit_without_seg',
             'selectAllNumbers',
         ]);
     }
