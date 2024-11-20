@@ -10,6 +10,17 @@
             margin-bottom: 8px;
             /* Adjust for spacing above the slider */
         }
+
+        .percentage-label {
+            position: absolute;
+            top: -30px;
+            /* Adjust for alignment */
+            font-size: 12px;
+            font-weight: bold;
+            text-align: center;
+            transform: translateX(-50%);
+            color: #333;
+        }
     </style>
 
     <main class="main_content_wrapper" wire:ignore>
@@ -113,19 +124,14 @@
                         </div>
                         <div class="range_area mt-24">
                             <!-- Bonus percentage labels -->
-                            <div class="bonus-percentage-labels">
+                            {{-- <div class="bonus-percentage-labels">
                                 <span><img src="{{ asset('assets/app/icons/bonus2.svg') }}"> 0%</span>
-                                <span><img src="{{ asset('assets/app/icons/bonus2.svg') }}"> 5%</span>
                                 <span><img src="{{ asset('assets/app/icons/bonus2.svg') }}"> 10%</span>
-                                <span><img src="{{ asset('assets/app/icons/bonus2.svg') }}"> 15%</span>
                                 <span><img src="{{ asset('assets/app/icons/bonus2.svg') }}"> 20%</span>
-                                <span><img src="{{ asset('assets/app/icons/bonus2.svg') }}"> 25%</span>
                                 <span><img src="{{ asset('assets/app/icons/bonus2.svg') }}"> 30%</span>
-                                <span><img src="{{ asset('assets/app/icons/bonus2.svg') }}"> 35%</span>
                                 <span><img src="{{ asset('assets/app/icons/bonus2.svg') }}"> 40%</span>
-                                <span><img src="{{ asset('assets/app/icons/bonus2.svg') }}"> 45%</span>
                                 <span><img src="{{ asset('assets/app/icons/bonus2.svg') }}"> 50%</span>
-                            </div>
+                            </div> --}}
                             <div class="container_container">
                                 <div id="slider"></div>
                             </div>
@@ -459,16 +465,11 @@
             // Function to determine bonus percentage based on amount
             function getBonusPercentage(amount) {
                 if (amount < 1000) return 0;
-                if (amount < 2000) return 5;
-                if (amount < 3000) return 10;
-                if (amount < 4000) return 15;
-                if (amount < 5000) return 20;
-                if (amount < 6000) return 25;
-                if (amount < 7000) return 30;
-                if (amount < 8000) return 35;
-                if (amount < 9000) return 40;
-                if (amount < 10000) return 45;
-                return 50;
+                if (amount < 2000) return 10;
+                if (amount < 3000) return 20;
+                if (amount < 5000) return 30;
+                if (amount < 7500) return 40;
+                if (amount <= 10000) return 50;
             }
 
             // Create the slider
@@ -483,7 +484,7 @@
                 connect: "lower",
                 pips: {
                     mode: "positions",
-                    values: [0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100], // Positions for 0, 1K, 2K, 3K, 4K ...
+                    values: [0, 10, 20, 30, 50, 75, 100], // Positions for 0, 1K, 2K, 3K, 4K ...
                     density: 1,
                     format: {
                         to: function(value) {
@@ -496,16 +497,45 @@
                 },
             });
 
-            // Create bonus percentage label element
-            const bonusPercentageLabel = document.createElement("div");
-            bonusPercentageLabel.className = "bonus-percentage-label";
-            bonusPercentageLabel.style.position = "absolute";
-            bonusPercentageLabel.style.top = "-30px";
-            bonusPercentageLabel.style.left = "50%";
-            bonusPercentageLabel.style.transform = "translateX(-50%)";
-            bonusPercentageLabel.style.fontSize = "14px";
-            bonusPercentageLabel.style.fontWeight = "bold";
-            document.querySelector(".container_container").appendChild(bonusPercentageLabel);
+            // Add percentage labels dynamically at the middle points between pips
+            const pipsContainer = slider.querySelector('.noUi-pips');
+            const percentageValues = [0, 10, 20, 30, 40, 50]; // Corresponding percentage values
+            const pipPositions = [0, 1000, 2000, 3000, 5000, 7500, 10000]; // Positions of the pips
+
+            percentageValues.forEach((percentage, index) => {
+                // Calculate the midpoint between two pips
+                const midpoint = (pipPositions[index] + pipPositions[index + 1]) / 2;
+
+                // Create a container for the image and percentage text
+                const percentageContainer = document.createElement('div');
+                percentageContainer.className = "percentage-container";
+
+                // Add the image
+                const imgElement = document.createElement('img');
+                imgElement.src = "{{ asset('assets/app/icons/bonus2.svg') }}";
+                imgElement.alt = `${percentage}% Bonus`;
+                imgElement.style.width = "16px"; // Adjust the size as needed
+                imgElement.style.marginRight = "5px"; // Add spacing between image and text
+                percentageContainer.appendChild(imgElement);
+
+                // Add the percentage text
+                const percentageLabel = document.createElement('span');
+                percentageLabel.textContent = `${percentage}%`;
+                percentageLabel.style.fontSize = "12px";
+                percentageLabel.style.fontWeight = "bold";
+                percentageContainer.appendChild(percentageLabel);
+
+                // Style the container dynamically
+                percentageContainer.style.position = "absolute";
+                percentageContainer.style.left = `${(midpoint / MAXIMUMVALUE) * 100}%`;
+                percentageContainer.style.transform = "translateX(-50%)";
+                percentageContainer.style.top = "-40px";
+                percentageContainer.style.display = "flex";
+                percentageContainer.style.alignItems = "center";
+
+                // Append the container to the pips container
+                pipsContainer.appendChild(percentageContainer);
+            });
 
             // Update display and calculations when slider value changes
             slider.noUiSlider.on("update", (values, handle) => {
@@ -537,7 +567,7 @@
                     totalCredits.toLocaleString();
 
                 // Update bonus percentage label
-                bonusPercentageLabel.textContent = `Bonus: ${bonusPercentage}%`;
+                // bonusPercentageLabel.textContent = `Bonus: ${bonusPercentage}%`;
 
                 @this.set('creditCost', amountValue.toFixed(0));
                 @this.set('bonusCredits', bonusCredits);
