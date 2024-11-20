@@ -241,7 +241,7 @@ class NumbersTableSeeder extends Seeder
             ],
             [
                 'id' => 11,
-                'user_id' => 1,
+                'user_id' => 6,
                 'purchased_by' => 1,
                 'friendly_name' => '(619) 494-2715',
                 'number' => '+16194942715',

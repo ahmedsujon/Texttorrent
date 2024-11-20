@@ -1361,7 +1361,7 @@
         window.addEventListener('newChatMessage', event => {
             setTimeout(() => {
                 $('#messageWriteArea').val(event.detail[0].message);
-            }, 1000);
+            }, 300);
         });
 
         window.addEventListener('data_deleted', event => {

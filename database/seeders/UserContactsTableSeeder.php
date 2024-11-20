@@ -55,5 +55,46 @@ class UserContactsTableSeeder extends Seeder
             $contact->folder_id = 2;
             $contact->save();
         }
+
+        $lists2 = ['List A', 'List B'];
+        $folders2 = ['Folder A', 'Folder B'];
+
+        foreach ($lists2 as $key => $list2) {
+            $contactList2 = new ContactList();
+            $contactList2->user_id = 6;
+            $contactList2->name = $list2;
+            $contactList2->bookmarked = $key <= 1 ? 1 : 0;
+            $contactList2->save();
+        }
+        foreach ($folders2 as $key => $folder2) {
+            $contactList2 = new ContactFolder();
+            $contactList2->user_id = 6;
+            $contactList2->name = $folder2;
+            $contactList2->save();
+        }
+
+        $contact2 = new Contact();
+        $contact2->user_id = 6;
+        $contact2->first_name = 'TextTorrent';
+        $contact2->last_name = 'Owner';
+        $contact2->number = '+13472102794';
+        $contact2->company = 'TextTorrent';
+        $contact2->list_id = 6;
+        $contact2->folder_id = 6;
+        $contact2->save();
+
+        for ($i = 0; $i < 5; $i++) {
+            $faker = Faker::create();
+
+            $contact2 = new Contact();
+            $contact2->user_id = 6;
+            $contact2->first_name = $faker->firstName;
+            $contact2->last_name = $faker->lastName;
+            $contact2->number = '+1' . $faker->numerify('##########');
+            $contact2->company = $faker->company();
+            $contact2->list_id = 6;
+            $contact2->folder_id = 6;
+            $contact2->save();
+        }
     }
 }
