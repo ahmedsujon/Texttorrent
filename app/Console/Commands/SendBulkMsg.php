@@ -2,10 +2,11 @@
 
 namespace App\Console\Commands;
 
-use App\Jobs\SendBulkSMS;
 use Carbon\Carbon;
+use App\Jobs\SendBulkSMS;
 use App\Models\BulkMessageItem;
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\DB;
 
 class SendBulkMsg extends Command
 {
@@ -31,10 +32,18 @@ class SendBulkMsg extends Command
         $this->info('Bulk message sending started...');
 
         $bulkMessages = BulkMessageItem::where('status', 0)->where('execute_at', '<=', Carbon::now())->get();
+
         foreach ($bulkMessages as $bulkMessage) {
-            SendBulkSMS::dispatch($bulkMessage->send_by, $bulkMessage->id, $bulkMessage->send_from,$bulkMessage->send_to, $bulkMessage->message, $bulkMessage->file, $bulkMessage->type);
+            $user = DB::table('users')->select('id', 'type', 'parent_id')->where('id', $bulkMessage->send_by)->first();
+            if ($user->type == 'sub') {
+                $user_id = $user->parent_id;
+            } else {
+                $user_id = $user->id;
+            }
+
+            SendBulkSMS::dispatch($user_id, $bulkMessage->id, $bulkMessage->send_from, $bulkMessage->send_to, $bulkMessage->message, $bulkMessage->file, $bulkMessage->type);
         }
 
-        $this->info('Bulk message sending completed - '.$bulkMessages->count().' ');
+        $this->info('Bulk message sending completed - ' . $bulkMessages->count() . ' ');
     }
 }
