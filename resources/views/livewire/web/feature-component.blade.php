@@ -77,12 +77,6 @@
                                     <a href="#messageTemplate"> Message Templates </a>
                                 </li>
                                 <li>
-                                    <a href="#"> Segment Your Contacts </a>
-                                </li>
-                                <li>
-                                    <a href="#"> Upload Your Subscriber Lists </a>
-                                </li>
-                                <li>
                                     <a href="#voiceMail"> Voicemail / Call Forwarding </a>
                                 </li>
                                 <li>
