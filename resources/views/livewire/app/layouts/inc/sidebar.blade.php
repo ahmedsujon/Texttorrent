@@ -30,7 +30,7 @@
                             <span>20</span>
                         </div>
                     </button>
-                    <a href="/" class="menu_grid menu_badge_grid mobile_notificaton_btn">
+                    <a href="javascript:void(0)" class="menu_grid menu_badge_grid mobile_notificaton_btn">
                         <div class="icon">
                             <svg width="18" height="20" viewBox="0 0 18 20" fill="none"
                                 xmlns="http://www.w3.org/2000/svg" currentColor="#4E4E4E">
