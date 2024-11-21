@@ -15,6 +15,9 @@ class DashboardComponent extends Component
 {
     public $selected_event_id, $selectedEvent, $creditCost = 20, $bonusCredits = 0, $totalCredits = 4000, $delivered_message = 0, $un_delivered_message = 0, $responded_message = 0, $stopped_message = 0;
     public $dateFilter = '12months'; // Default filter
+    public $customDateRangeEnabled = false; // To track the checkbox state
+    public $startDate;
+    public $endDate;
     public $chartData = [
         'delivered_messages' => [],
         'responded_messages' => [],
@@ -35,13 +38,36 @@ class DashboardComponent extends Component
 
     }
 
+    public function updatedStartDate()
+    {
+        $this->updateChartData();
+        $this->dispatch('updateChart', $this->chartData);
+
+    }
+    public function updatedEndDate()
+    {
+        $this->updateChartData();
+        $this->dispatch('updateChart', $this->chartData);
+    }
+    public function updatedCustomDateRangeEnabled()
+    {
+        $this->updateChartData();
+        $this->dispatch('updateChart', $this->chartData);
+    }
+
     public function updateChartData()
     {
         $user_chats = DB::table('chats')->where('user_id', auth()->id())->pluck('id')->toArray();
 
         $query = DB::table('chat_messages')->whereIn('chat_id', $user_chats);
 
-        if ($this->dateFilter == '7days') {
+        // Apply the appropriate filter
+        if ($this->customDateRangeEnabled && $this->startDate && $this->endDate) {
+            $query->whereBetween('created_at', [
+                \Carbon\Carbon::parse($this->startDate)->startOfDay(),
+                \Carbon\Carbon::parse($this->endDate)->endOfDay(),
+            ]);
+        } elseif ($this->dateFilter == '7days') {
             $query->where('created_at', '>=', now()->subDays(7));
         } elseif ($this->dateFilter == '30days') {
             $query->where('created_at', '>=', now()->subDays(30));
