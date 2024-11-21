@@ -227,7 +227,7 @@
                                 @endforeach
                             @else
                                 <tr>
-                                    <td colspan="7" class="text-center pt-5 pb-0 mb-0">No number found!</td>
+                                    <td colspan="9" class="text-center pt-5 pb-0 mb-0">No number found!</td>
                                 </tr>
                             @endif
                         </tbody>

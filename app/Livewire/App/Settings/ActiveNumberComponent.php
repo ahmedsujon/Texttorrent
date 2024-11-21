@@ -184,8 +184,13 @@ class ActiveNumberComponent extends Component
             'user_to_assign' => 'required|exists:users,id',
         ]);
         foreach ($this->selectedNumbers as $number_id) {
-            Number::where('id', $number_id)->update(['user_id' => $this->user_to_assign]);
+            $number = Number::where('id', $number_id)->first();
+            $number->purchased_by = $number->user_id;
+            $number->user_id = $this->user_to_assign;
+            $number->save();
         }
+
+        $this->reset(['selectedNumbers']);
 
         $this->dispatch('closeModal');
         $this->dispatch('success', ['message' => 'User has been assigned']);
@@ -359,7 +364,10 @@ class ActiveNumberComponent extends Component
     public function render()
     {
         $sub_accounts = User::where('type', 'sub')->where('status', 1)->where('parent_id', user()->id)->get();
-        $numbers = Number::where('user_id', user()->id)->where(function ($q) {
+        $numbers = Number::where(function($qs){
+            $qs->where('user_id', user()->id)
+                ->orWhere('purchased_by', user()->id);
+        })->where(function ($q) {
             $q->where('number', 'like', '%' . $this->searchTerm . '%');
         })->orderBy($this->sortBy, $this->sortDirection);
 
