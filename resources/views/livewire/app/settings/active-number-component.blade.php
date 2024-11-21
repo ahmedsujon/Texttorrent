@@ -20,11 +20,18 @@
 
                     @if (user()->type != 'sub')
                     <div class="mt-4">
-                        <button type="button" class="create_event_btn" wire:click.prevent='assignNumberToUser'>
-                            {!! loadingStateWithoutText(
+                        <button type="button" class="create_event_btn" style="color: white !important;" wire:click.prevent='assignNumberToUser'>
+                            {!! loadingStateWithText(
                                 'assignNumberToUser',
-                                '<img src="' . asset('assets/app/icons/user.svg') . '" class="save_icon mr-5">',
-                            ) !!} Assign User
+                                'Assign User',
+                            ) !!}
+                        </button>
+
+                        <button type="button" class="create_event_btn" style="color: white !important;" wire:click.prevent='bulkReleaseConfirmation'>
+                            {!! loadingStateWithText(
+                                'bulkReleaseConfirmation',
+                                'Bulk Release',
+                            ) !!}
                         </button>
                     </div>
                     @endif
@@ -346,6 +353,31 @@
                 </div>
             </div>
         </div>
+
+        <!-- Bulk release -->
+        <div wire:ignore.self class="modal fade delete_modal" id="bulkReleaseDataModal" tabindex="-1"
+            aria-labelledby="deleteModal" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+                <div class="modal-content">
+                    <div class="modal-body">
+                        <div class="content_area">
+                            <h2>Are you sure?</h2>
+                            <h4>Would you like to release selected numbers?</h4>
+                            <div class="delete_action_area d-flex align-items-center flex-wrap">
+                                <button type="button" class="delete_cancel_btn" id="deleteModalCloseBtn"
+                                    data-bs-dismiss="modal">
+                                    Cancel
+                                </button>
+                                <button type="button" wire:click.prevent='bulkRelease' wire:loading.attr='disabled'
+                                    class="delete_yes_btn">
+                                    {!! loadingStateWithText('bulkRelease', 'Yes') !!}
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </main>
 </div>
 @push('scripts')
@@ -388,6 +420,19 @@
             Swal.fire(
                 "Deleted!",
                 "The number has been deleted.",
+                "success"
+            );
+        });
+
+        window.addEventListener('showBulkReleaseConfirmation', event => {
+            $('#bulkReleaseDataModal').modal('show');
+        });
+
+        window.addEventListener('numberReleased', event => {
+            $('#bulkReleaseDataModal').modal('hide');
+            Swal.fire(
+                "Released!",
+                "Numbers have been released successfully.",
                 "success"
             );
         });
