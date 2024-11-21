@@ -1,22 +1,4 @@
 <div>
-    <style>
-        .pricing_title {
-            font-size: 50px !important;
-        }
-
-        .ready_start_wrapper .ready_content_area h4 {
-            font-size: 25px !important;
-        }
-
-        .ready_start_wrapper .ready_btn_grid .ready_btn {
-            font-size: 27px !important;
-            height: 70px !important;
-        }
-
-        .ready_start_wrapper .ready_btn_grid h6 {
-            font-size: 25px !important;
-        }
-    </style>
     <main>
         <section class="hero_wrapper hero_wrapper_others"
             style="background-image: url(assets/app/images/landing/BackgroundHero.png)">
@@ -249,7 +231,7 @@
                                             </div>
                                             <h4>Unlimited sub-accounts</h4>
                                         </li>
-                                      
+
                                     </ul>
                                     <h6 class="price">$149 <span>/month </span></h6>
                                     @if (getActiveSubscription()['name'] == 'enterprise')
