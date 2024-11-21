@@ -15,7 +15,7 @@ class DashboardComponent extends Component
 {
     public $selected_event_id, $selectedEvent, $creditCost = 20, $bonusCredits = 0, $totalCredits = 4000, $delivered_message = 0, $un_delivered_message = 0, $responded_message = 0, $stopped_message = 0;
     public $dateFilter = '12months'; // Default filter
-    public $customDateRangeEnabled = false; // To track the checkbox state
+    public $customDateRangeEnabled = true; // To track the checkbox state
     public $startDate;
     public $endDate;
     public $chartData = [
