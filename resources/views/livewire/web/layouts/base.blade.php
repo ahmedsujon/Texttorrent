@@ -45,7 +45,7 @@
     <script src="{{ asset('assets/app/plugins/js/bootstrap.bundle.min.js') }}"></script>
     <script src="{{ asset('assets/app/plugins/js/swiper-bundle.min.js') }}"></script>
     <script src="{{ asset('assets/app/plugins/js/jquery-modal-video.min.js') }}"></script>
-    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+    <script src="{{ asset('assets/app/plugins/js/aos.js') }}"></script>
     <script src="https://kit.fontawesome.com/46f35fbc02.js" crossorigin="anonymous"></script>
     <script src="{{ asset('assets/app/js/landing.js') }}"></script>
 
