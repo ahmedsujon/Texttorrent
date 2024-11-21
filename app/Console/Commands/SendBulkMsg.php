@@ -41,7 +41,7 @@ class SendBulkMsg extends Command
                 $user_id = $user->id;
             }
 
-            SendBulkSMS::dispatch($user_id, $bulkMessage->id, $bulkMessage->send_from, $bulkMessage->send_to, $bulkMessage->message, $bulkMessage->file, $bulkMessage->type);
+            SendBulkSMS::dispatch($user_id, $bulkMessage->id, $bulkMessage->send_from, $bulkMessage->send_to, $bulkMessage->message, $bulkMessage->file, $bulkMessage->type, $bulkMessage->send_by);
         }
 
         $this->info('Bulk message sending completed - ' . $bulkMessages->count() . ' ');

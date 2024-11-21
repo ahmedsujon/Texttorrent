@@ -1,3 +1,4 @@
+@section('page_title') TextTorrent | Dashboard @endsection
 <div>
     <style>
         .bonus-percentage-labels {
