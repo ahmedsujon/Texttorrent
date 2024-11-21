@@ -114,58 +114,71 @@
         <!-- Credit And Activity Section  -->
         <section class="credit_activity_wrapper mt-24">
             <div class="credit_outer_grid">
-                @if (isUserPermitted('sms-credits'))
-                    <div class="credit_area">
-                        <div class="d-flex-between">
-                            <h3 class="credit_title">Buy Credits</h3>
-                            <button type="button" class="amount_btn" style="color: black; background-color: #e5f9fe;">
-                                Credits left: {{ number_format($credits_left) }}
-                            </button>
-                            <button type="button" class="amount_btn amount_btn_pay" wire:loading.attr='disabled' wire:click.prevent='buyCredit'></button>
-                        </div>
-                        <div class="amount_area mt-24">
-                            <h4>Amount</h4>
-                            <div class="number">$1000.00</div>
-                        </div>
-                        <div class="range_area mt-24">
-                            <!-- Bonus percentage labels -->
-                            {{-- <div class="bonus-percentage-labels">
-                                <span><img src="{{ asset('assets/app/icons/bonus2.svg') }}"> 0%</span>
-                                <span><img src="{{ asset('assets/app/icons/bonus2.svg') }}"> 10%</span>
-                                <span><img src="{{ asset('assets/app/icons/bonus2.svg') }}"> 20%</span>
-                                <span><img src="{{ asset('assets/app/icons/bonus2.svg') }}"> 30%</span>
-                                <span><img src="{{ asset('assets/app/icons/bonus2.svg') }}"> 40%</span>
-                                <span><img src="{{ asset('assets/app/icons/bonus2.svg') }}"> 50%</span>
-                            </div> --}}
-                            <div class="container_container">
-                                <div id="slider"></div>
-                            </div>
-                        </div>
-
-                        <div class="added_amount">
-                            Credits Added: <span class="credit_title">200,000</span>
-                        </div>
-                        <div class="bonus_outer_grid">
-                            <div class="bonus_grid">
-                                <div class="icon">
-                                    <img src="{{ asset('assets/app/icons/bonus.svg') }}" alt="bonus" />
-                                </div>
-                                <div>
-                                    <h4>Bonus Credits</h4>
-                                    <h5>0</h5>
-                                </div>
-                            </div>
-                            <div class="bonus_grid">
-                                <div class="icon">
-                                    <img src="{{ asset('assets/app/icons/bonus.svg') }}" alt="bonus" />
-                                </div>
-                                <div>
-                                    <h4>Total Credits</h4>
-                                    <h5>{{ $totalCredits }}</h5>
-                                </div>
-                            </div>
+                @if (user()->type == 'sub')
+                <div class="row justify-content-center">
+                    <div class="col-md-4">
+                        <div class="card card-body text-center">
+                            <h5 class="text-muted">Credits Left</h5>
+                            <h2 class="mt-4">
+                                <strong>{{ number_format($credits_left) }}</strong>
+                            </h2>
                         </div>
                     </div>
+                </div>
+                @else
+                    @if (isUserPermitted('sms-credits'))
+                        <div class="credit_area">
+                            <div class="d-flex-between">
+                                <h3 class="credit_title">Buy Credits</h3>
+                                <button type="button" class="amount_btn" style="color: black; background-color: #e5f9fe;">
+                                    Credits left: {{ number_format($credits_left) }}
+                                </button>
+                                <button type="button" class="amount_btn amount_btn_pay" wire:loading.attr='disabled' wire:click.prevent='buyCredit'></button>
+                            </div>
+                            <div class="amount_area mt-24">
+                                <h4>Amount</h4>
+                                <div class="number">$1000.00</div>
+                            </div>
+                            <div class="range_area mt-24">
+                                <!-- Bonus percentage labels -->
+                                {{-- <div class="bonus-percentage-labels">
+                                    <span><img src="{{ asset('assets/app/icons/bonus2.svg') }}"> 0%</span>
+                                    <span><img src="{{ asset('assets/app/icons/bonus2.svg') }}"> 10%</span>
+                                    <span><img src="{{ asset('assets/app/icons/bonus2.svg') }}"> 20%</span>
+                                    <span><img src="{{ asset('assets/app/icons/bonus2.svg') }}"> 30%</span>
+                                    <span><img src="{{ asset('assets/app/icons/bonus2.svg') }}"> 40%</span>
+                                    <span><img src="{{ asset('assets/app/icons/bonus2.svg') }}"> 50%</span>
+                                </div> --}}
+                                <div class="container_container">
+                                    <div id="slider"></div>
+                                </div>
+                            </div>
+
+                            <div class="added_amount">
+                                Credits Added: <span class="credit_title">200,000</span>
+                            </div>
+                            <div class="bonus_outer_grid">
+                                <div class="bonus_grid">
+                                    <div class="icon">
+                                        <img src="{{ asset('assets/app/icons/bonus.svg') }}" alt="bonus" />
+                                    </div>
+                                    <div>
+                                        <h4>Bonus Credits</h4>
+                                        <h5>0</h5>
+                                    </div>
+                                </div>
+                                <div class="bonus_grid">
+                                    <div class="icon">
+                                        <img src="{{ asset('assets/app/icons/bonus.svg') }}" alt="bonus" />
+                                    </div>
+                                    <div>
+                                        <h4>Total Credits</h4>
+                                        <h5>{{ $totalCredits }}</h5>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    @endif
                 @endif
                 <div class="activity_area">
                     <h3 class="credit_title">Activity</h3>

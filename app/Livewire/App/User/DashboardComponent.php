@@ -209,7 +209,14 @@ class DashboardComponent extends Component
 
         $formattedEvents = json_encode($formattedEvents);
 
-        $total_credits = user()->credits;
+        if (user()->type == 'sub') {
+            $au_user = DB::table('users')->select('id', 'credits')->where('id', user()->parent_id)->first();
+            $total_credits = $au_user->credits;
+        } else {
+            $total_credits = user()->credits;
+        }
+
+
         return view('livewire.app.user.dashboard-component', ['credits_left' => $total_credits, 'events' => $formattedEvents])->layout('livewire.app.layouts.base');
     }
 }
