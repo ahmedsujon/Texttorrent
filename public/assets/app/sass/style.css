@@ -5351,14 +5351,20 @@ input[type=number] {
     font-size: 14px;
   }
 }
+@media all and (max-width: 767px) {
+  .pricing_wrapper .pricing_item .price {
+    transition: 0.5s;
+    margin-top: 16px;
+  }
+}
 .pricing_wrapper .pricing_item ul {
   margin-top: 22px;
 }
 .pricing_wrapper .pricing_item ul li {
   display: grid;
   grid-template-columns: minmax(0, 12px) repeat(1, minmax(0, 1fr));
-  align-items: center;
-  gap: 10px 20px;
+  align-items: start;
+  gap: 5px;
   margin-bottom: 15px;
 }
 @media all and (max-width: 991px) {

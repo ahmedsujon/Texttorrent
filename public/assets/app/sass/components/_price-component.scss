@@ -252,13 +252,18 @@
         }
       }
     }
+    .price {
+      @include max-media-width(767) {
+        margin-top: 16px;
+      }
+    }
     ul {
       margin-top: 22px;
       li {
         display: grid;
         grid-template-columns: minmax(0, 12px) repeat(1, minmax(0, 1fr));
-        align-items: center;
-        gap: 10px 20px;
+        align-items: start;
+        gap: 5px;
         margin-bottom: 15px;
         @include max-media-width(991) {
           margin-bottom: 12px;
