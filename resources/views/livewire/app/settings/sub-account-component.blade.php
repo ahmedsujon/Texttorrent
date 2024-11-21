@@ -1,3 +1,4 @@
+@section('page_title') TextTorrent | Sub Accounts @endsection
 <div>
     <style>
         .app-spinner {

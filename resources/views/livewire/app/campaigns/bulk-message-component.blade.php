@@ -1,3 +1,4 @@
+@section('page_title') TextTorrent | Bulk Message @endsection
 <div>
     <main class="main_content_wrapper">
         <!-- Bulk Section   -->

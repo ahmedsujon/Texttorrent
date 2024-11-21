@@ -1,3 +1,4 @@
+@section('page_title') TextTorrent | Notifications @endsection
 <div>
     <main class="main_content_wrapper setting_content_wrapper">
         <!-- Sub Account Section  -->

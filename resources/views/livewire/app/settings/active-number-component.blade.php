@@ -1,3 +1,4 @@
+@section('page_title') TextTorrent | My Numbers @endsection
 <div>
     <style>
         .mr-5 {
