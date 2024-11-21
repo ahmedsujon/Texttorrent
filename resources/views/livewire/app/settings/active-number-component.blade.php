@@ -18,14 +18,16 @@
                         <h2>My Numbers</h2>
                     </div>
 
-                    @if (user()->type != 'sub')
+
                     <div class="mt-4">
-                        <button type="button" class="create_event_btn" style="color: white !important;" wire:click.prevent='assignNumberToUser'>
-                            {!! loadingStateWithText(
-                                'assignNumberToUser',
-                                'Assign User',
-                            ) !!}
-                        </button>
+                        @if (user()->type != 'sub')
+                            <button type="button" class="create_event_btn" style="color: white !important;" wire:click.prevent='assignNumberToUser'>
+                                {!! loadingStateWithText(
+                                    'assignNumberToUser',
+                                    'Assign User',
+                                ) !!}
+                            </button>
+                        @endif
 
                         <button type="button" class="create_event_btn" style="color: white !important;" wire:click.prevent='bulkReleaseConfirmation'>
                             {!! loadingStateWithText(
@@ -34,7 +36,6 @@
                             ) !!}
                         </button>
                     </div>
-                    @endif
 
                 </div>
                 <div class="account_right_area d-flex align-items-center justify-content-end flex-wrap">
