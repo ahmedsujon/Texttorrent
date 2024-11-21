@@ -119,7 +119,7 @@
                         <div class="d-flex-between">
                             <h3 class="credit_title">Buy Credits</h3>
                             <button type="button" class="amount_btn" style="color: black; background-color: #e5f9fe;">
-                                Credits left: {{ $credits_left }}
+                                Credits left: {{ number_format($credits_left) }}
                             </button>
                             <button type="button" class="amount_btn amount_btn_pay" wire:click.prevent='buyCredit'>Pay
                                 $1000</button>
@@ -508,6 +508,10 @@
     </script>
 
     <script>
+        function formatNumberWithCommas(number) {
+            return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+        }
+
         document.addEventListener("DOMContentLoaded", () => {
             const MAXIMUMVALUE = 10000; // Maximum slider value for 4K
 
@@ -518,10 +522,6 @@
 
             // Function to determine credit cost based on amount
             function getCreditCost(amount) {
-                // if (amount <= 1000) return 0.0050;
-                // if (amount <= 2000) return 0.0045;
-                // if (amount <= 3000) return 0.0043;
-                // return 0.0041;
                 return 0.005;
             }
 
@@ -605,8 +605,8 @@
                 const amountValue = parseInt(values[handle], 10);
 
                 // Display selected amount
-                document.querySelector(".number").textContent = `$${amountValue.toFixed(0)}`;
-                document.querySelector(".amount_btn_pay").textContent = `Pay $${amountValue.toFixed(0)}`;
+                document.querySelector(".number").textContent = `$${formatNumberWithCommas(amountValue.toFixed(0))}`;
+                document.querySelector(".amount_btn_pay").textContent = `Pay $${formatNumberWithCommas(amountValue.toFixed(0))}`;
 
                 // Calculate credits based on cost per range
                 const creditCost = getCreditCost(amountValue);
