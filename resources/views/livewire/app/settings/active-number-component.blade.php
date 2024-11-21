@@ -280,8 +280,7 @@
                                 <select name="lang" class="js-searchBox user_to_assign">
                                     <option value="">Choose User</option>
                                     @foreach ($sub_accounts as $sub_account)
-                                        <option value="{{ $sub_account->id }}">{{ $sub_account->first_name }}
-                                            {{ $sub_account->last_name }}</option>
+                                        <option value="{{ $sub_account->id }}">{{ $sub_account->first_name }} {{ $sub_account->last_name }}</option>
                                     @endforeach
                                 </select>
                                 <img src="{{ asset('assets/app/icons/arrow-down.svg') }}" alt="down arrow"
