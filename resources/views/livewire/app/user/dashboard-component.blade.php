@@ -121,8 +121,7 @@
                             <button type="button" class="amount_btn" style="color: black; background-color: #e5f9fe;">
                                 Credits left: {{ number_format($credits_left) }}
                             </button>
-                            <button type="button" class="amount_btn amount_btn_pay" wire:click.prevent='buyCredit'>Pay
-                                $1000</button>
+                            <button type="button" class="amount_btn amount_btn_pay" wire:loading.attr='disabled' wire:click.prevent='buyCredit'></button>
                         </div>
                         <div class="amount_area mt-24">
                             <h4>Amount</h4>
@@ -606,7 +605,7 @@
 
                 // Display selected amount
                 document.querySelector(".number").textContent = `$${formatNumberWithCommas(amountValue.toFixed(0))}`;
-                document.querySelector(".amount_btn_pay").textContent = `Pay $${formatNumberWithCommas(amountValue.toFixed(0))}`;
+                document.querySelector(".amount_btn_pay").innerHTML = `{!! loadingStateWithText('buyCredit', 'Pay') !!} $${formatNumberWithCommas(amountValue.toFixed(0))}`;
 
                 // Calculate credits based on cost per range
                 const creditCost = getCreditCost(amountValue);

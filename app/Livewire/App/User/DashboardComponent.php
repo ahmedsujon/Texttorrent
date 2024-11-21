@@ -13,7 +13,7 @@ use Stripe\Checkout\Session;
 
 class DashboardComponent extends Component
 {
-    public $selected_event_id, $selectedEvent, $creditCost = 20, $bonusCredits = 0, $totalCredits = 4000, $delivered_message = 0, $un_delivered_message = 0, $responded_message = 0, $stopped_message = 0;
+    public $selected_event_id, $selectedEvent, $creditCost = 0, $bonusCredits = 0, $totalCredits = 0, $delivered_message = 0, $un_delivered_message = 0, $responded_message = 0, $stopped_message = 0;
     public $dateFilter = '12months'; // Default filter
     public $customDateRangeEnabled = true; // To track the checkbox state
     public $startDate;
@@ -123,36 +123,40 @@ class DashboardComponent extends Component
 
     public function buyCredit()
     {
-        if (getActiveSubscription()['status'] != 'Active') {
-            return redirect()->route('user.subscription');
-        }
+        if ($this->creditCost > 0) {
+            if (getActiveSubscription()['status'] != 'Active') {
+                return redirect()->route('user.subscription');
+            }
 
-        \Stripe\Stripe::setApiKey(config('services.stripe.secret'));
-        $session = \Stripe\Checkout\Session::create([
-            'line_items' => [
-                [
-                    'price_data' => [
-                        'currency' => 'usd',
-                        'product_data' => [
-                            'name' => 'Buy TextTorrent Credits',
-                            'description' => 'Credit Amount: ' . $this->totalCredits,
+            \Stripe\Stripe::setApiKey(config('services.stripe.secret'));
+            $session = \Stripe\Checkout\Session::create([
+                'line_items' => [
+                    [
+                        'price_data' => [
+                            'currency' => 'usd',
+                            'product_data' => [
+                                'name' => 'Buy TextTorrent Credits',
+                                'description' => 'Credit Amount: ' . $this->totalCredits,
+                            ],
+                            'unit_amount' => str_replace([',', '.'], ['', ''], $this->creditCost . '00'),
                         ],
-                        'unit_amount' => str_replace([',', '.'], ['', ''], $this->creditCost . '00'),
+                        'quantity' => 1,
                     ],
-                    'quantity' => 1,
                 ],
-            ],
-            'mode' => 'payment',
-            'success_url' => route('user.buyCreditSuccess') . '?session_id={CHECKOUT_SESSION_ID}',
-            'cancel_url' => route('user.dashboard'),
-            'metadata' => [
-                'user_id' => user()->id,
-                'credit' => $this->totalCredits,
-                'amount' => $this->creditCost,
-            ],
-        ]);
+                'mode' => 'payment',
+                'success_url' => route('user.buyCreditSuccess') . '?session_id={CHECKOUT_SESSION_ID}',
+                'cancel_url' => route('user.dashboard'),
+                'metadata' => [
+                    'user_id' => user()->id,
+                    'credit' => $this->totalCredits,
+                    'amount' => $this->creditCost,
+                ],
+            ]);
 
-        return redirect()->away($session->url);
+            return redirect()->away($session->url);
+        } else {
+            $this->dispatch('error', ['message' => 'Select Credit Amount']);
+        }
     }
 
     public function buyCreditSuccess()
