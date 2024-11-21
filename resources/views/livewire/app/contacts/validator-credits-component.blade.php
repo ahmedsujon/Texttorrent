@@ -1,3 +1,4 @@
+@section('page_title') TextTorrent | Validator Credits @endsection
 <div>
     <main class="main_content_wrapper">
         <!-- Validator Number Section  -->

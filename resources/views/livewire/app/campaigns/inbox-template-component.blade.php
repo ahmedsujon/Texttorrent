@@ -1,3 +1,4 @@
+@section('page_title') TextTorrent | Inbox Templates @endsection
 <div>
     <main class="main_content_wrapper">
         <!-- Inbox Template Section  -->

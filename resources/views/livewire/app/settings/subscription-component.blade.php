@@ -1,3 +1,4 @@
+@section('page_title') TextTorrent | Subscription @endsection
 <div>
     <main class="main_content_wrapper setting_content_wrapper">
         <button type="button" class="sidebar_open_btn" id="sidebarShowBtn">

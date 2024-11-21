@@ -1,3 +1,4 @@
+@section('page_title') TextTorrent | Manage Contacts @endsection
 <div>
     <main class="main_content_wrapper">
         <!-- Manage Contact Section  -->

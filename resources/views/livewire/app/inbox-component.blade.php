@@ -1,3 +1,4 @@
+@section('page_title') TextTorrent | Inbox @endsection
 <div>
     <style>
         /* clears the ‘X’ from Internet Explorer */

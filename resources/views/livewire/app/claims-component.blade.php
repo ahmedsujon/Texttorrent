@@ -1,3 +1,4 @@
+@section('page_title') TextTorrent | Claims @endsection
 <div>
     <main class="main_content_wrapper">
         <!-- Claims  Section  -->

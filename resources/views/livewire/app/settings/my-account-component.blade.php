@@ -1,3 +1,4 @@
+@section('page_title') TextTorrent | My Account @endsection
 <div>
     <main class="main_content_wrapper setting_content_wrapper">
         <!-- My Account Section  -->
