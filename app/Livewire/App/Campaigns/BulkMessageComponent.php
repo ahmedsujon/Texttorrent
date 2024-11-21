@@ -4,6 +4,7 @@ namespace App\Livewire\App\Campaigns;
 
 use App\Models\BulkMessage;
 use App\Models\BulkMessageItem;
+use App\Models\ChatMessage;
 use App\Models\Contact;
 use App\Models\ContactList;
 use App\Models\InboxTemplate;
