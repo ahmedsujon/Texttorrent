@@ -62,7 +62,7 @@ $(document).ready(function () {
     $(this).addClass("active_month").siblings().removeClass("active_month");
   });
 
-  
+ 
   // To disable the DateRangePicker:
   // $('#reportrange').data('daterangepicker').isShowing = false;
   // $('#reportrange').off('click.daterangepicker');
