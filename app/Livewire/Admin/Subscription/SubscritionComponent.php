@@ -17,6 +17,21 @@ class SubscritionComponent extends Component
 
     public $dateFilter = '';
 
+    public function setSortBy($sortByField)
+    {
+        if ($this->sortBy === $sortByField) {
+            $this->sortDirection = ($this->sortDirection ==  "ASC") ? 'DESC' : "ASC";
+            return;
+        }
+        $this->sortBy = $sortByField;
+        $this->sortDirection = 'DESC';
+    }
+
+    public function updateSearch()
+    {
+        $this->resetPage();
+    }
+
     public function render()
     {
         $subscriptions = Subscription::orderBy('id', 'DESC')
