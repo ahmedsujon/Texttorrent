@@ -50,6 +50,13 @@ class GetNumberComponent extends Component
         $this->getNumbers();
     }
 
+    public function updatedAreaCode()
+    {
+        if ($this->areaCode == NULL) {
+            $this->getNumbers();
+        }
+    }
+
     public function plusQty()
     {
         $total = count($this->all_numbers);
@@ -68,9 +75,6 @@ class GetNumberComponent extends Component
         if ($this->qty > 30) {
             $this->qty = 30;
         }
-        // if ($this->qty == 0 || $this->qty == '') {
-        //     $this->qty = 1;
-        // }
     }
 
     public function updatedNumberType()
