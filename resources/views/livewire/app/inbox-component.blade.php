@@ -263,9 +263,9 @@
                                 <form class="chat_box_area" id="sendMessageForm" enctype="multipart/form-data"
                                     wire:ignore>
                                     <div class="chat_box_header_area d-flex align-items-center flex-wrap gap-2">
-                                        <label for="fileUpload" class="link_btn">
+                                        <!--<label for="fileUpload" class="link_btn">
                                             <img src="{{ asset('assets/app/icons/link-02.svg') }}" alt="link icon" />
-                                        </label>
+                                        </label> -->
 
                                         <!-- Emoji Button Trigger -->
                                         <button type="button" class="emoji_btn" id="emoji_btn">

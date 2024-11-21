@@ -18,7 +18,7 @@
                         <label for="">Please enter Area code to search for number</label>
                         <form wire:submit.prevent='areaCodeSearch'>
                             <div class="input-group mb-3">
-                                <input type="text" class="form-control" wire:model='areaCode'
+                                <input type="text" class="form-control" wire:model.live='areaCode'
                                     placeholder="Type Area Code"
                                     style="color: #0b1234;font-size: 14px;font-style: normal;font-weight: 400;border: 1px solid #fff;padding: 9px 12px;border-radius: 8px 0px 0px 8px;background: #fff;box-shadow: 0px 1px 2px 0px rgba(11, 18, 52, 0.15), 0px 0px 0px 1px rgba(11, 18, 52, 0.1);">
                                 <button type="submit" class="input-group-text"
@@ -35,7 +35,7 @@
                     </div>
                     <div class="buy_action_grid">
                         <div class="input_row">
-                            <input type="text" placeholder="Type number of  buy link"
+                            <input type="text" placeholder="Quantity"
                                 class="input_field quantity_input_field" value="0" wire:model.live='qty' />
                             <button type="button" class="quantity_btn" wire:click.prevent='minusQty'>
                                 <img src="{{ asset('assets/app/icons/minus-gray.svg') }}" alt="minus icon" />
@@ -257,7 +257,7 @@
                                 @endif
                             </div>
                             <small class="mt-3">
-                                <strong>Credits Needed: {{ $qty * 300 }}</strong> <br>
+                                <strong>Credits Needed: {{ $qty ? $qty * 300 : 0 }}</strong> <br>
                                 Buying a phone number will cost you 300 credits per month
                             </small>
                         </div>

@@ -180,56 +180,54 @@
                                         </a>
                                     </li>
                                 @endforeach
-
-                                <li>
-                                    <a href="#" wire:click.prevent='selectList("unlisted")'
-                                        class="list_btn {{ $sort_list_id == 'unlisted' ? 'active_list_btn' : '' }}">
-                                        <span class="list_title">Unlisted</span>
-                                        <div
-                                            class="list_action_area d-flex align-items-center justify-content-end flex-wrap">
-                                            <div class="user_number_area d-flex align-items-center">
-                                                <img src="{{ asset('assets/app/icons/user.svg') }}"
-                                                    alt="user icon" />
-                                                <span>{{ listContactsCount('unlisted') }}</span>
-                                            </div>
-                                            <div class="table_dropdown_area">
-                                                <div class="dropdown">
-                                                    <button class="dot_icon" type="button"
-                                                        onclick="event.stopPropagation();">
-                                                    </button>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </a>
-                                </li>
-
-                                <li>
-                                    <a href="#" wire:click.prevent='selectList("blacklisted")'
-                                        class="list_btn {{ $sort_list_id == 'blacklisted' ? 'active_list_btn' : '' }}">
-                                        <span class="list_title">Blacklisted</span>
-                                        <div
-                                            class="list_action_area d-flex align-items-center justify-content-end flex-wrap">
-                                            <div class="user_number_area d-flex align-items-center">
-                                                <img src="{{ asset('assets/app/icons/user.svg') }}"
-                                                    alt="user icon" />
-                                                <span>{{ listContactsCount('blacklisted') }}</span>
-                                            </div>
-                                            <div class="table_dropdown_area">
-                                                <div class="dropdown">
-                                                    <button class="dot_icon" type="button"
-                                                        onclick="event.stopPropagation();">
-                                                    </button>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </a>
-                                </li>
-
                                 {{-- @else
                             <li class="mt-3 text-center">
                                 <small class="text-muted">No lists found.</small>
                             </li> --}}
                             @endif
+                            <li>
+                                <a href="#" wire:click.prevent='selectList("unlisted")'
+                                    class="list_btn {{ $sort_list_id == 'unlisted' ? 'active_list_btn' : '' }}">
+                                    <span class="list_title">Unlisted</span>
+                                    <div
+                                        class="list_action_area d-flex align-items-center justify-content-end flex-wrap">
+                                        <div class="user_number_area d-flex align-items-center">
+                                            <img src="{{ asset('assets/app/icons/user.svg') }}"
+                                                alt="user icon" />
+                                            <span>{{ listContactsCount('unlisted') }}</span>
+                                        </div>
+                                        <div class="table_dropdown_area">
+                                            <div class="dropdown">
+                                                <button class="dot_icon" type="button"
+                                                    onclick="event.stopPropagation();">
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </a>
+                            </li>
+
+                            <li>
+                                <a href="#" wire:click.prevent='selectList("blacklisted")'
+                                    class="list_btn {{ $sort_list_id == 'blacklisted' ? 'active_list_btn' : '' }}">
+                                    <span class="list_title">Blacklisted</span>
+                                    <div
+                                        class="list_action_area d-flex align-items-center justify-content-end flex-wrap">
+                                        <div class="user_number_area d-flex align-items-center">
+                                            <img src="{{ asset('assets/app/icons/user.svg') }}"
+                                                alt="user icon" />
+                                            <span>{{ listContactsCount('blacklisted') }}</span>
+                                        </div>
+                                        <div class="table_dropdown_area">
+                                            <div class="dropdown">
+                                                <button class="dot_icon" type="button"
+                                                    onclick="event.stopPropagation();">
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </a>
+                            </li>
                         </ul>
                     </div>
                 </div>
@@ -330,7 +328,7 @@
                             </a>
                         @endif
                     </div>
-                    <div class="details_list_area">
+                    <div class="details_list_area" style="min-height: 320px;">
                         @if ($contacts->count() > 0)
                             @foreach ($contacts as $contact)
                                 <div class="deatils_list_grid">
