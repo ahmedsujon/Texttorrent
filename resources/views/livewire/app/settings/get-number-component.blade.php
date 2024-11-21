@@ -35,7 +35,7 @@
                     </div>
                     <div class="buy_action_grid">
                         <div class="input_row">
-                            <input type="text" placeholder="Type number of  buy link"
+                            <input type="text" placeholder="Quantity"
                                 class="input_field quantity_input_field" value="0" wire:model.live='qty' />
                             <button type="button" class="quantity_btn" wire:click.prevent='minusQty'>
                                 <img src="{{ asset('assets/app/icons/minus-gray.svg') }}" alt="minus icon" />
@@ -257,7 +257,7 @@
                                 @endif
                             </div>
                             <small class="mt-3">
-                                <strong>Credits Needed: {{ $qty * 300 }}</strong> <br>
+                                <strong>Credits Needed: {{ $qty ? $qty * 300 : 0 }}</strong> <br>
                                 Buying a phone number will cost you 300 credits per month
                             </small>
                         </div>
