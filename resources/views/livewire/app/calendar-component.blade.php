@@ -1,3 +1,4 @@
+@section('page_title') TextTorrent | Calendar @endsection
 <div>
     <main class="main_content_wrapper">
         <!-- Calender Section  -->

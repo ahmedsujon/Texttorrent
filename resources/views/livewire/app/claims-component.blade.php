@@ -1,3 +1,4 @@
+@section('page_title') TextTorrent | Claims @endsection
 <div>
     <main class="main_content_wrapper">
         <!-- Claims  Section  -->
@@ -111,6 +112,9 @@
                                     </tr>
                                 @endforeach
                             @else
+                                <tr>
+                                    <td colspan="3" class="text-center mt-5 pt-5">No claims found!</td>
+                                </tr>
                             @endif
                         </tbody>
                     </table>

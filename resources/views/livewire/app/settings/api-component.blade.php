@@ -1,3 +1,4 @@
+@section('page_title') TextTorrent | API @endsection
 <div>
     <main class="main_content_wrapper setting_content_wrapper">
         <!-- Api Section  -->

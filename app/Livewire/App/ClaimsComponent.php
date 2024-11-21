@@ -31,7 +31,7 @@ class ClaimsComponent extends Component
         $claim = BulkMessageItem::find($id);
         $contact = DB::table('contacts')->where('number', $claim->send_to)->where('user_id', user()->id)->first();
 
-        $getChat = Chat::where('user_id', user()->id)->where('contact_id', $contact->id)->first();
+        $getChat = Chat::where('user_id', user()->id)->where('contact_id', $contact->id)->where('from_number', $claim->send_from)->first();
 
         if ($getChat) {
             $chat = $getChat;
@@ -143,7 +143,7 @@ class ClaimsComponent extends Component
             $claim = BulkMessageItem::find($id);
             $contact = DB::table('contacts')->where('number', $claim->send_to)->where('user_id', user()->id)->first();
 
-            $getChat = Chat::where('user_id', user()->id)->where('contact_id', $contact->id)->first();
+            $getChat = Chat::where('user_id', user()->id)->where('contact_id', $contact->id)->where('from_number', $claim->send_from)->first();
 
             if ($getChat) {
                 $chat = $getChat;
@@ -232,7 +232,7 @@ class ClaimsComponent extends Component
 
     public function render()
     {
-        $claims = BulkMessageItem::where('status', 1)->where(function ($q) {
+        $claims = BulkMessageItem::where('status', 1)->where('received_message', '!=', NULL)->where(function ($q) {
             $q->where('received_message', 'like', '%' . $this->searchTerm . '%')
                 ->orWhere('send_to', 'like', '%' . $this->searchTerm . '%');
         })->paginate($this->sortingValue);

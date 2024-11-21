@@ -1,3 +1,4 @@
+@section('page_title') TextTorrent | Bulk Message @endsection
 <div>
     <main class="main_content_wrapper">
         <!-- Bulk Section   -->
@@ -357,6 +358,10 @@
                                     role="tabpanel" aria-labelledby="pills-home2-tab" tabindex="0">
                                     <div class="input_row">
                                         <label for="">Default message</label>
+
+                                        <div class="alert bg-light p-2"><small class="text-muted">
+                                            <svg xmlns="http://www.w3.org/2000/svg" style="margin-top: -3px" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" width="20" height="20" stroke-width="2"> <path d="M3 12a9 9 0 1 0 18 0a9 9 0 0 0 -18 0"></path> <path d="M12 9h.01"></path> <path d="M11 12h1v4h1"></path> </svg> If you want to use spintax, here is an example: [Hi|Hello|Hey]</small></div>
+
                                         <div class="textarea_header_top" wire:ignore>
                                             <div class="textarea_header">
                                                 <div class="table_dropdown_area">

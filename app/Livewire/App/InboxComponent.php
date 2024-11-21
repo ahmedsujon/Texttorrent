@@ -193,17 +193,14 @@ class InboxComponent extends Component
         }
 
         if ($this->receiver_id) {
-            $greetings = ['Hi', 'Hey', 'Hello'];
-            $randomGreeting = $greetings[array_rand($greetings)];
-
             $contact = Contact::find($this->receiver_id);
             $output = $this->selected_template_preview_new_chat; // Start with the template preview
-            $output = str_replace('[Hi|Hey|Hello]', $randomGreeting, $output);
-            $output = str_replace('[phone_number]', $contact->number, $output);
-            $output = str_replace('[email_address]', $contact->email, $output);
-            $output = str_replace('[first_name]', $contact->first_name, $output);
-            $output = str_replace('[last_name]', $contact->last_name, $output);
-            $output = str_replace('[company]', $contact->company, $output);
+            $output = str_replace('{phone_number}', $contact->number, $output);
+            $output = str_replace('{email_address}', $contact->email, $output);
+            $output = str_replace('{first_name}', $contact->first_name, $output);
+            $output = str_replace('{last_name}', $contact->last_name, $output);
+            $output = str_replace('{company}', $contact->company, $output);
+            $output = processSpinText($output);
 
             $this->new_chat_message = $output;
 
@@ -289,17 +286,14 @@ class InboxComponent extends Component
             'selected_template_id.required' => 'Select a template',
         ]);
 
-        $greetings = ['Hi', 'Hey', 'Hello'];
-        $randomGreeting = $greetings[array_rand($greetings)];
-
         $contact = Contact::find($this->selected_chat->id);
         $output = $this->selected_template_preview; // Start with the template preview
-        $output = str_replace('[Hi|Hey|Hello]', $randomGreeting, $output);
-        $output = str_replace('[phone_number]', $contact->number, $output);
-        $output = str_replace('[email_address]', $contact->email, $output);
-        $output = str_replace('[first_name]', $contact->first_name, $output);
-        $output = str_replace('[last_name]', $contact->last_name, $output);
-        $output = str_replace('[company]', $contact->company, $output);
+        $output = str_replace('{phone_number}', $contact->number, $output);
+        $output = str_replace('{email_address}', $contact->email, $output);
+        $output = str_replace('{first_name}', $contact->first_name, $output);
+        $output = str_replace('{last_name}', $contact->last_name, $output);
+        $output = str_replace('{company}', $contact->company, $output);
+        $output = processSpinText($output);
 
         $this->dispatch('updateTextarea', $output);
         $this->reset(['selected_template_preview', 'selected_template_id']);
