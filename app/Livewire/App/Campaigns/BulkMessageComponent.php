@@ -44,17 +44,14 @@ class BulkMessageComponent extends Component
         //     'inbox_template_id.*' => 'Select a template',
         // ]);
 
-        $greetings = ['Hi', 'Hey', 'Hello'];
-        $randomGreeting = $greetings[array_rand($greetings)];
-
         $contact = Contact::find($contact_id);
         $output = $this->sms_body; // Start with the template preview
-        $output = str_replace('[Hi|Hey|Hello]', $randomGreeting, $output);
-        $output = str_replace('[phone_number]', $contact->number, $output);
-        $output = str_replace('[email_address]', $contact->email, $output);
-        $output = str_replace('[first_name]', $contact->first_name, $output);
-        $output = str_replace('[last_name]', $contact->last_name, $output);
-        $output = str_replace('[company]', $contact->company, $output);
+        $output = str_replace('{phone_number}', $contact->number, $output);
+        $output = str_replace('{email_address}', $contact->email, $output);
+        $output = str_replace('{first_name}', $contact->first_name, $output);
+        $output = str_replace('{last_name}', $contact->last_name, $output);
+        $output = str_replace('{company}', $contact->company, $output);
+        $output = processSpinText($output);
 
         return $output;
     }

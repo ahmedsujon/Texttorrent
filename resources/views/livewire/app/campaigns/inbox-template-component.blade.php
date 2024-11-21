@@ -213,37 +213,31 @@
                                                 <ul class="dropdown-menu">
                                                     <li>
                                                         <button type="button" class="dropdown-item"
-                                                            data-variable="[Hi|Hey|Hello]">
-                                                            <span>[Hi|Hey|Hello]</span>
-                                                        </button>
-                                                    </li>
-                                                    <li>
-                                                        <button type="button" class="dropdown-item"
-                                                            data-variable="[phone_number]">
+                                                            data-variable="{phone_number}">
                                                             <span>Phone Number</span>
                                                         </button>
                                                     </li>
                                                     <li>
                                                         <button type="button" class="dropdown-item"
-                                                            data-variable="[email_address]">
+                                                            data-variable="{email_address}">
                                                             <span>Email Address</span>
                                                         </button>
                                                     </li>
                                                     <li>
                                                         <button type="button" class="dropdown-item"
-                                                            data-variable="[first_name]">
+                                                            data-variable="{first_name}">
                                                             <span>First Name</span>
                                                         </button>
                                                     </li>
                                                     <li>
                                                         <button type="button" class="dropdown-item"
-                                                            data-variable="[last_name]">
+                                                            data-variable="{last_name}">
                                                             <span>Last Name</span>
                                                         </button>
                                                     </li>
                                                     <li>
                                                         <button type="button" class="dropdown-item"
-                                                            data-variable="[company]">
+                                                            data-variable="{company}">
                                                             <span>Company</span>
                                                         </button>
                                                     </li>
@@ -321,37 +315,31 @@
                                                 <ul class="dropdown-menu">
                                                     <li>
                                                         <button type="button" class="dropdown-item dropdown-item-edit"
-                                                            data-variable_edit="[Hi|Hey|Hello]">
-                                                            <span>[Hi|Hey|Hello]</span>
-                                                        </button>
-                                                    </li>
-                                                    <li>
-                                                        <button type="button" class="dropdown-item dropdown-item-edit"
-                                                            data-variable_edit="[phone_number]">
+                                                            data-variable_edit="{phone_number}">
                                                             <span>Phone Number</span>
                                                         </button>
                                                     </li>
                                                     <li>
                                                         <button type="button" class="dropdown-item dropdown-item-edit"
-                                                            data-variable_edit="[email_address]">
+                                                            data-variable_edit="{email_address}">
                                                             <span>Email Address</span>
                                                         </button>
                                                     </li>
                                                     <li>
                                                         <button type="button" class="dropdown-item dropdown-item-edit"
-                                                            data-variable_edit="[first_name]">
+                                                            data-variable_edit="{first_name}">
                                                             <span>First Name</span>
                                                         </button>
                                                     </li>
                                                     <li>
                                                         <button type="button" class="dropdown-item dropdown-item-edit"
-                                                            data-variable_edit="[last_name]">
+                                                            data-variable_edit="{last_name}">
                                                             <span>Last Name</span>
                                                         </button>
                                                     </li>
                                                     <li>
                                                         <button type="button" class="dropdown-item dropdown-item-edit"
-                                                            data-variable_edit="[company]">
+                                                            data-variable_edit="{company}">
                                                             <span>Company</span>
                                                         </button>
                                                     </li>
