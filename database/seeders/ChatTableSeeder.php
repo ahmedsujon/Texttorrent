@@ -55,22 +55,18 @@ class ChatTableSeeder extends Seeder
             $msg2->updated_at = Carbon::parse(now())->subDays(1);
             $msg2->save();
 
-            // if ($chat->id == 7) {
-            //     for ($i = 1; $i <= 20; $i++) {
-            //         $msg = new ChatMessage();
-            //         $msg->chat_id = $chat->id;
-            //         $msg->sender = $i % 2 == 0 ? 1 : $cNum->id;
-            //         $msg->receiver = ($msg->sender === 1) ? $cNum->id : 1;
-            //         $msg->message = $faker->sentence;
-            //         $msg->save();
-            //     }
-            // } else {
-            //     $msg = new ChatMessage();
-            //     $msg->chat_id = $chat->id;
-            //     $msg->sender = 1;
-            //     $msg->receiver = $cNum->id;
-            //     $msg->message = $chat->last_message;
-            //     $msg->save();
+            // for ($i = 0; $i < 120; $i++) {
+            //     $msg2 = new ChatMessage();
+            //     $msg2->chat_id = $chat->id;
+            //     $msg2->direction = $i % 2 == 0 ? 'outbound' : 'inbound';
+            //     $msg2->message = 'Test Message to Check Live Status Update';
+            //     $msg2->api_send_status = $i % 2 == 0 ? 'delivered' : 'undelivered';
+            //     $msg2->api_send_response = '';
+            //     $msg2->api = 'Twilio';
+            //     $msg2->msg_sid = '';
+            //     $msg2->created_at = Carbon::parse(now())->subDays(1);
+            //     $msg2->updated_at = Carbon::parse(now())->subDays(1);
+            //     $msg2->save();
             // }
         }
     }

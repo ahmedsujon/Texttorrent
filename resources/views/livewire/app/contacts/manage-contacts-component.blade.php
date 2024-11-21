@@ -1,4 +1,6 @@
-@section('page_title') TextTorrent | Manage Contacts @endsection
+@section('page_title')
+    TextTorrent | Manage Contacts
+@endsection
 <div>
     <main class="main_content_wrapper">
         <!-- Manage Contact Section  -->
@@ -11,16 +13,17 @@
                     <h2 class="inbox_template_title">Manage Contacts</h2>
                 </div>
                 @if (isUserPermitted('import-contacts'))
-                <div class="d-flex align-items-center flex-wrap g-sm">
-                    <a href="{{ asset('files/Sample Contact File.csv') }}" download type="button" class="import_btn">
-                        <img src="{{ asset('assets/app/icons/import.svg') }}" alt="import icon" />
-                        <span>Download sample import file</span>
-                    </a>
-                    <button type="button" class="import_btn" data-bs-toggle="modal" data-bs-target="#importModal">
-                        <img src="{{ asset('assets/app/icons/import.svg') }}" alt="import icon" />
-                        <span>Import contacts</span>
-                    </button>
-                </div>
+                    <div class="d-flex align-items-center flex-wrap g-sm">
+                        <a href="{{ asset('files/Sample Contact File.csv') }}" download type="button"
+                            class="import_btn">
+                            <img src="{{ asset('assets/app/icons/import.svg') }}" alt="import icon" />
+                            <span>Download sample import file</span>
+                        </a>
+                        <button type="button" class="import_btn" data-bs-toggle="modal" data-bs-target="#importModal">
+                            <img src="{{ asset('assets/app/icons/import.svg') }}" alt="import icon" />
+                            <span>Import contacts</span>
+                        </button>
+                    </div>
                 @endif
             </div>
             <div class="contact_grid">
@@ -50,173 +53,179 @@
                                 <h4>Bookmark</h4>
                             </li>
                             @if ($bookmarked_lists->count() > 0)
-                            @foreach ($bookmarked_lists as $bList)
-                            <li>
-                                <a href="#" wire:click.prevent='selectList({{ $bList->id }})'
-                                    class="list_btn {{ $sort_list_id == $bList->id ? 'active_list_btn' : '' }}">
-                                    <span class="list_title">{{ $bList->name }}</span>
-                                    <div
-                                        class="list_action_area d-flex align-items-center justify-content-end flex-wrap">
-                                        <div class="user_number_area d-flex align-items-center">
-                                            <img src="{{ asset('assets/app/icons/user.svg') }}" alt="user icon" />
-                                            <span>{{ listContactsCount($bList->id) }}</span>
-                                        </div>
-                                        <div class="table_dropdown_area">
-                                            <div class="dropdown">
-                                                <button class="dot_icon" type="button"
-                                                    onclick="event.stopPropagation();" data-bs-toggle="dropdown"
-                                                    aria-expanded="false">
-                                                    <img src="{{ asset('assets/app/icons/dot-horizontal.svg') }}"
-                                                        alt="dot icon" />
-                                                </button>
-                                                <ul class="dropdown-menu dropdown-menu-end">
-                                                    <li>
-                                                        <h5>Select</h5>
-                                                    </li>
+                                @foreach ($bookmarked_lists as $bList)
+                                    <li>
+                                        <a href="#" wire:click.prevent='selectList({{ $bList->id }})'
+                                            class="list_btn {{ $sort_list_id == $bList->id ? 'active_list_btn' : '' }}">
+                                            <span class="list_title">{{ $bList->name }}</span>
+                                            <div
+                                                class="list_action_area d-flex align-items-center justify-content-end flex-wrap">
+                                                <div class="user_number_area d-flex align-items-center">
+                                                    <img src="{{ asset('assets/app/icons/user.svg') }}"
+                                                        alt="user icon" />
+                                                    <span>{{ listContactsCount($bList->id) }}</span>
+                                                </div>
+                                                <div class="table_dropdown_area">
+                                                    <div class="dropdown">
+                                                        <button class="dot_icon" type="button"
+                                                            onclick="event.stopPropagation();" data-bs-toggle="dropdown"
+                                                            aria-expanded="false">
+                                                            <img src="{{ asset('assets/app/icons/dot-horizontal.svg') }}"
+                                                                alt="dot icon" />
+                                                        </button>
+                                                        <ul class="dropdown-menu dropdown-menu-end">
+                                                            <li>
+                                                                <h5>Select</h5>
+                                                            </li>
 
-                                                    <li>
-                                                        <button type="button"
-                                                            wire:click.prevent='addRemoveBookmark({{ $bList->id }})'
-                                                            class="dropdown-item">
-                                                            <img src="{{ asset('assets/app/icons/bookmark-minus-02.svg') }}"
-                                                                alt="bookmark icon" />
-                                                            <span>Remove from bookmark</span>
-                                                        </button>
-                                                    </li>
-                                                    <li>
-                                                        <button type="button"
-                                                            wire:click.prevent='editList({{ $bList->id }})'
-                                                            class="dropdown-item">
-                                                            <img src="{{ asset('assets/app/icons/edit-04.svg') }}"
-                                                                alt="edit icon" />
-                                                            <span>Edit list</span>
-                                                        </button>
-                                                    </li>
-                                                    <li>
-                                                        <button type="button"
-                                                            wire:click.prevent='deleteConfirmation({{ $bList->id }}, "list")'
-                                                            class="dropdown-item">
-                                                            <img src="{{ asset('assets/app/icons/delete-03.svg') }}"
-                                                                alt="copy icon" />
-                                                            <span>Delete list</span>
-                                                        </button>
-                                                    </li>
-                                                </ul>
+                                                            <li>
+                                                                <button type="button"
+                                                                    wire:click.prevent='addRemoveBookmark({{ $bList->id }})'
+                                                                    class="dropdown-item">
+                                                                    <img src="{{ asset('assets/app/icons/bookmark-minus-02.svg') }}"
+                                                                        alt="bookmark icon" />
+                                                                    <span>Remove from bookmark</span>
+                                                                </button>
+                                                            </li>
+                                                            <li>
+                                                                <button type="button"
+                                                                    wire:click.prevent='editList({{ $bList->id }})'
+                                                                    class="dropdown-item">
+                                                                    <img src="{{ asset('assets/app/icons/edit-04.svg') }}"
+                                                                        alt="edit icon" />
+                                                                    <span>Edit list</span>
+                                                                </button>
+                                                            </li>
+                                                            <li>
+                                                                <button type="button"
+                                                                    wire:click.prevent='deleteConfirmation({{ $bList->id }}, "list")'
+                                                                    class="dropdown-item">
+                                                                    <img src="{{ asset('assets/app/icons/delete-03.svg') }}"
+                                                                        alt="copy icon" />
+                                                                    <span>Delete list</span>
+                                                                </button>
+                                                            </li>
+                                                        </ul>
+                                                    </div>
+                                                </div>
                                             </div>
-                                        </div>
-                                    </div>
-                                </a>
-                            </li>
-                            @endforeach
+                                        </a>
+                                    </li>
+                                @endforeach
                             @else
-                            <li class="mt-3 text-center">
-                                <small class="text-muted">No bookmarked lists found.</small>
-                            </li>
+                                <li class="mt-3 text-center">
+                                    <small class="text-muted">No bookmarked lists found.</small>
+                                </li>
                             @endif
                             <li>
                                 <h4 class="mt-4">Other</h4>
                             </li>
                             @if ($other_lists->count() > 0)
-                            @foreach ($other_lists as $oList)
-                            <li>
-                                <a href="#" wire:click.prevent='selectList({{ $oList->id }})'
-                                    class="list_btn {{ $sort_list_id == $oList->id ? 'active_list_btn' : '' }}">
-                                    <span class="list_title">{{ $oList->name }}</span>
-                                    <div
-                                        class="list_action_area d-flex align-items-center justify-content-end flex-wrap">
-                                        <div class="user_number_area d-flex align-items-center">
-                                            <img src="{{ asset('assets/app/icons/user.svg') }}" alt="user icon" />
-                                            <span>{{ listContactsCount($oList->id) }}</span>
-                                        </div>
-                                        <div class="table_dropdown_area">
-                                            <div class="dropdown">
-                                                <button class="dot_icon" type="button"
-                                                    onclick="event.stopPropagation();" data-bs-toggle="dropdown"
-                                                    aria-expanded="false">
-                                                    <img src="{{ asset('assets/app/icons/dot-horizontal.svg') }}"
-                                                        alt="dot icon" />
-                                                </button>
-                                                <ul class="dropdown-menu dropdown-menu-end">
-                                                    <li>
-                                                        <h5>Select</h5>
-                                                    </li>
+                                @foreach ($other_lists as $oList)
+                                    <li>
+                                        <a href="#" wire:click.prevent='selectList({{ $oList->id }})'
+                                            class="list_btn {{ $sort_list_id == $oList->id ? 'active_list_btn' : '' }}">
+                                            <span class="list_title">{{ $oList->name }}</span>
+                                            <div
+                                                class="list_action_area d-flex align-items-center justify-content-end flex-wrap">
+                                                <div class="user_number_area d-flex align-items-center">
+                                                    <img src="{{ asset('assets/app/icons/user.svg') }}"
+                                                        alt="user icon" />
+                                                    <span>{{ listContactsCount($oList->id) }}</span>
+                                                </div>
+                                                <div class="table_dropdown_area">
+                                                    <div class="dropdown">
+                                                        <button class="dot_icon" type="button"
+                                                            onclick="event.stopPropagation();" data-bs-toggle="dropdown"
+                                                            aria-expanded="false">
+                                                            <img src="{{ asset('assets/app/icons/dot-horizontal.svg') }}"
+                                                                alt="dot icon" />
+                                                        </button>
+                                                        <ul class="dropdown-menu dropdown-menu-end">
+                                                            <li>
+                                                                <h5>Select</h5>
+                                                            </li>
 
-                                                    <li>
-                                                        <button type="button"
-                                                            wire:click.prevent='addRemoveBookmark({{ $oList->id }})'
-                                                            class="dropdown-item">
-                                                            <img src="{{ asset('assets/app/icons/bookmark-minus-02.svg') }}"
-                                                                alt="bookmark icon" />
-                                                            <span>Add to Bookmark</span>
-                                                        </button>
-                                                    </li>
-                                                    <li>
-                                                        <button type="button"
-                                                            wire:click.prevent='editList({{ $oList->id }})'
-                                                            class="dropdown-item">
-                                                            <img src="{{ asset('assets/app/icons/edit-04.svg') }}"
-                                                                alt="edit icon" />
-                                                            <span>Edit list</span>
-                                                        </button>
-                                                    </li>
-                                                    <li>
-                                                        <button type="button"
-                                                            wire:click.prevent='deleteConfirmation({{ $oList->id }}, "list")'
-                                                            class="dropdown-item">
-                                                            <img src="{{ asset('assets/app/icons/delete-03.svg') }}"
-                                                                alt="copy icon" />
-                                                            <span>Delete list</span>
-                                                        </button>
-                                                    </li>
-                                                </ul>
+                                                            <li>
+                                                                <button type="button"
+                                                                    wire:click.prevent='addRemoveBookmark({{ $oList->id }})'
+                                                                    class="dropdown-item">
+                                                                    <img src="{{ asset('assets/app/icons/bookmark-minus-02.svg') }}"
+                                                                        alt="bookmark icon" />
+                                                                    <span>Add to Bookmark</span>
+                                                                </button>
+                                                            </li>
+                                                            <li>
+                                                                <button type="button"
+                                                                    wire:click.prevent='editList({{ $oList->id }})'
+                                                                    class="dropdown-item">
+                                                                    <img src="{{ asset('assets/app/icons/edit-04.svg') }}"
+                                                                        alt="edit icon" />
+                                                                    <span>Edit list</span>
+                                                                </button>
+                                                            </li>
+                                                            <li>
+                                                                <button type="button"
+                                                                    wire:click.prevent='deleteConfirmation({{ $oList->id }}, "list")'
+                                                                    class="dropdown-item">
+                                                                    <img src="{{ asset('assets/app/icons/delete-03.svg') }}"
+                                                                        alt="copy icon" />
+                                                                    <span>Delete list</span>
+                                                                </button>
+                                                            </li>
+                                                        </ul>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </a>
+                                    </li>
+                                @endforeach
+
+                                <li>
+                                    <a href="#" wire:click.prevent='selectList("unlisted")'
+                                        class="list_btn {{ $sort_list_id == 'unlisted' ? 'active_list_btn' : '' }}">
+                                        <span class="list_title">Unlisted</span>
+                                        <div
+                                            class="list_action_area d-flex align-items-center justify-content-end flex-wrap">
+                                            <div class="user_number_area d-flex align-items-center">
+                                                <img src="{{ asset('assets/app/icons/user.svg') }}"
+                                                    alt="user icon" />
+                                                <span>{{ listContactsCount('unlisted') }}</span>
+                                            </div>
+                                            <div class="table_dropdown_area">
+                                                <div class="dropdown">
+                                                    <button class="dot_icon" type="button"
+                                                        onclick="event.stopPropagation();">
+                                                    </button>
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
-                                </a>
-                            </li>
-                            @endforeach
+                                    </a>
+                                </li>
 
-                            <li>
-                                <a href="#" wire:click.prevent='selectList("unlisted")'
-                                    class="list_btn {{ $sort_list_id == "unlisted" ? 'active_list_btn' : '' }}">
-                                    <span class="list_title">Unlisted</span>
-                                    <div
-                                        class="list_action_area d-flex align-items-center justify-content-end flex-wrap">
-                                        <div class="user_number_area d-flex align-items-center">
-                                            <img src="{{ asset('assets/app/icons/user.svg') }}" alt="user icon" />
-                                            <span>{{ listContactsCount("unlisted") }}</span>
-                                        </div>
-                                        <div class="table_dropdown_area">
-                                            <div class="dropdown">
-                                                <button class="dot_icon" type="button" onclick="event.stopPropagation();">
-                                                </button>
+                                <li>
+                                    <a href="#" wire:click.prevent='selectList("blacklisted")'
+                                        class="list_btn {{ $sort_list_id == 'blacklisted' ? 'active_list_btn' : '' }}">
+                                        <span class="list_title">Blacklisted</span>
+                                        <div
+                                            class="list_action_area d-flex align-items-center justify-content-end flex-wrap">
+                                            <div class="user_number_area d-flex align-items-center">
+                                                <img src="{{ asset('assets/app/icons/user.svg') }}"
+                                                    alt="user icon" />
+                                                <span>{{ listContactsCount('blacklisted') }}</span>
+                                            </div>
+                                            <div class="table_dropdown_area">
+                                                <div class="dropdown">
+                                                    <button class="dot_icon" type="button"
+                                                        onclick="event.stopPropagation();">
+                                                    </button>
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
-                                </a>
-                            </li>
+                                    </a>
+                                </li>
 
-                            <li>
-                                <a href="#" wire:click.prevent='selectList("blacklisted")'
-                                    class="list_btn {{ $sort_list_id == "blacklisted" ? 'active_list_btn' : '' }}">
-                                    <span class="list_title">Blacklisted</span>
-                                    <div
-                                        class="list_action_area d-flex align-items-center justify-content-end flex-wrap">
-                                        <div class="user_number_area d-flex align-items-center">
-                                            <img src="{{ asset('assets/app/icons/user.svg') }}" alt="user icon" />
-                                            <span>{{ listContactsCount("blacklisted") }}</span>
-                                        </div>
-                                        <div class="table_dropdown_area">
-                                            <div class="dropdown">
-                                                <button class="dot_icon" type="button" onclick="event.stopPropagation();">
-                                                </button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </a>
-                            </li>
-
-                            {{-- @else
+                                {{-- @else
                             <li class="mt-3 text-center">
                                 <small class="text-muted">No lists found.</small>
                             </li> --}}
@@ -234,7 +243,8 @@
                                 <h4>Contact Lists</h4>
                             </div>
                             <div class="d-flex align-items-center justify-content-end flex-wrap g-xs">
-                                <button type="button" class="create_template_btn" wire:click.prevent='resetEditModal' data-bs-toggle="modal"
+                                <button type="button" class="create_template_btn"
+                                    wire:click.prevent='resetEditModal' data-bs-toggle="modal"
                                     data-bs-target="#contactModal">
                                     <img src="{{ asset('assets/app/icons/plus-sign-white.svg') }}" alt="plus icon" />
                                     <span>Add contact</span>
@@ -252,12 +262,22 @@
                                                 <h5>Select</h5>
                                             </li>
                                             <li>
-                                                <button type="button" class="dropdown-item"
-                                                    wire:click.prevent='removeBlacklistConfirmation'>
-                                                    <img src="{{ asset('assets/app/icons/user-block-02.svg') }}"
-                                                        alt="block user icon" />
-                                                    <span>Remove blacklists</span>
-                                                </button>
+                                                @if ($sort_list_id == 'blacklisted')
+                                                    <button type="button" class="dropdown-item"
+                                                        wire:click.prevent='removeFromBlacklistConfirmation'>
+                                                        <img src="{{ asset('assets/app/icons/user-block-02.svg') }}"
+                                                            alt="block user icon" />
+                                                        <span>Remove From Blacklist</span>
+                                                    </button>
+                                                @else
+                                                    <button type="button" class="dropdown-item"
+                                                        wire:click.prevent='addToBlacklistConfirmation'>
+                                                        <img src="{{ asset('assets/app/icons/user-block-02.svg') }}"
+                                                            alt="block user icon" />
+                                                        <span>Add To Blacklist</span>
+                                                    </button>
+                                                @endif
+
                                             </li>
                                             <li>
                                                 <button type="button" class="dropdown-item"
@@ -281,8 +301,8 @@
                             </div>
                         </div>
                         <form onsubmit="event.preventDefault()" class="search_input_form">
-                            <input type="search" placeholder="Search contacts" wire:model.live='contacts_search_term'
-                                class="input_field" />
+                            <input type="search" placeholder="Search contacts"
+                                wire:model.live='contacts_search_term' class="input_field" />
                             <button type="button" class="search_icon">
                                 <img src="{{ asset('assets/app/icons/search-gray.svg') }}" alt="search icon" />
                             </button>
@@ -304,99 +324,99 @@
                             </div>
                         </div>
                         @if (isUserPermitted('number-validator'))
-                        <a href="#" class="import_btn">
-                            <img src="{{ asset('assets/app/icons/call-disabled.svg') }}" alt="call disabled" />
-                            <span>Mobile verification & DNC check </span>
-                        </a>
+                            <a href="#" class="import_btn">
+                                <img src="{{ asset('assets/app/icons/call-disabled.svg') }}" alt="call disabled" />
+                                <span>Mobile verification & DNC check </span>
+                            </a>
                         @endif
                     </div>
                     <div class="details_list_area">
                         @if ($contacts->count() > 0)
-                        @foreach ($contacts as $contact)
-                        <div class="deatils_list_grid">
-                            <div class="form-check">
-                                <input class="form-check-input contact-checkbox" type="checkbox"
-                                    name="contact_checkbox[]" wire:model.live='contact_checkbox'
-                                    value="{{ $contact->id }}" />
-                            </div>
-                            <div class="user_info_area">
-                                <div class="user_top_img chat-avatar">
-                                    {{ Str::limit($contact->first_name, 1, '') }}{{ Str::limit($contact->last_name, 1,
-                                    '') }}
-                                </div>
-                                <div>
-                                    <h4>{{ $contact->first_name }} {{ $contact->last_name }}</h4>
-                                    <div class="d-flex align-items-center flex-wrap gap-1">
-                                        <h5 id="contact_number_{{ $contact->id }}">{{ $contact->number }}
-                                        </h5>
-                                        <button type="button" class="copy_icon"
-                                            onclick="copyToClipboard({{ $contact->id }})">
-                                            <img src="{{ asset('assets/app/icons/copy-01.svg') }}" alt="copy icon" />
-                                        </button>
+                            @foreach ($contacts as $contact)
+                                <div class="deatils_list_grid">
+                                    <div class="form-check">
+                                        <input class="form-check-input contact-checkbox" type="checkbox"
+                                            name="contact_checkbox[]" wire:model.live='contact_checkbox'
+                                            value="{{ $contact->id }}" />
                                     </div>
-                                </div>
-                            </div>
-                            <div
-                                class="list_action_details_area d-flex align-items-center justify-content-end flex-wrap g-sm">
-                                <button type="button" class="icon_btn"
-                                    wire:click.prevent='showDetails({{ $contact->id }})' wire:loading.attr='disabled'>
-                                    {!! loadingStateWithoutText(
-                                    'showDetails(' . $contact->id . ')',
-                                    '<img src="' . asset('assets/app/icons/info-02.svg') . '" alt="message icon" />',
-                                    ) !!}
-                                </button>
-                                <button type="button" class="icon_btn"
-                                    wire:click.prevent='addNoteModal({{ $contact->id }})' wire:loading.attr='disabled'>
-                                    {!! loadingStateWithoutText(
-                                    'addNoteModal(' . $contact->id . ')',
-                                    '<img src="' . asset('assets/app/icons/notebook.svg') . '" alt="note icon" />',
-                                    ) !!}
-                                </button>
-                                <button type="button" class="icon_btn"
-                                    wire:click.prevent='addFolderModal({{ $contact->id }})'
-                                    wire:loading.attr='disabled'>
-                                    {!! loadingStateWithoutText(
-                                    'addFolderModal(' . $contact->id . ')',
-                                    '<img src="' .
-                                                    asset('assets/app/icons/folder-add-02.svg') .
-                                                    '" alt="folder icon" />',
-                                    ) !!}
-                                </button>
-                                <div class="table_dropdown_area">
-                                    <div class="dropdown">
-                                        <button class="icon_btn" type="button" data-bs-toggle="dropdown"
-                                            aria-expanded="false" wire:loading.attr='disabled'>
-
-                                            <img src="{{ asset('assets/app/icons/dot-horizontal.svg') }}"
-                                                alt="dot icon" />
-                                        </button>
-                                        <ul class="dropdown-menu">
-                                            <li>
-                                                <h5>Select</h5>
-                                            </li>
-                                            <li>
-                                                <button type="button" class="dropdown-item"
-                                                    wire:click.prevent='editContact({{ $contact->id }})'>
-                                                    <img src="{{ asset('assets/app/icons/edit-04.svg') }}"
-                                                        alt="edit icon" />
-                                                    <span>Edit contact</span>
-                                                </button>
-                                            </li>
-                                            <li>
-                                                <button type="button"
-                                                    wire:click.prevent='deleteConfirmation({{ $contact->id }}, "contact")'
-                                                    class="dropdown-item">
-                                                    <img src="{{ asset('assets/app/icons/delete-03.svg') }}"
+                                    <div class="user_info_area">
+                                        <div class="user_top_img chat-avatar">
+                                            {{ Str::limit($contact->first_name, 1, '') }}{{ Str::limit($contact->last_name, 1, '') }}
+                                        </div>
+                                        <div>
+                                            <h4>{{ $contact->first_name }} {{ $contact->last_name }}</h4>
+                                            <div class="d-flex align-items-center flex-wrap gap-1">
+                                                <h5 id="contact_number_{{ $contact->id }}">{{ $contact->number }}
+                                                </h5>
+                                                <button type="button" class="copy_icon"
+                                                    onclick="copyToClipboard({{ $contact->id }})">
+                                                    <img src="{{ asset('assets/app/icons/copy-01.svg') }}"
                                                         alt="copy icon" />
-                                                    <span>Delete contact</span>
                                                 </button>
-                                            </li>
-                                        </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div
+                                        class="list_action_details_area d-flex align-items-center justify-content-end flex-wrap g-sm">
+                                        <button type="button" class="icon_btn"
+                                            wire:click.prevent='showDetails({{ $contact->id }})'
+                                            wire:loading.attr='disabled'>
+                                            {!! loadingStateWithoutText(
+                                                'showDetails(' . $contact->id . ')',
+                                                '<img src="' . asset('assets/app/icons/info-02.svg') . '" alt="message icon" />',
+                                            ) !!}
+                                        </button>
+                                        <button type="button" class="icon_btn"
+                                            wire:click.prevent='addNoteModal({{ $contact->id }})'
+                                            wire:loading.attr='disabled'>
+                                            {!! loadingStateWithoutText(
+                                                'addNoteModal(' . $contact->id . ')',
+                                                '<img src="' . asset('assets/app/icons/notebook.svg') . '" alt="note icon" />',
+                                            ) !!}
+                                        </button>
+                                        <button type="button" class="icon_btn"
+                                            wire:click.prevent='addFolderModal({{ $contact->id }})'
+                                            wire:loading.attr='disabled'>
+                                            {!! loadingStateWithoutText(
+                                                'addFolderModal(' . $contact->id . ')',
+                                                '<img src="' . asset('assets/app/icons/folder-add-02.svg') . '" alt="folder icon" />',
+                                            ) !!}
+                                        </button>
+                                        <div class="table_dropdown_area">
+                                            <div class="dropdown">
+                                                <button class="icon_btn" type="button" data-bs-toggle="dropdown"
+                                                    aria-expanded="false" wire:loading.attr='disabled'>
+
+                                                    <img src="{{ asset('assets/app/icons/dot-horizontal.svg') }}"
+                                                        alt="dot icon" />
+                                                </button>
+                                                <ul class="dropdown-menu">
+                                                    <li>
+                                                        <h5>Select</h5>
+                                                    </li>
+                                                    <li>
+                                                        <button type="button" class="dropdown-item"
+                                                            wire:click.prevent='editContact({{ $contact->id }})'>
+                                                            <img src="{{ asset('assets/app/icons/edit-04.svg') }}"
+                                                                alt="edit icon" />
+                                                            <span>Edit contact</span>
+                                                        </button>
+                                                    </li>
+                                                    <li>
+                                                        <button type="button"
+                                                            wire:click.prevent='deleteConfirmation({{ $contact->id }}, "contact")'
+                                                            class="dropdown-item">
+                                                            <img src="{{ asset('assets/app/icons/delete-03.svg') }}"
+                                                                alt="copy icon" />
+                                                            <span>Delete contact</span>
+                                                        </button>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                        </div>
-                        @endforeach
+                            @endforeach
                         @endif
                     </div>
                 </div>
@@ -411,7 +431,8 @@
                     <form wire:submit.prevent='addNewList' class="event_form_area">
                         <div class="modal-header">
                             <h1 class="modal-title fs-5" id="newListModal">Add new list</h1>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                aria-label="Close"></button>
                         </div>
                         <div class="modal-body">
                             <div class="input_row">
@@ -420,7 +441,7 @@
                                     class="input_field" />
 
                                 @error('list_name')
-                                <p class="text-danger" style="font-size: 12.5px;">{{ $message }}</p>
+                                    <p class="text-danger" style="font-size: 12.5px;">{{ $message }}</p>
                                 @enderror
                             </div>
                         </div>
@@ -445,7 +466,8 @@
                     <form wire:submit.prevent='updateList' class="event_form_area">
                         <div class="modal-header">
                             <h1 class="modal-title fs-5" id="newListModal">Edit list</h1>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                aria-label="Close"></button>
                         </div>
 
                         <div class="modal-body">
@@ -456,7 +478,7 @@
                                     class="input_field" />
 
                                 @error('list_name')
-                                <p class="text-danger" style="font-size: 12.5px;">{{ $message }}</p>
+                                    <p class="text-danger" style="font-size: 12.5px;">{{ $message }}</p>
                                 @enderror
                             </div>
                         </div>
@@ -482,12 +504,14 @@
                         <h1 class="modal-title fs-5" id="importFileModal">
                             Import Contact by File
                         </h1>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                            aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
 
                         <form action="" class="event_form_area">
-                            <label for="contactUploadImage" class="d-flex file_upload_area w-100" id="fileUploadLabel">
+                            <label for="contactUploadImage" class="d-flex file_upload_area w-100"
+                                id="fileUploadLabel">
                                 <div class="import_icon">
                                     <img src="{{ asset('assets/app/icons/import.svg') }}" alt="import icon" />
                                 </div>
@@ -501,7 +525,7 @@
 
                             <!-- Error Message -->
                             @error('file')
-                            <p class="text-danger" style="font-size: 12.5px;">{{ $message }}</p>
+                                <p class="text-danger" style="font-size: 12.5px;">{{ $message }}</p>
                             @enderror
 
                             <div wire:loading wire:target='file' wire:key='file' style="font-size: 15px;">
@@ -509,24 +533,25 @@
                             </div>
 
                             @if ($file)
-                            <div class="uploading_status_area mb-5">
-                                <button type="button" class="close_btn" wire:click.prevent='resetUpload'>
-                                    <img src="{{ asset('assets/app/icons/delete-01.svg') }}" alt="delete icon" />
-                                </button>
-                                <div class="file_name_grid">
-                                    <img src="{{ asset('assets/app/icons/bi_filetype-csv.svg') }}" alt="csv" />
-                                    <div>
-                                        <h4>{{ $file->getClientOriginalName() }}</h4>
-                                        <div class="complete_status">
-                                            <div class="circle">
-                                                <img src="{{ asset('assets/app/icons/tick-circle.svg') }}"
-                                                    alt="track icon" />
+                                <div class="uploading_status_area mb-5">
+                                    <button type="button" class="close_btn" wire:click.prevent='resetUpload'>
+                                        <img src="{{ asset('assets/app/icons/delete-01.svg') }}" alt="delete icon" />
+                                    </button>
+                                    <div class="file_name_grid">
+                                        <img src="{{ asset('assets/app/icons/bi_filetype-csv.svg') }}"
+                                            alt="csv" />
+                                        <div>
+                                            <h4>{{ $file->getClientOriginalName() }}</h4>
+                                            <div class="complete_status">
+                                                <div class="circle">
+                                                    <img src="{{ asset('assets/app/icons/tick-circle.svg') }}"
+                                                        alt="track icon" />
+                                                </div>
+                                                <h5>Completed</h5>
                                             </div>
-                                            <h5>Completed</h5>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
                             @endif
 
                             <div class="two_grid mt-3">
@@ -536,9 +561,9 @@
                                     <select name="lang" class="form-control" wire:model.blur='first_name_column'>
                                         <option value="">Select Column</option>
                                         @foreach ($columns as $key => $column)
-                                        <option value="{{ $column }}" {{ $key==0 ? 'selected' : '' }}>
-                                            {{ $column }}
-                                        </option>
+                                            <option value="{{ $column }}" {{ $key == 0 ? 'selected' : '' }}>
+                                                {{ $column }}
+                                            </option>
                                         @endforeach
                                     </select>
                                     <img src="{{ asset('assets/app/icons/arrow-down.svg') }}" alt="down arrow"
@@ -550,9 +575,9 @@
                                     <select name="lang" class="form-control" wire:model.blur='last_name_column'>
                                         <option value="">Select Column</option>
                                         @foreach ($columns as $key => $column)
-                                        <option value="{{ $column }}" {{ $key==1 ? 'selected' : '' }}>
-                                            {{ $column }}
-                                        </option>
+                                            <option value="{{ $column }}" {{ $key == 1 ? 'selected' : '' }}>
+                                                {{ $column }}
+                                            </option>
                                         @endforeach
                                     </select>
                                     <img src="{{ asset('assets/app/icons/arrow-down.svg') }}" alt="down arrow"
@@ -563,12 +588,13 @@
                                 <div class="input_row searchable_select">
                                     <label for="">Email Address Column
                                     </label>
-                                    <select name="lang" class="form-control" wire:model.blur='email_address_column'>
+                                    <select name="lang" class="form-control"
+                                        wire:model.blur='email_address_column'>
                                         <option value="">Select Column</option>
                                         @foreach ($columns as $key => $column)
-                                        <option value="{{ $column }}" {{ $key==2 ? 'selected' : '' }}>
-                                            {{ $column }}
-                                        </option>
+                                            <option value="{{ $column }}" {{ $key == 2 ? 'selected' : '' }}>
+                                                {{ $column }}
+                                            </option>
                                         @endforeach
                                     </select>
                                     <img src="{{ asset('assets/app/icons/arrow-down.svg') }}" alt="down arrow"
@@ -580,9 +606,9 @@
                                     <select name="lang" class="form-control" wire:model.blur='company_column'>
                                         <option value="">Select Column</option>
                                         @foreach ($columns as $key => $column)
-                                        <option value="{{ $column }}" {{ $key==3 ? 'selected' : '' }}>
-                                            {{ $column }}
-                                        </option>
+                                            <option value="{{ $column }}" {{ $key == 3 ? 'selected' : '' }}>
+                                                {{ $column }}
+                                            </option>
                                         @endforeach
                                     </select>
                                     <img src="{{ asset('assets/app/icons/arrow-down.svg') }}" alt="down arrow"
@@ -595,8 +621,8 @@
                                 <select name="lang" class="form-control" wire:model.blur='phone_number_column'>
                                     <option value="">Select Column</option>
                                     @foreach ($columns as $key => $column)
-                                    <option value="{{ $column }}" {{ $key==4 ? 'selected' : '' }}>
-                                        {{ $column }}</option>
+                                        <option value="{{ $column }}" {{ $key == 4 ? 'selected' : '' }}>
+                                            {{ $column }}</option>
                                     @endforeach
                                 </select>
                                 <img src="{{ asset('assets/app/icons/arrow-down.svg') }}" alt="down arrow"
@@ -607,12 +633,13 @@
                                 <div class="input_row searchable_select col-md-4">
                                     <label for="">Additional Data 1 Column
                                     </label>
-                                    <select name="lang" class="form-control" wire:model.blur='additional_1_column'>
+                                    <select name="lang" class="form-control"
+                                        wire:model.blur='additional_1_column'>
                                         <option value="">Select Column</option>
                                         @foreach ($columns as $key => $column)
-                                        <option value="{{ $column }}" {{ $key==5 ? 'selected' : '' }}>
-                                            {{ $column }}
-                                        </option>
+                                            <option value="{{ $column }}" {{ $key == 5 ? 'selected' : '' }}>
+                                                {{ $column }}
+                                            </option>
                                         @endforeach
                                     </select>
                                     <img src="{{ asset('assets/app/icons/arrow-down.svg') }}" alt="down arrow"
@@ -621,12 +648,13 @@
                                 <div class="input_row searchable_select col-md-4">
                                     <label for="">Additional Data 2 Column
                                     </label>
-                                    <select name="lang" class="form-control" wire:model.blur='additional_2_column'>
+                                    <select name="lang" class="form-control"
+                                        wire:model.blur='additional_2_column'>
                                         <option value="">Select Column</option>
                                         @foreach ($columns as $key => $column)
-                                        <option value="{{ $column }}" {{ $key==6 ? 'selected' : '' }}>
-                                            {{ $column }}
-                                        </option>
+                                            <option value="{{ $column }}" {{ $key == 6 ? 'selected' : '' }}>
+                                                {{ $column }}
+                                            </option>
                                         @endforeach
                                     </select>
                                     <img src="{{ asset('assets/app/icons/arrow-down.svg') }}" alt="down arrow"
@@ -635,12 +663,13 @@
                                 <div class="input_row searchable_select col-md-4">
                                     <label for="">Additional Data 3 Column
                                     </label>
-                                    <select name="lang" class="form-control" wire:model.blur='additional_3_column'>
+                                    <select name="lang" class="form-control"
+                                        wire:model.blur='additional_3_column'>
                                         <option value="">Select Column</option>
                                         @foreach ($columns as $key => $column)
-                                        <option value="{{ $column }}" {{ $key==7 ? 'selected' : '' }}>
-                                            {{ $column }}
-                                        </option>
+                                            <option value="{{ $column }}" {{ $key == 7 ? 'selected' : '' }}>
+                                                {{ $column }}
+                                            </option>
                                         @endforeach
                                     </select>
                                     <img src="{{ asset('assets/app/icons/arrow-down.svg') }}" alt="down arrow"
@@ -653,7 +682,7 @@
                                 <select name="lang" class="form-control js-searchBox-file-select">
                                     <option value="">Select</option>
                                     @foreach ($allLists as $lItem)
-                                    <option value="{{ $lItem->id }}">{{ $lItem->name }}</option>
+                                        <option value="{{ $lItem->id }}">{{ $lItem->name }}</option>
                                     @endforeach
                                 </select>
                                 <img src="{{ asset('assets/app/icons/arrow-down.svg') }}" alt="down arrow"
@@ -679,28 +708,31 @@
             <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
                 <div class="modal-content">
                     <div class="modal-body">
-                        <form wire:submit.prevent='import' >
+                        <form wire:submit.prevent='import'>
                             <div class="content_area text-center">
                                 <h5 class="mb-3">Confirm Opt-In Consent</h5>
 
                                 <div class="text-start">
                                     <p class="text-muted mb-3">
-                                        Please confirm that all the contacts you are importing have agreed to receive SMS messages
-                                        from you. Ensuring your recipients have opted in helps maintain compliance and ensures a
+                                        Please confirm that all the contacts you are importing have agreed to receive
+                                        SMS messages
+                                        from you. Ensuring your recipients have opted in helps maintain compliance and
+                                        ensures a
                                         positive experience for everyone.
-                                        By checking this box, you confirm that all imported contacts have provided their consent to
+                                        By checking this box, you confirm that all imported contacts have provided their
+                                        consent to
                                         receive messages.
                                     </p>
                                 </div>
 
-                                <input type="checkbox" id="confirm_chk" required> <label for="confirm_chk"> I confirm that all contacts have opted in.</label>
+                                <input type="checkbox" id="confirm_chk" required> <label for="confirm_chk"> I confirm
+                                    that all contacts have opted in.</label>
                                 <div class="text-center mt-4">
                                     <button type="button" class="delete_cancel_btn" id="deleteModalCloseBtn"
                                         data-bs-dismiss="modal">
                                         Cancel
                                     </button>
-                                    <button type="submit" wire:loading.attr='disabled'
-                                        class="delete_yes_btn">
+                                    <button type="submit" wire:loading.attr='disabled' class="delete_yes_btn">
                                         {!! loadingStateWithText('import', 'Import Data') !!}
                                     </button>
                                 </div>
@@ -718,7 +750,8 @@
                 <div class="modal-content">
                     <div class="modal-header">
                         <h1 class="modal-title fs-5" id="newContactModal">Add Contact</h1>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                            aria-label="Close"></button>
                     </div>
                     <form wire:submit.prevent='addNewContact' class="event_form_area">
                         <div class="modal-body">
@@ -728,7 +761,7 @@
                                     <input type="text" placeholder="Type First name" wire:model.blur='first_name'
                                         class="input_field" />
                                     @error('first_name')
-                                    <p class="text-danger" style="font-size: 12.5px;">{{ $message }}</p>
+                                        <p class="text-danger" style="font-size: 12.5px;">{{ $message }}</p>
                                     @enderror
                                 </div>
                                 <div class="input_row">
@@ -736,7 +769,7 @@
                                     <input type="text" placeholder="Type Last name" wire:model.blur='last_name'
                                         class="input_field" />
                                     @error('last_name')
-                                    <p class="text-danger" style="font-size: 12.5px;">{{ $message }}</p>
+                                        <p class="text-danger" style="font-size: 12.5px;">{{ $message }}</p>
                                     @enderror
                                 </div>
                             </div>
@@ -748,7 +781,7 @@
                                         wire:model.blur='mobile_number' placeholder="xxxxxxxxxx" maxlength="10" />
                                 </div>
                                 @error('mobile_number')
-                                <p class="text-danger" style="font-size: 12.5px;">{{ $message }}</p>
+                                    <p class="text-danger" style="font-size: 12.5px;">{{ $message }}</p>
                                 @enderror
                             </div>
                             <div class="two_grid">
@@ -757,15 +790,15 @@
                                     <input type="email" placeholder="Type email" wire:model.blur='email'
                                         class="input_field" />
                                     @error('email')
-                                    <p class="text-danger" style="font-size: 12.5px;">{{ $message }}</p>
+                                        <p class="text-danger" style="font-size: 12.5px;">{{ $message }}</p>
                                     @enderror
                                 </div>
                                 <div class="input_row">
                                     <label for="">Company *</label>
-                                    <input type="text" placeholder="Type Company Name" wire:model.blur='company_name'
-                                        class="input_field" />
+                                    <input type="text" placeholder="Type Company Name"
+                                        wire:model.blur='company_name' class="input_field" />
                                     @error('company_name')
-                                    <p class="text-danger" style="font-size: 12.5px;">{{ $message }}</p>
+                                        <p class="text-danger" style="font-size: 12.5px;">{{ $message }}</p>
                                     @enderror
                                 </div>
                             </div>
@@ -793,7 +826,8 @@
                         <h1 class="modal-title fs-5" id="editContactModal">
                             Edit contact
                         </h1>
-                        <button type="button" class="btn-close" wire:click.prevent='resetEditModal' data-bs-dismiss="modal" aria-label="Close"></button>
+                        <button type="button" class="btn-close" wire:click.prevent='resetEditModal'
+                            data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <form wire:submit.prevent='updateContact' class="event_form_area">
                         <div class="modal-body">
@@ -803,7 +837,7 @@
                                     <input type="text" placeholder="Type First name" wire:model.blur='first_name'
                                         class="input_field" />
                                     @error('first_name')
-                                    <p class="text-danger" style="font-size: 12.5px;">{{ $message }}</p>
+                                        <p class="text-danger" style="font-size: 12.5px;">{{ $message }}</p>
                                     @enderror
                                 </div>
                                 <div class="input_row">
@@ -811,7 +845,7 @@
                                     <input type="text" placeholder="Type Last name" wire:model.blur='last_name'
                                         class="input_field" />
                                     @error('last_name')
-                                    <p class="text-danger" style="font-size: 12.5px;">{{ $message }}</p>
+                                        <p class="text-danger" style="font-size: 12.5px;">{{ $message }}</p>
                                     @enderror
                                 </div>
                             </div>
@@ -823,7 +857,7 @@
                                         wire:model.blur='mobile_number' placeholder="xxxxxxxxxx" maxlength="10" />
                                 </div>
                                 @error('mobile_number')
-                                <p class="text-danger" style="font-size: 12.5px;">{{ $message }}</p>
+                                    <p class="text-danger" style="font-size: 12.5px;">{{ $message }}</p>
                                 @enderror
                             </div>
                             <div class="two_grid">
@@ -832,21 +866,22 @@
                                     <input type="email" placeholder="Type email" wire:model.blur='email'
                                         class="input_field" />
                                     @error('email')
-                                    <p class="text-danger" style="font-size: 12.5px;">{{ $message }}</p>
+                                        <p class="text-danger" style="font-size: 12.5px;">{{ $message }}</p>
                                     @enderror
                                 </div>
                                 <div class="input_row">
                                     <label for="">Company *</label>
-                                    <input type="text" placeholder="Type Company Name" wire:model.blur='company_name'
-                                        class="input_field" />
+                                    <input type="text" placeholder="Type Company Name"
+                                        wire:model.blur='company_name' class="input_field" />
                                     @error('company_name')
-                                    <p class="text-danger" style="font-size: 12.5px;">{{ $message }}</p>
+                                        <p class="text-danger" style="font-size: 12.5px;">{{ $message }}</p>
                                     @enderror
                                 </div>
                             </div>
                         </div>
                         <div class="modal-footer event_modal_footer">
-                            <button type="button" class="cancel_btn" wire:click.prevent='resetEditModal' data-bs-dismiss="modal">
+                            <button type="button" class="cancel_btn" wire:click.prevent='resetEditModal'
+                                data-bs-dismiss="modal">
                                 Cancel
                             </button>
                             <button type="submit" class="create_event_btn">
@@ -865,115 +900,119 @@
                 <div class="modal-content">
                     <div class="modal-header">
                         <h1 class="modal-title fs-5" id="detailsUserModal">Details</h1>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                            aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
                         @if ($numberDetails)
-                        <div class="user_details_modal_area">
-                            <div class="user_info_area">
-                                <div class="user_top_img chat-avatar">
-                                    {{ Str::limit($numberDetails->first_name, 1, '') }}{{ Str::limit($numberDetails->last_name, 1,
-                                    '') }}
-                                </div>
-                                <div>
-                                    <h4>{{ $numberDetails->first_name ? $numberDetails->first_name : '---' }}
-                                        {{ $numberDetails->last_name ? $numberDetails->last_name : '' }}</h4>
-                                    <div class="d-flex align-items-center flex-wrap gap-1">
+                            <div class="user_details_modal_area">
+                                <div class="user_info_area">
+                                    <div class="user_top_img chat-avatar">
+                                        {{ Str::limit($numberDetails->first_name, 1, '') }}{{ Str::limit($numberDetails->last_name, 1, '') }}
+                                    </div>
+                                    <div>
+                                        <h4>{{ $numberDetails->first_name ? $numberDetails->first_name : '---' }}
+                                            {{ $numberDetails->last_name ? $numberDetails->last_name : '' }}</h4>
+                                        <div class="d-flex align-items-center flex-wrap gap-1">
 
-                                        <h5 id="contact_number_details_{{ $numberDetails->id }}">
-                                            {{ $numberDetails->number ? $numberDetails->number : '---' }}</h5>
-                                        <button type="button" class="copy_icon"
-                                            onclick="copyToClipboardDetails({{ $numberDetails->id }})">
-                                            <img src="{{ asset('assets/app/icons/copy-01.svg') }}" alt="copy icon" />
-                                        </button>
+                                            <h5 id="contact_number_details_{{ $numberDetails->id }}">
+                                                {{ $numberDetails->number ? $numberDetails->number : '---' }}</h5>
+                                            <button type="button" class="copy_icon"
+                                                onclick="copyToClipboardDetails({{ $numberDetails->id }})">
+                                                <img src="{{ asset('assets/app/icons/copy-01.svg') }}"
+                                                    alt="copy icon" />
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="user_info_contact_area">
+                                    <div class="user_info_grid">
+                                        <div class="icon">
+                                            <img src="{{ asset('assets/app/icons/user.svg') }}" alt="user icon" />
+                                        </div>
+                                        <div>
+                                            <h4>Name</h4>
+                                            <h5>{{ $numberDetails->first_name ? $numberDetails->first_name : '---' }}
+                                                {{ $numberDetails->last_name ? $numberDetails->last_name : '' }}</h5>
+                                        </div>
+                                    </div>
+                                    <div class="user_info_grid">
+                                        <div class="icon">
+                                            <img src="{{ asset('assets/app/icons/building-03.svg') }}"
+                                                alt="building icon" />
+                                        </div>
+                                        <div>
+                                            <h4>Company</h4>
+                                            <h5>{{ $numberDetails->company ? $numberDetails->company : '---' }}</h5>
+                                        </div>
+                                    </div>
+                                    <div class="user_info_grid">
+                                        <div class="icon">
+                                            <img src="{{ asset('assets/app/icons/contact.svg') }}"
+                                                alt="building icon" />
+                                        </div>
+                                        <div>
+                                            <h4>Contact list</h4>
+                                            <h5>{{ $numberDetails->list_id && isset(getListByID($numberDetails->list_id)->name)
+                                                ? getListByID($numberDetails->list_id)->name
+                                                : '---' }}
+                                            </h5>
+                                        </div>
+                                    </div>
+                                    <div class="user_info_grid">
+                                        <div class="icon">
+                                            <img src="{{ asset('assets/app/icons/call.svg') }}"
+                                                alt="building icon" />
+                                        </div>
+                                        <div>
+                                            <h4>Phone:</h4>
+                                            <h5>{{ $numberDetails->number ? $numberDetails->number : '---' }}</h5>
+                                        </div>
+                                    </div>
+                                    <div class="user_info_grid">
+                                        <div class="icon">
+                                            <img src="{{ asset('assets/app/icons/email.svg') }}" alt="email icon" />
+                                        </div>
+                                        <div>
+                                            <h4>Email:</h4>
+                                            <h5 class="word-break-all">
+                                                {{ $numberDetails->email ? $numberDetails->email : '---' }}</h5>
+                                        </div>
+                                    </div>
+                                    <div class="user_info_grid">
+                                        <div class="icon">
+                                            <img src="{{ asset('assets/app/icons/location.svg') }}"
+                                                alt="building icon" />
+                                        </div>
+                                        <div>
+                                            <h4>Country</h4>
+                                            <h5>USA</h5>
+                                        </div>
+                                    </div>
+                                    <div class="user_info_grid">
+                                        <div class="icon">
+                                            <img src="{{ asset('assets/app/icons/note-02.svg') }}"
+                                                alt="note icon" />
+                                        </div>
+                                        <div>
+                                            <h4>Notes</h4>
+                                            @if ($numberDetails->notes)
+                                                @foreach ($numberDetails->notes as $note)
+                                                    <p>{{ $note->note }}</p> <br>
+                                                @endforeach
+                                            @else
+                                                <p>---</p>
+                                            @endif
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                            <div class="user_info_contact_area">
-                                <div class="user_info_grid">
-                                    <div class="icon">
-                                        <img src="{{ asset('assets/app/icons/user.svg') }}" alt="user icon" />
-                                    </div>
-                                    <div>
-                                        <h4>Name</h4>
-                                        <h5>{{ $numberDetails->first_name ? $numberDetails->first_name : '---' }}
-                                            {{ $numberDetails->last_name ? $numberDetails->last_name : '' }}</h5>
-                                    </div>
-                                </div>
-                                <div class="user_info_grid">
-                                    <div class="icon">
-                                        <img src="{{ asset('assets/app/icons/building-03.svg') }}"
-                                            alt="building icon" />
-                                    </div>
-                                    <div>
-                                        <h4>Company</h4>
-                                        <h5>{{ $numberDetails->company ? $numberDetails->company : '---' }}</h5>
-                                    </div>
-                                </div>
-                                <div class="user_info_grid">
-                                    <div class="icon">
-                                        <img src="{{ asset('assets/app/icons/contact.svg') }}" alt="building icon" />
-                                    </div>
-                                    <div>
-                                        <h4>Contact list</h4>
-                                        <h5>{{ $numberDetails->list_id &&
-                                            isset(getListByID($numberDetails->list_id)->name)
-                                            ? getListByID($numberDetails->list_id)->name
-                                            : '---' }}
-                                        </h5>
-                                    </div>
-                                </div>
-                                <div class="user_info_grid">
-                                    <div class="icon">
-                                        <img src="{{ asset('assets/app/icons/call.svg') }}" alt="building icon" />
-                                    </div>
-                                    <div>
-                                        <h4>Phone:</h4>
-                                        <h5>{{ $numberDetails->number ? $numberDetails->number : '---' }}</h5>
-                                    </div>
-                                </div>
-                                <div class="user_info_grid">
-                                    <div class="icon">
-                                        <img src="{{ asset('assets/app/icons/email.svg') }}" alt="email icon" />
-                                    </div>
-                                    <div>
-                                        <h4>Email:</h4>
-                                        <h5 class="word-break-all">
-                                            {{ $numberDetails->email ? $numberDetails->email : '---' }}</h5>
-                                    </div>
-                                </div>
-                                <div class="user_info_grid">
-                                    <div class="icon">
-                                        <img src="{{ asset('assets/app/icons/location.svg') }}" alt="building icon" />
-                                    </div>
-                                    <div>
-                                        <h4>Country</h4>
-                                        <h5>USA</h5>
-                                    </div>
-                                </div>
-                                <div class="user_info_grid">
-                                    <div class="icon">
-                                        <img src="{{ asset('assets/app/icons/note-02.svg') }}" alt="note icon" />
-                                    </div>
-                                    <div>
-                                        <h4>Notes</h4>
-                                        @if ($numberDetails->notes)
-                                        @foreach ($numberDetails->notes as $note)
-                                        <p>{{ $note->note }}</p> <br>
-                                        @endforeach
-                                        @else
-                                        <p>---</p>
-                                        @endif
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
                         @else
-                        <div class="row mt-5 mb-5">
-                            <div class="col-md-12 text-center">
-                                <small class="text-muted">No data found!</small>
+                            <div class="row mt-5 mb-5">
+                                <div class="col-md-12 text-center">
+                                    <small class="text-muted">No data found!</small>
+                                </div>
                             </div>
-                        </div>
                         @endif
                     </div>
                 </div>
@@ -987,7 +1026,8 @@
                 <div class="modal-content">
                     <div class="modal-header">
                         <h1 class="modal-title fs-5" id="newContactModal">Add notes</h1>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                            aria-label="Close"></button>
                     </div>
                     <form wire:submit.prevent='addNote' class="event_form_area">
                         <div class="modal-body">
@@ -1000,13 +1040,14 @@
                                                 alt="at sign" />
                                         </button>
                                         <button type="button" class="note_btn">
-                                            <img src="{{ asset('assets/app/icons/link-black.svg') }}" alt="link" />
+                                            <img src="{{ asset('assets/app/icons/link-black.svg') }}"
+                                                alt="link" />
                                         </button>
                                     </div>
-                                    <textarea name="" rows="10" id="noteWriteArea" wire:model.blur='note'
-                                        class="input_field" placeholder="Write a note..."></textarea>
+                                    <textarea name="" rows="10" id="noteWriteArea" wire:model.blur='note' class="input_field"
+                                        placeholder="Write a note..."></textarea>
                                     @error('note')
-                                    <p class="text-danger" style="font-size: 12.5px;">{{ $message }}</p>
+                                        <p class="text-danger" style="font-size: 12.5px;">{{ $message }}</p>
                                     @enderror
                                 </div>
                             </div>
@@ -1026,20 +1067,22 @@
 
         <!-- Folder Modal  -->
         <div wire:ignore.self class="modal fade common_modal folder_modal" id="folderToggleModal" aria-hidden="true"
-            aria-labelledby="folderToggleModalLabel" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false">
+            aria-labelledby="folderToggleModalLabel" tabindex="-1" data-bs-backdrop="static"
+            data-bs-keyboard="false">
             <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
                 <div class="modal-content">
                     <div class="modal-header">
                         <h1 class="modal-title fs-5" id="folderToggleModalLabel">
                             Add to folder
                         </h1>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                            aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
                         <div class="folder_area">
                             <form onsubmit="event.preventDefault()" class="search_input_form">
-                                <input type="search" placeholder="Search folder" wire:model.live='folder_search_term'
-                                    class="input_field" />
+                                <input type="search" placeholder="Search folder"
+                                    wire:model.live='folder_search_term' class="input_field" />
                                 <button type="submit" class="search_icon">
                                     <img src="{{ asset('assets/app/icons/search-gray.svg') }}" alt="search icon" />
                                 </button>
@@ -1047,34 +1090,37 @@
                             <h4>Select folder</h4>
                             <div class="folder_list_area">
                                 @if ($folders->count() > 0)
-                                @foreach ($folders as $folder)
-                                <div class="folder_list_item">
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="radio" wire:model.live='folder_id'
-                                            value="{{ $folder->id }}" name="folderRadioInput" id="folderRadio{{ $folder->id }}" />
-                                        <label class="form-check-label" for="folderRadio{{ $folder->id }}">
-                                            {{ $folder->name }}
-                                        </label>
-                                    </div>
-                                    <div class="d-flex align-items-center justify-content-end flex-wrap gap-1">
-                                        <button type="button" class="edit_folder_btn"
-                                            wire:click.prevent='editFolder({{ $folder->id }})'>
-                                            <img src="{{ asset('assets/app/icons/edit-03.svg') }}" alt="edit icon" />
-                                        </button>
-                                        <button type="button"
-                                            wire:click.prevent='deleteConfirmation({{ $folder->id }}, "folder")'
-                                            class="edit_folder_btn">
-                                            <img src="{{ asset('assets/app/icons/delete-03.svg') }}"
-                                                alt="delete icon" />
-                                        </button>
-                                    </div>
-                                </div>
-                                @endforeach
+                                    @foreach ($folders as $folder)
+                                        <div class="folder_list_item">
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="radio"
+                                                    wire:model.live='folder_id' value="{{ $folder->id }}"
+                                                    name="folderRadioInput" id="folderRadio{{ $folder->id }}" />
+                                                <label class="form-check-label"
+                                                    for="folderRadio{{ $folder->id }}">
+                                                    {{ $folder->name }}
+                                                </label>
+                                            </div>
+                                            <div class="d-flex align-items-center justify-content-end flex-wrap gap-1">
+                                                <button type="button" class="edit_folder_btn"
+                                                    wire:click.prevent='editFolder({{ $folder->id }})'>
+                                                    <img src="{{ asset('assets/app/icons/edit-03.svg') }}"
+                                                        alt="edit icon" />
+                                                </button>
+                                                <button type="button"
+                                                    wire:click.prevent='deleteConfirmation({{ $folder->id }}, "folder")'
+                                                    class="edit_folder_btn">
+                                                    <img src="{{ asset('assets/app/icons/delete-03.svg') }}"
+                                                        alt="delete icon" />
+                                                </button>
+                                            </div>
+                                        </div>
+                                    @endforeach
                                 @else
                                 @endif
                             </div>
                             @error('folder_id')
-                            <p class="text-danger mt-3" style="font-size: 12.5px;">{{ $message }}</p>
+                                <p class="text-danger mt-3" style="font-size: 12.5px;">{{ $message }}</p>
                             @enderror
                         </div>
                         <button type="button" class="folder_create_btn" data-bs-target="#folderToggleModal2"
@@ -1090,10 +1136,8 @@
                         <button type="button" wire:click.prevent='addToFolder'
                             class="create_event_btn d-flex align-items-center justify-content-center flex-wrap gap-1">
                             {!! loadingStateWithoutText(
-                            'addToFolder',
-                            '<img src="' .
-                                    asset('assets/app/icons/save.svg') .
-                                    '" alt="save icon" class="save_icon" />',
+                                'addToFolder',
+                                '<img src="' . asset('assets/app/icons/save.svg') . '" alt="save icon" class="save_icon" />',
                             ) !!} Save
                         </button>
                     </div>
@@ -1103,14 +1147,16 @@
 
         <!-- Add Folder Modal  -->
         <div wire:ignore.self class="modal fade common_modal folder_modal" id="folderToggleModal2" aria-hidden="true"
-            aria-labelledby="folderToggleModalLabel2" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false">
+            aria-labelledby="folderToggleModalLabel2" tabindex="-1" data-bs-backdrop="static"
+            data-bs-keyboard="false">
             <div class="modal-dialog modal-dialog-centered">
                 <div class="modal-content">
                     <div class="modal-header">
                         <h1 class="modal-title fs-5" id="folderToggleModalLabel2">
                             Add to folder
                         </h1>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                            aria-label="Close"></button>
                     </div>
                     <form wire:submit.prevent='createFolder' class="folder_create_area">
                         <div class="modal-body">
@@ -1122,13 +1168,13 @@
                             <div class="input_row">
                                 <label for="">Folder Name</label>
                                 <div class="input_arae">
-                                    <input type="text" placeholder="Enter folder name" wire:model.blur='folder_name'
-                                        class="input_field" />
+                                    <input type="text" placeholder="Enter folder name"
+                                        wire:model.blur='folder_name' class="input_field" />
                                     <img src="{{ asset('assets/app/icons/folder-01.png') }}" alt="folder icon"
                                         class="folder_icon" />
                                 </div>
                                 @error('folder_name')
-                                <p class="text-danger" style="font-size: 12.5px;">{{ $message }}</p>
+                                    <p class="text-danger" style="font-size: 12.5px;">{{ $message }}</p>
                                 @enderror
                             </div>
                         </div>
@@ -1137,8 +1183,7 @@
                                 data-bs-toggle="modal">
                                 Cancel
                             </button>
-                            <button type="submit" class="create_event_btn">{!! loadingStateWithText('createFolder',
-                                'Save') !!}</button>
+                            <button type="submit" class="create_event_btn">{!! loadingStateWithText('createFolder', 'Save') !!}</button>
                         </div>
                     </form>
                 </div>
@@ -1147,14 +1192,16 @@
 
         <!-- Edit Folder Modal  -->
         <div wire:ignore.self class="modal fade common_modal folder_modal" id="folderToggleModal3" aria-hidden="true"
-            aria-labelledby="folderToggleModalLabel3" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false">
+            aria-labelledby="folderToggleModalLabel3" tabindex="-1" data-bs-backdrop="static"
+            data-bs-keyboard="false">
             <div class="modal-dialog modal-dialog-centered">
                 <div class="modal-content">
                     <div class="modal-header">
                         <h1 class="modal-title fs-5" id="folderToggleModalLabel3">
                             Edit folder
                         </h1>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                            aria-label="Close"></button>
                     </div>
                     <form wire:submit.prevent='updateFolder' class="folder_create_area">
                         <div class="modal-body">
@@ -1166,13 +1213,13 @@
                             <div class="input_row">
                                 <label for="">Folder Name</label>
                                 <div class="input_arae">
-                                    <input type="text" placeholder="Enter folder name" wire:model.blur='folder_name'
-                                        class="input_field" />
+                                    <input type="text" placeholder="Enter folder name"
+                                        wire:model.blur='folder_name' class="input_field" />
                                     <img src="{{ asset('assets/app/icons/folder-01.png') }}" alt="folder icon"
                                         class="folder_icon" />
                                 </div>
                                 @error('folder_name')
-                                <p class="text-danger" style="font-size: 12.5px;">{{ $message }}</p>
+                                    <p class="text-danger" style="font-size: 12.5px;">{{ $message }}</p>
                                 @enderror
                             </div>
                         </div>
@@ -1181,8 +1228,7 @@
                                 data-bs-toggle="modal">
                                 Cancel
                             </button>
-                            <button type="submit" class="create_event_btn">{!! loadingStateWithText('updateFolder',
-                                'Save') !!}</button>
+                            <button type="submit" class="create_event_btn">{!! loadingStateWithText('updateFolder', 'Save') !!}</button>
                         </div>
                     </form>
                 </div>
@@ -1216,7 +1262,32 @@
             </div>
         </div>
 
-        <!-- Blacklist data  Modal  -->
+        <!-- Add Blacklist data  Modal  -->
+        <div wire:ignore.self class="modal fade delete_modal" id="addBlacklistDataModal" tabindex="-1"
+            aria-labelledby="deleteModal" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+                <div class="modal-content">
+                    <div class="modal-body">
+                        <div class="content_area">
+                            <h2>Are you sure?</h2>
+                            <h4>Would you like add this contacts to blacklist?</h4>
+                            <div class="delete_action_area d-flex align-items-center flex-wrap">
+                                <button type="button" class="delete_cancel_btn" id="deleteModalCloseBtn"
+                                    data-bs-dismiss="modal">
+                                    Cancel
+                                </button>
+                                <button type="button" wire:click.prevent='addToBlacklist'
+                                    wire:loading.attr='disabled' class="delete_yes_btn">
+                                    {!! loadingStateWithText('addToBlacklist', 'Yes') !!}
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Remove Blacklist data  Modal  -->
         <div wire:ignore.self class="modal fade delete_modal" id="blacklistDataModal" tabindex="-1"
             aria-labelledby="deleteModal" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
@@ -1230,8 +1301,8 @@
                                     data-bs-dismiss="modal">
                                     Cancel
                                 </button>
-                                <button type="button" wire:click.prevent='removeBlacklist' wire:loading.attr='disabled'
-                                    class="delete_yes_btn">
+                                <button type="button" wire:click.prevent='removeBlacklist'
+                                    wire:loading.attr='disabled' class="delete_yes_btn">
                                     {!! loadingStateWithText('removeBlacklist', 'Yes') !!}
                                 </button>
                             </div>
@@ -1243,32 +1314,32 @@
     </main>
 </div>
 @push('scripts')
-<!-- Include Alpine.js for reactive progress bar handling -->
-<script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
-<script>
-    document.querySelectorAll('input[type="radio"]').forEach(radio => {
-        radio.addEventListener('mousedown', function(e) {
-            if (this.checked) {
-                this.wasChecked = true;
-            } else {
-                this.wasChecked = false;
-            }
-        });
+    <!-- Include Alpine.js for reactive progress bar handling -->
+    <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <script>
+        document.querySelectorAll('input[type="radio"]').forEach(radio => {
+            radio.addEventListener('mousedown', function(e) {
+                if (this.checked) {
+                    this.wasChecked = true;
+                } else {
+                    this.wasChecked = false;
+                }
+            });
 
-        radio.addEventListener('click', function(e) {
-            if (this.wasChecked) {
-                this.checked = false;
-                this.wasChecked = false;
+            radio.addEventListener('click', function(e) {
+                if (this.wasChecked) {
+                    this.checked = false;
+                    this.wasChecked = false;
 
-                @this.set('folder_id', null);
-            } else {
-                this.checked = true;
-            }
+                    @this.set('folder_id', null);
+                } else {
+                    this.checked = true;
+                }
+            });
         });
-    });
-</script>
-<script>
-    function copyToClipboard(contact_id) {
+    </script>
+    <script>
+        function copyToClipboard(contact_id) {
             const text = document.getElementById('contact_number_' + contact_id).innerText;
             navigator.clipboard.writeText(text).then(function() {
                 successMsg('Number copied successfully');
@@ -1285,9 +1356,9 @@
                 console.log(err);
             });
         }
-</script>
-<script>
-    // document.addEventListener("DOMContentLoaded", () => {
+    </script>
+    <script>
+        // document.addEventListener("DOMContentLoaded", () => {
         //     const input = document.querySelector("#tel-input");
         //     input.addEventListener('input', (e) => {
         //         if (e.target.value) {
@@ -1304,10 +1375,10 @@
         //         }
         //     });
         // });
-</script>
+    </script>
 
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
             const fileInput = document.getElementById('contactUploadImage');
             const label = document.getElementById('fileUploadLabel');
             const uploadText = document.getElementById('dropText');
@@ -1339,11 +1410,11 @@
                 }
             });
         });
-</script>
+    </script>
 
 
-<script>
-    $(document).ready(function() {
+    <script>
+        $(document).ready(function() {
             // document.getElementById('formCheckAll').addEventListener('click', function() {
             //     const isChecked = this.checked;
             //     const checkboxes = document.querySelectorAll('.contact-checkbox');
@@ -1432,6 +1503,19 @@
                 );
             });
 
+            window.addEventListener('showBlacklistAddConfirmation', event => {
+                $('#addBlacklistDataModal').modal('show');
+            });
+
+            window.addEventListener('added_to_blacklist', event => {
+                $('#addBlacklistDataModal').modal('hide');
+                Swal.fire(
+                    "Blacklisted!",
+                    "" + event.detail[0].message + "",
+                    "success"
+                );
+            });
+
             window.addEventListener('showBlacklistRemoveConfirmation', event => {
                 $('#blacklistDataModal').modal('show');
             });
@@ -1466,5 +1550,5 @@
                 buttonTitle: "",
             });
         });
-</script>
+    </script>
 @endpush

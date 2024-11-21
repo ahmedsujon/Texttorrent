@@ -1,4 +1,6 @@
-@section('page_title') TextTorrent | Dashboard @endsection
+@section('page_title')
+    TextTorrent | Dashboard
+@endsection
 <div>
     <style>
         .bonus-percentage-labels {
@@ -79,9 +81,12 @@
                 <div class="title_area d-flex align-items-center flex-wrap gap-3">
                     <h2>Analytics</h2>
                     <div class="month_area" id="monthFilterLists">
-                        <button type="button" class="active_month">12 months</button>
-                        <button type="button">30days</button>
-                        <button type="button">7days</button>
+                        <button type="button" wire:click="setDateFilter('12months')"
+                            class="{{ $dateFilter === '12months' ? 'active_month' : '' }}">12 months</button>
+                        <button type="button" wire:click="setDateFilter('30days')"
+                            class="{{ $dateFilter === '30days' ? 'active_month' : '' }}">30 days</button>
+                        <button type="button" wire:click="setDateFilter('7days')"
+                            class="{{ $dateFilter === '7days' ? 'active_month' : '' }}">7 days</button>
                     </div>
                 </div>
                 <div class="date_range_area d-flex align-items-center flex-wrap gap-2">
@@ -96,11 +101,11 @@
                     </div>
                     <div class="custom_switch_area">
                         <label class="switch">
-                            <input type="checkbox" checked />
+                            <input type="checkbox" id="customDateRange" wire:model.live='customDateRangeEnabled' />
                             <span class="slider round"></span>
                         </label>
                     </div>
-                    <h4>Date range</h4>
+                    <h4><label for="customDateRange">Date range</label></h4>
                 </div>
             </div>
             <div class="chart_area" id="analyticsChart"></div>
@@ -406,6 +411,63 @@
             options
         );
         chart.render();
+
+        window.addEventListener('updateChart', event => {
+            chart.updateSeries([{
+                    data: event.detail[0].delivered_messages
+                },
+                {
+                    data: event.detail[0].responded_messages
+                },
+                {
+                    data: event.detail[0].undelivered
+                },
+                {
+                    data: event.detail[0].stopped
+                },
+            ]);
+        });
+    </script>
+
+    <script>
+        if (typeof moment !== "undefined") {
+            var start = moment().subtract(29, "days");
+            var end = moment();
+
+            function cb(start, end) {
+                $("#reportrange span").html(
+                    start.format("DD MMM YYYY") + " - " + end.format("DD MMM YYYY")
+                );
+
+                // setTimeout(() => {
+                    @this.set('startDate', start.format("YYYY-MM-DD"));
+                    @this.set('endDate', end.format("YYYY-MM-DD"));
+                // }, 300);
+            }
+
+            $("#reportrange").daterangepicker({
+                    startDate: start,
+                    endDate: end,
+                    ranges: {
+                        Today: [moment(), moment()],
+                        Yesterday: [
+                            moment().subtract(1, "days"),
+                            moment().subtract(1, "days"),
+                        ],
+                        "Last 7 Days": [moment().subtract(6, "days"), moment()],
+                        "Last 30 Days": [moment().subtract(29, "days"), moment()],
+                        "This Month": [moment().startOf("month"), moment().endOf("month")],
+                        "Last Month": [
+                            moment().subtract(1, "month").startOf("month"),
+                            moment().subtract(1, "month").endOf("month"),
+                        ],
+                    },
+                },
+                cb
+            );
+
+            cb(start, end);
+        }
     </script>
 
     <script>
@@ -576,56 +638,4 @@
             });
         });
     </script>
-
-    {{-- <script>
-        document.addEventListener("DOMContentLoaded", () => {
-            const MAXIMUMVALUE = 4000;
-
-            //Format Label
-            function formatLabel(value) {
-                console.log("formatLabel - value:", value);
-                if (value >= 1000) {
-                    return value / 1000 + "k";
-                }
-                return value;
-            }
-
-            //Calculate Percentage Value
-            function formatPercentage(value) {
-                if (value !== 0) {
-                    return (value / MAXIMUMVALUE) * 100;
-                }
-                return 0;
-            }
-
-            const slider = document.getElementById("slider");
-            noUiSlider.create(slider, {
-                range: {
-                    min: 0,
-                    max: MAXIMUMVALUE,
-                },
-                start: [1000],
-                connect: "lower",
-                pips: {
-                    mode: "count",
-                    values: 5,
-                    format: {
-                        to: function(value) {
-                            return (
-                                formatLabel(value) +
-                                `<div class='percentage_icon'> <span>  ${formatPercentage(
-                  value
-                )} %</span>  <img src="{{ asset('assets/app/icons/bonus2.svg') }}" alt="bonus icon"> </div> `
-                            );
-                        },
-                        from: function(value) {
-                            return value.replace("k", "000").replace(" 🥇", "");
-                        },
-                    },
-                },
-            });
-            // Disable the slider
-            // slider.setAttribute("disabled", true);
-        });
-    </script> --}}
 @endpush
