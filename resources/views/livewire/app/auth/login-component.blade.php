@@ -86,7 +86,7 @@
     <script>
         window.addEventListener('login_success', event => {
             setTimeout(() => {
-                window.location.href = "{{ route('app.home') }}";
+                window.location.href = "{{ route('user.dashboard') }}";
             }, 500);
         });
     </script>
