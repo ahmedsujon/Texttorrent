@@ -343,6 +343,22 @@ function creditLogIncoming($user_id, $details, $credit_amount)
     $credit->save();
 }
 
+function processSpinText($text)
+{
+    // Regular expression to match all spin text patterns in the paragraph
+    $pattern = '/\[(.*?)\]/';
+
+    return preg_replace_callback($pattern, function ($matches) {
+        // Split options by the pipe (|) character
+        $options = explode('|', $matches[1]);
+
+        // Randomly select one option
+        return $options[array_rand($options)];
+    }, $text);
+}
+
+
+
 function loadingStateSm($key, $title)
 {
     $loadingSpinner = '

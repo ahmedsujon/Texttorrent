@@ -2,16 +2,18 @@
 
 namespace App\Jobs;
 
-use App\Models\BulkMessageItem;
 use Exception;
 use Twilio\Rest\Client;
+use App\Models\ChatMessage;
 use Illuminate\Bus\Queueable;
+use App\Models\BulkMessageItem;
+use App\Models\Chat;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
-use Illuminate\Support\Facades\Mail;
 
 class SendBulkSMS implements ShouldQueue
 {
@@ -24,11 +26,12 @@ class SendBulkSMS implements ShouldQueue
     protected $message;
     protected $file;
     protected $type;
+    protected $send_by;
 
     /**
      * Create a new job instance.
      */
-    public function __construct($user_id, $msg_id, $from, $to, $message, $file, $type)
+    public function __construct($user_id, $msg_id, $from, $to, $message, $file, $type, $send_by)
     {
         $this->user_id = $user_id;
         $this->msg_id = $msg_id;
@@ -37,6 +40,7 @@ class SendBulkSMS implements ShouldQueue
         $this->message = $message;
         $this->file = $file;
         $this->type = $type;
+        $this->send_by = $send_by;
     }
 
     /**
@@ -53,16 +57,33 @@ class SendBulkSMS implements ShouldQueue
             try {
                 $client = new Client($sid, $token);
                 if ($this->type == 'mms') {
-                    $client->messages->create($this->to, [
+                    $output = $client->messages->create($this->to, [
                         'from' => $this->from,
                         'body' => $this->message,
                         'mediaUrl' => [$this->file]
                     ]);
                 } else {
-                    $client->messages->create($this->to, [
+                    $output = $client->messages->create($this->to, [
                         'from' => $this->from,
                         'body' => $this->message
                     ]);
+                }
+
+                $contact = DB::table('contacts')->select('id')->where('number', $this->to)->first();
+                $getChat = DB::table('chats')->where('user_id', $this->send_by)->where('contact_id', $contact->id)->where('from_number', $this->from)->first();
+                if ($getChat) {
+                    $chat = Chat::find($getChat->id);
+                    $chat->last_message = $this->message;
+                    $chat->save();
+
+                    $msg1 = new ChatMessage();
+                    $msg1->chat_id = $chat->id;
+                    $msg1->api = 'Twilio';
+                    $msg1->api_send_response = $output;
+                    $msg1->msg_sid = $output->sid;
+                    $msg1->direction = 'outbound';
+                    $msg1->message = $this->message;
+                    $msg1->save();
                 }
 
             } catch (Exception $e) {

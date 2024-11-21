@@ -111,6 +111,9 @@
                                     </tr>
                                 @endforeach
                             @else
+                                <tr>
+                                    <td colspan="3" class="text-center mt-5 pt-5">No claims found!</td>
+                                </tr>
                             @endif
                         </tbody>
                     </table>

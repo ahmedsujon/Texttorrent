@@ -1275,15 +1275,16 @@
                 }
             });
 
-            // Form submission handler
-            chatForm.addEventListener("submit", (event) => {
-                event.preventDefault();
-                const message = messageArea.value.trim();
-                if (message) {
-                    console.log("Message sent:", message);
-                    messageArea.value = "";
-                }
-            });
+            if (chatForm) {
+                // Form submission handler
+                chatForm.addEventListener("submit", (event) => {
+                    event.preventDefault();
+                    const message = messageArea.value.trim();
+                    if (message) {
+                        messageArea.value = "";
+                    }
+                });
+            }
         });
     </script>
 
