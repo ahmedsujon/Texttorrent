@@ -102,8 +102,22 @@
                                             @include(
                                                 'livewire.admin.datatable.admin-datatable-th-sorting',
                                                 [
+                                                    'id' => 'credits',
+                                                    'thDisplayName' => 'Credits',
+                                                ]
+                                            )
+                                            @include(
+                                                'livewire.admin.datatable.admin-datatable-th-sorting',
+                                                [
                                                     'id' => 'amount',
                                                     'thDisplayName' => 'Amount',
+                                                ]
+                                            )
+                                            @include(
+                                                'livewire.admin.datatable.admin-datatable-th-sorting',
+                                                [
+                                                    'id' => 'created_at',
+                                                    'thDisplayName' => 'Purchase Date',
                                                 ]
                                             )
                                             @include(
@@ -129,7 +143,9 @@
                                                         {{ getUserByID($subscription->user_id)->first_name }} {{ getUserByID($subscription->user_id)->last_name }}
                                                     </td>
                                                     <td class="align-middle">{{ $subscription->package_name }}</td>
+                                                    <td class="align-middle">{{ $subscription->credits }}</td>
                                                     <td class="align-middle">{{ $subscription->amount }}</td>
+                                                    <td class="align-middle">{{ $subscription->created_at->format('F j, Y') }}</td>
                                                     <td class="align-middle text-center">{{ $subscription->payment_status }}</td>
                                                 </tr>
                                             @endforeach
