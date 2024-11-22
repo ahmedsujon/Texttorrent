@@ -232,7 +232,7 @@ class ClaimsComponent extends Component
 
     public function render()
     {
-        $claims = BulkMessageItem::where('status', 1)->where('received_message', '!=', NULL)->where(function ($q) {
+        $claims = BulkMessageItem::where('status', 1)->where(function ($q) {
             $q->where('received_message', 'like', '%' . $this->searchTerm . '%')
                 ->orWhere('send_to', 'like', '%' . $this->searchTerm . '%');
         })->paginate($this->sortingValue);
