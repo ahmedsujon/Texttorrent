@@ -23,7 +23,7 @@ class ClaimsExport implements FromCollection, WithHeadings
         $claims = BulkMessageItem::select('send_to', 'received_message')->whereIn('id', $this->bulk_ids['bulk_ids'])->get();
 
         foreach ($claims as $key => $claim) {
-            $claim->received_message = $claim->received_message ? $claim->received_message : 'No message received yet!';
+            $claim->received_message = $claim->received_message ? $claim->received_message : 'Waiting!';
         }
 
         return $claims;
