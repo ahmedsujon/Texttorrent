@@ -34,7 +34,9 @@ class CalendarComponent extends Component
         $event->subject = $this->subject;
         $event->date = $this->date;
         $event->time = $this->time;
+        $event->alert_at = Carbon::parse($this->time)->subMinutes($this->alert_before)->format('Y-m-d H:i');
         $event->sender_number = $this->sender_number;
+        $event->receiver_number = user()->phone;
         $event->alert_before = $this->alert_before;
         $event->participant_number = $this->participant_number;
         $event->participant_email = $this->participant_email;
@@ -91,7 +93,9 @@ class CalendarComponent extends Component
         $event->subject = $this->subject;
         $event->date = $this->date;
         $event->time = $this->time;
+        $event->alert_at = Carbon::parse($this->time)->subMinutes($this->alert_before)->format('Y-m-d H:i');
         $event->sender_number = $this->sender_number;
+        $event->receiver_number = user()->phone;
         $event->alert_before = $this->alert_before;
         $event->participant_number = $this->participant_number;
         $event->participant_email = $this->participant_email;

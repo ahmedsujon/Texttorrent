@@ -27,13 +27,13 @@ class InboxTemplateTableSeeder extends Seeder
                 'status' => 1,
             ],
             [
-                'user_id' => 6,
+                'user_id' => 2,
                 'template_name' => 'Default Template',
                 'preview_message' => 'Hi, {first_name} {last_name}, This is a default sms template for testing.',
                 'status' => 1,
             ],
             [
-                'user_id' => 6,
+                'user_id' => 2,
                 'template_name' => 'Starter Template',
                 'preview_message' => 'Hi, {first_name} {last_name}, I am from TextTorrent. Your number {phone_number} has been added to my contacts. Thanks.',
                 'status' => 1,

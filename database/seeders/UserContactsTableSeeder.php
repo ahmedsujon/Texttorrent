@@ -61,20 +61,20 @@ class UserContactsTableSeeder extends Seeder
 
         foreach ($lists2 as $key => $list2) {
             $contactList2 = new ContactList();
-            $contactList2->user_id = 6;
+            $contactList2->user_id = 2;
             $contactList2->name = $list2;
             $contactList2->bookmarked = $key <= 1 ? 1 : 0;
             $contactList2->save();
         }
         foreach ($folders2 as $key => $folder2) {
             $contactList2 = new ContactFolder();
-            $contactList2->user_id = 6;
+            $contactList2->user_id = 2;
             $contactList2->name = $folder2;
             $contactList2->save();
         }
 
         $contact2 = new Contact();
-        $contact2->user_id = 6;
+        $contact2->user_id = 2;
         $contact2->first_name = 'TextTorrent';
         $contact2->last_name = 'Owner';
         $contact2->number = '+13472102794';
@@ -87,7 +87,7 @@ class UserContactsTableSeeder extends Seeder
             $faker = Faker::create();
 
             $contact2 = new Contact();
-            $contact2->user_id = 6;
+            $contact2->user_id = 2;
             $contact2->first_name = $faker->firstName;
             $contact2->last_name = $faker->lastName;
             $contact2->number = '+1' . $faker->numerify('##########');
