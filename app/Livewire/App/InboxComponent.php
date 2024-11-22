@@ -160,7 +160,7 @@ class InboxComponent extends Component
     public function receiverSelect($number)
     {
         $this->receiver_number = str_replace('+1', '', $number);
-        $this->useTemplateNewChat();
+        // $this->selected_template_id_new_chat = '';
     }
 
     public function updatedReceiverNumber()
@@ -168,7 +168,7 @@ class InboxComponent extends Component
         $extContacts = DB::table('chats')->select('contact_id')->where('user_id', user()->id)->pluck('contact_id')->toArray();
         $this->receiver_numbers = DB::table('contacts')->where('number', 'like', '%' . $this->receiver_number . '%')->where('user_id', user()->id)->whereNotIn('id', $extContacts)->get();
 
-        $this->useTemplateNewChat();
+        // $this->selected_template_id_new_chat = '';
 
     }
 
@@ -214,9 +214,9 @@ class InboxComponent extends Component
 
     public function updatedReceiverId()
     {
-        if ($this->selected_template_id_new_chat) {
-            $this->useTemplateNewChat();
-        }
+        // if ($this->selected_template_id_new_chat) {
+            // $this->selected_template_id_new_chat = '';
+        // }
     }
 
     public function startNewChat()
