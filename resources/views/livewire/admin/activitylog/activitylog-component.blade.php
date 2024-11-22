@@ -71,7 +71,12 @@
                                             @foreach ($activities as $activity)
                                                 <tr>
                                                     <td class="align-middle">{{ $sl++ }}</td>
+                                                    @if ($activity->causer_id)
                                                     <td class="align-middle">{{ getAdminByID($activity->causer_id)->name }}</td>
+                                                    @else
+                                                    <td class="align-middle">null</td>
+
+                                                    @endif
                                                     <td class="align-middle">{{ $activity->event }}</td>
 
                                                     @php
