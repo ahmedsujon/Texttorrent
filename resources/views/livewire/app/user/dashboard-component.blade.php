@@ -181,92 +181,31 @@
                     @endif
                 @endif
                 <div class="activity_area">
-                    <h3 class="credit_title">Activity</h3>
+                    <h3 class="credit_title">Activities</h3>
                     <div class="activity_item_area">
-                        <div class="acitivity_item">
-                            <div class="icon">
-                                <img src="{{ asset('assets/app/icons/message-001.svg') }}" alt="message icon" />
+                        @if ($activities->count() > 0)
+                            @foreach ($activities as $activity)
+                                <div class="acitivity_item">
+                                    <div class="icon">
+                                        <img src="{{ asset('assets/app/icons/message-001.svg') }}" alt="message icon" />
+                                    </div>
+                                    <div>
+                                        <h4>
+                                            {{ \Carbon\Carbon::parse($activity->created_at)->isToday() ? 'Today, ' . \Carbon\Carbon::parse($activity->created_at)->format('g:i A') : \Carbon\Carbon::parse($activity->created_at)->format('F j, Y, g:i A') }}
+                                        </h4>
+                                        @if ($activity->direction == 'inbound')
+                                            <h5>Message received from <strong>{{ getContactNumberName($activity->contact_id)->first_name }} {{ getContactNumberName($activity->contact_id)->last_name }}</strong></h5>
+                                        @else
+                                            <h5>Message sent to <strong>{{ getContactNumberName($activity->contact_id)->first_name }} {{ getContactNumberName($activity->contact_id)->last_name }}</strong></h5>
+                                        @endif
+                                    </div>
+                                </div>
+                            @endforeach
+                        @else
+                            <div class="text-center pt-3">
+                                <small class="text-muted">No activity found!</small>
                             </div>
-                            <div>
-                                <h4>Today, 3:23 PM</h4>
-                                <h5>Messages accepted with attachments.</h5>
-                            </div>
-                        </div>
-                        <div class="acitivity_item">
-                            <div class="icon">
-                                <img src="{{ asset('assets/app/icons/message-001.svg') }}" alt="message icon" />
-                            </div>
-                            <div>
-                                <h4>Fri, 4:12 AM</h4>
-                                <h5>
-                                    Send email notifications of subscriptions and deletions to
-                                    list owner.
-                                </h5>
-                            </div>
-                        </div>
-                        <div class="acitivity_item">
-                            <div class="icon">
-                                <img src="{{ asset('assets/app/icons/message-001.svg') }}" alt="message icon" />
-                            </div>
-                            <div>
-                                <h4>1 week ago</h4>
-                                <h5>Messages accepted with attachments.</h5>
-                            </div>
-                        </div>
-                        <div class="acitivity_item">
-                            <div class="icon">
-                                <img src="{{ asset('assets/app/icons/message-001.svg') }}" alt="message icon" />
-                            </div>
-                            <div>
-                                <h4>1 week ago</h4>
-                                <h5>
-                                    Send email notifications of subscriptions and deletions to
-                                    list owner.
-                                </h5>
-                            </div>
-                        </div>
-                        <div class="acitivity_item">
-                            <div class="icon">
-                                <img src="{{ asset('assets/app/icons/message-001.svg') }}" alt="message icon" />
-                            </div>
-                            <div>
-                                <h4>2 month ago</h4>
-                                <h5>Messages accepted with attachments.</h5>
-                            </div>
-                        </div>
-                        <div class="acitivity_item">
-                            <div class="icon">
-                                <img src="{{ asset('assets/app/icons/message-001.svg') }}" alt="message icon" />
-                            </div>
-                            <div>
-                                <h4>2 month ago</h4>
-                                <h5>
-                                    Send email notifications of subscriptions and deletions to
-                                    list owner.
-                                </h5>
-                            </div>
-                        </div>
-                        <div class="acitivity_item">
-                            <div class="icon">
-                                <img src="{{ asset('assets/app/icons/message-001.svg') }}" alt="message icon" />
-                            </div>
-                            <div>
-                                <h4>2 month ago</h4>
-                                <h5>Messages accepted with attachments.</h5>
-                            </div>
-                        </div>
-                        <div class="acitivity_item">
-                            <div class="icon">
-                                <img src="{{ asset('assets/app/icons/message-001.svg') }}" alt="message icon" />
-                            </div>
-                            <div>
-                                <h4>2 month ago</h4>
-                                <h5>
-                                    Send email notifications of subscriptions and deletions to
-                                    list owner.
-                                </h5>
-                            </div>
-                        </div>
+                        @endif
                     </div>
                 </div>
             </div>

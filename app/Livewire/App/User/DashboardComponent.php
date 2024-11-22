@@ -216,7 +216,11 @@ class DashboardComponent extends Component
             $total_credits = user()->credits;
         }
 
+        $user_ids = [user()->id];
+        $sub_users = DB::table('users')->where('parent_id', user()->id)->pluck('id')->toArray();
+        $user_ids = array_merge($user_ids, $sub_users);
+        $activities = DB::table('chat_messages')->select('chat_messages.*', 'chats.from_number as from', 'chats.contact_id')->join('chats', 'chats.id', 'chat_messages.chat_id')->whereIn('chats.user_id', $user_ids)->orderBy('chat_messages.id', 'DESC')->take(10)->get();
 
-        return view('livewire.app.user.dashboard-component', ['credits_left' => $total_credits, 'events' => $formattedEvents])->layout('livewire.app.layouts.base');
+        return view('livewire.app.user.dashboard-component', ['credits_left' => $total_credits, 'activities'=>$activities, 'events' => $formattedEvents])->layout('livewire.app.layouts.base');
     }
 }
