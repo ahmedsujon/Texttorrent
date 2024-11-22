@@ -15,16 +15,30 @@ class ContactsImport implements ToModel, WithHeadingRow
         $this->columns = $columns;
     }
 
+    private function formatPhoneNumber($phone)
+    {
+        // Remove non-numeric characters
+        $cleanPhone = preg_replace('/\D/', '', $phone);
+
+        // Check if the number starts with '1', if not, add '+1'
+        if (substr($cleanPhone, 0, 1) !== '1') {
+            $cleanPhone = '1' . $cleanPhone;
+        }
+
+        // Prepend '+1'
+        return '+1' . ltrim($cleanPhone, '1');
+    }
+
     public function headingRow(): int
     {
         return 1; // This is to indicate that row 1 is the header
     }
 
     /**
-    * @param array $row
-    *
-    * @return \Illuminate\Database\Eloquent\Model|null
-    */
+     * @param array $row
+     *
+     * @return \Illuminate\Database\Eloquent\Model|null
+     */
     public function model(array $row)
     {
         // Replace underscores with spaces for keys if needed
@@ -46,16 +60,22 @@ class ContactsImport implements ToModel, WithHeadingRow
         $additional_3 = $this->columns['additional_3_column'] ? $this->columns['additional_3_column'] : 'Additional 3';
         $import_list_id = $this->columns['import_list_id'] ? $this->columns['import_list_id'] : '';
 
+        // Validate and format phone number
+        $number = $mappedRow[$phone_number] ?? NULL;
+        if ($number) {
+            $number = $this->formatPhoneNumber($number);
+        }
+
         $contact = new Contact();
         $contact->user_id = auth()->user()->id;
-        $contact->first_name = $mappedRow[$first_name] ?? NULL;
-        $contact->last_name = $mappedRow[$last_name] ?? NULL;
-        $contact->email = $mappedRow[$email_address] ?? NULL;
-        $contact->number = $mappedRow[$phone_number] ?? NULL;
-        $contact->company = $mappedRow[$company] ?? NULL;
-        $contact->additional_1 = $mappedRow[$additional_1] ?? NULL;
-        $contact->additional_2 = $mappedRow[$additional_2] ?? NULL;
-        $contact->additional_3 = $mappedRow[$additional_3] ?? NULL;
+        $contact->first_name = $mappedRow[$first_name] ?? null;
+        $contact->last_name = $mappedRow[$last_name] ?? null;
+        $contact->email = $mappedRow[$email_address] ?? null;
+        $contact->number = $number;
+        $contact->company = $mappedRow[$company] ?? null;
+        $contact->additional_1 = $mappedRow[$additional_1] ?? null;
+        $contact->additional_2 = $mappedRow[$additional_2] ?? null;
+        $contact->additional_3 = $mappedRow[$additional_3] ?? null;
         if ($import_list_id) {
             $contact->list_id = $import_list_id;
         }
