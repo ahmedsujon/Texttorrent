@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\LogoutController;
+use App\Livewire\Admin\Activitylog\ActivitylogComponent;
 use App\Livewire\Admin\Admin\AdminComponent;
 use App\Livewire\Admin\Admin\RoleManagementComponent;
 use App\Livewire\Admin\DashboardComponent;
@@ -48,6 +49,10 @@ Route::prefix('admin/')->name('admin.')->middleware('auth:admin')->group(functio
 
     // Subscription routes
     Route::get('subscriptions', SubscritionComponent::class)->name('subscriptions');
+
+    // Activity log routes
+    Route::get('log-activities', ActivitylogComponent::class)->name('logActivities');
+
 
     // Contact Message routes
     Route::get('contact-message', ContactMessageComponent::class)->name('contact-message');
