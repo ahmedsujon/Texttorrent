@@ -106,7 +106,7 @@ class TwilioMessageController extends Controller
                 // notifications
                 $activity = new Notification();
                 $activity->user_id = $claim->send_by;
-                $activity->claim = $claim->id;
+                $activity->claim_id = $claim->id;
                 $activity->content = 'New sms received from ' . $from;
                 $activity->save();
 
