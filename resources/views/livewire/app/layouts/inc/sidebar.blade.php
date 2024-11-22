@@ -27,10 +27,10 @@
                         </div>
                         <div class="label">Notifications</div>
                         <div class="number">
-                            <span>20</span>
+                            <span>{{ $unread_notification }}</span>
                         </div>
                     </button>
-                    <a href="/" class="menu_grid menu_badge_grid mobile_notificaton_btn">
+                    <a href="javascript:void(0)" class="menu_grid menu_badge_grid mobile_notificaton_btn">
                         <div class="icon">
                             <svg width="18" height="20" viewBox="0 0 18 20" fill="none"
                                 xmlns="http://www.w3.org/2000/svg" currentColor="#4E4E4E">
@@ -44,12 +44,20 @@
                         </div>
                         <div class="label">Notifications</div>
                         <div class="number">
-                            <span>20</span>
+                            <span>{{ $unread_notification }}</span>
                         </div>
                     </a>
                     <div class="notification_list_wrapper">
                         <div class="header d-flex-between">
-                            <h3>All notifications</h3>
+                            <h3>
+                                @if ($filter == 'all')
+                                    All notifications
+                                @elseif($filter == 'unread')
+                                    Unread notifications
+                                @else
+                                    Archived notifications
+                                @endif
+                            </h3>
                             <div class="table_dropdown_area single_menu">
                                 <div class="dropdown">
                                     <button class="notification_chat_btn" type="button" data-bs-toggle="dropdown"
@@ -62,17 +70,17 @@
                                             <h5>Filter</h5>
                                         </li>
                                         <li>
-                                            <button type="button" class="dropdown-item">
+                                            <button type="button" wire:click.prevent='filterNotification("all")' class="dropdown-item">
                                                 <span>All notifications</span>
                                             </button>
                                         </li>
                                         <li>
-                                            <button type="button" class="dropdown-item">
+                                            <button type="button" wire:click.prevent='filterNotification("unread")' class="dropdown-item">
                                                 <span>Unread</span>
                                             </button>
                                         </li>
                                         <li>
-                                            <button type="button" class="dropdown-item">
+                                            <button type="button" wire:click.prevent='filterNotification("archived")' class="dropdown-item">
                                                 <span>Archived</span>
                                             </button>
                                         </li>
@@ -80,212 +88,49 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="notification_btn_grid">
-                            <button type="button">Mark all as read</button>
-                            <button type="button">Archive all</button>
-                        </div>
-                        <ul class="notifciation_list">
-                            <li>
-                                <div class="icon">
-                                    <img src="{{ asset('assets/app/icons/notification-03.svg') }}" alt="notification" />
-                                </div>
-                                <div class="content">
-                                    <h3>
-                                        Email verification check has been completed for the
-                                        contact group: Default
-                                    </h3>
-                                    <h6>Thursday 4:20</h6>
-                                </div>
-                                <div class="action_area d-flex align-items-center justify-content-end flex-wrap">
-                                    <div class="action_btn_list">
-                                        <button type="button">
-                                            <img src="{{ asset('assets/app/icons/double-check.svg') }}"
-                                                alt="double check" />
-                                        </button>
-                                        <button type="button">
-                                            <img src="{{ asset('assets/app/icons/delivery-box-02.svg') }}"
-                                                alt="archive icon" />
-                                        </button>
-                                    </div>
-                                    <div class="dot"></div>
-                                </div>
-                            </li>
-                            <li>
-                                <div class="icon">
-                                    <img src="{{ asset('assets/app/icons/notification-03.svg') }}" alt="notification" />
-                                </div>
-                                <div class="content">
-                                    <h3>
-                                        Successfully removed (0) duplicated contacts from all
-                                        contact groups
-                                    </h3>
-                                    <h6>Thursday 4:20</h6>
-                                </div>
-                                <div class="action_area d-flex align-items-center justify-content-end flex-wrap">
-                                    <div class="action_btn_list">
-                                        <button type="button">
-                                            <img src="{{ asset('assets/app/icons/double-check.svg') }}"
-                                                alt="double check" />
-                                        </button>
-                                        <button type="button">
-                                            <img src="{{ asset('assets/app/icons/delivery-box-02.svg') }}"
-                                                alt="archive icon" />
-                                        </button>
-                                    </div>
-                                    <div class="dot"></div>
-                                </div>
-                            </li>
-                            <li>
-                                <div class="icon">
-                                    <img src="{{ asset('assets/app/icons/notification-03.svg') }}"
-                                        alt="notification" />
-                                </div>
-                                <div class="content">
-                                    <h3>
-                                        Successfully removed (0) duplicated contacts from all
-                                        contact groups
-                                    </h3>
-                                    <h6>Thursday 4:20</h6>
-                                </div>
-                                <div class="action_area d-flex align-items-center justify-content-end flex-wrap">
-                                    <div class="action_btn_list">
-                                        <button type="button">
-                                            <img src="{{ asset('assets/app/icons/double-check.svg') }}"
-                                                alt="double check" />
-                                        </button>
-                                        <button type="button">
-                                            <img src="{{ asset('assets/app/icons/delivery-box-02.svg') }}"
-                                                alt="archive icon" />
-                                        </button>
-                                    </div>
-                                    <div class="dot"></div>
-                                </div>
-                            </li>
-                            <li>
-                                <div class="icon">
-                                    <img src="{{ asset('assets/app/icons/notification-03.svg') }}"
-                                        alt="notification" />
-                                </div>
-                                <div class="content">
-                                    <h3>Contacts imported to Default</h3>
-                                    <h6>Thursday 4:20</h6>
-                                </div>
-                                <div class="action_area d-flex align-items-center justify-content-end flex-wrap">
-                                    <div class="action_btn_list">
-                                        <button type="button">
-                                            <img src="{{ asset('assets/app/icons/double-check.svg') }}"
-                                                alt="double check" />
-                                        </button>
-                                        <button type="button">
-                                            <img src="{{ asset('assets/app/icons/delivery-box-02.svg') }}"
-                                                alt="archive icon" />
-                                        </button>
-                                    </div>
-                                    <div class="dot"></div>
-                                </div>
-                            </li>
-                            <li>
-                                <div class="icon">
-                                    <img src="{{ asset('assets/app/icons/notification-03.svg') }}"
-                                        alt="notification" />
-                                </div>
-                                <div class="content">
-                                    <h3>
-                                        Email verification check has been completed for the
-                                        contact group: Default
-                                    </h3>
-                                    <h6>Thursday 4:20</h6>
-                                </div>
-                                <div class="action_area d-flex align-items-center justify-content-end flex-wrap">
-                                    <div class="action_btn_list">
-                                        <button type="button">
-                                            <img src="{{ asset('assets/app/icons/double-check.svg') }}"
-                                                alt="double check" />
-                                        </button>
-                                        <button type="button">
-                                            <img src="{{ asset('assets/app/icons/delivery-box-02.svg') }}"
-                                                alt="archive icon" />
-                                        </button>
-                                    </div>
-                                    <div class="dot"></div>
-                                </div>
-                            </li>
-                            <li>
-                                <div class="icon">
-                                    <img src="{{ asset('assets/app/icons/notification-03.svg') }}"
-                                        alt="notification" />
-                                </div>
-                                <div class="content">
-                                    <h3>
-                                        Successfully removed (0) duplicated contacts from all
-                                        contact groups
-                                    </h3>
-                                    <h6>Thursday 4:20</h6>
-                                </div>
-                                <div class="action_area d-flex align-items-center justify-content-end flex-wrap">
-                                    <div class="action_btn_list">
-                                        <button type="button">
-                                            <img src="{{ asset('assets/app/icons/double-check.svg') }}"
-                                                alt="double check" />
-                                        </button>
-                                        <button type="button">
-                                            <img src="{{ asset('assets/app/icons/delivery-box-02.svg') }}"
-                                                alt="archive icon" />
-                                        </button>
-                                    </div>
-                                    <div class="dot"></div>
-                                </div>
-                            </li>
-                            <li>
-                                <div class="icon">
-                                    <img src="{{ asset('assets/app/icons/notification-03.svg') }}"
-                                        alt="notification" />
-                                </div>
-                                <div class="content">
-                                    <h3>
-                                        Successfully removed (0) duplicated contacts from all
-                                        contact groups
-                                    </h3>
-                                    <h6>Thursday 4:20</h6>
-                                </div>
-                                <div class="action_area d-flex align-items-center justify-content-end flex-wrap">
-                                    <div class="action_btn_list">
-                                        <button type="button">
-                                            <img src="{{ asset('assets/app/icons/double-check.svg') }}"
-                                                alt="double check" />
-                                        </button>
-                                        <button type="button">
-                                            <img src="{{ asset('assets/app/icons/delivery-box-02.svg') }}"
-                                                alt="archive icon" />
-                                        </button>
-                                    </div>
-                                    <div class="dot"></div>
-                                </div>
-                            </li>
-                            <li>
-                                <div class="icon">
-                                    <img src="{{ asset('assets/app/icons/notification-03.svg') }}"
-                                        alt="notification" />
-                                </div>
-                                <div class="content">
-                                    <h3>Contacts imported to Default</h3>
-                                    <h6>Thursday 4:20</h6>
-                                </div>
-                                <div class="action_area d-flex align-items-center justify-content-end flex-wrap">
-                                    <div class="action_btn_list">
-                                        <button type="button">
-                                            <img src="{{ asset('assets/app/icons/double-check.svg') }}"
-                                                alt="double check" />
-                                        </button>
-                                        <button type="button">
-                                            <img src="{{ asset('assets/app/icons/delivery-box-02.svg') }}"
-                                                alt="archive icon" />
-                                        </button>
-                                    </div>
-                                    <div class="dot"></div>
-                                </div>
-                            </li>
-                        </ul>
+
+                        @if ($notifications->count() > 0)
+                            <div class="notification_btn_grid">
+                                <button type="button" wire:click.prevent='markAllAsRead'>{!! loadingStateWithText('markAllAsRead', 'Mark all as read') !!}</button>
+                                @if ($filter == 'archived')
+                                    <button type="button" wire:click.prevent='unArchiveAll'>{!! loadingStateWithText('unArchiveAll', 'Unarchive all') !!}</button>
+                                @else
+                                    <button type="button" wire:click.prevent='archiveAll'>{!! loadingStateWithText('archiveAll', 'Archive all') !!}</button>
+                                @endif
+                            </div>
+                            <ul class="notifciation_list">
+                                @foreach ($notifications as $notification)
+                                    <li>
+                                        <div class="icon">
+                                            <img src="{{ asset('assets/app/icons/notification-03.svg') }}" alt="notification" />
+                                        </div>
+                                        <div class="content">
+                                            <h3>
+                                                {{ $notification->content }}
+                                            </h3>
+                                            <h6>{{ \Carbon\Carbon::parse($notification->created_at)->isToday() ? 'Today, ' . \Carbon\Carbon::parse($notification->created_at)->format('g:i A') : \Carbon\Carbon::parse($notification->created_at)->format('F j, Y, g:i A') }}</h6>
+                                        </div>
+                                        <div class="action_area d-flex align-items-center justify-content-end flex-wrap">
+                                            <div class="action_btn_list">
+                                                <button type="button" wire:click.prevent='markAsRead({{ $notification->id }})'>
+                                                    {!! loadingStateWithoutText("markAsRead($notification->id)", '<img src="'.asset('assets/app/icons/double-check.svg').'" />') !!}
+                                                </button>
+                                                <button type="button" wire:click.prevent='archive({{ $notification->id }})'>
+                                                    {!! loadingStateWithoutText("archive($notification->id)", '<img src="'.asset('assets/app/icons/delivery-box-02.svg').'" />') !!}
+                                                </button>
+                                            </div>
+                                            @if ($notification->status == 0)
+                                            <div class="dot"></div>
+                                            @endif
+                                        </div>
+                                    </li>
+                                @endforeach
+                            </ul>
+                        @else
+                            <div class="text-center pt-5 pb-5">
+                                <p class="text-muted">No notifications found!</p>
+                            </div>
+                        @endif
                     </div>
                 </div>
             </div>

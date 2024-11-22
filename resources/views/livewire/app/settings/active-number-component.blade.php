@@ -18,16 +18,24 @@
                         <h2>My Numbers</h2>
                     </div>
 
-                    @if (user()->type != 'sub')
+
                     <div class="mt-4">
-                        <button type="button" class="create_event_btn" wire:click.prevent='assignNumberToUser'>
-                            {!! loadingStateWithoutText(
-                                'assignNumberToUser',
-                                '<img src="' . asset('assets/app/icons/user.svg') . '" class="save_icon mr-5">',
-                            ) !!} Assign User
+                        @if (user()->type != 'sub')
+                            <button type="button" class="create_event_btn" style="color: white !important;" wire:click.prevent='assignNumberToUser'>
+                                {!! loadingStateWithText(
+                                    'assignNumberToUser',
+                                    'Assign User',
+                                ) !!}
+                            </button>
+                        @endif
+
+                        <button type="button" class="create_event_btn" style="color: white !important;" wire:click.prevent='bulkReleaseConfirmation'>
+                            {!! loadingStateWithText(
+                                'bulkReleaseConfirmation',
+                                'Bulk Release',
+                            ) !!}
                         </button>
                     </div>
-                    @endif
 
                 </div>
                 <div class="account_right_area d-flex align-items-center justify-content-end flex-wrap">
@@ -220,7 +228,7 @@
                                 @endforeach
                             @else
                                 <tr>
-                                    <td colspan="7" class="text-center pt-5 pb-0 mb-0">No number found!</td>
+                                    <td colspan="9" class="text-center pt-5 pb-0 mb-0">No number found!</td>
                                 </tr>
                             @endif
                         </tbody>
@@ -273,8 +281,7 @@
                                 <select name="lang" class="js-searchBox user_to_assign">
                                     <option value="">Choose User</option>
                                     @foreach ($sub_accounts as $sub_account)
-                                        <option value="{{ $sub_account->id }}">{{ $sub_account->first_name }}
-                                            {{ $sub_account->last_name }}</option>
+                                        <option value="{{ $sub_account->id }}">{{ $sub_account->first_name }} {{ $sub_account->last_name }}</option>
                                     @endforeach
                                 </select>
                                 <img src="{{ asset('assets/app/icons/arrow-down.svg') }}" alt="down arrow"
@@ -346,6 +353,31 @@
                 </div>
             </div>
         </div>
+
+        <!-- Bulk release -->
+        <div wire:ignore.self class="modal fade delete_modal" id="bulkReleaseDataModal" tabindex="-1"
+            aria-labelledby="deleteModal" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+                <div class="modal-content">
+                    <div class="modal-body">
+                        <div class="content_area">
+                            <h2>Are you sure?</h2>
+                            <h4>Would you like to release selected numbers?</h4>
+                            <div class="delete_action_area d-flex align-items-center flex-wrap">
+                                <button type="button" class="delete_cancel_btn" id="deleteModalCloseBtn"
+                                    data-bs-dismiss="modal">
+                                    Cancel
+                                </button>
+                                <button type="button" wire:click.prevent='bulkRelease' wire:loading.attr='disabled'
+                                    class="delete_yes_btn">
+                                    {!! loadingStateWithText('bulkRelease', 'Yes') !!}
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </main>
 </div>
 @push('scripts')
@@ -388,6 +420,19 @@
             Swal.fire(
                 "Deleted!",
                 "The number has been deleted.",
+                "success"
+            );
+        });
+
+        window.addEventListener('showBulkReleaseConfirmation', event => {
+            $('#bulkReleaseDataModal').modal('show');
+        });
+
+        window.addEventListener('numberReleased', event => {
+            $('#bulkReleaseDataModal').modal('hide');
+            Swal.fire(
+                "Released!",
+                "Numbers have been released successfully.",
                 "success"
             );
         });

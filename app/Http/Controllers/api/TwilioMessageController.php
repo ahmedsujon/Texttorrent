@@ -2,13 +2,15 @@
 
 namespace App\Http\Controllers\api;
 
-use App\Http\Controllers\Controller;
-use App\Models\BulkMessageItem;
 use App\Models\Chat;
-use App\Models\ChatMessage;
 use App\Models\User;
+use App\Models\Activity;
+use App\Models\ChatMessage;
 use Illuminate\Http\Request;
+use App\Models\BulkMessageItem;
 use Illuminate\Support\Facades\DB;
+use App\Http\Controllers\Controller;
+use App\Models\Notification;
 use Illuminate\Support\Facades\Http;
 
 class TwilioMessageController extends Controller
@@ -71,16 +73,23 @@ class TwilioMessageController extends Controller
                 $msg->credit_clear = $credit_status;
                 $msg->save();
 
-                $chat = Chat::find($chat->id);
-                $chat->last_message = $body;
-                $chat->updated_at = now();
-                $chat->save();
+                $nChat = Chat::find($chat->id);
+                $nChat->last_message = $body;
+                $nChat->updated_at = now();
+                $nChat->save();
+
+                // notifications
+                $activity = new Notification();
+                $activity->user_id = $nChat->user_id;
+                $activity->chat_id = $nChat->id;
+                $activity->content = 'New sms received from ' . $from;
+                $activity->save();
 
                 if (env('SOCKET_STATUS') == 'on' && $credit_status == 1) {
                     $content = [
                         "type" => 'chat',
-                        "chat_id" => $chat->id,
-                        "user_id" => $chat->user_id,
+                        "chat_id" => $nChat->id,
+                        "user_id" => $nChat->user_id,
                     ];
 
                     $socket_server = env('SOCKET_SERVER');
@@ -93,6 +102,13 @@ class TwilioMessageController extends Controller
                 $claim->received_message_sid = $messageSid;
                 $claim->credit_clear = $credit_status;
                 $claim->save();
+
+                // notifications
+                $activity = new Notification();
+                $activity->user_id = $claim->send_by;
+                $activity->claim = $claim->id;
+                $activity->content = 'New sms received from ' . $from;
+                $activity->save();
 
                 if (env('SOCKET_STATUS') == 'on' && $credit_status == 1) {
                     $content = [
