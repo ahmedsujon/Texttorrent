@@ -101,15 +101,15 @@
                     @if (is_permitted('manage_settings'))
                         <li>
                             <a href="javascript: void(0);"
-                                class="has-arrow waves-effect {{ request()->is('admin/settings') || request()->is('admin/settings/*') ? 'active_menu' : '' }}">
+                                class="has-arrow waves-effect {{ request()->is('admin/log-activities') || request()->is('admin/log-activities/*') ? 'active_menu' : '' }}">
                                 <i class="bx bx-bar-chart"></i>
                                 <span key="t-multi-level">Activity Log</span>
                             </a>
                             <ul class="sub-menu" aria-expanded="true">
                                 @if (is_permitted('manage_console'))
                                     <li>
-                                        <a href="#" key="t-level-1-1"
-                                            class="{{ request()->is('admin/settings/console') ? 'active_sub_menu' : '' }}">Logs</a>
+                                        <a href="{{ route('admin.logActivities') }}" key="t-level-1-1"
+                                            class="{{ request()->is('admin/log-activities') ? 'active_sub_menu' : '' }}">Logs</a>
                                     </li>
                                 @endif
                             </ul>
