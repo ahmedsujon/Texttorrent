@@ -54,9 +54,9 @@
                                     <thead>
                                         <tr>
                                             <th class="align-middle">#</th>
-                                            <th class="align-middle">Name</th>
+                                            {{-- <th class="align-middle">Name</th> --}}
                                             <th class="align-middle">Event</th>
-                                            <th class="align-middle text-center">Details</th>
+                                            <th class="align-middle">Details</th>
                                             <th class="align-middle text-center" style="width: 15%;">Date & Time</th>
                                         </tr>
                                     </thead>
@@ -71,12 +71,12 @@
                                             @foreach ($activities as $activity)
                                                 <tr>
                                                     <td class="align-middle">{{ $sl++ }}</td>
-                                                    @if ($activity->causer_id)
-                                                    <td class="align-middle">{{ getAdminByID($activity->causer_id)->name }}</td>
+                                                    {{-- @if ($activity->causer_id)
+                                                    <td class="align-middle">{{ getUserByID($activity->causer_id)->name }}</td>
                                                     @else
                                                     <td class="align-middle">null</td>
 
-                                                    @endif
+                                                    @endif --}}
                                                     <td class="align-middle">{{ $activity->event }}</td>
 
                                                     @php
@@ -87,10 +87,7 @@
                                                         @if (isset($properties['old']))
                                                             <strong>Old Data:</strong>
                                                             <ul>
-                                                                @foreach ($properties['old'] as $key => $value)
-                                                                    <li><strong>{{ ucfirst($key) }}:</strong>
-                                                                        {{ $value }}</li>
-                                                                @endforeach
+                                                                ID: {{ $properties['old']['id'] }}
                                                             </ul>
                                                         @else
                                                             <p>No old data available.</p>
@@ -99,10 +96,13 @@
                                                         @if (isset($properties['attributes']))
                                                             <strong>Updated Data:</strong>
                                                             <ul>
-                                                                @foreach ($properties['attributes'] as $key => $value)
-                                                                    <li><strong>{{ ucfirst($key) }}:</strong>
-                                                                        {{ $value }}</li>
-                                                                @endforeach
+                                                                ID: {{ $properties['attributes']['id'] }} <br>
+                                                                Name:
+                                                                @if ($activity->subject_type == 'App\Models\User')
+                                                                    {{ $properties['attributes']['first_name'] }} {{ $properties['attributes']['last_name'] }}
+                                                                @else
+                                                                    {{ $properties['attributes']['name'] }}
+                                                                @endif
                                                             </ul>
                                                         @else
                                                             <p>No updated data available.</p>

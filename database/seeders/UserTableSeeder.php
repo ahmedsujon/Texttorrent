@@ -14,7 +14,7 @@ class UserTableSeeder extends Seeder
      */
     public function run(): void
     {
-        $emails = ["user@example.com", "user01@example.com", "user02@example.com", "user03@example.com", "user04@example.com"];
+        $emails = ["user@example.com"];
 
         foreach ($emails as $key => $email) {
             $getUser = User::where('email', $email)->first();
@@ -24,7 +24,7 @@ class UserTableSeeder extends Seeder
                 $user->last_name = 'User ' . $key;
                 $user->username = 'mr_user_' . $key;
                 $user->email = $email;
-                $user->phone = '0170000000' . $key;
+                $user->phone = '+13472102794';
                 $user->password = Hash::make('12345678');
                 $user->permissions = UserPermission::pluck('id')->toArray();
                 $user->save();
@@ -36,7 +36,7 @@ class UserTableSeeder extends Seeder
         $subUser->last_name = 'User';
         $subUser->username = 'sub_user';
         $subUser->email = 'subuser@example.com';
-        $subUser->phone = '01600000000';
+        $subUser->phone = '+13472102794';
         $subUser->password = Hash::make('12345678');
         $subUser->permissions = UserPermission::pluck('id')->toArray();
         $subUser->type = 'sub';

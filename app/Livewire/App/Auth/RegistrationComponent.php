@@ -36,14 +36,8 @@ class RegistrationComponent extends Component
         $user->email = $this->email;
         $user->phone = $this->phone;
         $user->password = Hash::make($this->password);
-        $user->permissions = json_encode(UserPermission::pluck('id')->toArray()); // Store permissions as JSON
+        $user->permissions = UserPermission::pluck('id')->toArray(); // Store permissions as JSON
         $user->save();
-
-        // Log the registration activity
-        activity()
-            ->causedBy($user)
-            ->withProperties(['email' => $this->email, 'phone' => $this->phone])
-            ->log('User registered successfully.');
 
         // Log the user in after registration
         Auth::guard('web')->attempt(['email' => $this->email, 'password' => $this->password]);
