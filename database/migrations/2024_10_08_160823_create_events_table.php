@@ -18,10 +18,16 @@ return new class extends Migration
             $table->string('subject')->nullable();
             $table->string('date')->nullable();
             $table->string('time')->nullable();
+            $table->string('alert_at')->nullable();
             $table->string('sender_number')->nullable();
+            $table->string('receiver_number')->nullable();
             $table->string('alert_before')->nullable();
             $table->string('participant_number')->nullable();
             $table->string('participant_email')->nullable();
+            $table->string('api')->nullable();
+            $table->longText('send_response')->nullable();
+            $table->text('msg_sid')->nullable();
+            $table->tinyInteger('status')->default(0);
             $table->timestamps();
         });
     }
