@@ -13,7 +13,30 @@ class ActiveNumberComponent extends Component
 {
     use WithPagination;
     public $sortBy = 'created_at', $sortDirection = 'DESC';
-    public $searchTerm, $sortingValue = 10, $delete_id, $edit_id;
+    public $searchTerm, $sortingValue = 10, $delete_id, $edit_id, $TWILIO_SID, $TWILIO_AUTH_TOKEN;
+
+    public function mount()
+    {
+        if (user()->type == 'sub') {
+            $au_user = DB::table('users')->select('id', 'credits')->where('id', user()->parent_id)->first();
+            $user_id = $au_user->id;
+        } else {
+            $user_id = user()->id;
+        }
+
+        $twilioCredentials = DB::table('apis')
+            ->where('user_id', $user_id)
+            ->where('gateway', 'Twilio')
+            ->first();
+
+        if ($twilioCredentials) {
+            $this->TWILIO_SID = $twilioCredentials->account_sid;
+            $this->TWILIO_AUTH_TOKEN = $twilioCredentials->auth_token;
+        } else {
+            session()->flash('error', 'Please add your Twilio API.');
+            return redirect()->route('user.apis');
+        }
+    }
 
     public function delete($id)
     {
@@ -74,7 +97,7 @@ class ActiveNumberComponent extends Component
             DB::table('numbers')->where('id', $id)->update(['status' => $newStatus]);
 
             // Initialize Twilio Client
-            $twilio = new Client(env('TWILIO_SID'), env('TWILIO_TOKEN'));
+            $twilio = new Client($this->TWILIO_SID, $this->TWILIO_AUTH_TOKEN);
 
             try {
                 if ($number->twilio_number_sid) {
@@ -161,12 +184,41 @@ class ActiveNumberComponent extends Component
             'user_to_assign' => 'required|exists:users,id',
         ]);
         foreach ($this->selectedNumbers as $number_id) {
-            Number::where('id', $number_id)->update(['user_id' => $this->user_to_assign]);
+            $number = Number::where('id', $number_id)->first();
+            $number->purchased_by = $number->user_id;
+            $number->user_id = $this->user_to_assign;
+            $number->save();
         }
+
+        $this->reset(['selectedNumbers']);
 
         $this->dispatch('closeModal');
         $this->dispatch('success', ['message' => 'User has been assigned']);
     }
+
+    public function bulkReleaseConfirmation()
+    {
+        if ($this->selectedNumbers != []) {
+            $this->s_numbers = Number::whereIn('id', $this->selectedNumbers)->pluck('number')->toArray();
+            $this->dispatch('showBulkReleaseConfirmation');
+        } else {
+            $this->dispatch('error', ['message' => 'Select a number first!']);
+        }
+    }
+
+    public function bulkRelease()
+    {
+        $twilio = new Client($this->TWILIO_SID, $this->TWILIO_AUTH_TOKEN);
+        foreach ($this->selectedNumbers as $num_id) {
+            $number = DB::table('numbers')->select('id', 'twilio_number_sid')->where('id', $num_id)->first();
+            if ($number->twilio_number_sid) {
+                $twilio->incomingPhoneNumbers($number->twilio_number_sid)->delete();
+                DB::table('numbers')->where('id', $number->id)->delete();
+            }
+        }
+        $this->dispatch('numberReleased');
+    }
+
 
     public function updatedSearchTerm()
     {
@@ -312,7 +364,10 @@ class ActiveNumberComponent extends Component
     public function render()
     {
         $sub_accounts = User::where('type', 'sub')->where('status', 1)->where('parent_id', user()->id)->get();
-        $numbers = Number::where('user_id', user()->id)->where(function ($q) {
+        $numbers = Number::where(function($qs){
+            $qs->where('user_id', user()->id)
+                ->orWhere('purchased_by', user()->id);
+        })->where(function ($q) {
             $q->where('number', 'like', '%' . $this->searchTerm . '%');
         })->orderBy($this->sortBy, $this->sortDirection);
 

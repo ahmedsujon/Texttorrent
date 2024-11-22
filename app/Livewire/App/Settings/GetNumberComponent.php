@@ -50,6 +50,13 @@ class GetNumberComponent extends Component
         $this->getNumbers();
     }
 
+    public function updatedAreaCode()
+    {
+        if ($this->areaCode == NULL) {
+            $this->getNumbers();
+        }
+    }
+
     public function plusQty()
     {
         $total = count($this->all_numbers);
@@ -301,33 +308,38 @@ class GetNumberComponent extends Component
         return 1;
     }
 
+
     public $selected_numbers, $selected_numbers_info;
     public function bulkPurchaseConfirmation()
     {
-        if (getActiveSubscription()['status'] == 'Active') {
-            $credit_needed = 300 * $this->qty;
-            if (user()->type == 'sub') {
-                $au_user = DB::table('users')->select('id', 'credits')->where('id', user()->parent_id)->first();
-                $credit_has = $au_user->credits;
-                $user_id = $au_user->id;
+        if ($this->qty && $this->qty > 0) {
+            if (getActiveSubscription()['status'] == 'Active') {
+                $credit_needed = 300 * $this->qty;
+                if (user()->type == 'sub') {
+                    $au_user = DB::table('users')->select('id', 'credits')->where('id', user()->parent_id)->first();
+                    $credit_has = $au_user->credits;
+                    $user_id = $au_user->id;
+                } else {
+                    $credit_has = user()->credits;
+                    $user_id = user()->id;
+                }
+
+                if ($credit_has >= $credit_needed) {
+                    $selected_numbers = array_slice($this->numbers_array, 0, $this->qty);
+                    $this->selected_numbers = $selected_numbers;
+
+                    $selected_numbers_info = array_slice($this->numbers_info_array, 0, $this->qty);
+                    $this->selected_numbers_info = $selected_numbers_info;
+
+                    $this->dispatch('showBulkPurchaseModal');
+                } else {
+                    $this->dispatch('error', ['message' => 'You do not have enough credits to purchase numbers.']);
+                }
             } else {
-                $credit_has = user()->credits;
-                $user_id = user()->id;
-            }
-
-            if ($credit_has >= $credit_needed) {
-                $selected_numbers = array_slice($this->numbers_array, 0, $this->qty);
-                $this->selected_numbers = $selected_numbers;
-
-                $selected_numbers_info = array_slice($this->numbers_info_array, 0, $this->qty);
-                $this->selected_numbers_info = $selected_numbers_info;
-
-                $this->dispatch('showBulkPurchaseModal');
-            } else {
-                $this->dispatch('error', ['message' => 'You do not have enough credits to purchase numbers.']);
+                $this->dispatch('error', ['message' => 'No active subscription. Please upgrade your subscription.']);
             }
         } else {
-            $this->dispatch('error', ['message' => 'No active subscription. Please upgrade your subscription.']);
+            $this->dispatch('error', ['message' => 'Please select correct quantity.']);
         }
     }
 
