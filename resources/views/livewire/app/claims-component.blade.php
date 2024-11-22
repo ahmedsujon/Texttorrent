@@ -88,7 +88,7 @@
                                             @if ($claim->received_message)
                                                 <p>{{ $claim->received_message }}</p>
                                             @else
-                                                <p class="text-danger">No message received yet!</p>
+                                                <p>Waiting!</p>
                                             @endif
 
                                         </td>
