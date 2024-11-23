@@ -2,12 +2,14 @@
 
 namespace App\Livewire\App\Settings;
 
-use App\Models\Number;
+use Carbon\Carbon;
 use App\Models\User;
-use Illuminate\Support\Facades\DB;
+use App\Models\Number;
 use Livewire\Component;
-use Livewire\WithPagination;
 use Twilio\Rest\Client;
+use App\Models\Transaction;
+use Livewire\WithPagination;
+use Illuminate\Support\Facades\DB;
 
 class ActiveNumberComponent extends Component
 {
@@ -219,6 +221,48 @@ class ActiveNumberComponent extends Component
         $this->dispatch('numberReleased');
     }
 
+    public $renew_id;
+    public function renewConfirmation($id)
+    {
+        $this->renew_id = $id;
+        $this->dispatch('showRenewModal');
+    }
+    public function renewNumber()
+    {
+        if (user()->type == 'sub') {
+            $au_user = DB::table('users')->select('id', 'credits')->where('id', user()->parent_id)->first();
+            $user_id = $au_user->id;
+            $creditBalance = $au_user->credits;
+        } else {
+            $user_id = user()->id;
+            $creditBalance = user()->credits;
+        }
+
+        if ($creditBalance >= 300) {
+            $number = Number::where('id', $this->renew_id)->first();
+            $number->next_renew_date = Carbon::now()->addDays(30);
+            $number->status = 1;
+            $number->save();
+
+            $user = User::find($user_id);
+            $user->credits -= 300;
+            $user->save();
+
+            // Optionally, log the renewal
+            $trx = new Transaction();
+            $trx->user_id = $user->id;
+            $trx->transaction_type = 'number_renewal';
+            $trx->description = 'Renewed number: '. $number->number;
+            $trx->credit = -300;
+            $trx->save();
+
+            $this->renew_id = '';
+            $this->dispatch('numberRenewed');
+        } else {
+            $this->dispatch('error', ['message' => 'Not enough credit to renew this number!']);
+        }
+
+    }
 
     public function updatedSearchTerm()
     {

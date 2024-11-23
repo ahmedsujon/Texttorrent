@@ -28,7 +28,7 @@ class InboxComponent extends Component
         }
 
         $this->templates = DB::table('inbox_templates')->where('user_id', user()->id)->get();
-        $this->active_numbers = DB::table('numbers')->where('user_id', user()->id)->get();
+        $this->active_numbers = DB::table('numbers')->where('user_id', user()->id)->where('status', 1)->get();
         $this->participant_numbers = Contact::select('number')->where('blacklisted', 0)->where('user_id', user()->id)->get();
 
         $extContacts = DB::table('chats')->select('contact_id')->where('user_id', user()->id)->pluck('contact_id')->toArray();
@@ -76,48 +76,53 @@ class InboxComponent extends Component
 
     public function sendMessage($message)
     {
-        if (getActiveSubscription()['status'] == 'Active') {
-            $credit_needed = msgCreditCalculation('sms', 'outgoing');
-            if (user()->type == 'sub') {
-                $au_user = DB::table('users')->select('id', 'credits')->where('id', user()->parent_id)->first();
-                $credit_has = $au_user->credits;
-                $user_id = $au_user->id;
+        $number_st = DB::table('numbers')->select('id', 'status')->where('number', $this->selected_chat->from_number)->first();
+        if ($number_st->status == 1) {
+            if (getActiveSubscription()['status'] == 'Active') {
+                $credit_needed = msgCreditCalculation('sms', 'outgoing');
+                if (user()->type == 'sub') {
+                    $au_user = DB::table('users')->select('id', 'credits')->where('id', user()->parent_id)->first();
+                    $credit_has = $au_user->credits;
+                    $user_id = $au_user->id;
+                } else {
+                    $credit_has = user()->credits;
+                    $user_id = user()->id;
+                }
+                if ($credit_has >= $credit_needed) {
+                    $msg = new ChatMessage();
+                    $msg->chat_id = $this->selected_chat_id;
+                    $msg->direction = 'outbound';
+                    $msg->message = $message;
+                    $msg->save();
+
+                    $chat = Chat::where('id', $this->selected_chat_id)->first();
+                    $chat->last_message = $message;
+                    $chat->save();
+
+                    sendSMSviaTwilio($this->selected_chat->number, $chat->from_number, $message, $msg->id);
+
+                    // credit deduction
+                    $user = User::find($user_id);
+                    $user->credits -= $credit_needed;
+                    $user->save();
+
+                    // log
+                    creditLog('Send message to ' . $this->selected_chat->first_name . '' . $this->selected_chat->last_name, $credit_needed);
+
+                    $msgSt = ChatMessage::find($msg->id);
+                    $msg->api_send_status = $msgSt->api_send_status;
+                    $msg->msg_sid = $msgSt->msg_sid;
+
+                    $this->messages->push($msg);
+                    $this->dispatch('scrollToBottom');
+                } else {
+                    $this->dispatch('error', ['message' => 'Not enough credit for this message!']);
+                }
             } else {
-                $credit_has = user()->credits;
-                $user_id = user()->id;
-            }
-            if ($credit_has >= $credit_needed) {
-                $msg = new ChatMessage();
-                $msg->chat_id = $this->selected_chat_id;
-                $msg->direction = 'outbound';
-                $msg->message = $message;
-                $msg->save();
-
-                $chat = Chat::where('id', $this->selected_chat_id)->first();
-                $chat->last_message = $message;
-                $chat->save();
-
-                sendSMSviaTwilio($this->selected_chat->number, $chat->from_number, $message, $msg->id);
-
-                // credit deduction
-                $user = User::find($user_id);
-                $user->credits -= $credit_needed;
-                $user->save();
-
-                // log
-                creditLog('Send message to ' . $this->selected_chat->first_name . '' . $this->selected_chat->last_name, $credit_needed);
-
-                $msgSt = ChatMessage::find($msg->id);
-                $msg->api_send_status = $msgSt->api_send_status;
-                $msg->msg_sid = $msgSt->msg_sid;
-
-                $this->messages->push($msg);
-                $this->dispatch('scrollToBottom');
-            } else {
-                $this->dispatch('error', ['message' => 'Not enough credit for this message!']);
+                $this->dispatch('error', ['message' => 'No active subscription found!']);
             }
         } else {
-            $this->dispatch('error', ['message' => 'No active subscription found!']);
+            $this->dispatch('error', ['message' => 'Unable to send message. Sender number is not active!']);
         }
     }
 
@@ -215,7 +220,7 @@ class InboxComponent extends Component
     public function updatedReceiverId()
     {
         // if ($this->selected_template_id_new_chat) {
-            // $this->selected_template_id_new_chat = '';
+        // $this->selected_template_id_new_chat = '';
         // }
     }
 
@@ -584,7 +589,6 @@ class InboxComponent extends Component
                     break;
             }
         }
-
 
         $chats = $chats->get();
 
