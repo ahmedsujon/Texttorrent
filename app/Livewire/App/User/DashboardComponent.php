@@ -136,7 +136,7 @@ class DashboardComponent extends Component
                             'currency' => 'usd',
                             'product_data' => [
                                 'name' => 'Buy TextTorrent Credits',
-                                'description' => 'Credit Amount: ' . $this->totalCredits,
+                                'description' => 'Credit Amount: ' . (string) number_format($this->totalCredits),
                             ],
                             'unit_amount' => str_replace([',', '.'], ['', ''], $this->creditCost . '00'),
                         ],
