@@ -23,10 +23,6 @@
                         <div class="sms"></div>
                         <span>Sms Scheduled</span>
                     </li>
-                    <li>
-                        <div class="voice"></div>
-                        <span>Voice Scheduled</span>
-                    </li>
                 </ul>
                 {{-- <form action="" class="calender_search_area">
                     <button type="submit" class="search_icon">

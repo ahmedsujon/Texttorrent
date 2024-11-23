@@ -201,8 +201,8 @@ class DashboardComponent extends Component
                 return [
                     'id' => $event->id,
                     'title' => $event->name,
-                    'start' => Carbon::parse($event->date)->format('Y-m-d') . 'T' . Carbon::parse($event->time)->format('h:i:s'),
-                    'classNames' => ['sms_event'],
+                    'start' => Carbon::parse($event->date)->format('Y-m-d') . 'T' . Carbon::parse($event->time)->format('H:i:s'),
+                    'classNames' => $event->status == 1 ? ['send_event'] : ['sms_event'],
                 ];
             })
             ->toArray();
