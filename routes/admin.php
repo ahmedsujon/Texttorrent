@@ -9,6 +9,7 @@ use App\Livewire\Admin\DashboardComponent;
 use App\Livewire\Admin\Auth\LoginComponent;
 use App\Livewire\Admin\ContactMessage\ContactMessageComponent;
 use App\Livewire\Admin\Filesystem\UploadedFilesComponent;
+use App\Livewire\Admin\NumberRenew\RenewComponent;
 use App\Livewire\Admin\Settings\ConsoleComponent;
 use App\Livewire\Admin\Subscription\SubscritionComponent;
 use App\Livewire\Admin\Users\UsersComponent;
@@ -53,6 +54,8 @@ Route::prefix('admin/')->name('admin.')->middleware('auth:admin')->group(functio
     // Activity log routes
     Route::get('log-activities', ActivitylogComponent::class)->name('logActivities');
 
+    // Renew Alert routes
+    Route::get('number-renew-alert', RenewComponent::class)->name('numberRenewAlert');
 
     // Contact Message routes
     Route::get('contact-message', ContactMessageComponent::class)->name('contact-message');
