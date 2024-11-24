@@ -1,33 +1,8 @@
-/*
-!This file is only for the back end developer 
-*/
-//?Example
-.className#idName {
-  //Css here
-  padding-bottom: 16px;
 
-  /* 
-    ?Break points if you need
-    */
-  //Media break point
-  @include media-break-width(992, 1199) {
-    //Css here
-  }
-
-  //Media break point
-  @include media-break-width(768, 991) {
-    //Css here
-  }
-
-  //Media min
-  @include min-media-width(768) {
-    //Css here
-  }
-
-  //Media max
-  @include max-media-width(767) {
-    //Css here
-  }
+.sidebar_wrapper .accordion-button::after {
+    background-image: url("/assets/app/icons/arrow-down-02.svg") !important;
 }
 
- 
+.sidebar_wrapper .accordion-button:not(.collapsed)::after {
+    background-image: url("/assets/app/icons/arrow-up.svg") !important;
+}
