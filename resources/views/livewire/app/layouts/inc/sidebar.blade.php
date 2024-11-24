@@ -70,17 +70,20 @@
                                             <h5>Filter</h5>
                                         </li>
                                         <li>
-                                            <button type="button" wire:click.prevent='filterNotification("all")' class="dropdown-item">
+                                            <button type="button" wire:click.prevent='filterNotification("all")'
+                                                class="dropdown-item">
                                                 <span>All notifications</span>
                                             </button>
                                         </li>
                                         <li>
-                                            <button type="button" wire:click.prevent='filterNotification("unread")' class="dropdown-item">
+                                            <button type="button" wire:click.prevent='filterNotification("unread")'
+                                                class="dropdown-item">
                                                 <span>Unread</span>
                                             </button>
                                         </li>
                                         <li>
-                                            <button type="button" wire:click.prevent='filterNotification("archived")' class="dropdown-item">
+                                            <button type="button" wire:click.prevent='filterNotification("archived")'
+                                                class="dropdown-item">
                                                 <span>Archived</span>
                                             </button>
                                         </li>
@@ -91,36 +94,50 @@
 
                         @if ($notifications->count() > 0)
                             <div class="notification_btn_grid">
-                                <button type="button" wire:click.prevent='markAllAsRead'>{!! loadingStateWithText('markAllAsRead', 'Mark all as read') !!}</button>
+                                <button type="button"
+                                    wire:click.prevent='markAllAsRead'>{!! loadingStateWithText('markAllAsRead', 'Mark all as read') !!}</button>
                                 @if ($filter == 'archived')
-                                    <button type="button" wire:click.prevent='unArchiveAll'>{!! loadingStateWithText('unArchiveAll', 'Unarchive all') !!}</button>
+                                    <button type="button"
+                                        wire:click.prevent='unArchiveAll'>{!! loadingStateWithText('unArchiveAll', 'Unarchive all') !!}</button>
                                 @else
-                                    <button type="button" wire:click.prevent='archiveAll'>{!! loadingStateWithText('archiveAll', 'Archive all') !!}</button>
+                                    <button type="button"
+                                        wire:click.prevent='archiveAll'>{!! loadingStateWithText('archiveAll', 'Archive all') !!}</button>
                                 @endif
                             </div>
                             <ul class="notifciation_list">
                                 @foreach ($notifications as $notification)
                                     <li>
                                         <div class="icon">
-                                            <img src="{{ asset('assets/app/icons/notification-03.svg') }}" alt="notification" />
+                                            <img src="{{ asset('assets/app/icons/notification-03.svg') }}"
+                                                alt="notification" />
                                         </div>
                                         <div class="content">
                                             <h3>
                                                 {{ $notification->content }}
                                             </h3>
-                                            <h6>{{ \Carbon\Carbon::parse($notification->created_at)->isToday() ? 'Today, ' . \Carbon\Carbon::parse($notification->created_at)->format('g:i A') : \Carbon\Carbon::parse($notification->created_at)->format('F j, Y, g:i A') }}</h6>
+                                            <h6>{{ \Carbon\Carbon::parse($notification->created_at)->isToday() ? 'Today, ' . \Carbon\Carbon::parse($notification->created_at)->format('g:i A') : \Carbon\Carbon::parse($notification->created_at)->format('F j, Y, g:i A') }}
+                                            </h6>
                                         </div>
-                                        <div class="action_area d-flex align-items-center justify-content-end flex-wrap">
+                                        <div
+                                            class="action_area d-flex align-items-center justify-content-end flex-wrap">
                                             <div class="action_btn_list">
-                                                <button type="button" wire:click.prevent='markAsRead({{ $notification->id }})'>
-                                                    {!! loadingStateWithoutText("markAsRead($notification->id)", '<img src="'.asset('assets/app/icons/double-check.svg').'" />') !!}
+                                                <button type="button"
+                                                    wire:click.prevent='markAsRead({{ $notification->id }})'>
+                                                    {!! loadingStateWithoutText(
+                                                        "markAsRead($notification->id)",
+                                                        '<img src="' . asset('assets/app/icons/double-check.svg') . '" />',
+                                                    ) !!}
                                                 </button>
-                                                <button type="button" wire:click.prevent='archive({{ $notification->id }})'>
-                                                    {!! loadingStateWithoutText("archive($notification->id)", '<img src="'.asset('assets/app/icons/delivery-box-02.svg').'" />') !!}
+                                                <button type="button"
+                                                    wire:click.prevent='archive({{ $notification->id }})'>
+                                                    {!! loadingStateWithoutText(
+                                                        "archive($notification->id)",
+                                                        '<img src="' . asset('assets/app/icons/delivery-box-02.svg') . '" />',
+                                                    ) !!}
                                                 </button>
                                             </div>
                                             @if ($notification->status == 0)
-                                            <div class="dot"></div>
+                                                <div class="dot"></div>
                                             @endif
                                         </div>
                                     </li>
@@ -211,46 +228,49 @@
                     @endif
                     <div class="accordion" id="accordionSidebar">
                         @if (isUserPermitted('contact-list'))
-                        <div class="accordion-item">
-                            <h2 class="accordion-header">
-                                <button
-                                    class="accordion-button {{ request()->is('contacts') || request()->is('contacts/*') ? 'menu_grid active_menu' : 'collapsed menu_grid' }}"
-                                    type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne"
-                                    aria-expanded="{{ request()->is('contacts') || request()->is('contacts/*') ? 'true' : 'false' }}"
-                                    aria-controls="collapseOne">
-                                    <div class="icon">
-                                        <svg width="19" height="20" viewBox="0 0 19 20" fill="none"
-                                            xmlns="http://www.w3.org/2000/svg" currentColor="#696F8C">
-                                            <path d="M2.33337 1.66699H17.3334V18.3337H2.33337V1.66699Z"
-                                                stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" />
-                                            <path
-                                                d="M6.5 14.1673H13.1667C13.1667 12.3264 11.6743 10.834 9.83333 10.834C7.99238 10.834 6.5 12.3264 6.5 14.1673Z"
-                                                stroke="currentColor" stroke-width="1.5" />
-                                            <path
-                                                d="M11.5 7.50065C11.5 8.42113 10.7538 9.16732 9.83333 9.16732C8.91286 9.16732 8.16667 8.42113 8.16667 7.50065C8.16667 6.58018 8.91286 5.83398 9.83333 5.83398C10.7538 5.83398 11.5 6.58018 11.5 7.50065Z"
-                                                stroke="currentColor" stroke-width="1.5" />
-                                            <path d="M4.00002 5L0.666687 5M4.00002 10L0.666687 10M4.00002 15H0.666687"
-                                                stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" />
-                                        </svg>
+                            <div class="accordion-item">
+                                <h2 class="accordion-header">
+                                    <button
+                                        class="accordion-button {{ request()->is('contacts') || request()->is('contacts/*') ? 'menu_grid active_menu' : 'collapsed menu_grid' }}"
+                                        type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne"
+                                        aria-expanded="{{ request()->is('contacts') || request()->is('contacts/*') ? 'true' : 'false' }}"
+                                        aria-controls="collapseOne">
+                                        <div class="icon">
+                                            <svg width="19" height="20" viewBox="0 0 19 20" fill="none"
+                                                xmlns="http://www.w3.org/2000/svg" currentColor="#696F8C">
+                                                <path d="M2.33337 1.66699H17.3334V18.3337H2.33337V1.66699Z"
+                                                    stroke="currentColor" stroke-width="1.5"
+                                                    stroke-linejoin="round" />
+                                                <path
+                                                    d="M6.5 14.1673H13.1667C13.1667 12.3264 11.6743 10.834 9.83333 10.834C7.99238 10.834 6.5 12.3264 6.5 14.1673Z"
+                                                    stroke="currentColor" stroke-width="1.5" />
+                                                <path
+                                                    d="M11.5 7.50065C11.5 8.42113 10.7538 9.16732 9.83333 9.16732C8.91286 9.16732 8.16667 8.42113 8.16667 7.50065C8.16667 6.58018 8.91286 5.83398 9.83333 5.83398C10.7538 5.83398 11.5 6.58018 11.5 7.50065Z"
+                                                    stroke="currentColor" stroke-width="1.5" />
+                                                <path
+                                                    d="M4.00002 5L0.666687 5M4.00002 10L0.666687 10M4.00002 15H0.666687"
+                                                    stroke="currentColor" stroke-width="1.5"
+                                                    stroke-linejoin="round" />
+                                            </svg>
+                                        </div>
+                                        <div class="label">Contacts</div>
+                                    </button>
+                                </h2>
+                                <div id="collapseOne"
+                                    class="accordion-collapse collapse {{ request()->is('contacts') || request()->is('contacts/*') ? 'show' : '' }}"
+                                    data-bs-parent="#accordionSidebar">
+                                    <div class="accordion-body">
+                                        <a href="{{ route('user.contacts.manage') }}"
+                                            class="menu_grid single_menu_grid {{ request()->is('contacts/manage') ? 'menu_grid active_menu' : 'menu_grid' }}">
+                                            <div class="label">Manage contacts</div>
+                                        </a>
+                                        <a href="{{ route('user.contacts.validatorCredits') }}"
+                                            class="menu_grid single_menu_grid {{ request()->is('contacts/validator-credits') ? 'menu_grid active_menu' : 'menu_grid' }}">
+                                            <div class="label">Validator credits</div>
+                                        </a>
                                     </div>
-                                    <div class="label">Contacts</div>
-                                </button>
-                            </h2>
-                            <div id="collapseOne"
-                                class="accordion-collapse collapse {{ request()->is('contacts') || request()->is('contacts/*') ? 'show' : '' }}"
-                                data-bs-parent="#accordionSidebar">
-                                <div class="accordion-body">
-                                    <a href="{{ route('user.contacts.manage') }}"
-                                        class="menu_grid single_menu_grid {{ request()->is('contacts/manage') ? 'menu_grid active_menu' : 'menu_grid' }}">
-                                        <div class="label">Manage contacts</div>
-                                    </a>
-                                    <a href="{{ route('user.contacts.validatorCredits') }}"
-                                        class="menu_grid single_menu_grid {{ request()->is('contacts/validator-credits') ? 'menu_grid active_menu' : 'menu_grid' }}">
-                                        <div class="label">Validator credits</div>
-                                    </a>
                                 </div>
                             </div>
-                        </div>
                         @endif
                         @if (isUserPermitted('campaign'))
                             <div class="accordion-item">
@@ -315,21 +335,21 @@
 
                     </div>
                     @if (isUserPermitted('calendar'))
-                    <a href="{{ route('user.calendar') }}"
-                        class="{{ request()->is('calendar') || request()->is('calendar/*') ? 'menu_grid active_menu' : 'menu_grid' }}">
-                        <div class="icon">
-                            <svg width="18" height="19" viewBox="0 0 18 19" fill="none"
-                                xmlns="http://www.w3.org/2000/svg" currentColor="#4E4E4E">
-                                <path d="M13.5833 0.666667V4M4.41666 0.666667V4" stroke="currentColor"
-                                    stroke-width="1.5" stroke-linejoin="round" />
-                                <path d="M16.5 2.33333H1.5V17.3333H16.5V2.33333Z" stroke="currentColor"
-                                    stroke-width="1.5" stroke-linejoin="round" />
-                                <path d="M1.5 6.5H16.5" stroke="currentColor" stroke-width="1.5"
-                                    stroke-linecap="round" stroke-linejoin="round" />
-                            </svg>
-                        </div>
-                        <div class="label">Calendar</div>
-                    </a>
+                        <a href="{{ route('user.calendar') }}"
+                            class="{{ request()->is('calendar') || request()->is('calendar/*') ? 'menu_grid active_menu' : 'menu_grid' }}">
+                            <div class="icon">
+                                <svg width="18" height="19" viewBox="0 0 18 19" fill="none"
+                                    xmlns="http://www.w3.org/2000/svg" currentColor="#4E4E4E">
+                                    <path d="M13.5833 0.666667V4M4.41666 0.666667V4" stroke="currentColor"
+                                        stroke-width="1.5" stroke-linejoin="round" />
+                                    <path d="M16.5 2.33333H1.5V17.3333H16.5V2.33333Z" stroke="currentColor"
+                                        stroke-width="1.5" stroke-linejoin="round" />
+                                    <path d="M1.5 6.5H16.5" stroke="currentColor" stroke-width="1.5"
+                                        stroke-linecap="round" stroke-linejoin="round" />
+                                </svg>
+                            </div>
+                            <div class="label">Calendar</div>
+                        </a>
                     @endif
 
                     <a href="{{ route('user.logout') }}"
@@ -362,11 +382,10 @@
         </div>
         <a href="{{ route('user.myAccount') }}" class="user_profile_grid">
             @if (user()->avatar)
-                <img src="{{ asset(user()->avatar) }}" class="user_img" />
+                <img src="{{ asset(user()->avatar) }}" class="user_img" style="border-radius: 50%" />
             @else
-                <div class="user_img chat-avatar">
-                    {{ Str::limit(user()->first_name, 1, '') }}{{ Str::limit(user()->last_name, 1,
-                    '') }}
+                <div class="user_img chat-avatar" style="width: 35px; height: 35px;">
+                    {{ Str::limit(user()->first_name, 1, '') }}{{ Str::limit(user()->last_name, 1, '') }}
                 </div>
             @endif
             <div>
