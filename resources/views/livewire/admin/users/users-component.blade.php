@@ -73,6 +73,13 @@
                                             @include(
                                                 'livewire.admin.datatable.admin-datatable-th-sorting',
                                                 [
+                                                    'id' => 'parent_id',
+                                                    'thDisplayName' => 'Account Type',
+                                                ]
+                                            )
+                                            @include(
+                                                'livewire.admin.datatable.admin-datatable-th-sorting',
+                                                [
                                                     'id' => 'username',
                                                     'thDisplayName' => 'Active Plan',
                                                 ]
@@ -128,6 +135,14 @@
                                                                 style="height: 40px; width: 40px;" alt="">
                                                         @endif
                                                         {{ $user->first_name }} {{ $user->last_name }}
+                                                    </td>
+                                                    <td>
+                                                        @if ($user->parent_id)
+                                                            <p>Sub Account</p> <b>Main AC:
+                                                                {{ getUserByID($user->parent_id)->email }}</b>
+                                                        @else
+                                                            <p>Main Account</p>
+                                                        @endif
                                                     </td>
                                                     <td class="align-middle">
                                                         {{ $user->latestSubscription->package_name ?? 'No Plan' }}</td>

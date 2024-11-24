@@ -83,6 +83,24 @@
                     @if (is_permitted('manage_users'))
                         <li>
                             <a href="javascript: void(0);"
+                                class="has-arrow waves-effect {{ request()->is('admin/number-renew-alert') || request()->is('admin/number-renew-alert/*') ? 'active_menu' : '' }}">
+                                <i class="bx bx-alarm"></i>
+                                <span key="t-multi-level">Number Renew Alert</span>
+                            </a>
+                            <ul class="sub-menu" aria-expanded="true">
+                                @if (is_permitted('manage_users'))
+                                    <li>
+                                        <a href="{{ route('admin.numberRenewAlert') }}" key="t-level-1-1"
+                                            class="{{ request()->is('admin/number-renew-alert') ? 'active_sub_menu' : '' }}">Subscription</a>
+                                    </li>
+                                @endif
+                            </ul>
+                        </li>
+                    @endif
+
+                    @if (is_permitted('manage_users'))
+                        <li>
+                            <a href="javascript: void(0);"
                                 class="has-arrow waves-effect {{ request()->is('admin/subscriptions') || request()->is('admin/subscriptions/*') ? 'active_menu' : '' }}">
                                 <i class="bx bxs-report"></i>
                                 <span key="t-multi-level">Reports</span>
