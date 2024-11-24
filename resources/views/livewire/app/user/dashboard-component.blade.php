@@ -194,9 +194,9 @@
                                             {{ \Carbon\Carbon::parse($activity->created_at)->isToday() ? 'Today, ' . \Carbon\Carbon::parse($activity->created_at)->format('g:i A') : \Carbon\Carbon::parse($activity->created_at)->format('F j, Y, g:i A') }}
                                         </h4>
                                         @if ($activity->direction == 'inbound')
-                                            <h5>Message received from <strong>{{ getContactNumberName($activity->contact_id)->first_name }} {{ getContactNumberName($activity->contact_id)->last_name }}</strong></h5>
+                                            <h5>Message received from <strong>{{ isset(getContactNumberName($activity->contact_id)->first_name) ? getContactNumberName($activity->contact_id)->first_name : '--' }} {{ isset(getContactNumberName($activity->contact_id)->last_name) ? getContactNumberName($activity->contact_id)->last_name : '--' }}</strong></h5>
                                         @else
-                                            <h5>Message sent to <strong>{{ getContactNumberName($activity->contact_id)->first_name }} {{ getContactNumberName($activity->contact_id)->last_name }}</strong></h5>
+                                            <h5>Message sent to <strong>{{ isset(getContactNumberName($activity->contact_id)->first_name) ? getContactNumberName($activity->contact_id)->first_name : '--' }} {{ isset(getContactNumberName($activity->contact_id)->last_name) ? getContactNumberName($activity->contact_id)->last_name : '--' }}</strong></h5>
                                         @endif
                                     </div>
                                 </div>
