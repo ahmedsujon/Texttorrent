@@ -35,8 +35,12 @@ class ActiveNumberComponent extends Component
             $this->TWILIO_SID = $twilioCredentials->account_sid;
             $this->TWILIO_AUTH_TOKEN = $twilioCredentials->auth_token;
         } else {
-            session()->flash('error', 'Please add your Twilio API.');
-            return redirect()->route('user.apis');
+            if (user()->type == 'sub') {
+                return redirect()->route('user.apiAlertSubAccount');
+            } else {
+                session()->flash('error', 'Please add your Twilio API.');
+                return redirect()->route('user.apis');
+            }
         }
     }
 
