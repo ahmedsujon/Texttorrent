@@ -317,15 +317,15 @@
                         <div class="row">
                             <div class="col-md-12 text-center">
                                 <span wire:loading
-                                    wire:target='editContact,deleteConfirmation,editList,addRemoveBookmark,list_search_term,contacts_search_term,selectList,deleteAllContacts,exportContacts,removeBlacklist'><i
+                                    wire:target='editContact,deleteConfirmation,editList,addRemoveBookmark,list_search_term,contacts_search_term,selectList,deleteAllContacts,exportContacts,removeBlacklist,numberValidateConfirmation'><i
                                         class="fa fa-spinner fa-spin"></i> Processing...</span>
                             </div>
                         </div>
                         @if (isUserPermitted('number-validator'))
-                            <a href="#" class="import_btn">
+                            <button type="button" wire:click.prevent='numberValidateConfirmation' wire:loading.attr='disabled' class="import_btn">
                                 <img src="{{ asset('assets/app/icons/call-disabled.svg') }}" alt="call disabled" />
                                 <span>Mobile verification & DNC check </span>
-                            </a>
+                            </button>
                         @endif
                     </div>
                     <div class="details_list_area" style="min-height: 320px;">
@@ -1309,6 +1309,35 @@
                 </div>
             </div>
         </div>
+
+        <!-- Number Validation  -->
+        <div wire:ignore.self class="modal fade delete_modal" id="validationModal" tabindex="-1"
+            aria-labelledby="deleteModal" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+                <div class="modal-content">
+                    <div class="modal-body">
+                        <div class="content_area">
+                            <h2>Are you sure?</h2>
+                            <h4>You want to validate selected numbers?</h4>
+                            <p class="mt-4">
+                                Total Numbers Selected: <b>{{ $total_numbers_selected }}</b> <br>
+                                Total Credits Needed: <b>{{ $validator_credits }}</b>
+                            </p>
+                            <div class="delete_action_area d-flex align-items-center flex-wrap">
+                                <button type="button" class="delete_cancel_btn" id="deleteModalCloseBtn"
+                                    data-bs-dismiss="modal">
+                                    Cancel
+                                </button>
+                                <button type="button" wire:click.prevent='validateNumbers'
+                                    wire:loading.attr='disabled' class="delete_yes_btn">
+                                    {!! loadingStateWithText('validateNumbers', 'Yes') !!}
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </main>
 </div>
 @push('scripts')
@@ -1523,6 +1552,19 @@
                 Swal.fire(
                     "Removed!",
                     "" + event.detail[0].message + "",
+                    "success"
+                );
+            });
+
+            window.addEventListener('showNumberValidateConfirmation', event => {
+                $('#validationModal').modal('show');
+            });
+
+            window.addEventListener('numberValidationSubmitted', event => {
+                $('#validationModal').modal('hide');
+                Swal.fire(
+                    "Success!",
+                    "Your number validation has been submitted & currently processing.",
                     "success"
                 );
             });
