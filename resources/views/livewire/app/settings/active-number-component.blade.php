@@ -63,7 +63,7 @@
             </div>
             <div class="row">
                 <div class="col-md-12 text-center">
-                    <span wire:loading wire:target='numberType,sort_type,sort_status'><i
+                    <span wire:loading wire:target='numberType,sort_type,sort_status,renewConfirmation'><i
                             class="fa fa-spinner fa-spin"></i>
                         Processing...</span>
                 </div>
@@ -171,6 +171,10 @@
                                             @else
                                                 <div class="capability_status sms">Inactive</div>
                                             @endif
+
+                                            @if ($number['next_renew_date'] < Carbon\Carbon::parse(now())->format('Y-m-d'))
+                                                <div class="capability_status sms">Expired</div>
+                                            @endif
                                         </td>
                                         <td class="text-center">
                                             <button class="btn btn-sm btn-primary"
@@ -189,19 +193,28 @@
                                                             <h4>Select</h4>
                                                         </li>
                                                         <li>
-                                                            @if ($number->status == 1)
+                                                            @if ($number['next_renew_date'] < Carbon\Carbon::parse(now())->format('Y-m-d'))
                                                                 <button type="button" class="dropdown-item"
-                                                                    wire:click.prevent='changeStatus({{ $number->id }}, {{ $number->status }})'>
+                                                                    wire:click.prevent='renewConfirmation({{ $number->id }})'>
                                                                     <img src="{{ asset('assets/app/icons/copy-02.svg') }}"
                                                                         alt="copy icon" />
-                                                                    <span>Inactive</span>
+                                                                    <span>Renew</span>
                                                                 </button>
                                                             @else
-                                                                <button type="button" class="dropdown-item"
-                                                                    wire:click.prevent='changeStatus({{ $number->id }}, {{ $number->status }})'>
-                                                                    <img src="{{ asset('assets/app/icons/copy-02.svg') }}"
-                                                                        alt="copy icon" />
-                                                                    <span>Active</span>
+                                                                @if ($number->status == 1)
+                                                                    <button type="button" class="dropdown-item"
+                                                                        wire:click.prevent='changeStatus({{ $number->id }}, {{ $number->status }})'>
+                                                                        <img src="{{ asset('assets/app/icons/copy-02.svg') }}"
+                                                                            alt="copy icon" />
+                                                                        <span>Inactive</span>
+                                                                    </button>
+                                                                @else
+                                                                    <button type="button" class="dropdown-item"
+                                                                        wire:click.prevent='changeStatus({{ $number->id }}, {{ $number->status }})'>
+                                                                        <img src="{{ asset('assets/app/icons/copy-02.svg') }}"
+                                                                            alt="copy icon" />
+                                                                        <span>Active</span>
+                                                                @endif
                                                             @endif
 
                                                             <button type="button" class="dropdown-item"
@@ -378,6 +391,32 @@
                 </div>
             </div>
         </div>
+
+        <!-- Renewal Modal -->
+        <div wire:ignore.self class="modal fade delete_modal" id="renewModal" tabindex="-1"
+            aria-labelledby="deleteModal" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+                <div class="modal-content">
+                    <div class="modal-body">
+                        <div class="content_area">
+                            <h2>Are you sure?</h2>
+                            <h4>You want to renew this number?</h4>
+                            <h5 class="mt-3">Renew cost: <b>300</b> credits</h5>
+                            <div class="delete_action_area d-flex align-items-center flex-wrap">
+                                <button type="button" class="delete_cancel_btn" id="deleteModalCloseBtn"
+                                    data-bs-dismiss="modal">
+                                    Cancel
+                                </button>
+                                <button type="button" wire:click.prevent='renewNumber' wire:loading.attr='disabled'
+                                    class="delete_yes_btn">
+                                    {!! loadingStateWithText('renewNumber', 'Yes') !!}
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </main>
 </div>
 @push('scripts')
@@ -409,6 +448,20 @@
         window.addEventListener('show_release_modal', event => {
             $('#releaseModal').modal('show');
         });
+
+        window.addEventListener('showRenewModal', event => {
+            $('#renewModal').modal('show');
+        });
+
+        window.addEventListener('numberRenewed', event => {
+            $('#renewModal').modal('hide');
+            Swal.fire(
+                "Success!",
+                "The number has been renewed successfully.",
+                "success"
+            );
+        });
+
 
         window.addEventListener('closeModal', event => {
             $('#assignModal').modal('hide');
