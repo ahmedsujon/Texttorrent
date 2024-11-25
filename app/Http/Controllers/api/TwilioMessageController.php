@@ -34,7 +34,7 @@ class TwilioMessageController extends Controller
 
         // get Chat
         $chat = Chat::select('chats.id', 'chats.user_id as receiver', 'chats.contact_id as sender')->join('contacts', 'contacts.id', 'chats.contact_id')->where('chats.from_number', $to)->where('contacts.number', $from)->first();
-        $claim = BulkMessageItem::where('send_from', $to)->where('send_to', $from)->first();
+        $claim = BulkMessageItem::where('send_from', $to)->where('send_to', $from)->orderBy('id', 'DESC')->first();
 
         $chat_user_id = '';
         if ($chat) {
@@ -61,7 +61,32 @@ class TwilioMessageController extends Controller
                 $credit_status = 0;
             }
 
-            if ($chat) {
+            if ($claim) {
+                $claim->received_message = $body;
+                $claim->received_message_sid = $messageSid;
+                $claim->credit_clear = $credit_status;
+                $claim->save();
+
+                // notifications
+                $activity = new Notification();
+                $activity->user_id = $claim->send_by;
+                $activity->claim_id = $claim->id;
+                $activity->content = 'New sms received from ' . $from;
+                $activity->save();
+
+                if (env('SOCKET_STATUS') == 'on' && $credit_status == 1) {
+                    $content = [
+                        "type" => 'claim',
+                        "claim_id" => $claim->id,
+                        "user_id" => $claim->send_by,
+                    ];
+
+                    $socket_server = env('SOCKET_SERVER');
+                    $response = Http::post('' . $socket_server . '/send_message', [
+                        'content' => $content,
+                    ]);
+                }
+            } else if ($chat) {
                 $msg = new ChatMessage();
                 $msg->chat_id = $chat->id;
                 $msg->direction = 'inbound';
@@ -90,31 +115,6 @@ class TwilioMessageController extends Controller
                         "type" => 'chat',
                         "chat_id" => $nChat->id,
                         "user_id" => $nChat->user_id,
-                    ];
-
-                    $socket_server = env('SOCKET_SERVER');
-                    $response = Http::post('' . $socket_server . '/send_message', [
-                        'content' => $content,
-                    ]);
-                }
-            } else if ($claim) {
-                $claim->received_message = $body;
-                $claim->received_message_sid = $messageSid;
-                $claim->credit_clear = $credit_status;
-                $claim->save();
-
-                // notifications
-                $activity = new Notification();
-                $activity->user_id = $claim->send_by;
-                $activity->claim_id = $claim->id;
-                $activity->content = 'New sms received from ' . $from;
-                $activity->save();
-
-                if (env('SOCKET_STATUS') == 'on' && $credit_status == 1) {
-                    $content = [
-                        "type" => 'claim',
-                        "claim_id" => $claim->id,
-                        "user_id" => $claim->send_by,
                     ];
 
                     $socket_server = env('SOCKET_SERVER');
