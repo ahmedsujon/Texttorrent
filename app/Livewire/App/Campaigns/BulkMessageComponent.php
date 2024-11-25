@@ -230,10 +230,13 @@ class BulkMessageComponent extends Component
                         $number = $this->numbers[0];
                     }
 
+                    $sender = Number::select('user_id')->where('number', $number)->first();
+
                     // Create the SMS object
                     $sms = new BulkMessageItem();
                     $sms->bulk_message_id = $data->id;
-                    $sms->send_by = user()->id;
+                    // $sms->send_by = user()->id;
+                    $sms->send_by = $sender->user_id;
                     $sms->send_from = $number;
                     $sms->send_to = $cList->number;
                     $sms->message = $message ? $message : null;
@@ -361,12 +364,24 @@ class BulkMessageComponent extends Component
         $this->countSmsContent();
     }
 
+    public function updatedRoundRobinCampaign()
+    {
+        $this->reset(['numbers', 'selectAllNumbers']);
+    }
+
     public $searchContactList;
     public function render()
     {
         $contactLists = ContactList::where('name', 'like', '%' . $this->searchContactList . '%')->where('user_id', user()->id)->orderBy('id', 'DESC')->get();
         $messageTemplates = InboxTemplate::where('user_id', user()->id)->orderBy('id', 'DESC')->get();
-        $activeNumbers = Number::where('user_id', Auth::user()->id)->where('number', 'like', '%' . $this->selectNumberSearch . '%')->where('status', 1)->orderBy('id', 'DESC')->get();
+
+        $user_ids = [user()->id];
+        if ($this->round_robin_campaign) {
+            $sub_users = DB::table('users')->where('parent_id', user()->id)->pluck('id')->toArray();
+            $user_ids = array_merge($user_ids, $sub_users);
+        }
+
+        $activeNumbers = Number::whereIn('user_id', $user_ids)->where('number', 'like', '%' . $this->selectNumberSearch . '%')->where('status', 1)->orderBy('id', 'DESC')->get();
 
         $this->all_numbers = $activeNumbers->pluck('number')->toArray();
 

@@ -29,7 +29,7 @@ class ClaimsComponent extends Component
         $id = $this->claim_id;
 
         $claim = BulkMessageItem::find($id);
-        $contact = DB::table('contacts')->where('number', $claim->send_to)->where('user_id', user()->id)->first();
+        $contact = DB::table('contacts')->where('number', $claim->send_to)->first();
 
         $getChat = Chat::where('user_id', user()->id)->where('contact_id', $contact->id)->where('from_number', $claim->send_from)->first();
 
@@ -141,7 +141,7 @@ class ClaimsComponent extends Component
         foreach ($this->bulk_ids as $key => $id) {
 
             $claim = BulkMessageItem::find($id);
-            $contact = DB::table('contacts')->where('number', $claim->send_to)->where('user_id', user()->id)->first();
+            $contact = DB::table('contacts')->where('number', $claim->send_to)->first();
 
             $getChat = Chat::where('user_id', user()->id)->where('contact_id', $contact->id)->where('from_number', $claim->send_from)->first();
 
@@ -235,7 +235,7 @@ class ClaimsComponent extends Component
         $claims = BulkMessageItem::where('status', 1)->where('received_message', '!=', NULL)->where(function ($q) {
             $q->where('received_message', 'like', '%' . $this->searchTerm . '%')
                 ->orWhere('send_to', 'like', '%' . $this->searchTerm . '%');
-        })->paginate($this->sortingValue);
+        })->where('send_by', user()->id)->paginate($this->sortingValue);
 
         $this->claim_ids = $claims->pluck('id')->toArray();
 
