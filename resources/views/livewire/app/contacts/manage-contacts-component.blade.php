@@ -356,6 +356,14 @@
                                     </div>
                                     <div
                                         class="list_action_details_area d-flex align-items-center justify-content-end flex-wrap g-sm">
+                                        {{-- <button type="button" class="icon_btn"
+                                            wire:click.prevent='validateNum({{ $contact->number }})'
+                                            wire:loading.attr='disabled'>
+                                            {!! loadingStateWithoutText(
+                                                'validateNum(' . $contact->number . ')',
+                                                'V',
+                                            ) !!}
+                                        </button> --}}
                                         <button type="button" class="icon_btn"
                                             wire:click.prevent='showDetails({{ $contact->id }})'
                                             wire:loading.attr='disabled'>

@@ -24,7 +24,8 @@ return new class extends Migration
             $table->string('additional_1')->nullable();
             $table->string('additional_2')->nullable();
             $table->string('additional_3')->nullable();
-            $table->tinyInteger('validated')->default(0);
+            $table->enum('valid', ['Valid', 'Invalid'])->nullable();
+            $table->tinyInteger('validation_process')->default(0);
             $table->tinyInteger('blacklisted')->default(0);
             $table->tinyInteger('status')->default(1);
             $table->timestamps();

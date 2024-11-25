@@ -13,6 +13,7 @@ use App\Exports\ContactsExport;
 use App\Imports\ContactsImport;
 use App\Models\NumberValidation;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Http;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Models\NumberValidationItems;
 
@@ -493,7 +494,9 @@ class ManageContactsComponent extends Component
             $this->total_numbers_selected = count($this->contact_checkbox);
             $this->validator_credits = count($this->contact_checkbox) * 1;
 
-            $this->dispatch('showNumberValidateConfirmation');
+            dd('Working on it');
+
+            // $this->dispatch('showNumberValidateConfirmation');
         }
     }
 
@@ -548,6 +551,19 @@ class ManageContactsComponent extends Component
             }
         } else {
             $this->dispatch('error', ['message' => 'No active subscription found!']);
+        }
+    }
+
+    public function validateNum($number)
+    {
+        $apiKey = env('NUM_VERIFY_ACCESS_KEY');
+        $response = Http::get("http://apilayer.net/api/validate", [
+            'access_key' => $apiKey,
+            'number' => $number,
+        ]);
+
+        if ($response->ok()) {
+            dd($response->json());
         }
     }
 

@@ -42,14 +42,27 @@ class UserContactsTableSeeder extends Seeder
         $contact->folder_id = 1;
         $contact->save();
 
-        for ($i = 0; $i < 10; $i++) {
+        $phoneNumbers = [
+            "+17867467133",
+            "+14072145689",
+            "+13462141674",
+            "+13239686885",
+            "+16467361540",
+            "+12129316425",
+            "+19495315757",
+            "+17863996330",
+            "+13472102794",
+            "+16268549595"
+        ];
+
+        foreach ($phoneNumbers as $key => $number) {
             $faker = Faker::create();
 
             $contact = new Contact();
             $contact->user_id = 1;
-            $contact->first_name = $faker->firstName;
-            $contact->last_name = $faker->lastName;
-            $contact->number = '+1' . $faker->numerify('##########');
+            $contact->first_name = 'Test';
+            $contact->last_name = 'Number ' . $key + 1;
+            $contact->number = $number;
             $contact->company = $faker->company();
             $contact->list_id = 2;
             $contact->folder_id = 2;
