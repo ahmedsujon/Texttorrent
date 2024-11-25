@@ -20,9 +20,6 @@
                     <div class="card">
                         <div class="card-header bg-white" style="border-bottom: 1px solid #e2e2e7;">
                             <h4 class="card-title" style="float: left;">All Number Renew Alert</h4>
-                            <button class="btn btn-sm btn-dark waves-effect waves-light" data-bs-toggle="modal"
-                                data-bs-target="#addDataModal" style="float: right;"><i class="bx bx-plus"></i> Add
-                                Admin</button>
                         </div>
                         <div class="card-body">
                             <div class="row mb-3">
@@ -82,7 +79,7 @@
                                             @include(
                                                 'livewire.admin.datatable.admin-datatable-th-sorting',
                                                 [
-                                                    'id' => 'number',
+                                                    'id' => 'next_renew_date',
                                                     'thDisplayName' => 'Expire Date',
                                                 ]
                                             )
@@ -123,8 +120,17 @@
                                                 <tr>
                                                     <td class="align-middle">{{ $sl++ }}</td>
                                                     <td class="align-middle">{{ $renew_alert->number }}</td>
-                                                    <td class="align-middle">{{ $renew_alert->number }}</td>
-                                                    <td class="align-middle">{{ $renew_alert->number }}</td>
+                                                    <td class="align-middle">
+                                                        @php
+                                                            $remainingDays = \Carbon\Carbon::now()->diffInDays(
+                                                                $renew_alert->next_renew_date,
+                                                                false,
+                                                            );
+                                                        @endphp
+                                                        {{ $remainingDays > 0 ? $remainingDays . ' days' : 'Expired' }}
+                                                    </td>
+
+                                                    <td class="align-middle">{{ $renew_alert->next_renew_date }}</td>
                                                     <td class="align-middle">{{ $renew_alert->type }}</td>
                                                     <td class="align-middle">
                                                         {{ $renew_alert['region'] ? $renew_alert['region'] . ', ' : '' }}{{ $renew_alert['country'] }}
@@ -208,11 +214,11 @@
             $('#editDataModal').modal('hide');
         });
 
-        window.addEventListener('admin_deleted', event => {
+        window.addEventListener('number_deleted', event => {
             $('#deleteDataModal').modal('hide');
             Swal.fire(
                 "Deleted!",
-                "The admin has been deleted.",
+                "The expired number has been deleted.",
                 "success"
             );
         });
