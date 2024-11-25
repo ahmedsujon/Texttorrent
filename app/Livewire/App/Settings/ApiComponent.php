@@ -12,7 +12,14 @@ class ApiComponent extends Component
 
     public function mount()
     {
-        $data = Api::where('user_id', user()->id)->first();
+        if (user()->type == 'sub') {
+            $au_user = DB::table('users')->select('id', 'credits')->where('id', user()->parent_id)->first();
+            $user_id = $au_user->id;
+        } else {
+            $user_id = user()->id;
+        }
+
+        $data = Api::where('user_id', $user_id)->first();
 
         if ($data) {
             $this->gateway = $data->gateway;

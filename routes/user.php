@@ -30,6 +30,7 @@ use App\Livewire\App\Contacts\ValidatorCreditsComponent;
 use App\Livewire\App\Settings\SubscriptionAlertComponent;
 use App\Livewire\App\Settings\DLCCampaignPaymentComponent;
 use App\Livewire\App\Campaigns\ContactMessageQueueComponent;
+use App\Livewire\App\Settings\ApiAlertComponent;
 
 /*
 |--------------------------------------------------------------------------
@@ -74,6 +75,7 @@ Route::name('user.')->middleware('auth')->group(function () {
     Route::get('settings/change-password', ChangePasswordComponent::class)->name('changePassword');
     Route::get('settings/subscription', SubscriptionComponent::class)->name('subscription');
     Route::get('settings/subscription/alert', SubscriptionAlertComponent::class)->name('subscriptionAlertSubAccount');
+    Route::get('settings/api/alert', ApiAlertComponent::class)->name('apiAlertSubAccount');
 
     Route::get('settings/sub-account', SubAccountComponent::class)->name('subAccount');
     Route::get('settings/get-number', GetNumberComponent::class)->name('getNumber')->middleware('subscription');
