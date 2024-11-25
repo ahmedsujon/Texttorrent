@@ -83,7 +83,7 @@
                                     <h6 class="switch_title">
                                         Number pool
                                         <span data-bs-toggle="tooltip" data-bs-placement="top"
-                                            data-bs-title="Some Text">
+                                            data-bs-title="Enable this to use a pool of multiple phone numbers for sending messages, increasing delivery rates and reducing carrier filtering risks.">
                                             <img src="{{ asset('assets/app/icons/info-circle.svg') }}"
                                                 alt="info circle" />
                                         </span>
@@ -101,7 +101,7 @@
                                 </label>
                                 <h6 class="switch_title">
                                     Execute batch process
-                                    <span data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Some Text">
+                                    <span data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="This option breaks your contact list into smaller batches for sending messages gradually, helping avoid spam detection by carriers.">
                                         <img src="{{ asset('assets/app/icons/info-circle.svg') }}" alt="info circle" />
                                     </span>
                                 </h6>
@@ -116,7 +116,7 @@
                                 </label>
                                 <h6 class="switch_title">
                                     Add opt-out link
-                                    <span data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Some Text">
+                                    <span data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Automatically include an opt-out message, like 'STOP to opt out,' ensuring compliance with SMS marketing regulations.">
                                         <img src="{{ asset('assets/app/icons/info-circle.svg') }}" alt="info circle" />
                                     </span>
                                 </h6>
@@ -131,7 +131,7 @@
                                 </label>
                                 <h6 class="switch_title">
                                     Round Robin campaign
-                                    <span data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Some Text">
+                                    <span data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="When enabled, responses to messages are routed directly to the subaccounts assigned to the numbers that sent them. This ensures subaccounts can manage replies efficiently, even if the main account sends the campaign.">
                                         <img src="{{ asset('assets/app/icons/info-circle.svg') }}" alt="info circle" />
                                     </span>
                                 </h6>
