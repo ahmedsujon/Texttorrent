@@ -163,7 +163,7 @@
                                         </td>
                                         <td>
                                             <h4 class="phone_number">{{ isset(getUserByID($number->user_id)->first_name) ? getUserByID($number->user_id)->first_name : '--' }}
-                                                {{ isset(getUserByID($number->user_id)->last_name) : getUserByID($number->user_id)->last_name : '--' }}</h4>
+                                                {{ isset(getUserByID($number->user_id)->last_name) ? getUserByID($number->user_id)->last_name : '--' }}</h4>
                                         </td>
                                         <td class="capability_status_area">
                                             @if ($number['status'] == 1)
