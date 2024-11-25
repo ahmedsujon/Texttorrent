@@ -12,9 +12,9 @@
                 </div>
             </div>
             <div class="template_filter_area d-flex-between">
-                <form action="" class="search_input_form">
-                    <input type="search" placeholder="Search folder" class="input_field" />
-                    <button type="submit" class="search_icon">
+                <form class="search_input_form">
+                    <input type="search" placeholder="Search lists" wire:model.live='searchTerm' class="input_field" />
+                    <button type="button" class="search_icon">
                         <img src="{{ asset('assets/app/icons/search-gray.svg') }}" alt="search icon" />
                     </button>
                 </form>
@@ -38,37 +38,31 @@
                                 <th scope="col">
                                     <div class="column_area">
                                         <span>File Name</span>
-                                        <img src="{{ asset('assets/app/icons/tp-down-table-arrow.svg') }}" alt="top down arrow" />
                                     </div>
                                 </th>
                                 <th scope="col">
                                     <div class="column_area">
                                         <span>Validator Credits</span>
-                                        <img src="{{ asset('assets/app/icons/tp-down-table-arrow.svg') }}" alt="top down arrow" />
                                     </div>
                                 </th>
                                 <th scope="col">
                                     <div class="column_area">
                                         <span>Total numbers</span>
-                                        <img src="{{ asset('assets/app/icons/tp-down-table-arrow.svg') }}" alt="top down arrow" />
                                     </div>
                                 </th>
                                 <th scope="col">
                                     <div class="column_area">
                                         <span>Total mobile numbers</span>
-                                        <img src="{{ asset('assets/app/icons/tp-down-table-arrow.svg') }}" alt="top down arrow" />
                                     </div>
                                 </th>
                                 <th scope="col">
                                     <div class="column_area">
                                         <span>Total landline numbers</span>
-                                        <img src="{{ asset('assets/app/icons/tp-down-table-arrow.svg') }}" alt="top down arrow" />
                                     </div>
                                 </th>
                                 <th scope="col">
                                     <div class="column_area">
                                         <span>Created</span>
-                                        <img src="{{ asset('assets/app/icons/tp-down-table-arrow.svg') }}" alt="top down arrow" />
                                     </div>
                                 </th>
 
@@ -80,118 +74,116 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td>
-                                    <div class="form-check table_checkbox_area">
-                                        <input class="form-check-input" type="checkbox" value="" />
-                                    </div>
-                                </td>
-                                <td>
-                                    <div class="icon_text_area">
-                                        <img src="{{ asset('assets/app/icons/file.svg') }}" alt="file icon" />
-                                        <p>List 1</p>
-                                    </div>
-                                </td>
-                                <td>
-                                    <div class="icon_text_area">
-                                        <img src="{{ asset('assets/app/icons/coins-dollar.svg') }}" alt="dollar icon" />
-                                        <p>10</p>
-                                    </div>
-                                </td>
-                                <td>
-                                    <p>32</p>
-                                </td>
-                                <td>
-                                    <div class="icon_text_area">
-                                        <img src="{{ asset('assets/app/icons/exists.svg') }}" alt="exists icon" />
-                                        <p>32</p>
-                                    </div>
-                                </td>
-                                <td>
-                                    <div class="icon_text_area">
-                                        <img src="{{ asset('assets/app/icons/telephone.svg') }}" alt="telephone icon" />
-                                        <p>12</p>
-                                    </div>
-                                </td>
-                                <td>
-                                    <p>Today, 9:43 AM</p>
-                                </td>
-                                <td>
-                                    <div class="table_dropdown_area d-flex align-items-center flex-wrap gap-1">
-                                        <div class="dropdown">
-                                            <button class="table_dot_btn dropdown-toggle" type="button"
-                                                data-bs-toggle="dropdown" aria-expanded="false">
-                                                <img src="{{ asset('assets/app/icons/dot-horizontal.svg') }}" alt="dot icon" />
-                                            </button>
-                                            <ul class="dropdown-menu">
-                                                <li>
-                                                    <h4>Select</h4>
-                                                </li>
-                                                <li>
-                                                    <button type="button" class="dropdown-item">
-                                                        <img src="{{ asset('assets/app/icons/import.svg') }}" alt="copy icon" />
-                                                        <span>Export</span>
-                                                    </button>
-                                                </li>
-                                                <li>
-                                                    <button type="button" class="dropdown-item">
-                                                        <img src="{{ asset('assets/app/icons/delete-01.svg') }}" alt="delete icon" />
-                                                        <span>Delete</span>
-                                                    </button>
-                                                </li>
-                                            </ul>
+                            @if ($items->count() > 0)
+                                @foreach ($items as $itm)
+                                <tr>
+                                    <td>
+                                        <div class="form-check table_checkbox_area">
+                                            <input class="form-check-input" type="checkbox" value="" />
                                         </div>
-                                    </div>
-                                </td>
-                            </tr>
+                                    </td>
+                                    <td>
+                                        <div class="icon_text_area">
+                                            <img src="{{ asset('assets/app/icons/file.svg') }}" alt="file icon" />
+                                            <p>{{ $itm->list_name }}</p>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="icon_text_area">
+                                            <img src="{{ asset('assets/app/icons/coins-dollar.svg') }}" alt="dollar icon" />
+                                            <p>{{ $itm->total_credits }}</p>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <p>{{ $itm->total_number }}</p>
+                                    </td>
+                                    <td>
+                                        <div class="icon_text_area">
+                                            <img src="{{ asset('assets/app/icons/exists.svg') }}" alt="exists icon" />
+                                            <p>
+                                                @if ($itm->total_mobile_numbers == NULL)
+                                                    <small class="text-muted">TBD</small>
+                                                @else
+                                                    {{ $itm->total_mobile_numbers }}
+                                                @endif
+                                            </p>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="icon_text_area">
+                                            <img src="{{ asset('assets/app/icons/telephone.svg') }}" alt="telephone icon" />
+                                            <p>
+                                                @if ($itm->total_landline_numbers == NULL)
+                                                    <small class="text-muted">TBD</small>
+                                                @else
+                                                    {{ $itm->total_landline_numbers }}
+                                                @endif
+                                            </p>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <p>
+                                            {{ \Carbon\Carbon::parse($itm->created_at)->isToday() ? 'Today, ' . \Carbon\Carbon::parse($itm->created_at)->format('g:i A') : \Carbon\Carbon::parse($itm->created_at)->format('F j, Y, g:i A') }}
+                                        </p>
+                                    </td>
+                                    <td>
+                                        <div class="table_dropdown_area d-flex align-items-center flex-wrap gap-1">
+                                            <div class="dropdown">
+                                                <button class="table_dot_btn dropdown-toggle" type="button"
+                                                    data-bs-toggle="dropdown" aria-expanded="false">
+                                                    <img src="{{ asset('assets/app/icons/dot-horizontal.svg') }}" alt="dot icon" />
+                                                </button>
+                                                <ul class="dropdown-menu">
+                                                    <li>
+                                                        <h4>Select</h4>
+                                                    </li>
+                                                    <li>
+                                                        <button type="button" class="dropdown-item">
+                                                            <img src="{{ asset('assets/app/icons/import.svg') }}" alt="copy icon" />
+                                                            <span>Export</span>
+                                                        </button>
+                                                    </li>
+                                                    <li>
+                                                        <button type="button" class="dropdown-item">
+                                                            <img src="{{ asset('assets/app/icons/delete-01.svg') }}" alt="delete icon" />
+                                                            <span>Delete</span>
+                                                        </button>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                                @endforeach
+                            @else
+                                <tr>
+                                    <td colspan="8" class="text-center mt-5 pt-5">No data found!</td>
+                                </tr>
+                            @endif
                         </tbody>
                     </table>
                 </div>
             </div>
-            <div class="pagination_area">
-                <div class="d-flex position-relative">
-                    <select class="niceSelect">
-                        <option data-display="10">10</option>
-                        <option value="1">10</option>
-                        <option value="2">30</option>
-                        <option value="3">50</option>
-                        <option value="4">100</option>
+            <div class="pagination_area pagination_top_border">
+                <div class="d-flex" wire:ignore>
+                    <select class="niceSelect sortingValue">
+                        <option value="10">10</option>
+                        <option value="30">30</option>
+                        <option value="50">50</option>
+                        <option value="100">100</option>
                     </select>
                 </div>
-                <ul class="number_list d-flex align-items-center justify-content-center flex-wrap">
-                    <li>
-                        <a href="#" class="pagination_active"> 1 </a>
-                    </li>
-                    <li>
-                        <a href="#"> 2 </a>
-                    </li>
-                    <li>
-                        <a href="#"> 3 </a>
-                    </li>
-                    <li>
-                        <div class="middle_dot">...</div>
-                    </li>
-                    <li>
-                        <a href="#"> 8 </a>
-                    </li>
-                    <li>
-                        <a href="#"> 9 </a>
-                    </li>
-                    <li>
-                        <a href="#"> 10 </a>
-                    </li>
-                </ul>
-                <div class="pagination_action_list d-flex align-items-center justify-content-end flex-wrap g-sm">
-                    <a href="#">
-                        <img src="{{ asset('assets/app/icons/back-arrow-black.svg') }}" alt="back arrow" />
-                        <span>Previous</span>
-                    </a>
-                    <a href="#">
-                        <span>Next</span>
-                        <img src="{{ asset('assets/app/icons//right-arrow-black.svg') }}" alt="right arrow" />
-                    </a>
-                </div>
+                {{ $items->links('livewire.app-pagination') }}
             </div>
         </section>
     </main>
 </div>
+@push('scripts')
+    <script>
+        $(document).ready(function() {
+            $('.sortingValue').on('change', function() {
+                @this.set('sortingValue', this.value);
+            });
+        });
+    </script>
+@endpush
