@@ -44,7 +44,7 @@ class TwilioMessageController extends Controller
         }
 
         if ($chat_user_id) {
-            $chatUser = DB::table('users')->select('id', 'credits', 'type')->where('id', $chat_user_id)->first();
+            $chatUser = DB::table('users')->select('id', 'credits', 'type', 'parent_id')->where('id', $chat_user_id)->first();
             $credit_needed = userMsgCreditCalculation($chatUser->id, $messageType, 'incoming');
             if ($chatUser->type == 'sub') {
                 $au_user = DB::table('users')->select('id', 'credits')->where('id', $chatUser->parent_id)->first();
@@ -55,7 +55,7 @@ class TwilioMessageController extends Controller
                 $user_id = $chatUser->id;
             }
 
-            if (getUserActiveSubscription($chatUser->id)['status'] == 'Active' && $credit_has >= $credit_needed) {
+            if (getUserActiveSubscription($user_id)['status'] == 'Active' && $credit_has >= $credit_needed) {
                 $credit_status = 1;
             } else {
                 $credit_status = 0;
