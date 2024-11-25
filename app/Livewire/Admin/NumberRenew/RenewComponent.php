@@ -23,6 +23,24 @@ class RenewComponent extends Component
         $this->sortBy = $sortByField;
         $this->sortDirection = 'DESC';
     }
+
+    //Delete Admin
+    public function deleteConfirmation($id)
+    {
+        $this->delete_id = $id;
+        $this->dispatch('show_delete_confirmation');
+    }
+
+    public function deleteData()
+    {
+        $number = Number::where('id', $this->delete_id)->first();
+        deleteFile($number->avatar);
+        $number->delete();
+
+        $this->dispatch('number_deleted');
+        $this->delete_id = '';
+    }
+
     public function render()
     {
         $renew_alerts = Number::where('number', 'like', '%' . $this->searchTerm . '%')
