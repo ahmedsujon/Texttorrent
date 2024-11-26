@@ -30,9 +30,10 @@
                                 <p class="text-danger font-size-12 mb-0">{{ $message }}</p>
                             @enderror
                         </div>
+
                         <div class="input_row">
-                            <label for="">Password</label>
-                            <input type="password" wire:model.live="password" id="password"
+                            <label for="password">Password</label>
+                            <input type="password" wire:model.live="password" id="password_input1"
                                 class="input_filed password_input_filed" placeholder="Enter your password" />
                             <div class="eye_icon_area" id="password_eye_icon_area1">
                                 <button type="button" class="eye_open_btn" id="eyeOpen1">
@@ -46,6 +47,7 @@
                                 <p class="text-danger font-size-12 mb-0">{{ $message }}</p>
                             @enderror
                         </div>
+
                         <a href="#" class="forget_text">Forgot password?</a>
                         <button type="submit" class="login_btn">{!! loadingStateWithText('userRegistration', 'Create Your Account') !!}</button>
                         <div class="or_divider">
