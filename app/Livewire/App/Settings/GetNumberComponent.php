@@ -372,9 +372,6 @@ class GetNumberComponent extends Component
                 $user->credits -= $credit_needed;
                 $user->save();
 
-                // log
-                creditLog('Number purchase: ' . $number, $credit_needed);
-
                 $saveData = $this->savePurchase($number);
                 if ($saveData) {
                     $purchase_result[] = [
@@ -387,6 +384,9 @@ class GetNumberComponent extends Component
                         'status' => "<span class='text-danger'>Failed</span>",
                     ];
                 }
+
+                // log
+                creditLog('Number purchase: ' . $number['number'], $credit_needed);
             }
 
             session()->flash('purchase_result', $purchase_result);

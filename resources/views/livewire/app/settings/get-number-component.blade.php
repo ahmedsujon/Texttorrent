@@ -288,7 +288,7 @@
                 <div class="modal-content">
                     <div class="modal-header">
                         <h1 class="modal-title fs-5" id="newEventModal">
-                            Your Purchase Results
+                            Number Purchase Successful
                         </h1>
                         <button type="button" class="btn-close" data-bs-dismiss="modal"
                             aria-label="Close"></button>
@@ -297,13 +297,22 @@
                         <div class="purchase_area">
                             @if (session()->has('purchase_result'))
                                 <table class="table table-bordered">
-                                    @foreach (session('purchase_result') as $key => $result)
+                                    <thead>
                                         <tr>
-                                            <td>{{ $key + 1 }}</td>
-                                            <td>{{ $result['number'] }}</td>
-                                            <td class="text-center">{!! $result['status'] !!}</td>
+                                            <th>#</th>
+                                            <th>Number</th>
+                                            <th>Status</th>
                                         </tr>
-                                    @endforeach
+                                    </thead>
+                                    <tbody>
+                                        @foreach (session('purchase_result') as $key => $result)
+                                            <tr>
+                                                <td>{{ $key + 1 }}</td>
+                                                <td>{{ $result['number'] }}</td>
+                                                <td class="text-center">{!! $result['status'] !!}</td>
+                                            </tr>
+                                        @endforeach
+                                    </tbody>
                                 </table>
                             @endif
                         </div>

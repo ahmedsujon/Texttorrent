@@ -408,6 +408,53 @@ class ActiveNumberComponent extends Component
         }
     }
 
+    public function fetchPurchasedNumbers()
+    {
+        $twilio = new Client($this->TWILIO_SID, $this->TWILIO_AUTH_TOKEN);
+
+        try {
+            // Fetch purchased numbers
+            $incomingNumbers = $twilio->incomingPhoneNumbers->read();
+
+            // Convert each number to a simple array
+            $numbers_array = [];
+
+            foreach ($incomingNumbers as $number) {
+                $reflectedObject = new \ReflectionObject($number->capabilities);
+                $props = $reflectedObject->getProperties(\ReflectionProperty::IS_PROTECTED);
+
+                $caps = [];
+                foreach ($props as $prop) {
+                    $prop->setAccessible(true);
+                    $caps[$prop->getName()] = $prop->getValue($number->capabilities);
+                }
+
+                $phoneNumberDetails = $twilio->lookups->v1->phoneNumbers($number->phoneNumber)
+                ->fetch(['type' => 'carrier']);
+
+                // Create a simple array for each number
+                $numbers_array[] = [
+                    'sid' => $number->sid,
+                    'friendlyName' => $number->friendlyName,
+                    'phoneNumber' => $number->phoneNumber,
+                    'capabilities' => $caps,
+                    'phoneNumberDetails' => $phoneNumberDetails,
+                    'type' => $caps['sms'] ? 'local' : 'tollfree',
+                    'purchased_at' => Carbon::parse($number->dateCreated)->format('Y-m-d H:i:s'),
+                ];
+            }
+
+            dd($numbers_array);
+        } catch (\Exception $e) {
+            session()->flash('error', 'Failed to fetch purchased numbers: ' . $e->getMessage());
+        }
+    }
+
+    public function syncNumbers()
+    {
+        $this->fetchPurchasedNumbers();
+    }
+
     public $sort_type = 'all', $sort_status = 'all';
     public function render()
     {

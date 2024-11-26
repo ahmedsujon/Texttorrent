@@ -35,6 +35,15 @@
                                 'Bulk Release',
                             ) !!}
                         </button>
+
+                        {{-- @if (user()->type != 'sub')
+                            <button type="button" class="create_event_btn bg-secondary" wire:loading.attr='disabled' style="color: white !important;" wire:click.prevent='syncNumbers'>
+                                {!! loadingStateWithText(
+                                    'syncNumbers',
+                                    'Sync My Numbers',
+                                ) !!}
+                            </button>
+                        @endif --}}
                     </div>
 
                 </div>
