@@ -149,7 +149,10 @@
                                         </td>
                                         <td>
                                             <h4 class="phone_number">
-                                                {{ $number['region'] ? $number['region'] . ', ' : '' }}{{ $number['country'] }}
+                                                @if ($number['region'])
+                                                    {{ $number['region'] ? $number['region'] . ', ' : '' }}
+                                                @endif
+                                                {{ $number['country'] }}
                                             </h4>
                                         </td>
 
@@ -427,7 +430,7 @@
         </div>
 
         <!-- Sync Modal -->
-        <div class="modal fade common_modal" wire:ignore.self id="syncModal" tabindex="-1"
+        <div class="modal fade common_modal" data-bs-backdrop="static" data-bs-keyboard="false" wire:ignore.self id="syncModal" tabindex="-1"
             aria-labelledby="newEventModal" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
                 <div class="modal-content">
@@ -464,6 +467,9 @@
                                         <td class="text-center">{{ $total_credit_for_sync }}</td>
                                     </tr>
                                 @else
+                                    <tr>
+                                        <td colspan="4" class="text-center">No available numbers to sync!</td>
+                                    </tr>
                                 @endif
                             </tbody>
                         </table>
@@ -471,17 +477,19 @@
                         <br>
 
                         <div class="text-center text-muted">
-                            <svg xmlns="http://www.w3.org/2000/svg" style="margin-top: -3px" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" width="20" height="20" stroke-width="2"> <path d="M3 12a9 9 0 1 0 18 0a9 9 0 0 0 -18 0"></path> <path d="M12 9h.01"></path> <path d="M11 12h1v4h1"></path> </svg> A phone number will cost you 300 credits per month
+                            <svg xmlns="http://www.w3.org/2000/svg" style="margin-top: -2px" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" width="20" height="20" stroke-width="2"> <path d="M3 12a9 9 0 1 0 18 0a9 9 0 0 0 -18 0"></path> <path d="M12 9h.01"></path> <path d="M11 12h1v4h1"></path> </svg> A phone number will cost you 300 credits per month
                         </div>
                     </div>
-                    <div class="modal-footer event_modal_footer">
-                        <button type="button" class="cancel_btn" data-bs-dismiss="modal">
-                            Cancel
-                        </button>
-                        <button type="button" class="create_event_btn">
-                            Confirm
-                        </button>
-                    </div>
+                    @if ($numbers_to_sync && count($numbers_to_sync) > 0)
+                        <div class="modal-footer event_modal_footer">
+                            <button type="button" class="cancel_btn" data-bs-dismiss="modal">
+                                Close
+                            </button>
+                            <button type="button" wire:click.prevent='syncNumbers' wire:loading.attr='disabled' class="create_event_btn">
+                                {!! loadingStateWithText('syncNumbers', 'Sync Numbers') !!}
+                            </button>
+                        </div>
+                    @endif
                 </div>
             </div>
         </div>
@@ -511,6 +519,15 @@
 
         window.addEventListener('showSyncConfirmation', event => {
             $('#syncModal').modal('show');
+        });
+
+        window.addEventListener('syncSuccess', event => {
+            $('#syncModal').modal('hide');
+            Swal.fire(
+                "Success!",
+                "Number sync successful.",
+                "success"
+            );
         });
 
         window.addEventListener('showNumberAssignModal', event => {
