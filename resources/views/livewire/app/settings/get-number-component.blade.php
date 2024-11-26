@@ -214,8 +214,12 @@
                         <div class="purchase_area">
                             <img class="cart_purchase_icon"
                                 src="{{ asset('assets/app/images/others/shopping-cart-02.png') }}" alt="cart icon" />
-                            <h3>
-                                Buying a phone number will cost you 300 credits per month
+                            <h3 class="text-start">
+                                Credits for Number: <strong>300 Credits</strong> <br>
+                                First Time Purchase Fee: <strong>5 Credits</strong> <br>
+                                Total Credits Needed: <strong>305 Credits</strong> <br><br>
+
+                                <svg xmlns="http://www.w3.org/2000/svg" style="margin-top: -3px" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" width="20" height="20" stroke-width="2"> <path d="M3 12a9 9 0 1 0 18 0a9 9 0 0 0 -18 0"></path> <path d="M12 9h.01"></path> <path d="M11 12h1v4h1"></path> </svg> Buying a phone number will cost you 300 credits per month
                             </h3>
                         </div>
                     </div>
@@ -257,8 +261,10 @@
                                 @endif
                             </div>
                             <small class="mt-3">
-                                <strong>Credits Needed: {{ $qty ? $qty * 300 : 0 }}</strong> <br>
-                                Buying a phone number will cost you 300 credits per month
+                                Credits for {{ $qty }} Numbers: <strong>{{ $qty ? $qty * 300 : 0 }} Credits</strong> <br>
+                                First Time Purchase Fee: <strong>{{ $qty }} x 5 = {{ $qty ? $qty * 5 : 0 }} Credits</strong> <br>
+                                Total Credits Needed: <strong>{{ ($qty ? $qty * 5 : 0) + ($qty ? $qty * 300 : 0) }} Credits</strong> <br><br>
+                                <svg xmlns="http://www.w3.org/2000/svg" style="margin-top: -3px" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" width="20" height="20" stroke-width="2"> <path d="M3 12a9 9 0 1 0 18 0a9 9 0 0 0 -18 0"></path> <path d="M12 9h.01"></path> <path d="M11 12h1v4h1"></path> </svg> Buying a phone number will cost you 300 credits per month
                             </small>
                         </div>
                     </div>
