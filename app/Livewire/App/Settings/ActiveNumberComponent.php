@@ -429,31 +429,56 @@ class ActiveNumberComponent extends Component
                     $caps[$prop->getName()] = $prop->getValue($number->capabilities);
                 }
 
-                $phoneNumberDetails = $twilio->lookups->v1->phoneNumbers($number->phoneNumber)
-                ->fetch(['type' => 'carrier']);
-
                 // Create a simple array for each number
                 $numbers_array[] = [
                     'sid' => $number->sid,
                     'friendlyName' => $number->friendlyName,
                     'phoneNumber' => $number->phoneNumber,
                     'capabilities' => $caps,
-                    'phoneNumberDetails' => $phoneNumberDetails,
                     'type' => $caps['sms'] ? 'local' : 'tollfree',
                     'purchased_at' => Carbon::parse($number->dateCreated)->format('Y-m-d H:i:s'),
                 ];
             }
 
-            dd($numbers_array);
+            return $numbers_array;
         } catch (\Exception $e) {
             session()->flash('error', 'Failed to fetch purchased numbers: ' . $e->getMessage());
+            return [];
         }
+    }
+
+    public $numbers_to_sync, $total_numbers_to_sync, $total_credit_for_sync;
+    public function syncNumbersConfirmation()
+    {
+        $numbers = $this->fetchPurchasedNumbers();
+        $total_numbers_to_sync = 0;
+        $numbers_to_sync = [];
+        if (count($numbers) > 0) {
+            foreach ($numbers as $key => $number) {
+                // Check if number exists in our database
+                $existing_number = Number::where('number', $number['phoneNumber'])->first();
+
+                // If it doesn't exist, create a new record
+                if (!$existing_number) {
+                    $numbers_to_sync[] = $number;
+                    $total_numbers_to_sync++;
+                }
+            }
+        }
+
+        $this->numbers_to_sync = $numbers_to_sync;
+        $this->total_numbers_to_sync = $total_numbers_to_sync;
+        $this->total_credit_for_sync = $total_numbers_to_sync * 300;
+
+        $this->dispatch('showSyncConfirmation');
     }
 
     public function syncNumbers()
     {
-        $this->fetchPurchasedNumbers();
+
     }
+
+
 
     public $sort_type = 'all', $sort_status = 'all';
     public function render()

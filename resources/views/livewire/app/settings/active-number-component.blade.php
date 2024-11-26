@@ -1,4 +1,6 @@
-@section('page_title') TextTorrent | My Numbers @endsection
+@section('page_title')
+    TextTorrent | My Numbers
+@endsection
 <div>
     <style>
         .mr-5 {
@@ -21,29 +23,23 @@
 
                     <div class="mt-4">
                         @if (user()->type != 'sub')
-                            <button type="button" class="create_event_btn" style="color: white !important;" wire:click.prevent='assignNumberToUser'>
-                                {!! loadingStateWithText(
-                                    'assignNumberToUser',
-                                    'Assign User',
-                                ) !!}
+                            <button type="button" class="create_event_btn" style="color: white !important;"
+                                wire:click.prevent='assignNumberToUser'>
+                                {!! loadingStateWithText('assignNumberToUser', 'Assign User') !!}
                             </button>
                         @endif
 
-                        <button type="button" class="create_event_btn" style="color: white !important;" wire:click.prevent='bulkReleaseConfirmation'>
-                            {!! loadingStateWithText(
-                                'bulkReleaseConfirmation',
-                                'Bulk Release',
-                            ) !!}
+                        <button type="button" class="create_event_btn" style="color: white !important;"
+                            wire:click.prevent='bulkReleaseConfirmation'>
+                            {!! loadingStateWithText('bulkReleaseConfirmation', 'Bulk Release') !!}
                         </button>
 
-                        {{-- @if (user()->type != 'sub')
-                            <button type="button" class="create_event_btn bg-secondary" wire:loading.attr='disabled' style="color: white !important;" wire:click.prevent='syncNumbers'>
-                                {!! loadingStateWithText(
-                                    'syncNumbers',
-                                    'Sync My Numbers',
-                                ) !!}
+                        @if (user()->type != 'sub')
+                            <button type="button" class="create_event_btn bg-secondary" wire:loading.attr='disabled'
+                                style="color: white !important;" wire:click.prevent='syncNumbersConfirmation'>
+                                {!! loadingStateWithText('syncNumbersConfirmation', 'Sync My Numbers') !!}
                             </button>
-                        @endif --}}
+                        @endif
                     </div>
 
                 </div>
@@ -171,8 +167,10 @@
                                             </div>
                                         </td>
                                         <td>
-                                            <h4 class="phone_number">{{ isset(getUserByID($number->user_id)->first_name) ? getUserByID($number->user_id)->first_name : '--' }}
-                                                {{ isset(getUserByID($number->user_id)->last_name) ? getUserByID($number->user_id)->last_name : '--' }}</h4>
+                                            <h4 class="phone_number">
+                                                {{ isset(getUserByID($number->user_id)->first_name) ? getUserByID($number->user_id)->first_name : '--' }}
+                                                {{ isset(getUserByID($number->user_id)->last_name) ? getUserByID($number->user_id)->last_name : '--' }}
+                                            </h4>
                                         </td>
                                         <td class="capability_status_area">
                                             @if ($number['status'] == 1)
@@ -303,7 +301,8 @@
                                 <select name="lang" class="js-searchBox user_to_assign">
                                     <option value="">Choose User</option>
                                     @foreach ($sub_accounts as $sub_account)
-                                        <option value="{{ $sub_account->id }}">{{ $sub_account->first_name }} {{ $sub_account->last_name }}</option>
+                                        <option value="{{ $sub_account->id }}">{{ $sub_account->first_name }}
+                                            {{ $sub_account->last_name }}</option>
                                     @endforeach
                                 </select>
                                 <img src="{{ asset('assets/app/icons/arrow-down.svg') }}" alt="down arrow"
@@ -426,6 +425,66 @@
                 </div>
             </div>
         </div>
+
+        <!-- Sync Modal -->
+        <div class="modal fade common_modal" wire:ignore.self id="syncModal" tabindex="-1"
+            aria-labelledby="newEventModal" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="newEventModal">
+                            Available Numbers to Sync
+                        </h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                            aria-label="Close"></button>
+                    </div>
+
+                    <div class="modal-body pb-5">
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th class="text-center">#</th>
+                                    <th>Number</th>
+                                    <th class="text-center">Type</th>
+                                    <th class="text-center">Cost (Credits)</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @if ($numbers_to_sync && count($numbers_to_sync) > 0)
+                                    @foreach ($numbers_to_sync as $key => $sNumber)
+                                        <tr>
+                                            <td class="text-center">{{ $key + 1 }}</td>
+                                            <td>{{ $sNumber['phoneNumber'] }}</td>
+                                            <td class="text-center">{{ $sNumber['type'] }}</td>
+                                            <td class="text-center">300</td>
+                                        </tr>
+                                    @endforeach
+                                    <tr>
+                                        <td colspan="3" class="text-center"><b>Total Cost</b></td>
+                                        <td class="text-center">{{ $total_credit_for_sync }}</td>
+                                    </tr>
+                                @else
+                                @endif
+                            </tbody>
+                        </table>
+
+                        <br>
+
+                        <div class="text-center text-muted">
+                            <svg xmlns="http://www.w3.org/2000/svg" style="margin-top: -3px" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" width="20" height="20" stroke-width="2"> <path d="M3 12a9 9 0 1 0 18 0a9 9 0 0 0 -18 0"></path> <path d="M12 9h.01"></path> <path d="M11 12h1v4h1"></path> </svg> A phone number will cost you 300 credits per month
+                        </div>
+                    </div>
+                    <div class="modal-footer event_modal_footer">
+                        <button type="button" class="cancel_btn" data-bs-dismiss="modal">
+                            Cancel
+                        </button>
+                        <button type="button" class="create_event_btn">
+                            Confirm
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
     </main>
 </div>
 @push('scripts')
@@ -448,6 +507,10 @@
             $('.user_to_assign').on('change', function() {
                 @this.set('user_to_assign', this.value);
             });
+        });
+
+        window.addEventListener('showSyncConfirmation', event => {
+            $('#syncModal').modal('show');
         });
 
         window.addEventListener('showNumberAssignModal', event => {
