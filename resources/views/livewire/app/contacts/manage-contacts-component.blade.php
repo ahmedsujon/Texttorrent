@@ -424,6 +424,17 @@
                                 </div>
                             @endforeach
                         @endif
+                        <div class="pagination_area pagination_top_border">
+                            <div class="d-flex" wire:ignore>
+                                <select class="niceSelect sortingValue">
+                                    <option value="10">10 Contacts</option>
+                                    <option value="30">30 Contacts</option>
+                                    <option value="50">50 Contacts</option>
+                                    <option value="100">100 Contacts</option>
+                                </select>
+                            </div>
+                            {{ $contacts->links('livewire.app-pagination') }}
+                        </div>
                     </div>
                 </div>
             </div>
@@ -1449,7 +1460,6 @@
         });
     </script>
 
-
     <script>
         $(document).ready(function() {
             // document.getElementById('formCheckAll').addEventListener('click', function() {
@@ -1459,6 +1469,10 @@
             //         checkbox.checked = isChecked;
             //     });
             // });
+
+            $('.sortingValue').on('change', function(){
+                @this.set('sortingValue', this.value);
+            });
 
             $('.js-searchBox-file-select').on('change', function() {
                 var data = $(this).val();
