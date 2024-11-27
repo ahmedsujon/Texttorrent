@@ -178,6 +178,8 @@ class GetNumberComponent extends Component
         $twilio = new Client($this->TWILIO_SID, $this->TWILIO_AUTH_TOKEN);
 
         try {
+            $purchase_result = [];
+
             $twilio->incomingPhoneNumbers->create([
                 'phoneNumber' => $this->numberToPurchase,
             ]);
@@ -200,14 +202,24 @@ class GetNumberComponent extends Component
 
             $saveData = $this->savePurchase($this->numberToPurchaseInfo);
             if ($saveData) {
-                $this->getNumbers();
-                $this->dispatch('purchase_success');
-
-                $this->numberToPurchase = '';
-                $this->numberToPurchaseInfo = [];
+                $purchase_result[] = [
+                    'number' => $this->numberToPurchase,
+                    'status' => "<span class='text-success'>Success</span>",
+                ];
             } else {
-                $this->dispatch('error', ['message' => 'Something went wrong!']);
+                $purchase_result[] = [
+                    'number' => $this->numberToPurchase,
+                    'status' => "<span class='text-danger'>Failed</span>",
+                ];
             }
+
+            session()->flash('purchase_result', $purchase_result);
+            $this->dispatch('single_purchase_complete');
+
+            $this->numberToPurchase = '';
+            $this->numberToPurchaseInfo = [];
+
+            $this->getNumbers();
         } catch (\Exception $e) {
             $this->dispatch('error', ['message' => 'Failed to purchase number: ' . $e->getMessage()]);
         }
@@ -329,7 +341,7 @@ class GetNumberComponent extends Component
 
             if (getUserActiveSubscription($user_id)['status'] == 'Active') {
                 $credit_needed = 305 * $this->qty;
-                
+
                 if ($credit_has >= $credit_needed) {
                     $selected_numbers = array_slice($this->numbers_array, 0, $this->qty);
                     $this->selected_numbers = $selected_numbers;
