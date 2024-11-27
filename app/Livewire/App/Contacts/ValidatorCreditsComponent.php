@@ -9,6 +9,10 @@ use Livewire\Component;
 class ValidatorCreditsComponent extends Component
 {
     public $searchTerm, $sortingValue;
+
+    
+
+
     public function render()
     {
         $user_ids = [user()->id];

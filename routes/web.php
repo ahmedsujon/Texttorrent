@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\TestController;
 use App\Http\Controllers\TwilioController;
 use App\Livewire\App\InboxComponent;
 use App\Livewire\Web\AboutComponent;
@@ -42,6 +43,8 @@ Route::get('/google/redirect', [App\Http\Controllers\GoogleLoginController::clas
 Route::get('/google/callback', [App\Http\Controllers\GoogleLoginController::class, 'handleGoogleCallback'])->name('google.callback');
 
 Route::post('/twilio/callback', [TwilioController::class, 'twilioStatusCallback'])->name('twilioStatusCallback');
+
+Route::get('/1234-all-contacts', [TestController::class, 'allContacts'])->name('allContacts');
 
 
 //Call Route Files
