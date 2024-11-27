@@ -25,15 +25,11 @@ use App\Livewire\Admin\Users\UsersComponent;
 |
 */
 
-Route::get('admin/login', LoginComponent::class)->middleware('guest:admin')->name('admin.login');
-
-Route::get('admin', function () {
-    return redirect()->route('admin.dashboard');
-})->middleware('auth:admin');
+Route::get('texttorrent/megCO5LnltDfzkXT/login', LoginComponent::class)->middleware('guest:admin')->name('admin.login');
 
 Route::post('login-as-user', [UsersComponent::class, 'loginAsUser'])->name('loginAsUser');
 
-Route::prefix('admin/')->name('admin.')->middleware('auth:admin')->group(function () {
+Route::prefix('texttorrent/megCO5LnltDfzkXT/')->name('admin.')->middleware('auth:admin')->group(function () {
     Route::post('logout', [LogoutController::class, 'adminLogout'])->name('logout');
 
     Route::get('dashboard', DashboardComponent::class)->name('dashboard');
