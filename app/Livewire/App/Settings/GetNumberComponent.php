@@ -139,16 +139,17 @@ class GetNumberComponent extends Component
     public $numberToPurchase, $numberToPurchaseInfo = [];
     public function purchaseNumberConfirmation($number, $friendlyName, $region, $isoCountry, $latitude, $longitude, $postalCode)
     {
-        if (getActiveSubscription()['status'] == 'Active') {
+        if (user()->type == 'sub') {
+            $au_user = DB::table('users')->select('id', 'credits')->where('id', user()->parent_id)->first();
+            $credit_has = $au_user->credits;
+            $user_id = $au_user->id;
+        } else {
+            $credit_has = user()->credits;
+            $user_id = user()->id;
+        }
+
+        if (getUserActiveSubscription($user_id)['status'] == 'Active') {
             $credit_needed = 305;
-            if (user()->type == 'sub') {
-                $au_user = DB::table('users')->select('id', 'credits')->where('id', user()->parent_id)->first();
-                $credit_has = $au_user->credits;
-                $user_id = $au_user->id;
-            } else {
-                $credit_has = user()->credits;
-                $user_id = user()->id;
-            }
 
             if ($credit_has >= $credit_needed) {
                 $this->numberToPurchase = $number;
@@ -317,17 +318,18 @@ class GetNumberComponent extends Component
     public function bulkPurchaseConfirmation()
     {
         if ($this->qty && $this->qty > 0) {
-            if (getActiveSubscription()['status'] == 'Active') {
-                $credit_needed = 305 * $this->qty;
-                if (user()->type == 'sub') {
-                    $au_user = DB::table('users')->select('id', 'credits')->where('id', user()->parent_id)->first();
-                    $credit_has = $au_user->credits;
-                    $user_id = $au_user->id;
-                } else {
-                    $credit_has = user()->credits;
-                    $user_id = user()->id;
-                }
+            if (user()->type == 'sub') {
+                $au_user = DB::table('users')->select('id', 'credits')->where('id', user()->parent_id)->first();
+                $credit_has = $au_user->credits;
+                $user_id = $au_user->id;
+            } else {
+                $credit_has = user()->credits;
+                $user_id = user()->id;
+            }
 
+            if (getUserActiveSubscription($user_id)['status'] == 'Active') {
+                $credit_needed = 305 * $this->qty;
+                
                 if ($credit_has >= $credit_needed) {
                     $selected_numbers = array_slice($this->numbers_array, 0, $this->qty);
                     $this->selected_numbers = $selected_numbers;
@@ -372,9 +374,6 @@ class GetNumberComponent extends Component
                 $user->credits -= $credit_needed;
                 $user->save();
 
-                // log
-                creditLog('Number purchase: ' . $number, $credit_needed);
-
                 $saveData = $this->savePurchase($number);
                 if ($saveData) {
                     $purchase_result[] = [
@@ -387,6 +386,9 @@ class GetNumberComponent extends Component
                         'status' => "<span class='text-danger'>Failed</span>",
                     ];
                 }
+
+                // log
+                creditLog('Number purchase: ' . $number['number'], $credit_needed);
             }
 
             session()->flash('purchase_result', $purchase_result);

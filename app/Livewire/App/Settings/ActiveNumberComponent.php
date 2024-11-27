@@ -2,14 +2,14 @@
 
 namespace App\Livewire\App\Settings;
 
-use Carbon\Carbon;
-use App\Models\User;
 use App\Models\Number;
-use Livewire\Component;
-use Twilio\Rest\Client;
 use App\Models\Transaction;
-use Livewire\WithPagination;
+use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
+use Livewire\Component;
+use Livewire\WithPagination;
+use Twilio\Rest\Client;
 
 class ActiveNumberComponent extends Component
 {
@@ -256,7 +256,7 @@ class ActiveNumberComponent extends Component
             $trx = new Transaction();
             $trx->user_id = $user->id;
             $trx->transaction_type = 'number_renewal';
-            $trx->description = 'Renewed number: '. $number->number;
+            $trx->description = 'Renewed number: ' . $number->number;
             $trx->credit = -300;
             $trx->save();
 
@@ -408,11 +408,174 @@ class ActiveNumberComponent extends Component
         }
     }
 
+    public function fetchPurchasedNumbers()
+    {
+        $twilio = new Client($this->TWILIO_SID, $this->TWILIO_AUTH_TOKEN);
+
+        try {
+            // Fetch purchased numbers
+            $incomingNumbers = $twilio->incomingPhoneNumbers->read();
+
+            // Convert each number to a simple array
+            $numbers_array = [];
+
+            foreach ($incomingNumbers as $number) {
+                $reflectedObject = new \ReflectionObject($number->capabilities);
+                $props = $reflectedObject->getProperties(\ReflectionProperty::IS_PROTECTED);
+
+                $caps = [];
+                foreach ($props as $prop) {
+                    $prop->setAccessible(true);
+                    $caps[$prop->getName()] = $prop->getValue($number->capabilities);
+                }
+
+                // Create a simple array for each number
+                $numbers_array[] = [
+                    'sid' => $number->sid,
+                    'friendlyName' => $number->friendlyName,
+                    'phoneNumber' => $number->phoneNumber,
+                    'capabilities' => $caps,
+                    'type' => $caps['sms'] ? 'local' : 'tollfree',
+                    'purchased_at' => Carbon::parse($number->dateCreated)->format('Y-m-d H:i:s'),
+                ];
+            }
+
+            return $numbers_array;
+        } catch (\Exception $e) {
+            session()->flash('error', 'Failed to fetch purchased numbers: ' . $e->getMessage());
+            return [];
+        }
+    }
+
+    public $numbers_to_sync, $total_numbers_to_sync, $total_credit_for_sync;
+    public function syncNumbersConfirmation()
+    {
+        $numbers = $this->fetchPurchasedNumbers();
+        $total_numbers_to_sync = 0;
+        $numbers_to_sync = [];
+        if (count($numbers) > 0) {
+            foreach ($numbers as $key => $number) {
+                // Check if number exists in our database
+                $existing_number = Number::where('number', $number['phoneNumber'])->first();
+
+                // If it doesn't exist, create a new record
+                if (!$existing_number) {
+                    $numbers_to_sync[] = $number;
+                    $total_numbers_to_sync++;
+                }
+            }
+        }
+
+        $this->numbers_to_sync = $numbers_to_sync;
+        $this->total_numbers_to_sync = $total_numbers_to_sync;
+        $this->total_credit_for_sync = $total_numbers_to_sync * 300;
+
+        if ($total_numbers_to_sync > 0) {
+            $this->dispatch('showSyncConfirmation');
+        } else {
+            $this->dispatch('error', ['message' => 'No available numbers to sync!']);
+        }
+    }
+
+    public function syncNumbers()
+    {
+        if (user()->type == 'sub') {
+            $au_user = DB::table('users')->select('id', 'credits')->where('id', user()->parent_id)->first();
+            $credit_has = $au_user->credits;
+            $user_id = $au_user->id;
+        } else {
+            $credit_has = user()->credits;
+            $user_id = user()->id;
+        }
+
+        if (getUserActiveSubscription($user_id)['status'] == 'Active') {
+            if ($credit_has >= $this->total_credit_for_sync) {
+                foreach ($this->numbers_to_sync as $key => $num) {
+                    $number = new Number();
+                    $number->user_id = user()->id;
+                    $number->purchased_by = user()->id;
+                    $number->number = $num['phoneNumber'];
+                    $number->friendly_name = $num['friendlyName'];
+                    $number->region = NULL;
+                    $number->country = 'US';
+                    $number->latitude = NULL;
+                    $number->longitude = NULL;
+                    $number->postal_code = NULL;
+                    $number->capabilities = $num['capabilities'];
+                    $number->twilio_number_sid = $num['sid'];
+                    $number->twilio_service_sid = $this->getServiceSid($num['sid']);
+                    $number->webhook = $this->setWebhookSt($num['phoneNumber']);
+                    $number->type = $num['type'];
+                    $number->purchased_at = $num['purchased_at'];
+                    $number->next_renew_date = Carbon::parse(now())->addMonths(1);
+                    $number->save();
+                }
+
+                // Subtract the credit used for sync
+                $user = User::find($user_id);
+                $user->credits -= $this->total_credit_for_sync;
+                $user->save();
+
+                // Optionally, log the sync
+                creditLog('Number sync: '. $this->total_numbers_to_sync.' numbers', $this->total_credit_for_sync);
+
+                $this->dispatch('syncSuccess');
+                $this->reset(['numbers_to_sync', 'total_numbers_to_sync', 'total_credit_for_sync']);
+            } else {
+                $this->dispatch('error', ['message' => 'You do not have enough credits to sync numbers.']);
+            }
+
+        } else {
+            $this->dispatch('error', ['message' => 'No active subscription. Please upgrade your subscription.']);
+        }
+
+    }
+
+    public function setWebhookSt($number)
+    {
+        $twilio = new Client($this->TWILIO_SID, $this->TWILIO_AUTH_TOKEN);
+        $twilio->incomingPhoneNumbers
+            ->read(['phoneNumber' => $number])[0]
+            ->update([
+                "smsUrl" => 'https://texttorrent.com/api/v1/twilio/incoming-message',
+                "voiceUrl" => 'https://texttorrent.com/api/v1/twilio/incoming-message',
+            ]);
+
+        return 1;
+    }
+
+    public function getServiceSid($number_sid)
+    {
+        $client = new Client($this->TWILIO_SID, $this->TWILIO_AUTH_TOKEN);
+
+        try {
+            $services = $client->messaging->v1->services->read();
+
+            foreach ($services as $service) {
+                $phoneNumbers = $client->messaging->v1
+                    ->services($service->sid)
+                    ->phoneNumbers
+                    ->read();
+
+                // Check if the given number SID exists in the current service
+                foreach ($phoneNumbers as $phoneNumber) {
+                    if ($phoneNumber->sid === $number_sid) {
+                        // Return the service SID if the number is found
+                        return $service->sid;
+                    }
+                }
+            }
+            return null;
+        } catch (\Exception $e) {
+            return null;
+        }
+    }
+
     public $sort_type = 'all', $sort_status = 'all';
     public function render()
     {
         $sub_accounts = User::where('type', 'sub')->where('status', 1)->where('parent_id', user()->id)->get();
-        $numbers = Number::where(function($qs){
+        $numbers = Number::where(function ($qs) {
             $qs->where('user_id', user()->id)
                 ->orWhere('purchased_by', user()->id);
         })->where(function ($q) {

@@ -56,7 +56,3 @@ Route::prefix('texttorrent/megCO5LnltDfzkXT/')->name('admin.')->middleware('auth
     // Contact Message routes
     Route::get('contact-message', ContactMessageComponent::class)->name('contact-message');
 });
-
-Route::fallback(function () {
-    return response()->view('errors.404', [], 404);
-});
