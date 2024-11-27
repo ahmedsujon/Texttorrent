@@ -42,7 +42,7 @@ class LoginComponent extends Component
             session()->flash('error', 'Incorrect email or password');
         }
     }
-    
+
     #[Title('Login')]
     public function render()
     {

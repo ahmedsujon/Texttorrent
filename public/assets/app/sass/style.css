@@ -2,19 +2,19 @@
 @import url("https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap");
 @font-face {
   font-family: SFLightFont;
-  src: url(/assets/fonts/SF-Pro-Display-Light.woff);
+  src: url(/assets/app/fonts/SF-Pro-Display-Light.woff);
 }
 @font-face {
   font-family: SFRegularFont;
-  src: url(/assets/fonts/SF-Pro-Display-Regular.woff);
+  src: url(/assets/app/fonts/SF-Pro-Display-Regular.woff);
 }
 @font-face {
   font-family: SFMediumFont;
-  src: url(/assets/fonts/SF-Pro-Display-Medium.woff);
+  src: url(/assets/app/fonts/SF-Pro-Display-Medium.woff);
 }
 @font-face {
   font-family: SFSemiBoldFont;
-  src: url(/assets/fonts/SF-Pro-Display-Semibold.woff);
+  src: url(/assets/app/fonts/SF-Pro-Display-Semibold.woff);
 }
 /* Hover Transistion */
 /* Custom scroll Bar */
@@ -9734,36 +9734,10 @@ input[type=number] {
   color: #E82749;
 }
 
-/*
-!This file is only for the back end developer 
-*/
-.className#idName {
-  padding-bottom: 16px;
-  /* 
-    ?Break points if you need
-    */
+.sidebar_wrapper .accordion-button::after {
+  background-image: url("/assets/app/icons/arrow-down-02.svg") !important;
 }
-@media (min-width: 992px) and (max-width: 1199px) {
-  .className#idName {
-    transition: 0.5s;
-  }
-}
-@media (min-width: 768px) and (max-width: 991px) {
-  .className#idName {
-    transition: 0.5s;
-  }
-}
-@media all and (min-width: 768px) {
-  .className#idName {
-    transition: 0.5s;
-    -webkit-transition: 0.5s;
-    -moz-transition: 0.5s;
-    -ms-transition: 0.5s;
-    -o-transition: 0.5s;
-  }
-}
-@media all and (max-width: 767px) {
-  .className#idName {
-    transition: 0.5s;
-  }
+
+.sidebar_wrapper .accordion-button:not(.collapsed)::after {
+  background-image: url("/assets/app/icons/arrow-up.svg") !important;
 }/*# sourceMappingURL=style.css.map */

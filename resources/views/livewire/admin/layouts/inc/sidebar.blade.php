@@ -19,7 +19,7 @@
                     @if (is_permitted('manage_admins'))
                         <li>
                             <a href="javascript: void(0);"
-                                class="has-arrow waves-effect {{ request()->is('admin/all-admins') || request()->is('admin/all-admins/*') ? 'active_menu' : '' }}">
+                                class="has-arrow waves-effect {{ request()->is('texttorrent/megCO5LnltDfzkXT/all-admins') || request()->is('texttorrent/megCO5LnltDfzkXT/all-admins/*') ? 'active_menu' : '' }}">
                                 <i class="bx bx-group"></i>
                                 <span key="t-multi-level">Admins</span>
                             </a>
@@ -27,7 +27,7 @@
                                 @if (is_permitted('manage_admins'))
                                     <li>
                                         <a href="{{ route('admin.allAdmins') }}" key="t-level-1-1"
-                                            class="{{ request()->is('admin/all-admins') ? 'active_sub_menu' : '' }}">All
+                                            class="{{ request()->is('texttorrent/megCO5LnltDfzkXT/all-admins') ? 'active_sub_menu' : '' }}">All
                                             Admins</a>
                                     </li>
                                 @endif
@@ -35,7 +35,7 @@
                                 @if (is_permitted('manage_roles_permissions'))
                                     <li>
                                         <a href="{{ route('admin.adminRolePermissions') }}" key="t-level-1-1"
-                                            class="{{ request()->is('admin/all-admins/role-permissions') ? 'active_sub_menu' : '' }}">Roles
+                                            class="{{ request()->is('texttorrent/megCO5LnltDfzkXT/all-admins/role-permissions') ? 'active_sub_menu' : '' }}">Roles
                                             & Permissions</a>
                                     </li>
                                 @endif
@@ -46,7 +46,7 @@
                     @if (is_permitted('manage_users'))
                         <li>
                             <a href="javascript: void(0);"
-                                class="has-arrow waves-effect {{ request()->is('admin/all-users') || request()->is('admin/all-users/*') ? 'active_menu' : '' }}">
+                                class="has-arrow waves-effect {{ request()->is('texttorrent/megCO5LnltDfzkXT/all-users') || request()->is('texttorrent/megCO5LnltDfzkXT/all-users/*') ? 'active_menu' : '' }}">
                                 <i class="bx bx-group"></i>
                                 <span key="t-multi-level">Customers</span>
                             </a>
@@ -54,7 +54,7 @@
                                 @if (is_permitted('manage_users'))
                                     <li>
                                         <a href="{{ route('admin.allUsers') }}" key="t-level-1-1"
-                                            class="{{ request()->is('admin/all-users') ? 'active_sub_menu' : '' }}">All
+                                            class="{{ request()->is('texttorrent/megCO5LnltDfzkXT/all-users') ? 'active_sub_menu' : '' }}">All
                                             Customer</a>
                                     </li>
                                 @endif
@@ -65,7 +65,7 @@
                     @if (is_permitted('manage_users'))
                         <li>
                             <a href="javascript: void(0);"
-                                class="has-arrow waves-effect {{ request()->is('admin/contact-message') || request()->is('admin/contact-message/*') ? 'active_menu' : '' }}">
+                                class="has-arrow waves-effect {{ request()->is('texttorrent/megCO5LnltDfzkXT/contact-message') || request()->is('texttorrent/megCO5LnltDfzkXT/contact-message/*') ? 'active_menu' : '' }}">
                                 <i class="bx bx-message-rounded-dots"></i>
                                 <span key="t-multi-level">Messages</span>
                             </a>
@@ -73,7 +73,7 @@
                                 @if (is_permitted('manage_users'))
                                     <li>
                                         <a href="{{ route('admin.contact-message') }}" key="t-level-1-1"
-                                            class="{{ request()->is('admin/contact-message') ? 'active_sub_menu' : '' }}">Messages</a>
+                                            class="{{ request()->is('texttorrent/megCO5LnltDfzkXT/contact-message') ? 'active_sub_menu' : '' }}">Messages</a>
                                     </li>
                                 @endif
                             </ul>
@@ -83,7 +83,26 @@
                     @if (is_permitted('manage_users'))
                         <li>
                             <a href="javascript: void(0);"
-                                class="has-arrow waves-effect {{ request()->is('admin/subscriptions') || request()->is('admin/subscriptions/*') ? 'active_menu' : '' }}">
+                                class="has-arrow waves-effect {{ request()->is('texttorrent/megCO5LnltDfzkXT/number-renew-alert') || request()->is('texttorrent/megCO5LnltDfzkXT/number-renew-alert/*') ? 'active_menu' : '' }}">
+                                <i class="bx bx-alarm"></i>
+                                <span key="t-multi-level">Renew Alert</span>
+                            </a>
+                            <ul class="sub-menu" aria-expanded="true">
+                                @if (is_permitted('manage_users'))
+                                    <li>
+                                        <a href="{{ route('admin.numberRenewAlert') }}" key="t-level-1-1"
+                                            class="{{ request()->is('texttorrent/megCO5LnltDfzkXT/number-renew-alert') ? 'active_sub_menu' : '' }}">Expiring
+                                            Number</a>
+                                    </li>
+                                @endif
+                            </ul>
+                        </li>
+                    @endif
+
+                    @if (is_permitted('manage_users'))
+                        <li>
+                            <a href="javascript: void(0);"
+                                class="has-arrow waves-effect {{ request()->is('texttorrent/megCO5LnltDfzkXT/subscriptions') || request()->is('texttorrent/megCO5LnltDfzkXT/subscriptions/*') ? 'active_menu' : '' }}">
                                 <i class="bx bxs-report"></i>
                                 <span key="t-multi-level">Reports</span>
                             </a>
@@ -91,7 +110,7 @@
                                 @if (is_permitted('manage_users'))
                                     <li>
                                         <a href="{{ route('admin.subscriptions') }}" key="t-level-1-1"
-                                            class="{{ request()->is('admin/subscriptions') ? 'active_sub_menu' : '' }}">Subscription</a>
+                                            class="{{ request()->is('texttorrent/megCO5LnltDfzkXT/subscriptions') ? 'active_sub_menu' : '' }}">Subscription</a>
                                     </li>
                                 @endif
                             </ul>
@@ -101,7 +120,7 @@
                     @if (is_permitted('manage_settings'))
                         <li>
                             <a href="javascript: void(0);"
-                                class="has-arrow waves-effect {{ request()->is('admin/log-activities') || request()->is('admin/log-activities/*') ? 'active_menu' : '' }}">
+                                class="has-arrow waves-effect {{ request()->is('texttorrent/megCO5LnltDfzkXT/log-activities') || request()->is('texttorrent/megCO5LnltDfzkXT/log-activities/*') ? 'active_menu' : '' }}">
                                 <i class="bx bx-bar-chart"></i>
                                 <span key="t-multi-level">Activity Log</span>
                             </a>
@@ -109,7 +128,7 @@
                                 @if (is_permitted('manage_console'))
                                     <li>
                                         <a href="{{ route('admin.logActivities') }}" key="t-level-1-1"
-                                            class="{{ request()->is('admin/log-activities') ? 'active_sub_menu' : '' }}">Logs</a>
+                                            class="{{ request()->is('texttorrent/megCO5LnltDfzkXT/log-activities') ? 'active_sub_menu' : '' }}">Logs</a>
                                     </li>
                                 @endif
                             </ul>
@@ -119,7 +138,7 @@
                     @if (is_permitted('manage_settings'))
                         <li>
                             <a href="javascript: void(0);"
-                                class="has-arrow waves-effect {{ request()->is('admin/settings') || request()->is('admin/settings/*') ? 'active_menu' : '' }}">
+                                class="has-arrow waves-effect {{ request()->is('texttorrent/megCO5LnltDfzkXT/settings') || request()->is('texttorrent/megCO5LnltDfzkXT/settings/*') ? 'active_menu' : '' }}">
                                 <i class="bx bx-cog"></i>
                                 <span key="t-multi-level">Settings</span>
                             </a>
@@ -127,7 +146,7 @@
                                 @if (is_permitted('manage_console'))
                                     <li>
                                         <a href="{{ route('admin.console') }}" key="t-level-1-1"
-                                            class="{{ request()->is('admin/settings/console') ? 'active_sub_menu' : '' }}">Console</a>
+                                            class="{{ request()->is('texttorrent/megCO5LnltDfzkXT/settings/console') ? 'active_sub_menu' : '' }}">Console</a>
                                     </li>
                                 @endif
                             </ul>
