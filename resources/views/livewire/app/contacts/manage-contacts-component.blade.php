@@ -1319,7 +1319,7 @@
         </div>
 
         <!-- Number Validation  -->
-        <div wire:ignore.self class="modal fade delete_modal" id="validationModal" tabindex="-1"
+        <div wire:ignore.self class="modal fade delete_modal" data-bs-backdrop="static" data-bs-keyboard="false" id="validationModal" tabindex="-1"
             aria-labelledby="deleteModal" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
                 <div class="modal-content">
@@ -1329,6 +1329,8 @@
                             <h4>You want to validate selected numbers?</h4>
                             <p class="mt-4">
                                 Total Numbers Selected: <b>{{ $total_numbers_selected }}</b> <br>
+                                Already Processed Validation: <b>{{ $alreadyValidated }}</b> <br>
+                                Total Available for Validation: <b>{{ $availableValidation }}</b> <br>
                                 Total Credits Needed: <b>{{ $validator_credits }}</b>
                             </p>
                             <div class="delete_action_area d-flex align-items-center flex-wrap">
