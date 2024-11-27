@@ -33,8 +33,12 @@ class GetNumberComponent extends Component
             $this->TWILIO_SID = $twilioCredentials->account_sid;
             $this->TWILIO_AUTH_TOKEN = $twilioCredentials->auth_token;
         } else {
-            session()->flash('error', 'Please add your Twilio API.');
-            return redirect()->route('user.apis');
+            if (user()->type == 'sub') {
+                return redirect()->route('user.apiAlertSubAccount');
+            } else {
+                session()->flash('error', 'Please add your Twilio API.');
+                return redirect()->route('user.apis');
+            }
         }
 
         $this->getNumbers();
@@ -136,7 +140,7 @@ class GetNumberComponent extends Component
     public function purchaseNumberConfirmation($number, $friendlyName, $region, $isoCountry, $latitude, $longitude, $postalCode)
     {
         if (getActiveSubscription()['status'] == 'Active') {
-            $credit_needed = 300;
+            $credit_needed = 305;
             if (user()->type == 'sub') {
                 $au_user = DB::table('users')->select('id', 'credits')->where('id', user()->parent_id)->first();
                 $credit_has = $au_user->credits;
@@ -177,7 +181,7 @@ class GetNumberComponent extends Component
                 'phoneNumber' => $this->numberToPurchase,
             ]);
 
-            $credit_needed = 300;
+            $credit_needed = 305;
             if (user()->type == 'sub') {
                 $au_user = DB::table('users')->select('id', 'credits')->where('id', user()->parent_id)->first();
                 $user_id = $au_user->id;
@@ -314,7 +318,7 @@ class GetNumberComponent extends Component
     {
         if ($this->qty && $this->qty > 0) {
             if (getActiveSubscription()['status'] == 'Active') {
-                $credit_needed = 300 * $this->qty;
+                $credit_needed = 305 * $this->qty;
                 if (user()->type == 'sub') {
                     $au_user = DB::table('users')->select('id', 'credits')->where('id', user()->parent_id)->first();
                     $credit_has = $au_user->credits;
@@ -355,7 +359,7 @@ class GetNumberComponent extends Component
                     'phoneNumber' => $number['number'],
                 ]);
 
-                $credit_needed = 300;
+                $credit_needed = 305;
                 if (user()->type == 'sub') {
                     $au_user = DB::table('users')->select('id', 'credits')->where('id', user()->parent_id)->first();
                     $user_id = $au_user->id;

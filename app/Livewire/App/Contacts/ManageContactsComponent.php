@@ -2,15 +2,20 @@
 
 namespace App\Livewire\App\Contacts;
 
-use App\Exports\ContactsExport;
-use App\Imports\ContactsImport;
+use App\Models\User;
 use App\Models\Contact;
-use App\Models\ContactFolder;
+use Livewire\Component;
 use App\Models\ContactList;
 use App\Models\ContactNote;
-use Livewire\Component;
+use App\Models\ContactFolder;
 use Livewire\WithFileUploads;
+use App\Exports\ContactsExport;
+use App\Imports\ContactsImport;
+use App\Models\NumberValidation;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Http;
 use Maatwebsite\Excel\Facades\Excel;
+use App\Models\NumberValidationItems;
 
 class ManageContactsComponent extends Component
 {
@@ -478,6 +483,88 @@ class ManageContactsComponent extends Component
         $this->check_all = false;
 
         $this->dispatch('removed_blacklist', ['message' => $message]);
+    }
+
+    public $validator_credits = 0, $total_numbers_selected = 0;
+    public function numberValidateConfirmation()
+    {
+        if (!$this->contact_checkbox) {
+            $this->dispatch('error', ['message' => 'Select contacts first']);
+        } else {
+            $this->total_numbers_selected = count($this->contact_checkbox);
+            $this->validator_credits = count($this->contact_checkbox) * 1;
+
+            dd('Working on it');
+
+            // $this->dispatch('showNumberValidateConfirmation');
+        }
+    }
+
+    public function validateNumbers()
+    {
+        if (user()->type == 'sub') {
+            $au_user = DB::table('users')->select('id', 'credits')->where('id', user()->parent_id)->first();
+            $user_id = $au_user->id;
+            $credits = $au_user->credits;
+        } else {
+            $user_id = user()->id;
+            $credits = user()->credits;
+        }
+
+        if (getActiveSubscription()['status'] == 'Active') {
+            if ($credits >= $this->validator_credits) {
+                $validation = new NumberValidation();
+                $validation->user_id = user()->id;
+                $validation->list_id = $this->sort_list_id;
+                $validation->number_ids = $this->contact_checkbox;
+                $validation->total_number = $this->total_numbers_selected;
+                $validation->total_credits = $this->validator_credits;
+                $validation->total_mobile_numbers = null;
+                $validation->total_landline_numbers = null;
+                $validation->save();
+
+                foreach ($this->contact_checkbox as $key => $number) {
+                    $contact = Contact::find($number);
+
+                    $item = new NumberValidationItems();
+                    $item->number_validation_id = $validation->id;
+                    $item->user_id = user()->id;
+                    $item->contact_id = $contact->id;
+                    $item->number = $contact->number;
+                    $item->validated_at = null;
+                    $item->status = 'Pending';
+                    $item->save();
+                }
+
+                // credit deduction
+                $user = User::find($user_id);
+                $user->credits -= $this->validator_credits;
+                $user->save();
+
+                // log
+                creditLog('Number validation for ' . $this->total_numbers_selected . ' numbers', $this->validator_credits);
+
+                $this->dispatch('numberValidationSubmitted');
+                $this->reset(['contact_checkbox', 'check_all']);
+            } else {
+                $this->dispatch('error', ['message' => 'Not enough credits to validate selected numbers!']);
+            }
+        } else {
+            $this->dispatch('error', ['message' => 'No active subscription found!']);
+        }
+    }
+
+    public function validateNum($number)
+    {
+        $apiKey = env('NUM_VERIFY_ACCESS_KEY');
+        $response = Http::get("http://apilayer.net/api/validate", [
+            'access_key' => $apiKey,
+            'number' => $number,
+        ]);
+
+        if ($response->ok()) {
+            dd($response->json());
+        }
     }
 
     public function render()
