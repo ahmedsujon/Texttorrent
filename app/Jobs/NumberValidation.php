@@ -5,6 +5,7 @@ namespace App\Jobs;
 use App\Models\Contact;
 use App\Models\NumberValidation as ModelsNumberValidation;
 use App\Models\NumberValidationItems;
+use Carbon\Carbon;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
@@ -43,6 +44,7 @@ class NumberValidation implements ShouldQueue
 
         $result = $response->json();
 
+        $valItem->validated_at = Carbon::parse(now());
         $valItem->status = 'Completed';
         $valItem->save();
 

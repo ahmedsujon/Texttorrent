@@ -494,9 +494,9 @@ class ManageContactsComponent extends Component
             $this->total_numbers_selected = count($this->contact_checkbox);
             $this->validator_credits = count($this->contact_checkbox) * 1;
 
-            dd('Working on it');
+            // dd('Working on it');
 
-            // $this->dispatch('showNumberValidateConfirmation');
+            $this->dispatch('showNumberValidateConfirmation');
         }
     }
 
@@ -511,7 +511,22 @@ class ManageContactsComponent extends Component
             $credits = user()->credits;
         }
 
-        if (getActiveSubscription()['status'] == 'Active') {
+        if (getUserActiveSubscription($user_id)['status'] == 'Active') {
+            $apiKey = env('NUM_VERIFY_ACCESS_KEY');
+
+            // $output = [];
+            // foreach ($this->contact_checkbox as $key => $number) {
+            //     $contact = Contact::find($number);
+            //     $response = Http::get("http://apilayer.net/api/validate", [
+            //         'access_key' => $apiKey,
+            //         'number' => $contact->number,
+            //     ]);
+            //     $result = $response->json();
+            //     $output[] = $result;
+            // }
+
+            // dd($output);
+
             if ($credits >= $this->validator_credits) {
                 $validation = new NumberValidation();
                 $validation->user_id = user()->id;
