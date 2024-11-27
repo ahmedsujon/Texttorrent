@@ -16,10 +16,12 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Http;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Models\NumberValidationItems;
+use Livewire\WithPagination;
 
 class ManageContactsComponent extends Component
 {
     use WithFileUploads;
+    use WithPagination;
     public $file, $list_search_term, $folder_search_term, $contacts_search_term;
 
     public $list_name, $list_edit_id, $list_delete_id, $sort_list_id;
@@ -596,6 +598,7 @@ class ManageContactsComponent extends Component
         }
     }
 
+    public $sortingValue = 10;
     public function render()
     {
         $bookmarked_lists = ContactList::where('name', 'like', '%' . $this->list_search_term . '%')->where('user_id', user()->id)->where('bookmarked', 1)->get();
@@ -617,7 +620,7 @@ class ManageContactsComponent extends Component
                 $contacts = $contacts->where('blacklisted', 0)->where('list_id', $this->sort_list_id);
             }
         }
-        $contacts = $contacts->get();
+        $contacts = $contacts->paginate($this->sortingValue);
 
         $allLists = ContactList::where('user_id', user()->id)->get();
 
