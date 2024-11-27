@@ -3,52 +3,52 @@
 @import url("https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap");
 
 //Light font 300
-@font-face {
-  font-family: SFLightFont;
-  src: url(/assets/fonts/SF-Pro-Display-Light.woff);
-}
-
-//Regular font 400
-@font-face {
-  font-family: SFRegularFont;
-  src: url(/assets/fonts/SF-Pro-Display-Regular.woff);
-}
-
-//Medium font 500
-@font-face {
-  font-family: SFMediumFont;
-  src: url(/assets/fonts/SF-Pro-Display-Medium.woff);
-}
-
-//Medium font 600
-@font-face {
-  font-family: SFSemiBoldFont;
-  src: url(/assets/fonts/SF-Pro-Display-Semibold.woff);
-}
-
-// //Light font 300
 // @font-face {
 //   font-family: SFLightFont;
-//   src: url(/assets/app/fonts/SF-Pro-Display-Light.woff);
+//   src: url(/assets/fonts/SF-Pro-Display-Light.woff);
 // }
 
 // //Regular font 400
 // @font-face {
 //   font-family: SFRegularFont;
-//   src: url(/assets/app/fonts/SF-Pro-Display-Regular.woff);
+//   src: url(/assets/fonts/SF-Pro-Display-Regular.woff);
 // }
 
 // //Medium font 500
 // @font-face {
 //   font-family: SFMediumFont;
-//   src: url(/assets/app/fonts/SF-Pro-Display-Medium.woff);
+//   src: url(/assets/fonts/SF-Pro-Display-Medium.woff);
 // }
 
 // //Medium font 600
 // @font-face {
 //   font-family: SFSemiBoldFont;
-//   src: url(/assets/app/fonts/SF-Pro-Display-Semibold.woff);
+//   src: url(/assets/fonts/SF-Pro-Display-Semibold.woff);
 // }
+
+//Light font 300
+@font-face {
+  font-family: SFLightFont;
+  src: url(/assets/app/fonts/SF-Pro-Display-Light.woff);
+}
+
+//Regular font 400
+@font-face {
+  font-family: SFRegularFont;
+  src: url(/assets/app/fonts/SF-Pro-Display-Regular.woff);
+}
+
+//Medium font 500
+@font-face {
+  font-family: SFMediumFont;
+  src: url(/assets/app/fonts/SF-Pro-Display-Medium.woff);
+}
+
+//Medium font 600
+@font-face {
+  font-family: SFSemiBoldFont;
+  src: url(/assets/app/fonts/SF-Pro-Display-Semibold.woff);
+}
 
 $primary-font: SFRegularFont;
 $secondary-font: "Inter", sans-serif;
