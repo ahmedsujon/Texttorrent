@@ -1492,6 +1492,11 @@
                 $('.new_chat_text_area').val(output.detail);
             });
 
+            $('.new_chat_text_area').on('change', function(e) {
+                var value = $(this).val();
+                @this.set('selected_template_preview_new_chat', value);
+            });
+
             //Chat list Functionality
             $("#openChatBtn").click(function(e) {
                 e.preventDefault();
