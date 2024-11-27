@@ -51,116 +51,113 @@
                         <div class="label">Change Password</div>
                     </a>
                     @if (isUserPermitted('current-plan'))
-                    <a href="{{ route('user.subscription') }}"
-                        class="{{ request()->is('settings/subscription') || request()->is('settings/subscription/*') ? 'menu_grid active_menu' : 'menu_grid' }}">
-                        <div class="icon">
-                            <svg width="20" height="16" viewBox="0 0 20 16" fill="none"
-                                xmlns="http://www.w3.org/2000/svg" currentColor="#696F8C">
-                                <path d="M11.6665 5.5H15.8332" stroke="currentColor" stroke-width="1.5"
-                                    stroke-linejoin="round" />
-                                <path d="M11.6665 8.41699H14.1665" stroke="currentColor" stroke-width="1.5"
-                                    stroke-linejoin="round" />
-                                <path d="M1.6665 0.916992H18.3332V15.0837H1.6665V0.916992Z" stroke="currentColor"
-                                    stroke-width="1.5" stroke-linejoin="round" />
-                                <path
-                                    d="M4.1665 11.75C5.17343 9.59911 8.92666 9.45758 9.99984 11.75M8.74984 5.91667C8.74984 6.83714 8.00365 7.58333 7.08317 7.58333C6.1627 7.58333 5.4165 6.83714 5.4165 5.91667C5.4165 4.99619 6.1627 4.25 7.08317 4.25C8.00365 4.25 8.74984 4.99619 8.74984 5.91667Z"
-                                    stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" />
-                            </svg>
-                        </div>
-                        <div class="label">Subscription</div>
-                    </a>
+                        <a href="{{ route('user.subscription') }}"
+                            class="{{ request()->is('settings/subscription') || request()->is('settings/subscription/*') ? 'menu_grid active_menu' : 'menu_grid' }}">
+                            <div class="icon">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                    xmlns="http://www.w3.org/2000/svg" currentColor="#696F8C">
+                                    <path d="M12 1V23" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
+                                        stroke-linejoin="round" />
+                                    <path
+                                        d="M17 5H9.5C8.57174 5 7.6815 5.36875 7.02513 6.02513C6.36875 6.6815 6 7.57174 6 8.5C6 9.42826 6.36875 10.3185 7.02513 10.9749C7.6815 11.6313 8.57174 12 9.5 12H14.5C15.4283 12 16.3185 12.3687 16.9749 13.0251C17.6313 13.6815 18 14.5717 18 15.5C18 16.4283 17.6313 17.3185 16.9749 17.9749C16.3185 18.6313 15.4283 19 14.5 19H6"
+                                        stroke="#696F8C" stroke-width="1.5" stroke-linecap="round"
+                                        stroke-linejoin="round" />
+                                </svg>
+                            </div>
+                            <div class="label">Subscription</div>
+                        </a>
                     @endif
                     @if (user()->type != 'sub')
-                    <a href="{{ route('user.subAccount') }}"
-                        class="{{ request()->is('settings/sub-account') || request()->is('settings/sub-account/*') ? 'menu_grid active_menu' : 'menu_grid' }}">
-                        <div class="icon">
-                            <svg width="20" height="16" viewBox="0 0 20 16" fill="none"
-                                xmlns="http://www.w3.org/2000/svg" currentColor="#696F8C">
-                                <path d="M11.6665 5.5H15.8332" stroke="currentColor" stroke-width="1.5"
-                                    stroke-linejoin="round" />
-                                <path d="M11.6665 8.41699H14.1665" stroke="currentColor" stroke-width="1.5"
-                                    stroke-linejoin="round" />
-                                <path d="M1.6665 0.916992H18.3332V15.0837H1.6665V0.916992Z" stroke="currentColor"
-                                    stroke-width="1.5" stroke-linejoin="round" />
-                                <path
-                                    d="M4.1665 11.75C5.17343 9.59911 8.92666 9.45758 9.99984 11.75M8.74984 5.91667C8.74984 6.83714 8.00365 7.58333 7.08317 7.58333C6.1627 7.58333 5.4165 6.83714 5.4165 5.91667C5.4165 4.99619 6.1627 4.25 7.08317 4.25C8.00365 4.25 8.74984 4.99619 8.74984 5.91667Z"
-                                    stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" />
-                            </svg>
-                        </div>
-                        <div class="label">Sub- Account</div>
-                    </a>
+                        <a href="{{ route('user.subAccount') }}"
+                            class="{{ request()->is('settings/sub-account') || request()->is('settings/sub-account/*') ? 'menu_grid active_menu' : 'menu_grid' }}">
+                            <div class="icon">
+                                <svg width="20" height="16" viewBox="0 0 20 16" fill="none"
+                                    xmlns="http://www.w3.org/2000/svg" currentColor="#696F8C">
+                                    <path d="M11.6665 5.5H15.8332" stroke="currentColor" stroke-width="1.5"
+                                        stroke-linejoin="round" />
+                                    <path d="M11.6665 8.41699H14.1665" stroke="currentColor" stroke-width="1.5"
+                                        stroke-linejoin="round" />
+                                    <path d="M1.6665 0.916992H18.3332V15.0837H1.6665V0.916992Z" stroke="currentColor"
+                                        stroke-width="1.5" stroke-linejoin="round" />
+                                    <path
+                                        d="M4.1665 11.75C5.17343 9.59911 8.92666 9.45758 9.99984 11.75M8.74984 5.91667C8.74984 6.83714 8.00365 7.58333 7.08317 7.58333C6.1627 7.58333 5.4165 6.83714 5.4165 5.91667C5.4165 4.99619 6.1627 4.25 7.08317 4.25C8.00365 4.25 8.74984 4.99619 8.74984 5.91667Z"
+                                        stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" />
+                                </svg>
+                            </div>
+                            <div class="label">Sub- Account</div>
+                        </a>
                     @endif
                 </div>
                 <div class="main_menu_area">
                     <h4>WORKSPACE</h4>
                     <div class="inner_main_menu">
                         @if (isUserPermitted('get-numbers'))
-                        <a href="{{ route('user.getNumber') }}"
-                            class="{{ request()->is('settings/get-number') || request()->is('settings/get-number/*') ? 'menu_grid active_menu' : 'menu_grid' }}">
-                            <div class="icon">
-                                <svg width="20" height="20" viewBox="0 0 20 20" fill="none"
-                                    xmlns="http://www.w3.org/2000/svg" currentColor="#696F8C">
-                                    <g clip-path="url(#clip0_117_18425)">
-                                        <path
-                                            d="M3.14786 9.95229C2.35784 8.57475 1.97638 7.44989 1.74637 6.30967C1.40619 4.62331 2.18468 2.976 3.47432 1.92489C4.01938 1.48064 4.6442 1.63242 4.96651 2.21066L5.69416 3.51608C6.27091 4.5508 6.55929 5.06815 6.50209 5.61665C6.44489 6.16515 6.05598 6.61188 5.27815 7.50533L3.14786 9.95229ZM3.14786 9.95229C4.74693 12.7406 7.25637 15.2514 10.0479 16.8523M10.0479 16.8523C11.4254 17.6423 12.5503 18.0238 13.6905 18.2538C15.3769 18.594 17.0242 17.8155 18.0753 16.5258C18.5195 15.9808 18.3677 15.356 17.7895 15.0337L16.4841 14.306C15.4494 13.7293 14.932 13.4409 14.3835 13.4981C13.835 13.5553 13.3883 13.9442 12.4948 14.722L10.0479 16.8523Z"
-                                            stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" />
-                                    </g>
-                                    <defs>
-                                        <clipPath id="clip0_117_18425">
-                                            <rect width="20" height="20" fill="white" />
-                                        </clipPath>
-                                    </defs>
-                                </svg>
-                            </div>
-                            <div class="label">Get Number</div>
-                        </a>
+                            <a href="{{ route('user.getNumber') }}"
+                                class="{{ request()->is('settings/get-number') || request()->is('settings/get-number/*') ? 'menu_grid active_menu' : 'menu_grid' }}">
+                                <div class="icon">
+                                    <svg width="20" height="20" viewBox="0 0 20 20" fill="none"
+                                        xmlns="http://www.w3.org/2000/svg" currentColor="#696F8C">
+                                        <g clip-path="url(#clip0_117_18425)">
+                                            <path
+                                                d="M3.14786 9.95229C2.35784 8.57475 1.97638 7.44989 1.74637 6.30967C1.40619 4.62331 2.18468 2.976 3.47432 1.92489C4.01938 1.48064 4.6442 1.63242 4.96651 2.21066L5.69416 3.51608C6.27091 4.5508 6.55929 5.06815 6.50209 5.61665C6.44489 6.16515 6.05598 6.61188 5.27815 7.50533L3.14786 9.95229ZM3.14786 9.95229C4.74693 12.7406 7.25637 15.2514 10.0479 16.8523M10.0479 16.8523C11.4254 17.6423 12.5503 18.0238 13.6905 18.2538C15.3769 18.594 17.0242 17.8155 18.0753 16.5258C18.5195 15.9808 18.3677 15.356 17.7895 15.0337L16.4841 14.306C15.4494 13.7293 14.932 13.4409 14.3835 13.4981C13.835 13.5553 13.3883 13.9442 12.4948 14.722L10.0479 16.8523Z"
+                                                stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" />
+                                        </g>
+                                        <defs>
+                                            <clipPath id="clip0_117_18425">
+                                                <rect width="20" height="20" fill="white" />
+                                            </clipPath>
+                                        </defs>
+                                    </svg>
+                                </div>
+                                <div class="label">Get Number</div>
+                            </a>
                         @endif
                         @if (isUserPermitted('my-numbers'))
-                        <a href="{{ route('user.activeNumber') }}"
-                            class="{{ request()->is('settings/active-numbers') || request()->is('settings/active-numbers/*') ? 'menu_grid active_menu' : 'menu_grid' }}">
-                            <div class="icon">
-                                <svg width="20" height="20" viewBox="0 0 20 20" fill="none"
-                                    xmlns="http://www.w3.org/2000/svg">
-                                    <path
-                                        d="M12.5415 4.16536C13.3555 4.32417 14.1035 4.72225 14.6899 5.30864C15.2763 5.89504 15.6744 6.64308 15.8332 7.45703M12.5415 0.832031C14.2326 1.01989 15.8095 1.77718 17.0134 2.97954C18.2173 4.1819 18.9765 5.75787 19.1665 7.4487M18.3332 14.0987V16.5987C18.3341 16.8308 18.2866 17.0605 18.1936 17.2732C18.1006 17.4858 17.9643 17.6767 17.7933 17.8336C17.6222 17.9905 17.4203 18.1099 17.2005 18.1843C16.9806 18.2586 16.7477 18.2863 16.5165 18.2654C13.9522 17.9867 11.489 17.1105 9.32486 15.707C7.31139 14.4276 5.60431 12.7205 4.32486 10.707C2.91651 8.53303 2.04007 6.05786 1.76653 3.48203C1.7457 3.25159 1.77309 3.01933 1.84695 2.80005C1.9208 2.58077 2.03951 2.37927 2.1955 2.20838C2.3515 2.03749 2.54137 1.90096 2.75302 1.80747C2.96468 1.71398 3.19348 1.66558 3.42486 1.66536H5.92486C6.32928 1.66138 6.72136 1.8046 7.028 2.06831C7.33464 2.33202 7.53493 2.69824 7.59153 3.0987C7.69705 3.89875 7.89274 4.6843 8.17486 5.44036C8.28698 5.73863 8.31125 6.06279 8.24478 6.37443C8.17832 6.68607 8.02392 6.97212 7.79986 7.1987L6.74153 8.25703C7.92783 10.3433 9.65524 12.0707 11.7415 13.257L12.7999 12.1987C13.0264 11.9746 13.3125 11.8202 13.6241 11.7538C13.9358 11.6873 14.2599 11.7116 14.5582 11.8237C15.3143 12.1058 16.0998 12.3015 16.8999 12.407C17.3047 12.4641 17.6744 12.668 17.9386 12.9799C18.2029 13.2918 18.3433 13.69 18.3332 14.0987Z"
-                                        stroke="#696F8C" stroke-linecap="round" stroke-linejoin="round" />
-                                </svg>
-                            </div>
-                            <div class="label">My Numbers</div>
-                        </a>
+                            <a href="{{ route('user.activeNumber') }}"
+                                class="{{ request()->is('settings/active-numbers') || request()->is('settings/active-numbers/*') ? 'menu_grid active_menu' : 'menu_grid' }}">
+                                <div class="icon">
+                                    <svg width="20" height="20" viewBox="0 0 20 20" fill="none"
+                                        xmlns="http://www.w3.org/2000/svg" currentColor="#696F8C">
+                                        <path
+                                            d="M12.5415 4.16536C13.3555 4.32417 14.1035 4.72225 14.6899 5.30864C15.2763 5.89504 15.6744 6.64308 15.8332 7.45703M12.5415 0.832031C14.2326 1.01989 15.8095 1.77718 17.0134 2.97954C18.2173 4.1819 18.9765 5.75787 19.1665 7.4487M18.3332 14.0987V16.5987C18.3341 16.8308 18.2866 17.0605 18.1936 17.2732C18.1006 17.4858 17.9643 17.6767 17.7933 17.8336C17.6222 17.9905 17.4203 18.1099 17.2005 18.1843C16.9806 18.2586 16.7477 18.2863 16.5165 18.2654C13.9522 17.9867 11.489 17.1105 9.32486 15.707C7.31139 14.4276 5.60431 12.7205 4.32486 10.707C2.91651 8.53303 2.04007 6.05786 1.76653 3.48203C1.7457 3.25159 1.77309 3.01933 1.84695 2.80005C1.9208 2.58077 2.03951 2.37927 2.1955 2.20838C2.3515 2.03749 2.54137 1.90096 2.75302 1.80747C2.96468 1.71398 3.19348 1.66558 3.42486 1.66536H5.92486C6.32928 1.66138 6.72136 1.8046 7.028 2.06831C7.33464 2.33202 7.53493 2.69824 7.59153 3.0987C7.69705 3.89875 7.89274 4.6843 8.17486 5.44036C8.28698 5.73863 8.31125 6.06279 8.24478 6.37443C8.17832 6.68607 8.02392 6.97212 7.79986 7.1987L6.74153 8.25703C7.92783 10.3433 9.65524 12.0707 11.7415 13.257L12.7999 12.1987C13.0264 11.9746 13.3125 11.8202 13.6241 11.7538C13.9358 11.6873 14.2599 11.7116 14.5582 11.8237C15.3143 12.1058 16.0998 12.3015 16.8999 12.407C17.3047 12.4641 17.6744 12.668 17.9386 12.9799C18.2029 13.2918 18.3433 13.69 18.3332 14.0987Z"
+                                            stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" />
+                                    </svg>
+                                </div>
+                                <div class="label">My Numbers</div>
+                            </a>
                         @endif
                         @if (isUserPermitted('logs'))
-                        <a href="{{ route('user.logs') }}"
-                            class="{{ request()->is('settings/logs') || request()->is('settings/logs/*') ? 'menu_grid active_menu' : 'menu_grid' }}">
-                            <div class="icon">
-                                <svg width="20" height="20" viewBox="0 0 20 20" fill="none"
-                                    xmlns="http://www.w3.org/2000/svg" currentColor="#696F8C">
-                                    <path
-                                        d="M16.9695 12.625L17.3792 11.9967L17.379 11.9966L16.9695 12.625ZM14.0274 14.9997H13.2774V15.5106L13.753 15.6976L14.0274 14.9997ZM18.2656 16.6663L17.9911 17.3643C18.2092 17.4501 18.4549 17.429 18.6552 17.3072C18.8555 17.1855 18.9873 16.9771 19.0116 16.744L18.2656 16.6663ZM9.9998 10.833L9.99953 11.583L10.0001 11.583L9.9998 10.833ZM3.03017 12.6248L2.62072 11.9964L2.62051 11.9966L3.03017 12.6248ZM5.97224 14.9997L6.2467 15.6977L6.72224 15.5107V14.9997H5.97224ZM1.73407 16.6662L0.988098 16.7438C1.01236 16.9769 1.1442 17.1853 1.34447 17.307C1.54474 17.4288 1.7904 17.4499 2.00852 17.3641L1.73407 16.6662ZM17.379 11.9966C16.5145 11.4333 15.5629 10.975 14.2201 10.6181L13.8348 12.0678C15.0206 12.3829 15.8262 12.7751 16.56 13.2533L17.379 11.9966ZM13.2774 11.3429V14.9997H14.7774V11.3429H13.2774ZM13.753 15.6976L17.9911 17.3643L18.5401 15.9684L14.3019 14.3017L13.753 15.6976ZM19.0116 16.744C19.1465 15.4474 19.3001 13.2494 17.3792 11.9967L16.5598 13.2532C17.6416 13.9586 17.6635 15.206 17.5196 16.5887L19.0116 16.744ZM14.2201 10.6181C12.8721 10.2599 11.4337 10.0825 9.99953 10.083L10.0001 11.583C11.3131 11.5825 12.6212 11.7453 13.8348 12.0678L14.2201 10.6181ZM3.43963 13.2532C4.17348 12.775 4.97906 12.3827 6.16487 12.0676L5.77962 10.6179C4.43679 10.9748 3.48522 11.4331 2.62072 11.9964L3.43963 13.2532ZM5.22224 11.3428V14.9997H6.72224V11.3428H5.22224ZM5.69779 14.3017L1.45962 15.9682L2.00852 17.3641L6.2467 15.6977L5.69779 14.3017ZM2.48004 16.5885C2.33615 15.2058 2.35809 13.9584 3.43984 13.253L2.62051 11.9966C0.699609 13.2492 0.853164 15.4472 0.988098 16.7438L2.48004 16.5885ZM6.16487 12.0676C7.3784 11.7451 8.68641 11.5825 9.99953 11.583L10.0001 10.083C8.56596 10.0825 7.12765 10.2597 5.77962 10.6179L6.16487 12.0676Z"
-                                        fill="currentColor" />
-                                    <path
-                                        d="M5.83301 3.33301V2.58301H5.08301V3.33301H5.83301ZM9.99966 7.49967L9.46933 8.03C9.60998 8.17066 9.80075 8.24967 9.99966 8.24967C10.1986 8.24967 10.3893 8.17066 10.53 8.03L9.99966 7.49967ZM5.30268 3.86334L9.46933 8.03L10.53 6.96935L6.36334 2.80268L5.30268 3.86334ZM10.53 8.03L14.6967 3.86334L13.636 2.80268L9.46933 6.96934L10.53 8.03ZM5.83301 4.08301H8.74967V2.58301H5.83301V4.08301ZM6.58301 6.24967V3.33301H5.08301V6.24967H6.58301Z"
-                                        fill="currentColor" />
-                                </svg>
-                            </div>
-                            <div class="label">Logs</div>
-                        </a>
+                            <a href="{{ route('user.logs') }}"
+                                class="{{ request()->is('settings/logs') || request()->is('settings/logs/*') ? 'menu_grid active_menu' : 'menu_grid' }}">
+                                <div class="icon">
+                                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                        xmlns="http://www.w3.org/2000/svg" currentColor="#696F8C">
+                                        <path
+                                            d="M13 2H6C5.46957 2 4.96086 2.21071 4.58579 2.58579C4.21071 2.96086 4 3.46957 4 4V20C4 20.5304 4.21071 21.0391 4.58579 21.4142C4.96086 21.7893 5.46957 22 6 22H18C18.5304 22 19.0391 21.7893 19.4142 21.4142C19.7893 21.0391 20 20.5304 20 20V9L13 2Z"
+                                            stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
+                                            stroke-linejoin="round" />
+                                        <path d="M13 2V9H20" stroke="#696F8C" stroke-width="1.5"
+                                            stroke-linecap="round" stroke-linejoin="round" />
+                                    </svg>
+                                </div>
+                                <div class="label">Logs</div>
+                            </a>
                         @endif
                         @if (isUserPermitted('api'))
-                        <a href="{{ route('user.apis') }}"
-                            class="{{ request()->is('settings/apis') || request()->is('settings/apis/*') ? 'menu_grid active_menu' : 'menu_grid' }}">
-                            <div class="icon">
-                                <svg width="20" height="20" viewBox="0 0 20 20" fill="none"
-                                    xmlns="http://www.w3.org/2000/svg" currentColor="#696F8C">
-                                    <path d="M18.3332 17.5V2.5H1.6665V17.5L18.3332 17.5Z" stroke="currentColor"
-                                        stroke-width="1.5" stroke-linejoin="round" />
-                                    <path
-                                        d="M6.66634 7.49967L7.37785 7.2625L7.20691 6.74967H6.66634V7.49967ZM5.83301 7.49967V6.74967H5.24743L5.1054 7.31777L5.83301 7.49967ZM10.4163 7.49967V6.74967H9.66634V7.49967H10.4163ZM6.66634 6.74967H5.83301V8.24967H6.66634V6.74967ZM5.1054 7.31777L4.27207 10.6511L5.72728 11.0149L6.56061 7.68158L5.1054 7.31777ZM4.27207 10.6511L3.8554 12.3178L5.31061 12.6816L5.72728 11.0149L4.27207 10.6511ZM5.95483 7.73685L7.06594 11.0702L8.48896 10.5958L7.37785 7.2625L5.95483 7.73685ZM7.06594 11.0702L7.6215 12.7368L9.04452 12.2625L8.48896 10.5958L7.06594 11.0702ZM4.99967 11.583H7.77745V10.083H4.99967V11.583ZM10.4163 8.24967H12.083V6.74967H10.4163V8.24967ZM9.66634 7.49967V9.99967H11.1663V7.49967H9.66634ZM9.66634 9.99967V12.4997H11.1663V9.99967H9.66634ZM12.083 9.24967H10.4163V10.7497H12.083V9.24967ZM12.583 8.74967C12.583 9.02582 12.3592 9.24967 12.083 9.24967V10.7497C13.1876 10.7497 14.083 9.85424 14.083 8.74967H12.583ZM12.083 8.24967C12.3592 8.24967 12.583 8.47353 12.583 8.74967H14.083C14.083 7.64511 13.1876 6.74967 12.083 6.74967V8.24967ZM14.6663 7.08301V12.9163H16.1663V7.08301H14.6663Z"
-                                        fill="currentColor" />
-                                </svg>
-                            </div>
-                            <div class="label">API</div>
-                        </a>
+                            <a href="{{ route('user.apis') }}"
+                                class="{{ request()->is('settings/apis') || request()->is('settings/apis/*') ? 'menu_grid active_menu' : 'menu_grid' }}">
+                                <div class="icon">
+                                    <svg width="20" height="20" viewBox="0 0 20 20" fill="none"
+                                        xmlns="http://www.w3.org/2000/svg" currentColor="#696F8C">
+                                        <path d="M18.3332 17.5V2.5H1.6665V17.5L18.3332 17.5Z" stroke="currentColor"
+                                            stroke-width="1.5" stroke-linejoin="round" />
+                                        <path
+                                            d="M6.66634 7.49967L7.37785 7.2625L7.20691 6.74967H6.66634V7.49967ZM5.83301 7.49967V6.74967H5.24743L5.1054 7.31777L5.83301 7.49967ZM10.4163 7.49967V6.74967H9.66634V7.49967H10.4163ZM6.66634 6.74967H5.83301V8.24967H6.66634V6.74967ZM5.1054 7.31777L4.27207 10.6511L5.72728 11.0149L6.56061 7.68158L5.1054 7.31777ZM4.27207 10.6511L3.8554 12.3178L5.31061 12.6816L5.72728 11.0149L4.27207 10.6511ZM5.95483 7.73685L7.06594 11.0702L8.48896 10.5958L7.37785 7.2625L5.95483 7.73685ZM7.06594 11.0702L7.6215 12.7368L9.04452 12.2625L8.48896 10.5958L7.06594 11.0702ZM4.99967 11.583H7.77745V10.083H4.99967V11.583ZM10.4163 8.24967H12.083V6.74967H10.4163V8.24967ZM9.66634 7.49967V9.99967H11.1663V7.49967H9.66634ZM9.66634 9.99967V12.4997H11.1663V9.99967H9.66634ZM12.083 9.24967H10.4163V10.7497H12.083V9.24967ZM12.583 8.74967C12.583 9.02582 12.3592 9.24967 12.083 9.24967V10.7497C13.1876 10.7497 14.083 9.85424 14.083 8.74967H12.583ZM12.083 8.24967C12.3592 8.24967 12.583 8.47353 12.583 8.74967H14.083C14.083 7.64511 13.1876 6.74967 12.083 6.74967V8.24967ZM14.6663 7.08301V12.9163H16.1663V7.08301H14.6663Z"
+                                            fill="currentColor" />
+                                    </svg>
+                                </div>
+                                <div class="label">API</div>
+                            </a>
                         @endif
                         @if (getActiveSubscription()['type'] == 'text-torrent')
                             <a href="{{ route('user.dlcRegistration') }}"
