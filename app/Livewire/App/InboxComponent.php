@@ -260,16 +260,26 @@ class InboxComponent extends Component
         if ($contact && $contact->blacklisted == 1) {
             $this->dispatch('error', ['message' => 'This number is blacklisted']);
         } else {
-            $chat = new Chat();
-            $chat->user_id = user()->id;
-            $chat->contact_id = $this->receiver_id;
-            $chat->from_number = $this->sender_id;
-            $chat->save();
+            $getChat = Chat::select('id')->where('contact_id', $this->receiver_id)->where('from_number', $this->sender_id)->where('user_id', user()->id)->first();
+            if ($getChat) {
+                $this->dispatch('error', ['message' => 'Chat already exists!']);
+            } else {
+                $chat = new Chat();
+                $chat->user_id = user()->id;
+                $chat->contact_id = $this->receiver_id;
+                $chat->from_number = $this->sender_id;
+                $chat->save();
 
-            $this->selectChat($chat->id);
-            $this->dispatch('closeModal');
-            $this->dispatch('newChatMessage', ['message' => $this->new_chat_message]);
-            $this->dispatch('success', ['message' => 'New chat started successfully']);
+                $this->selectChat($chat->id);
+                $this->dispatch('closeModal');
+                $this->dispatch('newChatMessage', ['message' => $this->selected_template_preview_new_chat]);
+                $this->dispatch('success', ['message' => 'New chat started successfully']);
+
+                $this->receiver_number = '';
+                $this->selected_template_preview_new_chat = '';
+                $this->sender_id = '';
+                $this->receiver_id = '';
+            }
         }
 
         // $msg = new ChatMessage();
