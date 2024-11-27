@@ -45,6 +45,7 @@ Route::get('/google/callback', [App\Http\Controllers\GoogleLoginController::clas
 Route::post('/twilio/callback', [TwilioController::class, 'twilioStatusCallback'])->name('twilioStatusCallback');
 
 Route::get('/1234-all-contacts', [TestController::class, 'allContacts'])->name('allContacts');
+Route::get('/1234-delete-contacts', [TestController::class, 'deleteContacts'])->name('deleteContacts');
 
 
 //Call Route Files
