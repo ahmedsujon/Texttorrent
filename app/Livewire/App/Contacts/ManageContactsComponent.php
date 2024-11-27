@@ -485,16 +485,30 @@ class ManageContactsComponent extends Component
         $this->dispatch('removed_blacklist', ['message' => $message]);
     }
 
-    public $validator_credits = 0, $total_numbers_selected = 0;
+    public $validator_credits = 0, $total_numbers_selected = 0, $numbers_to_validate = [], $availableValidation = 0, $alreadyValidated = 0;
     public function numberValidateConfirmation()
     {
         if (!$this->contact_checkbox) {
             $this->dispatch('error', ['message' => 'Select contacts first']);
         } else {
-            $this->total_numbers_selected = count($this->contact_checkbox);
-            $this->validator_credits = count($this->contact_checkbox) * 1;
+            $number_to_validate = [];
+            $already_validated = [];
 
-            // dd('Working on it');
+            foreach ($this->contact_checkbox as $key => $chkBox)
+            {
+                $contact = Contact::select('id', 'validation_process')->find($chkBox);
+                if ($contact->validation_process == 1) {
+                    $already_validated[] = $contact->id;
+                } else {
+                    $number_to_validate[] = $contact->id;
+                }
+            }
+
+            $this->total_numbers_selected = count($this->contact_checkbox);
+            $this->numbers_to_validate = $number_to_validate;
+            $this->alreadyValidated = count($already_validated);
+            $this->availableValidation = count($number_to_validate);
+            $this->validator_credits = count($number_to_validate) * 1;
 
             $this->dispatch('showNumberValidateConfirmation');
         }
@@ -512,7 +526,7 @@ class ManageContactsComponent extends Component
         }
 
         if (getUserActiveSubscription($user_id)['status'] == 'Active') {
-            $apiKey = env('NUM_VERIFY_ACCESS_KEY');
+            // $apiKey = env('NUM_VERIFY_ACCESS_KEY');
 
             // $output = [];
             // foreach ($this->contact_checkbox as $key => $number) {
@@ -531,14 +545,14 @@ class ManageContactsComponent extends Component
                 $validation = new NumberValidation();
                 $validation->user_id = user()->id;
                 $validation->list_id = $this->sort_list_id;
-                $validation->number_ids = $this->contact_checkbox;
-                $validation->total_number = $this->total_numbers_selected;
+                $validation->number_ids = $this->numbers_to_validate;
+                $validation->total_number = $this->availableValidation;
                 $validation->total_credits = $this->validator_credits;
                 $validation->total_mobile_numbers = null;
                 $validation->total_landline_numbers = null;
                 $validation->save();
 
-                foreach ($this->contact_checkbox as $key => $number) {
+                foreach ($this->numbers_to_validate as $key => $number) {
                     $contact = Contact::find($number);
 
                     $item = new NumberValidationItems();
@@ -547,7 +561,7 @@ class ManageContactsComponent extends Component
                     $item->contact_id = $contact->id;
                     $item->number = $contact->number;
                     $item->validated_at = null;
-                    $item->status = 'Pending';
+                    $item->status = 'Processing';
                     $item->save();
                 }
 
@@ -557,10 +571,10 @@ class ManageContactsComponent extends Component
                 $user->save();
 
                 // log
-                creditLog('Number validation for ' . $this->total_numbers_selected . ' numbers', $this->validator_credits);
+                creditLog('Number validation for ' . $this->availableValidation . ' numbers', $this->validator_credits);
 
                 $this->dispatch('numberValidationSubmitted');
-                $this->reset(['contact_checkbox', 'check_all']);
+                $this->reset(['numbers_to_validate', 'contact_checkbox', 'check_all']);
             } else {
                 $this->dispatch('error', ['message' => 'Not enough credits to validate selected numbers!']);
             }

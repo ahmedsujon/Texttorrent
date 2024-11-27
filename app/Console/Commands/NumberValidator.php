@@ -33,6 +33,9 @@ class NumberValidator extends Command
 
         foreach ($valItems as $valItem) {
             NumberValidation::dispatch($valItem->id);
+
+            // NumberValidation::dispatch($valItem->id)->delay(now()->addSeconds(1));
+            // sleep(1);
         }
 
         $this->info('Number validation processed - ' . $valItems->count() . ' ');
