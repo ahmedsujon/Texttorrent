@@ -24,8 +24,12 @@
                         </div>
                         <div class="input_row">
                             <label for="">Phone Number</label>
-                            <input type="number" wire:model.live="phone" class="input_filed"
-                                placeholder="Enter your phone number" />
+                            <div class="input-group">
+                                <span class="input-group-text" id="basic-addon1">+1</span>
+                                <input type="tel" class="form-control" wire:model.live='phone'
+                                    id="searchInput" placeholder="xxxxxxxxxx" autocomplete="off"
+                                    maxlength="10" />
+                            </div>
                             @error('phone')
                                 <p class="text-danger font-size-12 mb-0">{{ $message }}</p>
                             @enderror
@@ -47,7 +51,7 @@
                             @enderror
                         </div>
 
-                        <a href="#" class="forget_text">Forgot password?</a>
+                        {{-- <a href="#" class="forget_text">Forgot password?</a> --}}
                         <button type="submit" class="login_btn">{!! loadingStateWithText('userRegistration', 'Create Your Account') !!}</button>
                         <div class="or_divider">
                             <span>or</span>

@@ -27,7 +27,7 @@ class RegistrationComponent extends Component
     {
         $this->validate([
             'email' => 'required|email|unique:users,email',
-            'phone' => 'required|unique:users,phone',
+            'phone' => 'required|unique:users,phone|regex:/^\+?[1-9]\d{1,14}$/',
             'password' => 'required|min:8|max:30',
         ]);
 
