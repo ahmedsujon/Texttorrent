@@ -20,8 +20,6 @@ return new class extends Migration
             $table->integer('total_credits')->default(0);
             $table->integer('total_mobile_numbers')->nullable();
             $table->integer('total_landline_numbers')->nullable();
-            $table->integer('valid_numbers')->nullable();
-            $table->integer('invalid_numbers')->nullable();
             $table->tinyInteger('status')->default(0);
             $table->timestamps();
         });
