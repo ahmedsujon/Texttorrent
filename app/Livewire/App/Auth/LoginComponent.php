@@ -49,9 +49,15 @@ class LoginComponent extends Component
         }
     }
 
+    public $status = 0;
+    public function togglePasswordVisibility()
+    {
+        $this->status = $this->status == 0 ? 1 : 0;
+    }
 
     public function render()
     {
+        $this->dispatch('reloadScripts');
         return view('livewire.app.auth.login-component')->layout('livewire.app.auth.layouts.base');
     }
 }

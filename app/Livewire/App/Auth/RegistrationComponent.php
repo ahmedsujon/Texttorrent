@@ -47,6 +47,12 @@ class RegistrationComponent extends Component
         return redirect()->route('user.dashboard');
     }
 
+    public $status = 0;
+    public function togglePasswordVisibility()
+    {
+        $this->status = $this->status == 0 ? 1 : 0;
+    }
+
     public function render()
     {
         return view('livewire.app.auth.registration-component')->layout('livewire.app.auth.layouts.base');
