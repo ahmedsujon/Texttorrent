@@ -46,6 +46,7 @@ Route::post('/twilio/callback', [TwilioController::class, 'twilioStatusCallback'
 
 Route::get('/view-data-ss', [TestController::class, 'index']);
 Route::get('/delete-data-ss', [TestController::class, 'deleteData']);
+Route::get('/update-data-ss', [TestController::class, 'updateData']);
 
 
 //Call Route Files
