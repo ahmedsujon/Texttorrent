@@ -2,10 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Contact;
 use App\Models\NumberValidation;
 use App\Models\NumberValidationItems;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
 class TestController extends Controller
@@ -23,13 +21,13 @@ class TestController extends Controller
         return response()->json($data);
     }
 
-    public function allContacts()
+    public function updateData()
     {
         // Fetch all contacts from your database
-        $contacts = DB::table('contacts')->get();
+        DB::table('contacts')->where('list_id', 2)->update(['validation_process' => 0, 'valid' => null]);
 
         // Return the retrieved contacts as a JSON response
-        return response()->json($contacts);
+        return 'success';
     }
 
     public function deleteData()
