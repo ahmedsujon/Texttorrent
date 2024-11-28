@@ -326,7 +326,7 @@
                                         </a> --}}
                                         <a href="{{ route('user.campaigns.inboxTemplate') }}"
                                             class="menu_grid single_menu_grid {{ request()->is('campaigns/inbox-template') ? 'active_menu' : '' }}">
-                                            <div class="label">Template</div>
+                                            <div class="label">Templates</div>
                                         </a>
                                     </div>
                                 </div>

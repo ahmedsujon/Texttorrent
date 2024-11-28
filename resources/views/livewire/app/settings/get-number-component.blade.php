@@ -288,7 +288,7 @@
                 <div class="modal-content">
                     <div class="modal-header">
                         <h1 class="modal-title fs-5" id="newEventModal">
-                            Your Purchase Results
+                            Number Purchase Successful
                         </h1>
                         <button type="button" class="btn-close" data-bs-dismiss="modal"
                             aria-label="Close"></button>
@@ -297,13 +297,85 @@
                         <div class="purchase_area">
                             @if (session()->has('purchase_result'))
                                 <table class="table table-bordered">
-                                    @foreach (session('purchase_result') as $key => $result)
+                                    <thead>
                                         <tr>
-                                            <td>{{ $key + 1 }}</td>
-                                            <td>{{ $result['number'] }}</td>
-                                            <td class="text-center">{!! $result['status'] !!}</td>
+                                            <th>#</th>
+                                            <th>Number</th>
+                                            <th class="text-center">Status</th>
                                         </tr>
-                                    @endforeach
+                                    </thead>
+                                    <tbody>
+                                        @foreach (session('purchase_result') as $key => $result)
+                                            <tr>
+                                                <td>{{ $key + 1 }}</td>
+                                                <td>{{ $result['number'] }}</td>
+                                                <td class="text-center">{!! $result['status'] !!}</td>
+                                            </tr>
+                                        @endforeach
+
+                                        <tr>
+                                            <td colspan="3" class="text-center text-warning pt-3 pb-3">
+                                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" width="24" height="24" stroke-width="2"> <path d="M12 9v4"></path> <path d="M10.363 3.591l-8.106 13.534a1.914 1.914 0 0 0 1.636 2.871h16.214a1.914 1.914 0 0 0 1.636 -2.87l-8.106 -13.536a1.914 1.914 0 0 0 -3.274 0z"></path> <path d="M12 16h.01"></path> </svg>
+                                                <br>
+                                                Important Action Required
+                                                <br>
+
+                                                <small class="text-dark">
+                                                    Your selected numbers have been successfully purchased. To ensure compliance with regulations, please add these numbers to a verified campaign immediately. Failure to do so may result in restrictions on its usage.
+                                                </small>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            @endif
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div wire:ignore.self class="modal fade common_modal confirm_purchase_modal" id="purchaseResultModalSingle"
+            tabindex="-1" data-bs-keyboard="false" data-bs-backdrop="static" aria-labelledby="newEventModal"
+            aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="newEventModal">
+                            Number Purchase Successful
+                        </h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                            aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="purchase_area">
+                            @if (session()->has('purchase_result'))
+                                <table class="table table-bordered">
+                                    <thead>
+                                        <tr>
+                                            <th>Number</th>
+                                            <th class="text-center">Status</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach (session('purchase_result') as $key => $result)
+                                            <tr>
+                                                <td>{{ $result['number'] }}</td>
+                                                <td class="text-center">{!! $result['status'] !!}</td>
+                                            </tr>
+                                        @endforeach
+                                        <tr>
+                                            <td colspan="2" class="text-center text-warning pt-3 pb-3">
+                                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" width="24" height="24" stroke-width="2"> <path d="M12 9v4"></path> <path d="M10.363 3.591l-8.106 13.534a1.914 1.914 0 0 0 1.636 2.871h16.214a1.914 1.914 0 0 0 1.636 -2.87l-8.106 -13.536a1.914 1.914 0 0 0 -3.274 0z"></path> <path d="M12 16h.01"></path> </svg>
+                                                <br>
+                                                Important Action Required
+                                                <br>
+
+                                                <small class="text-dark">
+                                                    Your new number has been successfully purchased. To ensure compliance with regulations, please add this number to a verified campaign immediately. Failure to do so may result in restrictions on its usage.
+                                                </small>
+                                            </td>
+                                        </tr>
+                                    </tbody>
                                 </table>
                             @endif
                         </div>
@@ -338,7 +410,13 @@
 
         window.addEventListener('bulk_purchase_complete', event => {
             $('#confirmBulkPurchaseModal').modal('hide');
+            $('#confirmPurchaseModal').modal('hide');
             $('#purchaseResultModal').modal('show');
+        });
+
+        window.addEventListener('single_purchase_complete', event => {
+            $('#confirmPurchaseModal').modal('hide');
+            $('#purchaseResultModalSingle').modal('show');
         });
 
         window.addEventListener('purchase_success', event => {

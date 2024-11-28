@@ -8,7 +8,7 @@
                     <button type="button" class="sidebar_open_btn" id="sidebarShowBtn">
                         <img src="{{ asset('assets/app/icons/back-double-arrow.svg') }}" alt="double arrow" />
                     </button>
-                    <h2 class="inbox_template_title">Template</h2>
+                    <h2 class="inbox_template_title">Templates</h2>
                 </div>
                 <button type="button" class="create_template_btn" data-bs-toggle="modal"
                     data-bs-target="#createTemplateModal">

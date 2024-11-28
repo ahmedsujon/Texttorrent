@@ -977,13 +977,13 @@
             </div>
         </div>
 
-        <!-- New Chat Modal  -->
+        <!-- Edit Info Modal  -->
         <div wire:ignore.self class="modal fade common_modal" id="editInfoModal" tabindex="-1"
             aria-labelledby="chatModal" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h1 class="modal-title fs-5" id="chatModal">Start new chat</h1>
+                        <h1 class="modal-title fs-5" id="chatModal">Edit Info</h1>
                         <button type="button" class="btn-close" data-bs-dismiss="modal"
                             aria-label="Close"></button>
                     </div>
@@ -1363,6 +1363,9 @@
         window.addEventListener('newChatMessage', event => {
             setTimeout(() => {
                 $('#messageWriteArea').val(event.detail[0].message);
+
+                $('.new_chat_select_sender').val('');
+                $('.new_chat_text_area').val('');
             }, 300);
         });
 
@@ -1490,6 +1493,11 @@
 
             document.addEventListener('updateTextareaNewChat', function(output) {
                 $('.new_chat_text_area').val(output.detail);
+            });
+
+            $('.new_chat_text_area').on('change', function(e) {
+                var value = $(this).val();
+                @this.set('selected_template_preview_new_chat', value);
             });
 
             //Chat list Functionality

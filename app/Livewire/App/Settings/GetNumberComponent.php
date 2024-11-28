@@ -139,16 +139,17 @@ class GetNumberComponent extends Component
     public $numberToPurchase, $numberToPurchaseInfo = [];
     public function purchaseNumberConfirmation($number, $friendlyName, $region, $isoCountry, $latitude, $longitude, $postalCode)
     {
-        if (getActiveSubscription()['status'] == 'Active') {
+        if (user()->type == 'sub') {
+            $au_user = DB::table('users')->select('id', 'credits')->where('id', user()->parent_id)->first();
+            $credit_has = $au_user->credits;
+            $user_id = $au_user->id;
+        } else {
+            $credit_has = user()->credits;
+            $user_id = user()->id;
+        }
+
+        if (getUserActiveSubscription($user_id)['status'] == 'Active') {
             $credit_needed = 305;
-            if (user()->type == 'sub') {
-                $au_user = DB::table('users')->select('id', 'credits')->where('id', user()->parent_id)->first();
-                $credit_has = $au_user->credits;
-                $user_id = $au_user->id;
-            } else {
-                $credit_has = user()->credits;
-                $user_id = user()->id;
-            }
 
             if ($credit_has >= $credit_needed) {
                 $this->numberToPurchase = $number;
@@ -177,6 +178,8 @@ class GetNumberComponent extends Component
         $twilio = new Client($this->TWILIO_SID, $this->TWILIO_AUTH_TOKEN);
 
         try {
+            $purchase_result = [];
+
             $twilio->incomingPhoneNumbers->create([
                 'phoneNumber' => $this->numberToPurchase,
             ]);
@@ -199,14 +202,24 @@ class GetNumberComponent extends Component
 
             $saveData = $this->savePurchase($this->numberToPurchaseInfo);
             if ($saveData) {
-                $this->getNumbers();
-                $this->dispatch('purchase_success');
-
-                $this->numberToPurchase = '';
-                $this->numberToPurchaseInfo = [];
+                $purchase_result[] = [
+                    'number' => $this->numberToPurchase,
+                    'status' => "<span class='text-success'>Success</span>",
+                ];
             } else {
-                $this->dispatch('error', ['message' => 'Something went wrong!']);
+                $purchase_result[] = [
+                    'number' => $this->numberToPurchase,
+                    'status' => "<span class='text-danger'>Failed</span>",
+                ];
             }
+
+            session()->flash('purchase_result', $purchase_result);
+            $this->dispatch('single_purchase_complete');
+
+            $this->numberToPurchase = '';
+            $this->numberToPurchaseInfo = [];
+
+            $this->getNumbers();
         } catch (\Exception $e) {
             $this->dispatch('error', ['message' => 'Failed to purchase number: ' . $e->getMessage()]);
         }
@@ -317,16 +330,17 @@ class GetNumberComponent extends Component
     public function bulkPurchaseConfirmation()
     {
         if ($this->qty && $this->qty > 0) {
-            if (getActiveSubscription()['status'] == 'Active') {
+            if (user()->type == 'sub') {
+                $au_user = DB::table('users')->select('id', 'credits')->where('id', user()->parent_id)->first();
+                $credit_has = $au_user->credits;
+                $user_id = $au_user->id;
+            } else {
+                $credit_has = user()->credits;
+                $user_id = user()->id;
+            }
+
+            if (getUserActiveSubscription($user_id)['status'] == 'Active') {
                 $credit_needed = 305 * $this->qty;
-                if (user()->type == 'sub') {
-                    $au_user = DB::table('users')->select('id', 'credits')->where('id', user()->parent_id)->first();
-                    $credit_has = $au_user->credits;
-                    $user_id = $au_user->id;
-                } else {
-                    $credit_has = user()->credits;
-                    $user_id = user()->id;
-                }
 
                 if ($credit_has >= $credit_needed) {
                     $selected_numbers = array_slice($this->numbers_array, 0, $this->qty);
@@ -372,9 +386,6 @@ class GetNumberComponent extends Component
                 $user->credits -= $credit_needed;
                 $user->save();
 
-                // log
-                creditLog('Number purchase: ' . $number, $credit_needed);
-
                 $saveData = $this->savePurchase($number);
                 if ($saveData) {
                     $purchase_result[] = [
@@ -387,6 +398,9 @@ class GetNumberComponent extends Component
                         'status' => "<span class='text-danger'>Failed</span>",
                     ];
                 }
+
+                // log
+                creditLog('Number purchase: ' . $number['number'], $credit_needed);
             }
 
             session()->flash('purchase_result', $purchase_result);

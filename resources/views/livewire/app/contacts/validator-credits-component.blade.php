@@ -60,6 +60,12 @@
                                         <span>Total landline numbers</span>
                                     </div>
                                 </th>
+                                <th class="text-center">
+                                    <span>Valid Numbers</span>
+                                </th>
+                                <th class="text-center">
+                                    <span>Invalid Numbers</span>
+                                </th>
                                 <th scope="col">
                                     <div class="column_area">
                                         <span>Created</span>
@@ -121,6 +127,8 @@
                                             </p>
                                         </div>
                                     </td>
+                                    <td class="text-center">{{ $itm->valid_numbers }}</td>
+                                    <td class="text-center">{{ $itm->invalid_numbers }}</td>
                                     <td>
                                         <p>
                                             {{ \Carbon\Carbon::parse($itm->created_at)->isToday() ? 'Today, ' . \Carbon\Carbon::parse($itm->created_at)->format('g:i A') : \Carbon\Carbon::parse($itm->created_at)->format('F j, Y, g:i A') }}

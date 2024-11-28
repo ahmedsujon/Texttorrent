@@ -226,30 +226,60 @@ class InboxComponent extends Component
 
     public function startNewChat()
     {
+        if ($this->receiver_number) {
+            $rec_number = '+1' . $this->receiver_number;
+
+            $getContact = Contact::where('number', $rec_number)->where('user_id', user()->id)->first();
+            if ($getContact) {
+                $this->receiver_id = $getContact->id;
+            } else {
+                // $unlisted_count = Contact::where('user_id', user()->id)->where('list_id', NULL)->count();
+
+                $contact = new Contact();
+                $contact->user_id = user()->id;
+                // $contact->first_name = 'Unlisted';
+                // $contact->last_name = $unlisted_count + 1;
+                $contact->number = $rec_number;
+                $contact->save();
+                $this->receiver_id = $contact->id;
+            }
+        }
+
         $this->validate([
             'sender_id' => 'required',
             'receiver_id' => 'required',
-            'selected_template_id_new_chat' => 'required',
+            // 'selected_template_id_new_chat' => 'required',
             'selected_template_preview_new_chat' => 'required',
 
         ], [
             '*.required' => 'This field is required',
         ]);
 
+
         $contact = Contact::where('id', $this->receiver_id)->first();
         if ($contact && $contact->blacklisted == 1) {
             $this->dispatch('error', ['message' => 'This number is blacklisted']);
         } else {
-            $chat = new Chat();
-            $chat->user_id = user()->id;
-            $chat->contact_id = $this->receiver_id;
-            $chat->from_number = $this->sender_id;
-            $chat->save();
+            $getChat = Chat::select('id')->where('contact_id', $this->receiver_id)->where('from_number', $this->sender_id)->where('user_id', user()->id)->first();
+            if ($getChat) {
+                $this->dispatch('error', ['message' => 'Chat already exists!']);
+            } else {
+                $chat = new Chat();
+                $chat->user_id = user()->id;
+                $chat->contact_id = $this->receiver_id;
+                $chat->from_number = $this->sender_id;
+                $chat->save();
 
-            $this->selectChat($chat->id);
-            $this->dispatch('closeModal');
-            $this->dispatch('newChatMessage', ['message' => $this->new_chat_message]);
-            $this->dispatch('success', ['message' => 'New chat started successfully']);
+                $this->selectChat($chat->id);
+                $this->dispatch('closeModal');
+                $this->dispatch('newChatMessage', ['message' => $this->selected_template_preview_new_chat]);
+                $this->dispatch('success', ['message' => 'New chat started successfully']);
+
+                $this->receiver_number = '';
+                $this->selected_template_preview_new_chat = '';
+                $this->sender_id = '';
+                $this->receiver_id = '';
+            }
         }
 
         // $msg = new ChatMessage();

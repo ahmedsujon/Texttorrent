@@ -31,11 +31,11 @@ class NumberValidator extends Command
     {
         $valItems = NumberValidationItems::where('status', '!=', 'Completed')->get();
 
-        $delay = 0; // Initial delay for the first job
         foreach ($valItems as $valItem) {
             NumberValidation::dispatch($valItem->id);
 
-            sleep(5);
+            // NumberValidation::dispatch($valItem->id)->delay(now()->addSeconds(1));
+            // sleep(1);
         }
 
         $this->info('Number validation processed - ' . $valItems->count() . ' ');

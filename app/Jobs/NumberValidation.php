@@ -5,6 +5,7 @@ namespace App\Jobs;
 use App\Models\Contact;
 use App\Models\NumberValidation as ModelsNumberValidation;
 use App\Models\NumberValidationItems;
+use Carbon\Carbon;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
@@ -43,17 +44,22 @@ class NumberValidation implements ShouldQueue
 
         $result = $response->json();
 
+        $valItem->validated_at = Carbon::parse(now());
         $valItem->status = 'Completed';
         $valItem->save();
 
         $contact = Contact::find($valItem->contact_id);
         $contact->validation_process = 1;
 
+        $valid = 0;
+        $invalid = 0;
         // Check if the 'valid' key exists in the response
         if (isset($result['valid']) && $result['valid'] === true) {
             $contact->valid = 'Valid';
+            $valid = 1;
         } else {
             $contact->valid = 'Invalid';
+            $invalid = 1;
         }
         $contact->save();
 
@@ -65,6 +71,8 @@ class NumberValidation implements ShouldQueue
                 $validation->total_mobile_numbers = $validation->total_mobile_numbers ? $validation->total_mobile_numbers + 1 : 1;
             }
         }
+        $validation->valid_numbers += $valid;
+        $validation->invalid_numbers += $invalid;
         $validation->save();
     }
 }
