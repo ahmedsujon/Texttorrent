@@ -299,7 +299,7 @@
                             </div>
                         </div>
                         <form onsubmit="event.preventDefault()" class="search_input_form">
-                            <input type="search" placeholder="Search contacts"
+                            <input type="search" placeholder="Search contacts" wire:keyup='resetPage'
                                 wire:model.live='contacts_search_term' class="input_field" />
                             <button type="button" class="search_icon">
                                 <img src="{{ asset('assets/app/icons/search-gray.svg') }}" alt="search icon" />
@@ -317,7 +317,7 @@
                         <div class="row">
                             <div class="col-md-12 text-center">
                                 <span wire:loading
-                                    wire:target='editContact,deleteConfirmation,editList,addRemoveBookmark,list_search_term,contacts_search_term,selectList,deleteAllContacts,exportContacts,removeBlacklist,numberValidateConfirmation'><i
+                                    wire:target='editContact,deleteConfirmation,editList,addRemoveBookmark,list_search_term,contacts_search_term,selectList,deleteAllContacts,exportContacts,removeBlacklist,numberValidateConfirmation,previousPage,nextPage'><i
                                         class="fa fa-spinner fa-spin"></i> Processing...</span>
                             </div>
                         </div>
@@ -1462,6 +1462,7 @@
 
     <script>
         $(document).ready(function() {
+            @this.resetPage();
             // document.getElementById('formCheckAll').addEventListener('click', function() {
             //     const isChecked = this.checked;
             //     const checkboxes = document.querySelectorAll('.contact-checkbox');
@@ -1472,6 +1473,7 @@
 
             $('.sortingValue').on('change', function(){
                 @this.set('sortingValue', this.value);
+                @this.resetPage();
             });
 
             $('.js-searchBox-file-select').on('change', function() {
