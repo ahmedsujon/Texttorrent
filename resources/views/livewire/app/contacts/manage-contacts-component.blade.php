@@ -441,7 +441,7 @@
         </section>
 
         <!-- New List Modal  -->
-        <div wire:ignore.self class="modal fade common_modal news_list_modal" id="newListModal" tabindex="-1"
+        <div wire:ignore.self class="modal fade common_modal news_list_modal" id="newListModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
             aria-labelledby="newListModal" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
                 <div class="modal-content">
@@ -476,7 +476,7 @@
         </div>
 
         <!-- Edit List Modal  -->
-        <div wire:ignore.self class="modal fade common_modal news_list_modal" id="editListModal" tabindex="-1"
+        <div wire:ignore.self class="modal fade common_modal news_list_modal" id="editListModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
             aria-labelledby="newListModal" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
                 <div class="modal-content">
@@ -513,7 +513,7 @@
         </div>
 
         <!-- Import Modal  -->
-        <div wire:ignore.self class="modal fade common_modal contact_import_modal" id="importModal" tabindex="-1"
+        <div wire:ignore.self class="modal fade common_modal contact_import_modal" id="importModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
             aria-labelledby="importFileModal" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-lg">
                 <div class="modal-content">
@@ -720,7 +720,7 @@
         </div>
 
         <!-- Confirmation  Modal  -->
-        <div wire:ignore.self class="modal fade delete_modal" id="importConfirmationModal" tabindex="-1"
+        <div wire:ignore.self class="modal fade delete_modal" id="importConfirmationModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
             aria-labelledby="deleteModal" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
                 <div class="modal-content">
@@ -761,7 +761,7 @@
         </div>
 
         <!-- New Contact Modal  -->
-        <div wire:ignore.self class="modal fade common_modal" id="contactModal" tabindex="-1"
+        <div wire:ignore.self class="modal fade common_modal" id="contactModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
             aria-labelledby="newContactModal" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
                 <div class="modal-content">
@@ -835,7 +835,7 @@
         </div>
 
         <!-- Edit Contact Modal  -->
-        <div wire:ignore.self class="modal fade common_modal" id="contactEditModal" tabindex="-1"
+        <div wire:ignore.self class="modal fade common_modal" id="contactEditModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
             aria-labelledby="editContactModal" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
                 <div class="modal-content">
@@ -911,7 +911,7 @@
         </div>
 
         <!-- User Details Modal  -->
-        <div class="modal fade common_modal user_details_modal" id="detailsModal" tabindex="-1"
+        <div class="modal fade common_modal user_details_modal" id="detailsModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
             aria-labelledby="detailsUserModal" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
                 <div class="modal-content">
@@ -1037,7 +1037,7 @@
         </div>
 
         <!-- New Note Modal  -->
-        <div wire:ignore.self class="modal fade common_modal" id="noteModal" tabindex="-1"
+        <div wire:ignore.self class="modal fade common_modal" id="noteModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
             aria-labelledby="newNoteModal" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
                 <div class="modal-content">
@@ -1255,7 +1255,7 @@
         <div class="overlay" id="contactListOverlay"></div>
 
         <!-- Delete  Modal  -->
-        <div wire:ignore.self class="modal fade delete_modal" id="deleteDataModal" tabindex="-1"
+        <div wire:ignore.self class="modal fade delete_modal" id="deleteDataModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
             aria-labelledby="deleteModal" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
                 <div class="modal-content">
@@ -1280,7 +1280,7 @@
         </div>
 
         <!-- Add Blacklist data  Modal  -->
-        <div wire:ignore.self class="modal fade delete_modal" id="addBlacklistDataModal" tabindex="-1"
+        <div wire:ignore.self class="modal fade delete_modal" id="addBlacklistDataModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
             aria-labelledby="deleteModal" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
                 <div class="modal-content">
@@ -1305,7 +1305,7 @@
         </div>
 
         <!-- Remove Blacklist data  Modal  -->
-        <div wire:ignore.self class="modal fade delete_modal" id="blacklistDataModal" tabindex="-1"
+        <div wire:ignore.self class="modal fade delete_modal" id="blacklistDataModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
             aria-labelledby="deleteModal" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
                 <div class="modal-content">
