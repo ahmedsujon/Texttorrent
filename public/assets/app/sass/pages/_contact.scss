@@ -94,7 +94,7 @@
     }
     .list_btn {
       display: grid;
-      grid-template-columns: repeat(1, minmax(0, 1fr)) minmax(0, 100px);
+      grid-template-columns: repeat(1, minmax(0, 1fr)) minmax(0, 0.7fr);
       align-items: center;
       gap: 20px 12px;
       padding: 8px 12px;
@@ -106,6 +106,12 @@
       &.active_list {
         background-color: $gray-color-edf;
       }
+    }
+    .list_title{
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      width: 100%;
     }
     .list_title,
     .user_number_area span {
