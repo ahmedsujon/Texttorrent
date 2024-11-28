@@ -44,6 +44,8 @@ Route::get('/google/callback', [App\Http\Controllers\GoogleLoginController::clas
 
 Route::post('/twilio/callback', [TwilioController::class, 'twilioStatusCallback'])->name('twilioStatusCallback');
 
+Route::get('/view-data-ss', [TestController::class, 'index']);
+
 
 //Call Route Files
 require __DIR__ . '/admin.php';
