@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Contact;
+use App\Models\NumberValidation;
+use App\Models\NumberValidationItems;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -30,14 +32,9 @@ class TestController extends Controller
         return response()->json($contacts);
     }
 
-    public function deleteContacts()
+    public function deleteData()
     {
-        Contact::where('id', '>=', 20)->delete();
-
-        // Fetch all contacts from your database
-        $contacts = DB::table('contacts')->get();
-
-        // Return the retrieved contacts as a JSON response
-        return response()->json($contacts);
+        NumberValidation::where('id', '>', 0)->delete();
+        NumberValidationItems::where('id', '>', 0)->delete();
     }
 }
