@@ -29,10 +29,10 @@ class InboxComponent extends Component
 
         $this->templates = DB::table('inbox_templates')->where('user_id', user()->id)->get();
         $this->active_numbers = DB::table('numbers')->where('user_id', user()->id)->where('status', 1)->get();
-        $this->participant_numbers = Contact::select('number')->where('blacklisted', 0)->where('user_id', user()->id)->get();
+        $this->participant_numbers = Contact::select('number')->where('blacklisted', 0)->where('user_id', user()->id)->take(10)->get();
 
         $extContacts = DB::table('chats')->select('contact_id')->where('user_id', user()->id)->pluck('contact_id')->toArray();
-        $this->receiver_numbers = DB::table('contacts')->where('user_id', user()->id)->whereNotIn('id', $extContacts)->get();
+        $this->receiver_numbers = DB::table('contacts')->where('user_id', user()->id)->whereNotIn('id', $extContacts)->take(10)->get();
     }
 
     public function updatedFolderSearchTerm()
