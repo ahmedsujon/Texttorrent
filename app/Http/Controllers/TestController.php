@@ -8,6 +8,15 @@ use Illuminate\Support\Facades\DB;
 
 class TestController extends Controller
 {
+    public function index()
+    {
+        // Fetch all contacts from your database
+        $data = DB::table('number_validation_items')->get();
+
+        // Return the retrieved data as a JSON response
+        return response()->json($data);
+    }
+
     public function allContacts()
     {
         // Fetch all contacts from your database
