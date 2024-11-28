@@ -135,7 +135,7 @@
     </main>
 
     <!-- Claim Accept  Modal  -->
-    <div wire:ignore.self class="modal fade delete_modal" id="acceptClaimModal" tabindex="-1"
+    <div wire:ignore.self class="modal fade delete_modal" data-bs-backdrop="static" data-bs-keyboard="false" id="acceptClaimModal" tabindex="-1"
     aria-labelledby="deleteModal" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
             <div class="modal-content">
@@ -160,7 +160,7 @@
     </div>
 
     <!-- Claim Accept  Modal  -->
-    <div wire:ignore.self class="modal fade delete_modal" id="blacklistClaimModal" tabindex="-1"
+    <div wire:ignore.self class="modal fade delete_modal" data-bs-backdrop="static" data-bs-keyboard="false" id="blacklistClaimModal" tabindex="-1"
     aria-labelledby="deleteModal" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
             <div class="modal-content">
@@ -185,7 +185,7 @@
     </div>
 
     <!-- Claim Accept  Modal  -->
-    <div wire:ignore.self class="modal fade delete_modal" id="deleteClaimModal" tabindex="-1"
+    <div wire:ignore.self class="modal fade delete_modal" data-bs-backdrop="static" data-bs-keyboard="false" id="deleteClaimModal" tabindex="-1"
     aria-labelledby="deleteModal" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
             <div class="modal-content">
@@ -210,7 +210,7 @@
     </div>
 
     <!-- Claim Accept  Modal  -->
-    <div wire:ignore.self class="modal fade delete_modal" id="acceptClaimBulkModal" tabindex="-1"
+    <div wire:ignore.self class="modal fade delete_modal" data-bs-backdrop="static" data-bs-keyboard="false" id="acceptClaimBulkModal" tabindex="-1"
     aria-labelledby="deleteModal" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
             <div class="modal-content">
@@ -235,7 +235,7 @@
     </div>
 
     <!-- Claim Accept  Modal  -->
-    <div wire:ignore.self class="modal fade delete_modal" id="blacklistClaimBulkModal" tabindex="-1"
+    <div wire:ignore.self class="modal fade delete_modal" data-bs-backdrop="static" data-bs-keyboard="false" id="blacklistClaimBulkModal" tabindex="-1"
     aria-labelledby="deleteModal" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
             <div class="modal-content">
@@ -260,7 +260,7 @@
     </div>
 
     <!-- Claim Accept  Modal  -->
-    <div wire:ignore.self class="modal fade delete_modal" id="deleteClaimBulkModal" tabindex="-1"
+    <div wire:ignore.self class="modal fade delete_modal" data-bs-backdrop="static" data-bs-keyboard="false" id="deleteClaimBulkModal" tabindex="-1"
     aria-labelledby="deleteModal" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
             <div class="modal-content">

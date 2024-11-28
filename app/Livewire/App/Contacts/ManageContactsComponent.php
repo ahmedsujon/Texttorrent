@@ -119,6 +119,7 @@ class ManageContactsComponent extends Component
 
         $this->dispatch('closeModal');
         $this->dispatch('success', ['message' => 'New contact added successfully']);
+        $this->resetPage();
     }
     public function editContact($id)
     {
@@ -428,6 +429,7 @@ class ManageContactsComponent extends Component
 
         $this->import_list_id = $id;
         $this->dispatch('setSelectedList', $id);
+        $this->resetPage();
     }
 
     public function exportContacts()
