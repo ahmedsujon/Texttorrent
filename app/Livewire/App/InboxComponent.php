@@ -12,9 +12,12 @@ use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 use Livewire\Component;
+use Livewire\WithPagination;
 
 class InboxComponent extends Component
 {
+    use WithPagination;
+
     public $folders, $folder_search_term, $templates, $active_numbers, $receiver_numbers, $participant_numbers;
     public function mount()
     {
@@ -620,7 +623,7 @@ class InboxComponent extends Component
             }
         }
 
-        $chats = $chats->get();
+        $chats = $chats->paginate(8);
 
         foreach ($chats as $key => $chat) {
             $chat->avatar_ltr = substr($chat->first_name, 0, 1) . substr($chat->last_name, 0, 1);

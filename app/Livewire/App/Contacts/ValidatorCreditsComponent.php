@@ -3,15 +3,32 @@
 namespace App\Livewire\App\Contacts;
 
 use App\Models\NumberValidation;
+use App\Models\NumberValidationItems;
 use Illuminate\Support\Facades\DB;
 use Livewire\Component;
 
 class ValidatorCreditsComponent extends Component
 {
-    public $searchTerm, $sortingValue;
+    public $searchTerm, $sortingValue, $delete_id;
 
-    
 
+    public function deleteConfirmation($id)
+    {
+        $this->delete_id = $id;
+        $this->dispatch('show_delete_confirmation');
+    }
+
+    public function deleteData()
+    {
+        $data = NumberValidation::find($this->delete_id);
+        $dataItem = NumberValidationItems::where('number_validation_id', $data->id)->get();
+        foreach ($dataItem as $dt) {
+            $dt->delete();
+        }
+        $data->delete();
+
+        $this->dispatch('data_deleted');
+    }
 
     public function render()
     {

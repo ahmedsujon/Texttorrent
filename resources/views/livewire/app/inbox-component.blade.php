@@ -160,6 +160,8 @@
                                             </button>
                                         </li>
                                     @endforeach
+
+                                    {{-- {{ $chats->links('livewire.inbox-pagination') }} --}}
                                 @else
                                     <li class="text-center p-5"><small>No chats found!</small></li>
                                 @endif

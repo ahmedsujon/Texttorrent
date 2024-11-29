@@ -11,18 +11,27 @@
                     <h2 class="inbox_template_title">Number validator results</h2>
                 </div>
             </div>
-            <div class="template_filter_area d-flex-between">
-                <form class="search_input_form">
-                    <input type="search" placeholder="Search lists" wire:model.live='searchTerm' class="input_field" />
-                    <button type="button" class="search_icon">
-                        <img src="{{ asset('assets/app/icons/search-gray.svg') }}" alt="search icon" />
-                    </button>
-                </form>
-                <div class="filter_btn_area d-flex align-items-center justify-content-end flex-wrap g-xs">
-                    <button type="button" class="import_btn">
-                        <img src="{{ asset('assets/app/icons/import.svg') }}" alt="column insert" />
-                        <span>Export</span>
-                    </button>
+            <div class="template_filter_area">
+                <div class="row">
+                    <div class="col-md-4">
+                        <form class="search_input_form">
+                            <input type="search" placeholder="Search lists" wire:model.live='searchTerm' wire:keyup='resetPage' class="input_field" />
+                            <button type="button" class="search_icon">
+                                <img src="{{ asset('assets/app/icons/search-gray.svg') }}" alt="search icon" />
+                            </button>
+                        </form>
+                    </div>
+                    <div class="col-md-4 text-center">
+                        <span wire:loading wire:target='deleteConfirmation,previousPage,nextPage'><i class="fa fa-spinner fa-spin"></i> Processing...</span>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="filter_btn_area d-flex align-items-center justify-content-end flex-wrap g-xs">
+                            <button type="button" class="import_btn">
+                                <img src="{{ asset('assets/app/icons/import.svg') }}" alt="column insert" />
+                                <span>Export</span>
+                            </button>
+                        </div>
+                    </div>
                 </div>
             </div>
             <div class="inbox_template_table_area">
@@ -152,7 +161,7 @@
                                                         </button>
                                                     </li>
                                                     <li>
-                                                        <button type="button" class="dropdown-item">
+                                                        <button type="button" wire:click.prevent='deleteConfirmation({{ $itm->id }})' class="dropdown-item">
                                                             <img src="{{ asset('assets/app/icons/delete-01.svg') }}" alt="delete icon" />
                                                             <span>Delete</span>
                                                         </button>
@@ -185,6 +194,31 @@
             </div>
         </section>
     </main>
+
+    <!-- Delete  Modal  -->
+    <div wire:ignore.self class="modal fade delete_modal" id="deleteDataModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+    aria-labelledby="deleteModal" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <div class="content_area">
+                        <h2>Would you like to permanently delete this event?</h2>
+                        <h4>Once deleted, this event will no longer be accessible</h4>
+                        <div class="delete_action_area d-flex align-items-center flex-wrap">
+                            <button type="button" class="delete_cancel_btn" id="deleteModalCloseBtn"
+                                data-bs-dismiss="modal">
+                                Cancel
+                            </button>
+                            <button type="button" wire:click.prevent='deleteData' wire:loading.attr='disabled'
+                                class="delete_yes_btn">
+                                {!! loadingStateWithText('deleteData', 'Yes') !!}
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 @push('scripts')
     <script>
@@ -192,6 +226,15 @@
             $('.sortingValue').on('change', function() {
                 @this.set('sortingValue', this.value);
             });
+        });
+
+        window.addEventListener('data_deleted', event => {
+            $('#deleteDataModal').modal('hide');
+            Swal.fire(
+                "Deleted!",
+                "Data deleted successfully",
+                "success"
+            );
         });
     </script>
 @endpush
