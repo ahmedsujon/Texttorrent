@@ -63,6 +63,13 @@ class NumberValidation implements ShouldQueue
         }
         $contact->save();
 
+        if ($validation->total_landline_numbers == null) {
+            $validation->total_landline_numbers = 0;
+        }
+        if ($validation->total_mobile_numbers == null) {
+            $validation->total_mobile_numbers = 0;
+        }
+
         // Safely check for the 'line_type' key
         if (isset($result['line_type'])) {
             if ($result['line_type'] == 'landline') {

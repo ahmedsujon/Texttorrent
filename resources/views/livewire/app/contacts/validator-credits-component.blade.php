@@ -22,12 +22,12 @@
                         </form>
                     </div>
                     <div class="col-md-4 text-center">
-                        <span wire:loading wire:target='deleteConfirmation,previousPage,nextPage'><i class="fa fa-spinner fa-spin"></i> Processing...</span>
+                        <span wire:loading wire:target='deleteConfirmation,previousPage,nextPage,exportItems'><i class="fa fa-spinner fa-spin"></i> Processing...</span>
                     </div>
                     <div class="col-md-4">
                         <div class="filter_btn_area d-flex align-items-center justify-content-end flex-wrap g-xs">
-                            <button type="button" class="import_btn">
-                                <img src="{{ asset('assets/app/icons/import.svg') }}" alt="column insert" />
+                            <button type="button" wire:click.prevent="exportData" wire:loading.attr='disabled' class="import_btn">
+                                {!! loadingStateWithoutText("exportData", '<img src="'.asset('assets/app/icons/import.svg').'" />') !!}
                                 <span>Export</span>
                             </button>
                         </div>
@@ -41,7 +41,7 @@
                             <tr>
                                 <th scope="col">
                                     <div class="form-check table_checkbox_area">
-                                        <input class="form-check-input" type="checkbox" value="" />
+                                        <input class="form-check-input" wire:model.live='check_all' type="checkbox" value="1" />
                                     </div>
                                 </th>
                                 <th scope="col">
@@ -94,7 +94,7 @@
                                 <tr>
                                     <td>
                                         <div class="form-check table_checkbox_area">
-                                            <input class="form-check-input" type="checkbox" value="" />
+                                            <input class="form-check-input" wire:model.live='selectedItems' type="checkbox" value="{{ $itm->id }}" />
                                         </div>
                                     </td>
                                     <td>
@@ -117,7 +117,7 @@
                                             <img src="{{ asset('assets/app/icons/exists.svg') }}" alt="exists icon" />
                                             <p>
                                                 @if ($itm->total_mobile_numbers == NULL)
-                                                    <small class="text-muted">TBD</small>
+                                                    ---
                                                 @else
                                                     {{ $itm->total_mobile_numbers }}
                                                 @endif
@@ -129,15 +129,27 @@
                                             <img src="{{ asset('assets/app/icons/telephone.svg') }}" alt="telephone icon" />
                                             <p>
                                                 @if ($itm->total_landline_numbers == NULL)
-                                                    <small class="text-muted">TBD</small>
+                                                    ---
                                                 @else
                                                     {{ $itm->total_landline_numbers }}
                                                 @endif
                                             </p>
                                         </div>
                                     </td>
-                                    <td class="text-center">{{ $itm->valid_numbers }}</td>
-                                    <td class="text-center">{{ $itm->invalid_numbers }}</td>
+                                    <td class="text-center">
+                                        @if ($itm->valid_numbers == NULL)
+                                            ---
+                                        @else
+                                            {{ $itm->valid_numbers }}
+                                        @endif
+                                    </td>
+                                    <td class="text-center">
+                                        @if ($itm->invalid_numbers == NULL)
+                                            ---
+                                        @else
+                                            {{ $itm->invalid_numbers }}
+                                        @endif
+                                    </td>
                                     <td>
                                         <p>
                                             {{ \Carbon\Carbon::parse($itm->created_at)->isToday() ? 'Today, ' . \Carbon\Carbon::parse($itm->created_at)->format('g:i A') : \Carbon\Carbon::parse($itm->created_at)->format('F j, Y, g:i A') }}
@@ -155,7 +167,7 @@
                                                         <h4>Select</h4>
                                                     </li>
                                                     <li>
-                                                        <button type="button" class="dropdown-item">
+                                                        <button type="button" wire:click.prevent='exportItems({{ $itm->id }})' class="dropdown-item">
                                                             <img src="{{ asset('assets/app/icons/import.svg') }}" alt="copy icon" />
                                                             <span>Export</span>
                                                         </button>
