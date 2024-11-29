@@ -51,6 +51,7 @@ class InboxComponent extends Component
         } else {
             $this->sort_folder_id = $folder_id;
         }
+        $this->resetPage();
     }
 
     public $selected_chat_id, $selected_chat, $messages;
@@ -346,6 +347,7 @@ class InboxComponent extends Component
         } else {
             $this->unread_filter = true;
         }
+        $this->resetPage();
     }
 
     public $info_edit_id, $first_name, $last_name, $mobile_number, $company_name, $email;

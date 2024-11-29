@@ -421,6 +421,14 @@
       @include customScrollbarInner();
     }
   }
+  .hide_pagination {
+    .friend_list {
+      height: 100%;
+    }
+    .new_msg_btn {
+      bottom: 40px;
+    }
+  }
   .pagination_area {
     margin-top: 0;
     padding: 20px 0;
