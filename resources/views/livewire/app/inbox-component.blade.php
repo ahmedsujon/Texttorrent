@@ -1,4 +1,6 @@
-@section('page_title') TextTorrent | Inbox @endsection
+@section('page_title')
+    TextTorrent | Inbox
+@endsection
 <div>
     <style>
         /* clears the ‘X’ from Internet Explorer */
@@ -123,51 +125,53 @@
                                 </button>
                             </div>
                         </div>
-                        <div class="friend_list_area">
+                        <div class="friend_list_area {{ $chats->hasPages() ? '' : 'hide_pagination' }} ">
                             <div wire:loading wire:target='showUnread,filter_time,selectFolder,searchTerm,selectChat'
                                 style="position: absolute; left: 35%; top: -15px; background: #F5F6F8; border-radius: 5px; padding: 1px 10px;">
                                 <span class="spinner-border spinner-border-sm align-middle" role="status"
                                     aria-hidden="true"></span> <small>Processing...</small>
                             </div>
-
-                            <ul>
-                                @if ($chats->count() > 0)
-                                    @foreach ($chats as $chat)
-                                        <li>
-                                            <button type="button"
-                                                wire:click.prevent='selectChat({{ $chat->id }})'
-                                                class="list_item {{ $selected_chat_id == $chat->id ? 'active_chat' : '' }}">
-                                                <div class="user_image chat-avatar">{{ $chat->avatar_ltr }}</div>
-                                                <div class="short_message_are">
-                                                    <h6>{{ $chat->first_name }} {{ $chat->last_name }}</h6>
-                                                    <p style="font-size: 11.5px;">{{ $chat->number }}</p>
-                                                    <p style="{{ $chat->unread ? 'font-weight: 700;' : '' }}">
-                                                        {{ $chat->last_message }}
-                                                    </p>
-                                                </div>
-                                                <div class="time_area">
-                                                    <h5>{{ Carbon\Carbon::parse($chat->updated_at)->format('H:i A') }}
-                                                    </h5>
-                                                    @if ($chat->unread)
-                                                        <span class="badge bg-danger rounded-circle"
-                                                            style="font-size: 10px !important;">{{ $chat->unread_count }}</span>
-                                                    @endif
-                                                    {{-- <span class="text-danger" style="font-size: 35px;">•</span> --}}
-                                                    {{-- <div class="d-flex justify-content-end">
+                            <div class="friend_list">
+                                <ul>
+                                    @if ($chats->count() > 0)
+                                        @foreach ($chats as $chat)
+                                            <li>
+                                                <button type="button"
+                                                    wire:click.prevent='selectChat({{ $chat->id }})'
+                                                    class="list_item {{ $selected_chat_id == $chat->id ? 'active_chat' : '' }}">
+                                                    <div class="user_image chat-avatar">{{ $chat->avatar_ltr }}</div>
+                                                    <div class="short_message_are">
+                                                        <h6>{{ $chat->first_name }} {{ $chat->last_name }}</h6>
+                                                        <p style="font-size: 11.5px;">{{ $chat->number }}</p>
+                                                        <p style="{{ $chat->unread ? 'font-weight: 700;' : '' }}">
+                                                            {{ $chat->last_message }}
+                                                        </p>
+                                                    </div>
+                                                    <div class="time_area">
+                                                        <h5>{{ Carbon\Carbon::parse($chat->updated_at)->format('H:i A') }}
+                                                        </h5>
+                                                        @if ($chat->unread)
+                                                            <span class="badge bg-danger rounded-circle"
+                                                                style="font-size: 10px !important;">{{ $chat->unread_count }}</span>
+                                                        @endif
+                                                        {{-- <span class="text-danger" style="font-size: 35px;">•</span> --}}
+                                                        {{-- <div class="d-flex justify-content-end">
                                                         <div class="number">1</div>
                                                     </div> --}}
-                                                </div>
-                                            </button>
-                                        </li>
-                                    @endforeach
-                                @else
-                                    <li class="text-center p-5"><small>No chats found!</small></li>
-                                @endif
-                            </ul>
-                            <button type="button" class="new_msg_btn" data-bs-toggle="modal"
-                                data-bs-target="#newChartModal">
-                                <img src="{{ asset('assets/app/icons/plus_white.svg') }}" alt="plus icon" />
-                            </button>
+                                                    </div>
+                                                </button>
+                                            </li>
+                                        @endforeach
+                                    @else
+                                        <li class="text-center p-5"><small>No chats found!</small></li>
+                                    @endif
+                                </ul>
+                                <button type="button" class="new_msg_btn" data-bs-toggle="modal"
+                                    data-bs-target="#newChartModal">
+                                    <img src="{{ asset('assets/app/icons/plus_white.svg') }}" alt="plus icon" />
+                                </button>
+                            </div>
+                            {{ $chats->links('livewire.inbox-pagination') }}
                         </div>
                     </div>
                 </div>
@@ -655,8 +659,9 @@
         </div>
 
         <!-- Sms Template Modal  -->
-        <div wire:ignore.self class="modal fade common_modal" data-bs-backdrop="static" data-bs-keyboard="false" id="smsTemplateModal" tabindex="-1"
-            aria-labelledby="templateModal" aria-hidden="true" wire:ignore.self>
+        <div wire:ignore.self class="modal fade common_modal" data-bs-backdrop="static" data-bs-keyboard="false"
+            id="smsTemplateModal" tabindex="-1" aria-labelledby="templateModal" aria-hidden="true"
+            wire:ignore.self>
             <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -701,8 +706,8 @@
         </div>
 
         <!-- New Event Modal  -->
-        <div class="modal fade common_modal" wire:ignore.self id="eventModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
-            aria-labelledby="newEventModal" aria-hidden="true">
+        <div class="modal fade common_modal" wire:ignore.self id="eventModal" data-bs-backdrop="static"
+            data-bs-keyboard="false" tabindex="-1" aria-labelledby="newEventModal" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -860,8 +865,8 @@
         </div>
 
         <!-- New Chat Modal  -->
-        <div wire:ignore.self class="modal fade common_modal" data-bs-backdrop="static" data-bs-keyboard="false" id="newChartModal" tabindex="-1"
-            aria-labelledby="chatModal" aria-hidden="true">
+        <div wire:ignore.self class="modal fade common_modal" data-bs-backdrop="static" data-bs-keyboard="false"
+            id="newChartModal" tabindex="-1" aria-labelledby="chatModal" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -978,8 +983,8 @@
         </div>
 
         <!-- Edit Info Modal  -->
-        <div wire:ignore.self class="modal fade common_modal" data-bs-backdrop="static" data-bs-keyboard="false" id="editInfoModal" tabindex="-1"
-            aria-labelledby="chatModal" aria-hidden="true">
+        <div wire:ignore.self class="modal fade common_modal" data-bs-backdrop="static" data-bs-keyboard="false"
+            id="editInfoModal" tabindex="-1" aria-labelledby="chatModal" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -1053,8 +1058,8 @@
         </div>
 
         <!-- Delete  Modal  -->
-        <div wire:ignore.self class="modal fade delete_modal" data-bs-backdrop="static" data-bs-keyboard="false" id="deleteDataModal" tabindex="-1"
-            aria-labelledby="deleteModal" aria-hidden="true">
+        <div wire:ignore.self class="modal fade delete_modal" data-bs-backdrop="static" data-bs-keyboard="false"
+            id="deleteDataModal" tabindex="-1" aria-labelledby="deleteModal" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
                 <div class="modal-content">
                     <div class="modal-body">
@@ -1078,8 +1083,8 @@
         </div>
 
         <!-- Blacklist  Modal  -->
-        <div wire:ignore.self class="modal fade delete_modal" data-bs-backdrop="static" data-bs-keyboard="false" id="blacklistModal" tabindex="-1"
-            aria-labelledby="deleteModal" aria-hidden="true">
+        <div wire:ignore.self class="modal fade delete_modal" data-bs-backdrop="static" data-bs-keyboard="false"
+            id="blacklistModal" tabindex="-1" aria-labelledby="deleteModal" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
                 <div class="modal-content">
                     <div class="modal-body">
@@ -1388,6 +1393,8 @@
     <script>
         $(document).ready(function() {
 
+            @this.resetPage();
+
             function scrollToBottom() {
                 const messageArea = document.getElementById('messageArea');
                 if (messageArea) {
@@ -1453,11 +1460,13 @@
             $('#filter_time').on('change', function() {
                 var data = $(this).val();
                 @this.set('filter_time', data);
+                @this.resetPage();
             });
 
             $('#searchChat').on('keyup', function() {
                 var data = $(this).val();
                 @this.set('searchTerm', data);
+                @this.resetPage();
             });
 
             // $('.new_chat_select_receiver').on('change', function(e) {

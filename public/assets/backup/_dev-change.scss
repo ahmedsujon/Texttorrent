@@ -1,0 +1,8 @@
+
+.sidebar_wrapper .accordion-button::after {
+    background-image: url("/assets/app/icons/arrow-down-02.svg") !important;
+}
+
+.sidebar_wrapper .accordion-button:not(.collapsed)::after {
+    background-image: url("/assets/app/icons/arrow-up.svg") !important;
+}

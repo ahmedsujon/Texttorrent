@@ -12,9 +12,12 @@ use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 use Livewire\Component;
+use Livewire\WithPagination;
 
 class InboxComponent extends Component
 {
+    use WithPagination;
+
     public $folders, $folder_search_term, $templates, $active_numbers, $receiver_numbers, $participant_numbers;
     public function mount()
     {
@@ -29,10 +32,10 @@ class InboxComponent extends Component
 
         $this->templates = DB::table('inbox_templates')->where('user_id', user()->id)->get();
         $this->active_numbers = DB::table('numbers')->where('user_id', user()->id)->where('status', 1)->get();
-        $this->participant_numbers = Contact::select('number')->where('blacklisted', 0)->where('user_id', user()->id)->get();
+        $this->participant_numbers = Contact::select('number')->where('blacklisted', 0)->where('user_id', user()->id)->take(30)->get();
 
         $extContacts = DB::table('chats')->select('contact_id')->where('user_id', user()->id)->pluck('contact_id')->toArray();
-        $this->receiver_numbers = DB::table('contacts')->where('user_id', user()->id)->whereNotIn('id', $extContacts)->get();
+        $this->receiver_numbers = DB::table('contacts')->where('user_id', user()->id)->whereNotIn('id', $extContacts)->take(30)->get();
     }
 
     public function updatedFolderSearchTerm()
@@ -48,6 +51,7 @@ class InboxComponent extends Component
         } else {
             $this->sort_folder_id = $folder_id;
         }
+        $this->resetPage();
     }
 
     public $selected_chat_id, $selected_chat, $messages;
@@ -171,7 +175,7 @@ class InboxComponent extends Component
     public function updatedReceiverNumber()
     {
         $extContacts = DB::table('chats')->select('contact_id')->where('user_id', user()->id)->pluck('contact_id')->toArray();
-        $this->receiver_numbers = DB::table('contacts')->where('number', 'like', '%' . $this->receiver_number . '%')->where('user_id', user()->id)->whereNotIn('id', $extContacts)->get();
+        $this->receiver_numbers = DB::table('contacts')->where('number', 'like', '%' . $this->receiver_number . '%')->where('user_id', user()->id)->whereNotIn('id', $extContacts)->take(30)->get();
 
         // $this->selected_template_id_new_chat = '';
 
@@ -343,6 +347,7 @@ class InboxComponent extends Component
         } else {
             $this->unread_filter = true;
         }
+        $this->resetPage();
     }
 
     public $info_edit_id, $first_name, $last_name, $mobile_number, $company_name, $email;
@@ -620,7 +625,7 @@ class InboxComponent extends Component
             }
         }
 
-        $chats = $chats->get();
+        $chats = $chats->paginate(8);
 
         foreach ($chats as $key => $chat) {
             $chat->avatar_ltr = substr($chat->first_name, 0, 1) . substr($chat->last_name, 0, 1);
