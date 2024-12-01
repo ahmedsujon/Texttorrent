@@ -112,46 +112,11 @@
                                 </select>
                                 <img src="{{ asset('assets/app/icons/arrow-down.svg') }}" alt="down arrow"
                                     class="down_arrow" />
-                                @error('alert_before')
-                                    <p class="text-danger mb-0" style="font-size: 13px;">{{ $message }}</p>
-                                @enderror
+
                             </div>
-                            <div class="partipants_area">
-                                <div class="d-flex-between">
-                                    <h3>Participants</h3>
-                                    {{-- <button type="button" class="border_btn" id="addNew">
-                                        Add New
-                                    </button> --}}
-                                </div>
-                            </div>
-                            <div class="participants_user_area" id="participantsArea">
-                                <div class="two_grid">
-                                    <div class="input_row searchable_select" wire:ignore>
-                                        <label for="">Phone Number</label>
-                                        <select name="lang" wire:model.blur='participant_number'
-                                            class="js-searchBox participant_number">
-                                            <option value="">Choose Number</option>
-                                            @foreach ($participant_numbers as $participant_number)
-                                                <option value="{{ $participant_number->number }}">{{ $participant_number->number }}
-                                                </option>
-                                            @endforeach
-                                        </select>
-                                        <img src="{{ asset('assets/app/icons/arrow-down.svg') }}" alt="down arrow"
-                                            class="down_arrow" />
-                                        @error('participant_number')
-                                            <p class="text-danger mb-0" style="font-size: 13px;">{{ $message }}</p>
-                                        @enderror
-                                    </div>
-                                    <div class="input_row">
-                                        <label for="">Participant Email</label>
-                                        <input type="email" wire:model.blur='participant_email'
-                                            placeholder="Type Participant Email" class="input_field" />
-                                        @error('participant_email')
-                                            <p class="text-danger mb-0" style="font-size: 13px;">{{ $message }}</p>
-                                        @enderror
-                                    </div>
-                                </div>
-                            </div>
+                            @error('alert_before')
+                                <p class="text-danger mb-0" style="font-size: 13px;">{{ $message }}</p>
+                            @enderror
                         </form>
                     </div>
                     <div class="modal-footer event_modal_footer">
@@ -242,46 +207,11 @@
                                 </select>
                                 <img src="{{ asset('assets/app/icons/arrow-down.svg') }}" alt="down arrow"
                                     class="down_arrow" />
-                                @error('alert_before')
-                                    <p class="text-danger mb-0" style="font-size: 13px;">{{ $message }}</p>
-                                @enderror
+
                             </div>
-                            <div class="partipants_area">
-                                <div class="d-flex-between">
-                                    <h3>Participants</h3>
-                                    {{-- <button type="button" class="border_btn" id="addNew">
-                                        Add New
-                                    </button> --}}
-                                </div>
-                            </div>
-                            <div class="participants_user_area" id="participantsArea">
-                                <div class="two_grid">
-                                    <div class="input_row searchable_select" wire:ignore>
-                                        <label for="">Phone Number</label>
-                                        <select name="lang" wire:model.blur='participant_number'
-                                            class="js-searchBox participant_number">
-                                            <option value="">Choose Number</option>
-                                            @foreach ($participant_numbers as $participant_number)
-                                                <option value="{{ $participant_number->number }}">{{ $participant_number->number }}
-                                                </option>
-                                            @endforeach
-                                        </select>
-                                        <img src="{{ asset('assets/app/icons/arrow-down.svg') }}" alt="down arrow"
-                                            class="down_arrow" />
-                                        @error('participant_number')
-                                            <p class="text-danger mb-0" style="font-size: 13px;">{{ $message }}</p>
-                                        @enderror
-                                    </div>
-                                    <div class="input_row">
-                                        <label for="">Participant Email</label>
-                                        <input type="email" wire:model.blur='participant_email'
-                                            placeholder="Type Participant Email" class="input_field" />
-                                        @error('participant_email')
-                                            <p class="text-danger mb-0" style="font-size: 13px;">{{ $message }}</p>
-                                        @enderror
-                                    </div>
-                                </div>
-                            </div>
+                            @error('alert_before')
+                                <p class="text-danger mb-0" style="font-size: 13px;">{{ $message }}</p>
+                            @enderror
                         </div>
                         <div class="modal-footer event_modal_footer">
                             <button type="button" class="cancel_btn" data-bs-dismiss="modal">
@@ -341,41 +271,6 @@
                                                 alt="notification icon" />
                                         </div>
                                         <h6>{{ $selectedEvent->alert_before }} minutes before</h6>
-                                    </div>
-                                    <div class="participant_area" id="participantListArea">
-                                        <h4>Participants</h4>
-                                        <div class="participant_user_grid">
-                                            <div class="user_icon">
-                                                <img src="{{ asset('assets/app/icons/user-multiple.svg') }}"
-                                                    alt="user icon" />
-                                            </div>
-                                            <div>
-                                                <h5>{{ $selectedEvent->participant_email }}</h5>
-                                                <h6>{{ $selectedEvent->participant_number }}</h6>
-                                            </div>
-                                            {{-- <div class="delete_icon">
-                                            <button type="button">
-                                                <img src="{{ asset('assets/app/icons/elements.svg') }}"
-                                                    alt="cross icon" />
-                                            </button>
-                                        </div> --}}
-                                        </div>
-                                        {{-- <div class="participant_user_grid">
-                                        <div class="user_icon">
-                                            <img src="{{ asset('assets/app/icons/user-multiple.svg') }}"
-                                                alt="user icon" />
-                                        </div>
-                                        <div>
-                                            <h5>hi.geto@gmail.com</h5>
-                                            <h6>(480) 555-0103</h6>
-                                        </div>
-                                        <div class="delete_icon">
-                                            <button type="button">
-                                                <img src="{{ asset('assets/app/icons/elements.svg') }}"
-                                                    alt="cross icon" />
-                                            </button>
-                                        </div>
-                                    </div> --}}
                                     </div>
                                 </div>
                                 <div class="action_area d-flex align-items-center justify-content-end flex-wrap gap-1">
