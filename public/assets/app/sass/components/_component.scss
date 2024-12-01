@@ -793,7 +793,8 @@
     position: relative;
     margin-bottom: 16px;
 
-    .input_field,.bootstrap_select {
+    .input_field,
+    .bootstrap_select {
       color: $black-color-0b;
       font-size: 14px;
       font-style: normal;
@@ -1956,6 +1957,13 @@
         }
       }
     }
+  }
+  &.inbox_pagination_area {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 12px;
   }
 }
 

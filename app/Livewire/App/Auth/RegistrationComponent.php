@@ -27,7 +27,7 @@ class RegistrationComponent extends Component
     {
         $this->validate([
             'email' => 'required|email|unique:users,email',
-            'phone' => 'required|unique:users,phone',
+            'phone' => 'required|unique:users,phone|regex:/^\+?[1-9]\d{1,14}$/',
             'password' => 'required|min:8|max:30',
         ]);
 
@@ -45,6 +45,12 @@ class RegistrationComponent extends Component
         // Flash success message and redirect to user dashboard
         session()->flash('success', 'Registration successful');
         return redirect()->route('user.dashboard');
+    }
+
+    public $status = 0;
+    public function togglePasswordVisibility()
+    {
+        $this->status = $this->status == 0 ? 1 : 0;
     }
 
     public function render()

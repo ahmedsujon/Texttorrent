@@ -164,7 +164,7 @@
         </section>
 
         <!-- New Template Modal  -->
-        <div wire:ignore.self class="modal fade common_modal" id="createTemplateModal" tabindex="-1"
+        <div wire:ignore.self class="modal fade common_modal" id="createTemplateModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
             aria-labelledby="createModal" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
                 <div class="modal-content">
@@ -268,7 +268,7 @@
         </div>
 
         <!-- Edit Template Modal  -->
-        <div wire:ignore.self class="modal fade common_modal" id="editTemplateModal" tabindex="-1"
+        <div wire:ignore.self class="modal fade common_modal" id="editTemplateModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
             aria-labelledby="editModal" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
                 <div class="modal-content">
@@ -369,7 +369,7 @@
     </main>
 
     <!-- Delete  Modal  -->
-    <div wire:ignore.self class="modal fade delete_modal" id="deleteDataModal" tabindex="-1"
+    <div wire:ignore.self class="modal fade delete_modal" id="deleteDataModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
     aria-labelledby="deleteModal" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
             <div class="modal-content">

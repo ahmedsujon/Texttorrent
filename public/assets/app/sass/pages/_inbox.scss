@@ -416,10 +416,22 @@
       height: calc(100vh - 160px);
     }
 
-    ul {
-      height: 100%;
+    .friend_list {
+      height: calc(100% - 50px);
       @include customScrollbarInner();
     }
+  }
+  .hide_pagination {
+    .friend_list {
+      height: 100%;
+    }
+    .new_msg_btn {
+      bottom: 40px;
+    }
+  }
+  .pagination_area {
+    margin-top: 0;
+    padding: 20px 0;
   }
   .list_item {
     display: grid;
@@ -514,7 +526,7 @@
   }
   .new_msg_btn {
     position: absolute;
-    bottom: 40px;
+    bottom: 80px;
     right: 28px;
     display: flex;
     align-items: center;

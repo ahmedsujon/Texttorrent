@@ -199,7 +199,7 @@
 
 
         <!-- Confirm Modal  -->
-        <div wire:ignore.self class="modal fade common_modal confirm_purchase_modal" id="confirmPurchaseModal"
+        <div wire:ignore.self class="modal fade common_modal confirm_purchase_modal" id="confirmPurchaseModal"  data-bs-backdrop="static" data-bs-keyboard="false"
             tabindex="-1" aria-labelledby="newEventModal" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
                 <div class="modal-content">
@@ -236,7 +236,7 @@
             </div>
         </div>
 
-        <div wire:ignore.self class="modal fade common_modal confirm_purchase_modal" id="confirmBulkPurchaseModal"
+        <div wire:ignore.self class="modal fade common_modal confirm_purchase_modal" id="confirmBulkPurchaseModal"  data-bs-backdrop="static" data-bs-keyboard="false"
             tabindex="-1" aria-labelledby="newEventModal" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
                 <div class="modal-content">

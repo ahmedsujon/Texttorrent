@@ -285,7 +285,7 @@
                                 Don’t have a gateway? No problem. Use our complete solution
                                 and pay per message. Our all-inclusive platform offers
                                 everything you need to start your SMS campaigns without any
-                                additional setup."
+                                additional setup.
                             </h5>
                         </div>
                         <div class="pricing_grid">

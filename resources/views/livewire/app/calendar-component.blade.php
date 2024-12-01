@@ -38,7 +38,7 @@
         </section>
 
         <!-- New Event Modal  -->
-        <div class="modal fade common_modal" wire:ignore.self id="eventModal" tabindex="-1"
+        <div class="modal fade common_modal" data-bs-backdrop="static" data-bs-keyboard="false" wire:ignore.self id="eventModal" tabindex="-1"
             aria-labelledby="newEventModal" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
                 <div class="modal-content">
@@ -167,7 +167,7 @@
         </div>
 
         <!-- Edit Event Modal  -->
-        <div wire:ignore.self class="modal fade common_modal" id="editEventFormModal" tabindex="-1"
+        <div wire:ignore.self class="modal fade common_modal" data-bs-backdrop="static" data-bs-keyboard="false" id="editEventFormModal" tabindex="-1"
             aria-labelledby="editEventFormModal" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
                 <div class="modal-content">
@@ -297,7 +297,7 @@
         </div>
 
         <!-- View Event Content Modal  -->
-        <div class="modal fade edit_event_modal" id="editEventModalBtn" tabindex="-1"
+        <div class="modal fade edit_event_modal" data-bs-backdrop="static" data-bs-keyboard="false" id="editEventModalBtn" tabindex="-1"
             aria-labelledby="editEventModalBtn" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
                 <div class="modal-content">
@@ -404,7 +404,7 @@
         </div>
 
         <!-- Delete  Modal  -->
-        <div wire:ignore.self class="modal fade delete_modal" id="deleteDataModal" tabindex="-1"
+        <div wire:ignore.self class="modal fade delete_modal" data-bs-backdrop="static" data-bs-keyboard="false" id="deleteDataModal" tabindex="-1"
             aria-labelledby="deleteModal" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
                 <div class="modal-content">
