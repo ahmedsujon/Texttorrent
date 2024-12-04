@@ -88,22 +88,22 @@ function hideUniqueNavbar() {
 }
 
 // Add focus and blur event listeners to inputs to control label floating
-const getAllInputFiled = document.querySelectorAll(".input_filed");
-if (getAllInputFiled) {
-  getAllInputFiled.forEach((input) => {
-    input.addEventListener("focus", () => {
-      input.classList.add("not-empty");
-    });
+// const getAllInputFiled = document.querySelectorAll(".input_filed");
+// if (getAllInputFiled) {
+//   getAllInputFiled.forEach((input) => {
+//     input.addEventListener("focus", () => {
+//       input.classList.add("not-empty");
+//     });
 
-    input.addEventListener("blur", () => {
-      if (input.value !== "") {
-        input.classList.add("not-empty");
-      } else {
-        input.classList.remove("not-empty");
-      }
-    });
-  });
-}
+//     input.addEventListener("blur", () => {
+//       if (input.value !== "") {
+//         input.classList.add("not-empty");
+//       } else {
+//         input.classList.remove("not-empty");
+//       }
+//     });
+//   });
+// }
 
 
 

@@ -445,13 +445,11 @@ body {
   background-color: white;
   font-family: SFRegularFont;
   font-size: 16px;
-  padding-right: 0px !important;
   overflow-y: auto;
   /* width */
   /* Track */
   /* Handle */
   /* Handle on hover */
-  overflow-y: auto !important;
   overflow-x: hidden;
 }
 body::-webkit-scrollbar {
@@ -468,6 +466,10 @@ body::-webkit-scrollbar-thumb {
 body::-webkit-scrollbar-thumb:hover {
   background: #f84f4f;
   cursor: grab;
+}
+
+html {
+  overflow-x: hidden;
 }
 
 h1,
@@ -1436,6 +1438,20 @@ h5 {
 .form_area {
   /* Floating label effect */
 }
+.form_area ::-moz-placeholder {
+  color: #8d8d8d !important;
+  font-family: "Inter", sans-serif !important;
+  font-size: 12px !important;
+  font-style: normal;
+  font-weight: 500 !important;
+}
+.form_area ::placeholder {
+  color: #8d8d8d !important;
+  font-family: "Inter", sans-serif !important;
+  font-size: 12px !important;
+  font-style: normal;
+  font-weight: 500 !important;
+}
 .form_area .input_row {
   position: relative;
   margin-bottom: 45px;
@@ -1459,6 +1475,7 @@ h5 {
   }
 }
 .form_area .input_filed {
+  font-size: 14px;
   width: 100%;
   border: none !important;
   border-bottom: 1px solid #8d8d8d !important;
