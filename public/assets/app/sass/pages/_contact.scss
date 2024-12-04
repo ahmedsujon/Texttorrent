@@ -37,7 +37,7 @@
       position: absolute;
       top: 0;
       left: -100%;
-      width: 280px;
+      width: 310px;
       height: 100vh;
       opacity: 0;
       visibility: hidden;
@@ -94,7 +94,7 @@
     }
     .list_btn {
       display: grid;
-      grid-template-columns: repeat(1, minmax(0, 1fr)) minmax(0, 0.7fr);
+      grid-template-columns: repeat(1, minmax(0, 1fr)) minmax(0, 140px);
       align-items: center;
       gap: 20px 12px;
       padding: 8px 12px;

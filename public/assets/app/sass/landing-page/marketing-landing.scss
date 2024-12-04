@@ -52,6 +52,13 @@ h5 {
   }
 }
 .form_area {
+  ::placeholder{
+    color: #8d8d8d !important;
+    font-family: $inter-font !important;
+    font-size: 12px !important;
+    font-style: normal;
+    font-weight: 500 !important;
+  }
   .input_row {
     position: relative;
     margin-bottom: 45px;
@@ -70,6 +77,7 @@ h5 {
   }
 
   .input_filed {
+    font-size: 14px;
     width: 100%;
     border: none !important;
     border-bottom: 1px solid #8d8d8d !important;

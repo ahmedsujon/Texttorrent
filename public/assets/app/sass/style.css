@@ -479,13 +479,11 @@ body {
   background-color: white;
   font-family: SFRegularFont;
   font-size: 16px;
-  padding-right: 0px !important;
   overflow-y: auto;
   /* width */
   /* Track */
   /* Handle */
   /* Handle on hover */
-  overflow-y: auto !important;
   overflow-x: hidden;
 }
 body::-webkit-scrollbar {
@@ -502,6 +500,10 @@ body::-webkit-scrollbar-thumb {
 body::-webkit-scrollbar-thumb:hover {
   background: #f84f4f;
   cursor: grab;
+}
+
+html {
+  overflow-x: hidden;
 }
 
 h1,
@@ -8309,7 +8311,7 @@ input[type=number] {
     position: absolute;
     top: 0;
     left: -100%;
-    width: 280px;
+    width: 310px;
     height: 100vh;
     opacity: 0;
     visibility: hidden;
@@ -8420,7 +8422,7 @@ input[type=number] {
 }
 .manage_contact_wrapper .list_area .list_btn {
   display: grid;
-  grid-template-columns: repeat(1, minmax(0, 1fr)) minmax(0, 0.7fr);
+  grid-template-columns: repeat(1, minmax(0, 1fr)) minmax(0, 140px);
   align-items: center;
   gap: 20px 12px;
   padding: 8px 12px;
