@@ -28,14 +28,13 @@
                         </div>
                         <div class="input_row">
                             <label for="">Password</label>
-                            <input type="password" name="" id="password_input1" wire:model.blur='password'
+                            <input type="{{ $status == 1 ? 'text' : 'password' }}" name=""
+                                id="password_input_login" wire:model.blur='password'
                                 class="input_filed password_input_filed" placeholder="Enter your password" />
                             <div class="eye_icon_area" id="password_eye_icon_area1">
-                                <button type="button" class="eye_open_btn" id="eyeOpen1">
-                                    <img src="{{ asset('assets/app/icons/eye-open.svg') }}" alt="eye open" />
-                                </button>
-                                <button type="button" class="eye_close_btn" id="eyeClose1">
-                                    <img src="{{ asset('assets/app/icons/eye-close.svg') }}" alt="eye close icon" />
+                                <button type="button" class="eye_open_btn"
+                                    wire:click.prevent="togglePasswordVisibility">
+                                    <img src="{{ asset('assets/app/icons/eye-') }}{{ $status == 0 ? 'open' : 'close' }}.svg" />
                                 </button>
                             </div>
 
@@ -83,6 +82,24 @@
     </section>
 </div>
 @push('scripts')
+    {{-- <script>
+        function togglePasswordVisibility(passwordInputId, eyeOpenId, eyeCloseId) {
+            const passwordInput = document.getElementById(passwordInputId);
+            const eyeOpenBtn = document.getElementById(eyeOpenId);
+            const eyeCloseBtn = document.getElementById(eyeCloseId);
+
+            if (passwordInput.type === "password") {
+                passwordInput.type = "text";
+                eyeOpenBtn.style.display = "none";
+                eyeCloseBtn.style.display = "inline-block";
+            } else {
+                passwordInput.type = "password";
+                eyeOpenBtn.style.display = "inline-block";
+                eyeCloseBtn.style.display = "none";
+            }
+        }
+    </script> --}}
+
     <script>
         window.addEventListener('login_success', event => {
             setTimeout(() => {

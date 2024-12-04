@@ -2,29 +2,37 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Contact;
-use Illuminate\Http\Request;
+use App\Models\NumberValidation;
+use App\Models\NumberValidationItems;
 use Illuminate\Support\Facades\DB;
 
 class TestController extends Controller
 {
-    public function allContacts()
+    public function index()
     {
         // Fetch all contacts from your database
-        $contacts = DB::table('contacts')->get();
+        $data = DB::table('number_validations')->get();
 
-        // Return the retrieved contacts as a JSON response
-        return response()->json($contacts);
+        foreach ($data as $key => $value) {
+            $value->items = DB::table('number_validation_items')->where('number_validation_id', $value->id)->get();
+        }
+
+        // Return the retrieved data as a JSON response
+        return response()->json($data);
     }
 
-    public function deleteContacts()
+    public function updateData()
     {
-        Contact::where('id', '>=', 20)->delete();
-
         // Fetch all contacts from your database
-        $contacts = DB::table('contacts')->get();
+        DB::table('contacts')->where('list_id', 2)->update(['validation_process' => 0, 'valid' => null]);
 
         // Return the retrieved contacts as a JSON response
-        return response()->json($contacts);
+        return 'success';
+    }
+
+    public function deleteData()
+    {
+        NumberValidation::where('id', '>', 0)->delete();
+        NumberValidationItems::where('id', '>', 0)->delete();
     }
 }

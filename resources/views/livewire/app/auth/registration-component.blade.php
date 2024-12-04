@@ -24,8 +24,12 @@
                         </div>
                         <div class="input_row">
                             <label for="">Phone Number</label>
-                            <input type="number" wire:model.live="phone" class="input_filed"
-                                placeholder="Enter your phone number" />
+                            <div class="input-group">
+                                <span class="input-group-text" id="basic-addon1">+1</span>
+                                <input type="tel" class="form-control" wire:model.live='phone'
+                                    id="searchInput" placeholder="xxxxxxxxxx" autocomplete="off"
+                                    maxlength="10" />
+                            </div>
                             @error('phone')
                                 <p class="text-danger font-size-12 mb-0">{{ $message }}</p>
                             @enderror
@@ -33,14 +37,13 @@
 
                         <div class="input_row">
                             <label for="password">Password</label>
-                            <input type="password" wire:model.live="password" id="password_input1"
+                            <input type="{{ $status == 1 ? 'text' : 'password' }}" name=""
+                                id="password_input_login" wire:model.blur='password'
                                 class="input_filed password_input_filed" placeholder="Enter your password" />
                             <div class="eye_icon_area" id="password_eye_icon_area1">
-                                <button type="button" class="eye_open_btn" id="eyeOpen1">
-                                    <img src="{{ asset('assets/app/icons/eye-open.svg') }}" alt="eye open" />
-                                </button>
-                                <button type="button" class="eye_close_btn" id="eyeClose1">
-                                    <img src="{{ asset('assets/app/icons/eye-close.svg') }}" alt="eye close icon" />
+                                <button type="button" class="eye_open_btn"
+                                    wire:click.prevent="togglePasswordVisibility">
+                                    <img src="{{ asset('assets/app/icons/eye-') }}{{ $status == 0 ? 'open' : 'close' }}.svg" />
                                 </button>
                             </div>
                             @error('password')
@@ -48,7 +51,7 @@
                             @enderror
                         </div>
 
-                        <a href="#" class="forget_text">Forgot password?</a>
+                        {{-- <a href="#" class="forget_text">Forgot password?</a> --}}
                         <button type="submit" class="login_btn">{!! loadingStateWithText('userRegistration', 'Create Your Account') !!}</button>
                         <div class="or_divider">
                             <span>or</span>

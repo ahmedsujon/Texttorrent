@@ -272,7 +272,7 @@
         </section>
 
         <!-- Assign Modal  -->
-        <div class="modal fade common_modal" wire:ignore.self id="assignModal" tabindex="-1"
+        <div class="modal fade common_modal" wire:ignore.self id="assignModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
             aria-labelledby="newEventModal" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
                 <div class="modal-content">
@@ -329,7 +329,7 @@
         </div>
 
         <!-- Release  Modal  -->
-        <div wire:ignore.self class="modal fade delete_modal" id="releaseModal" tabindex="-1"
+        <div wire:ignore.self class="modal fade delete_modal" id="releaseModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
             aria-labelledby="deleteModal" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
                 <div class="modal-content">
@@ -354,7 +354,7 @@
         </div>
 
         <!-- Delete  Modal  -->
-        <div wire:ignore.self class="modal fade delete_modal" id="deleteDataModal" tabindex="-1"
+        <div wire:ignore.self class="modal fade delete_modal" id="deleteDataModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
             aria-labelledby="deleteModal" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
                 <div class="modal-content">
@@ -379,7 +379,7 @@
         </div>
 
         <!-- Bulk release -->
-        <div wire:ignore.self class="modal fade delete_modal" id="bulkReleaseDataModal" tabindex="-1"
+        <div wire:ignore.self class="modal fade delete_modal" id="bulkReleaseDataModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
             aria-labelledby="deleteModal" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
                 <div class="modal-content">
@@ -404,7 +404,7 @@
         </div>
 
         <!-- Renewal Modal -->
-        <div wire:ignore.self class="modal fade delete_modal" id="renewModal" tabindex="-1"
+        <div wire:ignore.self class="modal fade delete_modal" id="renewModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
             aria-labelledby="deleteModal" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
                 <div class="modal-content">

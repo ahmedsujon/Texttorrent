@@ -510,7 +510,7 @@
         </section>
 
         <!-- Confirmation  Modal  -->
-        <div wire:ignore.self class="modal fade delete_modal" id="storeConfirmationModal" tabindex="-1"
+        <div wire:ignore.self class="modal fade delete_modal" id="storeConfirmationModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
             aria-labelledby="deleteModal" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
                 <div class="modal-content">
@@ -555,7 +555,7 @@
         </div>
 
         <!-- Schedule Modal  -->
-        <div wire:ignore.self class="modal fade common_modal" id="scheduleModal" tabindex="-1"
+        <div wire:ignore.self class="modal fade common_modal" id="scheduleModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
             aria-labelledby="newEventModal" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
                 <div class="modal-content">

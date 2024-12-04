@@ -1,3 +1,9 @@
+<style>
+    .pagination_active {
+        padding-left: 0px !important;
+        padding-right: 0px !important;
+    }
+</style>
 <ul class="number_list d-flex align-items-center justify-content-center flex-wrap">
     @foreach ($elements as $element)
         @if (is_string($element))
@@ -6,10 +12,8 @@
 
         @if (is_array($element))
             @foreach ($element as $page => $url)
-                @if ($paginator->currentPage() > 3 && $page == 2)
-                    <li>
-                        <div class="middle_dot">...</div>
-                    </li>
+                @if ($paginator->currentPage() > 3 && $paginator->currentPage() < 8 && $page == 2)
+                    <li><a href="javascript:void()" class="pagination_active">...</a></li>
                 @endif
 
                 @if ($page == $paginator->currentPage())
@@ -19,17 +23,15 @@
                 @elseif (
                     $page === $paginator->currentPage() + 1 ||
                     $page === $paginator->currentPage() - 1 ||
-                    $page === $paginator->lastPage() ||
+                    $page === $paginator->lastPage()-2 || $page === $paginator->lastPage() ||
                     $page === 1)
                     <li wire:key="paginator-page-{{ $page }}">
                         <a href="javascript:void()" wire:click.prevent="gotoPage({{ $page }})">{{ $page }}</a>
                     </li>
                 @endif
 
-                @if ($paginator->currentPage() < $paginator->lastPage() - 2 && $page === $paginator->lastPage() - 1)
-                    <li>
-                        <div class="middle_dot">...</div>
-                    </li>
+                @if ($paginator->currentPage() > $paginator->lastPage() - 7 && $page === $paginator->lastPage() - 1)
+                    <li><a href="javascript:void()" class="pagination_active">...</a></li>
                 @endif
             @endforeach
         @endif
