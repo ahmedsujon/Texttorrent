@@ -479,13 +479,11 @@ body {
   background-color: white;
   font-family: SFRegularFont;
   font-size: 16px;
-  padding-right: 0px !important;
   overflow-y: auto;
   /* width */
   /* Track */
   /* Handle */
   /* Handle on hover */
-  overflow-y: auto !important;
   overflow-x: hidden;
 }
 body::-webkit-scrollbar {
@@ -502,6 +500,10 @@ body::-webkit-scrollbar-thumb {
 body::-webkit-scrollbar-thumb:hover {
   background: #f84f4f;
   cursor: grab;
+}
+
+html {
+  overflow-x: hidden;
 }
 
 h1,
@@ -2659,7 +2661,8 @@ input[type=number] {
   position: relative;
   margin-bottom: 16px;
 }
-.event_form_area .input_row .input_field, .event_form_area .input_row .bootstrap_select {
+.event_form_area .input_row .input_field,
+.event_form_area .input_row .bootstrap_select {
   color: #0b1234;
   font-size: 14px;
   font-style: normal;
@@ -3925,6 +3928,13 @@ input[type=number] {
     transition: 0.5s;
     font-size: 12px;
   }
+}
+.pagination_area.inbox_pagination_area {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 12px;
 }
 
 .summer_note_area .note-editor {
@@ -6917,29 +6927,39 @@ input[type=number] {
     height: calc(100vh - 160px);
   }
 }
-.inbox_wrapper .friend_list_area ul {
-  height: 100%;
+.inbox_wrapper .friend_list_area .friend_list {
+  height: calc(100% - 50px);
   overflow-y: auto;
   /* width */
   /* Track */
   /* Handle */
   /* Handle on hover */
 }
-.inbox_wrapper .friend_list_area ul::-webkit-scrollbar {
+.inbox_wrapper .friend_list_area .friend_list::-webkit-scrollbar {
   width: 5px;
   height: 5px;
 }
-.inbox_wrapper .friend_list_area ul::-webkit-scrollbar-track {
+.inbox_wrapper .friend_list_area .friend_list::-webkit-scrollbar-track {
   background: rgba(153, 153, 153, 0.2);
   border-radius: 5px;
 }
-.inbox_wrapper .friend_list_area ul::-webkit-scrollbar-thumb {
+.inbox_wrapper .friend_list_area .friend_list::-webkit-scrollbar-thumb {
   background: #999999;
   border-radius: 5px;
 }
-.inbox_wrapper .friend_list_area ul::-webkit-scrollbar-thumb:hover {
+.inbox_wrapper .friend_list_area .friend_list::-webkit-scrollbar-thumb:hover {
   background: #f84f4f;
   cursor: grab;
+}
+.inbox_wrapper .hide_pagination .friend_list {
+  height: 100%;
+}
+.inbox_wrapper .hide_pagination .new_msg_btn {
+  bottom: 40px;
+}
+.inbox_wrapper .pagination_area {
+  margin-top: 0;
+  padding: 20px 0;
 }
 .inbox_wrapper .list_item {
   display: grid;
@@ -7029,7 +7049,7 @@ input[type=number] {
 }
 .inbox_wrapper .new_msg_btn {
   position: absolute;
-  bottom: 40px;
+  bottom: 80px;
   right: 28px;
   display: flex;
   align-items: center;
@@ -8291,7 +8311,7 @@ input[type=number] {
     position: absolute;
     top: 0;
     left: -100%;
-    width: 280px;
+    width: 310px;
     height: 100vh;
     opacity: 0;
     visibility: hidden;
@@ -8402,7 +8422,7 @@ input[type=number] {
 }
 .manage_contact_wrapper .list_area .list_btn {
   display: grid;
-  grid-template-columns: repeat(1, minmax(0, 1fr)) minmax(0, 0.7fr);
+  grid-template-columns: repeat(1, minmax(0, 1fr)) minmax(0, 140px);
   align-items: center;
   gap: 20px 12px;
   padding: 8px 12px;

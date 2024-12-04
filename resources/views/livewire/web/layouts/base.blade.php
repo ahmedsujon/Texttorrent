@@ -46,7 +46,7 @@
     <script src="{{ asset('assets/app/plugins/js/swiper-bundle.min.js') }}"></script>
     <script src="{{ asset('assets/app/plugins/js/jquery-modal-video.min.js') }}"></script>
     <script src="{{ asset('assets/app/plugins/js/aos.js') }}"></script>
-    <script src="https://kit.fontawesome.com/46f35fbc02.js" crossorigin="anonymous"></script>
+    <script src="https://kit.fontawesome.com/64f2c0e60c.js" crossorigin="anonymous"></script>
     <script src="{{ asset('assets/app/js/landing.js') }}"></script>
 
     <script>

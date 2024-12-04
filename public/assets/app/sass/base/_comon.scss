@@ -15,15 +15,14 @@ body {
   font-family: $body-font-family;
   font-size: $font-size-base;
   // min-height: 100vh;
-  padding-right: 0px !important;
+  // padding-right: 0px !important;
   @include customScrollbar();
-  overflow-y: auto !important;
+  // overflow-y: auto !important;
   overflow-x: hidden;
 }
-// html,
-// body {
-//   overflow-x: hidden;
-// }
+html{
+  overflow-x: hidden;
+}
 
 h1,
 h2,
@@ -234,7 +233,7 @@ input[type="number"] {
   z-index: 500;
   display: none;
 }
-.scrolltop{
+.scrolltop {
   display: none;
 }
 .main_content_wrapper {
@@ -335,6 +334,3 @@ input[type="number"] {
 .emojionearea-editor {
   @include customScrollbarInner();
 }
-
-
- 

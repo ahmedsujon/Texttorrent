@@ -20,34 +20,34 @@
 //   src: url(/assets/fonts/SF-Pro-Display-Medium.woff);
 // }
 
-//Medium font 600
+// //Medium font 600
 @font-face {
-  font-family: SFSemiBoldFont;
-  src: url(/assets/fonts/SF-Pro-Display-Semibold.woff);
+    font-family: SFSemiBoldFont;
+    src: url(/assets/fonts/SF-Pro-Display-Semibold.woff);
 }
 
-// //Light font 300
+//Light font 300
 @font-face {
-  font-family: SFLightFont;
-  src: url(/assets/app/fonts/SF-Pro-Display-Light.woff);
+    font-family: SFLightFont;
+    src: url(/assets/app/fonts/SF-Pro-Display-Light.woff);
 }
 
 //Regular font 400
 @font-face {
-  font-family: SFRegularFont;
-  src: url(/assets/app/fonts/SF-Pro-Display-Regular.woff);
+    font-family: SFRegularFont;
+    src: url(/assets/app/fonts/SF-Pro-Display-Regular.woff);
 }
 
 //Medium font 500
 @font-face {
-  font-family: SFMediumFont;
-  src: url(/assets/app/fonts/SF-Pro-Display-Medium.woff);
+    font-family: SFMediumFont;
+    src: url(/assets/app/fonts/SF-Pro-Display-Medium.woff);
 }
 
 //Medium font 600
 @font-face {
-  font-family: SFSemiBoldFont;
-  src: url(/assets/app/fonts/SF-Pro-Display-Semibold.woff);
+    font-family: SFSemiBoldFont;
+    src: url(/assets/app/fonts/SF-Pro-Display-Semibold.woff);
 }
 
 $primary-font: SFRegularFont;
