@@ -188,7 +188,7 @@
 </div>
 @push('scripts')
     <!-- JS Here -->
-    <script src="{{ asset('assets/app/plugins/js/jquery-modal-video.min.js') }}"></script>
+    {{-- <script src="{{ asset('assets/app/plugins/js/jquery-modal-video.min.js') }}"></script> --}}
     <script src="https://kit.fontawesome.com/64f2c0e60c.js" crossorigin="anonymous"></script>
     <!-- Map Resources -->
     <script src="https://cdn.amcharts.com/lib/5/index.js"></script>

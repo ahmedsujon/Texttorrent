@@ -11,7 +11,7 @@
     <link rel="stylesheet" href="{{ asset('assets/app/plugins/css/bootstrap.min.css') }}" />
     <link rel="stylesheet" href="{{ asset('assets/app/plugins/css/swiper-bundle.min.css') }}" />
     <link rel="stylesheet" href="{{ asset('assets/app/plugins/css/aos/aos.css') }}" />
-    <link rel="stylesheet" href="{{ asset('assets/app/plugins/css/modal-video.min.css') }}" />
+    {{-- <link rel="stylesheet" href="{{ asset('assets/app/plugins/css/modal-video.min.css') }}" /> --}}
     <link rel="stylesheet" href="{{ asset('assets/app/sass/landing-page/marketing-landing.css') }}" />
 </head>
 
@@ -44,7 +44,7 @@
     <script src="{{ asset('assets/app/plugins/js/jquery-3.6.0.min.js') }}"></script>
     <script src="{{ asset('assets/app/plugins/js/bootstrap.bundle.min.js') }}"></script>
     <script src="{{ asset('assets/app/plugins/js/swiper-bundle.min.js') }}"></script>
-    <script src="{{ asset('assets/app/plugins/js/jquery-modal-video.min.js') }}"></script>
+    {{-- <script src="{{ asset('assets/app/plugins/js/jquery-modal-video.min.js') }}"></script> --}}
     <script src="{{ asset('assets/app/plugins/js/aos.js') }}"></script>
     <script src="https://kit.fontawesome.com/64f2c0e60c.js" crossorigin="anonymous"></script>
     <script src="{{ asset('assets/app/js/landing.js') }}"></script>
