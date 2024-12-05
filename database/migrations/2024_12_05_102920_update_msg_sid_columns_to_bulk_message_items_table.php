@@ -12,8 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('bulk_message_items', function (Blueprint $table) {
-            $table->string('msg_sid', 2048)->after('message');
-            $table->string('send_status')->default('pending')->after('msg_sid');
+            $table->string('msg_sid', 2048)->nullable()->change();
         });
     }
 
