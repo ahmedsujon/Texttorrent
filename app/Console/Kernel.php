@@ -15,6 +15,7 @@ class Kernel extends ConsoleKernel
         // $schedule->command('inspire')->hourly();
         $schedule->command('process:number-validation')->everyMinute();
         $schedule->command('send:bulk-messages')->everyMinute();
+        $schedule->command('get:bulk-message-status')->everyMinute();
         $schedule->command('send:event-messages')->everyMinute();
         $schedule->command('send:number-renewal-alert')->dailyAt('23:59');
     }
