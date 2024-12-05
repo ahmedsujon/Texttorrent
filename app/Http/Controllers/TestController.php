@@ -11,11 +11,11 @@ class TestController extends Controller
     public function index()
     {
         // Fetch all contacts from your database
-        $data = DB::table('number_validations')->get();
+        $data = DB::table('bulk_message_items')->get();
 
-        foreach ($data as $key => $value) {
-            $value->items = DB::table('number_validation_items')->where('number_validation_id', $value->id)->get();
-        }
+        // foreach ($data as $key => $value) {
+        //     $value->items = DB::table('number_validation_items')->where('number_validation_id', $value->id)->get();
+        // }
 
         // Return the retrieved data as a JSON response
         return response()->json($data);
