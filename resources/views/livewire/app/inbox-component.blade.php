@@ -148,7 +148,7 @@
                                                         </p>
                                                     </div>
                                                     <div class="time_area">
-                                                        <h5>{{ Carbon\Carbon::parse($chat->updated_at)->format('H:i A') }}
+                                                        <h5>{{ Carbon\Carbon::parse($chat->updated_at)->format('h:i A') }}
                                                         </h5>
                                                         @if ($chat->unread)
                                                             <span class="badge bg-danger rounded-circle"
@@ -224,7 +224,7 @@
                                                     <img src="{{ asset('assets/app/icons/sender_shape.svg') }}"
                                                         alt="sender shape" class="msg_shape" />
                                                     <h6 class="time">
-                                                        {{ Carbon\Carbon::parse($msg->updated_at)->format('H:i A') }} •
+                                                        {{ Carbon\Carbon::parse($msg->updated_at)->format('h:i A') }} •
                                                         @if ($msg->api_send_status == 'Failed')
                                                             <span
                                                                 class="text-danger">{{ ucfirst($msg->api_send_status) }}</span>
@@ -250,7 +250,7 @@
                                                         <img src="{{ asset('assets/app/icons/receive_shape.svg') }}"
                                                             alt="receive shape" class="msg_shape" />
                                                         <h6 class="time">
-                                                            {{ Carbon\Carbon::parse($msg->updated_at)->format('H:i A') }}
+                                                            {{ Carbon\Carbon::parse($msg->updated_at)->format('h:i A') }}
                                                         </h6>
                                                     </div>
                                                 </div>
