@@ -11,7 +11,7 @@ class TestController extends Controller
     public function index()
     {
         // Fetch all contacts from your database
-        $data = DB::table('bulk_message_items')->get();
+        $data = DB::table('numbers')->get();
 
         // foreach ($data as $key => $value) {
         //     $value->items = DB::table('number_validation_items')->where('number_validation_id', $value->id)->get();
