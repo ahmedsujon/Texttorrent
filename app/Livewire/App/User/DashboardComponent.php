@@ -13,7 +13,7 @@ use Stripe\Checkout\Session;
 
 class DashboardComponent extends Component
 {
-    public $selected_event_id, $selectedEvent, $creditCost = 0, $bonusCredits = 0, $totalCredits = 0, $delivered_message = 0, $un_delivered_message = 0, $responded_message = 0, $stopped_message = 0;
+    public $selected_event_id, $selectedEvent, $creditCost = 0, $bonusCredits = 0, $totalCredits = 0, $delivered_message = 0, $un_delivered_message = 0, $responded_message = 0, $stopped_message = 0, $user_ids;
     public $dateFilter = '12months'; // Default filter
     public $customDateRangeEnabled = false; // To track the checkbox state
     public $startDate;
@@ -27,7 +27,11 @@ class DashboardComponent extends Component
 
     public function mount()
     {
-        $user_chats = DB::table('chats')->where('user_id', user()->id)->pluck('id')->toArray();
+        $user_ids = [user()->id];
+        $sub_users = DB::table('users')->where('parent_id', user()->id)->pluck('id')->toArray();
+        $this->user_ids = array_merge($user_ids, $sub_users);
+
+        $user_chats = DB::table('chats')->whereIn('user_id', $this->user_ids)->pluck('id')->toArray();
 
         $this->delivered_message = DB::table('chat_messages')->whereIn('chat_id', $user_chats)->where('api_send_status', 'delivered')->count();
         $this->un_delivered_message = DB::table('chat_messages')->whereIn('chat_id', $user_chats)->where('api_send_status', 'undelivered')->count();
@@ -35,7 +39,6 @@ class DashboardComponent extends Component
         $this->stopped_message = DB::table('chat_messages')->whereIn('chat_id', $user_chats)->where('api_send_status', 'failed')->count();
 
         $this->updateChartData();
-
     }
 
     public function updatedStartDate()
@@ -57,7 +60,7 @@ class DashboardComponent extends Component
 
     public function updateChartData()
     {
-        $user_chats = DB::table('chats')->where('user_id', auth()->id())->pluck('id')->toArray();
+        $user_chats = DB::table('chats')->whereIn('user_id', $this->user_ids)->pluck('id')->toArray();
 
         $query = DB::table('chat_messages')->whereIn('chat_id', $user_chats);
 
@@ -195,7 +198,7 @@ class DashboardComponent extends Component
 
     public function render()
     {
-        $formattedEvents = Event::where('user_id', Auth::user()->id)
+        $formattedEvents = Event::whereIn('user_id', $this->user_ids)
             ->get()
             ->map(function ($event) {
                 return [
@@ -216,10 +219,8 @@ class DashboardComponent extends Component
             $total_credits = user()->credits;
         }
 
-        $user_ids = [user()->id];
-        $sub_users = DB::table('users')->where('parent_id', user()->id)->pluck('id')->toArray();
-        $user_ids = array_merge($user_ids, $sub_users);
-        $activities = DB::table('chat_messages')->select('chat_messages.*', 'chats.from_number as from', 'chats.contact_id')->join('chats', 'chats.id', 'chat_messages.chat_id')->whereIn('chats.user_id', $user_ids)->orderBy('chat_messages.id', 'DESC')->take(10)->get();
+
+        $activities = DB::table('chat_messages')->select('chat_messages.*', 'chats.from_number as from', 'chats.contact_id')->join('chats', 'chats.id', 'chat_messages.chat_id')->whereIn('chats.user_id', $this->user_ids)->orderBy('chat_messages.id', 'DESC')->take(10)->get();
 
         return view('livewire.app.user.dashboard-component', ['credits_left' => $total_credits, 'activities'=>$activities, 'events' => $formattedEvents])->layout('livewire.app.layouts.base');
     }
