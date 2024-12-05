@@ -603,8 +603,30 @@ class ManageContactsComponent extends Component
     public $sortingValue = 10;
     public function render()
     {
-        $bookmarked_lists = ContactList::where('name', 'like', '%' . $this->list_search_term . '%')->where('user_id', user()->id)->where('bookmarked', 1)->get();
-        $other_lists = ContactList::where('name', 'like', '%' . $this->list_search_term . '%')->where('user_id', user()->id)->where('bookmarked', 0)->get();
+        $bookmarked_lists = DB::table('contact_lists')
+            ->leftJoin('contacts', 'contact_lists.id', '=', 'contacts.list_id')
+            ->where(function ($query) {
+                $query->where('contact_lists.name', 'like', '%' . $this->list_search_term . '%')
+                    ->orWhere('contacts.number', 'like', '%' . $this->list_search_term . '%');
+            })
+            ->where('contact_lists.user_id', user()->id)
+            ->where('contact_lists.bookmarked', 1)
+            ->select('contact_lists.*') // Ensure you're only selecting columns from `contact_lists`
+            ->distinct() // To avoid duplicates if a list has multiple matching contacts
+            ->get();
+
+        $other_lists = DB::table('contact_lists')
+            ->leftJoin('contacts', 'contact_lists.id', '=', 'contacts.list_id')
+            ->where(function ($query) {
+                $query->where('contact_lists.name', 'like', '%' . $this->list_search_term . '%')
+                    ->orWhere('contacts.number', 'like', '%' . $this->list_search_term . '%');
+            })
+            ->where('contact_lists.user_id', user()->id)
+            ->where('contact_lists.bookmarked', 0)
+            ->select('contact_lists.*') // Ensure you're only selecting columns from `contact_lists`
+            ->distinct() // To avoid duplicates if a list has multiple matching contacts
+            ->get();
+        // $other_lists = DB::table('contact_lists')->where('name', 'like', '%' . $this->list_search_term . '%')->where('user_id', user()->id)->where('bookmarked', 0)->get();
 
         $folders = ContactFolder::where('name', 'like', '%' . $this->folder_search_term . '%')->where('user_id', user()->id)->get();
 
