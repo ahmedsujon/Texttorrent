@@ -455,6 +455,7 @@ class ManageContactsComponent extends Component
         foreach ($this->contact_checkbox as $key => $chkId) {
             $data = Contact::where('id', $chkId)->first();
             $data->blacklisted = 1;
+            $data->blacklisted_by = user()->id;
             $data->save();
         }
 
@@ -479,6 +480,7 @@ class ManageContactsComponent extends Component
         foreach ($this->contact_checkbox as $key => $chkId) {
             $data = Contact::where('id', $chkId)->first();
             $data->blacklisted = 0;
+            $data->blacklisted_by = 0;
             $data->save();
         }
 

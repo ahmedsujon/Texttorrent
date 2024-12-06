@@ -86,6 +86,7 @@ class ClaimsComponent extends Component
 
         $contact = Contact::where('number', $claim->send_to)->where('user_id', user()->id)->first();
         $contact->blacklisted = 1;
+        $contact->blacklisted_by = user()->id;
         $contact->save();
 
         $this->dispatch('success', ['message' => 'Contact blacklisted successfully!']);
@@ -194,6 +195,7 @@ class ClaimsComponent extends Component
 
             $contact = Contact::where('number', $claim->send_to)->where('user_id', user()->id)->first();
             $contact->blacklisted = 1;
+            $contact->blacklisted_by = user()->id;
             $contact->save();
         }
 
