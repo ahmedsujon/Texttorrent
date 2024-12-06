@@ -641,7 +641,7 @@ class ManageContactsComponent extends Component
             if ($this->sort_list_id == 'unlisted') {
                 $contacts = $contacts->where('blacklisted', 0)->where('list_id', null);
             } else if ($this->sort_list_id == 'blacklisted') {
-                $contacts = $contacts->where('blacklisted', 1);
+                $contacts = $contacts->where('blacklisted', 1)->orWhere('blacklisted_by', user()->id);
             } else {
                 $contacts = $contacts->where('blacklisted', 0)->where('list_id', $this->sort_list_id);
             }

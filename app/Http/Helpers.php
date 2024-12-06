@@ -108,7 +108,10 @@ function listContactsCount($list_id)
     if ($list_id == 'unlisted') {
         $count = DB::table('contacts')->where('list_id', NULL)->where('blacklisted', 0)->where('user_id', user()->id)->count();
     } else if ($list_id == 'blacklisted') {
-        $count = DB::table('contacts')->where('blacklisted', 1)->where('user_id', user()->id)->count();
+        $count = DB::table('contacts')->where('blacklisted', 1)->where(function($q){
+            $q->where('user_id', user()->id)
+                ->orWhere('blacklisted_by', user()->id);
+        })->count();
     } else {
         $count = DB::table('contacts')->where('list_id', $list_id)->where('blacklisted', 0)->where('user_id', user()->id)->count();
     }
