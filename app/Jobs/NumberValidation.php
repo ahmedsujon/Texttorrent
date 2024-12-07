@@ -46,6 +46,9 @@ class NumberValidation implements ShouldQueue
 
         $valItem->validated_at = Carbon::parse(now());
         $valItem->status = 'Completed';
+        $valItem->location = $result['location'] ? $result['location'] : null;
+        $valItem->carrier = $result['carrier'] ? $result['carrier'] : null;
+        $valItem->line_type = $result['line_type'] ? $result['line_type'] : null;
         $valItem->save();
 
         $contact = Contact::find($valItem->contact_id);

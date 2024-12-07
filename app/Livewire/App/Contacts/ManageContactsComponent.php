@@ -35,6 +35,7 @@ class ManageContactsComponent extends Component
             $firstListO = ContactList::where('user_id', user()->id)->first();
             $this->sort_list_id = $firstListO ? $firstListO->id : null;
         }
+        $this->import_list_id = $this->sort_list_id;
     }
 
     public function addNewList()
@@ -382,6 +383,7 @@ class ManageContactsComponent extends Component
     {
         if ($this->delete_type == 'list') {
             $data = ContactList::where('id', $this->delete_id)->first();
+            DB::table('contacts')->where('list_id', $data->id)->delete();
             $data->delete();
 
             $message = 'List deleted successfully';
@@ -427,7 +429,12 @@ class ManageContactsComponent extends Component
         $this->contact_checkbox = [];
         $this->check_all = false;
 
-        $this->import_list_id = $id;
+        if ($id != 'unlisted' && $id != 'blacklisted') {
+            $this->import_list_id = $id;
+        } else {
+            $this->import_list_id = null;
+        }
+
         $this->dispatch('setSelectedList', $id);
         $this->resetPage();
     }
@@ -455,6 +462,7 @@ class ManageContactsComponent extends Component
         foreach ($this->contact_checkbox as $key => $chkId) {
             $data = Contact::where('id', $chkId)->first();
             $data->blacklisted = 1;
+            $data->blacklisted_by = user()->id;
             $data->save();
         }
 
@@ -479,6 +487,7 @@ class ManageContactsComponent extends Component
         foreach ($this->contact_checkbox as $key => $chkId) {
             $data = Contact::where('id', $chkId)->first();
             $data->blacklisted = 0;
+            $data->blacklisted_by = 0;
             $data->save();
         }
 
@@ -639,7 +648,7 @@ class ManageContactsComponent extends Component
             if ($this->sort_list_id == 'unlisted') {
                 $contacts = $contacts->where('blacklisted', 0)->where('list_id', null);
             } else if ($this->sort_list_id == 'blacklisted') {
-                $contacts = $contacts->where('blacklisted', 1);
+                $contacts = $contacts->where('blacklisted', 1)->orWhere('blacklisted_by', user()->id);
             } else {
                 $contacts = $contacts->where('blacklisted', 0)->where('list_id', $this->sort_list_id);
             }

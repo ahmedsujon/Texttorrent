@@ -4,6 +4,7 @@ namespace App\Livewire\App;
 
 use App\Exports\ClaimsExport;
 use App\Models\BulkMessageItem;
+use App\Models\BulkMessageReply;
 use App\Models\Chat;
 use App\Models\ChatMessage;
 use App\Models\Contact;
@@ -51,15 +52,17 @@ class ClaimsComponent extends Component
         $msg1->message = $claim->message;
         $msg1->save();
 
-        if ($claim->received_message) {
+        $allRMsgs = BulkMessageReply::where('bulk_message_item_id', $claim->id)->get();
+        foreach ($allRMsgs as $key => $msgItm) {
             $msg2 = new ChatMessage();
             $msg2->chat_id = $chat->id;
             $msg2->direction = 'inbound';
-            $msg2->message = $claim->received_message;
+            $msg2->message = $msgItm->message;
             $msg2->api_send_status = 'success';
             $msg2->api_receive_status = 'success';
             $msg2->credit_clear = 1;
-            $msg2->msg_sid = $claim->received_message_sid;
+            $msg2->msg_sid = $msgItm->msg_sid;
+            $msg2->updated_at = $msgItm->created_at;
             $msg2->save();
         }
 
@@ -86,6 +89,7 @@ class ClaimsComponent extends Component
 
         $contact = Contact::where('number', $claim->send_to)->where('user_id', user()->id)->first();
         $contact->blacklisted = 1;
+        $contact->blacklisted_by = user()->id;
         $contact->save();
 
         $this->dispatch('success', ['message' => 'Contact blacklisted successfully!']);
@@ -163,15 +167,17 @@ class ClaimsComponent extends Component
             $msg1->message = $claim->message;
             $msg1->save();
 
-            if ($claim->received_message) {
+            $allRMsgs = BulkMessageReply::where('bulk_message_item_id', $claim->id)->get();
+            foreach ($allRMsgs as $key => $msgItm) {
                 $msg2 = new ChatMessage();
                 $msg2->chat_id = $chat->id;
                 $msg2->direction = 'inbound';
-                $msg2->message = $claim->received_message;
+                $msg2->message = $msgItm->message;
                 $msg2->api_send_status = 'success';
                 $msg2->api_receive_status = 'success';
                 $msg2->credit_clear = 1;
-                $msg2->msg_sid = $claim->received_message_sid;
+                $msg2->msg_sid = $msgItm->msg_sid;
+                $msg2->updated_at = $msgItm->created_at;
                 $msg2->save();
             }
 
@@ -194,6 +200,7 @@ class ClaimsComponent extends Component
 
             $contact = Contact::where('number', $claim->send_to)->where('user_id', user()->id)->first();
             $contact->blacklisted = 1;
+            $contact->blacklisted_by = user()->id;
             $contact->save();
         }
 

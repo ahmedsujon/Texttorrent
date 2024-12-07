@@ -48,13 +48,13 @@ class ValidatorCreditsComponent extends Component
         if (!$this->selectedItems) {
             $this->dispatch('error', ['message' => 'Select items first']);
         } else {
-            return Excel::download(new ValidationExport(['selectedItems' => $this->selectedItems]), 'validations.csv');
+            return Excel::download(new ValidationExport(['selectedItems' => $this->selectedItems]), 'validations.xlsx');
         }
     }
 
     public function exportItems($id)
     {
-        return Excel::download(new ValidationItemExport(['selectedItem' => $id]), 'validation_items.csv');
+        return Excel::download(new ValidationExport(['selectedItems' => [$id]]), 'validations.xlsx');
     }
 
     public function render()

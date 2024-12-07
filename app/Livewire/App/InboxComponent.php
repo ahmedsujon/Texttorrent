@@ -578,6 +578,7 @@ class InboxComponent extends Component
     {
         $contact = Contact::find($this->blacklist_contact_id);
         $contact->blacklisted = 1;
+        $contact->blacklisted_by = user()->id;
         $contact->save();
 
         $this->blacklist_contact_id = '';
