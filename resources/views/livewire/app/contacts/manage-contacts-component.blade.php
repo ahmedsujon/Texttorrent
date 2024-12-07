@@ -1259,8 +1259,9 @@
                 <div class="modal-content">
                     <div class="modal-body">
                         <div class="content_area">
-                            <h2>Would you like to permanently delete this event?</h2>
-                            <h4>Once deleted, this event will no longer be accessible</h4>
+                            <h2>Would you like to permanently delete this {{ $delete_type == 'list' ? 'list' : 'event' }}?</h2>
+                            <h4>Once deleted, this {{ $delete_type == 'list' ? 'list' : 'event' }} will no longer be accessible</h4>
+                            <small style="font-size: 12px;" class="text-danger">N.B: All Contacts in this list will be deleted.</small>
                             <div class="delete_action_area d-flex align-items-center flex-wrap">
                                 <button type="button" class="delete_cancel_btn" id="deleteModalCloseBtn"
                                     data-bs-dismiss="modal">

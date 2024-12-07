@@ -383,6 +383,7 @@ class ManageContactsComponent extends Component
     {
         if ($this->delete_type == 'list') {
             $data = ContactList::where('id', $this->delete_id)->first();
+            DB::table('contacts')->where('list_id', $data->id)->delete();
             $data->delete();
 
             $message = 'List deleted successfully';
