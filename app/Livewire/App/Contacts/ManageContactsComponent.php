@@ -35,6 +35,7 @@ class ManageContactsComponent extends Component
             $firstListO = ContactList::where('user_id', user()->id)->first();
             $this->sort_list_id = $firstListO ? $firstListO->id : null;
         }
+        $this->import_list_id = $this->sort_list_id;
     }
 
     public function addNewList()
@@ -427,7 +428,12 @@ class ManageContactsComponent extends Component
         $this->contact_checkbox = [];
         $this->check_all = false;
 
-        $this->import_list_id = $id;
+        if ($id != 'unlisted' && $id != 'blacklisted') {
+            $this->import_list_id = $id;
+        } else {
+            $this->import_list_id = null;
+        }
+
         $this->dispatch('setSelectedList', $id);
         $this->resetPage();
     }

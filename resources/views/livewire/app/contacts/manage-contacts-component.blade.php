@@ -694,16 +694,14 @@
                                 </div>
                             </div>
 
-                            <div class="input_row searchable_select">
+                            <div class="input_row">
                                 <label for="">Import List Into </label>
-                                <select name="lang" class="form-control js-searchBox-file-select">
+                                <select name="lang" class="form-control" wire:model.live='import_list_id'>
                                     <option value="">Select</option>
                                     @foreach ($allLists as $lItem)
                                         <option value="{{ $lItem->id }}">{{ $lItem->name }}</option>
                                     @endforeach
                                 </select>
-                                <img src="{{ asset('assets/app/icons/arrow-down.svg') }}" alt="down arrow"
-                                    class="down_arrow" />
                             </div>
                         </form>
                     </div>
@@ -1478,8 +1476,6 @@
 
             $('.js-searchBox-file-select').on('change', function() {
                 var data = $(this).val();
-                console.log(data);
-
                 @this.set('import_list_id', data);
             });
 
