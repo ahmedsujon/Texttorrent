@@ -346,6 +346,13 @@
                                             <div class="d-flex align-items-center flex-wrap gap-1">
                                                 <h5 id="contact_number_{{ $contact->id }}">{{ $contact->number }}
                                                 </h5>
+
+                                                @if ($contact->valid == 'Valid')
+                                                    <i class="fa fa-check-circle text-success ms-1" title="Valid Number" style="font-size: 13px;"></i>
+                                                @elseif ($contact->valid == 'Invalid')
+                                                    <i class="fa fa-check-circle text-danger ms-1" title="Invalid Number" style="font-size: 13px;"></i>
+                                                @endif
+
                                                 <button type="button" class="copy_icon"
                                                     onclick="copyToClipboard({{ $contact->id }})">
                                                     <img src="{{ asset('assets/app/icons/copy-01.svg') }}"
@@ -1363,6 +1370,7 @@
 @push('scripts')
     <!-- Include Alpine.js for reactive progress bar handling -->
     <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+
     <script>
         document.querySelectorAll('input[type="radio"]').forEach(radio => {
             radio.addEventListener('mousedown', function(e) {
