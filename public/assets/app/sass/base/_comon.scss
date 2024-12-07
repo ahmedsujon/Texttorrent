@@ -14,14 +14,16 @@ body {
   background-color: $body-bg;
   font-family: $body-font-family;
   font-size: $font-size-base;
-  // min-height: 100vh;
+  min-height: 100vh;
   // padding-right: 0px !important;
-  @include customScrollbar();
+  // @include customScrollbar();
   // overflow-y: auto !important;
-  overflow-x: hidden;
+  // overflow-x: hidden;
 }
-html{
+html,
+body {
   overflow-x: hidden;
+  overflow-x: clip;
 }
 
 h1,
