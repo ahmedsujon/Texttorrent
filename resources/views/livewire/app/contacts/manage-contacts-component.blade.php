@@ -346,6 +346,13 @@
                                             <div class="d-flex align-items-center flex-wrap gap-1">
                                                 <h5 id="contact_number_{{ $contact->id }}">{{ $contact->number }}
                                                 </h5>
+
+                                                @if ($contact->valid == 'Valid')
+                                                    <i class="fa fa-check-circle text-success ms-1" title="Valid Number" style="font-size: 13px;"></i>
+                                                @elseif ($contact->valid == 'Invalid')
+                                                    <i class="fa fa-check-circle text-danger ms-1" title="Invalid Number" style="font-size: 13px;"></i>
+                                                @endif
+
                                                 <button type="button" class="copy_icon"
                                                     onclick="copyToClipboard({{ $contact->id }})">
                                                     <img src="{{ asset('assets/app/icons/copy-01.svg') }}"
@@ -694,16 +701,14 @@
                                 </div>
                             </div>
 
-                            <div class="input_row searchable_select">
+                            <div class="input_row">
                                 <label for="">Import List Into </label>
-                                <select name="lang" class="form-control js-searchBox-file-select">
+                                <select name="lang" class="form-control" wire:model.live='import_list_id'>
                                     <option value="">Select</option>
                                     @foreach ($allLists as $lItem)
                                         <option value="{{ $lItem->id }}">{{ $lItem->name }}</option>
                                     @endforeach
                                 </select>
-                                <img src="{{ asset('assets/app/icons/arrow-down.svg') }}" alt="down arrow"
-                                    class="down_arrow" />
                             </div>
                         </form>
                     </div>
@@ -1261,8 +1266,9 @@
                 <div class="modal-content">
                     <div class="modal-body">
                         <div class="content_area">
-                            <h2>Would you like to permanently delete this event?</h2>
-                            <h4>Once deleted, this event will no longer be accessible</h4>
+                            <h2>Would you like to permanently delete this {{ $delete_type == 'list' ? 'list' : 'event' }}?</h2>
+                            <h4>Once deleted, this {{ $delete_type == 'list' ? 'list' : 'event' }} will no longer be accessible</h4>
+                            <small style="font-size: 12px;" class="text-danger">N.B: All Contacts in this list will be deleted.</small>
                             <div class="delete_action_area d-flex align-items-center flex-wrap">
                                 <button type="button" class="delete_cancel_btn" id="deleteModalCloseBtn"
                                     data-bs-dismiss="modal">
@@ -1364,6 +1370,7 @@
 @push('scripts')
     <!-- Include Alpine.js for reactive progress bar handling -->
     <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+
     <script>
         document.querySelectorAll('input[type="radio"]').forEach(radio => {
             radio.addEventListener('mousedown', function(e) {
@@ -1478,8 +1485,6 @@
 
             $('.js-searchBox-file-select').on('change', function() {
                 var data = $(this).val();
-                console.log(data);
-
                 @this.set('import_list_id', data);
             });
 

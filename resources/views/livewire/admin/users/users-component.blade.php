@@ -337,10 +337,11 @@
                                             </li>
                                         </ul>
                                         <div class="hstack gap-2">
-                                            <a href="javascript:void(0)" type="button" target="_blank"
-                                                onclick="event.preventDefault(); document.getElementById('login-form_{{ $edit_id }}').submit();"
-                                                class="btn btn-primary">Login Account <i
-                                                    class='bx bx-download align-baseline ms-1'></i></a>
+                                            <a href="javascript:void(0)" type="button"
+                                                onclick="submitFormInNewTab('{{ $edit_id }}');"
+                                                class="btn btn-primary">
+                                                Login Account <i class='bx bx-download align-baseline ms-1'></i>
+                                            </a>
 
                                             <form id="login-form_{{ $edit_id }}" style="display: none;"
                                                 method="POST" action="{{ route('loginAsUser') }}">
@@ -1630,6 +1631,36 @@
         function optInValue(checkbox) {
             checkbox.value = checkbox.checked ? '1' : '0';
             Livewire.emit('input', checkbox.name, checkbox.value);
+        }
+    </script>
+
+    <script>
+        function submitFormInNewTab(editId) {
+            const originalForm = document.getElementById(`login-form_${editId}`);
+            const newForm = document.createElement('form');
+
+            // Copy form attributes
+            newForm.method = originalForm.method;
+            newForm.action = originalForm.action;
+            newForm.target = '_blank';
+
+            // Copy form inputs
+            Array.from(originalForm.elements).forEach(element => {
+                if (element.name) {
+                    const input = document.createElement('input');
+                    input.type = 'hidden';
+                    input.name = element.name;
+                    input.value = element.value;
+                    newForm.appendChild(input);
+                }
+            });
+
+            // Append and submit the new form
+            document.body.appendChild(newForm);
+            newForm.submit();
+
+            // Remove the temporary form after submission
+            document.body.removeChild(newForm);
         }
     </script>
 @endpush

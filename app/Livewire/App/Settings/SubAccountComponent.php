@@ -27,7 +27,8 @@ class SubAccountComponent extends Component
     public function addSubAccount()
     {
         if (getActiveSubscription()['status'] == 'Active') {
-            if (user()->sub_accounts > 0) {
+            $count = User::where('type', 'sub')->where('parent_id', user()->id)->count();
+            if (user()->sub_accounts > $count) {
                 $this->dispatch('showAddAccountModal');
             } else {
                 $this->dispatch('error', ['message' => 'You have reached your limit of sub accounts. Please upgrade your plan.']);
@@ -80,9 +81,9 @@ class SubAccountComponent extends Component
                 ->subject('Account Created');
         });
 
-        $mUser = User::find(user()->id);
-        $mUser->sub_accounts -= 1;
-        $mUser->save();
+        // $mUser = User::find(user()->id);
+        // $mUser->sub_accounts -= 1;
+        // $mUser->save();
 
         $this->dispatch('closeModal');
         $this->dispatch('success', ['message' => 'New sub user added successfully']);

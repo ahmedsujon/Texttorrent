@@ -575,10 +575,21 @@ class ActiveNumberComponent extends Component
     public function render()
     {
         $sub_accounts = User::where('type', 'sub')->where('status', 1)->where('parent_id', user()->id)->get();
-        $numbers = Number::where(function ($qs) {
-            $qs->where('user_id', user()->id)
-                ->orWhere('purchased_by', user()->id);
-        })->where(function ($q) {
+
+        if (user()->type == 'sub') {
+            $numbers = Number::where('user_id', user()->id);
+        } else {
+            $user_ids = [user()->id];
+            $sub_user_ids = $sub_accounts->pluck('id')->toArray();
+            $user_ids = array_merge($user_ids, $sub_user_ids);
+
+            $numbers = Number::where(function ($qs) use($user_ids) {
+                $qs->whereIn('user_id', $user_ids)
+                    ->orWhereIn('purchased_by', $user_ids);
+            });
+        }
+
+        $numbers->where(function ($q) {
             $q->where('number', 'like', '%' . $this->searchTerm . '%');
         })->orderBy($this->sortBy, $this->sortDirection);
 

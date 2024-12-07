@@ -84,8 +84,11 @@ class SendBulkSMS implements ShouldQueue
                     $msg1->direction = 'outbound';
                     $msg1->message = $this->message;
                     $msg1->save();
+                } else {
+                    $b_msg = BulkMessageItem::find($this->msg_id);
+                    $b_msg->msg_sid = $output->sid;
+                    $b_msg->save();
                 }
-
             } catch (Exception $e) {
 
             }

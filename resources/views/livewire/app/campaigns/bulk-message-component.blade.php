@@ -121,6 +121,7 @@
                                     </span>
                                 </h6>
                             </div>
+                            @if (user()->type != 'sub')
                             <div class="custom_switch_area">
                                 <label class="switch">
                                     <input type="checkbox" wire:model.live='round_robin_campaign' />
@@ -136,6 +137,7 @@
                                     </span>
                                 </h6>
                             </div>
+                            @endif
                         </div>
                         <div class="input_row">
                             <label for="">Phone number</label>

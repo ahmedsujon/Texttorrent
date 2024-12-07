@@ -10,6 +10,7 @@ use Illuminate\Http\Request;
 use App\Models\BulkMessageItem;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
+use App\Models\BulkMessageReply;
 use App\Models\Notification;
 use Illuminate\Support\Facades\Http;
 
@@ -34,7 +35,7 @@ class TwilioMessageController extends Controller
 
         // get Chat
         $chat = Chat::select('chats.id', 'chats.user_id as receiver', 'chats.contact_id as sender')->join('contacts', 'contacts.id', 'chats.contact_id')->where('chats.from_number', $to)->where('contacts.number', $from)->first();
-        $claim = BulkMessageItem::where('send_from', $to)->where('send_to', $from)->orderBy('id', 'DESC')->first();
+        $claim = BulkMessageItem::where('send_from', $to)->where('send_to', $from)->orderBy('id', 'DESC')->where('status', 1)->first();
 
         $chat_user_id = '';
         if ($chat) {
@@ -66,6 +67,15 @@ class TwilioMessageController extends Controller
                 $claim->received_message_sid = $messageSid;
                 $claim->credit_clear = $credit_status;
                 $claim->save();
+
+                // all received messages
+                $r_msg = new BulkMessageReply();
+                $r_msg->bulk_message_id = $claim->bulk_message_id;
+                $r_msg->bulk_message_item_id = $claim->id;
+                $r_msg->message = $body;
+                $r_msg->msg_sid = $messageSid;
+                $r_msg->status = $credit_status;
+                $r_msg->save();
 
                 // notifications
                 $activity = new Notification();

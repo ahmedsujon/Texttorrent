@@ -13,10 +13,11 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule): void
     {
         // $schedule->command('inspire')->hourly();
-        $schedule->command('process:number-validation')->everyMinute();
-        $schedule->command('send:bulk-messages')->everyMinute();
-        $schedule->command('send:event-messages')->everyMinute();
-        $schedule->command('send:number-renewal-alert')->dailyAt('23:59');
+        $schedule->command('process:number-validation')->everyMinute()->withoutOverlapping();
+        $schedule->command('send:bulk-messages')->everyMinute()->withoutOverlapping();
+        $schedule->command('get:bulk-message-status')->everyMinute()->withoutOverlapping();
+        $schedule->command('send:event-messages')->everyMinute()->withoutOverlapping();
+        $schedule->command('send:number-renewal-alert')->dailyAt('23:59')->withoutOverlapping();
     }
 
     /**
