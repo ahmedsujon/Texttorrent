@@ -16,7 +16,7 @@ use Maatwebsite\Excel\Facades\Excel;
 class ClaimsComponent extends Component
 {
     use WithPagination;
-    public $sortingValue, $searchTerm;
+    public $sortingValue = 10, $searchTerm;
 
     public $claim_id;
     public function acceptConfirmation($id)
