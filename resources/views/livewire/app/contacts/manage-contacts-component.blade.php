@@ -2,9 +2,9 @@
     TextTorrent | Manage Contacts
 @endsection
 <div>
-    <main class="main_content_wrapper">
+    <main class="main_content_wrapper mb-0">
         <!-- Manage Contact Section  -->
-        <section class="manage_contact_wrapper">
+        <section class="manage_contact_wrapper {{ $contacts->hasPages() ? 'show_pagination' : '' }}">
             <div class="contact_header_area d-flex-between">
                 <div class="d-flex align-items-center flex-wrap gap-1">
                     <button type="button" class="sidebar_open_btn" id="sidebarShowBtn">
@@ -317,7 +317,7 @@
                         <div class="row">
                             <div class="col-md-12 text-center">
                                 <span wire:loading
-                                    wire:target='editContact,deleteConfirmation,editList,addRemoveBookmark,list_search_term,contacts_search_term,selectList,deleteAllContacts,exportContacts,removeBlacklist,numberValidateConfirmation,previousPage,nextPage'><i
+                                    wire:target='editContact,deleteConfirmation,editList,addRemoveBookmark,list_search_term,contacts_search_term,selectList,deleteAllContacts,exportContacts,removeBlacklist,numberValidateConfirmation,previousPage,nextPage,sortingValue'><i
                                         class="fa fa-spinner fa-spin"></i> Processing...</span>
                             </div>
                         </div>
@@ -347,10 +347,10 @@
                                                 <h5 id="contact_number_{{ $contact->id }}">{{ $contact->number }}
                                                 </h5>
 
-                                                @if ($contact->valid == 'Valid')
-                                                    <i class="fa fa-check-circle text-success ms-1" title="Valid Number" style="font-size: 13px;"></i>
-                                                @elseif ($contact->valid == 'Invalid')
-                                                    <i class="fa fa-check-circle text-danger ms-1" title="Invalid Number" style="font-size: 13px;"></i>
+                                                @if ($contact->valid == 'Invalid' || $contact->validation_process != 1)
+                                                    <span title="Invalid Number" class="ms-1">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" class='text-warning' width="16" height="16" stroke-width="2"> <path d="M12 9v4"></path> <path d="M10.363 3.591l-8.106 13.534a1.914 1.914 0 0 0 1.636 2.871h16.214a1.914 1.914 0 0 0 1.636 -2.87l-8.106 -13.536a1.914 1.914 0 0 0 -3.274 0z"></path> <path d="M12 16h.01"></path> </svg>
+                                                    </span>
                                                 @endif
 
                                                 <button type="button" class="copy_icon"
@@ -361,8 +361,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div
-                                        class="list_action_details_area d-flex align-items-center justify-content-end flex-wrap g-sm">
+                                    <div class="list_action_details_area d-flex align-items-center justify-content-end flex-wrap g-sm">
                                         {{-- <button type="button" class="icon_btn"
                                             wire:click.prevent='validateNum({{ $contact->number }})'
                                             wire:loading.attr='disabled'>
@@ -431,17 +430,17 @@
                                 </div>
                             @endforeach
                         @endif
-                        <div class="pagination_area pagination_top_border">
-                            <div class="d-flex" wire:ignore>
-                                <select class="niceSelect sortingValue">
-                                    <option value="10">10 Contacts</option>
-                                    <option value="30">30 Contacts</option>
-                                    <option value="50">50 Contacts</option>
-                                    <option value="100">100 Contacts</option>
-                                </select>
-                            </div>
-                            {{ $contacts->links('livewire.app-pagination') }}
+                    </div>
+                    <div class="pagination_area">
+                        <div class="d-flex" wire:ignore>
+                            <select class="niceSelect sortingValue">
+                                <option value="10">10 Contacts</option>
+                                <option value="30">30 Contacts</option>
+                                <option value="50">50 Contacts</option>
+                                <option value="100">100 Contacts</option>
+                            </select>
                         </div>
+                        {{ $contacts->links('livewire.app-pagination') }}
                     </div>
                 </div>
             </div>
@@ -1268,7 +1267,10 @@
                         <div class="content_area">
                             <h2>Would you like to permanently delete this {{ $delete_type == 'list' ? 'list' : 'event' }}?</h2>
                             <h4>Once deleted, this {{ $delete_type == 'list' ? 'list' : 'event' }} will no longer be accessible</h4>
-                            <small style="font-size: 12px;" class="text-danger">N.B: All Contacts in this list will be deleted.</small>
+                            @if ($delete_type == 'list')
+                                <small style="font-size: 12px;" class="text-danger">N.B: All Contacts in this list will be deleted.</small>
+                            @endif
+
                             <div class="delete_action_area d-flex align-items-center flex-wrap">
                                 <button type="button" class="delete_cancel_btn" id="deleteModalCloseBtn"
                                     data-bs-dismiss="modal">

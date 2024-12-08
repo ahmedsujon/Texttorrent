@@ -131,7 +131,7 @@
     cursor: default;
     background-color: $gray-color-ed;
   }
-  .save_icon{
+  .save_icon {
     max-width: 16px;
   }
 }
@@ -166,9 +166,9 @@
   border-radius: 8px;
   border: none;
   min-width: 110px;
-  background: $red-gradient-ff;
+  background: $blue-color-23;
   box-shadow: 0px 1px 0px 0px rgba(255, 255, 255, 0.25) inset,
-    0px 1px 2px 0px rgba(182, 8, 39, 0.4), 0px 0px 0px 1px #b60827;
+    0px 1px 2px 0px rgba($blue-color-23, 0.4), 0px 0px 0px 1px $blue-color-23;
 
   &:hover {
     &:hover {

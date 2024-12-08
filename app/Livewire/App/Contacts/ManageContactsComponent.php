@@ -2,21 +2,21 @@
 
 namespace App\Livewire\App\Contacts;
 
-use App\Models\User;
-use App\Models\Contact;
-use Livewire\Component;
-use App\Models\ContactList;
-use App\Models\ContactNote;
-use App\Models\ContactFolder;
-use Livewire\WithFileUploads;
 use App\Exports\ContactsExport;
 use App\Imports\ContactsImport;
+use App\Models\Contact;
+use App\Models\ContactFolder;
+use App\Models\ContactList;
+use App\Models\ContactNote;
 use App\Models\NumberValidation;
+use App\Models\NumberValidationItems;
+use App\Models\User;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Http;
-use Maatwebsite\Excel\Facades\Excel;
-use App\Models\NumberValidationItems;
+use Livewire\Component;
+use Livewire\WithFileUploads;
 use Livewire\WithPagination;
+use Maatwebsite\Excel\Facades\Excel;
 
 class ManageContactsComponent extends Component
 {
@@ -507,8 +507,7 @@ class ManageContactsComponent extends Component
             $number_to_validate = [];
             $already_validated = [];
 
-            foreach ($this->contact_checkbox as $key => $chkBox)
-            {
+            foreach ($this->contact_checkbox as $key => $chkBox) {
                 $contact = Contact::select('id', 'validation_process')->find($chkBox);
                 if ($contact->validation_process == 1) {
                     $already_validated[] = $contact->id;
@@ -616,6 +615,8 @@ class ManageContactsComponent extends Component
             ->leftJoin('contacts', 'contact_lists.id', '=', 'contacts.list_id')
             ->where(function ($query) {
                 $query->where('contact_lists.name', 'like', '%' . $this->list_search_term . '%')
+                    ->orWhere('contacts.first_name', 'like', '%' . $this->list_search_term . '%')
+                    ->orWhere('contacts.last_name', 'like', '%' . $this->list_search_term . '%')
                     ->orWhere('contacts.number', 'like', '%' . $this->list_search_term . '%');
             })
             ->where('contact_lists.user_id', user()->id)
@@ -628,6 +629,8 @@ class ManageContactsComponent extends Component
             ->leftJoin('contacts', 'contact_lists.id', '=', 'contacts.list_id')
             ->where(function ($query) {
                 $query->where('contact_lists.name', 'like', '%' . $this->list_search_term . '%')
+                    ->orWhere('contacts.first_name', 'like', '%' . $this->list_search_term . '%')
+                    ->orWhere('contacts.last_name', 'like', '%' . $this->list_search_term . '%')
                     ->orWhere('contacts.number', 'like', '%' . $this->list_search_term . '%');
             })
             ->where('contact_lists.user_id', user()->id)
