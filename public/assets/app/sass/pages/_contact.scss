@@ -9,6 +9,9 @@
   .import_btn {
     span {
       font-size: 14px;
+      @include max-media-width(767) {
+        font-size: 12px;
+      }
     }
   }
   .contact_grid {
@@ -16,12 +19,19 @@
     grid-template-columns: minmax(0, 0.6fr) repeat(1, minmax(0, 1fr));
     align-items: start;
     gap: 20px 12px;
+    height: calc(100vh - 80px);
+    padding-left: 1px;
+    overflow: hidden;
     @include min-media-width(1400) {
       grid-template-columns: minmax(0, 370px) repeat(1, minmax(0, 1fr));
     }
     @include max-media-width(767) {
       grid-template-columns: repeat(1, minmax(0, 1fr));
+      height: auto;
+      min-height: calc(100vh - 80px);
+      overflow: visible;
     }
+
     h4 {
       color: $black-color-0b;
       font-family: SFSemiBoldFont;
@@ -34,7 +44,7 @@
   .contact_list_wrapper {
     border-right: 1px solid $gray-color-ea;
     @include max-media-width(767) {
-      position: absolute;
+      position: fixed;
       top: 0;
       left: -100%;
       width: 310px;
@@ -74,10 +84,10 @@
     margin-top: 16px;
     padding-right: 16px;
     ul {
-      max-height: calc(100vh - 220px);
+      height: calc(100vh - 220px);
       @include customScrollbarInner();
       @include max-media-width(767) {
-        max-height: calc(100vh - 140px);
+        height: calc(100vh - 140px);
       }
     }
     li {
@@ -91,6 +101,9 @@
         letter-spacing: 0.12px;
         text-transform: uppercase;
       }
+    }
+    .dropdown-menu {
+      height: auto;
     }
     .list_btn {
       display: grid;
@@ -107,7 +120,7 @@
         background-color: $gray-color-edf;
       }
     }
-    .list_title{
+    .list_title {
       overflow: hidden;
       text-overflow: ellipsis;
       white-space: nowrap;
@@ -207,8 +220,20 @@
   }
   .details_list_area {
     margin-top: 23px;
-    max-height: calc(100vh - 265px);
-    @include customScrollbarInner();
+    @include min-media-width(768) {
+      height: calc(100vh - 265px);
+      @include customScrollbarInner();
+    }
+  }
+  &.show_pagination {
+    .pagination_area {
+      display: grid;
+    }
+    .details_list_area {
+      @include min-media-width(768) {
+        height: calc(100vh - 330px);
+      }
+    }
   }
   .deatils_list_grid {
     display: grid;
@@ -249,6 +274,30 @@
       border-color: transparent !important;
       box-shadow: 0px 1px 2px 0px rgba(11, 18, 52, 0.15),
         0px 0px 0px 1px rgba(11, 18, 52, 0.1) !important;
+    }
+  }
+  .pagination_area {
+    display: none;
+    @include media-break-width(768, 1299) {
+      grid-template-columns: minmax(0, 0.4fr) minmax(0, 1fr);
+    }
+    @include max-media-width(767) {
+      margin-bottom: 20px;
+    }
+
+    .number_list {
+      @include media-break-width(768, 1299) {
+        justify-content: end !important;
+      }
+    }
+    .pagination_action_list {
+      @include media-break-width(768, 1299) {
+        display: none !important;
+      }
+    }
+    .list {
+      top: auto;
+      bottom: 100%;
     }
   }
 }
