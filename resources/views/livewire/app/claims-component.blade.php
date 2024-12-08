@@ -50,8 +50,6 @@
                                         </div>
                                         <div class="column_area">
                                             <span>Number</span>
-                                            <img src="{{ asset('assets/app/icons/tp-down-table-arrow.svg') }}"
-                                                alt="top down arrow" />
                                         </div>
                                     </div>
                                 </th>
@@ -59,8 +57,6 @@
                                 <th scope="col">
                                     <div class="column_area">
                                         <span>Message</span>
-                                        <img src="{{ asset('assets/app/icons/tp-down-table-arrow.svg') }}"
-                                            alt="top down arrow" />
                                     </div>
                                 </th>
                                 <th scope="col">
@@ -84,13 +80,11 @@
                                         </td>
 
                                         <td>
-
                                             @if ($claim->received_message)
                                                 <p>{{ $claim->received_message }}</p>
                                             @else
                                                 <p>Waiting!</p>
                                             @endif
-
                                         </td>
 
                                         <td>
