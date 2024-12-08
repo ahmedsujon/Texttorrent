@@ -445,31 +445,13 @@ body {
   background-color: white;
   font-family: SFRegularFont;
   font-size: 16px;
-  overflow-y: auto;
-  /* width */
-  /* Track */
-  /* Handle */
-  /* Handle on hover */
-  overflow-x: hidden;
-}
-body::-webkit-scrollbar {
-  width: 8px;
-}
-body::-webkit-scrollbar-track {
-  background: #b4f3d1;
-  border-radius: 5px;
-}
-body::-webkit-scrollbar-thumb {
-  background: #235de4;
-  border-radius: 5px;
-}
-body::-webkit-scrollbar-thumb:hover {
-  background: #f84f4f;
-  cursor: grab;
+  min-height: calc(100vh - 20px);
 }
 
-html {
+html,
+body {
   overflow-x: hidden;
+  overflow-x: clip;
 }
 
 h1,

@@ -479,31 +479,13 @@ body {
   background-color: white;
   font-family: SFRegularFont;
   font-size: 16px;
-  overflow-y: auto;
-  /* width */
-  /* Track */
-  /* Handle */
-  /* Handle on hover */
-  overflow-x: hidden;
-}
-body::-webkit-scrollbar {
-  width: 8px;
-}
-body::-webkit-scrollbar-track {
-  background: #b4f3d1;
-  border-radius: 5px;
-}
-body::-webkit-scrollbar-thumb {
-  background: #235de4;
-  border-radius: 5px;
-}
-body::-webkit-scrollbar-thumb:hover {
-  background: #f84f4f;
-  cursor: grab;
+  min-height: calc(100vh - 20px);
 }
 
-html {
+html,
+body {
   overflow-x: hidden;
+  overflow-x: clip;
 }
 
 h1,
@@ -1286,8 +1268,8 @@ input[type=number] {
   border-radius: 8px;
   border: none;
   min-width: 110px;
-  background: linear-gradient(180deg, #ff5d79 0%, #e82749 100%);
-  box-shadow: 0px 1px 0px 0px rgba(255, 255, 255, 0.25) inset, 0px 1px 2px 0px rgba(182, 8, 39, 0.4), 0px 0px 0px 1px #b60827;
+  background: #235de4;
+  box-shadow: 0px 1px 0px 0px rgba(255, 255, 255, 0.25) inset, 0px 1px 2px 0px rgba(35, 93, 228, 0.4), 0px 0px 0px 1px #235de4;
 }
 .delete_yes_btn:hover:hover {
   opacity: 0.8;
@@ -2647,7 +2629,7 @@ input[type=number] {
   }
 }
 .event_form_area label .star {
-  color: #E82749;
+  color: #e82749;
 }
 .event_form_area h3 {
   color: #353636;
@@ -3666,7 +3648,7 @@ input[type=number] {
   min-width: 150px;
 }
 .inbox_template_table_area .customer_name {
-  color: #0C2245;
+  color: #0c2245;
   font-family: "Inter", sans-serif;
   font-size: 14px;
   font-style: normal;
@@ -3682,7 +3664,7 @@ input[type=number] {
   font-weight: 400;
   padding: 2px 8px;
   border-radius: 4px;
-  background: #B8D6FF;
+  background: #b8d6ff;
 }
 .inbox_template_table_area .phone_number_area {
   min-width: 200px;
@@ -3701,10 +3683,10 @@ input[type=number] {
   font-weight: 400;
   padding: 2px 8px;
   border-radius: 4px;
-  background: #B8D6FF;
+  background: #b8d6ff;
 }
 .inbox_template_table_area .capability_status.sms {
-  background-color: #FFCAE7;
+  background-color: #ffcae7;
 }
 .inbox_template_table_area .capability_status.mms {
   background-color: #d0c5ff;
@@ -4294,7 +4276,7 @@ input[type=number] {
   line-height: 18px;
   padding: 2px 8px;
   border-radius: 4px;
-  background: #B8D6FF;
+  background: #b8d6ff;
 }
 
 .account_border {
@@ -4429,7 +4411,7 @@ input[type=number] {
 .warning_area {
   padding: 20px;
   border-radius: 12px;
-  background: #FBF4E6;
+  background: #fbf4e6;
 }
 @media (min-width: 768px) and (max-width: 991px) {
   .warning_area {
@@ -4503,7 +4485,7 @@ input[type=number] {
   padding: 12px;
   border-radius: 8px;
   border: 1px solid #eaeaee;
-  background: #F7F7F7;
+  background: #f7f7f7;
 }
 @media all and (max-width: 767px) {
   .alert_message_area {
@@ -4618,7 +4600,7 @@ input[type=number] {
 
 .pagination_top_border {
   padding-top: 10px;
-  border-top: 1px solid #EAECF0;
+  border-top: 1px solid #eaecf0;
 }
 
 .custom_select_dropdown_area {
@@ -7032,7 +7014,7 @@ input[type=number] {
   justify-content: center;
   align-items: center;
   gap: 8px;
-  color: #4c1008;
+  color: white;
   font-size: 12px;
   font-style: normal;
   font-weight: 400;
@@ -7040,7 +7022,7 @@ input[type=number] {
   padding: 3px 8px;
   border-radius: 16px;
   margin-top: 5px;
-  background: #ffbab6;
+  background: #235de4;
 }
 .inbox_wrapper .unread_item .short_message_are p {
   font-family: SFMediumFont;
@@ -7862,7 +7844,7 @@ input[type=number] {
   gap: 4px 12px;
 }
 .inbox_wrapper .note_user_grid h4 {
-  color: #0A1B33;
+  color: #0a1b33;
   font-family: SFMediumFont;
   font-size: 14px;
   font-style: normal;
@@ -8272,11 +8254,20 @@ input[type=number] {
 .manage_contact_wrapper .import_btn span {
   font-size: 14px;
 }
+@media all and (max-width: 767px) {
+  .manage_contact_wrapper .import_btn span {
+    transition: 0.5s;
+    font-size: 12px;
+  }
+}
 .manage_contact_wrapper .contact_grid {
   display: grid;
   grid-template-columns: minmax(0, 0.6fr) repeat(1, minmax(0, 1fr));
   align-items: start;
   gap: 20px 12px;
+  height: calc(100vh - 80px);
+  padding-left: 1px;
+  overflow: hidden;
 }
 @media all and (min-width: 1400px) {
   .manage_contact_wrapper .contact_grid {
@@ -8292,6 +8283,9 @@ input[type=number] {
   .manage_contact_wrapper .contact_grid {
     transition: 0.5s;
     grid-template-columns: repeat(1, minmax(0, 1fr));
+    height: auto;
+    min-height: calc(100vh - 80px);
+    overflow: visible;
   }
 }
 .manage_contact_wrapper .contact_grid h4 {
@@ -8308,7 +8302,7 @@ input[type=number] {
 @media all and (max-width: 767px) {
   .manage_contact_wrapper .contact_list_wrapper {
     transition: 0.5s;
-    position: absolute;
+    position: fixed;
     top: 0;
     left: -100%;
     width: 310px;
@@ -8381,7 +8375,7 @@ input[type=number] {
   padding-right: 16px;
 }
 .manage_contact_wrapper .list_area ul {
-  max-height: calc(100vh - 220px);
+  height: calc(100vh - 220px);
   overflow-y: auto;
   /* width */
   /* Track */
@@ -8407,7 +8401,7 @@ input[type=number] {
 @media all and (max-width: 767px) {
   .manage_contact_wrapper .list_area ul {
     transition: 0.5s;
-    max-height: calc(100vh - 140px);
+    height: calc(100vh - 140px);
   }
 }
 .manage_contact_wrapper .list_area li h4 {
@@ -8419,6 +8413,9 @@ input[type=number] {
   line-height: normal;
   letter-spacing: 0.12px;
   text-transform: uppercase;
+}
+.manage_contact_wrapper .list_area .dropdown-menu {
+  height: auto;
 }
 .manage_contact_wrapper .list_area .list_btn {
   display: grid;
@@ -8555,28 +8552,50 @@ input[type=number] {
 }
 .manage_contact_wrapper .details_list_area {
   margin-top: 23px;
-  max-height: calc(100vh - 265px);
-  overflow-y: auto;
-  /* width */
-  /* Track */
-  /* Handle */
-  /* Handle on hover */
 }
-.manage_contact_wrapper .details_list_area::-webkit-scrollbar {
-  width: 5px;
-  height: 5px;
+@media all and (min-width: 768px) {
+  .manage_contact_wrapper .details_list_area {
+    transition: 0.5s;
+    -webkit-transition: 0.5s;
+    -moz-transition: 0.5s;
+    -ms-transition: 0.5s;
+    -o-transition: 0.5s;
+    height: calc(100vh - 265px);
+    overflow-y: auto;
+    /* width */
+    /* Track */
+    /* Handle */
+    /* Handle on hover */
+  }
+  .manage_contact_wrapper .details_list_area::-webkit-scrollbar {
+    width: 5px;
+    height: 5px;
+  }
+  .manage_contact_wrapper .details_list_area::-webkit-scrollbar-track {
+    background: rgba(153, 153, 153, 0.2);
+    border-radius: 5px;
+  }
+  .manage_contact_wrapper .details_list_area::-webkit-scrollbar-thumb {
+    background: #999999;
+    border-radius: 5px;
+  }
+  .manage_contact_wrapper .details_list_area::-webkit-scrollbar-thumb:hover {
+    background: #f84f4f;
+    cursor: grab;
+  }
 }
-.manage_contact_wrapper .details_list_area::-webkit-scrollbar-track {
-  background: rgba(153, 153, 153, 0.2);
-  border-radius: 5px;
+.manage_contact_wrapper.show_pagination .pagination_area {
+  display: grid;
 }
-.manage_contact_wrapper .details_list_area::-webkit-scrollbar-thumb {
-  background: #999999;
-  border-radius: 5px;
-}
-.manage_contact_wrapper .details_list_area::-webkit-scrollbar-thumb:hover {
-  background: #f84f4f;
-  cursor: grab;
+@media all and (min-width: 768px) {
+  .manage_contact_wrapper.show_pagination .details_list_area {
+    transition: 0.5s;
+    -webkit-transition: 0.5s;
+    -moz-transition: 0.5s;
+    -ms-transition: 0.5s;
+    -o-transition: 0.5s;
+    height: calc(100vh - 330px);
+  }
 }
 .manage_contact_wrapper .deatils_list_grid {
   display: grid;
@@ -8622,6 +8641,37 @@ input[type=number] {
   border: none !important;
   border-color: transparent !important;
   box-shadow: 0px 1px 2px 0px rgba(11, 18, 52, 0.15), 0px 0px 0px 1px rgba(11, 18, 52, 0.1) !important;
+}
+.manage_contact_wrapper .pagination_area {
+  display: none;
+}
+@media (min-width: 768px) and (max-width: 1299px) {
+  .manage_contact_wrapper .pagination_area {
+    transition: 0.5s;
+    grid-template-columns: minmax(0, 0.4fr) minmax(0, 1fr);
+  }
+}
+@media all and (max-width: 767px) {
+  .manage_contact_wrapper .pagination_area {
+    transition: 0.5s;
+    margin-bottom: 20px;
+  }
+}
+@media (min-width: 768px) and (max-width: 1299px) {
+  .manage_contact_wrapper .pagination_area .number_list {
+    transition: 0.5s;
+    justify-content: end !important;
+  }
+}
+@media (min-width: 768px) and (max-width: 1299px) {
+  .manage_contact_wrapper .pagination_area .pagination_action_list {
+    transition: 0.5s;
+    display: none !important;
+  }
+}
+.manage_contact_wrapper .pagination_area .list {
+  top: auto;
+  bottom: 100%;
 }
 
 .user_details_modal .modal-dialog {
@@ -8898,7 +8948,7 @@ input[type=number] {
 }
 .sub_account_wrapper .pagination_area {
   padding-top: 10px;
-  border-top: 1px solid #EAECF0;
+  border-top: 1px solid #eaecf0;
 }
 
 .sub_account_modal .modal-dialog {
@@ -9761,7 +9811,7 @@ input[type=number] {
   }
 }
 .success_page h4 span {
-  color: #E82749;
+  color: #e82749;
 }
 
 .sidebar_wrapper .accordion-button::after {
