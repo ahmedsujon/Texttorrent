@@ -7,7 +7,7 @@
     </style>
     <main class="main_content_wrapper setting_content_wrapper">
         <!-- Sub Account Section  -->
-        <section class="sub_account_wrapper account_border">
+        <section class="sub_account_wrapper account_border mw-100">
             <div class="account_title_area account_title_grid">
                 <div class="d-flex align-items-center flex-wrap g-sm">
                     <button type="button" class="sidebar_open_btn" id="sidebarShowBtn">
