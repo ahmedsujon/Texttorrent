@@ -317,7 +317,7 @@
                         <div class="row">
                             <div class="col-md-12 text-center">
                                 <span wire:loading
-                                    wire:target='editContact,deleteConfirmation,editList,addRemoveBookmark,list_search_term,contacts_search_term,selectList,deleteAllContacts,exportContacts,removeBlacklist,numberValidateConfirmation,previousPage,nextPage'><i
+                                    wire:target='editContact,deleteConfirmation,editList,addRemoveBookmark,list_search_term,contacts_search_term,selectList,deleteAllContacts,exportContacts,removeBlacklist,numberValidateConfirmation,previousPage,nextPage,sortingValue'><i
                                         class="fa fa-spinner fa-spin"></i> Processing...</span>
                             </div>
                         </div>
