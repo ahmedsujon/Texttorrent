@@ -24,6 +24,11 @@
             transform: translateX(-50%);
             color: #333;
         }
+
+        .card-body {
+            background: #ffcdb3 !important;
+            border-radius: 12px !important;
+        }
     </style>
 
     <main class="main_content_wrapper" wire:ignore>
@@ -115,25 +120,27 @@
         <section class="credit_activity_wrapper mt-24">
             <div class="credit_outer_grid">
                 @if (user()->type == 'sub')
-                <div class="row justify-content-center">
-                    <div class="col-md-4">
-                        <div class="card card-body text-center">
-                            <h5 class="text-muted">Credits Left</h5>
-                            <h2 class="mt-4">
-                                <strong>{{ number_format($credits_left) }}</strong>
-                            </h2>
+                    <div class="row justify-content-center">
+                        <div class="col-md-4">
+                            <div class="card card-body text-center">
+                                <h5 class="text-muted">Credits Left</h5>
+                                <h2 class="mt-4">
+                                    <strong>{{ number_format($credits_left) }}</strong>
+                                </h2>
+                            </div>
                         </div>
                     </div>
-                </div>
                 @else
                     @if (isUserPermitted('sms-credits'))
                         <div class="credit_area">
                             <div class="d-flex-between">
                                 <h3 class="credit_title">Buy Credits</h3>
-                                <button type="button" class="amount_btn" style="color: black; background-color: #e5f9fe;">
+                                <button type="button" class="amount_btn"
+                                    style="color: black; background-color: #e5f9fe;">
                                     Credits left: {{ number_format($credits_left) }}
                                 </button>
-                                <button type="button" class="amount_btn amount_btn_pay" wire:loading.attr='disabled' wire:click.prevent='buyCredit'></button>
+                                <button type="button" class="amount_btn amount_btn_pay" wire:loading.attr='disabled'
+                                    wire:click.prevent='buyCredit'></button>
                             </div>
                             <div class="amount_area mt-24">
                                 <h4>Amount</h4>
@@ -187,16 +194,23 @@
                             @foreach ($activities as $activity)
                                 <div class="acitivity_item">
                                     <div class="icon">
-                                        <img src="{{ asset('assets/app/icons/message-001.svg') }}" alt="message icon" />
+                                        <img src="{{ asset('assets/app/icons/message-001.svg') }}"
+                                            alt="message icon" />
                                     </div>
                                     <div>
                                         <h4>
                                             {{ \Carbon\Carbon::parse($activity->created_at)->isToday() ? 'Today, ' . \Carbon\Carbon::parse($activity->created_at)->format('g:i A') : \Carbon\Carbon::parse($activity->created_at)->format('F j, Y, g:i A') }}
                                         </h4>
                                         @if ($activity->direction == 'inbound')
-                                            <h5>Message received from <strong>{{ isset(getContactNumberName($activity->contact_id)->first_name) ? getContactNumberName($activity->contact_id)->first_name : '--' }} {{ isset(getContactNumberName($activity->contact_id)->last_name) ? getContactNumberName($activity->contact_id)->last_name : '--' }}</strong></h5>
+                                            <h5>Message received from
+                                                <strong>{{ isset(getContactNumberName($activity->contact_id)->first_name) ? getContactNumberName($activity->contact_id)->first_name : '--' }}
+                                                    {{ isset(getContactNumberName($activity->contact_id)->last_name) ? getContactNumberName($activity->contact_id)->last_name : '--' }}</strong>
+                                            </h5>
                                         @else
-                                            <h5>Message sent to <strong>{{ isset(getContactNumberName($activity->contact_id)->first_name) ? getContactNumberName($activity->contact_id)->first_name : '--' }} {{ isset(getContactNumberName($activity->contact_id)->last_name) ? getContactNumberName($activity->contact_id)->last_name : '--' }}</strong></h5>
+                                            <h5>Message sent to
+                                                <strong>{{ isset(getContactNumberName($activity->contact_id)->first_name) ? getContactNumberName($activity->contact_id)->first_name : '--' }}
+                                                    {{ isset(getContactNumberName($activity->contact_id)->last_name) ? getContactNumberName($activity->contact_id)->last_name : '--' }}</strong>
+                                            </h5>
                                         @endif
                                     </div>
                                 </div>
@@ -391,8 +405,8 @@
                 );
 
                 // setTimeout(() => {
-                    @this.set('startDate', start.format("YYYY-MM-DD"));
-                    @this.set('endDate', end.format("YYYY-MM-DD"));
+                @this.set('startDate', start.format("YYYY-MM-DD"));
+                @this.set('endDate', end.format("YYYY-MM-DD"));
                 // }, 300);
             }
 
@@ -556,8 +570,10 @@
                 const amountValue = parseInt(values[handle], 10);
 
                 // Display selected amount
-                document.querySelector(".number").textContent = `$${formatNumberWithCommas(amountValue.toFixed(0))}`;
-                document.querySelector(".amount_btn_pay").innerHTML = `{!! loadingStateWithText('buyCredit', 'Pay') !!} $${formatNumberWithCommas(amountValue.toFixed(0))}`;
+                document.querySelector(".number").textContent =
+                    `$${formatNumberWithCommas(amountValue.toFixed(0))}`;
+                document.querySelector(".amount_btn_pay").innerHTML =
+                    `{!! loadingStateWithText('buyCredit', 'Pay') !!} $${formatNumberWithCommas(amountValue.toFixed(0))}`;
 
                 // Calculate credits based on cost per range
                 const creditCost = getCreditCost(amountValue);
