@@ -105,6 +105,8 @@
             'settings/logs',
             'settings/apis',
             'settings/dlc-registration',
+            'settings/inbox-logs',
+            'settings/bulk-logs',
             'settings/trigger-notification'))
         @livewire('app.layouts.inc.settings-sidebar')
     @else
