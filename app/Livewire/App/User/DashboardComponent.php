@@ -127,6 +127,7 @@ class DashboardComponent extends Component
 
     public function updateChartData()
     {
+        // Fetch user chats and bulk message IDs
         $user_chats = DB::table('chats')->whereIn('user_id', $this->user_ids)->pluck('id')->toArray();
 
         // Queries
@@ -134,11 +135,27 @@ class DashboardComponent extends Component
         $query2 = DB::table('bulk_message_items')->whereIn('send_by', $this->user_ids);
         $query3 = DB::table('bulk_message_replies')->whereIn('bulk_message_id', $this->bulk_message_ids);
 
-        // Apply filters (example for 7 days)
-        if ($this->dateFilter == '7days') {
+        // Apply filters
+        if ($this->customDateRangeEnabled && $this->startDate && $this->endDate) {
+            // Custom date range
+            $startDate = \Carbon\Carbon::parse($this->startDate)->startOfDay();
+            $endDate = \Carbon\Carbon::parse($this->endDate)->endOfDay();
+
+            $query1->whereBetween('created_at', [$startDate, $endDate]);
+            $query2->whereBetween('created_at', [$startDate, $endDate]);
+            $query3->whereBetween('created_at', [$startDate, $endDate]);
+        } elseif ($this->dateFilter == '7days') {
             $query1->where('created_at', '>=', now()->subDays(7));
             $query2->where('created_at', '>=', now()->subDays(7));
             $query3->where('created_at', '>=', now()->subDays(7));
+        } elseif ($this->dateFilter == '30days') {
+            $query1->where('created_at', '>=', now()->subDays(30));
+            $query2->where('created_at', '>=', now()->subDays(30));
+            $query3->where('created_at', '>=', now()->subDays(30));
+        } elseif ($this->dateFilter == '12months') {
+            $query1->where('created_at', '>=', now()->subMonths(12));
+            $query2->where('created_at', '>=', now()->subMonths(12));
+            $query3->where('created_at', '>=', now()->subMonths(12));
         }
 
         // Get monthly data
