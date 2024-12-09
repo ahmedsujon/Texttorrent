@@ -217,7 +217,7 @@ class UsersComponent extends Component
             $this->embedded_link = $user->embedded_link;
             $this->embedded_phone = $user->embedded_phone;
             $this->affiliate_marketing = $user->affiliate_marketing;
-            $this->age_gated_content = $user->age_gated_content;
+            $this->age_gated_content = $user->age_gated_content ?? false;
             $this->additional_recipients = $user->additional_recipients;
             $this->terms_aggre = $user->terms_aggre;
             $this->edit_id = $id;
