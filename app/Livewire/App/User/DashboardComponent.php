@@ -6,14 +6,13 @@ use App\Models\Event;
 use App\Models\Transaction;
 use App\Models\User;
 use Carbon\Carbon;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Livewire\Component;
 use Stripe\Checkout\Session;
 
 class DashboardComponent extends Component
 {
-    public $selected_event_id, $selectedEvent, $creditCost = 0, $bonusCredits = 0, $totalCredits = 0, $delivered_message = 0, $un_delivered_message = 0, $responded_message = 0, $stopped_message = 0, $user_ids;
+    public $selected_event_id, $selectedEvent, $creditCost = 0, $bonusCredits = 0, $totalCredits = 0, $delivered_message = 0, $un_delivered_message = 0, $responded_message = 0, $stopped_message = 0, $user_ids, $bulk_message_ids;
     public $dateFilter = '12months'; // Default filter
     public $customDateRangeEnabled = false; // To track the checkbox state
     public $startDate;
@@ -33,10 +32,16 @@ class DashboardComponent extends Component
 
         $user_chats = DB::table('chats')->whereIn('user_id', $this->user_ids)->pluck('id')->toArray();
 
-        $this->delivered_message = DB::table('chat_messages')->whereIn('chat_id', $user_chats)->where('api_send_status', 'delivered')->count();
-        $this->un_delivered_message = DB::table('chat_messages')->whereIn('chat_id', $user_chats)->where('api_send_status', 'undelivered')->count();
-        $this->responded_message = DB::table('chat_messages')->whereIn('chat_id', $user_chats)->where('direction', 'inbound')->count();
-        $this->stopped_message = DB::table('chat_messages')->whereIn('chat_id', $user_chats)->where('api_send_status', 'failed')->count();
+        $this->delivered_message = DB::table('chat_messages')->whereIn('chat_id', $user_chats)->where('api_send_status', 'delivered')->count() + DB::table('bulk_message_items')->whereIn('send_by', $this->user_ids)->where('send_status', 'delivered')->count();
+
+        $this->un_delivered_message = DB::table('chat_messages')->whereIn('chat_id', $user_chats)->where('api_send_status', 'undelivered')->count() + DB::table('bulk_message_items')->whereIn('send_by', $this->user_ids)->where('send_status', 'undelivered')->count();
+
+        $bulk_message_ids = DB::table('bulk_messages')->whereIn('user_id', $this->user_ids)->pluck('id')->toArray();
+        $this->bulk_message_ids = $bulk_message_ids;
+
+        $this->responded_message = DB::table('chat_messages')->whereIn('chat_id', $user_chats)->where('direction', 'inbound')->count() + DB::table('bulk_message_replies')->whereIn('bulk_message_id', $bulk_message_ids)->count();
+
+        $this->stopped_message = DB::table('chat_messages')->whereIn('chat_id', $user_chats)->where('api_send_status', 'failed')->count() + DB::table('bulk_message_items')->whereIn('send_by', $this->user_ids)->where('send_status', 'failed')->count();
 
         $this->updateChartData();
     }
@@ -58,32 +63,103 @@ class DashboardComponent extends Component
         $this->dispatch('updateChart', $this->chartData);
     }
 
+    // public function updateChartData()
+    // {
+    //     $user_chats = DB::table('chats')->whereIn('user_id', $this->user_ids)->pluck('id')->toArray();
+
+    //     $query = DB::table('chat_messages')->whereIn('chat_id', $user_chats);
+
+    //     // Apply the appropriate filter
+    //     if ($this->customDateRangeEnabled && $this->startDate && $this->endDate) {
+    //         $query->whereBetween('created_at', [
+    //             \Carbon\Carbon::parse($this->startDate)->startOfDay(),
+    //             \Carbon\Carbon::parse($this->endDate)->endOfDay(),
+    //         ]);
+    //     } elseif ($this->dateFilter == '7days') {
+    //         $query->where('created_at', '>=', now()->subDays(7));
+    //     } elseif ($this->dateFilter == '30days') {
+    //         $query->where('created_at', '>=', now()->subDays(30));
+    //     } elseif ($this->dateFilter == '12months') {
+    //         $query->where('created_at', '>=', now()->subMonths(12));
+    //     }
+
+    //     $query2 = DB::table('bulk_message_items')->whereIn('send_by', $this->user_ids);
+    //     // Apply the appropriate filter
+    //     if ($this->customDateRangeEnabled && $this->startDate && $this->endDate) {
+    //         $query2->whereBetween('created_at', [
+    //             \Carbon\Carbon::parse($this->startDate)->startOfDay(),
+    //             \Carbon\Carbon::parse($this->endDate)->endOfDay(),
+    //         ]);
+    //     } elseif ($this->dateFilter == '7days') {
+    //         $query2->where('created_at', '>=', now()->subDays(7));
+    //     } elseif ($this->dateFilter == '30days') {
+    //         $query2->where('created_at', '>=', now()->subDays(30));
+    //     } elseif ($this->dateFilter == '12months') {
+    //         $query2->where('created_at', '>=', now()->subMonths(12));
+    //     }
+
+    //     $query3 = DB::table('bulk_message_replies')->whereIn('bulk_message_id', $this->bulk_message_ids);
+    //     // Apply the appropriate filter
+    //     if ($this->customDateRangeEnabled && $this->startDate && $this->endDate) {
+    //         $query3->whereBetween('created_at', [
+    //             \Carbon\Carbon::parse($this->startDate)->startOfDay(),
+    //             \Carbon\Carbon::parse($this->endDate)->endOfDay(),
+    //         ]);
+    //     } elseif ($this->dateFilter == '7days') {
+    //         $query3->where('created_at', '>=', now()->subDays(7));
+    //     } elseif ($this->dateFilter == '30days') {
+    //         $query3->where('created_at', '>=', now()->subDays(30));
+    //     } elseif ($this->dateFilter == '12months') {
+    //         $query3->where('created_at', '>=', now()->subMonths(12));
+    //     }
+
+    //     // Assign monthly data to chartData, using cloned queries for each type
+    //     $this->chartData = [
+    //         'delivered_messages' => $this->countMessagesByMonth((clone $query)->where('api_send_status', 'delivered')) + $this->countMessagesByMonth((clone $query2)->where('send_status', 'delivered')),
+    //         'responded_messages' => $this->countMessagesByMonth((clone $query)->where('direction', 'inbound')) + $this->countMessagesByMonth((clone $query3)),
+    //         'undelivered' => $this->countMessagesByMonth((clone $query)->where('api_send_status', 'undelivered')) + $this->countMessagesByMonth((clone $query2)->where('send_status', 'undelivered')),
+    //         'stopped' => $this->countMessagesByMonth((clone $query)->where('api_send_status', 'failed')) + $this->countMessagesByMonth((clone $query2)->where('send_status', 'failed')),
+    //     ];
+
+    //     dd($this->chartData);
+
+    // }
+
     public function updateChartData()
     {
         $user_chats = DB::table('chats')->whereIn('user_id', $this->user_ids)->pluck('id')->toArray();
 
-        $query = DB::table('chat_messages')->whereIn('chat_id', $user_chats);
+        // Queries
+        $query1 = DB::table('chat_messages')->whereIn('chat_id', $user_chats);
+        $query2 = DB::table('bulk_message_items')->whereIn('send_by', $this->user_ids);
+        $query3 = DB::table('bulk_message_replies')->whereIn('bulk_message_id', $this->bulk_message_ids);
 
-        // Apply the appropriate filter
-        if ($this->customDateRangeEnabled && $this->startDate && $this->endDate) {
-            $query->whereBetween('created_at', [
-                \Carbon\Carbon::parse($this->startDate)->startOfDay(),
-                \Carbon\Carbon::parse($this->endDate)->endOfDay(),
-            ]);
-        } elseif ($this->dateFilter == '7days') {
-            $query->where('created_at', '>=', now()->subDays(7));
-        } elseif ($this->dateFilter == '30days') {
-            $query->where('created_at', '>=', now()->subDays(30));
-        } elseif ($this->dateFilter == '12months') {
-            $query->where('created_at', '>=', now()->subMonths(12));
+        // Apply filters (example for 7 days)
+        if ($this->dateFilter == '7days') {
+            $query1->where('created_at', '>=', now()->subDays(7));
+            $query2->where('created_at', '>=', now()->subDays(7));
+            $query3->where('created_at', '>=', now()->subDays(7));
         }
 
-        // Assign monthly data to chartData, using cloned queries for each type
+        // Get monthly data
+        $deliveredMessages1 = $this->countMessagesByMonth((clone $query1)->where('api_send_status', 'delivered'));
+        $deliveredMessages2 = $this->countMessagesByMonth((clone $query2)->where('send_status', 'delivered'));
+
+        $respondedMessages1 = $this->countMessagesByMonth((clone $query1)->where('direction', 'inbound'));
+        $respondedMessages2 = $this->countMessagesByMonth((clone $query3));
+
+        $undelivered1 = $this->countMessagesByMonth((clone $query1)->where('api_send_status', 'undelivered'));
+        $undelivered2 = $this->countMessagesByMonth((clone $query2)->where('send_status', 'undelivered'));
+
+        $stopped1 = $this->countMessagesByMonth((clone $query1)->where('api_send_status', 'failed'));
+        $stopped2 = $this->countMessagesByMonth((clone $query2)->where('send_status', 'failed'));
+
+        // Combine results using array_map
         $this->chartData = [
-            'delivered_messages' => $this->countMessagesByMonth((clone $query)->where('api_send_status', 'delivered')),
-            'responded_messages' => $this->countMessagesByMonth((clone $query)->where('direction', 'inbound')),
-            'undelivered' => $this->countMessagesByMonth((clone $query)->where('api_send_status', 'undelivered')),
-            'stopped' => $this->countMessagesByMonth((clone $query)->where('api_send_status', 'failed')),
+            'delivered_messages' => array_map(fn($a, $b) => $a + $b, $deliveredMessages1, $deliveredMessages2),
+            'responded_messages' => array_map(fn($a, $b) => $a + $b, $respondedMessages1, $respondedMessages2),
+            'undelivered' => array_map(fn($a, $b) => $a + $b, $undelivered1, $undelivered2),
+            'stopped' => array_map(fn($a, $b) => $a + $b, $stopped1, $stopped2),
         ];
 
     }
@@ -219,9 +295,8 @@ class DashboardComponent extends Component
             $total_credits = user()->credits;
         }
 
-
         $activities = DB::table('chat_messages')->select('chat_messages.*', 'chats.from_number as from', 'chats.contact_id')->join('chats', 'chats.id', 'chat_messages.chat_id')->whereIn('chats.user_id', $this->user_ids)->orderBy('chat_messages.id', 'DESC')->take(10)->get();
 
-        return view('livewire.app.user.dashboard-component', ['credits_left' => $total_credits, 'activities'=>$activities, 'events' => $formattedEvents])->layout('livewire.app.layouts.base');
+        return view('livewire.app.user.dashboard-component', ['credits_left' => $total_credits, 'activities' => $activities, 'events' => $formattedEvents])->layout('livewire.app.layouts.base');
     }
 }

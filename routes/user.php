@@ -31,6 +31,7 @@ use App\Livewire\App\Settings\SubscriptionAlertComponent;
 use App\Livewire\App\Settings\DLCCampaignPaymentComponent;
 use App\Livewire\App\Campaigns\ContactMessageQueueComponent;
 use App\Livewire\App\Settings\ApiAlertComponent;
+use App\Livewire\App\Settings\BulkLogsComponent;
 
 /*
 |--------------------------------------------------------------------------
@@ -80,7 +81,8 @@ Route::name('user.')->middleware('auth')->group(function () {
     Route::get('settings/sub-account', SubAccountComponent::class)->name('subAccount');
     Route::get('settings/get-number', GetNumberComponent::class)->name('getNumber')->middleware('subscription');
     Route::get('settings/active-numbers', ActiveNumberComponent::class)->name('activeNumber');
-    Route::get('settings/logs', LogsComponent::class)->name('logs');
+    Route::get('settings/inbox-logs', LogsComponent::class)->name('inboxLogs');
+    Route::get('settings/bulk-logs', BulkLogsComponent::class)->name('bulkLogs');
     Route::get('settings/apis', ApiComponent::class)->name('apis')->middleware('subscription');
     Route::get('settings/dlc-registration', DLCRegistrationComponent::class)->name('dlcRegistration')->middleware('subscription');
     Route::get('settings/trigger-notification', NotificationComponent::class)->name('triggerNotification');
