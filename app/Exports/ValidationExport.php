@@ -20,7 +20,7 @@ class ValidationExport implements WithMultipleSheets
     {
         // dd($this->selectedItem);
 
-        $types = ['valid', 'invalid'];
+        $types = ['valid', 'invalid', 'landline'];
         $sheets = [];
 
         foreach ($types as $type) {
