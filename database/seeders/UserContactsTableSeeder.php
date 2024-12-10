@@ -96,7 +96,7 @@ class UserContactsTableSeeder extends Seeder
         $contact2->folder_id = 6;
         $contact2->save();
 
-        for ($i = 0; $i < 5000; $i++) {
+        for ($i = 0; $i < 5; $i++) {
             $faker = Faker::create();
 
             $contact2 = new Contact();

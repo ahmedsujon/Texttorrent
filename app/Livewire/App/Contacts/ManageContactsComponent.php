@@ -393,11 +393,28 @@ class ManageContactsComponent extends Component
     public function deleteData()
     {
         if ($this->delete_type == 'list') {
-            $data = ContactList::where('id', $this->delete_id)->first();
-            DB::table('contacts')->where('list_id', $data->id)->delete();
-            $data->delete();
+            if ($this->delete_id == 'default') {
+                DB::table('contacts')->where('list_id', 0)->where('blacklisted', 0)->where('user_id', user()->id)->delete();
+                $message = 'All default contacts deleted successfully';
+            } elseif ($this->delete_id == 'blacklisted') {
+                DB::table('contacts')->where('blacklisted', 1)->where(function($q){
+                    $q->where('user_id', user()->id)
+                        ->orWhere('blacklisted_by', user()->id);
+                })->delete();
+                $message = 'All blacklisted contacts deleted successfully';
+            } elseif ($this->delete_id == 'unlisted') {
+                DB::table('contacts')->where('list_id', NULL)->where('blacklisted', 0)->where('user_id', user()->id)->delete();
+                $message = 'All unlisted contacts deleted successfully';
+            } else {
+                $data = ContactList::where('id', $this->delete_id)->first();
+                DB::table('contacts')->where('list_id', $data->id)->delete();
+                $data->delete();
 
-            $message = 'List deleted successfully';
+                $message = 'List deleted successfully';
+            }
+
+
+
         }
 
         if ($this->delete_type == 'folder') {
