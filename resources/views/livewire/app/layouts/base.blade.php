@@ -19,8 +19,7 @@
     <link href="{{ asset('assets/admin/libs/sweetalert2/sweetalert2.min.css') }}" rel="stylesheet" type="text/css" />
 
     <link rel="stylesheet" href="{{ asset('assets/app/sass/style.css') }}" />
-
-
+    <script type="text/javascript" id="hs-script-loader" async defer src="//js.hs-scripts.com/46885071.js"></script> <!-- End of HubSpot Embed Code -->
 </head>
 
 <style>
