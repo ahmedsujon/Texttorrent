@@ -13,6 +13,8 @@
     <link rel="stylesheet" href="{{ asset('assets/app/plugins/css/aos/aos.css') }}" />
     {{-- <link rel="stylesheet" href="{{ asset('assets/app/plugins/css/modal-video.min.css') }}" /> --}}
     <link rel="stylesheet" href="{{ asset('assets/app/sass/landing-page/marketing-landing.css') }}" />
+    <!-- Start of HubSpot Embed Code -->
+    <script type="text/javascript" id="hs-script-loader" async defer src="//js.hs-scripts.com/46885071.js"></script> <!-- End of HubSpot Embed Code -->
 </head>
 
 <style>
