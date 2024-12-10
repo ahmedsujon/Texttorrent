@@ -96,6 +96,7 @@
                     </table>
                 </div>
             </div>
+            @if ($trigger_notifications->hasPages())
             <div class="pagination_area">
                 <div class="d-flex" wire:ignore>
                     <select class="niceSelect sortingValue">
@@ -107,6 +108,7 @@
                 </div>
                 {{ $trigger_notifications->links('livewire.app-pagination') }}
             </div>
+            @endif
         </section>
 
         <!-- New Notification Trigger Modal  -->

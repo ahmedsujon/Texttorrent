@@ -1,3 +1,4 @@
+@if ($paginator->hasPages())
 <style>
     .pagination_active {
         padding-left: 0px !important;
@@ -63,3 +64,4 @@
         </a>
     @endif
 </div>
+@endif

@@ -504,6 +504,7 @@
                             @endforeach
                         @endif
                     </div>
+                    @if ($contacts->hasPages())
                     <div class="pagination_area">
                         <div class="d-flex" wire:ignore>
                             <select class="niceSelect sortingValue">
@@ -515,6 +516,7 @@
                         </div>
                         {{ $contacts->links('livewire.app-pagination') }}
                     </div>
+                    @endif
                 </div>
             </div>
         </section>
