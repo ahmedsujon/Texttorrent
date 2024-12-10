@@ -594,6 +594,8 @@ class InboxComponent extends Component
             $q->where('contacts.number', 'like', '%' . $this->searchTerm . '%')
                 ->orWhere('contacts.first_name', 'like', '%' . $this->searchTerm . '%')
                 ->orWhere('contacts.last_name', 'like', '%' . $this->searchTerm . '%')
+                ->orWhere('contacts.email', 'like', '%' . $this->searchTerm . '%')
+                ->orWhere('contacts.company', 'like', '%' . $this->searchTerm . '%')
                 ->orWhere('chats.last_message', 'like', '%' . $this->searchTerm . '%');
         })->where('chats.user_id', user()->id)->orderBy('chats.updated_at', 'DESC');
 
