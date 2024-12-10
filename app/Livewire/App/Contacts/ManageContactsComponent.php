@@ -17,6 +17,7 @@ use Livewire\Component;
 use Livewire\WithFileUploads;
 use Livewire\WithPagination;
 use Maatwebsite\Excel\Facades\Excel;
+use PhpOffice\PhpSpreadsheet\IOFactory;
 
 class ManageContactsComponent extends Component
 {
@@ -285,6 +286,16 @@ class ManageContactsComponent extends Component
         $this->validate([
             'file' => 'required|file|mimes:csv,xlsx|max:10240', // 10MB
         ]);
+        $path = $this->file->getRealPath();
+        $spreadsheet = IOFactory::load($path);
+        $sheetCount = $spreadsheet->getSheetCount();
+
+        if ($sheetCount > 1) {
+            $this->dispatch('error', ['message' => 'Import only supports one sheet in the file.']);
+            $this->resetUpload();
+            return redirect()->back();
+        }
+
         $this->columns = $this->getCsvHeaders();
 
         $this->first_name_column = isset($this->columns[0]) ? $this->columns[0] : '';
@@ -382,11 +393,28 @@ class ManageContactsComponent extends Component
     public function deleteData()
     {
         if ($this->delete_type == 'list') {
-            $data = ContactList::where('id', $this->delete_id)->first();
-            DB::table('contacts')->where('list_id', $data->id)->delete();
-            $data->delete();
+            if ($this->delete_id == 'default') {
+                DB::table('contacts')->where('list_id', 0)->where('blacklisted', 0)->where('user_id', user()->id)->delete();
+                $message = 'All default contacts deleted successfully';
+            } elseif ($this->delete_id == 'blacklisted') {
+                DB::table('contacts')->where('blacklisted', 1)->where(function($q){
+                    $q->where('user_id', user()->id)
+                        ->orWhere('blacklisted_by', user()->id);
+                })->delete();
+                $message = 'All blacklisted contacts deleted successfully';
+            } elseif ($this->delete_id == 'unlisted') {
+                DB::table('contacts')->where('list_id', NULL)->where('blacklisted', 0)->where('user_id', user()->id)->delete();
+                $message = 'All unlisted contacts deleted successfully';
+            } else {
+                $data = ContactList::where('id', $this->delete_id)->first();
+                DB::table('contacts')->where('list_id', $data->id)->delete();
+                $data->delete();
 
-            $message = 'List deleted successfully';
+                $message = 'List deleted successfully';
+            }
+
+
+
         }
 
         if ($this->delete_type == 'folder') {
@@ -631,6 +659,8 @@ class ManageContactsComponent extends Component
                 $query->where('contact_lists.name', 'like', '%' . $this->list_search_term . '%')
                     ->orWhere('contacts.first_name', 'like', '%' . $this->list_search_term . '%')
                     ->orWhere('contacts.last_name', 'like', '%' . $this->list_search_term . '%')
+                    ->orWhere('contacts.email', 'like', '%' . $this->list_search_term . '%')
+                    ->orWhere('contacts.company', 'like', '%' . $this->list_search_term . '%')
                     ->orWhere('contacts.number', 'like', '%' . $this->list_search_term . '%');
             })
             ->where('contact_lists.user_id', user()->id)

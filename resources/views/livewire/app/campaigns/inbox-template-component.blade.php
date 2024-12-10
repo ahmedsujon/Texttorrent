@@ -150,17 +150,19 @@
                     </table>
                 </div>
             </div>
-            <div class="pagination_area">
-                <div class="d-flex" wire:ignore>
-                    <select class="niceSelect sortingValue">
-                        <option value="10">10 Templates</option>
-                        <option value="30">30 Templates</option>
-                        <option value="50">50 Templates</option>
-                        <option value="100">100 Templates</option>
-                    </select>
+            @if ($templates->hasPages())
+                <div class="pagination_area">
+                    <div class="d-flex" wire:ignore>
+                        <select class="niceSelect sortingValue">
+                            <option value="10">10 Templates</option>
+                            <option value="30">30 Templates</option>
+                            <option value="50">50 Templates</option>
+                            <option value="100">100 Templates</option>
+                        </select>
+                    </div>
+                    {{ $templates->links('livewire.app-pagination') }}
                 </div>
-                {{ $templates->links('livewire.app-pagination') }}
-            </div>
+            @endif
         </section>
 
         <!-- New Template Modal  -->

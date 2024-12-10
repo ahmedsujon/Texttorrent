@@ -88,10 +88,9 @@ class ContactsImport implements ToModel, WithHeadingRow
         $contact->additional_1 = $mappedRow[$additional_1] ?? null;
         $contact->additional_2 = $mappedRow[$additional_2] ?? null;
         $contact->additional_3 = $mappedRow[$additional_3] ?? null;
-        // dd($import_list_id);
-        if ($import_list_id) {
-            $contact->list_id = $import_list_id != 'Unlisted' && $import_list_id != 'Blacklisted' ? $import_list_id : null;
-        }
+
+        $contact->list_id = $import_list_id != 'Unlisted' && $import_list_id != 'Blacklisted' && $import_list_id != 'Default' && $import_list_id != null ? $import_list_id : 0;
+
         $contact->save();
     }
 }

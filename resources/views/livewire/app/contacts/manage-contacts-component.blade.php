@@ -186,6 +186,45 @@
                             </li> --}}
                             @endif
                             <li>
+                                <a href="#" wire:click.prevent='selectList("default")'
+                                    class="list_btn {{ $sort_list_id == 'default' ? 'active_list_btn' : '' }}">
+                                    <span class="list_title">Default</span>
+                                    <div
+                                        class="list_action_area d-flex align-items-center justify-content-end flex-wrap">
+                                        <div class="user_number_area d-flex align-items-center">
+                                            <img src="{{ asset('assets/app/icons/user.svg') }}"
+                                                alt="user icon" />
+                                            <span>{{ listContactsCount('default') }}</span>
+                                        </div>
+                                        <div class="table_dropdown_area">
+                                            <div class="dropdown">
+                                                <button class="dot_icon" type="button"
+                                                    onclick="event.stopPropagation();" data-bs-toggle="dropdown"
+                                                    aria-expanded="false">
+                                                    <img src="{{ asset('assets/app/icons/dot-horizontal.svg') }}"
+                                                        alt="dot icon" />
+                                                </button>
+                                                <ul class="dropdown-menu dropdown-menu-end">
+                                                    <li>
+                                                        <h5>Select</h5>
+                                                    </li>
+                                                    <li>
+                                                        <button type="button"
+                                                            wire:click.prevent='deleteConfirmation("default", "list")'
+                                                            class="dropdown-item">
+                                                            <img src="{{ asset('assets/app/icons/delete-03.svg') }}"
+                                                                alt="copy icon" />
+                                                            <span>Delete All Contacts</span>
+                                                        </button>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </a>
+                            </li>
+
+                            <li>
                                 <a href="#" wire:click.prevent='selectList("unlisted")'
                                     class="list_btn {{ $sort_list_id == 'unlisted' ? 'active_list_btn' : '' }}">
                                     <span class="list_title">Unlisted</span>
@@ -199,8 +238,25 @@
                                         <div class="table_dropdown_area">
                                             <div class="dropdown">
                                                 <button class="dot_icon" type="button"
-                                                    onclick="event.stopPropagation();">
+                                                    onclick="event.stopPropagation();" data-bs-toggle="dropdown"
+                                                    aria-expanded="false">
+                                                    <img src="{{ asset('assets/app/icons/dot-horizontal.svg') }}"
+                                                        alt="dot icon" />
                                                 </button>
+                                                <ul class="dropdown-menu dropdown-menu-end">
+                                                    <li>
+                                                        <h5>Select</h5>
+                                                    </li>
+                                                    <li>
+                                                        <button type="button"
+                                                            wire:click.prevent='deleteConfirmation("unlisted", "list")'
+                                                            class="dropdown-item">
+                                                            <img src="{{ asset('assets/app/icons/delete-03.svg') }}"
+                                                                alt="copy icon" />
+                                                            <span>Delete All Contacts</span>
+                                                        </button>
+                                                    </li>
+                                                </ul>
                                             </div>
                                         </div>
                                     </div>
@@ -221,8 +277,25 @@
                                         <div class="table_dropdown_area">
                                             <div class="dropdown">
                                                 <button class="dot_icon" type="button"
-                                                    onclick="event.stopPropagation();">
+                                                    onclick="event.stopPropagation();" data-bs-toggle="dropdown"
+                                                    aria-expanded="false">
+                                                    <img src="{{ asset('assets/app/icons/dot-horizontal.svg') }}"
+                                                        alt="dot icon" />
                                                 </button>
+                                                <ul class="dropdown-menu dropdown-menu-end">
+                                                    <li>
+                                                        <h5>Select</h5>
+                                                    </li>
+                                                    <li>
+                                                        <button type="button"
+                                                            wire:click.prevent='deleteConfirmation("blacklisted", "list")'
+                                                            class="dropdown-item">
+                                                            <img src="{{ asset('assets/app/icons/delete-03.svg') }}"
+                                                                alt="copy icon" />
+                                                            <span>Delete All Contacts</span>
+                                                        </button>
+                                                    </li>
+                                                </ul>
                                             </div>
                                         </div>
                                     </div>
@@ -348,7 +421,7 @@
                                                 </h5>
 
                                                 @if ($contact->valid == 'Invalid' || $contact->validation_process != 1)
-                                                    <span title="Invalid Number" class="ms-1">
+                                                    <span title="Unvalidated number" class="ms-1">
                                                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" class='text-warning' width="16" height="16" stroke-width="2"> <path d="M12 9v4"></path> <path d="M10.363 3.591l-8.106 13.534a1.914 1.914 0 0 0 1.636 2.871h16.214a1.914 1.914 0 0 0 1.636 -2.87l-8.106 -13.536a1.914 1.914 0 0 0 -3.274 0z"></path> <path d="M12 16h.01"></path> </svg>
                                                     </span>
                                                 @endif
@@ -431,6 +504,7 @@
                             @endforeach
                         @endif
                     </div>
+                    @if ($contacts->hasPages())
                     <div class="pagination_area">
                         <div class="d-flex" wire:ignore>
                             <select class="niceSelect sortingValue">
@@ -442,6 +516,7 @@
                         </div>
                         {{ $contacts->links('livewire.app-pagination') }}
                     </div>
+                    @endif
                 </div>
             </div>
         </section>
@@ -1265,9 +1340,9 @@
                 <div class="modal-content">
                     <div class="modal-body">
                         <div class="content_area">
-                            <h2>Would you like to permanently delete this {{ $delete_type == 'list' ? 'list' : 'event' }}?</h2>
-                            <h4>Once deleted, this {{ $delete_type == 'list' ? 'list' : 'event' }} will no longer be accessible</h4>
-                            @if ($delete_type == 'list')
+                            <h2>Would you like to permanently delete this {{ $delete_type == 'list' && $delete_id != 'default' && $delete_id != 'blacklisted' && $delete_id != 'unlisted' ? 'list' : 'event' }}?</h2>
+                            <h4>Once deleted, this {{ $delete_type == 'list' && $delete_id != 'default' && $delete_id != 'blacklisted' && $delete_id != 'unlisted' ? 'list' : 'event' }} will no longer be accessible</h4>
+                            @if ($delete_type == 'list' && $delete_id != 'default' && $delete_id != 'blacklisted' && $delete_id != 'unlisted')
                                 <small style="font-size: 12px;" class="text-danger">N.B: All Contacts in this list will be deleted.</small>
                             @endif
 

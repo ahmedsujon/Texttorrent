@@ -120,6 +120,7 @@
                     </table>
                 </div>
             </div>
+            @if ($subAccounts->hasPages())
             <div class="pagination_area">
                 <div class="d-flex" wire:ignore>
                     <select class="niceSelect sortingValue">
@@ -131,6 +132,7 @@
                 </div>
                 {{ $subAccounts->links('livewire.app-pagination') }}
             </div>
+            @endif
         </section>
 
         <!-- New Sub Account Modal  -->

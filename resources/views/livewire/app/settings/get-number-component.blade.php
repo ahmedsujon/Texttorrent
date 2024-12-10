@@ -183,6 +183,7 @@
                     </table>
                 </div>
             </div>
+            @if ($numbers->hasPages())
             <div class="pagination_area pagination_top_border">
                 <div class="d-flex" wire:ignore>
                     <select class="niceSelect sortingValue">
@@ -194,6 +195,7 @@
                 </div>
                 {{ $numbers->links('livewire.app-pagination') }}
             </div>
+            @endif
         </section>
 
 
