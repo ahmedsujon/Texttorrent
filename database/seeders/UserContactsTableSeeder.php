@@ -96,17 +96,17 @@ class UserContactsTableSeeder extends Seeder
         $contact2->folder_id = 6;
         $contact2->save();
 
-        for ($i = 0; $i < 5; $i++) {
+        for ($i = 0; $i < 5000; $i++) {
             $faker = Faker::create();
 
             $contact2 = new Contact();
-            $contact2->user_id = 2;
+            $contact2->user_id = 1;
             $contact2->first_name = $faker->firstName;
             $contact2->last_name = $faker->lastName;
             $contact2->number = '+1' . $faker->numerify('##########');
             $contact2->company = $faker->company();
-            $contact2->list_id = 6;
-            $contact2->folder_id = 6;
+            $contact2->list_id = 3;
+            $contact2->folder_id = 3;
             $contact2->save();
         }
     }

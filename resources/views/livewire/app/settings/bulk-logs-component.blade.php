@@ -1,4 +1,6 @@
-@section('page_title') TextTorrent | Logs @endsection
+@section('page_title')
+    TextTorrent | Logs
+@endsection
 <div>
     <main class="main_content_wrapper setting_content_wrapper">
         <!-- Sub Account Section  -->
@@ -8,13 +10,19 @@
                     <button type="button" class="sidebar_open_btn" id="sidebarShowBtn">
                         <img src="{{ asset('assets/app/icons/back-double-arrow.svg') }}" alt="double arrow" />
                     </button>
-                    <a href="javascript:void(0)" type="button" class="create_event_btn" style="font-size: 14px; color: black !important; background: rgba(11, 18, 52, 0.15);">
+                    <a href="{{ route('user.inboxLogs') }}" type="button" class="create_event_btn bg-light"
+                        style="font-size: 14px; color: black !important;">
                         Inbox Logs
                     </a>
-                    <a href="{{ route('user.bulkLogs') }}" type="button" class="create_event_btn bg-light" style="font-size: 14px; color: black !important;">
+                    <a href="javascript:void(0)" type="button" class="create_event_btn"
+                        style="font-size: 14px; color: black !important; background: rgba(11, 18, 52, 0.15);">
                         Bulk Logs
                     </a>
                 </div>
+
+                <div style="position: absolute; left: 43%;" wire:loading wire:target='previousPage,nextPage,sortingValue,searchTerm,gotoPage'><i class="fa fa-spinner fa-spin"></i> Processing...</div>
+
+
                 <div class="account_right_area d-flex align-items-center justify-content-end flex-wrap">
                     <form action="" class="search_input_form search_input_form_sm">
                         <input type="search" placeholder="Search" wire:model.live='searchTerm' class="input_field" />
@@ -22,8 +30,7 @@
                             <img src="{{ asset('assets/app/icons/search-gray.svg') }}" alt="search icon" />
                         </button>
                     </form>
-                    <div style="position: absolute; left: 43%;" wire:loading wire:target='previousPage,nextPage,sortingValue,searchTerm,gotoPage'><i class="fa fa-spinner fa-spin"></i> Processing...</div>
-                    <div class="table_dropdown_area single_menu not_right_border">
+                    {{-- <div class="table_dropdown_area single_menu not_right_border">
                         <div class="dropdown">
                             <button class="icon_btn" type="button" data-bs-toggle="dropdown" aria-expanded="false">
                                 <img src="{{ asset('assets/app/icons/dot-horizontal.svg') }}" alt="dot icon" />
@@ -33,13 +40,15 @@
                                     <h5>Select</h5>
                                 </li>
                                 <li>
-                                    <button type="button" wire:click.prevent='filterMessage("received")' class="dropdown-item"> <!-- active_check -->
+                                    <button type="button" wire:click.prevent='filterMessage("received")'
+                                        class="dropdown-item"> <!-- active_check -->
                                         <span>Received Messages</span>
                                     </button>
                                 </li>
 
                                 <li>
-                                    <button type="button" wire:click.prevent='filterMessage("sent")' class="dropdown-item"> <!-- active_check -->
+                                    <button type="button" wire:click.prevent='filterMessage("sent")'
+                                        class="dropdown-item"> <!-- active_check -->
                                         <span>Sent Messages</span>
                                     </button>
                                 </li>
@@ -51,48 +60,22 @@
                                 </li>
                             </ul>
                         </div>
-                    </div>
+                    </div> --}}
                 </div>
             </div>
-
             <div class="inbox_template_table_area">
                 <div class="table-responsive no-border">
                     <table class="table table-hover">
                         <thead>
                             <tr>
-                                @include('livewire.app.datatable.app-datatable-th-sorting', [
-                                    'id' => 'id',
-                                    'thDisplayName' => 'Read',
-                                ])
-                                @include('livewire.app.datatable.app-datatable-th-sorting', [
-                                    'id' => 'id',
-                                    'thDisplayName' => 'From number',
-                                ])
-                                @include('livewire.app.datatable.app-datatable-th-sorting', [
-                                    'id' => 'id',
-                                    'thDisplayName' => 'To number',
-                                ])
-                                @include('livewire.app.datatable.app-datatable-th-sorting', [
-                                    'id' => 'id',
-                                    'thDisplayName' => 'Name',
-                                ])
-                                @include('livewire.app.datatable.app-datatable-th-sorting', [
-                                    'id' => 'id',
-                                    'thDisplayName' => 'Message',
-                                ])
-                                @include('livewire.app.datatable.app-datatable-th-sorting', [
-                                    'id' => 'created_at',
-                                    'thDisplayName' => 'Created',
-                                ])
-                                @include('livewire.app.datatable.app-datatable-th-sorting', [
-                                    'id' => 'id',
-                                    'thDisplayName' => 'Status',
-                                ])
-                                <th scope="col">
-                                    <div class="column_area">
-                                        <span>Action</span>
-                                    </div>
-                                </th>
+                                <th>Read</th>
+                                <th>From number</th>
+                                <th>To number</th>
+                                <th>Name</th>
+                                <th>Message</th>
+                                <th>Created</th>
+                                <th>Status</th>
+                                <th>Action</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -103,13 +86,13 @@
                                             <h4 class="timezone">Read</h4>
                                         </td>
                                         <td>
-                                            <h4 class="phone_number">{{ $log->from }}</h4>
+                                            <h4 class="phone_number">{{ $log->send_from }}</h4>
                                         </td>
                                         <td>
-                                            <h4 class="phone_number">{{ getContactNumberName($log->contact_id) ? getContactNumberName($log->contact_id)->number : '---' }}</h4>
+                                            <h4 class="phone_number">{{ $log->send_to }}</h4>
                                         </td>
                                         <td>
-                                            <h4 class="timezone">{{ getContactNumberName($log->contact_id) ? getContactNumberName($log->contact_id)->first_name . ' ' . getContactNumberName($log->contact_id)->last_name : '' }}</h4>
+                                            <h4 class="timezone">{{ $log->first_name }} {{ $log->last_name }}</h4>
                                         </td>
                                         <td>
                                             <h4 class="message_text">{{ $log->message }}</h4>
@@ -122,20 +105,15 @@
                                         <td>
                                             <div class="d-flex">
                                                 <div class="log_status">
-                                                    @if ($log->direction == 'inbound')
-                                                        Received
-                                                    @else
-                                                        {{ ucfirst($log->api_send_status) }}
-                                                    @endif
+                                                    {{ ucfirst($log->send_status) }}
                                                 </div>
                                             </div>
                                         </td>
 
                                         <td>
                                             <div class="table_dropdown_area d-flex align-items-center flex-wrap gap-1">
-                                                <a type="button" class="table_edit_btn" wire:click.prevent='viewChat({{ $log->chat_id }}, {{ $key }})'>
-                                                    {!! loadingStateWithoutText("viewChat($log->chat_id, $key)", '<img src="'.asset('assets/app/icons/message-03.svg').'" />') !!}
-                                                    <span>Chat</span>
+                                                <a type="button" class="table_edit_btn" wire:click.prevent='getReplies({{ $log->id }})'>
+                                                    {!! loadingStateWithText("getReplies($log->id)", 'Replies') !!}
                                                 </a>
                                             </div>
                                         </td>
@@ -166,6 +144,43 @@
         </section>
 
     </main>
+
+    <!-- New Sub Account Modal  -->
+    <div wire:ignore.self class="modal fade common_modal sub_account_modal" id="repliesModal"
+        data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="newEventModal"
+        aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg modal-dialog-scrollable">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="newEventModal">Bulk Message Replies</h1>
+                    <button type="button" wire:click.prevent='resetForm' class="btn-close" data-bs-dismiss="modal"
+                        aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    @if ($replies)
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>Message</th>
+                                    <th class="text-center">Replied At</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach ($replies as $reply)
+                                    <tr>
+                                        <td>{{ $reply->message }}</td>
+                                        <td class="text-center" style="width: 25%;">
+                                            {{ \Carbon\Carbon::parse($reply->created_at)->isToday() ? 'Today, ' . \Carbon\Carbon::parse($reply->created_at)->format('g:i A') : \Carbon\Carbon::parse($reply->created_at)->format('F j, Y, g:i A') }}
+                                        </td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    @endif
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 
 @push('scripts')
@@ -173,6 +188,10 @@
         $(document).ready(function() {
             $('.sortingValue').on('change', function() {
                 @this.set('sortingValue', this.value);
+            });
+
+            window.addEventListener('showReplies', event => {
+                $('#repliesModal').modal('show');
             });
         });
     </script>

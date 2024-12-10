@@ -8,10 +8,6 @@
 @import url("https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap");
 @font-face {
-  font-family: SFSemiBoldFont;
-  src: url(/assets/fonts/SF-Pro-Display-Semibold.woff);
-}
-@font-face {
   font-family: SFLightFont;
   src: url(/assets/app/fonts/SF-Pro-Display-Light.woff);
 }
@@ -445,31 +441,13 @@ body {
   background-color: white;
   font-family: SFRegularFont;
   font-size: 16px;
-  overflow-y: auto;
-  /* width */
-  /* Track */
-  /* Handle */
-  /* Handle on hover */
-  overflow-x: hidden;
-}
-body::-webkit-scrollbar {
-  width: 8px;
-}
-body::-webkit-scrollbar-track {
-  background: #b4f3d1;
-  border-radius: 5px;
-}
-body::-webkit-scrollbar-thumb {
-  background: #235de4;
-  border-radius: 5px;
-}
-body::-webkit-scrollbar-thumb:hover {
-  background: #f84f4f;
-  cursor: grab;
+  min-height: calc(100vh - 20px);
 }
 
-html {
+html,
+body {
   overflow-x: hidden;
+  overflow-x: clip;
 }
 
 h1,

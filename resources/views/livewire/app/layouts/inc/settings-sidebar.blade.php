@@ -127,8 +127,8 @@
                             </a>
                         @endif
                         @if (isUserPermitted('logs'))
-                            <a href="{{ route('user.logs') }}"
-                                class="{{ request()->is('settings/logs') || request()->is('settings/logs/*') ? 'menu_grid active_menu' : 'menu_grid' }}">
+                            <a href="{{ route('user.inboxLogs') }}"
+                                class="{{ request()->is('settings/inbox-logs') || request()->is('settings/inbox-logs/*') || request()->is('settings/bulk-logs') || request()->is('settings/bulk-logs/*') ? 'menu_grid active_menu' : 'menu_grid' }}">
                                 <div class="icon">
                                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
                                         xmlns="http://www.w3.org/2000/svg" currentColor="#696F8C">
