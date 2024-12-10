@@ -17,6 +17,7 @@ use Livewire\Component;
 use Livewire\WithFileUploads;
 use Livewire\WithPagination;
 use Maatwebsite\Excel\Facades\Excel;
+use PhpOffice\PhpSpreadsheet\IOFactory;
 
 class ManageContactsComponent extends Component
 {
@@ -285,6 +286,16 @@ class ManageContactsComponent extends Component
         $this->validate([
             'file' => 'required|file|mimes:csv,xlsx|max:10240', // 10MB
         ]);
+        $path = $this->file->getRealPath();
+        $spreadsheet = IOFactory::load($path);
+        $sheetCount = $spreadsheet->getSheetCount();
+
+        if ($sheetCount > 1) {
+            $this->dispatch('error', ['message' => 'Import only supports one sheet in the file.']);
+            $this->resetUpload();
+            return redirect()->back();
+        }
+
         $this->columns = $this->getCsvHeaders();
 
         $this->first_name_column = isset($this->columns[0]) ? $this->columns[0] : '';
