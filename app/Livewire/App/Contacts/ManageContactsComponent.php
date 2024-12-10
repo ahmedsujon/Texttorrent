@@ -659,6 +659,8 @@ class ManageContactsComponent extends Component
                 $query->where('contact_lists.name', 'like', '%' . $this->list_search_term . '%')
                     ->orWhere('contacts.first_name', 'like', '%' . $this->list_search_term . '%')
                     ->orWhere('contacts.last_name', 'like', '%' . $this->list_search_term . '%')
+                    ->orWhere('contacts.email', 'like', '%' . $this->list_search_term . '%')
+                    ->orWhere('contacts.company', 'like', '%' . $this->list_search_term . '%')
                     ->orWhere('contacts.number', 'like', '%' . $this->list_search_term . '%');
             })
             ->where('contact_lists.user_id', user()->id)
